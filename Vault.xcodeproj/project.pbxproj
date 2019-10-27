@@ -7,12 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95C12DBB2365B9C100460726 /* CCRandomGenerateBytesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* CCRandomGenerateBytesStub.swift */; };
+		95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBC2365B9C900460726 /* SaltTestCase.swift */; };
+		95C12DBF2365B9D200460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
+		95C12DC02365B9E800460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		95F90422235DEAB700B1CFDB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F90420235DEAB700B1CFDB /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		95C12DBA2365B9C100460726 /* CCRandomGenerateBytesStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCRandomGenerateBytesStub.swift; sourceTree = "<group>"; };
+		95C12DBC2365B9C900460726 /* SaltTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaltTestCase.swift; sourceTree = "<group>"; };
+		95C12DBE2365B9D200460726 /* Salt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Salt.swift; sourceTree = "<group>"; };
 		95F90413235DE97C00B1CFDB /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F9041F235DEAB700B1CFDB /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		95F90420235DEAB700B1CFDB /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -59,6 +66,7 @@
 		95ABF6DA2360CD9A00CA6429 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				95C12DBE2365B9D200460726 /* Salt.swift */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -76,6 +84,7 @@
 		95ABF6DE2360D35800CA6429 /* Cases */ = {
 			isa = PBXGroup;
 			children = (
+				95C12DBC2365B9C900460726 /* SaltTestCase.swift */,
 			);
 			path = Cases;
 			sourceTree = "<group>";
@@ -91,6 +100,7 @@
 		95ABF6EE2360D56600CA6429 /* Doubles */ = {
 			isa = PBXGroup;
 			children = (
+				95C12DBA2365B9C100460726 /* CCRandomGenerateBytesStub.swift */,
 			);
 			path = Doubles;
 			sourceTree = "<group>";
@@ -161,6 +171,7 @@
 				TargetAttributes = {
 					9573BFB62365A8A0002BA8C5 = {
 						CreatedOnToolsVersion = 11.1;
+						LastSwiftMigration = 1110;
 					};
 					95768D85235DE6F600BA7DC6 = {
 						CreatedOnToolsVersion = 11.1;
@@ -208,6 +219,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95C12DBB2365B9C100460726 /* CCRandomGenerateBytesStub.swift in Sources */,
+				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
+				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
+				95C12DC02365B9E800460726 /* Salt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
