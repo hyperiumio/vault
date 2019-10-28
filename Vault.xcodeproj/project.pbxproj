@@ -7,19 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577D3972367400F00B0A2B3 /* DataExtension.swift */; };
 		95C12DBB2365B9C100460726 /* CCRandomGenerateBytesStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* CCRandomGenerateBytesStub.swift */; };
 		95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBC2365B9C900460726 /* SaltTestCase.swift */; };
 		95C12DBF2365B9D200460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		95C12DC02365B9E800460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
+		95C12DC22365C55A00460726 /* AESKeyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC12365C55A00460726 /* AESKeyWrap.swift */; };
+		95C12DC52365C5F500460726 /* AESKeyWrapTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* AESKeyWrapTestCase.swift */; };
+		95C12DC62365C68300460726 /* AESKeyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC12365C55A00460726 /* AESKeyWrap.swift */; };
 		95F90422235DEAB700B1CFDB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F90420235DEAB700B1CFDB /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9577D3972367400F00B0A2B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95C12DBA2365B9C100460726 /* CCRandomGenerateBytesStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCRandomGenerateBytesStub.swift; sourceTree = "<group>"; };
 		95C12DBC2365B9C900460726 /* SaltTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaltTestCase.swift; sourceTree = "<group>"; };
 		95C12DBE2365B9D200460726 /* Salt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Salt.swift; sourceTree = "<group>"; };
+		95C12DC12365C55A00460726 /* AESKeyWrap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AESKeyWrap.swift; sourceTree = "<group>"; };
+		95C12DC42365C5F400460726 /* AESKeyWrapTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESKeyWrapTestCase.swift; sourceTree = "<group>"; };
 		95F90413235DE97C00B1CFDB /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F9041F235DEAB700B1CFDB /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		95F90420235DEAB700B1CFDB /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -44,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9577D39623673FD300B0A2B3 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9577D3972367400F00B0A2B3 /* DataExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		957B519A235C566F00201445 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +81,7 @@
 		95ABF6DA2360CD9A00CA6429 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				95C12DC12365C55A00460726 /* AESKeyWrap.swift */,
 				95C12DBE2365B9D200460726 /* Salt.swift */,
 			);
 			path = Crypto;
@@ -74,6 +90,7 @@
 		95ABF6DD2360D35000CA6429 /* Test */ = {
 			isa = PBXGroup;
 			children = (
+				9577D39623673FD300B0A2B3 /* Extensions */,
 				95ABF6EE2360D56600CA6429 /* Doubles */,
 				95ABF6EB2360D3AC00CA6429 /* Misc */,
 				95ABF6DE2360D35800CA6429 /* Cases */,
@@ -85,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				95C12DBC2365B9C900460726 /* SaltTestCase.swift */,
+				95C12DC42365C5F400460726 /* AESKeyWrapTestCase.swift */,
 			);
 			path = Cases;
 			sourceTree = "<group>";
@@ -219,9 +237,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95C12DC62365C68300460726 /* AESKeyWrap.swift in Sources */,
 				95C12DBB2365B9C100460726 /* CCRandomGenerateBytesStub.swift in Sources */,
+				9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */,
 				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
 				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,
+				95C12DC52365C5F500460726 /* AESKeyWrapTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95C12DC22365C55A00460726 /* AESKeyWrap.swift in Sources */,
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
 				95C12DC02365B9E800460726 /* Salt.swift in Sources */,
 			);
