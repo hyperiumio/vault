@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
 		954FA4F42369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */; };
 		9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577D3972367400F00B0A2B3 /* DataExtension.swift */; };
 		95C12DBB2365B9C100460726 /* CCRandomGenerateBytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* CCRandomGenerateBytes.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
 		954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCRandomGenerateBytesTestCase.swift; sourceTree = "<group>"; };
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9577D3972367400F00B0A2B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				95C12DBC2365B9C900460726 /* SaltTestCase.swift */,
 				95C12DC42365C5F400460726 /* AESKeyWrapTestCase.swift */,
 				954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */,
+				9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */,
 			);
 			path = Cases;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95C12DC62365C68300460726 /* AESKeyWrap.swift in Sources */,
+				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
 				954FA4F42369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift in Sources */,
 				95C12DBB2365B9C100460726 /* CCRandomGenerateBytes.swift in Sources */,
 				9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */,
