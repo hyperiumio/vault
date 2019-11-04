@@ -38,3 +38,4 @@ extension CCRandomGenerateBytesConfiguration {
     static var current: CCRandomGenerateBytesConfiguration?
     
 }
+//Test/Misc/Info.plist
