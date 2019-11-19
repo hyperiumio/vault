@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
-		954FA4F42369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */; };
+		954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */; };
 		9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577D3972367400F00B0A2B3 /* DataExtension.swift */; };
 		95ACF7CA236F00B100128702 /* CCSymmetricKeyUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */; };
-		95C12DBB2365B9C100460726 /* CCRandomGenerateBytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* CCRandomGenerateBytes.swift */; };
+		95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* RNGStub.swift */; };
 		95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBC2365B9C900460726 /* SaltTestCase.swift */; };
 		95C12DBF2365B9D200460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		95C12DC02365B9E800460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
@@ -24,12 +24,12 @@
 
 /* Begin PBXFileReference section */
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
-		954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCRandomGenerateBytesTestCase.swift; sourceTree = "<group>"; };
+		954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGStubTestCase.swift; sourceTree = "<group>"; };
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9577D3972367400F00B0A2B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCSymmetricKeyUnwrap.swift; sourceTree = "<group>"; };
-		95C12DBA2365B9C100460726 /* CCRandomGenerateBytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CCRandomGenerateBytes.swift; sourceTree = "<group>"; };
+		95C12DBA2365B9C100460726 /* RNGStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNGStub.swift; sourceTree = "<group>"; };
 		95C12DBC2365B9C900460726 /* SaltTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaltTestCase.swift; sourceTree = "<group>"; };
 		95C12DBE2365B9D200460726 /* Salt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Salt.swift; sourceTree = "<group>"; };
 		95C12DC12365C55A00460726 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 			children = (
 				95C12DBC2365B9C900460726 /* SaltTestCase.swift */,
 				95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */,
-				954FA4F32369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift */,
+				954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */,
 				9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */,
 			);
 			path = Cases;
@@ -130,7 +130,7 @@
 		95ABF6EE2360D56600CA6429 /* Doubles */ = {
 			isa = PBXGroup;
 			children = (
-				95C12DBA2365B9C100460726 /* CCRandomGenerateBytes.swift */,
+				95C12DBA2365B9C100460726 /* RNGStub.swift */,
 				95D1C269236CCD22001E66D7 /* CCSymmetricKeyWrap.swift */,
 				95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */,
 			);
@@ -255,8 +255,8 @@
 				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
 				95ACF7CA236F00B100128702 /* CCSymmetricKeyUnwrap.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* CCSymmetricKeyWrap.swift in Sources */,
-				954FA4F42369D59F005BB821 /* CCRandomGenerateBytesTestCase.swift in Sources */,
-				95C12DBB2365B9C100460726 /* CCRandomGenerateBytes.swift in Sources */,
+				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
+				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
 				9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */,
 				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
 				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,

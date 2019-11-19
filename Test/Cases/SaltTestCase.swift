@@ -3,36 +3,39 @@ import XCTest
 
 class SaltTestCase: XCTestCase {
 
-    override func tearDown() {
-        super.tearDown()
-
-        CCRandomGenerateBytesConfiguration.current = nil
-    }
-
     func testRandomNumberGeneratorFailure() {
-        CCRandomGenerateBytesConfiguration.current = CCRandomGenerateBytesConfiguration.failure()
-
-        XCTAssertThrowsError(try Salt(size: 0)) { error in
-            XCTAssertEqual(error as? SaltError, SaltError.randomNumberGeneratorFailure)
+        let rngBytes = [UInt8]()
+        let rng = RNGStub(result: .failure, bytes: rngBytes)
+        
+        XCTAssertThrowsError(try Salt(size: 0, rng: rng)) { error in
+            XCTAssertEqual(error as? Salt.Error, .randomNumberGeneratorFailure)
         }
     }
 
     func testZeroCount() throws {
-        CCRandomGenerateBytesConfiguration.current = CCRandomGenerateBytesConfiguration.zeroCount()
-
-        try Salt(size: 0).withUnsafeBytes { salt in
+        let rngBytes = [UInt8]()
+        let rng = RNGStub(result: .success, bytes: rngBytes)
+        
+        try Salt(size: 0, rng: rng).withUnsafeBytes { salt in
             XCTAssertEqual(salt.count, 0)
         }
     }
 
     func testEveryByteValue() throws {
-        let expectedBytes = Array(0 ... UInt8.max)
-        CCRandomGenerateBytesConfiguration.current = CCRandomGenerateBytesConfiguration.withBytes(expectedBytes)
+        let rngBytes = Array(0 ... UInt8.max)
+        let rng = RNGStub(result: .success, bytes: rngBytes)
 
-        try Salt(size: expectedBytes.count).withUnsafeBytes { salt in
+        try Salt(size: rngBytes.count, rng: rng).withUnsafeBytes { salt in
             let resultBytes = Array(salt)
-            XCTAssertEqual(resultBytes, expectedBytes)
+            XCTAssertEqual(resultBytes, rngBytes)
         }
     }
+    
+}
+
+private extension CCRNGStatus {
+    
+    static let success = CCRNGStatus(kCCSuccess)
+    static let failure = CCRNGStatus(kCCUnspecifiedError)
     
 }

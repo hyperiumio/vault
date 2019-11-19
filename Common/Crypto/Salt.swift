@@ -5,13 +5,13 @@ struct Salt {
     
     private let bytes: Data
     
-    init(size: Int) throws {
+    init(size: Int, rng: RNG = CCRandomGenerateBytes) throws {
         var bytes = Data(count: size)
         let status = bytes.withUnsafeMutableBytes { buffer in
-            return CCRandomGenerateBytes(buffer.baseAddress, size)
+            return rng(buffer.baseAddress, size)
         }
         guard status == kCCSuccess else {
-            throw SaltError.randomNumberGeneratorFailure
+            throw Error.randomNumberGeneratorFailure
         }
         
         self.bytes = bytes
@@ -19,9 +19,15 @@ struct Salt {
     
 }
 
-enum SaltError: Error {
+extension Salt {
     
-    case randomNumberGeneratorFailure
+    enum Error: Swift.Error {
+        
+        case randomNumberGeneratorFailure
+        
+    }
+    
+    typealias RNG = (UnsafeMutableRawPointer?, Int) -> CCRNGStatus
     
 }
 
