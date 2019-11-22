@@ -24,28 +24,28 @@ class KeyCryptorTestCase: XCTestCase {
     override func setUp() {
         super.setUp()
         
-        CCSymmetricKeyWrapConfiguration.current = nil
-        CCSymmetricKeyWrapArguments.current = nil
+        SymmetricKeyWrapConfiguration.current = nil
+        SymmetricKeyWrapArguments.current = nil
     }
     
     override func tearDown() {
         super.tearDown()
         
-        CCSymmetricKeyWrapConfiguration.current = nil
-        CCSymmetricKeyWrapArguments.current = nil
+        SymmetricKeyWrapConfiguration.current = nil
+        SymmetricKeyWrapArguments.current = nil
     }
     
     func testWrapPassedArguments() throws {
-        CCSymmetricKeyWrapConfiguration.current = .pass
+        SymmetricKeyWrapConfiguration.current = .pass
         
         _ = try cryptor.wrap(key)
 
-        let expectedArguments = CCSymmetricKeyWrapArguments(rawKey: key, kek: kek)
-        XCTAssertEqual(CCSymmetricKeyWrapArguments.current, expectedArguments)
+        let expectedArguments = SymmetricKeyWrapArguments(rawKey: key, kek: kek)
+        XCTAssertEqual(SymmetricKeyWrapArguments.current, expectedArguments)
     }
     
     func testWrapSuccess() throws {
-        CCSymmetricKeyWrapConfiguration.current = .success(bytes: wrappedKey)
+        SymmetricKeyWrapConfiguration.current = .success(bytes: wrappedKey)
         
         let result = try cryptor.wrap(key)
         
@@ -53,7 +53,7 @@ class KeyCryptorTestCase: XCTestCase {
     }
     
     func testWrapFailure() {
-        CCSymmetricKeyWrapConfiguration.current = .failure
+        SymmetricKeyWrapConfiguration.current = .failure
         
         XCTAssertThrowsError(try cryptor.wrap(key)) { error in
             XCTAssertEqual(error as? KeyCryptorError, KeyCryptorError.keyWrapFailure)
@@ -61,16 +61,16 @@ class KeyCryptorTestCase: XCTestCase {
     }
 
     func testUnwrapPassedArguments() throws {
-        CCSymmetricKeyUnwrapConfiguration.current = .pass
+        SymmetricKeyUnwrapConfiguration.current = .pass
 
         _ = try cryptor.unwrap(wrappedKey)
 
-        let expectedArguments = CCSymmetricKeyUnwrapArguments(wrappedKey: wrappedKey, kek: kek)
-        XCTAssertEqual(CCSymmetricKeyUnwrapArguments.current, expectedArguments)
+        let expectedArguments = SymmetricKeyUnwrapArguments(wrappedKey: wrappedKey, kek: kek)
+        XCTAssertEqual(SymmetricKeyUnwrapArguments.current, expectedArguments)
     }
 
     func testUnwrapSuccess() throws {
-        CCSymmetricKeyUnwrapConfiguration.current = .success(key: key)
+        SymmetricKeyUnwrapConfiguration.current = .success(key: key)
 
         let result = try cryptor.unwrap(wrappedKey)
 
@@ -78,7 +78,7 @@ class KeyCryptorTestCase: XCTestCase {
     }
     
     func testUnwrapFailure() {
-        CCSymmetricKeyUnwrapConfiguration.current = .failure
+        SymmetricKeyUnwrapConfiguration.current = .failure
 
         XCTAssertThrowsError(try cryptor.unwrap(wrappedKey)) { error in
             XCTAssertEqual(error as? KeyCryptorError, KeyCryptorError.keyUnwrapFailure)

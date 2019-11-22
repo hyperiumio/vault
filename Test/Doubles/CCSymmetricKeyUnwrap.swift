@@ -2,10 +2,10 @@ import CommonCrypto
 import CryptoKit
 import Foundation
 
-func CCSymmetricKeyUnwrap(_ algorithm: CCWrappingAlgorithm, _ iv: UnsafePointer<UInt8>!, _ ivLen: Int, _ kek: UnsafePointer<UInt8>!, _ kekLen: Int, _ wrappedKey: UnsafePointer<UInt8>!, _ wrappedKeyLen: Int, _ rawKey: UnsafeMutablePointer<UInt8>!, _ rawKeyLen: UnsafeMutablePointer<Int>!) -> Int32 {
-    CCSymmetricKeyUnwrapArguments.current = CCSymmetricKeyUnwrapArguments(algorithm: algorithm, iv: iv, ivLen: ivLen, kek: kek, kekLen: kekLen, wrappedKey: wrappedKey, wrappedKeyLen: wrappedKeyLen)
+func SymmetricKeyUnwrap(_ algorithm: CCWrappingAlgorithm, _ iv: UnsafeRawPointer!, _ ivLen: Int, _ kek: UnsafeRawPointer!, _ kekLen: Int, _ wrappedKey: UnsafeRawPointer!, _ wrappedKeyLen: Int, _ rawKey: UnsafeMutablePointer<UInt8>!, _ rawKeyLen: UnsafeMutablePointer<Int>!) -> Int32 {
+    SymmetricKeyUnwrapArguments.current = SymmetricKeyUnwrapArguments(algorithm: algorithm, iv: iv, ivLen: ivLen, kek: kek, kekLen: kekLen, wrappedKey: wrappedKey, wrappedKeyLen: wrappedKeyLen)
     
-    switch CCSymmetricKeyUnwrapConfiguration.current! {
+    switch SymmetricKeyUnwrapConfiguration.current! {
     case .pass:
         return Int32(kCCSuccess)
     case .failure:
@@ -18,7 +18,7 @@ func CCSymmetricKeyUnwrap(_ algorithm: CCWrappingAlgorithm, _ iv: UnsafePointer<
     }
 }
 
-enum CCSymmetricKeyUnwrapConfiguration {
+enum SymmetricKeyUnwrapConfiguration {
     
     case pass
     case failure
@@ -26,20 +26,20 @@ enum CCSymmetricKeyUnwrapConfiguration {
     
 }
 
-extension CCSymmetricKeyUnwrapConfiguration {
+extension SymmetricKeyUnwrapConfiguration {
     
-    static var current: CCSymmetricKeyUnwrapConfiguration?
+    static var current: SymmetricKeyUnwrapConfiguration?
     
 }
 
-struct CCSymmetricKeyUnwrapArguments: Equatable {
+struct SymmetricKeyUnwrapArguments: Equatable {
     
     let algorithm: CCWrappingAlgorithm
     let iv: Data
     let kek: Data
     let wrappedKey: Data
     
-    init(algorithm: CCWrappingAlgorithm, iv: UnsafePointer<UInt8>!, ivLen: Int, kek: UnsafePointer<UInt8>!, kekLen: Int, wrappedKey: UnsafePointer<UInt8>!, wrappedKeyLen: Int) {
+    init(algorithm: CCWrappingAlgorithm, iv: UnsafeRawPointer!, ivLen: Int, kek: UnsafeRawPointer!, kekLen: Int, wrappedKey: UnsafeRawPointer!, wrappedKeyLen: Int) {
         self.algorithm = algorithm
         self.iv = Data(bytes: iv, count: ivLen)
         self.kek = Data(bytes: kek, count: kekLen)
@@ -57,8 +57,8 @@ struct CCSymmetricKeyUnwrapArguments: Equatable {
     
 }
 
-extension CCSymmetricKeyUnwrapArguments {
+extension SymmetricKeyUnwrapArguments {
     
-    static var current: CCSymmetricKeyUnwrapArguments?
+    static var current: SymmetricKeyUnwrapArguments?
     
 }
