@@ -18,9 +18,9 @@ struct KeyCryptor {
             buffer.deallocate()
         }
         
-        let status = key.withUnsafeBytesCopy { key in
-            return keyEncryptionKey.withUnsafeBytesCopy { keyEncryptionKey in
-                return CCSymmetricKeyWrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress, keyEncryptionKey.count, key.baseAddress, key.count, buffer.baseAddress, &bufferSize)
+        let status = key.withUnsafeBytes { key in
+            return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
+                return SymmetricKeyWrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress, keyEncryptionKey.count, key.baseAddress, key.count, buffer.baseAddress, &bufferSize)
             }
         }
         guard status == kCCSuccess else {
@@ -40,9 +40,9 @@ struct KeyCryptor {
             buffer.deallocate()
         }
         
-        let status = wrappedKey.withUnsafeBytesCopy { key in
-            return keyEncryptionKey.withUnsafeBytesCopy { keyEncryptionKey in
-                return CCSymmetricKeyUnwrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress, keyEncryptionKey.count, key.baseAddress, key.count, buffer.baseAddress, &bufferSize)
+        let status = wrappedKey.withUnsafeBytes { key in
+            return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
+                return SymmetricKeyUnwrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress, keyEncryptionKey.count, key.baseAddress, key.count, buffer.baseAddress, &bufferSize)
             }
         }
         guard status == kCCSuccess else {
@@ -71,29 +71,6 @@ private extension UnsafeMutableBufferPointer {
     
     func deinitialize() {
         self.baseAddress?.deinitialize(count: self.count)
-    }
-    
-}
-
-private extension ContiguousBytes {
-    
-    func withUnsafeBytesCopy<R>(_ body: (UnsafeBufferPointer<UInt8>) throws -> R) rethrows -> R {
-        return try self.withUnsafeBytes { rawBuffer in
-            let byteBuffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: rawBuffer.count)
-            byteBuffer.initialize(repeating: 0)
-            defer {
-                byteBuffer.assign(repeating: 0)
-                byteBuffer.deinitialize()
-                byteBuffer.deallocate()
-            }
-            
-            for index in 0 ..< rawBuffer.count {
-                byteBuffer[index] = rawBuffer.load(fromByteOffset: index, as: UInt8.self)
-            }
-            
-            let readOnlyByteBuffer = UnsafeBufferPointer(byteBuffer)
-            return try body(readOnlyByteBuffer)
-        }
     }
     
 }
