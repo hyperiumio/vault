@@ -1,5 +1,14 @@
 import Foundation
 
+extension Data: ExpressibleByIntegerLiteral {
+
+    public init(integerLiteral value: UInt8) {
+        let bytes = [value]
+        self = Data(bytes)
+    }
+
+}
+
 extension Data: ExpressibleByStringLiteral {
 
     public init(stringLiteral value: String) {
