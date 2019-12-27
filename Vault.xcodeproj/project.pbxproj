@@ -10,8 +10,9 @@
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
 		954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */; };
 		9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577D3972367400F00B0A2B3 /* DataExtension.swift */; };
+		95791A6623B61CE20096DC79 /* CommonCryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CommonCryptoWrapper.c */; };
 		957D62F62388221C000577FE /* CommonCryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CommonCryptoWrapper.c */; };
-		95ACF7CA236F00B100128702 /* CCSymmetricKeyUnwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */; };
+		95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */; };
 		95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBA2365B9C100460726 /* RNGStub.swift */; };
 		95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBC2365B9C900460726 /* SaltTestCase.swift */; };
 		95C12DBF2365B9D200460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
@@ -19,9 +20,19 @@
 		95C12DC22365C55A00460726 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC12365C55A00460726 /* KeyCryptor.swift */; };
 		95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */; };
 		95C12DC62365C68300460726 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC12365C55A00460726 /* KeyCryptor.swift */; };
-		95D1C26A236CCD22001E66D7 /* CCSymmetricKeyWrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D1C269236CCD22001E66D7 /* CCSymmetricKeyWrap.swift */; };
+		95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */; };
 		95F90422235DEAB700B1CFDB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F90420235DEAB700B1CFDB /* main.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		95791A6423B616780096DC79 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 957B519B235C566F00201445 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95768D85235DE6F600BA7DC6;
+			remoteInfo = Vault;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
@@ -31,14 +42,14 @@
 		957D62F2238815D7000577FE /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		957D62F3238815D7000577FE /* CommonCryptoWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CommonCryptoWrapper.c; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCSymmetricKeyUnwrap.swift; sourceTree = "<group>"; };
+		95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyUnwrapMock.swift; sourceTree = "<group>"; };
 		95C12DBA2365B9C100460726 /* RNGStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNGStub.swift; sourceTree = "<group>"; };
 		95C12DBC2365B9C900460726 /* SaltTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaltTestCase.swift; sourceTree = "<group>"; };
 		95C12DBE2365B9D200460726 /* Salt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Salt.swift; sourceTree = "<group>"; };
 		95C12DC12365C55A00460726 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
 		95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCryptorTestCase.swift; sourceTree = "<group>"; };
 		95CC68102381ADDE0018F923 /* Vault.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vault.xctestplan; sourceTree = "<group>"; };
-		95D1C269236CCD22001E66D7 /* CCSymmetricKeyWrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CCSymmetricKeyWrap.swift; sourceTree = "<group>"; };
+		95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyWrapMock.swift; sourceTree = "<group>"; };
 		95F90413235DE97C00B1CFDB /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F9041F235DEAB700B1CFDB /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		95F90420235DEAB700B1CFDB /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -144,8 +155,8 @@
 			isa = PBXGroup;
 			children = (
 				95C12DBA2365B9C100460726 /* RNGStub.swift */,
-				95D1C269236CCD22001E66D7 /* CCSymmetricKeyWrap.swift */,
-				95ACF7C9236F00B100128702 /* CCSymmetricKeyUnwrap.swift */,
+				95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */,
+				95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */,
 			);
 			path = Doubles;
 			sourceTree = "<group>";
@@ -182,6 +193,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				95791A6523B616780096DC79 /* PBXTargetDependency */,
 			);
 			name = Test;
 			productName = Test;
@@ -267,8 +279,9 @@
 			files = (
 				95C12DC62365C68300460726 /* KeyCryptor.swift in Sources */,
 				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
-				95ACF7CA236F00B100128702 /* CCSymmetricKeyUnwrap.swift in Sources */,
-				95D1C26A236CCD22001E66D7 /* CCSymmetricKeyWrap.swift in Sources */,
+				95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */,
+				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
+				95791A6623B61CE20096DC79 /* CommonCryptoWrapper.c in Sources */,
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
 				9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */,
@@ -290,6 +303,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		95791A6523B616780096DC79 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95768D85235DE6F600BA7DC6 /* Vault */;
+			targetProxy = 95791A6423B616780096DC79 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		9573BFBF2365A8A0002BA8C5 /* Debug */ = {
@@ -359,7 +380,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = Common/Misc/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -425,7 +446,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = Common/Misc/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -475,7 +496,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
+				ENABLE_TESTABILITY = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;

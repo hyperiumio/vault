@@ -21,66 +21,54 @@ class KeyCryptorTestCase: XCTestCase {
         return KeyCryptor(keyEncryptionKey: kek)
     }
     
-    override func setUp() {
-        super.setUp()
-        
-        SymmetricKeyWrapConfiguration.current = nil
-        SymmetricKeyWrapArguments.current = nil
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        
-        SymmetricKeyWrapConfiguration.current = nil
-        SymmetricKeyWrapArguments.current = nil
-    }
-    
     func testWrapPassedArguments() throws {
-        SymmetricKeyWrapConfiguration.current = .pass
+        let keyWrapMock = SymmetricKeyWrapMock(configuration: .pass)
         
-        _ = try cryptor.wrap(key)
+        _ = try cryptor.wrap(key, keyWrap: keyWrapMock.wrap)
 
-        let expectedArguments = SymmetricKeyWrapArguments(rawKey: key, kek: kek)
-        XCTAssertEqual(SymmetricKeyWrapArguments.current, expectedArguments)
+        let expectedArguments = SymmetricKeyWrapMock.Arguments(rawKey: key, kek: kek)
+        XCTAssertEqual(keyWrapMock.passedArguments, expectedArguments)
     }
     
     func testWrapSuccess() throws {
-        SymmetricKeyWrapConfiguration.current = .success(bytes: wrappedKey)
+        let configuration = SymmetricKeyWrapMock.Configuration.success(bytes: wrappedKey)
+        let keyWrapMock = SymmetricKeyWrapMock(configuration: configuration)
         
-        let result = try cryptor.wrap(key)
+        let result = try cryptor.wrap(key, keyWrap: keyWrapMock.wrap)
         
         XCTAssertEqual(result, wrappedKey)
     }
     
     func testWrapFailure() {
-        SymmetricKeyWrapConfiguration.current = .failure
+        let keyWrapMock = SymmetricKeyWrapMock(configuration: .failure)
         
-        XCTAssertThrowsError(try cryptor.wrap(key)) { error in
+        XCTAssertThrowsError(try cryptor.wrap(key, keyWrap: keyWrapMock.wrap)) { error in
             XCTAssertEqual(error as? KeyCryptorError, KeyCryptorError.keyWrapFailure)
         }
     }
 
     func testUnwrapPassedArguments() throws {
-        SymmetricKeyUnwrapConfiguration.current = .pass
+        let keyUnwrapMock = SymmetricKeyUnwrapMock(configuration: .pass)
 
-        _ = try cryptor.unwrap(wrappedKey)
+        _ = try cryptor.unwrap(wrappedKey, keyUnwrap: keyUnwrapMock.unwrap)
 
-        let expectedArguments = SymmetricKeyUnwrapArguments(wrappedKey: wrappedKey, kek: kek)
-        XCTAssertEqual(SymmetricKeyUnwrapArguments.current, expectedArguments)
+        let expectedArguments = SymmetricKeyUnwrapMock.Arguments(wrappedKey: wrappedKey, kek: kek)
+        XCTAssertEqual(keyUnwrapMock.passedArguments, expectedArguments)
     }
 
     func testUnwrapSuccess() throws {
-        SymmetricKeyUnwrapConfiguration.current = .success(key: key)
+        let configuration = SymmetricKeyUnwrapMock.Configuration.success(key: key)
+        let keyUnwrapMock = SymmetricKeyUnwrapMock(configuration: configuration)
 
-        let result = try cryptor.unwrap(wrappedKey)
+        let result = try cryptor.unwrap(wrappedKey, keyUnwrap: keyUnwrapMock.unwrap)
 
         XCTAssertEqual(result, key)
     }
     
     func testUnwrapFailure() {
-        SymmetricKeyUnwrapConfiguration.current = .failure
+        let keyUnwrapMock = SymmetricKeyUnwrapMock(configuration: .failure)
 
-        XCTAssertThrowsError(try cryptor.unwrap(wrappedKey)) { error in
+        XCTAssertThrowsError(try cryptor.unwrap(wrappedKey, keyUnwrap: keyUnwrapMock.unwrap)) { error in
             XCTAssertEqual(error as? KeyCryptorError, KeyCryptorError.keyUnwrapFailure)
         }
     }
