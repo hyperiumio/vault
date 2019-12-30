@@ -7,49 +7,37 @@ struct KeyCryptor {
     let keyEncryptionKey: SymmetricKey
     
     func wrap(_ key: SymmetricKey, keyWrap: KeyWrap = SymmetricKeyWrap) throws -> Data {
-        let bufferSize = key.withUnsafeBytes { key in
+        let wrappedKeySize = key.withUnsafeBytes { key in
             return SymmetricWrappedSize(key.count)
         }
-        let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: bufferSize)
-        buffer.initialize(repeating: 0)
-        defer {
-            buffer.assign(repeating: 0)
-            buffer.deinitialize()
-            buffer.deallocate()
-        }
-        
-        let status = key.withUnsafeBytes { key in
-            return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
-                return keyWrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, bufferSize)
+        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: wrappedKeySize) { buffer in
+            try key.withUnsafeBytes { key in
+                try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
+                    let status = keyWrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
+                    guard status == kCCSuccess else {
+                        throw KeyCryptorError.keyWrapFailure
+                    }
+                }
             }
+            
+            return Data(buffer)
         }
-        guard status == kCCSuccess else {
-            throw KeyCryptorError.keyWrapFailure
-        }
-        
-        return Data(buffer)
     }
     
     func unwrap(_ wrappedKey: Data, keyUnwrap: KeyUnwrap = SymmetricKeyUnwrap) throws -> SymmetricKey {
-        let bufferSize = SymmetricUnwrappedSize(wrappedKey.count)
-        let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: bufferSize)
-        buffer.initialize(repeating: 0)
-        defer {
-            buffer.assign(repeating: 0)
-            buffer.deinitialize()
-            buffer.deallocate()
-        }
-        
-        let status = wrappedKey.withUnsafeBytes { key in
-            return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
-                return keyUnwrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, bufferSize)
+        let unwrappedKeySize = SymmetricUnwrappedSize(wrappedKey.count)
+        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: unwrappedKeySize) { buffer in
+            try wrappedKey.withUnsafeBytes { key in
+                try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
+                    let status = keyUnwrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
+                    guard status == kCCSuccess else {
+                        throw KeyCryptorError.keyUnwrapFailure
+                    }
+                }
             }
+            
+            return SymmetricKey(data: buffer)
         }
-        guard status == kCCSuccess else {
-            throw KeyCryptorError.keyUnwrapFailure
-        }
-        
-        return SymmetricKey(data: buffer)
     }
     
 }
