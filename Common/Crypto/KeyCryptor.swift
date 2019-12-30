@@ -7,8 +7,8 @@ struct KeyCryptor {
     let keyEncryptionKey: SymmetricKey
     
     func wrap(_ key: SymmetricKey, keyWrap: KeyWrap = SymmetricKeyWrap) throws -> Data {
-        var bufferSize = key.withUnsafeBytes { key in
-            return CCSymmetricWrappedSize(.rfc3394, key.count)
+        let bufferSize = key.withUnsafeBytes { key in
+            return SymmetricWrappedSize(key.count)
         }
         let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: bufferSize)
         buffer.initialize(repeating: 0)
@@ -20,7 +20,7 @@ struct KeyCryptor {
         
         let status = key.withUnsafeBytes { key in
             return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
-                return keyWrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, &bufferSize)
+                return keyWrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, bufferSize)
             }
         }
         guard status == kCCSuccess else {
@@ -31,7 +31,7 @@ struct KeyCryptor {
     }
     
     func unwrap(_ wrappedKey: Data, keyUnwrap: KeyUnwrap = SymmetricKeyUnwrap) throws -> SymmetricKey {
-        var bufferSize = CCSymmetricUnwrappedSize(.rfc3394, wrappedKey.count)
+        let bufferSize = SymmetricUnwrappedSize(wrappedKey.count)
         let buffer = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: bufferSize)
         buffer.initialize(repeating: 0)
         defer {
@@ -42,7 +42,7 @@ struct KeyCryptor {
         
         let status = wrappedKey.withUnsafeBytes { key in
             return keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
-                return keyUnwrap(.rfc3394, CCrfc3394_iv, CCrfc3394_ivLen, keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, &bufferSize)
+                return keyUnwrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, bufferSize)
             }
         }
         guard status == kCCSuccess else {
@@ -56,8 +56,8 @@ struct KeyCryptor {
 
 extension KeyCryptor {
     
-    typealias KeyWrap = (CCWrappingAlgorithm, UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeMutableRawPointer, UnsafeMutablePointer<Int>) -> Int32
-    typealias KeyUnwrap = (CCWrappingAlgorithm, UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeMutableRawPointer, UnsafeMutablePointer<Int>) -> Int32
+    typealias KeyWrap = (UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeMutableRawPointer, Int) -> Int32
+    typealias KeyUnwrap = (UnsafeRawPointer, Int, UnsafeRawPointer, Int, UnsafeMutableRawPointer, Int) -> Int32
     
 }
 
@@ -65,12 +65,6 @@ enum KeyCryptorError: Error {
     
     case keyWrapFailure
     case keyUnwrapFailure
-    
-}
-
-private extension CCWrappingAlgorithm {
-    
-    static let rfc3394 = CCWrappingAlgorithm(kCCWRAPAES)
     
 }
 
