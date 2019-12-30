@@ -15,3 +15,7 @@ size_t SymmetricWrappedSize(size_t rawKeyLen) {
 size_t SymmetricUnwrappedSize(size_t wrappedKeyLen) {
     return CCSymmetricUnwrappedSize(kCCWRAPAES, wrappedKeyLen);
 }
+
+int KeyDerivationn(const char *password, size_t passwordLen, const void *salt, size_t saltLen, unsigned int rounds, void *derivedKey, size_t derivedKeyLen) {
+    return CCKeyDerivationPBKDF(kCCPBKDF2, password, passwordLen, salt, saltLen, kCCPRFHmacAlgSHA512, rounds, derivedKey, derivedKeyLen);
+}
