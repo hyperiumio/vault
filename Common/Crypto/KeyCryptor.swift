@@ -67,11 +67,3 @@ enum KeyCryptorError: Error {
     case keyUnwrapFailure
     
 }
-
-private extension UnsafeMutableBufferPointer {
-    
-    func deinitialize() {
-        self.baseAddress?.deinitialize(count: self.count)
-    }
-    
-}
