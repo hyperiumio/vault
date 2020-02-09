@@ -14,7 +14,7 @@ struct KeyDerivation {
         let derivedKeySize = 32
         return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: derivedKeySize) { buffer in
             try salt.withUnsafeBytes { salt in
-                let status = KeyDerivationn(password, password.count, salt.baseAddress!, salt.count, rounds, buffer.baseAddress!, buffer.count)
+                let status = DerivedKey(password, password.count, salt.baseAddress!, salt.count, rounds, buffer.baseAddress!, buffer.count)
                 guard status == kCCSuccess else {
                     throw Error.keyDerivationFailure
                 }
