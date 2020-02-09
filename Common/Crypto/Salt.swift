@@ -1,16 +1,15 @@
-import CommonCrypto
 import Foundation
 
 struct Salt {
     
     private let bytes: Data
     
-    init(size: Int, rng: RNG = CCRandomGenerateBytes) throws {
+    init(size: Int, rng: RNG = RandomBytes) throws {
         var bytes = Data(count: size)
         let status = bytes.withUnsafeMutableBytes { buffer in
-            return rng(buffer.baseAddress, size)
+            return rng(buffer.baseAddress!, size)
         }
-        guard status == kCCSuccess else {
+        guard status == CryptoSuccess else {
             throw Error.randomNumberGeneratorFailure
         }
         
@@ -27,7 +26,7 @@ extension Salt {
         
     }
     
-    typealias RNG = (UnsafeMutableRawPointer?, Int) -> CCRNGStatus
+    typealias RNG = (UnsafeMutableRawPointer, Int) -> Int32
     
 }
 

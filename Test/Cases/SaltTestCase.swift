@@ -1,11 +1,10 @@
-import CommonCrypto
 import XCTest
 
 class SaltTestCase: XCTestCase {
 
     func testRandomNumberGeneratorFailure() {
         let rngBytes = [UInt8]()
-        let rng = RNGStub(result: .failure, bytes: rngBytes)
+        let rng = RNGStub(result: CryptoFailure, bytes: rngBytes)
         
         XCTAssertThrowsError(try Salt(size: 0, rng: rng)) { error in
             XCTAssertEqual(error as? Salt.Error, .randomNumberGeneratorFailure)
@@ -14,7 +13,7 @@ class SaltTestCase: XCTestCase {
 
     func testZeroCount() throws {
         let rngBytes = [UInt8]()
-        let rng = RNGStub(result: .success, bytes: rngBytes)
+        let rng = RNGStub(result: CryptoSuccess, bytes: rngBytes)
         
         try Salt(size: 0, rng: rng).withUnsafeBytes { salt in
             XCTAssertEqual(salt.count, 0)
@@ -23,19 +22,12 @@ class SaltTestCase: XCTestCase {
 
     func testEveryByteValue() throws {
         let rngBytes = Array(0 ... UInt8.max)
-        let rng = RNGStub(result: .success, bytes: rngBytes)
+        let rng = RNGStub(result: CryptoSuccess, bytes: rngBytes)
 
         try Salt(size: rngBytes.count, rng: rng).withUnsafeBytes { salt in
             let resultBytes = Array(salt)
             XCTAssertEqual(resultBytes, rngBytes)
         }
     }
-    
-}
-
-private extension CCRNGStatus {
-    
-    static let success = CCRNGStatus(kCCSuccess)
-    static let failure = CCRNGStatus(kCCUnspecifiedError)
     
 }
