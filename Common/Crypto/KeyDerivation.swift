@@ -1,21 +1,20 @@
-import CommonCrypto
 import CryptoKit
 
 struct KeyDerivation {
     
     let salt: Salt
     let rounds: Int
+    let keySize: Int
     
     func derive(from password: String) throws -> SymmetricKey {
         guard let rounds = UInt32(exactly: rounds) else {
             throw Error.invalidRoundValue
         }
         
-        let derivedKeySize = 32
-        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: derivedKeySize) { buffer in
+        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: keySize) { buffer in
             try salt.withUnsafeBytes { salt in
                 let status = DerivedKey(password, password.count, salt.baseAddress!, salt.count, rounds, buffer.baseAddress!, buffer.count)
-                guard status == kCCSuccess else {
+                guard status == CryptoSuccess else {
                     throw Error.keyDerivationFailure
                 }
             }
