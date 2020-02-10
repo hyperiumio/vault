@@ -27,6 +27,7 @@
 		95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */; };
 		95C12DC62365C68300460726 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC12365C55A00460726 /* KeyCryptor.swift */; };
 		95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */; };
+		95F5193223F1599300C5ECA9 /* ByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBuffer.swift */; };
 		95F90422235DEAB700B1CFDB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F90420235DEAB700B1CFDB /* main.swift */; };
 /* End PBXBuildFile section */
 
@@ -60,6 +61,7 @@
 		95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCryptorTestCase.swift; sourceTree = "<group>"; };
 		95CC68102381ADDE0018F923 /* Vault.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vault.xctestplan; sourceTree = "<group>"; };
 		95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyWrapMock.swift; sourceTree = "<group>"; };
+		95F5193123F1599300C5ECA9 /* ByteBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBuffer.swift; sourceTree = "<group>"; };
 		95F90413235DE97C00B1CFDB /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F9041F235DEAB700B1CFDB /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
 		95F90420235DEAB700B1CFDB /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 		95ABF6DA2360CD9A00CA6429 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
+				95F5193123F1599300C5ECA9 /* ByteBuffer.swift */,
 				95C12DC12365C55A00460726 /* KeyCryptor.swift */,
 				95B20B4523BA1840005D71CD /* KeyDerivation.swift */,
 				95C12DBE2365B9D200460726 /* Salt.swift */,
@@ -320,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95B20B4A23BA1CAC005D71CD /* UnsafeMutableRawBufferPointerExtension.swift in Sources */,
+				95F5193223F1599300C5ECA9 /* ByteBuffer.swift in Sources */,
 				952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */,
 				95C12DC22365C55A00460726 /* KeyCryptor.swift in Sources */,
 				957D62F62388221C000577FE /* CryptoWrapper.c in Sources */,
