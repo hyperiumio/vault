@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>Vault</string>
 	<key>CFBundleIdentifier</key>
-	<string>dev.jmjauer.vault.macos</string>
+	<string>dev.jmjauer.vault</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
