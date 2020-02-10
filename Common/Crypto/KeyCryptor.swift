@@ -1,4 +1,3 @@
-import CommonCrypto
 import CryptoKit
 import Foundation
 
@@ -14,7 +13,7 @@ struct KeyCryptor {
             try key.withUnsafeBytes { key in
                 try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
                     let status = keyWrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
-                    guard status == kCCSuccess else {
+                    guard status == CryptoSuccess else {
                         throw KeyCryptorError.keyWrapFailure
                     }
                 }
@@ -30,7 +29,7 @@ struct KeyCryptor {
             try wrappedKey.withUnsafeBytes { key in
                 try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
                     let status = keyUnwrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
-                    guard status == kCCSuccess else {
+                    guard status == CryptoSuccess else {
                         throw KeyCryptorError.keyUnwrapFailure
                     }
                 }
