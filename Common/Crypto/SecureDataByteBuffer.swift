@@ -2,52 +2,47 @@ import Foundation
 
 struct SecureDataByteBuffer {
 
-    let segmentCount: Int
-
     private let aesKeyRange: Range<Int>
     private let hmacKeyRange: Range<Int>
-    private let macRange: Range<Int>
+    private let tagSegmentTagRange: Range<Int>
     private let tagRanges: [Range<Int>]
-    private let segmentRanges: [Range<Int>]
+    private let ciphertextRanges: [Range<Int>]
 
-    init(from byteBuffer: ByteBufferContext) throws {
-        let segmentCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
-        let segmentCount = try byteBuffer.decodeUnsignedInteger32Bit(in: segmentCountRange)
+    init(from context: ByteBufferContext) throws {
+        let messageCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
+        let messageCount = try context.decodeUnsignedInteger32Bit(in: messageCountRange)
 
-        let segmentSizes = try (0 ..< segmentCount).map { segmentIndex in
-            let segmentSizeLowerBound = segmentCountRange.upperBound + segmentIndex * .unsignedInteger32BitSize
-            let segmentSizeRange = Range(lowerBound: segmentSizeLowerBound, count: .unsignedInteger32BitSize)
-            return try byteBuffer.decodeUnsignedInteger32Bit(in: segmentSizeRange)
+        let ciphertextSizes = try (0 ..< messageCount).map { index in
+            let ciphertextSizeLowerBound = messageCountRange.upperBound + index * .unsignedInteger32BitSize
+            let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: .unsignedInteger32BitSize)
+            return try context.decodeUnsignedInteger32Bit(in: ciphertextSizeRange)
         } as [Int]
 
-        let aesKeyRangeLowerBound = segmentCountRange.upperBound + segmentCount * .unsignedInteger32BitSize
+        let aesKeyRangeLowerBound = messageCountRange.upperBound + messageCount * .unsignedInteger32BitSize
         let aesKeyRange = Range(lowerBound: aesKeyRangeLowerBound, count: .wrappedKeySize)
 
-        let hmacKeyRangeLowerBound = aesKeyRange.upperBound
-        let hmacKeyRange = Range(lowerBound: hmacKeyRangeLowerBound, count: .wrappedKeySize)
+        let hmacKeyRange = Range(lowerBound: aesKeyRange.upperBound, count: .wrappedKeySize)
 
-        let macRangeLowerBound = hmacKeyRange.upperBound
-        let macRange = Range(lowerBound: macRangeLowerBound, count: .macSize)
+        let tagSegmentTagRange = Range(lowerBound: hmacKeyRange.upperBound, count: .tagSegmentTagSize)
 
-        let tagRanges = (0 ..< segmentCount).map { segmentIndex in
-            let tagRangeLowerBound = macRange.upperBound + segmentIndex * .tagSize
+        let tagRanges = (0 ..< messageCount).map { index in
+            let tagRangeLowerBound = tagSegmentTagRange.upperBound + index * .tagSize
             return Range(lowerBound: tagRangeLowerBound, count: .tagSize)
         } as [Range<Int>]
 
-        var segmentRangeLowerBound = macRange.upperBound + segmentCount * .tagSize
-        let segmentRanges = segmentSizes.map { segmentSize in
+        var ciphertextRangeLowerBound = tagSegmentTagRange.upperBound + messageCount * .tagSize
+        let ciphertextRanges = ciphertextSizes.map { ciphertextSize in
             defer {
-                segmentRangeLowerBound += segmentSize
+                ciphertextRangeLowerBound += ciphertextSize
             }
-            return Range(lowerBound: segmentRangeLowerBound, count: segmentSize)
+            return Range(lowerBound: ciphertextRangeLowerBound, count: ciphertextSize)
         } as [Range<Int>]
 
-        self.segmentCount = segmentCount
         self.aesKeyRange = aesKeyRange
         self.hmacKeyRange = hmacKeyRange
-        self.macRange = macRange
+        self.tagSegmentTagRange = tagSegmentTagRange
         self.tagRanges = tagRanges
-        self.segmentRanges = segmentRanges
+        self.ciphertextRanges = ciphertextRanges
     }
 
     func readAesKey(from context: ByteBufferContext) throws -> Data {
@@ -58,26 +53,23 @@ struct SecureDataByteBuffer {
         return try context.bytes(in: hmacKeyRange)
     }
 
-    func readMac(from context: ByteBufferContext) throws -> Data {
-        return try context.bytes(in: macRange)
+    func readTagSegmentTag(from context: ByteBufferContext) throws -> Data {
+        return try context.bytes(in: tagSegmentTagRange)
     }
 
-    func readTag(at index: Int, from context: ByteBufferContext) throws -> Data {
-        guard tagRanges.indices.contains(index) else {
-            throw Error.invalidSegmentIndex
+    func readTags(from context: ByteBufferContext) throws -> [Data] {
+        return try tagRanges.map { tagRange in
+            try context.bytes(in: tagRange)
         }
-
-        let tagRange = tagRanges[index]
-        return try context.bytes(in: tagRange)
     }
 
-    func readSegment(at index: Int, from context: ByteBufferContext) throws -> Data {
-        guard segmentRanges.indices.contains(index) else {
-            throw Error.invalidSegmentIndex
+    func readCiphertext(at index: Int, from context: ByteBufferContext) throws -> Data {
+        guard ciphertextRanges.indices.contains(index) else {
+            throw Error.invalidIndex
         }
 
-        let segmentRange = segmentRanges[index]
-        return try context.bytes(in: segmentRange)
+        let ciphertextRange = ciphertextRanges[index]
+        return try context.bytes(in: ciphertextRange)
     }
     
 }
@@ -85,13 +77,13 @@ struct SecureDataByteBuffer {
 extension SecureDataByteBuffer {
 
     static func encode(aesKey: Data, hmacKey: Data, tagSegmentTag: Data, secureContainers: [SecureContainer]) throws -> Data {
-        guard let segmentCount = UInt32(exactly: secureContainers.count)?.littleEndian.bytes else {
-            throw Error.invalidContainerCount
+        guard let messageCountSegment = UInt32(exactly: secureContainers.count)?.littleEndian.bytes else {
+            throw Error.invalidMessageCount
         }
         
-        let ciphertextSizesSegment = try secureContainers.reduce(.empty) { result, secureContainers in
-            guard let ciphertextSize = UInt32(exactly: secureContainers.ciphertext.count) else {
-                throw Error.invalidContainerCount
+        let ciphertextSizeSegment = try secureContainers.reduce(.empty) { result, secureContainer in
+            guard let ciphertextSize = UInt32(exactly: secureContainer.ciphertext.count) else {
+                throw Error.invalidCiphertextSize
             }
             return result + ciphertextSize.littleEndian.bytes
         } as Data
@@ -100,7 +92,7 @@ extension SecureDataByteBuffer {
         
         let ciphertextSegment = secureContainers.map(\.ciphertext).reduce(.empty, +)
 
-        return segmentCount + ciphertextSizesSegment + aesKey + hmacKey + tagSegmentTag + tagSegment + ciphertextSegment
+        return messageCountSegment + ciphertextSizeSegment + aesKey + hmacKey + tagSegmentTag + tagSegment + ciphertextSegment
     }
 
 }
@@ -109,8 +101,9 @@ extension SecureDataByteBuffer {
     
     enum Error: Swift.Error {
         
-        case invalidSegmentIndex
-        case invalidContainerCount
+        case invalidIndex
+        case invalidMessageCount
+        case invalidCiphertextSize
         
     }
     
@@ -128,6 +121,6 @@ private extension Int {
     static let unsignedInteger32BitSize = 4
     static let wrappedKeySize = 40
     static let tagSize = 16
-    static let macSize = 32
+    static let tagSegmentTagSize = 32
 
 }
