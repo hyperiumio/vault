@@ -16,6 +16,10 @@ struct Salt {
         self.bytes = bytes
     }
     
+    init(data: Data) {
+        self.bytes = data
+    }
+    
 }
 
 extension Salt {
