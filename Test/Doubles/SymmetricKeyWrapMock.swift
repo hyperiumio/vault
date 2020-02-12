@@ -1,6 +1,5 @@
 import CryptoKit
 import Foundation
-import CommonCrypto
 
 class SymmetricKeyWrapMock {
     
@@ -16,13 +15,13 @@ class SymmetricKeyWrapMock {
         
         switch configuration {
         case .pass:
-            return Int32(kCCSuccess)
+            return Int32(CryptoSuccess)
         case .failure:
-            return Int32(kCCUnspecifiedError)
+            return Int32(CryptoFailure)
         case .success(let bytes):
             let wrappedKey = UnsafeMutableRawBufferPointer(start: wrappedKey, count: wrappedKeyLen)
             bytes.copyBytes(to: wrappedKey)
-            return Int32(kCCSuccess)
+            return Int32(CryptoSuccess)
         }
     }
     
