@@ -10,7 +10,7 @@ struct SecureDataByteBuffer {
     private let tagRanges: [Range<Int>]
     private let segmentRanges: [Range<Int>]
 
-    init(from byteBuffer: ByteBuffer) throws {
+    init(from byteBuffer: ByteBufferContext) throws {
         let segmentCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
         let segmentCount = try byteBuffer.decodeUnsignedInteger32Bit(in: segmentCountRange)
 
@@ -50,19 +50,19 @@ struct SecureDataByteBuffer {
         self.segmentRanges = segmentRanges
     }
 
-    func readAesKey(from context: ByteBuffer) throws -> Data {
+    func readAesKey(from context: ByteBufferContext) throws -> Data {
         return try context.bytes(in: aesKeyRange)
     }
 
-    func readHmacKey(from context: ByteBuffer) throws -> Data {
+    func readHmacKey(from context: ByteBufferContext) throws -> Data {
         return try context.bytes(in: hmacKeyRange)
     }
 
-    func readMac(from context: ByteBuffer) throws -> Data {
+    func readMac(from context: ByteBufferContext) throws -> Data {
         return try context.bytes(in: macRange)
     }
 
-    func readTag(at index: Int, from context: ByteBuffer) throws -> Data {
+    func readTag(at index: Int, from context: ByteBufferContext) throws -> Data {
         guard tagRanges.indices.contains(index) else {
             throw Error.invalidSegmentIndex
         }
@@ -71,7 +71,7 @@ struct SecureDataByteBuffer {
         return try context.bytes(in: tagRange)
     }
 
-    func readSegment(at index: Int, from context: ByteBuffer) throws -> Data {
+    func readSegment(at index: Int, from context: ByteBufferContext) throws -> Data {
         guard segmentRanges.indices.contains(index) else {
             throw Error.invalidSegmentIndex
         }
