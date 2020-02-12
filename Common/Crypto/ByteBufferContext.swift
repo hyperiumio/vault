@@ -1,13 +1,13 @@
 import Foundation
 
-protocol ByteBuffer {
+protocol ByteBufferContext {
     
     func bytes(in range: Range<Int>) throws -> Data
     func decodeUnsignedInteger32Bit(in range: Range<Int>) throws -> Int
     
 }
 
-enum ByteBufferError: Error {
+enum ByteBufferContextError: Error {
     
     case bufferOverflow
     case bufferUnderrun
