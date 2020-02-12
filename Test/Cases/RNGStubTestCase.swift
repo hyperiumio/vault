@@ -1,4 +1,3 @@
-import CommonCrypto
 import XCTest
 
 class RNGStubTestCase: XCTestCase {
@@ -9,20 +8,20 @@ class RNGStubTestCase: XCTestCase {
     
     func testFailure() {
         var buffer = allBitsSetBuffer
-        let status = RNGStub(result: .failure)(&buffer, buffer.count)
+        let status = RNGStub(result: CryptoFailure)(&buffer, buffer.count)
 
         XCTAssertEqual(buffer, allBitsSetBuffer)
-        XCTAssertNotEqual(status, .success)
+        XCTAssertNotEqual(status, CryptoSuccess)
     }
 
     func testZeroCount() {
         let rngBytes = [UInt8]()
         var buffer = allBitsSetBuffer
         
-        let status = RNGStub(result: .success, bytes: rngBytes)(&buffer, buffer.count)
+        let status = RNGStub(result: CryptoSuccess, bytes: rngBytes)(&buffer, buffer.count)
 
         XCTAssertEqual(buffer, allBitsSetBuffer)
-        XCTAssertEqual(status, .success)
+        XCTAssertEqual(status, CryptoSuccess)
     }
 
     func testEveryByteValue() {
@@ -31,17 +30,10 @@ class RNGStubTestCase: XCTestCase {
             return ~value
         }
 
-        let status = RNGStub(result: .success, bytes: rngBytes)(&buffer, buffer.count)
+        let status = RNGStub(result: CryptoSuccess, bytes: rngBytes)(&buffer, buffer.count)
 
         XCTAssertEqual(buffer, rngBytes)
-        XCTAssertEqual(status, .success)
+        XCTAssertEqual(status, CryptoSuccess)
     }
 
-}
-
-private extension CCRNGStatus {
-    
-    static let success = CCRNGStatus(kCCSuccess)
-    static let failure = CCRNGStatus(kCCUnspecifiedError)
-    
 }
