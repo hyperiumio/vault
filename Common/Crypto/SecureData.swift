@@ -92,13 +92,9 @@ extension SecureData {
 private extension AES.GCM.Nonce {
     
     init(counter: Int) throws {
-        guard let counter = UInt32(exactly: counter)?.littleEndian.bytes else {
-            throw SecureData.Error.invalidNonce
-        }
-        
         do {
-            let paddedCounter = counter + Data(count: 8)
-            self = try AES.GCM.Nonce(data: paddedCounter)
+            let encodedCounter = try UnsignedInteger32BitEncode(counter) + Data(count: 8)
+            self = try AES.GCM.Nonce(data: encodedCounter)
         } catch {
             throw SecureData.Error.invalidNonce
         }
