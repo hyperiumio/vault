@@ -165,7 +165,6 @@
 				952A237A23F4350100142C38 /* SecureData.swift */,
 				95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */,
 				95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */,
-				95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */,
 				95B20B4523BA1840005D71CD /* KeyDerivation.swift */,
 				95C12DBE2365B9D200460726 /* Salt.swift */,
 				952A237E23F44F6700142C38 /* MasterKeyContainer.swift */,
@@ -253,6 +252,7 @@
 		95D29359240825F200FDD6F4 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */,
 				95D29360240826B200FDD6F4 /* DataContainer.swift */,
 			);
 			path = Helper;
