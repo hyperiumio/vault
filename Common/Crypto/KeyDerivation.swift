@@ -11,7 +11,7 @@ struct KeyDerivation {
             throw Error.invalidRoundValue
         }
         
-        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: keySize) { buffer in
+        return try ManagedBuffer(byteCount: keySize) { buffer in
             try salt.withUnsafeBytes { salt in
                 let status = DerivedKey(password, password.count, salt.baseAddress!, salt.count, rounds, buffer.baseAddress!, buffer.count)
                 guard status == CryptoSuccess else {
