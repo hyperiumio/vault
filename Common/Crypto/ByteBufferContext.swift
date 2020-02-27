@@ -3,15 +3,14 @@ import Foundation
 protocol ByteBufferContext {
     
     func bytes(in range: Range<Int>) throws -> Data
-    func decodeUnsignedInteger32Bit(in range: Range<Int>) throws -> Int
+    func bytes() throws -> Data
     
 }
 
 enum ByteBufferContextError: Error {
     
-    case bufferOverflow
-    case bufferUnderrun
     case invalidContext
     case invalidByteRange
+    case dataNotAvailable
     
 }

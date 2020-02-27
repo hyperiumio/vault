@@ -10,12 +10,16 @@ struct SecureDataByteBuffer {
 
     init(from context: ByteBufferContext) throws {
         let messageCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
-        let messageCount = try context.decodeUnsignedInteger32Bit(in: messageCountRange)
+        let messageCount = try context.bytes(in: messageCountRange).transform { data in
+            return try UnsignedInteger32BitDecode(data: data)
+        }
 
         let ciphertextSizes = try (0 ..< messageCount).map { index in
             let ciphertextSizeLowerBound = messageCountRange.upperBound + index * .unsignedInteger32BitSize
             let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: .unsignedInteger32BitSize)
-            return try context.decodeUnsignedInteger32Bit(in: ciphertextSizeRange)
+            return try context.bytes(in: ciphertextSizeRange).transform { data in
+                return try UnsignedInteger32BitDecode(data: data)
+            }
         } as [Int]
 
         let aesKeyRangeLowerBound = messageCountRange.upperBound + messageCount * .unsignedInteger32BitSize
@@ -77,15 +81,11 @@ struct SecureDataByteBuffer {
 extension SecureDataByteBuffer {
 
     static func encode(aesKey: Data, hmacKey: Data, tagSegmentTag: Data, secureContainers: [SecureContainer]) throws -> Data {
-        guard let messageCountSegment = UInt32(exactly: secureContainers.count)?.littleEndian.bytes else {
-            throw Error.invalidMessageCount
-        }
+        let messageCountSegment = try UnsignedInteger32BitEncode(secureContainers.count)
         
         let ciphertextSizeSegment = try secureContainers.reduce(.empty) { result, secureContainer in
-            guard let ciphertextSize = UInt32(exactly: secureContainer.ciphertext.count) else {
-                throw Error.invalidCiphertextSize
-            }
-            return result + ciphertextSize.littleEndian.bytes
+            let ciphertextSize = try UnsignedInteger32BitEncode(secureContainer.ciphertext.count)
+            return result + ciphertextSize
         } as Data
         
         let tagSegment = secureContainers.map(\.tag).reduce(.empty, +)
