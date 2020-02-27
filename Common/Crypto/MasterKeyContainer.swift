@@ -23,7 +23,9 @@ struct MasterKeyContainer {
     
     func decodeMasterKey(using password: String) throws -> SymmetricKey {
         let salt = Salt(data: self.salt)
-        let rounds = 0
+        guard let rounds = try? UnsignedInteger32BitDecode(data: self.rounds) else {
+            throw Error.invalidRounds
+        }
         let derivedKey = try KeyDerivation(salt: salt, rounds: rounds, keySize: .masterKeySize).derive(from: password)
         
         return try KeyCryptor(keyEncryptionKey: derivedKey).unwrap(wrappedKey)
@@ -36,7 +38,7 @@ extension MasterKeyContainer {
     static func encodeMasterKey(_ masterKey: SymmetricKey, salt: Salt, rounds: Int, password: String) throws -> Data {
         let derivedKey = try KeyDerivation(salt: salt, rounds: rounds, keySize: .masterKeySize).derive(from: password)
         
-        guard let rounds = UInt(exactly: rounds)?.littleEndian.bytes else {
+        guard let rounds = try? UnsignedInteger32BitEncode(rounds) else {
             throw Error.invalidRounds
         }
         let wrappedKey = try KeyCryptor(keyEncryptionKey: derivedKey).wrap(masterKey)
