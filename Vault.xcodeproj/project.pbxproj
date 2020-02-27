@@ -34,6 +34,7 @@
 		95D293432408247100FDD6F4 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933F2408247100FDD6F4 /* Login.swift */; };
 		95D293582408259D00FDD6F4 /* CodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D293572408259D00FDD6F4 /* CodingError.swift */; };
 		95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */; };
+		95D29361240826B200FDD6F4 /* DataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29360240826B200FDD6F4 /* DataContainer.swift */; };
 		95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
 		95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
 		95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
@@ -80,6 +81,7 @@
 		95D2933F2408247100FDD6F4 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		95D293572408259D00FDD6F4 /* CodingError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodingError.swift; sourceTree = "<group>"; };
 		95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedInteger32BitCoding.swift; sourceTree = "<group>"; };
+		95D29360240826B200FDD6F4 /* DataContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataContainer.swift; sourceTree = "<group>"; };
 		95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBufferContext.swift; sourceTree = "<group>"; };
 		95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
 		95F5193823F15DE200C5ECA9 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 		95D29359240825F200FDD6F4 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				95D29360240826B200FDD6F4 /* DataContainer.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -381,6 +384,7 @@
 			files = (
 				95D293402408247100FDD6F4 /* VaultItem.swift in Sources */,
 				95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */,
+				95D29361240826B200FDD6F4 /* DataContainer.swift in Sources */,
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
 				952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */,
 				95B20B4A23BA1CAC005D71CD /* UnsafeMutableRawBufferPointerExtension.swift in Sources */,
