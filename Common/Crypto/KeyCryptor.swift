@@ -9,7 +9,7 @@ struct KeyCryptor {
         let wrappedKeySize = key.withUnsafeBytes { key in
             return SymmetricWrappedSize(key.count)
         }
-        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: wrappedKeySize) { buffer in
+        return try ManagedBuffer(byteCount: wrappedKeySize) { buffer in
             try key.withUnsafeBytes { key in
                 try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
                     let status = keyWrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
@@ -25,7 +25,7 @@ struct KeyCryptor {
     
     func unwrap(_ wrappedKey: Data, keyUnwrap: KeyUnwrap = SymmetricKeyUnwrap) throws -> SymmetricKey {
         let unwrappedKeySize = SymmetricUnwrappedSize(wrappedKey.count)
-        return try UnsafeMutableRawBufferPointer.managedByteContext(byteCount: unwrappedKeySize) { buffer in
+        return try ManagedBuffer(byteCount: unwrappedKeySize) { buffer in
             try wrappedKey.withUnsafeBytes { key in
                 try keyEncryptionKey.withUnsafeBytes { keyEncryptionKey in
                     let status = keyUnwrap(keyEncryptionKey.baseAddress!, keyEncryptionKey.count, key.baseAddress!, key.count, buffer.baseAddress!, buffer.count)
