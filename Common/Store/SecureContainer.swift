@@ -20,7 +20,7 @@ struct SecureContainer {
     func items(from context: ByteBufferContext) throws -> [VaultItem] {
         return try info.itemTypes.enumerated().map { index, itemType in
             return try secureData.plaintext(at: index, from: context).transform { data in
-                return try VaultItemDecode(data: data, as: itemType)
+                return try SecureContainerItemDecode(data: data, as: itemType)
             }
         }
     }
@@ -35,7 +35,7 @@ extension SecureContainer {
         
         let encodedInfo = try JSONEncoder().encode(info)
         let encodedItems = try items.map { vaultItem in
-            return try VaultItemEncode(vaultItem)
+            return try SecureContainerItemEncode(vaultItem)
         }
         let messages = [encodedInfo] + encodedItems
         
