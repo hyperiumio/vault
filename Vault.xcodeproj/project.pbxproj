@@ -31,7 +31,6 @@
 		95C12DC02365B9E800460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */; };
 		95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */; };
-		95D293402408247100FDD6F4 /* VaultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933C2408247000FDD6F4 /* VaultItem.swift */; };
 		95D293412408247100FDD6F4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933D2408247000FDD6F4 /* File.swift */; };
 		95D293422408247100FDD6F4 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933E2408247100FDD6F4 /* Password.swift */; };
 		95D293432408247100FDD6F4 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933F2408247100FDD6F4 /* Login.swift */; };
@@ -89,7 +88,6 @@
 		95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCryptorTestCase.swift; sourceTree = "<group>"; };
 		95CC68102381ADDE0018F923 /* Vault.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vault.xctestplan; sourceTree = "<group>"; };
 		95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyWrapMock.swift; sourceTree = "<group>"; };
-		95D2933C2408247000FDD6F4 /* VaultItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItem.swift; sourceTree = "<group>"; };
 		95D2933D2408247000FDD6F4 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		95D2933E2408247100FDD6F4 /* Password.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Password.swift; sourceTree = "<group>"; };
 		95D2933F2408247100FDD6F4 /* Login.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				95D2933D2408247000FDD6F4 /* File.swift */,
 				95D2933F2408247100FDD6F4 /* Login.swift */,
 				95D2933E2408247100FDD6F4 /* Password.swift */,
-				95D2933C2408247000FDD6F4 /* VaultItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,7 +435,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95D293402408247100FDD6F4 /* VaultItem.swift in Sources */,
 				95D2937024082FAF00FDD6F4 /* SecureContainer.swift in Sources */,
 				951C33A024364965002AA4CD /* FileExistsPublisher.swift in Sources */,
 				95D29368240826FE00FDD6F4 /* LoginCoding.swift in Sources */,
