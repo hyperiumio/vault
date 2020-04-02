@@ -180,7 +180,7 @@
 				951C339A243637A5002AA4CD /* Asset */,
 				951C33942436337F002AA4CD /* Publisher */,
 				95D2936E24082FA200FDD6F4 /* Store */,
-				95D29359240825F200FDD6F4 /* Helper */,
+				95D29359240825F200FDD6F4 /* Utility */,
 				95D293542408257000FDD6F4 /* Coding */,
 				95D2933B2408243900FDD6F4 /* Model */,
 				95B20B4823BA1C8C005D71CD /* Extensions */,
@@ -279,7 +279,7 @@
 			path = Coding;
 			sourceTree = "<group>";
 		};
-		95D29359240825F200FDD6F4 /* Helper */ = {
+		95D29359240825F200FDD6F4 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
 				95D2936C2408293400FDD6F4 /* FileReader.swift */,
@@ -287,7 +287,7 @@
 				95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */,
 				95D29360240826B200FDD6F4 /* DataContainer.swift */,
 			);
-			path = Helper;
+			path = Utility;
 			sourceTree = "<group>";
 		};
 		95D2936E24082FA200FDD6F4 /* Store */ = {
