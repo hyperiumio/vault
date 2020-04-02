@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
+		951C3396243633F5002AA4CD /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
 		952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
 		952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
@@ -60,6 +61,7 @@
 
 /* Begin PBXFileReference section */
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
+		951C3395243633F5002AA4CD /* Vault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedIntegerExtension.swift; sourceTree = "<group>"; };
 		952750FE23F0815300AFE423 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		952A237823F4320800142C38 /* ContiguousBytesExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContiguousBytesExtension.swift; sourceTree = "<group>"; };
@@ -121,6 +123,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		951C33942436337F002AA4CD /* Publisher */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Publisher;
+			sourceTree = "<group>";
+		};
 		9577D39623673FD300B0A2B3 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +161,7 @@
 		95ABF6D92360CD7C00CA6429 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				951C33942436337F002AA4CD /* Publisher */,
 				95D2936E24082FA200FDD6F4 /* Store */,
 				95D29359240825F200FDD6F4 /* Helper */,
 				95D293542408257000FDD6F4 /* Coding */,
@@ -266,6 +276,7 @@
 		95D2936E24082FA200FDD6F4 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				951C3395243633F5002AA4CD /* Vault.swift */,
 				95D2936F24082FAF00FDD6F4 /* VaultItemContainer.swift */,
 			);
 			path = Store;
@@ -432,6 +443,7 @@
 				95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */,
 				95D29366240826FE00FDD6F4 /* PasswordCoding.swift in Sources */,
 				95D29367240826FE00FDD6F4 /* FileCoding.swift in Sources */,
+				951C3396243633F5002AA4CD /* Vault.swift in Sources */,
 				95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
