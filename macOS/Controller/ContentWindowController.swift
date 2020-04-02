@@ -6,7 +6,7 @@ class ContentWindowController: NSObject {
     
     private let window: NSWindow
     
-    override init() {
+    init<T>(contentView: T) where T: View {
         self.window = NSWindow(contentRect: .zero, styleMask: .applicationWindow, backing: .buffered, defer: false)
         
         super.init()
@@ -16,6 +16,7 @@ class ContentWindowController: NSObject {
         window.center()
         window.setFrameAutosaveName(.applicationWindowFrameAutosaveName)
         window.delegate = self
+        window.contentView = NSHostingView(rootView: contentView)
     }
     
     func showWindow() {
