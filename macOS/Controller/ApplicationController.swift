@@ -5,9 +5,9 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     let contentWindowController: ContentWindowController
     
     override init() {
-        let setupModel = SetupModel(vaultUrl: .vaultUrl)
-        let setupView = SetupView(model: setupModel)
-        let contentWindowController = ContentWindowController(contentView: setupView)
+        let contentModel = ContentModel(vaultUrl: .vaultUrl)
+        let contentView = ContentView(model: contentModel)
+        let contentWindowController = ContentWindowController(contentView: contentView)
         
         self.contentWindowController = contentWindowController
         super.init()
