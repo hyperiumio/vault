@@ -1,7 +1,7 @@
 import Foundation
 
-func SecureContainerItemEncode(_ vaultItem: VaultItem) throws -> Data {
-    switch vaultItem {
+func SecureContainerItemEncode(_ item: SecureContainer.Item) throws -> Data {
+    switch item {
     case .password(let value):
         return try PasswordEncode(value)
     case .login(let value):
@@ -11,7 +11,7 @@ func SecureContainerItemEncode(_ vaultItem: VaultItem) throws -> Data {
     }
 }
 
-func SecureContainerItemDecode(data: Data, as itemType: VaultItem.ItemType) throws -> VaultItem {
+func SecureContainerItemDecode(data: Data, as itemType: SecureContainer.ItemType) throws -> SecureContainer.Item {
     switch itemType {
     case .password:
         let value = try PasswordDecode(data: data)

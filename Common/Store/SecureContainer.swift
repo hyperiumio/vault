@@ -17,7 +17,7 @@ struct SecureContainer {
         self.info = info
     }
     
-    func items(from context: ByteBufferContext) throws -> [VaultItem] {
+    func items(from context: ByteBufferContext) throws -> [Item] {
         return try info.itemTypes.enumerated().map { index, itemType in
             return try secureData.plaintext(at: index, from: context).transform { data in
                 return try SecureContainerItemDecode(data: data, as: itemType)
@@ -29,9 +29,9 @@ struct SecureContainer {
 
 extension SecureContainer {
     
-    static func encode(items: [VaultItem], using masterKey: SymmetricKey) throws -> Data {
+    static func encode(title: String, items: [Item], using masterKey: SymmetricKey) throws -> Data {
         let itemTypes = items.map(\.itemType)
-        let info = Info(itemTypes: itemTypes)
+        let info = Info(title: title, itemTypes: itemTypes)
         
         let encodedInfo = try JSONEncoder().encode(info)
         let encodedItems = try items.map { vaultItem in
@@ -46,15 +46,44 @@ extension SecureContainer {
 
 extension SecureContainer {
     
-    struct Info: Codable {
+    struct Info: Codable, Identifiable {
         
         let id: UUID
-        let itemTypes: [VaultItem.ItemType]
+        let title: String
+        let itemTypes: [ItemType]
         
-        init(itemTypes: [VaultItem.ItemType]) {
+        init(title: String, itemTypes: [ItemType]) {
             self.id = UUID()
+            self.title = title
             self.itemTypes = itemTypes
         }
+    }
+    
+    enum Item {
+        
+        case password(Password)
+        case login(Login)
+        case file(File)
+        
+        var itemType: ItemType {
+            switch self {
+            case .password:
+                return .password
+            case .login:
+                return .login
+            case .file:
+                return .file
+            }
+        }
+        
+    }
+
+    enum ItemType: String, Codable {
+        
+        case password
+        case login
+        case file
+        
     }
     
 }
