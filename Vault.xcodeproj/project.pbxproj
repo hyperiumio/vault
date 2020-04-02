@@ -40,7 +40,7 @@
 		95D29366240826FE00FDD6F4 /* PasswordCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29362240826FE00FDD6F4 /* PasswordCoding.swift */; };
 		95D29367240826FE00FDD6F4 /* FileCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29363240826FE00FDD6F4 /* FileCoding.swift */; };
 		95D29368240826FE00FDD6F4 /* LoginCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29364240826FE00FDD6F4 /* LoginCoding.swift */; };
-		95D29369240826FE00FDD6F4 /* VaultItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* VaultItemCoding.swift */; };
+		95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */; };
 		95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
 		95D2937024082FAF00FDD6F4 /* VaultItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936F24082FAF00FDD6F4 /* VaultItemContainer.swift */; };
@@ -97,7 +97,7 @@
 		95D29362240826FE00FDD6F4 /* PasswordCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordCoding.swift; sourceTree = "<group>"; };
 		95D29363240826FE00FDD6F4 /* FileCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoding.swift; sourceTree = "<group>"; };
 		95D29364240826FE00FDD6F4 /* LoginCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoding.swift; sourceTree = "<group>"; };
-		95D29365240826FE00FDD6F4 /* VaultItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCoding.swift; sourceTree = "<group>"; };
+		95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureContainerItemCoding.swift; sourceTree = "<group>"; };
 		95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBuffer.swift; sourceTree = "<group>"; };
 		95D2936C2408293400FDD6F4 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
 		95D2936F24082FAF00FDD6F4 /* VaultItemContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemContainer.swift; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 				95D29363240826FE00FDD6F4 /* FileCoding.swift */,
 				95D29364240826FE00FDD6F4 /* LoginCoding.swift */,
 				95D29362240826FE00FDD6F4 /* PasswordCoding.swift */,
-				95D29365240826FE00FDD6F4 /* VaultItemCoding.swift */,
+				95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */,
 				95D293572408259D00FDD6F4 /* CodingError.swift */,
 				95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */,
 			);
@@ -441,7 +441,7 @@
 				95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */,
 				95D29361240826B200FDD6F4 /* DataContainer.swift in Sources */,
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
-				95D29369240826FE00FDD6F4 /* VaultItemCoding.swift in Sources */,
+				95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */,
 				952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */,
 				952A237B23F4350100142C38 /* SecureData.swift in Sources */,
 				95D293412408247100FDD6F4 /* File.swift in Sources */,
