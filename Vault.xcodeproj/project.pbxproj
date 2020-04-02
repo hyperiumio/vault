@@ -19,7 +19,6 @@
 		952A237B23F4350100142C38 /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
 		954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */; };
-		9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577D3972367400F00B0A2B3 /* DataExtension.swift */; };
 		95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		957D62F62388221C000577FE /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */; };
@@ -76,7 +75,6 @@
 		952A237E23F44F6700142C38 /* MasterKeyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterKeyContainer.swift; sourceTree = "<group>"; };
 		954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGStubTestCase.swift; sourceTree = "<group>"; };
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		9577D3972367400F00B0A2B3 /* DataExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		957D62F2238815D7000577FE /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		957D62F3238815D7000577FE /* CryptoWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CryptoWrapper.c; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -147,14 +145,6 @@
 			path = Asset;
 			sourceTree = "<group>";
 		};
-		9577D39623673FD300B0A2B3 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				9577D3972367400F00B0A2B3 /* DataExtension.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
 		957B519A235C566F00201445 = {
 			isa = PBXGroup;
 			children = (
@@ -207,7 +197,6 @@
 		95ABF6DD2360D35000CA6429 /* Test */ = {
 			isa = PBXGroup;
 			children = (
-				9577D39623673FD300B0A2B3 /* Extensions */,
 				95ABF6EE2360D56600CA6429 /* Doubles */,
 				95ABF6EB2360D3AC00CA6429 /* Misc */,
 				95ABF6DE2360D35800CA6429 /* Cases */,
@@ -424,7 +413,6 @@
 				95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */,
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
-				9577D3982367400F00B0A2B3 /* DataExtension.swift in Sources */,
 				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
 				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,
 				95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */,
