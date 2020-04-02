@@ -15,6 +15,7 @@
 		951C33A024364965002AA4CD /* FileExistsPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C339F24364965002AA4CD /* FileExistsPublisher.swift */; };
 		951C33A224367707002AA4CD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* View.swift */; };
 		951C33A524367786002AA4CD /* ApplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A424367786002AA4CD /* ApplicationController.swift */; };
+		951C33A724367A64002AA4CD /* ContentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A624367A64002AA4CD /* ContentWindowController.swift */; };
 		952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
 		952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
@@ -72,6 +73,7 @@
 		951C339F24364965002AA4CD /* FileExistsPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExistsPublisher.swift; sourceTree = "<group>"; };
 		951C33A124367707002AA4CD /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		951C33A424367786002AA4CD /* ApplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationController.swift; sourceTree = "<group>"; };
+		951C33A624367A64002AA4CD /* ContentWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentWindowController.swift; sourceTree = "<group>"; };
 		952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedIntegerExtension.swift; sourceTree = "<group>"; };
 		952750FE23F0815300AFE423 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		952A237823F4320800142C38 /* ContiguousBytesExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContiguousBytesExtension.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				951C33A424367786002AA4CD /* ApplicationController.swift */,
+				951C33A624367A64002AA4CD /* ContentWindowController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */,
 				952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */,
 				957D62F62388221C000577FE /* CryptoWrapper.c in Sources */,
+				951C33A724367A64002AA4CD /* ContentWindowController.swift in Sources */,
 				95D293422408247100FDD6F4 /* Password.swift in Sources */,
 				95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
