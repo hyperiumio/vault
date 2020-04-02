@@ -21,6 +21,8 @@
 		951C33B124368015002AA4CD /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B024368015002AA4CD /* ActivityIndicator.swift */; };
 		951C33B32436869E002AA4CD /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B22436869E002AA4CD /* ContentModel.swift */; };
 		951C33B524368757002AA4CD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B424368757002AA4CD /* ContentView.swift */; };
+		951C33B724368848002AA4CD /* VaultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B624368848002AA4CD /* VaultView.swift */; };
+		951C33B9243688EC002AA4CD /* VaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B8243688EC002AA4CD /* VaultModel.swift */; };
 		952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
 		952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
@@ -84,6 +86,8 @@
 		951C33B024368015002AA4CD /* ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		951C33B22436869E002AA4CD /* ContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentModel.swift; sourceTree = "<group>"; };
 		951C33B424368757002AA4CD /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		951C33B624368848002AA4CD /* VaultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultView.swift; sourceTree = "<group>"; };
+		951C33B8243688EC002AA4CD /* VaultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultModel.swift; sourceTree = "<group>"; };
 		952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedIntegerExtension.swift; sourceTree = "<group>"; };
 		952750FE23F0815300AFE423 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		952A237823F4320800142C38 /* ContiguousBytesExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContiguousBytesExtension.swift; sourceTree = "<group>"; };
@@ -175,6 +179,7 @@
 			children = (
 				951C33B22436869E002AA4CD /* ContentModel.swift */,
 				951C33AB24367F5D002AA4CD /* SetupModel.swift */,
+				951C33B8243688EC002AA4CD /* VaultModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				951C33B424368757002AA4CD /* ContentView.swift */,
 				951C33B024368015002AA4CD /* ActivityIndicator.swift */,
 				951C33AE24368002002AA4CD /* SetupView.swift */,
+				951C33B624368848002AA4CD /* VaultView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -471,6 +477,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				951C33B9243688EC002AA4CD /* VaultModel.swift in Sources */,
 				95D2937024082FAF00FDD6F4 /* SecureContainer.swift in Sources */,
 				951C33A024364965002AA4CD /* FileExistsPublisher.swift in Sources */,
 				951C33A524367786002AA4CD /* ApplicationController.swift in Sources */,
@@ -507,6 +514,7 @@
 				951C33AC24367F5D002AA4CD /* SetupModel.swift in Sources */,
 				951C33A224367707002AA4CD /* View.swift in Sources */,
 				951C3396243633F5002AA4CD /* Vault.swift in Sources */,
+				951C33B724368848002AA4CD /* VaultView.swift in Sources */,
 				95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */,
 				951C33982436348C002AA4CD /* CreateVaultPublisher.swift in Sources */,
 			);

@@ -12,9 +12,12 @@ class ContentModel: ObservableObject {
         self.state = .setup(setupModel)
         
         didCreateVaultSubscription = setupModel.didCreateVault
-            .sink { vault in
-            
+            .map { vault in
+                let vaultModel = VaultModel(vault: vault)
+                return State.unlocked(vaultModel)
             }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.state, on: self)
     }
     
 }
@@ -24,6 +27,7 @@ extension ContentModel {
     enum State {
         
         case setup(SetupModel)
+        case unlocked(VaultModel)
         
     }
     
