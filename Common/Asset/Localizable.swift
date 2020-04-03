@@ -51,10 +51,12 @@ extension LocalizedStringKey {
     static let showAll = LocalizedStringKey("ShowAll")
     static let title = LocalizedStringKey("Title")
     static let undo = LocalizedStringKey("Undo")
+    static let unlockVault = LocalizedStringKey("UnlockVault")
     static let value = LocalizedStringKey("Value")
     static let vaultCreationFailedMessage = LocalizedStringKey("VaultCreationFailedMessage")
     static let view = LocalizedStringKey("View")
     static let window = LocalizedStringKey("Window")
+    static let wrongPassword = LocalizedStringKey("WrongPassword")
     static let zoom = LocalizedStringKey("Zoom")
     
 }

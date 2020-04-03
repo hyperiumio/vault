@@ -1,4 +1,5 @@
 import Combine
+import CryptoKit
 import Foundation
 
 class SetupModel: ObservableObject {
@@ -18,7 +19,7 @@ class SetupModel: ObservableObject {
     @Published var isLoading = false
     @Published var message = Message.none
     
-    var createVaultButtonDisabled: Bool {
+    var createMasterKeyButtonDisabled: Bool {
         return password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || isLoading
     }
     
@@ -26,28 +27,25 @@ class SetupModel: ObservableObject {
         return isLoading
     }
     
-    let didCreateVault = PassthroughSubject<Vault, Never>()
+    let didCreateMasterKey = PassthroughSubject<SymmetricKey, Never>()
     
-    private let vaultUrl: URL
-    private var createVaultSubscription: AnyCancellable?
+    private let masterKeyUrl: URL
+    private var createMasterKeySubscription: AnyCancellable?
     
-    init(vaultUrl: URL) {
-        self.vaultUrl = vaultUrl
+    init(masterKeyUrl: URL) {
+        self.masterKeyUrl = masterKeyUrl
     }
     
-    func createVault() {
+    func createMasterKey() {
         guard password == repeatedPassword else {
             message = .passwordMismatch
             return
         }
         
-        let masterKeyUrl = Vault.masterKeyUrl(vaultUrl: vaultUrl)
-        let contentUrl = Vault.contentUrl(vaultUrl: vaultUrl)
-        
         isLoading = true
-        createVaultSubscription = CreateVaultPublisher(masterKeyUrl: masterKeyUrl, contentUrl: contentUrl, password: password)
-            .map { vault in
-                return CreateVaultResult.success(vault)
+        createMasterKeySubscription = CreateMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
+            .map { masterKey in
+                return CreateMasterKeyResult.success(masterKey)
             }
             .catch { error in
                 return Just(.failure)
@@ -60,8 +58,8 @@ class SetupModel: ObservableObject {
                 
                 self.isLoading = false
                 switch result {
-                case .success(let vault):
-                    self.didCreateVault.send(vault)
+                case .success(let masterKey):
+                    self.didCreateMasterKey.send(masterKey)
                 case .failure:
                     self.message = .vaultCreationFailed
                 }
@@ -82,9 +80,9 @@ extension SetupModel {
     
 }
 
-private enum CreateVaultResult {
+private enum CreateMasterKeyResult {
     
-    case success(Vault)
+    case success(SymmetricKey)
     case failure
     
 }

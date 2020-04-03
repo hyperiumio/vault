@@ -5,7 +5,7 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     let contentWindowController: ContentWindowController
     
     override init() {
-        let contentModel = ContentModel(vaultUrl: .vaultUrl)
+        let contentModel = ContentModel(masterKeyUrl: .masterKey, vaultUrl: .vault)
         let contentView = ContentView(model: contentModel)
         let contentWindowController = ContentWindowController(contentView: contentView)
         
@@ -21,8 +21,16 @@ class ApplicationController: NSObject, NSApplicationDelegate {
 
 private extension URL {
     
-    static var vaultUrl: URL {
-        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent("Vault", isDirectory: true)
+    static var appData: URL {
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent(Bundle.main.bundleIdentifier!, isDirectory: true)
+    }
+    
+    static var masterKey: URL {
+        return appData.appendingPathComponent("key", isDirectory: false)
+    }
+
+    static var vault: URL {
+        return appData.appendingPathComponent("content", isDirectory: true)
     }
     
 }
