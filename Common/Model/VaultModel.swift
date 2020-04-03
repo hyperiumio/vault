@@ -1,4 +1,5 @@
 import Combine
+import CryptoKit
 import Foundation
 
 class VaultModel: ObservableObject {
@@ -9,8 +10,8 @@ class VaultModel: ObservableObject {
     
     private let vault: Vault
     
-    init(vault: Vault) {
-        self.vault = vault
+    init(vaultUrl: URL, masterKey: SymmetricKey) {
+        self.vault = Vault(url: vaultUrl, masterKey: masterKey)
     }
     
     func createItem() {

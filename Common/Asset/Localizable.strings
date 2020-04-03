@@ -46,8 +46,10 @@
 "ShowAll" = "Show All";
 "Title" = "Title";
 "Undo" = "Undo";
+"UnlockVault" = "Unlock Vault";
 "Value" = "Value";
 "VaultCreationFailedMessage" = "The creation of the vault has failed. Try again.";
 "View" = "View";
 "Window" = "Window";
+"WrongPassword" = "Wrong password";
 "Zoom" = "Zoom";

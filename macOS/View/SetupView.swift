@@ -14,9 +14,9 @@ struct SetupView: View {
                 .frame(width: 220)
                 .disabled(model.textInputDisabled)
             
-            Button(action: model.createVault) {
+            Button(action: model.createMasterKey) {
                 return Text(.createVault)
-            }.disabled(model.createVaultButtonDisabled)
+            }.disabled(model.createMasterKeyButtonDisabled)
             
             Text(model.message.key)
             

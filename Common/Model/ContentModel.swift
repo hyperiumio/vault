@@ -7,13 +7,13 @@ class ContentModel: ObservableObject {
     
     private var didCreateVaultSubscription: AnyCancellable?
     
-    init(vaultUrl: URL) {
-        let setupModel = SetupModel(vaultUrl: vaultUrl)
+    init(masterKeyUrl: URL, vaultUrl: URL) {
+        let setupModel = SetupModel(masterKeyUrl: masterKeyUrl)
         self.state = .setup(setupModel)
         
-        didCreateVaultSubscription = setupModel.didCreateVault
-            .map { vault in
-                let vaultModel = VaultModel(vault: vault)
+        didCreateVaultSubscription = setupModel.didCreateMasterKey
+            .map { masterKey in
+                let vaultModel = VaultModel(vaultUrl: vaultUrl, masterKey: masterKey)
                 return State.unlocked(vaultModel)
             }
             .receive(on: DispatchQueue.main)
