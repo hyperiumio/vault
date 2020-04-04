@@ -1,3 +1,4 @@
+"AddItem" = "Add Item";
 "AboutApp" = "About Vault";
 "AppName" = "Vault";
 "BringAllToFront" = "Bring All to Front";
@@ -42,6 +43,7 @@
 "RepeatPassword" = "Repeat Master Password";
 "ReusePasswordAdvice" = "Never reuse a password. Never ever.";
 "Save" = "Save";
+"Search" = "Search";
 "SelectAll" = "Select All";
 "ShowAll" = "Show All";
 "Title" = "Title";
