@@ -8,7 +8,7 @@ struct MasterKeyContainer {
     let wrappedKey: Data
     
     init(data: Data) throws {
-        guard data.count != .saltSize + .unsignedInteger32BitSize + .wrappedKeySize else {
+        guard data.count == .saltSize + .unsignedInteger32BitSize + .wrappedKeySize else {
             throw Error.invalidDataSize
         }
         
