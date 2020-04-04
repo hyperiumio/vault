@@ -34,6 +34,36 @@
 		9561123F2437D45D00028F6E /* DecodeMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123E2437D45D00028F6E /* DecodeMasterKeyPublisher.swift */; };
 		9561124224389D6600028F6E /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561124124389D6600028F6E /* MainMenuController.swift */; };
 		9561124524389EA400028F6E /* NSMenuExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561124424389EA400028F6E /* NSMenuExtension.swift */; };
+		956112462438DBC900028F6E /* ContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33B22436869E002AA4CD /* ContentModel.swift */; };
+		956112472438DBC900028F6E /* SetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33AB24367F5D002AA4CD /* SetupModel.swift */; };
+		956112482438DBC900028F6E /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123C243780FC00028F6E /* LoginModel.swift */; };
+		956112492438DBC900028F6E /* VaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123A243780F300028F6E /* VaultModel.swift */; };
+		9561124A2438DBD100028F6E /* CreateMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */; };
+		9561124B2438DBD100028F6E /* DecodeMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123E2437D45D00028F6E /* DecodeMasterKeyPublisher.swift */; };
+		9561124C2438DBD100028F6E /* FileExistsPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C339F24364965002AA4CD /* FileExistsPublisher.swift */; };
+		9561124D2438DBD700028F6E /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
+		9561124E2438DBD700028F6E /* SecureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936F24082FAF00FDD6F4 /* SecureContainer.swift */; };
+		9561124F2438DBDA00028F6E /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
+		956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
+		956112512438DBDA00028F6E /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
+		956112522438DBDA00028F6E /* DataContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29360240826B200FDD6F4 /* DataContainer.swift */; };
+		956112532438DBDE00028F6E /* FileCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29363240826FE00FDD6F4 /* FileCoding.swift */; };
+		956112542438DBDE00028F6E /* LoginCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29364240826FE00FDD6F4 /* LoginCoding.swift */; };
+		956112552438DBDE00028F6E /* PasswordCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29362240826FE00FDD6F4 /* PasswordCoding.swift */; };
+		956112562438DBDE00028F6E /* SecureContainerItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */; };
+		956112572438DBDE00028F6E /* CodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D293572408259D00FDD6F4 /* CodingError.swift */; };
+		956112582438DBDE00028F6E /* UnsignedInteger32BitCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */; };
+		956112592438DBE100028F6E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933D2408247000FDD6F4 /* File.swift */; };
+		9561125A2438DBE100028F6E /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933F2408247100FDD6F4 /* Login.swift */; };
+		9561125B2438DBE100028F6E /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933E2408247100FDD6F4 /* Password.swift */; };
+		9561125C2438DBE700028F6E /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
+		9561125D2438DBE700028F6E /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193823F15DE200C5ECA9 /* DataExtension.swift */; };
+		9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
+		9561125F2438DBE700028F6E /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
+		956112602438DBE700028F6E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* View.swift */; };
+		956112612438DBED00028F6E /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
+		956112622438DBED00028F6E /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
+		956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
 		95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		957D62F62388221C000577FE /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */; };
@@ -482,17 +512,47 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9561124A2438DBD100028F6E /* CreateMasterKeyPublisher.swift in Sources */,
+				956112462438DBC900028F6E /* ContentModel.swift in Sources */,
+				956112472438DBC900028F6E /* SetupModel.swift in Sources */,
+				956112512438DBDA00028F6E /* ByteBufferContext.swift in Sources */,
+				9561125D2438DBE700028F6E /* DataExtension.swift in Sources */,
+				956112482438DBC900028F6E /* LoginModel.swift in Sources */,
+				956112602438DBE700028F6E /* View.swift in Sources */,
+				956112492438DBC900028F6E /* VaultModel.swift in Sources */,
 				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
+				9561125F2438DBE700028F6E /* UnsignedIntegerExtension.swift in Sources */,
 				95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */,
+				956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */,
+				9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */,
+				956112592438DBE100028F6E /* File.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
 				95B20B4723BA1840005D71CD /* KeyDerivation.swift in Sources */,
+				9561124F2438DBDA00028F6E /* FileReader.swift in Sources */,
+				956112552438DBDE00028F6E /* PasswordCoding.swift in Sources */,
+				956112582438DBDE00028F6E /* UnsignedInteger32BitCoding.swift in Sources */,
+				956112532438DBDE00028F6E /* FileCoding.swift in Sources */,
+				956112522438DBDA00028F6E /* DataContainer.swift in Sources */,
+				956112622438DBED00028F6E /* SecureDataByteBuffer.swift in Sources */,
+				956112542438DBDE00028F6E /* LoginCoding.swift in Sources */,
 				95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */,
 				95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */,
+				9561124D2438DBD700028F6E /* Vault.swift in Sources */,
+				9561124B2438DBD100028F6E /* DecodeMasterKeyPublisher.swift in Sources */,
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
+				956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */,
+				9561124E2438DBD700028F6E /* SecureContainer.swift in Sources */,
+				956112612438DBED00028F6E /* SecureData.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
+				956112562438DBDE00028F6E /* SecureContainerItemCoding.swift in Sources */,
+				956112572438DBDE00028F6E /* CodingError.swift in Sources */,
+				9561125B2438DBE100028F6E /* Password.swift in Sources */,
+				9561124C2438DBD100028F6E /* FileExistsPublisher.swift in Sources */,
+				9561125C2438DBE700028F6E /* ContiguousBytesExtension.swift in Sources */,
 				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
 				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,
 				95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */,
+				9561125A2438DBE100028F6E /* Login.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
