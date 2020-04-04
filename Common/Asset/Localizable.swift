@@ -2,7 +2,6 @@ import SwiftUI
 
 extension LocalizedStringKey {
     
-    static let aboutApp = LocalizedStringKey("AboutApp")
     static let appName = LocalizedStringKey("AppName")
     static let bringAllToFront = LocalizedStringKey("BringAllToFront")
     static let cancel = LocalizedStringKey("Cancel")
@@ -18,8 +17,6 @@ extension LocalizedStringKey {
     static let enterPassword = LocalizedStringKey("EnterPassword")
     static let file = LocalizedStringKey("File")
     static let generatePassword = LocalizedStringKey("GeneratePassword")
-    static let hideApp = LocalizedStringKey("HideApp")
-    static let hideOthers = LocalizedStringKey("HideOthers")
     static let iCloud = LocalizedStringKey("iCloud")
     static let iCloudSignUpTitle = LocalizedStringKey("iCloudSignUpTitle")
     static let iCloudSignUpDescription = LocalizedStringKey("iCloudSignUpDescription")
@@ -30,7 +27,6 @@ extension LocalizedStringKey {
     static let includeDigits = LocalizedStringKey("IncludeDigits")
     static let includeSpecialCharacters = LocalizedStringKey("IncludeSpecialCharacters")
     static let length = LocalizedStringKey("Length")
-    static let lock = LocalizedStringKey("Lock")
     static let login = LocalizedStringKey("Login")
     static let masterPassword = LocalizedStringKey("MasterPassword")
     static let minimize = LocalizedStringKey("Minimize")
@@ -41,14 +37,11 @@ extension LocalizedStringKey {
     static let passwordMismatch = LocalizedStringKey("PasswordMismatch")
     static let paste = LocalizedStringKey("Paste")
     static let pasteMatchStyle = LocalizedStringKey("PasteMatchStyle")
-    static let preferences = LocalizedStringKey("Preferences")
-    static let quitApp = LocalizedStringKey("QuitApp")
     static let redo = LocalizedStringKey("Redo")
     static let repeatPassword = LocalizedStringKey("RepeatPassword")
     static let reusePasswordAdvice = LocalizedStringKey("ReusePasswordAdvice")
     static let save = LocalizedStringKey("Save")
     static let selectAll = LocalizedStringKey("SelectAll")
-    static let showAll = LocalizedStringKey("ShowAll")
     static let title = LocalizedStringKey("Title")
     static let undo = LocalizedStringKey("Undo")
     static let unlockVault = LocalizedStringKey("UnlockVault")
@@ -58,5 +51,17 @@ extension LocalizedStringKey {
     static let window = LocalizedStringKey("Window")
     static let wrongPassword = LocalizedStringKey("WrongPassword")
     static let zoom = LocalizedStringKey("Zoom")
+    
+}
+
+extension String {
+    
+    static let aboutApp = NSLocalizedString("AboutApp", comment: "")
+    static let hideApp = NSLocalizedString("HideApp", comment: "")
+    static let hideOthers = NSLocalizedString("HideOthers", comment: "")
+    static let lock = NSLocalizedString("Lock", comment: "")
+    static let preferences = NSLocalizedString("Preferences", comment: "")
+    static let quitApp = NSLocalizedString("QuitApp", comment: "")
+    static let showAll = NSLocalizedString("ShowAll", comment: "")
     
 }

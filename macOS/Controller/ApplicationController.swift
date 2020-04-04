@@ -18,6 +18,14 @@ class ApplicationController: NSObject, NSApplicationDelegate {
             }
     }
     
+    @objc func showPreferences() {
+        
+    }
+    
+    @objc func lock() {
+        
+    }
+    
 }
 
 private extension URL {
