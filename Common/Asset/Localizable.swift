@@ -2,6 +2,7 @@ import SwiftUI
 
 extension LocalizedStringKey {
     
+    static let addItem = LocalizedStringKey("AddItem")
     static let appName = LocalizedStringKey("AppName")
     static let bringAllToFront = LocalizedStringKey("BringAllToFront")
     static let cancel = LocalizedStringKey("Cancel")
@@ -41,6 +42,7 @@ extension LocalizedStringKey {
     static let repeatPassword = LocalizedStringKey("RepeatPassword")
     static let reusePasswordAdvice = LocalizedStringKey("ReusePasswordAdvice")
     static let save = LocalizedStringKey("Save")
+    static let search = LocalizedStringKey("Search")
     static let selectAll = LocalizedStringKey("SelectAll")
     static let title = LocalizedStringKey("Title")
     static let undo = LocalizedStringKey("Undo")
