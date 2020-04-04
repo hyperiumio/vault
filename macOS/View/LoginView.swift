@@ -8,11 +8,11 @@ struct LoginView: View {
         return VStack {
             SecureField(.enterPassword, text: $model.password, onCommit: model.login)
                 .frame(width: 220)
-                .disabled(model.userInputDisabled)
+                .disabled(model.textInputDisabled)
             
             Button(action: model.login) {
                 return Text(.unlockVault)
-            }.disabled(model.userInputDisabled)
+            }.disabled(model.decryptMasterKeyButtonDisabled)
             
             Text(model.message.key)
             

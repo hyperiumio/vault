@@ -18,19 +18,15 @@ func UnsignedInteger32BitEncode(_ value: Int) throws -> Data {
 }
 
 func UnsignedInteger32BitDecode(data: Data) throws -> Int {
-    guard data.count == UnsignedInteger32BitEncodingSize else {
+    let bytes = [UInt8](data)
+    guard bytes.count == UnsignedInteger32BitEncodingSize else {
         throw CodingError.decodingFailed
     }
     
-    let byte0 = data[0]
-    let byte1 = data[1]
-    let byte2 = data[2]
-    let byte3 = data[3]
-    
-    let value0 = UInt32(byte0)
-    let value1 = UInt32(byte1) << 8
-    let value2 = UInt32(byte2) << 16
-    let value3 = UInt32(byte3) << 24
+    let value0 = UInt32(bytes[0])
+    let value1 = UInt32(bytes[1]) << 8
+    let value2 = UInt32(bytes[2]) << 16
+    let value3 = UInt32(bytes[3]) << 24
     
     guard let result = Int(exactly: value0 | value1 | value2 | value3) else {
         throw CodingError.decodingFailed
