@@ -16,8 +16,8 @@ class SetupModel: ObservableObject {
         }
     }
     
-    @Published var isLoading = false
-    @Published var message = Message.none
+    @Published private(set) var isLoading = false
+    @Published private(set) var message = Message.none
     
     var createMasterKeyButtonDisabled: Bool {
         return password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || isLoading

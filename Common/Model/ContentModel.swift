@@ -4,7 +4,7 @@ import Foundation
 
 class ContentModel: ObservableObject {
     
-    @Published var state: State
+    @Published private(set) var state: State
     
     private var didCreateMasterKeySubscription: AnyCancellable?
     
