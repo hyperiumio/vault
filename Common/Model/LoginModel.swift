@@ -10,8 +10,8 @@ class LoginModel: ObservableObject {
         }
     }
     
-    @Published var isLoading = false
-    @Published var message = Message.none
+    @Published private(set) var isLoading = false
+    @Published private(set) var message = Message.none
     
     var textInputDisabled: Bool {
         return isLoading

@@ -4,7 +4,7 @@ import Foundation
 
 class VaultModel: ObservableObject {
     
-    @Published var items: [Item] = []
+    @Published private(set) var items: [Item] = []
     @Published var searchText: String = ""
     @Published var selectedItemId: UUID?
     
