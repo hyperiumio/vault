@@ -9,7 +9,7 @@ struct SecureContainer {
     init(using masterKey: SymmetricKey, from context: ByteBufferContext) throws {
         let infoIndex = 0
         let secureData = try SecureData(using: masterKey, from: context)
-        let info = try secureData.plaintext(at: infoIndex, from: context).transform { data in
+        let info = try secureData.plaintext(at: infoIndex, from: context).map { data in
             return try JSONDecoder().decode(Info.self, from: data)
         }
         
@@ -19,7 +19,7 @@ struct SecureContainer {
     
     func items(from context: ByteBufferContext) throws -> [Item] {
         return try info.itemTypes.enumerated().map { index, itemType in
-            return try secureData.plaintext(at: index, from: context).transform { data in
+            return try secureData.plaintext(at: index, from: context).map { data in
                 return try SecureContainerItemDecode(data: data, as: itemType)
             }
         }

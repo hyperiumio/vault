@@ -10,14 +10,14 @@ struct SecureDataByteBuffer {
 
     init(from context: ByteBufferContext) throws {
         let messageCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
-        let messageCount = try context.bytes(in: messageCountRange).transform { data in
+        let messageCount = try context.bytes(in: messageCountRange).map { data in
             return try UnsignedInteger32BitDecode(data: data)
         }
 
         let ciphertextSizes = try (0 ..< messageCount).map { index in
             let ciphertextSizeLowerBound = messageCountRange.upperBound + index * .unsignedInteger32BitSize
             let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: .unsignedInteger32BitSize)
-            return try context.bytes(in: ciphertextSizeRange).transform { data in
+            return try context.bytes(in: ciphertextSizeRange).map { data in
                 return try UnsignedInteger32BitDecode(data: data)
             }
         } as [Int]

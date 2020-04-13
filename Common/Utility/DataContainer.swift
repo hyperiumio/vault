@@ -39,7 +39,7 @@ extension DataContainer {
             guard elementSizeRange.upperBound <= data.endIndex else {
                 throw CodingError.decodingFailed
             }
-            let elementSize = try data[elementSizeRange].transform { data in
+            let elementSize = try data[elementSizeRange].map { data in
                 return try UnsignedInteger32BitDecode(data: data)
             }
             currentIndex += UnsignedInteger32BitEncodingSize
