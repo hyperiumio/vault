@@ -35,7 +35,7 @@ extension SetupModel.Message {
         case .passwordMismatch:
             return .passwordMismatch
         case .vaultCreationFailed:
-            return .vaultCreationFailedMessage
+            return .vaultCreationFailed
         }
     }
     

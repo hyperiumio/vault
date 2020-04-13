@@ -4,7 +4,6 @@ extension LocalizedStringKey {
     
     static let addItem = LocalizedStringKey("AddItem")
     static let appName = LocalizedStringKey("AppName")
-    static let bringAllToFront = LocalizedStringKey("BringAllToFront")
     static let cancel = LocalizedStringKey("Cancel")
     static let changePasswordAdvice = LocalizedStringKey("ChangePasswordAdvice")
     static let copy = LocalizedStringKey("Copy")
@@ -17,6 +16,7 @@ extension LocalizedStringKey {
     static let edit = LocalizedStringKey("Edit")
     static let enterPassword = LocalizedStringKey("EnterPassword")
     static let file = LocalizedStringKey("File")
+    static let fileName = LocalizedStringKey("FileName")
     static let generatePassword = LocalizedStringKey("GeneratePassword")
     static let iCloud = LocalizedStringKey("iCloud")
     static let iCloudSignUpTitle = LocalizedStringKey("iCloudSignUpTitle")
@@ -30,7 +30,6 @@ extension LocalizedStringKey {
     static let length = LocalizedStringKey("Length")
     static let login = LocalizedStringKey("Login")
     static let masterPassword = LocalizedStringKey("MasterPassword")
-    static let minimize = LocalizedStringKey("Minimize")
     static let modified = LocalizedStringKey("Modified")
     static let next = LocalizedStringKey("Next")
     static let noMatches = LocalizedStringKey("NoMatches")
@@ -47,23 +46,26 @@ extension LocalizedStringKey {
     static let title = LocalizedStringKey("Title")
     static let undo = LocalizedStringKey("Undo")
     static let unlockVault = LocalizedStringKey("UnlockVault")
+    static let user = LocalizedStringKey("User")
     static let value = LocalizedStringKey("Value")
-    static let vaultCreationFailedMessage = LocalizedStringKey("VaultCreationFailedMessage")
+    static let vaultCreationFailed = LocalizedStringKey("VaultCreationFailed")
     static let view = LocalizedStringKey("View")
-    static let window = LocalizedStringKey("Window")
     static let wrongPassword = LocalizedStringKey("WrongPassword")
-    static let zoom = LocalizedStringKey("Zoom")
     
 }
 
 extension String {
     
     static let aboutApp = NSLocalizedString("AboutApp", comment: "")
+    static let bringAllToFront = NSLocalizedString("BringAllToFront", comment: "")
     static let hideApp = NSLocalizedString("HideApp", comment: "")
     static let hideOthers = NSLocalizedString("HideOthers", comment: "")
     static let lock = NSLocalizedString("Lock", comment: "")
+    static let minimize = NSLocalizedString("Minimize", comment: "")
     static let preferences = NSLocalizedString("Preferences", comment: "")
     static let quitApp = NSLocalizedString("QuitApp", comment: "")
     static let showAll = NSLocalizedString("ShowAll", comment: "")
+    static let window = NSLocalizedString("Window", comment: "")
+    static let zoom = NSLocalizedString("Zoom", comment: "")
     
 }

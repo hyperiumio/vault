@@ -13,6 +13,7 @@
 "EnterPassword" = "Enter Your Master Password";
 "Edit" = "Edit";
 "File" = "File";
+"FileName" = "File Name";
 "GeneratePassword" = "Generate Password";
 "HideApp" = "Hide Vault";
 "HideOthers" = "Hide Others";
@@ -49,8 +50,9 @@
 "Title" = "Title";
 "Undo" = "Undo";
 "UnlockVault" = "Unlock Vault";
+"User" = "User";
 "Value" = "Value";
-"VaultCreationFailedMessage" = "The creation of the vault has failed. Try again.";
+"VaultCreationFailed" = "The creation of the vault has failed. Try again.";
 "View" = "View";
 "Window" = "Window";
 "WrongPassword" = "Wrong password";
