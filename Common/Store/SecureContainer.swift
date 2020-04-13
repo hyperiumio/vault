@@ -17,7 +17,7 @@ struct SecureContainer {
         self.info = info
     }
     
-    func items(from context: ByteBufferContext) throws -> [Item] {
+    func items(from context: ByteBufferContext) throws -> [SecureItem] {
         return try info.itemTypes.enumerated().map { index, itemType in
             return try secureData.plaintext(at: index, from: context).map { data in
                 return try SecureContainerItemDecode(data: data, as: itemType)
@@ -29,7 +29,7 @@ struct SecureContainer {
 
 extension SecureContainer {
     
-    static func encode(title: String, items: [Item], using masterKey: SymmetricKey) throws -> Data {
+    static func encode(title: String, items: [SecureItem], using masterKey: SymmetricKey) throws -> Data {
         let itemTypes = items.map(\.itemType)
         let info = Info(title: title, itemTypes: itemTypes)
         
@@ -50,40 +50,13 @@ extension SecureContainer {
         
         let id: UUID
         let title: String
-        let itemTypes: [ItemType]
+        let itemTypes: [SecureItemType]
         
-        init(title: String, itemTypes: [ItemType]) {
+        init(title: String, itemTypes: [SecureItemType]) {
             self.id = UUID()
             self.title = title
             self.itemTypes = itemTypes
         }
-    }
-    
-    enum Item {
-        
-        case password(Password)
-        case login(Login)
-        case file(File)
-        
-        var itemType: ItemType {
-            switch self {
-            case .password:
-                return .password
-            case .login:
-                return .login
-            case .file:
-                return .file
-            }
-        }
-        
-    }
-
-    enum ItemType: String, Codable {
-        
-        case password
-        case login
-        case file
-        
     }
     
 }
