@@ -284,7 +284,7 @@
 				95D2936E24082FA200FDD6F4 /* Store */,
 				95D29359240825F200FDD6F4 /* Utility */,
 				95D293542408257000FDD6F4 /* Coding */,
-				95D2933B2408243900FDD6F4 /* Data */,
+				95D2933B2408243900FDD6F4 /* Value */,
 				95B20B4823BA1C8C005D71CD /* Extension */,
 				957D62F123881594000577FE /* Misc */,
 				95ABF6DA2360CD9A00CA6429 /* Crypto */,
@@ -359,14 +359,14 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		95D2933B2408243900FDD6F4 /* Data */ = {
+		95D2933B2408243900FDD6F4 /* Value */ = {
 			isa = PBXGroup;
 			children = (
 				95D2933D2408247000FDD6F4 /* File.swift */,
 				95D2933F2408247100FDD6F4 /* Login.swift */,
 				95D2933E2408247100FDD6F4 /* Password.swift */,
 			);
-			path = Data;
+			path = Value;
 			sourceTree = "<group>";
 		};
 		95D293542408257000FDD6F4 /* Coding */ = {
