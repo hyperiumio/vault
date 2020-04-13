@@ -14,11 +14,12 @@ struct SetupView: View {
                 .frame(width: 220)
                 .disabled(model.textInputDisabled)
             
-            Button(action: model.createMasterKey) {
-                return Text(.createVault)
-            }.disabled(model.createMasterKeyButtonDisabled)
+            Button(.createVault, action: model.createMasterKey)
+                .disabled(model.createMasterKeyButtonDisabled)
             
-            Text(model.message.key)
+            model.message.map { message in
+                return Text(message.key)
+            }
             
             ActivityIndicator(isAnimating: model.isLoading)
         }.frame(width: 500, height: 500)
@@ -30,8 +31,6 @@ extension SetupModel.Message {
     
     var key: LocalizedStringKey {
         switch self {
-        case .none:
-            return ""
         case .passwordMismatch:
             return .passwordMismatch
         case .vaultCreationFailed:

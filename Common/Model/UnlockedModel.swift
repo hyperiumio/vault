@@ -2,11 +2,11 @@ import Combine
 import CryptoKit
 import Foundation
 
-class VaultModel: ObservableObject {
+class UnlockedModel: ObservableObject {
     
-    @Published private(set) var items: [Item] = []
     @Published var searchText: String = ""
-    @Published var selectedItemId: UUID?
+    @Published private(set) var items: [Item] = []
+    @Published var newVaultItemModel: VaultItemModel?
     
     private let vault: Vault
     
@@ -14,13 +14,15 @@ class VaultModel: ObservableObject {
         self.vault = Vault(url: vaultUrl, masterKey: masterKey)
     }
     
-    func createItem() {
-        
+    func createSecureItem(itemType: SecureItemType) {
+        newVaultItemModel = VaultItemModel(vault: vault, itemType: itemType) { [weak self] in
+            self?.newVaultItemModel = nil
+        }
     }
     
 }
 
-extension VaultModel {
+extension UnlockedModel {
     
     struct Item: Identifiable {
         

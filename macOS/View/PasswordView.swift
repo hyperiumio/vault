@@ -1,12 +1,11 @@
 import SwiftUI
 
-struct LoginView: View {
+struct PasswordView: View {
     
-    @ObservedObject var model: LoginModel
+    @ObservedObject var model: PasswordModel
     
     var body: some View {
         return VStack {
-            TextField(.user, text: $model.user)
             SecureField(.password, text: $model.password)
         }
     }

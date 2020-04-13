@@ -6,18 +6,17 @@ class SetupModel: ObservableObject {
     
     @Published var password = "" {
         didSet {
-            message = .none
+            message = nil
         }
     }
     
     @Published var repeatedPassword = "" {
         didSet {
-            message = .none
+            message = nil
         }
     }
-    
     @Published private(set) var isLoading = false
-    @Published private(set) var message = Message.none
+    @Published private(set) var message: Message?
     
     var createMasterKeyButtonDisabled: Bool {
         return password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || isLoading
@@ -37,6 +36,8 @@ class SetupModel: ObservableObject {
     }
     
     func createMasterKey() {
+        message = nil
+        
         guard password == repeatedPassword else {
             message = .passwordMismatch
             return
@@ -44,12 +45,7 @@ class SetupModel: ObservableObject {
         
         isLoading = true
         createMasterKeySubscription = CreateMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
-            .map { masterKey in
-                return CreateMasterKeyResult.success(masterKey)
-            }
-            .catch { error in
-                return Just(.failure)
-            }
+            .result()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self = self else {
@@ -72,17 +68,9 @@ extension SetupModel {
     
     enum Message {
         
-        case none
         case passwordMismatch
         case vaultCreationFailed
         
     }
-    
-}
-
-private enum CreateMasterKeyResult {
-    
-    case success(SymmetricKey)
-    case failure
     
 }

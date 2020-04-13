@@ -4,17 +4,19 @@ import Combine
 class ApplicationController: NSObject, NSApplicationDelegate {
     
     let contentWindowController = ContentWindowController()
+    let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault)
     
     private var launchStateSubscription: AnyCancellable?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         launchStateSubscription = FileExistsPublisher(url: .masterKey)
             .receive(on: DispatchQueue.main)
-            .sink { [contentWindowController] masterKeyExists in
+            .sink { [contentWindowController, contentModelContext] masterKeyExists in
                 let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-                let contentModel = ContentModel(initialState: initialState, masterKeyUrl: .masterKey, vaultUrl: .vault)
+                let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 contentWindowController.showWindow(contentView: contentView)
+                
             }
     }
     
@@ -23,7 +25,16 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     }
     
     @objc func lock() {
-        
+        contentModelContext.responder?.lock()
+    }
+    
+    @objc func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        switch item.action {
+        case #selector(lock):
+            return contentModelContext.responder?.isLockable ?? false
+        default:
+            return true
+        }
     }
     
 }

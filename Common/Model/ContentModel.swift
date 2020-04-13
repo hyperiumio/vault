@@ -4,48 +4,95 @@ import Foundation
 
 class ContentModel: ObservableObject {
     
-    @Published private(set) var state: State
+    @Published private(set) var state: State {
+        didSet {
+            setupStateTransitions()
+        }
+    }
     
-    private var didCreateMasterKeySubscription: AnyCancellable?
+    private let context: ContentModelContext
+    private var stateTransitionSubscription: AnyCancellable?
     
-    init(initialState: InitialState, masterKeyUrl: URL, vaultUrl: URL) {
-        let masterKeyPublisher: PassthroughSubject<SymmetricKey, Never>
+    init(initialState: InitialState, context: ContentModelContext) {
         switch initialState {
         case .setup:
-            let setupModel = SetupModel(masterKeyUrl: masterKeyUrl)
-            masterKeyPublisher = setupModel.didCreateMasterKey
-            self.state = .setup(setupModel)
+            let model = context.setupModel()
+            self.state = .setup(model)
         case .locked:
-            let loginModel = LoginModel(masterKeyUrl: masterKeyUrl)
-            masterKeyPublisher = loginModel.didDecryptMasterKey
-            self.state = .locked(loginModel)
+            let model = context.lockedModel()
+            self.state = .locked(model)
         }
         
-        didCreateMasterKeySubscription = masterKeyPublisher
-            .map { masterKey in
-                let vaultModel = VaultModel(vaultUrl: vaultUrl, masterKey: masterKey)
-                return State.unlocked(vaultModel)
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.state, on: self)
+        self.context = context
+        context.responder = self
+        
+        setupStateTransitions()
+    }
+    
+    private func setupStateTransitions() {
+        switch state {
+        case .setup(let model):
+            stateTransitionSubscription = model.didCreateMasterKey
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] masterKey in
+                    guard let self = self else {
+                        return
+                    }
+                
+                    let model = self.context.unlockedModel(masterKey: masterKey)
+                    self.state = .unlocked(model)
+                }
+        case .locked(let model):
+            stateTransitionSubscription = model.didDecryptMasterKey
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] masterKey in
+                    guard let self = self else {
+                        return
+                    }
+                
+                    let model = self.context.unlockedModel(masterKey: masterKey)
+                    self.state = .unlocked(model)
+                }
+        case .unlocked:
+            stateTransitionSubscription = nil
+            return
+        }
+    }
+    
+}
+
+extension ContentModel: ContentModelContextResponder {
+    
+    var isLockable: Bool {
+        switch state {
+        case .setup, .locked:
+            return false
+        case .unlocked:
+            return true
+        }
+    }
+    
+    func lock() {
+        let model = context.lockedModel()
+        state = .locked(model)
     }
     
 }
 
 extension ContentModel {
     
-    enum State {
-        
-        case setup(SetupModel)
-        case locked(LoginModel)
-        case unlocked(VaultModel)
-        
-    }
-    
     enum InitialState {
         
         case setup
         case locked
+        
+    }
+    
+    enum State {
+        
+        case setup(SetupModel)
+        case locked(LockedModel)
+        case unlocked(UnlockedModel)
         
     }
     
