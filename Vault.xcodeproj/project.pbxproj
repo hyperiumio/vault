@@ -29,6 +29,7 @@
 		952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
 		953EF2882444BB5B00627B1B /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* Comparable.swift */; };
 		953EF2892444BB5F00627B1B /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* Comparable.swift */; };
+		953EF28B2444BB7D00627B1B /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* Publisher.swift */; };
 		954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */; };
 		95611239243780DD00028F6E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95611238243780DD00028F6E /* LoginView.swift */; };
 		9561123B243780F300028F6E /* VaultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123A243780F300028F6E /* VaultModel.swift */; };
@@ -131,6 +132,7 @@
 		952A237A23F4350100142C38 /* SecureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureData.swift; sourceTree = "<group>"; };
 		952A237E23F44F6700142C38 /* MasterKeyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterKeyContainer.swift; sourceTree = "<group>"; };
 		953EF2872444BB5B00627B1B /* Comparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comparable.swift; sourceTree = "<group>"; };
+		953EF28A2444BB7D00627B1B /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
 		954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGStubTestCase.swift; sourceTree = "<group>"; };
 		95611238243780DD00028F6E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		9561123A243780F300028F6E /* VaultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultModel.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 		95B20B4823BA1C8C005D71CD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				953EF28A2444BB7D00627B1B /* Publisher.swift */,
 				953EF2872444BB5B00627B1B /* Comparable.swift */,
 				952A237823F4320800142C38 /* ContiguousBytesExtension.swift */,
 				95F5193823F15DE200C5ECA9 /* DataExtension.swift */,
@@ -592,6 +595,7 @@
 				95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
+				953EF28B2444BB7D00627B1B /* Publisher.swift in Sources */,
 				95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */,
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
 				956112792438DC9A00028F6E /* ListItem.swift in Sources */,
