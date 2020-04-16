@@ -11,7 +11,7 @@ class UnlockedModel: ObservableObject {
     private let vault: Vault
     
     init(vaultUrl: URL, masterKey: SymmetricKey) {
-        self.vault = Vault(url: vaultUrl, masterKey: masterKey)
+        self.vault = Vault(contentUrl: vaultUrl, masterKey: masterKey)
     }
     
     func createSecureItem(itemType: SecureItemType) {

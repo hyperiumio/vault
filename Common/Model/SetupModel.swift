@@ -15,6 +15,7 @@ class SetupModel: ObservableObject {
             message = nil
         }
     }
+    
     @Published private(set) var isLoading = false
     @Published private(set) var message: Message?
     

@@ -11,7 +11,7 @@ struct VaultItemView: View {
             Divider()
             
             Form {
-                VaultItemElementView(secureItem: model.secureItem)
+                SecureItemView(secureItemModel: model.secureItemModel)
             }
             
             HStack {
@@ -19,7 +19,7 @@ struct VaultItemView: View {
                 Button(.save, action: model.save)
                     .disabled(!model.saveButtonEnabled)
             }
-        }
+        }.disabled(model.isLoading)
     }
     
 }
