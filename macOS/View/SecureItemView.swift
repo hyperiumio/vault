@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct VaultItemElementView: View {
+struct SecureItemView: View {
     
-    let secureItem: VaultItemModel.SecureItem
+    let secureItemModel: SecureItemModel
     
     var body: some View {
-        switch secureItem {
+        switch secureItemModel {
         case .login(let model):
             return LoginView(model: model).eraseToAnyView()
         case .password(let model):

@@ -1,3 +1,5 @@
+import Foundation
+
 enum SecureItem {
     
     case password(Password)
