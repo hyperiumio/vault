@@ -19,7 +19,20 @@ struct VaultItemView: View {
                 Button(.save, action: model.save)
                     .disabled(!model.saveButtonEnabled)
             }
-        }.disabled(model.isLoading)
+        }
+        .disabled(model.isLoading)
+        .alert(item: $model.errorMessage) { error in
+            return .saveFailed
+        }
+    }
+    
+}
+
+extension Alert {
+    
+    static var saveFailed: Self {
+        let saveFailed = Text(.saveFailed)
+        return Alert(title: saveFailed)
     }
     
 }

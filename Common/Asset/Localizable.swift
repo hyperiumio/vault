@@ -12,6 +12,7 @@ extension LocalizedStringKey {
     static let createVault = LocalizedStringKey("CreateVault")
     static let cut = LocalizedStringKey("Cut")
     static let delete = LocalizedStringKey("Delete")
+    static let deleteFailed = LocalizedStringKey("DeleteFailed")
     static let description = LocalizedStringKey("Description")
     static let edit = LocalizedStringKey("Edit")
     static let enterPassword = LocalizedStringKey("EnterPassword")

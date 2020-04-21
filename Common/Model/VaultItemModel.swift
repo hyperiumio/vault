@@ -7,41 +7,34 @@ class VaultItemModel: ObservableObject, Identifiable {
     @Published var secureItemModel: SecureItemModel
     @Published var saveButtonEnabled = false
     @Published var isLoading = false
-    
-    let cancel: () -> Void
-    
-    private let vault: Vault
+    @Published var errorMessage: ErrorMessage?
+        
+    private let saveOperation: SaveOperation
     private var secureItem: SecureItem?
-    
+    private var completionPromise: Future<Completion, Never>.Promise?
     private var childModelSubscription: AnyCancellable?
     private var saveButtonStateSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(vault: Vault, itemType: SecureItemType, cancel: @escaping () -> Void) {
-        switch itemType {
-        case .login:
-            let model = LoginModel()
-            self.secureItemModel = .login(model)
-        case .password:
-            let model = PasswordModel()
-            self.secureItemModel = .password(model)
-        case .file:
-            let model = FileModel(initialState: .empty)
-            self.secureItemModel = .file(model)
-        }
+    init(itemType: SecureItemType, saveOperation: SaveOperation) {
+        self.secureItemModel = SecureItemModel(itemType: itemType)
+        self.saveOperation = saveOperation
         
-        self.vault = vault
-        self.cancel = cancel
-        
-        childModelSubscription = secureItemModel.secureItemPublisher
+        self.childModelSubscription = secureItemModel.secureItemPublisher
             .receive(on: DispatchQueue.main)
             .assign(to: \.secureItem, on: self)
         
-        saveButtonStateSubscription = Publishers.CombineLatest($title, secureItemModel.secureItemPublisher)
+        self.saveButtonStateSubscription = Publishers.CombineLatest($title, secureItemModel.secureItemPublisher)
             .map { title, secureItem in
                 return !title.isEmpty && secureItem != nil
             }
             .assign(to: \.saveButtonEnabled, on: self)
+    }
+    
+    func completion() -> Future<Completion, Never> {
+        return Future { [weak self] promise in
+            self?.completionPromise = promise
+        }
     }
     
     func save() {
@@ -51,17 +44,70 @@ class VaultItemModel: ObservableObject, Identifiable {
         
         isLoading = true
         let vaultItem = VaultItem(title: title, secureItems: [secureItem])
-        saveSubscription = vault.saveOperation().execute(vaultItem: vaultItem)
+        saveSubscription = saveOperation.execute(vaultItem: vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
-                switch result {
-                case .success:
-                    self?.cancel()
-                case .failure:
-                    self?.isLoading = false
+                guard let self = self else {
+                    return
                 }
                 
+                self.isLoading = false
+                switch result {
+                case .success:
+                    let saved = Result<Completion, Never>.success(.saved)
+                    self.completionPromise?(saved)
+                case .failure:
+                    self.errorMessage = .saveOperationFailed
+                }
             }
+    }
+    
+    func cancel() {
+        let canceled = Result<Completion, Never>.success(.canceled)
+        self.completionPromise?(canceled)
+    }
+    
+}
+
+extension VaultItemModel {
+    
+    enum ErrorMessage {
+        
+        case saveOperationFailed
+        
+    }
+    
+    enum Completion {
+        
+        case canceled
+        case saved
+        
+    }
+    
+}
+
+extension VaultItemModel.ErrorMessage: Identifiable  {
+    
+    var id: Self {
+        return self
+    }
+    
+}
+
+private extension SecureItemModel {
+    
+    init(itemType: SecureItemType) {
+        switch itemType {
+        case .login:
+            let model = LoginModel()
+            self = .login(model)
+        case .password:
+            let model = PasswordModel()
+            self = .password(model)
+        case .file:
+            let model = FileModel(initialState: .empty)
+            self = .file(model)
+        }
     }
     
 }
