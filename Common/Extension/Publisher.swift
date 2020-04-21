@@ -2,15 +2,21 @@ import Combine
 
 extension Publisher {
     
-    func result() -> AnyPublisher<Result<Self.Output, Self.Failure>, Never> {
-        return self
-            .map { value in
-                return Result.success(value)
+    func result(receiveResult: @escaping (Result<Output, Failure>) -> Void) -> AnyCancellable {
+        
+        func receiveCompletion(completion: Subscribers.Completion<Failure>) {
+            if case .failure(let error) = completion {
+                let failure = Result<Output, Failure>.failure(error)
+                receiveResult(failure)
             }
-            .catch { error in
-                return Just(Result.failure(error))
-            }
-            .eraseToAnyPublisher()
+        }
+        
+        func receiveValue(value: Output) {
+            let success = Result<Output, Failure>.success(value)
+            receiveResult(success)
+        }
+        
+        return sink(receiveCompletion: receiveCompletion, receiveValue: receiveValue)
     }
     
 }

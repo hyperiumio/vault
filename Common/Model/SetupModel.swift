@@ -46,9 +46,8 @@ class SetupModel: ObservableObject {
         
         isLoading = true
         createMasterKeySubscription = CreateMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
-            .result()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
+            .result { [weak self] result in
                 guard let self = self else {
                     return
                 }

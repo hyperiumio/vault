@@ -52,9 +52,8 @@ class VaultItemModel: ObservableObject, Identifiable {
         isLoading = true
         let vaultItem = VaultItem(title: title, secureItems: [secureItem])
         saveSubscription = vault.saveOperation().execute(vaultItem: vaultItem)
-            .result()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
+            .result { [weak self] result in
                 switch result {
                 case .success:
                     self?.cancel()
