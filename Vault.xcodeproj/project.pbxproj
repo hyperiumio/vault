@@ -474,6 +474,7 @@
 		95B20B4823BA1C8C005D71CD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				9593AAB2244F21FA004740D5 /* Result.swift */,
 				953EF28A2444BB7D00627B1B /* Publisher.swift */,
 				9593AAB2244F21FA004740D5 /* Result.swift */,
 				953EF2872444BB5B00627B1B /* Comparable.swift */,
