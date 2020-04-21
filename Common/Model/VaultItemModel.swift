@@ -50,7 +50,8 @@ class VaultItemModel: ObservableObject, Identifiable {
         }
         
         isLoading = true
-        saveSubscription = vault.save(title: title, secureItems: [secureItem])
+        let vaultItem = VaultItem(title: title, secureItems: [secureItem])
+        saveSubscription = vault.saveOperation().execute(vaultItem: vaultItem)
             .result()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
