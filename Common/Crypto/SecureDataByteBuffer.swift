@@ -121,6 +121,6 @@ private extension Int {
     static let unsignedInteger32BitSize = 4
     static let wrappedKeySize = 40
     static let tagSize = 16
-    static let tagSegmentTagSize = 32
+    static let tagSegmentTagSize = 64
 
 }
