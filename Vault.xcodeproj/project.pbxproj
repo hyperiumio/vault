@@ -120,6 +120,8 @@
 		956112622438DBED00028F6E /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
 		956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
 		95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
+		957D1940245026E700BCA612 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
+		957D1941245026E700BCA612 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
 		957D62F62388221C000577FE /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		9593AAA4244F2170004740D5 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAA0244F216F004740D5 /* DeleteOperation.swift */; };
 		9593AAA5244F2170004740D5 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAA0244F216F004740D5 /* DeleteOperation.swift */; };
@@ -229,6 +231,7 @@
 		9561124124389D6600028F6E /* MainMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		9561124424389EA400028F6E /* NSMenuExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMenuExtension.swift; sourceTree = "<group>"; };
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		957D193F245026E700BCA612 /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
 		957D62F2238815D7000577FE /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		957D62F3238815D7000577FE /* CryptoWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CryptoWrapper.c; sourceTree = "<group>"; };
 		9593AAA0244F216F004740D5 /* DeleteOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteOperation.swift; sourceTree = "<group>"; };
@@ -479,6 +482,7 @@
 				952750FE23F0815300AFE423 /* RangeExtension.swift */,
 				952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */,
 				951C33A124367707002AA4CD /* View.swift */,
+				957D193F245026E700BCA612 /* UUIDExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -671,6 +675,7 @@
 				956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */,
 				9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */,
 				9593AAA5244F2170004740D5 /* DeleteOperation.swift in Sources */,
+				957D1941245026E700BCA612 /* UUIDExtension.swift in Sources */,
 				953EF3032444BF8F00627B1B /* UnlockedView.swift in Sources */,
 				956112592438DBE100028F6E /* File.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
@@ -753,6 +758,7 @@
 				953EF2B52444BED800627B1B /* SetupModel.swift in Sources */,
 				95D29368240826FE00FDD6F4 /* LoginCoding.swift in Sources */,
 				9593AAB0244F21DC004740D5 /* VaultItem.swift in Sources */,
+				957D1940245026E700BCA612 /* UUIDExtension.swift in Sources */,
 				953EF2D22444BF1C00627B1B /* FileStateCopyingView.swift in Sources */,
 				95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */,
 				953EF2E02444BF1C00627B1B /* SecureItemView.swift in Sources */,

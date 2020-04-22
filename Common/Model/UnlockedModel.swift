@@ -101,14 +101,6 @@ extension UnlockedModel {
     
 }
 
-extension UUID: Identifiable {
-    
-    public var id: Self {
-        return self
-    }
-    
-}
-
 extension UnlockedModel.ErrorMessage: Identifiable {
     
     var id: Self {
