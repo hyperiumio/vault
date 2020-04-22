@@ -11,7 +11,7 @@
 		951C3396243633F5002AA4CD /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
 		951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */; };
 		951C33A024364965002AA4CD /* FileExistsPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C339F24364965002AA4CD /* FileExistsPublisher.swift */; };
-		951C33A224367707002AA4CD /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* View.swift */; };
+		951C33A224367707002AA4CD /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* ViewExtension.swift */; };
 		951C33A524367786002AA4CD /* ApplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A424367786002AA4CD /* ApplicationController.swift */; };
 		951C33A724367A64002AA4CD /* ContentWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A624367A64002AA4CD /* ContentWindowController.swift */; };
 		952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
@@ -19,9 +19,9 @@
 		952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
 		952A237B23F4350100142C38 /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
-		953EF2882444BB5B00627B1B /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* Comparable.swift */; };
-		953EF2892444BB5F00627B1B /* Comparable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* Comparable.swift */; };
-		953EF28B2444BB7D00627B1B /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* Publisher.swift */; };
+		953EF2882444BB5B00627B1B /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
+		953EF2892444BB5F00627B1B /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
+		953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* PublisherExtension.swift */; };
 		953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28C2444BC1800627B1B /* SecureItem.swift */; };
 		953EF28F2444BC1800627B1B /* SecureItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28D2444BC1800627B1B /* SecureItemType.swift */; };
 		953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28C2444BC1800627B1B /* SecureItem.swift */; };
@@ -36,7 +36,7 @@
 		953EF29F2444BDF100627B1B /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2982444BDF100627B1B /* FileModel.swift */; };
 		953EF2A02444BDF100627B1B /* FileStateLoadedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2992444BDF100627B1B /* FileStateLoadedModel.swift */; };
 		953EF2A12444BDF100627B1B /* FileStateLoadedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2992444BDF100627B1B /* FileStateLoadedModel.swift */; };
-		953EF2A22444BE0500627B1B /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* Publisher.swift */; };
+		953EF2A22444BE0500627B1B /* PublisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* PublisherExtension.swift */; };
 		953EF2AD2444BED800627B1B /* PasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A62444BED700627B1B /* PasswordModel.swift */; };
 		953EF2AE2444BED800627B1B /* PasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A62444BED700627B1B /* PasswordModel.swift */; };
 		953EF2AF2444BED800627B1B /* UnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A72444BED700627B1B /* UnlockedModel.swift */; };
@@ -115,7 +115,7 @@
 		9561125D2438DBE700028F6E /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193823F15DE200C5ECA9 /* DataExtension.swift */; };
 		9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		9561125F2438DBE700028F6E /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
-		956112602438DBE700028F6E /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* View.swift */; };
+		956112602438DBE700028F6E /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* ViewExtension.swift */; };
 		956112612438DBED00028F6E /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		956112622438DBED00028F6E /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
 		956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
@@ -133,8 +133,8 @@
 		9593AAAE244F21B9004740D5 /* VaultItemInfoCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAAC244F21B9004740D5 /* VaultItemInfoCoding.swift */; };
 		9593AAB0244F21DC004740D5 /* VaultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAAF244F21DC004740D5 /* VaultItem.swift */; };
 		9593AAB1244F21DC004740D5 /* VaultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAAF244F21DC004740D5 /* VaultItem.swift */; };
-		9593AAB3244F21FA004740D5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* Result.swift */; };
-		9593AAB4244F21FA004740D5 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* Result.swift */; };
+		9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
+		9593AAB4244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		9593AAB6244F221D004740D5 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
 		9593AAB7244F221D004740D5 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
 		95A0A37E2448707D00815F9B /* SecureItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A550A524486F0700F061AB /* SecureItemModel.swift */; };
@@ -183,7 +183,7 @@
 		951C3395243633F5002AA4CD /* Vault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMasterKeyPublisher.swift; sourceTree = "<group>"; };
 		951C339F24364965002AA4CD /* FileExistsPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExistsPublisher.swift; sourceTree = "<group>"; };
-		951C33A124367707002AA4CD /* View.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		951C33A124367707002AA4CD /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		951C33A424367786002AA4CD /* ApplicationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationController.swift; sourceTree = "<group>"; };
 		951C33A624367A64002AA4CD /* ContentWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentWindowController.swift; sourceTree = "<group>"; };
 		952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedIntegerExtension.swift; sourceTree = "<group>"; };
@@ -191,8 +191,8 @@
 		952A237823F4320800142C38 /* ContiguousBytesExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContiguousBytesExtension.swift; sourceTree = "<group>"; };
 		952A237A23F4350100142C38 /* SecureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureData.swift; sourceTree = "<group>"; };
 		952A237E23F44F6700142C38 /* MasterKeyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterKeyContainer.swift; sourceTree = "<group>"; };
-		953EF2872444BB5B00627B1B /* Comparable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comparable.swift; sourceTree = "<group>"; };
-		953EF28A2444BB7D00627B1B /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		953EF2872444BB5B00627B1B /* ComparableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComparableExtension.swift; sourceTree = "<group>"; };
+		953EF28A2444BB7D00627B1B /* PublisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherExtension.swift; sourceTree = "<group>"; };
 		953EF28C2444BC1800627B1B /* SecureItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItem.swift; sourceTree = "<group>"; };
 		953EF28D2444BC1800627B1B /* SecureItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemType.swift; sourceTree = "<group>"; };
 		953EF2922444BD2000627B1B /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -239,7 +239,7 @@
 		9593AAA3244F2170004740D5 /* LoadOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadOperation.swift; sourceTree = "<group>"; };
 		9593AAAC244F21B9004740D5 /* VaultItemInfoCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemInfoCoding.swift; sourceTree = "<group>"; };
 		9593AAAF244F21DC004740D5 /* VaultItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItem.swift; sourceTree = "<group>"; };
-		9593AAB2244F21FA004740D5 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		9593AAB2244F21FA004740D5 /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
 		9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCryptor.swift; sourceTree = "<group>"; };
 		95A550A524486F0700F061AB /* SecureItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemModel.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -474,14 +474,14 @@
 		95B20B4823BA1C8C005D71CD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				953EF28A2444BB7D00627B1B /* Publisher.swift */,
-				9593AAB2244F21FA004740D5 /* Result.swift */,
-				953EF2872444BB5B00627B1B /* Comparable.swift */,
+				953EF28A2444BB7D00627B1B /* PublisherExtension.swift */,
+				9593AAB2244F21FA004740D5 /* ResultExtension.swift */,
+				953EF2872444BB5B00627B1B /* ComparableExtension.swift */,
 				952A237823F4320800142C38 /* ContiguousBytesExtension.swift */,
 				95F5193823F15DE200C5ECA9 /* DataExtension.swift */,
 				952750FE23F0815300AFE423 /* RangeExtension.swift */,
 				952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */,
-				951C33A124367707002AA4CD /* View.swift */,
+				951C33A124367707002AA4CD /* ViewExtension.swift */,
 				957D193F245026E700BCA612 /* UUIDExtension.swift */,
 			);
 			path = Extension;
@@ -663,12 +663,12 @@
 				9561125D2438DBE700028F6E /* DataExtension.swift in Sources */,
 				953EF2F52444BF8F00627B1B /* ActivityIndicator.swift in Sources */,
 				9593AAB1244F21DC004740D5 /* VaultItem.swift in Sources */,
-				9593AAB4244F21FA004740D5 /* Result.swift in Sources */,
-				956112602438DBE700028F6E /* View.swift in Sources */,
+				9593AAB4244F21FA004740D5 /* ResultExtension.swift in Sources */,
+				956112602438DBE700028F6E /* ViewExtension.swift in Sources */,
 				953EF2AE2444BED800627B1B /* PasswordModel.swift in Sources */,
 				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
 				953EF2F62444BF8F00627B1B /* ContentView.swift in Sources */,
-				953EF2892444BB5F00627B1B /* Comparable.swift in Sources */,
+				953EF2892444BB5F00627B1B /* ComparableExtension.swift in Sources */,
 				953EF2F82444BF8F00627B1B /* FileStateEmptyView.swift in Sources */,
 				9561125F2438DBE700028F6E /* UnsignedIntegerExtension.swift in Sources */,
 				95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */,
@@ -735,7 +735,7 @@
 				95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */,
 				953EF2FF2444BF8F00627B1B /* MenuItem.swift in Sources */,
 				9561125A2438DBE100028F6E /* Login.swift in Sources */,
-				953EF2A22444BE0500627B1B /* Publisher.swift in Sources */,
+				953EF2A22444BE0500627B1B /* PublisherExtension.swift in Sources */,
 				9593AAB7244F221D004740D5 /* VaultItemCryptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -764,7 +764,7 @@
 				953EF2E02444BF1C00627B1B /* SecureItemView.swift in Sources */,
 				953EF29A2444BDF100627B1B /* FileStateEmptyModel.swift in Sources */,
 				953EF2EC2444BF1C00627B1B /* SetupView.swift in Sources */,
-				953EF2882444BB5B00627B1B /* Comparable.swift in Sources */,
+				953EF2882444BB5B00627B1B /* ComparableExtension.swift in Sources */,
 				953EF2AD2444BED800627B1B /* PasswordModel.swift in Sources */,
 				953EF2E42444BF1C00627B1B /* FileStateLoadedView.swift in Sources */,
 				953EF2D42444BF1C00627B1B /* ListItem.swift in Sources */,
@@ -775,7 +775,7 @@
 				95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */,
 				952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */,
 				952A237B23F4350100142C38 /* SecureData.swift in Sources */,
-				9593AAB3244F21FA004740D5 /* Result.swift in Sources */,
+				9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */,
 				95D293412408247100FDD6F4 /* File.swift in Sources */,
 				95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */,
 				952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */,
@@ -796,7 +796,7 @@
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
 				9593AAAD244F21B9004740D5 /* VaultItemInfoCoding.swift in Sources */,
-				953EF28B2444BB7D00627B1B /* Publisher.swift in Sources */,
+				953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */,
 				953EF2DA2444BF1C00627B1B /* VaultItemView.swift in Sources */,
 				95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */,
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
@@ -815,7 +815,7 @@
 				953EF2E82444BF1C00627B1B /* ActivityIndicator.swift in Sources */,
 				95D29367240826FE00FDD6F4 /* FileCoding.swift in Sources */,
 				953EF2A02444BDF100627B1B /* FileStateLoadedModel.swift in Sources */,
-				951C33A224367707002AA4CD /* View.swift in Sources */,
+				951C33A224367707002AA4CD /* ViewExtension.swift in Sources */,
 				951C3396243633F5002AA4CD /* Vault.swift in Sources */,
 				9561124224389D6600028F6E /* MainMenuController.swift in Sources */,
 				953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */,
