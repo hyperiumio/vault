@@ -9,6 +9,7 @@
 "CreatePasswordAdvice" = "Don't use a short master password with alot of hard to remember special characters. Instead use an easy to remember, long password.";
 "CreateVault" = "Create new vault";
 "Delete" = "Delete";
+"DeleteFailed" = "Vault could not delete item";
 "Description" = "Description";
 "EnterPassword" = "Enter Your Master Password";
 "Edit" = "Edit";
@@ -27,6 +28,7 @@
 "IncludeDigits" = "Include Digits";
 "IncludeSpecialCharacters" = "Include Special Characters";
 "Length" = "Length";
+"LoadFailed" = "Vault could not be loaded";
 "Lock" = "Lock";
 "Login" = "Login";
 "MasterPassword" = "Master Password";
@@ -42,8 +44,10 @@
 "QuitApp" = "Quit Vault";
 "Redo" = "Redo";
 "RepeatPassword" = "Repeat Master Password";
+"Retry" = "Retry";
 "ReusePasswordAdvice" = "Never reuse a password. Never ever.";
 "Save" = "Save";
+"SaveFailed" = "Vault could not save item";
 "Search" = "Search";
 "SelectAll" = "Select All";
 "ShowAll" = "Show All";

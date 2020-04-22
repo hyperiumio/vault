@@ -34,9 +34,8 @@ class LockedModel: ObservableObject {
         message = nil
         isLoading = true
         decodeMasterKeySubscription = DecodeMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
-            .result()
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
+            .result { [weak self] result in
                 guard let self = self else {
                     return
                 }

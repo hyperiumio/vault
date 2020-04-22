@@ -43,9 +43,8 @@ class FileModel: ObservableObject, Identifiable {
         switch fileState {
         case .empty(let model):
             stateTransitionSubscription = model.didReceiveUrl
-                .result()
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] result in
+                .result { [weak self] result in
                     guard let self = self else {
                         return
                     }
@@ -60,9 +59,8 @@ class FileModel: ObservableObject, Identifiable {
                 }
         case .copying(let model):
             stateTransitionSubscription = model.didReceiveData
-                .result()
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] result in
+                .result { [weak self] result in
                     guard let self = self else {
                         return
                     }

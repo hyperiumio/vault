@@ -98,7 +98,6 @@
 		9561124B2438DBD100028F6E /* DecodeMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123E2437D45D00028F6E /* DecodeMasterKeyPublisher.swift */; };
 		9561124C2438DBD100028F6E /* FileExistsPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C339F24364965002AA4CD /* FileExistsPublisher.swift */; };
 		9561124D2438DBD700028F6E /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
-		9561124E2438DBD700028F6E /* SecureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936F24082FAF00FDD6F4 /* SecureContainer.swift */; };
 		9561124F2438DBDA00028F6E /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
 		956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		956112512438DBDA00028F6E /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
@@ -159,7 +158,6 @@
 		95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */; };
 		95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
-		95D2937024082FAF00FDD6F4 /* SecureContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936F24082FAF00FDD6F4 /* SecureContainer.swift */; };
 		95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
 		95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
 		95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
@@ -262,7 +260,6 @@
 		95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureContainerItemCoding.swift; sourceTree = "<group>"; };
 		95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBuffer.swift; sourceTree = "<group>"; };
 		95D2936C2408293400FDD6F4 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
-		95D2936F24082FAF00FDD6F4 /* SecureContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureContainer.swift; sourceTree = "<group>"; };
 		95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBufferContext.swift; sourceTree = "<group>"; };
 		95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
 		95F5193823F15DE200C5ECA9 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
@@ -474,8 +471,8 @@
 		95B20B4823BA1C8C005D71CD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				9593AAB2244F21FA004740D5 /* Result.swift */,
 				953EF28A2444BB7D00627B1B /* Publisher.swift */,
+				9593AAB2244F21FA004740D5 /* Result.swift */,
 				953EF2872444BB5B00627B1B /* Comparable.swift */,
 				952A237823F4320800142C38 /* ContiguousBytesExtension.swift */,
 				95F5193823F15DE200C5ECA9 /* DataExtension.swift */,
@@ -531,7 +528,6 @@
 				9593AAA3244F2170004740D5 /* LoadOperation.swift */,
 				9593AAA2244F216F004740D5 /* SaveOperation.swift */,
 				951C3395243633F5002AA4CD /* Vault.swift */,
-				95D2936F24082FAF00FDD6F4 /* SecureContainer.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -710,7 +706,6 @@
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
 				956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */,
 				953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */,
-				9561124E2438DBD700028F6E /* SecureContainer.swift in Sources */,
 				956112612438DBED00028F6E /* SecureData.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
 				956112562438DBDE00028F6E /* SecureContainerItemCoding.swift in Sources */,
@@ -746,7 +741,6 @@
 			files = (
 				953EF2AF2444BED800627B1B /* UnlockedModel.swift in Sources */,
 				953EF2EA2444BF1C00627B1B /* PasswordView.swift in Sources */,
-				95D2937024082FAF00FDD6F4 /* SecureContainer.swift in Sources */,
 				953EF2D62444BF1C00627B1B /* ContentView.swift in Sources */,
 				953EF2B12444BED800627B1B /* VaultItemModel.swift in Sources */,
 				953EF29C2444BDF100627B1B /* FileStateCopyingModel.swift in Sources */,

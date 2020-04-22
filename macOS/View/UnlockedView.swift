@@ -10,30 +10,72 @@ struct UnlockedView: View {
                 TextField(.search, text: $model.searchText)
                 
                 List(model.items) { item in
-                    return NavigationLink(destination: Text("Detail")) {
+                    NavigationLink(destination: DetailView()) {
                         ListItem(title: item.title, iconName: item.iconName)
+                            
+                    }
+                    .contextMenu {
+                        Button(.delete) {
+                            self.model.requestDelete(id: item.id)
+                        }
                     }
                 }
                 
                 MenuButton(.addItem) {
                     MenuItem(titleKey: .login) {
-                        self.model.createSecureItem(itemType: .login)
+                        self.model.createVaultItem(itemType: .login)
                     }
                     
                     MenuItem(titleKey: .password) {
-                        self.model.createSecureItem(itemType: .password)
+                        self.model.createVaultItem(itemType: .password)
                     }
                     
                     MenuItem(titleKey: .file) {
-                        self.model.createSecureItem(itemType: .file)
+                        self.model.createVaultItem(itemType: .file)
                     }
-                }.menuButtonStyle(BorderlessButtonMenuButtonStyle())
+                }
+                .menuButtonStyle(BorderlessButtonMenuButtonStyle())
+                .sheet(item: $model.newVaultItemModel) { model in
+                    VaultItemView(model: model)
+                }
             }.frame(minWidth: 200)
         }
         .frame(minWidth: 500, minHeight: 500)
-        .sheet(item: $model.newVaultItemModel) { model in
-            VaultItemView(model: model)
+        .onAppear(perform: model.load)
+        .alert(item: $model.errorMessage) { errorMessage in
+            switch errorMessage {
+            case .loadOperationFailed:
+                return .loadFailed(retry: model.load)
+            case .deleteOperationFailed:
+                return .deleteFailed()
+            }
+            
         }
+    }
+    
+}
+
+struct DetailView: View {
+    
+    var body: some View {
+        return Text("Detail").frame(minWidth:300, maxWidth: .infinity, maxHeight: .infinity)
+    }
+    
+}
+
+extension Alert {
+    
+    static func loadFailed(retry: @escaping () -> Void) -> Self {
+        let loadFail = Text(.loadFailed)
+        let retryText = Text(.retry)
+        let retry = Alert.Button.default(retryText, action: retry)
+        let cancel = Alert.Button.cancel()
+        return Alert(title: loadFail, primaryButton: retry, secondaryButton: cancel)
+    }
+    
+    static func deleteFailed() -> Self {
+        let deleteFailed = Text(.deleteFailed)
+        return Alert(title: deleteFailed)
     }
     
 }
