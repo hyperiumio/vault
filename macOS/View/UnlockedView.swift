@@ -21,23 +21,10 @@ struct UnlockedView: View {
                     }
                 }
                 
-                MenuButton(.addItem) {
-                    MenuItem(titleKey: .login) {
-                        self.model.createVaultItem(itemType: .login)
+                CreateVaultItemButton(action: model.createVaultItem)
+                    .sheet(item: $model.newVaultItemModel) { model in
+                        VaultItemView(model: model)
                     }
-                    
-                    MenuItem(titleKey: .password) {
-                        self.model.createVaultItem(itemType: .password)
-                    }
-                    
-                    MenuItem(titleKey: .file) {
-                        self.model.createVaultItem(itemType: .file)
-                    }
-                }
-                .menuButtonStyle(BorderlessButtonMenuButtonStyle())
-                .sheet(item: $model.newVaultItemModel) { model in
-                    VaultItemView(model: model)
-                }
             }.frame(minWidth: 200)
         }
         .frame(minWidth: 500, minHeight: 500)

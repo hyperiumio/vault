@@ -122,6 +122,8 @@
 		95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		957D1940245026E700BCA612 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
 		957D1941245026E700BCA612 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
+		957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D1942245027E500BCA612 /* CreateVaultItemButton.swift */; };
+		957D1944245027E500BCA612 /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D1942245027E500BCA612 /* CreateVaultItemButton.swift */; };
 		957D62F62388221C000577FE /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
 		9593AAA4244F2170004740D5 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAA0244F216F004740D5 /* DeleteOperation.swift */; };
 		9593AAA5244F2170004740D5 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAA0244F216F004740D5 /* DeleteOperation.swift */; };
@@ -232,6 +234,7 @@
 		9561124424389EA400028F6E /* NSMenuExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMenuExtension.swift; sourceTree = "<group>"; };
 		9573BFB72365A8A0002BA8C5 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		957D193F245026E700BCA612 /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
+		957D1942245027E500BCA612 /* CreateVaultItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemButton.swift; sourceTree = "<group>"; };
 		957D62F2238815D7000577FE /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		957D62F3238815D7000577FE /* CryptoWrapper.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = CryptoWrapper.c; sourceTree = "<group>"; };
 		9593AAA0244F216F004740D5 /* DeleteOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteOperation.swift; sourceTree = "<group>"; };
@@ -359,6 +362,7 @@
 				953EF2C32444BF1C00627B1B /* UnlockedView.swift */,
 				953EF2C72444BF1C00627B1B /* SecureItemView.swift */,
 				953EF2C42444BF1C00627B1B /* VaultItemView.swift */,
+				957D1942245027E500BCA612 /* CreateVaultItemButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -709,6 +713,7 @@
 				953EF2B02444BED800627B1B /* UnlockedModel.swift in Sources */,
 				9561124B2438DBD100028F6E /* DecodeMasterKeyPublisher.swift in Sources */,
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
+				957D1944245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */,
 				953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */,
 				956112612438DBED00028F6E /* SecureData.swift in Sources */,
@@ -793,6 +798,7 @@
 				95D293422408247100FDD6F4 /* Password.swift in Sources */,
 				95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */,
 				953EF2B72444BED800627B1B /* LoginModel.swift in Sources */,
+				957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
 				9593AAAD244F21B9004740D5 /* VaultItemInfoCoding.swift in Sources */,
