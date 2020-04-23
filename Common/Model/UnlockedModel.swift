@@ -6,7 +6,7 @@ class UnlockedModel: ObservableObject {
     
     @Published var searchText: String = ""
     @Published private(set) var items: [Item] = []
-    @Published var newVaultItemModel: VaultItemModel?
+    @Published var newVaultItemModel: VaultItemEditModel?
     @Published var errorMessage: ErrorMessage?
     
     private let vault: Vault
@@ -40,7 +40,7 @@ class UnlockedModel: ObservableObject {
     
     func createVaultItem(itemType: SecureItemType) {
         let saveOperation = vault.saveOperation()
-        let vaultItemModel = VaultItemModel(itemType: itemType, saveOperation: saveOperation)
+        let vaultItemModel = VaultItemEditModel(itemType: itemType, saveOperation: saveOperation)
         
         vaultItemModelCompletionSubscription = vaultItemModel.completion()
             .sink { [weak self] completion in
