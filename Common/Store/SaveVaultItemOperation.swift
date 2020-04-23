@@ -2,7 +2,7 @@ import Combine
 import CryptoKit
 import Foundation
 
-struct SaveOperation {
+struct SaveVaultItemOperation {
     
     let contentUrl: URL
     let masterKey: SymmetricKey

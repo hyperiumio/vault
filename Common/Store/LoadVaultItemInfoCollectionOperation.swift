@@ -2,7 +2,7 @@ import Combine
 import CryptoKit
 import Foundation
 
-struct LoadOperation {
+struct LoadVaultItemInfoCollectionOperation {
     
     let contentUrl: URL
     let masterKey: SymmetricKey

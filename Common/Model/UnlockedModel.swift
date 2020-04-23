@@ -19,7 +19,7 @@ class UnlockedModel: ObservableObject {
     }
     
     func load() {
-        loadOperationSubscription = vault.loadOperation().execute()
+        loadOperationSubscription = vault.loadVaultItemInfoCollectionOperation().execute()
             .map { infos in
                 return infos.map(Item.init)
             }
@@ -39,7 +39,7 @@ class UnlockedModel: ObservableObject {
     }
     
     func createVaultItem(itemType: SecureItemType) {
-        let saveOperation = vault.saveOperation()
+        let saveOperation = vault.saveVaultItemOperation()
         let vaultItemModel = VaultItemEditModel(itemType: itemType, saveOperation: saveOperation)
         
         vaultItemModelCompletionSubscription = vaultItemModel.completion()
@@ -58,7 +58,7 @@ class UnlockedModel: ObservableObject {
     }
     
     func requestDelete(id: UUID) {
-        deleteOperationSubscription = vault.deleteOperation().execute(itemIds: [id])
+        deleteOperationSubscription = vault.deleteVaultItemCollectionOperation().execute(itemIds: [id])
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
