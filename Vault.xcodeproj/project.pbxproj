@@ -105,7 +105,7 @@
 		956112532438DBDE00028F6E /* FileCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29363240826FE00FDD6F4 /* FileCoding.swift */; };
 		956112542438DBDE00028F6E /* LoginCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29364240826FE00FDD6F4 /* LoginCoding.swift */; };
 		956112552438DBDE00028F6E /* PasswordCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29362240826FE00FDD6F4 /* PasswordCoding.swift */; };
-		956112562438DBDE00028F6E /* SecureContainerItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */; };
+		956112562438DBDE00028F6E /* SecureItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */; };
 		956112572438DBDE00028F6E /* CodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D293572408259D00FDD6F4 /* CodingError.swift */; };
 		956112582438DBDE00028F6E /* UnsignedInteger32BitCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */; };
 		956112592438DBE100028F6E /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933D2408247000FDD6F4 /* File.swift */; };
@@ -159,7 +159,7 @@
 		95D29366240826FE00FDD6F4 /* PasswordCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29362240826FE00FDD6F4 /* PasswordCoding.swift */; };
 		95D29367240826FE00FDD6F4 /* FileCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29363240826FE00FDD6F4 /* FileCoding.swift */; };
 		95D29368240826FE00FDD6F4 /* LoginCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29364240826FE00FDD6F4 /* LoginCoding.swift */; };
-		95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */; };
+		95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */; };
 		95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
 		95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
@@ -263,7 +263,7 @@
 		95D29362240826FE00FDD6F4 /* PasswordCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordCoding.swift; sourceTree = "<group>"; };
 		95D29363240826FE00FDD6F4 /* FileCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCoding.swift; sourceTree = "<group>"; };
 		95D29364240826FE00FDD6F4 /* LoginCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginCoding.swift; sourceTree = "<group>"; };
-		95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureContainerItemCoding.swift; sourceTree = "<group>"; };
+		95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemCoding.swift; sourceTree = "<group>"; };
 		95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBuffer.swift; sourceTree = "<group>"; };
 		95D2936C2408293400FDD6F4 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
 		95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBufferContext.swift; sourceTree = "<group>"; };
@@ -511,7 +511,7 @@
 				95D29363240826FE00FDD6F4 /* FileCoding.swift */,
 				95D29364240826FE00FDD6F4 /* LoginCoding.swift */,
 				95D29362240826FE00FDD6F4 /* PasswordCoding.swift */,
-				95D29365240826FE00FDD6F4 /* SecureContainerItemCoding.swift */,
+				95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */,
 				95D293572408259D00FDD6F4 /* CodingError.swift */,
 				95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */,
 			);
@@ -718,7 +718,7 @@
 				953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */,
 				956112612438DBED00028F6E /* SecureData.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
-				956112562438DBDE00028F6E /* SecureContainerItemCoding.swift in Sources */,
+				956112562438DBDE00028F6E /* SecureItemCoding.swift in Sources */,
 				953EF2B42444BED800627B1B /* LockedModel.swift in Sources */,
 				953EF2B62444BED800627B1B /* SetupModel.swift in Sources */,
 				956112572438DBDE00028F6E /* CodingError.swift in Sources */,
@@ -777,7 +777,7 @@
 				953EF2B92444BED800627B1B /* ContentModel.swift in Sources */,
 				9593AAAA244F2170004740D5 /* LoadVaultItemInfoCollectionOperation.swift in Sources */,
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
-				95D29369240826FE00FDD6F4 /* SecureContainerItemCoding.swift in Sources */,
+				95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */,
 				952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */,
 				952A237B23F4350100142C38 /* SecureData.swift in Sources */,
 				9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */,

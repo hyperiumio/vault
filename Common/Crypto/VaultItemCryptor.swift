@@ -8,7 +8,7 @@ struct VaultItemCryptor {
     func encode(_ vaultItem: VaultItem) throws -> Data {
         let encodedVaultItemInfo = try VaultItemInfoEncode(vaultItem.info)
         let encodedSecureItems = try vaultItem.secureItems.map { vaultItem in
-            return try SecureContainerItemEncode(vaultItem)
+            return try SecureItemEncode(vaultItem)
         }
         let messages = [encodedVaultItemInfo] + encodedSecureItems
         
