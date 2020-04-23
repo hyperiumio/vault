@@ -35,6 +35,8 @@ class UnlockedModel: ObservableObject {
                 case .failure:
                     self.errorMessage = .loadOperationFailed
                 }
+                
+                self.loadOperationSubscription = nil
             }
     }
     
