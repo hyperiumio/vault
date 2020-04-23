@@ -9,14 +9,14 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
         
-    private let saveOperation: SaveOperation
+    private let saveOperation: SaveVaultItemOperation
     private var secureItem: SecureItem?
     private var completionPromise: Future<Completion, Never>.Promise?
     private var childModelSubscription: AnyCancellable?
     private var saveButtonStateSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(itemType: SecureItemType, saveOperation: SaveOperation) {
+    init(itemType: SecureItemType, saveOperation: SaveVaultItemOperation) {
         self.secureItemModel = SecureItemModel(itemType: itemType)
         self.saveOperation = saveOperation
         

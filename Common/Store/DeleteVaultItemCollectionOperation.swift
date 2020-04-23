@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-struct DeleteOperation {
+struct DeleteVaultItemCollectionOperation {
     
     let contentUrl: URL
     let serialQueue: DispatchQueue

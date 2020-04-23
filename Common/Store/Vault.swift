@@ -9,16 +9,16 @@ struct Vault {
     
     private let serialQueue = DispatchQueue(label: "VaultSerialQueue")
     
-    func loadOperation() -> LoadOperation {
-        return LoadOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    func loadVaultItemInfoCollectionOperation() -> LoadVaultItemInfoCollectionOperation {
+        return LoadVaultItemInfoCollectionOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
     }
     
-    func saveOperation() -> SaveOperation {
-        return SaveOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    func saveVaultItemOperation() -> SaveVaultItemOperation {
+        return SaveVaultItemOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
     }
     
-    func deleteOperation() -> DeleteOperation {
-        return DeleteOperation(contentUrl: contentUrl, serialQueue: serialQueue)
+    func deleteVaultItemCollectionOperation() -> DeleteVaultItemCollectionOperation {
+        return DeleteVaultItemCollectionOperation(contentUrl: contentUrl, serialQueue: serialQueue)
     }
     
 }
