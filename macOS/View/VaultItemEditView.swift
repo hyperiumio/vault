@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct VaultItemView: View {
+struct VaultItemEditView: View {
     
     @ObservedObject var model: VaultItemEditModel
     

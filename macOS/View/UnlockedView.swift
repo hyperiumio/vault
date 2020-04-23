@@ -23,7 +23,7 @@ struct UnlockedView: View {
                 
                 CreateVaultItemButton(action: model.createVaultItem)
                     .sheet(item: $model.newVaultItemModel) { model in
-                        VaultItemView(model: model)
+                        VaultItemEditView(model: model)
                     }
             }.frame(minWidth: 200)
         }
