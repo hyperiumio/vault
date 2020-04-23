@@ -2,7 +2,7 @@ import Combine
 import CryptoKit
 import Foundation
 
-func CreateMasterKeyPublisher(masterKeyUrl: URL, password: String) -> AnyPublisher<SymmetricKey, Error> {
+func CreateMasterKeyPublisher(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
     return Future { promise in
         DispatchQueue.global().async {
             do {
@@ -21,7 +21,7 @@ func CreateMasterKeyPublisher(masterKeyUrl: URL, password: String) -> AnyPublish
                 promise(result)
             }
         }
-    }.eraseToAnyPublisher()
+    }
 }
 
 private extension Int {

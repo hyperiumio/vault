@@ -22,13 +22,17 @@ class VaultItemEditModel: ObservableObject, Identifiable {
         
         self.childModelSubscription = secureItemModel.secureItemPublisher
             .receive(on: DispatchQueue.main)
-            .assign(to: \.secureItem, on: self)
+            .sink { [weak self] secureItem in
+                self?.secureItem = secureItem
+            }
         
         self.saveButtonStateSubscription = Publishers.CombineLatest($title, secureItemModel.secureItemPublisher)
             .map { title, secureItem in
                 return !title.isEmpty && secureItem != nil
             }
-            .assign(to: \.saveButtonEnabled, on: self)
+            .sink { [weak self] saveButtonEnabled in
+                self?.saveButtonEnabled = saveButtonEnabled
+            }
     }
     
     func completion() -> Future<Completion, Never> {

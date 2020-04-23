@@ -11,12 +11,17 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         launchStateSubscription = FileExistsPublisher(url: .masterKey)
             .receive(on: DispatchQueue.main)
-            .sink { [contentWindowController, contentModelContext] masterKeyExists in
-                let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-                let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
-                let contentView = ContentView(model: contentModel)
-                contentWindowController.showWindow(contentView: contentView)
+            .sink { [weak self] masterKeyExists in
+                guard let self = self else {
+                    return
+                }
                 
+                let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
+                let contentModel = ContentModel(initialState: initialState, context: self.contentModelContext)
+                let contentView = ContentView(model: contentModel)
+                self.contentWindowController.showWindow(contentView: contentView)
+                
+                self.launchStateSubscription = nil
             }
     }
     

@@ -2,8 +2,8 @@ import Combine
 import CryptoKit
 import Foundation
 
-func DecodeMasterKeyPublisher(masterKeyUrl: URL, password: String) -> AnyPublisher<SymmetricKey, Error> {
-    return Future { promise in
+func DecodeMasterKeyPublisher(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
+    let result = Future<SymmetricKey, Error> { promise in
         DispatchQueue.global().async {
             do {
                 let encodedMasterKeyContainer = try Data(contentsOf: masterKeyUrl)
@@ -15,5 +15,7 @@ func DecodeMasterKeyPublisher(masterKeyUrl: URL, password: String) -> AnyPublish
                 promise(result)
             }
         }
-    }.eraseToAnyPublisher()
+    }
+
+    return result
 }

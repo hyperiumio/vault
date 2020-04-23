@@ -47,6 +47,8 @@ class LockedModel: ObservableObject {
                 case .failure:
                     self.message = .invalidPassword
                 }
+                
+                self.decodeMasterKeySubscription = nil
             }
     }
     
