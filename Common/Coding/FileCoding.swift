@@ -15,15 +15,13 @@ func FileEncode(_ file: File) throws -> Data {
 func FileDecode(data: Data) throws -> File {
     do {
         let container = try DataContainer.decode(data: data)
-        let attributesIndex = 0
-        let fileDataIndex = 1
         
-        guard let encodedAttributes = container[attributesIndex] else {
+        guard let encodedAttributes = container[.attributesIndex] else {
             throw CodingError.decodingFailed
         }
         let attributes = try JSONDecoder().decode(File.Attributes.self, from: encodedAttributes)
         
-        guard let fileData = container[fileDataIndex] else {
+        guard let fileData = container[.fileDataIndex] else {
             throw CodingError.decodingFailed
         }
         
@@ -31,4 +29,11 @@ func FileDecode(data: Data) throws -> File {
     } catch {
         throw CodingError.encodingFailed
     }
+}
+
+private extension Int {
+    
+    static let attributesIndex = 0
+    static let fileDataIndex = 1
+    
 }
