@@ -41,8 +41,8 @@
 		953EF2AE2444BED800627B1B /* PasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A62444BED700627B1B /* PasswordModel.swift */; };
 		953EF2AF2444BED800627B1B /* UnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A72444BED700627B1B /* UnlockedModel.swift */; };
 		953EF2B02444BED800627B1B /* UnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A72444BED700627B1B /* UnlockedModel.swift */; };
-		953EF2B12444BED800627B1B /* VaultItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A82444BED700627B1B /* VaultItemModel.swift */; };
-		953EF2B22444BED800627B1B /* VaultItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A82444BED700627B1B /* VaultItemModel.swift */; };
+		953EF2B12444BED800627B1B /* VaultItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A82444BED700627B1B /* VaultItemEditModel.swift */; };
+		953EF2B22444BED800627B1B /* VaultItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A82444BED700627B1B /* VaultItemEditModel.swift */; };
 		953EF2B32444BED800627B1B /* LockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A92444BED700627B1B /* LockedModel.swift */; };
 		953EF2B42444BED800627B1B /* LockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2A92444BED700627B1B /* LockedModel.swift */; };
 		953EF2B52444BED800627B1B /* SetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2AA2444BED700627B1B /* SetupModel.swift */; };
@@ -205,7 +205,7 @@
 		953EF2992444BDF100627B1B /* FileStateLoadedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStateLoadedModel.swift; sourceTree = "<group>"; };
 		953EF2A62444BED700627B1B /* PasswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordModel.swift; sourceTree = "<group>"; };
 		953EF2A72444BED700627B1B /* UnlockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedModel.swift; sourceTree = "<group>"; };
-		953EF2A82444BED700627B1B /* VaultItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemModel.swift; sourceTree = "<group>"; };
+		953EF2A82444BED700627B1B /* VaultItemEditModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemEditModel.swift; sourceTree = "<group>"; };
 		953EF2A92444BED700627B1B /* LockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedModel.swift; sourceTree = "<group>"; };
 		953EF2AA2444BED700627B1B /* SetupModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupModel.swift; sourceTree = "<group>"; };
 		953EF2AB2444BED800627B1B /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
@@ -332,7 +332,7 @@
 				953EF2A62444BED700627B1B /* PasswordModel.swift */,
 				953EF2AA2444BED700627B1B /* SetupModel.swift */,
 				953EF2A72444BED700627B1B /* UnlockedModel.swift */,
-				953EF2A82444BED700627B1B /* VaultItemModel.swift */,
+				953EF2A82444BED700627B1B /* VaultItemEditModel.swift */,
 				953EF2982444BDF100627B1B /* FileModel.swift */,
 				953EF2972444BDF100627B1B /* FileStateCopyingModel.swift */,
 				953EF2962444BDF100627B1B /* FileStateEmptyModel.swift */,
@@ -730,7 +730,7 @@
 				953EF2912444BC9A00627B1B /* SecureItemType.swift in Sources */,
 				953EF29B2444BDF100627B1B /* FileStateEmptyModel.swift in Sources */,
 				95C12DBF2365B9D200460726 /* Salt.swift in Sources */,
-				953EF2B22444BED800627B1B /* VaultItemModel.swift in Sources */,
+				953EF2B22444BED800627B1B /* VaultItemEditModel.swift in Sources */,
 				953EF2FB2444BF8F00627B1B /* FileView.swift in Sources */,
 				953EF3042444BF8F00627B1B /* SecureItemView.swift in Sources */,
 				953EF3012444BF8F00627B1B /* ProgressIndicator.swift in Sources */,
@@ -752,7 +752,7 @@
 				953EF2AF2444BED800627B1B /* UnlockedModel.swift in Sources */,
 				953EF2EA2444BF1C00627B1B /* PasswordView.swift in Sources */,
 				953EF2D62444BF1C00627B1B /* ContentView.swift in Sources */,
-				953EF2B12444BED800627B1B /* VaultItemModel.swift in Sources */,
+				953EF2B12444BED800627B1B /* VaultItemEditModel.swift in Sources */,
 				953EF29C2444BDF100627B1B /* FileStateCopyingModel.swift in Sources */,
 				953EF2F02444BF1C00627B1B /* FileView.swift in Sources */,
 				953EF2D02444BF1C00627B1B /* MenuItem.swift in Sources */,

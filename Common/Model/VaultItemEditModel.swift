@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class VaultItemModel: ObservableObject, Identifiable {
+class VaultItemEditModel: ObservableObject, Identifiable {
     
     @Published var title = ""
     @Published var secureItemModel: SecureItemModel
@@ -69,7 +69,7 @@ class VaultItemModel: ObservableObject, Identifiable {
     
 }
 
-extension VaultItemModel {
+extension VaultItemEditModel {
     
     enum ErrorMessage {
         
@@ -86,7 +86,7 @@ extension VaultItemModel {
     
 }
 
-extension VaultItemModel.ErrorMessage: Identifiable  {
+extension VaultItemEditModel.ErrorMessage: Identifiable  {
     
     var id: Self {
         return self

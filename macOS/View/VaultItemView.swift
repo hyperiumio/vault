@@ -2,7 +2,7 @@ import SwiftUI
 
 struct VaultItemView: View {
     
-    @ObservedObject var model: VaultItemModel
+    @ObservedObject var model: VaultItemEditModel
     
     var body: some View {
         return VStack {
