@@ -21,6 +21,20 @@ struct VaultItemCryptor {
         return try VaultItemInfoDecode(data: encodedVaultItemInfo)
     }
     
+    func decodeVaultItem(from context: ByteBufferContext) throws -> VaultItem {
+        let secureData = try SecureData(using: masterKey, from: context)
+        
+        let encodedVaultItemInfo = try secureData.plaintext(at: .infoIndex, from: context)
+        let vaultItemInfo = try VaultItemInfoDecode(data: encodedVaultItemInfo)
+        
+        let secureItems = try vaultItemInfo.itemTypes.enumerated().map { index, type in
+            let encodedSecureItem = try secureData.plaintext(at: index, from: context)
+            return try SecureItemDecode(data: encodedSecureItem, as: type)
+        } as [SecureItem]
+        
+        return VaultItem(title: vaultItemInfo.title, secureItems: secureItems)
+    }
+    
 }
 
 private extension Int {
