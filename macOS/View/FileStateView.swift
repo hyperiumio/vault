@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FileStateView: View {
     
-    let fileState: FileModel.FileState
+    let fileState: FileEditModel.FileState
     
     var body: some View {
         switch fileState {

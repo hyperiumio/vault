@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct FileView: View {
+struct FileEditView: View {
     
-    @ObservedObject var model: FileModel
+    @ObservedObject var model: FileEditModel
     @State var isTargeted = false
     
     var body: some View {
