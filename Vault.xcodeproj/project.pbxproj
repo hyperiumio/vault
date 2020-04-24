@@ -11,6 +11,10 @@
 		95169CBA2452E40C00520DB6 /* FileDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CB82452E40C00520DB6 /* FileDisplayModel.swift */; };
 		95169CBC2452E42000520DB6 /* FileDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBB2452E42000520DB6 /* FileDisplayView.swift */; };
 		95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBB2452E42000520DB6 /* FileDisplayView.swift */; };
+		95169CBF2452E4CC00520DB6 /* LoginDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */; };
+		95169CC02452E4CC00520DB6 /* LoginDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */; };
+		95169CC22452E4DF00520DB6 /* LoginDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */; };
+		95169CC32452E4DF00520DB6 /* LoginDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */; };
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
 		951C3396243633F5002AA4CD /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
 		951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */; };
@@ -187,6 +191,8 @@
 /* Begin PBXFileReference section */
 		95169CB82452E40C00520DB6 /* FileDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayModel.swift; sourceTree = "<group>"; };
 		95169CBB2452E42000520DB6 /* FileDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayView.swift; sourceTree = "<group>"; };
+		95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDisplayView.swift; sourceTree = "<group>"; };
+		95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDisplayModel.swift; sourceTree = "<group>"; };
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
 		951C3395243633F5002AA4CD /* Vault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMasterKeyPublisher.swift; sourceTree = "<group>"; };
@@ -332,6 +338,7 @@
 		951C33A824367F15002AA4CD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
 				953EF2A92444BED700627B1B /* LockedModel.swift */,
@@ -352,6 +359,7 @@
 		951C33AD24367FEA002AA4CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */,
 				95169CBB2452E42000520DB6 /* FileDisplayView.swift */,
 				953EF2CB2444BF1C00627B1B /* ActivityIndicator.swift */,
 				953EF2C22444BF1B00627B1B /* ContentView.swift */,
@@ -672,6 +680,7 @@
 				953EF2F32444BF6F00627B1B /* Localizable.swift in Sources */,
 				9561124A2438DBD100028F6E /* CreateMasterKeyPublisher.swift in Sources */,
 				956112512438DBDA00028F6E /* ByteBufferContext.swift in Sources */,
+				95169CC02452E4CC00520DB6 /* LoginDisplayView.swift in Sources */,
 				9561125D2438DBE700028F6E /* DataExtension.swift in Sources */,
 				953EF2F52444BF8F00627B1B /* ActivityIndicator.swift in Sources */,
 				9593AAB1244F21DC004740D5 /* VaultItem.swift in Sources */,
@@ -688,6 +697,7 @@
 				956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */,
 				9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */,
 				9593AAA5244F2170004740D5 /* DeleteVaultItemCollectionOperation.swift in Sources */,
+				95169CC32452E4DF00520DB6 /* LoginDisplayModel.swift in Sources */,
 				957D1941245026E700BCA612 /* UUIDExtension.swift in Sources */,
 				953EF3032444BF8F00627B1B /* UnlockedView.swift in Sources */,
 				956112592438DBE100028F6E /* File.swift in Sources */,
@@ -767,6 +777,7 @@
 				953EF2F02444BF1C00627B1B /* FileEditView.swift in Sources */,
 				953EF2D02444BF1C00627B1B /* MenuItem.swift in Sources */,
 				951C33A024364965002AA4CD /* FileExistsPublisher.swift in Sources */,
+				95169CC22452E4DF00520DB6 /* LoginDisplayModel.swift in Sources */,
 				953EF2BD2444BEF700627B1B /* ContentModelContext.swift in Sources */,
 				951C33A524367786002AA4CD /* ApplicationController.swift in Sources */,
 				953EF2EE2444BF1C00627B1B /* LoginEditView.swift in Sources */,
@@ -777,6 +788,7 @@
 				953EF2D22444BF1C00627B1B /* FileStateCopyingView.swift in Sources */,
 				95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */,
 				95169CBC2452E42000520DB6 /* FileDisplayView.swift in Sources */,
+				95169CBF2452E4CC00520DB6 /* LoginDisplayView.swift in Sources */,
 				953EF2E02444BF1C00627B1B /* SecureItemEditView.swift in Sources */,
 				953EF29A2444BDF100627B1B /* FileStateEmptyModel.swift in Sources */,
 				953EF2EC2444BF1C00627B1B /* SetupView.swift in Sources */,
