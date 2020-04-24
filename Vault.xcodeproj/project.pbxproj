@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		95169CB92452E40C00520DB6 /* FileDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CB82452E40C00520DB6 /* FileDisplayModel.swift */; };
+		95169CBA2452E40C00520DB6 /* FileDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CB82452E40C00520DB6 /* FileDisplayModel.swift */; };
+		95169CBC2452E42000520DB6 /* FileDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBB2452E42000520DB6 /* FileDisplayView.swift */; };
+		95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBB2452E42000520DB6 /* FileDisplayView.swift */; };
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
 		951C3396243633F5002AA4CD /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
 		951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */; };
@@ -181,6 +185,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		95169CB82452E40C00520DB6 /* FileDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayModel.swift; sourceTree = "<group>"; };
+		95169CBB2452E42000520DB6 /* FileDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayView.swift; sourceTree = "<group>"; };
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
 		951C3395243633F5002AA4CD /* Vault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMasterKeyPublisher.swift; sourceTree = "<group>"; };
@@ -326,6 +332,7 @@
 		951C33A824367F15002AA4CD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
 				953EF2A92444BED700627B1B /* LockedModel.swift */,
 				953EF2AB2444BED800627B1B /* LoginEditModel.swift */,
@@ -345,6 +352,7 @@
 		951C33AD24367FEA002AA4CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				95169CBB2452E42000520DB6 /* FileDisplayView.swift */,
 				953EF2CB2444BF1C00627B1B /* ActivityIndicator.swift */,
 				953EF2C22444BF1B00627B1B /* ContentView.swift */,
 				953EF2C02444BF1B00627B1B /* FileStateCopyingView.swift */,
@@ -671,6 +679,7 @@
 				956112602438DBE700028F6E /* ViewExtension.swift in Sources */,
 				953EF2AE2444BED800627B1B /* PasswordEditModel.swift in Sources */,
 				9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */,
+				95169CBA2452E40C00520DB6 /* FileDisplayModel.swift in Sources */,
 				953EF2F62444BF8F00627B1B /* ContentView.swift in Sources */,
 				953EF2892444BB5F00627B1B /* ComparableExtension.swift in Sources */,
 				953EF2F82444BF8F00627B1B /* FileStateEmptyView.swift in Sources */,
@@ -683,6 +692,7 @@
 				953EF3032444BF8F00627B1B /* UnlockedView.swift in Sources */,
 				956112592438DBE100028F6E /* File.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
+				95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */,
 				953EF2A12444BDF100627B1B /* FileStateLoadedModel.swift in Sources */,
 				95B20B4723BA1840005D71CD /* KeyDerivation.swift in Sources */,
 				953EF29D2444BDF100627B1B /* FileStateCopyingModel.swift in Sources */,
@@ -766,6 +776,7 @@
 				957D1940245026E700BCA612 /* UUIDExtension.swift in Sources */,
 				953EF2D22444BF1C00627B1B /* FileStateCopyingView.swift in Sources */,
 				95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */,
+				95169CBC2452E42000520DB6 /* FileDisplayView.swift in Sources */,
 				953EF2E02444BF1C00627B1B /* SecureItemEditView.swift in Sources */,
 				953EF29A2444BDF100627B1B /* FileStateEmptyModel.swift in Sources */,
 				953EF2EC2444BF1C00627B1B /* SetupView.swift in Sources */,
@@ -779,6 +790,7 @@
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
 				95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */,
 				952A237F23F44F6700142C38 /* MasterKeyContainer.swift in Sources */,
+				95169CB92452E40C00520DB6 /* FileDisplayModel.swift in Sources */,
 				952A237B23F4350100142C38 /* SecureData.swift in Sources */,
 				9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */,
 				95D293412408247100FDD6F4 /* File.swift in Sources */,
