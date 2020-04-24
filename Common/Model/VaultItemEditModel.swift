@@ -4,7 +4,7 @@ import Foundation
 class VaultItemEditModel: ObservableObject, Identifiable {
     
     @Published var title = ""
-    @Published var secureItemModel: SecureItemModel
+    @Published var secureItemModel: SecureItemEditModel
     @Published var saveButtonEnabled = false
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
@@ -17,7 +17,7 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     private var saveSubscription: AnyCancellable?
     
     init(itemType: SecureItemType, saveOperation: SaveVaultItemOperation) {
-        self.secureItemModel = SecureItemModel(itemType: itemType)
+        self.secureItemModel = SecureItemEditModel(itemType: itemType)
         self.saveOperation = saveOperation
         
         self.childModelSubscription = secureItemModel.secureItemPublisher
@@ -98,18 +98,18 @@ extension VaultItemEditModel.ErrorMessage: Identifiable  {
     
 }
 
-private extension SecureItemModel {
+private extension SecureItemEditModel {
     
     init(itemType: SecureItemType) {
         switch itemType {
         case .login:
-            let model = LoginModel()
+            let model = LoginEditModel()
             self = .login(model)
         case .password:
-            let model = PasswordModel()
+            let model = PasswordEditModel()
             self = .password(model)
         case .file:
-            let model = FileModel(initialState: .empty)
+            let model = FileEditModel(initialState: .empty)
             self = .file(model)
         }
     }

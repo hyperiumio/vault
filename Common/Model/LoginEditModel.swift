@@ -1,6 +1,6 @@
 import Combine
 
-class LoginModel: ObservableObject, Identifiable {
+class LoginEditModel: ObservableObject, Identifiable {
     
     @Published var user = ""
     @Published var password = ""

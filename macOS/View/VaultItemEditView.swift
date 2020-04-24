@@ -11,7 +11,7 @@ struct VaultItemEditView: View {
             Divider()
             
             Form {
-                SecureItemView(secureItemModel: model.secureItemModel)
+                SecureItemEditView(secureItemModel: model.secureItemModel)
             }
             
             HStack {

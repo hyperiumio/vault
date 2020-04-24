@@ -1,10 +1,10 @@
 import Combine
 
-enum SecureItemModel: Identifiable {
+enum SecureItemEditModel: Identifiable {
     
-    case login(LoginModel)
-    case password(PasswordModel)
-    case file(FileModel)
+    case login(LoginEditModel)
+    case password(PasswordEditModel)
+    case file(FileEditModel)
     
     var id: ObjectIdentifier {
         switch self {

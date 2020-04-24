@@ -1,6 +1,6 @@
 import Combine
 
-class PasswordModel: ObservableObject, Identifiable {
+class PasswordEditModel: ObservableObject, Identifiable {
     
     @Published var password = ""
     

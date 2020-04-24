@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class FileModel: ObservableObject, Identifiable {
+class FileEditModel: ObservableObject, Identifiable {
     
     @Published var fileName = ""
     
@@ -85,7 +85,7 @@ class FileModel: ObservableObject, Identifiable {
     
 }
 
-extension FileModel {
+extension FileEditModel {
  
     enum InitialState {
         
