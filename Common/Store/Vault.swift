@@ -13,6 +13,10 @@ struct Vault {
         return LoadVaultItemInfoCollectionOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
     }
     
+    func loadVaultItemOperation(vaultItemId: UUID) -> LoadVaultItemOperation {
+        return LoadVaultItemOperation(vaultItemId: vaultItemId, contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    }
+    
     func saveVaultItemOperation() -> SaveVaultItemOperation {
         return SaveVaultItemOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
     }

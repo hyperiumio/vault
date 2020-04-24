@@ -28,7 +28,8 @@ struct VaultItemCryptor {
         let vaultItemInfo = try VaultItemInfoDecode(data: encodedVaultItemInfo)
         
         let secureItems = try vaultItemInfo.itemTypes.enumerated().map { index, type in
-            let encodedSecureItem = try secureData.plaintext(at: index, from: context)
+            let secureItemIndex = index + 1
+            let encodedSecureItem = try secureData.plaintext(at: secureItemIndex, from: context)
             return try SecureItemDecode(data: encodedSecureItem, as: type)
         } as [SecureItem]
         
