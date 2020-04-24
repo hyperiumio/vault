@@ -10,7 +10,7 @@ struct UnlockedView: View {
                 TextField(.search, text: $model.searchText)
                 
                 List(model.items) { item in
-                    NavigationLink(destination: DetailView()) {
+                    NavigationLink(destination: VaultItemDisplayView(model: item.detailModel)) {
                         ListItem(title: item.title, iconName: item.iconName)
                             
                     }
@@ -38,14 +38,6 @@ struct UnlockedView: View {
             }
             
         }
-    }
-    
-}
-
-struct DetailView: View {
-    
-    var body: some View {
-        return Text("Detail").frame(minWidth:300, maxWidth: .infinity, maxHeight: .infinity)
     }
     
 }

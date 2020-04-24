@@ -21,7 +21,10 @@ class UnlockedModel: ObservableObject {
     func load() {
         loadOperationSubscription = vault.loadVaultItemInfoCollectionOperation().execute()
             .map { infos in
-                return infos.map(Item.init)
+                return infos.map { itemInfo in
+                    let loadOperation = self.vault.loadVaultItemOperation(vaultItemId: itemInfo.id)
+                    return Item(itemInfo: itemInfo, loadOperation: loadOperation)
+                } as [Item]
             }
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
@@ -85,11 +88,13 @@ extension UnlockedModel {
         let id: UUID
         let title: String
         let iconName: String
+        let detailModel: VaultItemDisplayModel
         
-        fileprivate init(itemInfo: VaultItem.Info) {
+        fileprivate init(itemInfo: VaultItem.Info, loadOperation: LoadVaultItemOperation) {
             self.id = itemInfo.id
             self.title = itemInfo.title
             self.iconName = ""
+            self.detailModel = VaultItemDisplayModel(loadOperation: loadOperation)
         }
         
     }
