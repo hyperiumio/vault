@@ -19,6 +19,10 @@
 		95169CC62452E51700520DB6 /* PasswordDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */; };
 		95169CC82452E52400520DB6 /* PasswordDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CC72452E52400520DB6 /* PasswordDisplayView.swift */; };
 		95169CC92452E52400520DB6 /* PasswordDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CC72452E52400520DB6 /* PasswordDisplayView.swift */; };
+		95169CCB2452E8EB00520DB6 /* SecureItemDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */; };
+		95169CCC2452E8EB00520DB6 /* SecureItemDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */; };
+		95169CCE2452E8FD00520DB6 /* SecureItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */; };
+		95169CCF2452E8FD00520DB6 /* SecureItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */; };
 		9517BFB4236B327D00195DC7 /* DataExtensionTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */; };
 		951C3396243633F5002AA4CD /* Vault.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C3395243633F5002AA4CD /* Vault.swift */; };
 		951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */; };
@@ -199,6 +203,8 @@
 		95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDisplayModel.swift; sourceTree = "<group>"; };
 		95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDisplayModel.swift; sourceTree = "<group>"; };
 		95169CC72452E52400520DB6 /* PasswordDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordDisplayView.swift; sourceTree = "<group>"; };
+		95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayModel.swift; sourceTree = "<group>"; };
+		95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayView.swift; sourceTree = "<group>"; };
 		9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataExtensionTestCase.swift; sourceTree = "<group>"; };
 		951C3395243633F5002AA4CD /* Vault.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vault.swift; sourceTree = "<group>"; };
 		951C33972436348C002AA4CD /* CreateMasterKeyPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateMasterKeyPublisher.swift; sourceTree = "<group>"; };
@@ -344,6 +350,7 @@
 		951C33A824367F15002AA4CD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */,
 				95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */,
 				95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
@@ -366,6 +373,7 @@
 		951C33AD24367FEA002AA4CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */,
 				95169CC72452E52400520DB6 /* PasswordDisplayView.swift */,
 				95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */,
 				95169CBB2452E42000520DB6 /* FileDisplayView.swift */,
@@ -705,9 +713,11 @@
 				956112632438DBED00028F6E /* MasterKeyContainer.swift in Sources */,
 				9561125E2438DBE700028F6E /* RangeExtension.swift in Sources */,
 				9593AAA5244F2170004740D5 /* DeleteVaultItemCollectionOperation.swift in Sources */,
+				95169CCC2452E8EB00520DB6 /* SecureItemDisplayModel.swift in Sources */,
 				95169CC32452E4DF00520DB6 /* LoginDisplayModel.swift in Sources */,
 				957D1941245026E700BCA612 /* UUIDExtension.swift in Sources */,
 				953EF3032444BF8F00627B1B /* UnlockedView.swift in Sources */,
+				95169CCF2452E8FD00520DB6 /* SecureItemDisplayView.swift in Sources */,
 				956112592438DBE100028F6E /* File.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
 				95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */,
@@ -806,6 +816,7 @@
 				953EF2AD2444BED800627B1B /* PasswordEditModel.swift in Sources */,
 				953EF2E42444BF1C00627B1B /* FileStateLoadedView.swift in Sources */,
 				953EF2D42444BF1C00627B1B /* ListItem.swift in Sources */,
+				95169CCE2452E8FD00520DB6 /* SecureItemDisplayView.swift in Sources */,
 				95D29361240826B200FDD6F4 /* DataContainer.swift in Sources */,
 				953EF2B92444BED800627B1B /* ContentModel.swift in Sources */,
 				9593AAAA244F2170004740D5 /* LoadVaultItemInfoCollectionOperation.swift in Sources */,
@@ -863,6 +874,7 @@
 				953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */,
 				95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */,
 				951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */,
+				95169CCB2452E8EB00520DB6 /* SecureItemDisplayModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
