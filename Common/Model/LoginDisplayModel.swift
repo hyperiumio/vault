@@ -2,6 +2,8 @@ import Foundation
 
 class LoginDisplayModel: ObservableObject, Identifiable {
     
+    @Published var secureDisplay = true
+    
     var username: String {
         return login.username
     }
@@ -14,6 +16,10 @@ class LoginDisplayModel: ObservableObject, Identifiable {
     
     init(_ login: Login) {
         self.login = login
+    }
+    
+    func copyPasswordToPasteboard() {
+        Pasteboard.general.string = password
     }
     
 }
