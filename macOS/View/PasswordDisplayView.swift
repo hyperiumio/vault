@@ -6,7 +6,8 @@ struct PasswordDisplayView: View {
     
     var body: some View {
         return VStack {
-            Text(model.password)
+            SecureText(content: model.password, secureDisplay: $model.secureDisplay)
+                .onTapGesture(perform: model.copyPasswordToPasteboard)
         }
     }
     
