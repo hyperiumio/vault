@@ -2,20 +2,22 @@ import Combine
 
 class PasswordEditModel: ObservableObject, Identifiable {
     
-    @Published var password = ""
+    @Published var password: String
     
-    let passwordValueDidChange = PassthroughSubject<Password?, Never>()
+    var isComplete: Bool {
+        return !password.isEmpty
+    }
     
-    private var passwordValueDidChangeSubscription: AnyCancellable?
+    var secureItem: SecureItem? {
+        guard !password.isEmpty else {
+            return nil
+        }
+        
+        return SecureItem.password(password)
+    }
     
-    init() {
-        passwordValueDidChangeSubscription = $password
-            .map { password in
-                return password.isEmpty ? nil : password
-            }
-            .sink { [passwordValueDidChange] password in
-                passwordValueDidChange.send(password)
-            }
+    init(_ password: String? = nil) {
+        self.password = password ?? ""
     }
     
 }

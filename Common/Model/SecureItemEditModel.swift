@@ -17,38 +17,63 @@ enum SecureItemEditModel: Identifiable {
         }
     }
     
-    var secureItemPublisher: AnyPublisher<SecureItem?, Never> {
+    var isComplete: Bool {
         switch self {
         case .login(let model):
-            return model.loginValueDidChange
-                .map { login in
-                    guard let login = login else {
-                        return nil
-                    }
-                    
-                    return SecureItem.login(login)
-                }
-                .eraseToAnyPublisher()
+            return model.isComplete
         case .password(let model):
-            return model.passwordValueDidChange
-                .map { password in
-                    guard let password = password else {
-                        return nil
-                    }
-                
-                    return SecureItem.password(password)
-                }
-                .eraseToAnyPublisher()
+            return model.isComplete
         case .file(let model):
-            return model.fileValueDidChange
-                .map { file in
-                    guard let file = file else {
-                        return nil
-                    }
-            
-                    return SecureItem.file(file)
-                }
-                .eraseToAnyPublisher()
+            return model.isComplete
+        }
+    }
+    
+    var objectWillChange: ObservableObjectPublisher {
+        switch self {
+        case .login(let model):
+            return model.objectWillChange
+        case .password(let model):
+            return model.objectWillChange
+        case .file(let model):
+            return model.objectWillChange
+        }
+    }
+    
+    var secureItem: SecureItem? {
+        switch self {
+        case .login(let model):
+            return model.secureItem
+        case .password(let model):
+            return model.secureItem
+        case .file(let model):
+            return model.secureItem
+        }
+    }
+    
+    init(_ itemType: SecureItemType) {
+        switch itemType {
+        case .login:
+            let model = LoginEditModel()
+            self = .login(model)
+        case .password:
+            let model = PasswordEditModel()
+            self = .password(model)
+        case .file:
+            let model = FileEditModel(initialState: .empty)
+            self = .file(model)
+        }
+    }
+    
+    init(_ secureItem: SecureItem) {
+        switch secureItem {
+        case .password(let password):
+            let model = PasswordEditModel(password)
+            self = .password(model)
+        case .login(let login):
+            let model = LoginEditModel(login)
+            self = .login(model)
+        case .file(let file):
+            fatalError()
         }
     }
     

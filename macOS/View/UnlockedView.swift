@@ -10,7 +10,7 @@ struct UnlockedView: View {
                 TextField(.search, text: $model.searchText)
                 
                 List(model.items) { item in
-                    NavigationLink(destination: VaultItemDisplayView(model: item.detailModel)) {
+                    NavigationLink(destination: VaultItemView(model: item.detailModel)) {
                         ListItem(title: item.title, iconName: item.iconName)
                             
                     }
@@ -23,7 +23,7 @@ struct UnlockedView: View {
                 
                 CreateVaultItemButton(action: model.createVaultItem)
                     .sheet(item: $model.newVaultItemModel) { model in
-                        VaultItemEditView(model: model)
+                        VaultItemCreatingView(model: model)
                     }
             }.frame(minWidth: 200)
         }

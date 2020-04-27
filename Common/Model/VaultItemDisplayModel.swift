@@ -1,32 +1,37 @@
 import Combine
 import Foundation
 
-class VaultItemDisplayModel: ObservableObject {
+class VaultItemDisplayModel: ObservableObject, Completable {
     
-    @Published var state: State
+    private let vaultItem: VaultItem
+    internal var completionPromise: Future<Completion, Never>.Promise?
     
-    private var vaultItemLoadingSubscription: AnyCancellable?
+    var title: String {
+        return vaultItem.title
+    }
     
-    init(loadOperation: LoadVaultItemOperation) {
-        let model = VaultItemLoadingModel(loadOperation: loadOperation)
-        self.state = .loading(model)
-        
-        vaultItemLoadingSubscription = model.completion()
-            .map { vaultItem in
-                let model = VaultItemLoadedModel(vaultItem: vaultItem)
-                return State.loaded(model)
-            }
-            .assign(to: \.state, on: self)
+    var secureItemModels: [SecureItemDisplayModel] {
+        return vaultItem.secureItems.map { secureItem in
+            return SecureItemDisplayModel(secureItem)
+        }
+    }
+    
+    init(vaultItem: VaultItem) {
+        self.vaultItem = vaultItem
+    }
+    
+    func edit() {
+        let result = Result<Completion, Never>.success(.edit)
+        completionPromise?(result)
     }
     
 }
 
 extension VaultItemDisplayModel {
     
-    enum State {
+    enum Completion {
         
-        case loading(VaultItemLoadingModel)
-        case loaded(VaultItemLoadedModel)
+        case edit
         
     }
     

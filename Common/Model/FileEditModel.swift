@@ -10,11 +10,26 @@ class FileEditModel: ObservableObject, Identifiable {
             setupStateTransitions()
         }
     }
-
-    let fileValueDidChange = PassthroughSubject<File?, Never>()
+    
+    var isComplete: Bool {
+        guard !fileName.isEmpty, case .loaded = fileState else {
+            return false
+        }
+        
+        return true
+    }
+    
+    var secureItem: SecureItem? {
+        guard !fileName.isEmpty, case .loaded(let model) = fileState else {
+            return nil
+        }
+        
+        let attributes = File.Attributes(filename: fileName, fileExtension: "")
+        let file = File(attributes: attributes, fileData: model.data)
+        return SecureItem.file(file)
+    }
     
     private var stateTransitionSubscription: AnyCancellable?
-    private var fileValueDidChangeSubscription: AnyCancellable?
     
     init(initialState: InitialState) {
         switch initialState {
@@ -24,19 +39,6 @@ class FileEditModel: ObservableObject, Identifiable {
         }
         
         setupStateTransitions()
-        
-        fileValueDidChangeSubscription = Publishers.CombineLatest($fileName, $fileState)
-            .map { fileName, fileState in
-                guard !fileName.isEmpty, case .loaded(let model) = fileState else {
-                    return nil
-                }
-            
-                let attributes = File.Attributes(filename: fileName, fileExtension: "")
-                return File(attributes: attributes, fileData: model.data)
-            }
-            .sink { [fileValueDidChange] file in
-                fileValueDidChange.send(file)
-            }
     }
     
     private func setupStateTransitions() {
