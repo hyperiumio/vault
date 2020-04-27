@@ -1,23 +1,17 @@
 import Combine
 import Foundation
 
-class VaultItemLoadingModel: ObservableObject {
+class VaultItemLoadingModel: ObservableObject, Completable {
     
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
     
-    private var completionPromise: Future<VaultItem, Never>.Promise?
+    internal var completionPromise: Future<VaultItem, Never>.Promise?
     private var loadOperation: LoadVaultItemOperation
     private var loadSubscription: AnyCancellable?
     
     init(loadOperation: LoadVaultItemOperation) {
         self.loadOperation = loadOperation
-    }
-    
-    func completion() -> Future<VaultItem, Never> {
-        return Future { promise in
-            self.completionPromise = promise
-        }
     }
     
     func load() {
