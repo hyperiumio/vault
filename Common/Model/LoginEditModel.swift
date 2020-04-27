@@ -2,24 +2,25 @@ import Combine
 
 class LoginEditModel: ObservableObject, Identifiable {
     
-    @Published var user = ""
-    @Published var password = ""
+    @Published var user: String
+    @Published var password: String
     
-    let loginValueDidChange = PassthroughSubject<Login?, Never>()
+    var isComplete: Bool {
+        return !user.isEmpty && !password.isEmpty
+    }
     
-    private var loginValueDidChangeSubscription: AnyCancellable?
+    var secureItem: SecureItem? {
+        guard !user.isEmpty, !password.isEmpty else {
+            return nil
+        }
+            
+        let login = Login(username: user, password: password)
+        return SecureItem.login(login)
+    }
     
-    init() {
-        loginValueDidChangeSubscription = Publishers.CombineLatest($user, $password)
-            .map { user, password in
-                guard !user.isEmpty, !password.isEmpty else {
-                    return nil
-                }
-                return Login(username: user, password: password)
-            }
-            .sink { [loginValueDidChange] login in
-                loginValueDidChange.send(login)
-            }
+    init(_ login: Login? = nil) {
+        self.user = login?.username ?? ""
+        self.password = login?.password ?? ""
     }
     
 }

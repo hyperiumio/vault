@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class VaultItemEditModel: ObservableObject, Identifiable, Completable {
+class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     
     @Published var title = ""
     @Published var isLoading = false
@@ -10,21 +10,17 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     let secureItemModel: SecureItemEditModel
     
     var saveButtonEnabled: Bool {
-        let didChange = title != originalVaultItem.title || secureItemModel.secureItem != originalVaultItem.secureItem
-        return !title.isEmpty && secureItemModel.isComplete && didChange
+        return !title.isEmpty && secureItemModel.isComplete
     }
     
     internal var completionPromise: Future<Completion, Never>.Promise?
     
-    private let originalVaultItem: VaultItem
     private let saveOperation: SaveVaultItemOperation
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(vaultItem: VaultItem, saveOperation: SaveVaultItemOperation) {
-        self.originalVaultItem = vaultItem
-        self.title = vaultItem.title
-        self.secureItemModel = SecureItemEditModel(vaultItem.secureItem)
+    init(itemType: SecureItemType, saveOperation: SaveVaultItemOperation) {
+        self.secureItemModel = SecureItemEditModel(itemType)
         self.saveOperation = saveOperation
         
         self.childModelSubscription = secureItemModel.objectWillChange
@@ -37,7 +33,7 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
         }
         
         isLoading = true
-        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, secureItem: secureItem, secondarySecureItems: [])
+        let vaultItem = VaultItem(title: title, secureItem: secureItem, secondarySecureItems: [])
         saveSubscription = saveOperation.execute(vaultItem: vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
@@ -63,7 +59,7 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     
 }
 
-extension VaultItemEditModel {
+extension VaultItemCreatingModel {
     
     enum ErrorMessage {
         
@@ -80,7 +76,7 @@ extension VaultItemEditModel {
     
 }
 
-extension VaultItemEditModel.ErrorMessage: Identifiable  {
+extension VaultItemCreatingModel.ErrorMessage: Identifiable  {
     
     var id: Self {
         return self

@@ -5,17 +5,11 @@ struct VaultItemLoadedView: View {
     @ObservedObject var model: VaultItemLoadedModel
     
     var body: some View {
-        return VStack {
-            Text(model.title)
-            
-            Divider()
-            
-            Form {
-                ForEach(model.secureItemModels) { secureItemModel in
-                    SecureItemDisplayView(model: secureItemModel)
-                }
-            }
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        switch model.state {
+        case .display(let model):
+            return VaultItemDisplayView(model: model).eraseToAnyView()
+        case .edit(let model):
+            return VaultItemEditView(model: model).eraseToAnyView()
+        }
     }
-    
 }

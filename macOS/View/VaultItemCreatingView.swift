@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct VaultItemEditView: View {
+struct VaultItemCreatingView: View {
     
-    @ObservedObject var model: VaultItemEditModel
+    @ObservedObject var model: VaultItemCreatingModel
     
     var body: some View {
         return VStack {
@@ -25,15 +25,6 @@ struct VaultItemEditView: View {
         .alert(item: $model.errorMessage) { error in
             return .saveFailed
         }
-    }
-    
-}
-
-extension Alert {
-    
-    static var saveFailed: Self {
-        let saveFailed = Text(.saveFailed)
-        return Alert(title: saveFailed)
     }
     
 }

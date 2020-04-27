@@ -6,7 +6,7 @@ class UnlockedModel: ObservableObject {
     
     @Published var searchText: String = ""
     @Published private(set) var items: [Item] = []
-    @Published var newVaultItemModel: VaultItemEditModel?
+    @Published var newVaultItemModel: VaultItemCreatingModel?
     @Published var errorMessage: ErrorMessage?
     
     private let vault: Vault
@@ -19,11 +19,17 @@ class UnlockedModel: ObservableObject {
     }
     
     func load() {
+        let load = self.load
+        
         loadOperationSubscription = vault.loadVaultItemInfoCollectionOperation().execute()
             .map { infos in
                 return infos.map { itemInfo in
+                    let saveOperation = self.vault.saveVaultItemOperation()
                     let loadOperation = self.vault.loadVaultItemOperation(vaultItemId: itemInfo.id)
-                    return Item(itemInfo: itemInfo, loadOperation: loadOperation)
+                    let context = VaultItemModelContext(saveOperation: saveOperation, loadOperation: loadOperation, reload: load)
+                    
+                    let vaultItemModel = VaultItemModel(context: context)
+                    return Item(itemInfo: itemInfo, detailModel: vaultItemModel)
                 } as [Item]
             }
             .receive(on: DispatchQueue.main)
@@ -45,7 +51,7 @@ class UnlockedModel: ObservableObject {
     
     func createVaultItem(itemType: SecureItemType) {
         let saveOperation = vault.saveVaultItemOperation()
-        let vaultItemModel = VaultItemEditModel(itemType: itemType, saveOperation: saveOperation)
+        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, saveOperation: saveOperation)
         
         vaultItemModelCompletionSubscription = vaultItemModel.completion()
             .sink { [weak self] completion in
@@ -88,13 +94,13 @@ extension UnlockedModel {
         let id: UUID
         let title: String
         let iconName: String
-        let detailModel: VaultItemDisplayModel
+        let detailModel: VaultItemModel
         
-        fileprivate init(itemInfo: VaultItem.Info, loadOperation: LoadVaultItemOperation) {
+        fileprivate init(itemInfo: VaultItem.Info, detailModel: VaultItemModel) {
             self.id = itemInfo.id
             self.title = itemInfo.title
             self.iconName = ""
-            self.detailModel = VaultItemDisplayModel(loadOperation: loadOperation)
+            self.detailModel = detailModel
         }
         
     }

@@ -1,40 +1,70 @@
 import Combine
-import Foundation
 
 class VaultItemLoadedModel: ObservableObject {
     
-    private let vaultItem: VaultItem
-    
-    var title: String {
-        return vaultItem.title
-    }
-    
-    var secureItemModels: [SecureItemDisplayModel] {
-        return vaultItem.secureItems.map { secureItem in
-            return SecureItemDisplayModel(secureItem)
+    @Published var state: State {
+        didSet {
+            setupStateTransitions()
         }
     }
     
-    init(vaultItem: VaultItem) {
+    private let vaultItem: VaultItem
+    private let context: VaultItemLoadedModelContext
+    private var stateTransitionSubscription: AnyCancellable?
+    
+    init(vaultItem: VaultItem, context: VaultItemLoadedModelContext) {
+        let displayModel = VaultItemDisplayModel(vaultItem: vaultItem)
+         
+        self.state = .display(displayModel)
         self.vaultItem = vaultItem
+        self.context = context
+        
+        setupStateTransitions()
+    }
+    
+    private func setupStateTransitions() {
+        switch state {
+        case .display(let model):
+            stateTransitionSubscription = model.completion()
+                .sink { [weak self] completion in
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    switch completion {
+                    case .edit:
+                        let editModel = self.context.vaultItemEditModel(vaultItem: self.vaultItem)
+                        self.state = .edit(editModel)
+                    }
+                }
+        case .edit(let model):
+            stateTransitionSubscription = model.completion()
+                .sink { [weak self] completion in
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    switch completion {
+                    case .canceled:
+                        let displayModel = VaultItemDisplayModel(vaultItem: self.vaultItem)
+                        self.state = .display(displayModel)
+                    case .saved:
+                        break
+                    }
+                }
+        }
     }
     
 }
 
-private extension SecureItemDisplayModel {
+extension VaultItemLoadedModel {
     
-    init(_ secureItem: SecureItem) {
-        switch secureItem {
-        case .password(let password):
-            let model = PasswordDisplayModel(password)
-            self = .password(model)
-        case .login(let login):
-            let model = LoginDisplayModel(login)
-            self = .login(model)
-        case .file(let file):
-            let model = FileDisplayModel(file)
-            self = .file(model)
-        }
+    
+    enum State {
+        
+        case display(VaultItemDisplayModel)
+        case edit(VaultItemEditModel)
+        
     }
     
 }
