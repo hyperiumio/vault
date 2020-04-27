@@ -14,7 +14,7 @@ struct SaveVaultItemOperation {
                 do {
                     let vaultItemUrl = contentUrl.appendingPathComponent(vaultItem.id.uuidString, isDirectory: false)
                     try FileManager.default.createDirectory(at: contentUrl, withIntermediateDirectories: true)
-                    try VaultItemCryptor(masterKey: masterKey).encode(vaultItem).write(to: vaultItemUrl)
+                    try VaultItemCryptor(masterKey: masterKey).encode(vaultItem).write(to: vaultItemUrl, options: .atomic)
                     promise(.success)
                 } catch let error {
                     let failure = Result<Void, Error>.failure(error)
