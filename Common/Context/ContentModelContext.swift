@@ -3,8 +3,8 @@ import Foundation
 
 class ContentModelContext {
     
-    let masterKeyUrl: URL
-    let vaultUrl: URL
+    private let masterKeyUrl: URL
+    private let vaultUrl: URL
     weak var responder: ContentModelContextResponder?
     
     init(masterKeyUrl: URL, vaultUrl: URL) {
