@@ -41,7 +41,7 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
         }
         
         isLoading = true
-        let vaultItem = VaultItem(title: title, secureItems: [secureItem])
+        let vaultItem = VaultItem(title: title, secureItem: secureItem, secondarySecureItems: [])
         saveSubscription = saveOperation.execute(vaultItem: vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in

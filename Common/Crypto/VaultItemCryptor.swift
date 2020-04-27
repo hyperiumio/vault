@@ -27,13 +27,16 @@ struct VaultItemCryptor {
         let encodedVaultItemInfo = try secureData.plaintext(at: .infoIndex, from: context)
         let vaultItemInfo = try VaultItemInfoDecode(data: encodedVaultItemInfo)
         
-        let secureItems = try vaultItemInfo.itemTypes.enumerated().map { index, type in
-            let secureItemIndex = index + 1
+        let encodedSecureItem = try secureData.plaintext(at: .secureItemIndex, from: context)
+        let secureItem = try SecureItemDecode(data: encodedSecureItem, as: vaultItemInfo.itemType)
+        
+        let secondarySecureItems = try vaultItemInfo.secondaryItemTypes.enumerated().map { index, type in
+            let secureItemIndex = index + .secondarySecureItemOffset
             let encodedSecureItem = try secureData.plaintext(at: secureItemIndex, from: context)
             return try SecureItemDecode(data: encodedSecureItem, as: type)
         } as [SecureItem]
         
-        return VaultItem(title: vaultItemInfo.title, secureItems: secureItems)
+        return VaultItem(id: vaultItemInfo.id, title: vaultItemInfo.title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
     }
     
 }
@@ -41,5 +44,7 @@ struct VaultItemCryptor {
 private extension Int {
     
     static let infoIndex = 0
+    static let secureItemIndex = 1
+    static let secondarySecureItemOffset = 2
     
 }
