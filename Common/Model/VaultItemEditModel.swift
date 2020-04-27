@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-class VaultItemEditModel: ObservableObject, Identifiable {
+class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     
     @Published var title = ""
     @Published var secureItemModel: SecureItemEditModel
@@ -9,9 +9,9 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
         
+    internal var completionPromise: Future<Completion, Never>.Promise?
     private let saveOperation: SaveVaultItemOperation
     private var secureItem: SecureItem?
-    private var completionPromise: Future<Completion, Never>.Promise?
     private var childModelSubscription: AnyCancellable?
     private var saveButtonStateSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
@@ -33,12 +33,6 @@ class VaultItemEditModel: ObservableObject, Identifiable {
             .sink { [weak self] saveButtonEnabled in
                 self?.saveButtonEnabled = saveButtonEnabled
             }
-    }
-    
-    func completion() -> Future<Completion, Never> {
-        return Future { [weak self] promise in
-            self?.completionPromise = promise
-        }
     }
     
     func save() {

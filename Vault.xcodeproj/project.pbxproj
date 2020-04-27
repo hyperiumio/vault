@@ -196,6 +196,8 @@
 		95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */; };
 		95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
+		95F309A32457153100C3F591 /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F309A22457153100C3F591 /* Completable.swift */; };
+		95F309A42457153100C3F591 /* Completable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F309A22457153100C3F591 /* Completable.swift */; };
 		95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
 		95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
 		95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
@@ -317,6 +319,7 @@
 		95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemCoding.swift; sourceTree = "<group>"; };
 		95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBuffer.swift; sourceTree = "<group>"; };
 		95D2936C2408293400FDD6F4 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
+		95F309A22457153100C3F591 /* Completable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Completable.swift; sourceTree = "<group>"; };
 		95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBufferContext.swift; sourceTree = "<group>"; };
 		95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
 		95F5193823F15DE200C5ECA9 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
@@ -377,6 +380,7 @@
 		951C33A824367F15002AA4CD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				95F309A22457153100C3F591 /* Completable.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2982444BDF100627B1B /* FileEditModel.swift */,
@@ -806,6 +810,7 @@
 				957D1944245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */,
 				953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */,
+				95F309A42457153100C3F591 /* Completable.swift in Sources */,
 				956112612438DBED00028F6E /* SecureData.swift in Sources */,
 				95C12DBB2365B9C100460726 /* RNGStub.swift in Sources */,
 				95169CDB2452E96000520DB6 /* VaultItemLoadingModel.swift in Sources */,
@@ -926,6 +931,7 @@
 				95169CD12452E93000520DB6 /* VaultItemDisplayModel.swift in Sources */,
 				95D29366240826FE00FDD6F4 /* PasswordCoding.swift in Sources */,
 				95169CC52452E51700520DB6 /* PasswordDisplayModel.swift in Sources */,
+				95F309A32457153100C3F591 /* Completable.swift in Sources */,
 				953EF2E82444BF1C00627B1B /* ActivityIndicator.swift in Sources */,
 				95D29367240826FE00FDD6F4 /* FileCoding.swift in Sources */,
 				953EF2A02444BDF100627B1B /* FileStateLoadedModel.swift in Sources */,
