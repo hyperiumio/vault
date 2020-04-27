@@ -1,6 +1,6 @@
 import Foundation
 
-struct File {
+struct File: Equatable {
     
     let attributes: Attributes
     let fileData: Data
@@ -9,7 +9,7 @@ struct File {
 
 extension File {
     
-    struct Attributes: Codable {
+    struct Attributes: Codable, Equatable {
         
         let filename: String
         let fileExtension: String
