@@ -17,15 +17,15 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     internal var completionPromise: Future<Completion, Never>.Promise?
     
     private let originalVaultItem: VaultItem
-    private let saveOperation: SaveVaultItemOperation
+    private let vault: Vault
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(vaultItem: VaultItem, saveOperation: SaveVaultItemOperation) {
+    init(vaultItem: VaultItem, vault: Vault) {
         self.originalVaultItem = vaultItem
         self.title = vaultItem.title
         self.secureItemModel = SecureItemEditModel(vaultItem.secureItem)
-        self.saveOperation = saveOperation
+        self.vault = vault
         
         self.childModelSubscription = secureItemModel.objectWillChange
             .sink(receiveValue: objectWillChange.send)
@@ -38,7 +38,7 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
         
         isLoading = true
         let vaultItem = VaultItem(id: originalVaultItem.id, title: title, secureItem: secureItem, secondarySecureItems: [])
-        saveSubscription = saveOperation.execute(vaultItem: vaultItem)
+        saveSubscription = vault.saveVaultItem(vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

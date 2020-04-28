@@ -12,22 +12,24 @@ class UnlockedModel: ObservableObject {
     private let vault: Vault
     private var loadOperationSubscription: AnyCancellable?
     private var deleteOperationSubscription: AnyCancellable?
+    private var vaultDidChangeSubscription: AnyCancellable?
     private var vaultItemModelCompletionSubscription: AnyCancellable?
     
     init(vaultUrl: URL, masterKey: SymmetricKey) {
-        self.vault = Vault(contentUrl: vaultUrl, masterKey: masterKey)
+        self.vault = Vault(url: vaultUrl, masterKey: masterKey)
+        
+        vaultDidChangeSubscription = vault.didChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in
+                self?.load()
+            }
     }
     
     func load() {
-        let load = self.load
-        
-        loadOperationSubscription = vault.loadVaultItemInfoCollectionOperation().execute()
-            .map { infos in
+        loadOperationSubscription = vault.loadVaultItemInfoCollection()
+            .map { [vault] infos in
                 return infos.map { itemInfo in
-                    let saveOperation = self.vault.saveVaultItemOperation()
-                    let loadOperation = self.vault.loadVaultItemOperation(vaultItemId: itemInfo.id)
-                    let context = VaultItemModelContext(saveOperation: saveOperation, loadOperation: loadOperation, reload: load)
-                    
+                    let context = VaultItemModelContext(itemId: itemInfo.id, vault: vault)
                     let vaultItemModel = VaultItemModel(context: context)
                     return Item(itemInfo: itemInfo, detailModel: vaultItemModel)
                 } as [Item]
@@ -50,8 +52,7 @@ class UnlockedModel: ObservableObject {
     }
     
     func createVaultItem(itemType: SecureItemType) {
-        let saveOperation = vault.saveVaultItemOperation()
-        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, saveOperation: saveOperation)
+        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, vault: vault)
         
         vaultItemModelCompletionSubscription = vaultItemModel.completion()
             .sink { [weak self] completion in
@@ -69,7 +70,7 @@ class UnlockedModel: ObservableObject {
     }
     
     func requestDelete(id: UUID) {
-        deleteOperationSubscription = vault.deleteVaultItemCollectionOperation().execute(itemIds: [id])
+        deleteOperationSubscription = vault.deleteVaultItem(itemId: id)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

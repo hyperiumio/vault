@@ -175,6 +175,8 @@
 		9593AAB7244F221D004740D5 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
 		95A0A37E2448707D00815F9B /* SecureItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A550A524486F0700F061AB /* SecureItemEditModel.swift */; };
 		95A550A624486F0700F061AB /* SecureItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A550A524486F0700F061AB /* SecureItemEditModel.swift */; };
+		95A7CDAF245729B5000AF9DE /* VaulItemLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */; };
+		95A7CDB0245729B5000AF9DE /* VaulItemLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */; };
 		95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */; };
 		95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* KeyDerivation.swift */; };
 		95B20B4723BA1840005D71CD /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* KeyDerivation.swift */; };
@@ -310,6 +312,7 @@
 		9593AAB2244F21FA004740D5 /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
 		9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCryptor.swift; sourceTree = "<group>"; };
 		95A550A524486F0700F061AB /* SecureItemEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditModel.swift; sourceTree = "<group>"; };
+		95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaulItemLocation.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyUnwrapMock.swift; sourceTree = "<group>"; };
 		95B20B4523BA1840005D71CD /* KeyDerivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
@@ -634,10 +637,11 @@
 		95D2936E24082FA200FDD6F4 /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				95169CE22452E99D00520DB6 /* LoadVaultItemOperation.swift */,
 				9593AAA0244F216F004740D5 /* DeleteVaultItemCollectionOperation.swift */,
 				9593AAA3244F2170004740D5 /* LoadVaultItemInfoCollectionOperation.swift */,
+				95169CE22452E99D00520DB6 /* LoadVaultItemOperation.swift */,
 				9593AAA2244F216F004740D5 /* SaveVaultItemOperation.swift */,
+				95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */,
 				951C3395243633F5002AA4CD /* Vault.swift */,
 			);
 			path = Store;
@@ -794,6 +798,7 @@
 				953EF3032444BF8F00627B1B /* UnlockedView.swift in Sources */,
 				95169CCF2452E8FD00520DB6 /* SecureItemDisplayView.swift in Sources */,
 				956112592438DBE100028F6E /* File.swift in Sources */,
+				95A7CDB0245729B5000AF9DE /* VaulItemLocation.swift in Sources */,
 				95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */,
 				95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */,
 				953EF2A12444BDF100627B1B /* FileStateLoadedModel.swift in Sources */,
@@ -881,6 +886,7 @@
 				953EF2EA2444BF1C00627B1B /* PasswordEditView.swift in Sources */,
 				953EF2D62444BF1C00627B1B /* ContentView.swift in Sources */,
 				953EF2B12444BED800627B1B /* VaultItemEditModel.swift in Sources */,
+				95A7CDAF245729B5000AF9DE /* VaulItemLocation.swift in Sources */,
 				953EF29C2444BDF100627B1B /* FileStateCopyingModel.swift in Sources */,
 				953EF2F02444BF1C00627B1B /* FileEditView.swift in Sources */,
 				953EF2D02444BF1C00627B1B /* MenuItem.swift in Sources */,

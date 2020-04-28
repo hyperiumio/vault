@@ -7,17 +7,20 @@ class VaultItemLoadingModel: ObservableObject, Completable {
     @Published var errorMessage: ErrorMessage?
     
     internal var completionPromise: Future<VaultItem, Never>.Promise?
-    private var loadOperation: LoadVaultItemOperation
+    
+    private let itemId: UUID
+    private let vault: Vault
     private var loadSubscription: AnyCancellable?
     
-    init(loadOperation: LoadVaultItemOperation) {
-        self.loadOperation = loadOperation
+    init(itemId: UUID, vault: Vault) {
+        self.itemId = itemId
+        self.vault = vault
     }
     
     func load() {
         isLoading = true
         
-        loadSubscription = loadOperation.execute()
+        loadSubscription = vault.loadVaultItem(itemId: itemId)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

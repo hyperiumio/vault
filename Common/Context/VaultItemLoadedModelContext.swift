@@ -1,13 +1,9 @@
-class VaultItemLoadedModelContext {
+struct VaultItemLoadedModelContext {
     
-    private let saveOperation: SaveVaultItemOperation
-    
-    init(saveOperation: SaveVaultItemOperation) {
-        self.saveOperation = saveOperation
-    }
+    let vault: Vault
     
     func vaultItemEditModel(vaultItem: VaultItem) -> VaultItemEditModel {
-        return VaultItemEditModel(vaultItem: vaultItem, saveOperation: saveOperation)
+        return VaultItemEditModel(vaultItem: vaultItem, vault: vault)
     }
     
 }
