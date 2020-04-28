@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5B43E7692457345500B7FC00 /* NoteDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E7682457345500B7FC00 /* NoteDisplayView.swift */; };
+		5B43E76B245734E700B7FC00 /* NoteDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */; };
+		5B43E76D2457352900B7FC00 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76C2457352900B7FC00 /* Note.swift */; };
+		5B43E76F245736BE00B7FC00 /* NoteCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76E245736BE00B7FC00 /* NoteCoding.swift */; };
+		5B43E771245737A700B7FC00 /* NoteEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E770245737A700B7FC00 /* NoteEditModel.swift */; };
+		5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E7722457386A00B7FC00 /* NoteEditView.swift */; };
 		95169CB92452E40C00520DB6 /* FileDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CB82452E40C00520DB6 /* FileDisplayModel.swift */; };
 		95169CBA2452E40C00520DB6 /* FileDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CB82452E40C00520DB6 /* FileDisplayModel.swift */; };
 		95169CBC2452E42000520DB6 /* FileDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95169CBB2452E42000520DB6 /* FileDisplayView.swift */; };
@@ -231,6 +237,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5B43E7682457345500B7FC00 /* NoteDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDisplayView.swift; sourceTree = "<group>"; };
+		5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDisplayModel.swift; sourceTree = "<group>"; };
+		5B43E76C2457352900B7FC00 /* Note.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
+		5B43E76E245736BE00B7FC00 /* NoteCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCoding.swift; sourceTree = "<group>"; };
+		5B43E770245737A700B7FC00 /* NoteEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditModel.swift; sourceTree = "<group>"; };
+		5B43E7722457386A00B7FC00 /* NoteEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditView.swift; sourceTree = "<group>"; };
 		95169CB82452E40C00520DB6 /* FileDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayModel.swift; sourceTree = "<group>"; };
 		95169CBB2452E42000520DB6 /* FileDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayView.swift; sourceTree = "<group>"; };
 		95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginDisplayView.swift; sourceTree = "<group>"; };
@@ -413,6 +425,7 @@
 				953EF2AB2444BED800627B1B /* LoginEditModel.swift */,
 				95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */,
 				953EF2A62444BED700627B1B /* PasswordEditModel.swift */,
+				5B43E770245737A700B7FC00 /* NoteEditModel.swift */,
 				95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */,
 				95A550A524486F0700F061AB /* SecureItemEditModel.swift */,
 				953EF2AA2444BED700627B1B /* SetupModel.swift */,
@@ -423,6 +436,7 @@
 				95169CD62452E96000520DB6 /* VaultItemLoadedModel.swift */,
 				95169CD72452E96000520DB6 /* VaultItemLoadingModel.swift */,
 				95F309B724571D8700C3F591 /* VaultItemModel.swift */,
+				5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -449,6 +463,7 @@
 				953EF2BF2444BF1B00627B1B /* MenuItem.swift */,
 				95169CC72452E52400520DB6 /* PasswordDisplayView.swift */,
 				953EF2CC2444BF1C00627B1B /* PasswordEditView.swift */,
+				5B43E7722457386A00B7FC00 /* NoteEditView.swift */,
 				953EF2C62444BF1C00627B1B /* ProgressIndicator.swift */,
 				95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */,
 				953EF2C72444BF1C00627B1B /* SecureItemEditView.swift */,
@@ -458,6 +473,7 @@
 				953EF2C42444BF1C00627B1B /* VaultItemEditView.swift */,
 				95169CDC2452E97400520DB6 /* VaultItemLoadedView.swift */,
 				95169CDD2452E97400520DB6 /* VaultItemLoadingView.swift */,
+				5B43E7682457345500B7FC00 /* NoteDisplayView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -605,6 +621,7 @@
 				95D2933D2408247000FDD6F4 /* File.swift */,
 				95D2933F2408247100FDD6F4 /* Login.swift */,
 				95D2933E2408247100FDD6F4 /* Password.swift */,
+				5B43E76C2457352900B7FC00 /* Note.swift */,
 			);
 			path = Value;
 			sourceTree = "<group>";
@@ -616,6 +633,7 @@
 				95D29363240826FE00FDD6F4 /* FileCoding.swift */,
 				95D29364240826FE00FDD6F4 /* LoginCoding.swift */,
 				95D29362240826FE00FDD6F4 /* PasswordCoding.swift */,
+				5B43E76E245736BE00B7FC00 /* NoteCoding.swift */,
 				95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */,
 				95D293572408259D00FDD6F4 /* CodingError.swift */,
 				95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */,
@@ -943,14 +961,17 @@
 				951C33A724367A64002AA4CD /* ContentWindowController.swift in Sources */,
 				9561123F2437D45D00028F6E /* DecodeMasterKeyPublisher.swift in Sources */,
 				95D293422408247100FDD6F4 /* Password.swift in Sources */,
+				5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */,
 				95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */,
 				953EF2B72444BED800627B1B /* LoginEditModel.swift in Sources */,
 				957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
 				95F309B024571CC700C3F591 /* VaultItemModelContext.swift in Sources */,
+				5B43E76D2457352900B7FC00 /* Note.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
 				9593AAAD244F21B9004740D5 /* VaultItemInfoCoding.swift in Sources */,
 				953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */,
+				5B43E76F245736BE00B7FC00 /* NoteCoding.swift in Sources */,
 				953EF2DA2444BF1C00627B1B /* VaultItemEditView.swift in Sources */,
 				95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */,
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
@@ -961,12 +982,14 @@
 				9593AAB6244F221D004740D5 /* VaultItemCryptor.swift in Sources */,
 				95169CD82452E96000520DB6 /* VaultItemLoadedModel.swift in Sources */,
 				95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */,
+				5B43E76B245734E700B7FC00 /* NoteDisplayModel.swift in Sources */,
 				95F309BE24571E0300C3F591 /* VaultItemView.swift in Sources */,
 				953EF2952444BD2100627B1B /* Localizable.swift in Sources */,
 				952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */,
 				95D293432408247100FDD6F4 /* Login.swift in Sources */,
 				953EF2E22444BF1C00627B1B /* FileStateView.swift in Sources */,
 				953EF2B32444BED800627B1B /* LockedModel.swift in Sources */,
+				5B43E7692457345500B7FC00 /* NoteDisplayView.swift in Sources */,
 				95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */,
 				95169CC82452E52400520DB6 /* PasswordDisplayView.swift in Sources */,
 				95169CD12452E93000520DB6 /* VaultItemDisplayModel.swift in Sources */,
@@ -979,6 +1002,7 @@
 				951C33A224367707002AA4CD /* ViewExtension.swift in Sources */,
 				95F309B524571D4500C3F591 /* VaultItemCreatingModel.swift in Sources */,
 				951C3396243633F5002AA4CD /* Vault.swift in Sources */,
+				5B43E771245737A700B7FC00 /* NoteEditModel.swift in Sources */,
 				9561124224389D6600028F6E /* MainMenuController.swift in Sources */,
 				952A08CF2453770F0053B753 /* SecureText.swift in Sources */,
 				953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */,

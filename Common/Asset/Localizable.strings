@@ -36,6 +36,8 @@
 "Modified" = "modified";
 "Next" = "Continue";
 "NoMatches" = "Sorry, no matches";
+"Note" = "Note";
+"NotePlaceholder" = "Enter note here";
 "Password" = "Password";
 "PasswordMismatch" = "These passwords do not match.";
 "Paste" = "Paste";
