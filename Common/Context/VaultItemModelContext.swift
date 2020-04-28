@@ -1,21 +1,16 @@
-import Combine
+import Foundation
 
-class VaultItemModelContext {
+struct VaultItemModelContext {
     
-    private let saveOperation: SaveVaultItemOperation
-    private let loadOperation: LoadVaultItemOperation
-    
-    init(saveOperation: SaveVaultItemOperation, loadOperation: LoadVaultItemOperation, reload: @escaping () -> Void) {
-        self.saveOperation = saveOperation
-        self.loadOperation = loadOperation
-    }
+    let itemId: UUID
+    let vault: Vault
     
     func vaultItemLoadingModel() -> VaultItemLoadingModel {
-        return VaultItemLoadingModel(loadOperation: loadOperation)
+        return VaultItemLoadingModel(itemId: itemId, vault: vault)
     }
     
     func vaultItemLoadedModelContext() -> VaultItemLoadedModelContext {
-        return VaultItemLoadedModelContext(saveOperation: saveOperation)
+        return VaultItemLoadedModelContext(vault: vault)
     }
     
 }

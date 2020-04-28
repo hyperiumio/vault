@@ -2,27 +2,60 @@ import Combine
 import CryptoKit
 import Foundation
 
-struct Vault {
+class Vault {
     
-    let contentUrl: URL
-    let masterKey: SymmetricKey
+    let didChange = PassthroughSubject<Void, Never>()
     
-    private let serialQueue = DispatchQueue(label: "VaultSerialQueue")
+    private let directoryUrl: URL
+    private let masterKey: SymmetricKey
+    private let fileOperationQueue = DispatchQueue(label: "VaultFileOperationQueue")
     
-    func loadVaultItemInfoCollectionOperation() -> LoadVaultItemInfoCollectionOperation {
-        return LoadVaultItemInfoCollectionOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    init(url: URL, masterKey: SymmetricKey) {
+        self.directoryUrl = url
+        self.masterKey = masterKey
     }
     
-    func loadVaultItemOperation(vaultItemId: UUID) -> LoadVaultItemOperation {
-        return LoadVaultItemOperation(vaultItemId: vaultItemId, contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    func loadVaultItemInfoCollection() -> Future<[VaultItem.Info], Error> {
+        return Future { [directoryUrl, masterKey, fileOperationQueue] promise in
+            fileOperationQueue.async {
+                let result = LoadVaultItemInfoCollectionOperation(directoryUrl: directoryUrl, masterKey: masterKey)
+                promise(result)
+            }
+        }
     }
     
-    func saveVaultItemOperation() -> SaveVaultItemOperation {
-        return SaveVaultItemOperation(contentUrl: contentUrl, masterKey: masterKey, serialQueue: serialQueue)
+    func loadVaultItem(itemId: UUID) -> Future<VaultItem, Error> {
+        return Future { [directoryUrl, masterKey, fileOperationQueue] promise in
+            fileOperationQueue.async {
+                let itemUrl = VaultItemLocation(directoryUrl: directoryUrl, itemId: itemId)
+                let result = LoadVaultItemOperation(itemUrl: itemUrl, masterKey: masterKey)
+                promise(result)
+            }
+        }
     }
     
-    func deleteVaultItemCollectionOperation() -> DeleteVaultItemCollectionOperation {
-        return DeleteVaultItemCollectionOperation(contentUrl: contentUrl, serialQueue: serialQueue)
+    func saveVaultItem(_ vaultItem: VaultItem) -> Future<Void, Error> {
+        return Future { [didChange, directoryUrl, masterKey, fileOperationQueue] promise in
+            fileOperationQueue.async {
+                let itemUrl = VaultItemLocation(directoryUrl: directoryUrl, itemId: vaultItem.id)
+                let result = SaveVaultItemOperation(vaultItem: vaultItem, itemUrl: itemUrl, masterKey: masterKey)
+                promise(result)
+                
+                didChange.send()
+            }
+        }
+    }
+    
+    func deleteVaultItem(itemId: UUID) -> Future<Void, Error> {
+        return Future { [didChange, directoryUrl, fileOperationQueue] promise in
+            fileOperationQueue.async {
+                let itemUrl = VaultItemLocation(directoryUrl: directoryUrl, itemId: itemId)
+                let result = DeleteVaultItemOperation(itemUrl: itemUrl)
+                promise(result)
+                
+                didChange.send()
+            }
+        }
     }
     
 }
