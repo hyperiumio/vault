@@ -3,6 +3,7 @@ enum SecureItemDisplayModel {
     case login(LoginDisplayModel)
     case password(PasswordDisplayModel)
     case file(FileDisplayModel)
+    case note(NoteDisplayModel)
     
     init(_ secureItem: SecureItem) {
         switch secureItem {
@@ -15,6 +16,9 @@ enum SecureItemDisplayModel {
         case .file(let file):
             let model = FileDisplayModel(file)
             self = .file(model)
+        case .note(let note):
+            let model = NoteDisplayModel(note)
+            self = .note(model)
         }
     }
     
@@ -29,6 +33,8 @@ extension SecureItemDisplayModel: Identifiable {
         case .password(let model):
             return model.id
         case .file(let model):
+            return model.id
+        case .note(let model):
             return model.id
         }
     }

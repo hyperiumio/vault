@@ -35,6 +35,8 @@ extension LocalizedStringKey {
     static let modified = LocalizedStringKey("Modified")
     static let next = LocalizedStringKey("Next")
     static let noMatches = LocalizedStringKey("NoMatches")
+    static let note = LocalizedStringKey("Note")
+    static let notePlaceholder = LocalizedStringKey("NotePlaceholder")
     static let password = LocalizedStringKey("Password")
     static let passwordMismatch = LocalizedStringKey("PasswordMismatch")
     static let paste = LocalizedStringKey("Paste")

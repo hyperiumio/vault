@@ -5,6 +5,7 @@ enum SecureItemEditModel: Identifiable {
     case login(LoginEditModel)
     case password(PasswordEditModel)
     case file(FileEditModel)
+    case note(NoteEditModel)
     
     var id: ObjectIdentifier {
         switch self {
@@ -13,6 +14,8 @@ enum SecureItemEditModel: Identifiable {
         case .password(let model):
             return model.id
         case .file(let model):
+            return model.id
+        case .note(let model):
             return model.id
         }
     }
@@ -25,6 +28,8 @@ enum SecureItemEditModel: Identifiable {
             return model.isComplete
         case .file(let model):
             return model.isComplete
+        case .note(let model):
+            return model.isComplete
         }
     }
     
@@ -36,6 +41,8 @@ enum SecureItemEditModel: Identifiable {
             return model.objectWillChange
         case .file(let model):
             return model.objectWillChange
+        case .note(let model):
+            return model.objectWillChange
         }
     }
     
@@ -46,6 +53,8 @@ enum SecureItemEditModel: Identifiable {
         case .password(let model):
             return model.secureItem
         case .file(let model):
+            return model.secureItem
+        case .note(let model):
             return model.secureItem
         }
     }
@@ -61,6 +70,9 @@ enum SecureItemEditModel: Identifiable {
         case .file:
             let model = FileEditModel(initialState: .empty)
             self = .file(model)
+        case .note:
+            let model = NoteEditModel()
+            self = .note(model)
         }
     }
     
@@ -74,6 +86,9 @@ enum SecureItemEditModel: Identifiable {
             self = .login(model)
         case .file(let file):
             fatalError()
+        case .note(let note):
+            let model = NoteEditModel(note)
+            self = .note(model)
         }
     }
     
