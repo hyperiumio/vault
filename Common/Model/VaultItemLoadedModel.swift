@@ -8,7 +8,7 @@ class VaultItemLoadedModel: ObservableObject {
         }
     }
     
-    private let vaultItem: VaultItem
+    private var vaultItem: VaultItem
     private let context: VaultItemLoadedModelContext
     private var stateTransitionSubscription: AnyCancellable?
     
@@ -44,13 +44,12 @@ class VaultItemLoadedModel: ObservableObject {
                         return
                     }
                     
-                    switch completion {
-                    case .canceled:
-                        let displayModel = VaultItemDisplayModel(vaultItem: self.vaultItem)
-                        self.state = .display(displayModel)
-                    case .saved:
-                        break
+                    if case .saved(let vaultItem) = completion  {
+                        self.vaultItem = vaultItem
                     }
+                    
+                    let displayModel = VaultItemDisplayModel(vaultItem: self.vaultItem)
+                    self.state = .display(displayModel)
                 }
         }
     }

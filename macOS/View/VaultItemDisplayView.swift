@@ -7,17 +7,17 @@ struct VaultItemDisplayView: View {
     var body: some View {
         return VStack {
             Text(model.title)
-            
-            Divider()
+                .padding()
             
             Form {
                 ForEach(model.secureItemModels) { secureItemModel in
                     SecureItemDisplayView(model: secureItemModel)
+                        .padding()
                 }
             }
             
             Button(.edit, action: model.edit)
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+        }.frame(minWidth: 200, maxWidth: .infinity, maxHeight: .infinity)
     }
     
 }
