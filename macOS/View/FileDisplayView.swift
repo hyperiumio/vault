@@ -7,6 +7,8 @@ struct FileDisplayView: View {
     var body: some View {
         return VStack {
             Text(model.filename)
+            
+            FileContentView(fileData: model.fileData, fileType: model.fileType)
         }
     }
     

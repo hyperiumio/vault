@@ -6,6 +6,14 @@ class FileDisplayModel: ObservableObject, Identifiable {
         return file.name
     }
     
+    var fileType: File.FileType {
+        return file.type
+    }
+    
+    var fileData: Data {
+        return file.data
+    }
+    
     private let file: File
     
     init(_ file: File) {
