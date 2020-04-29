@@ -2,7 +2,7 @@ import SwiftUI
 
 struct FileStateEmptyView: View {
     
-    @ObservedObject var model: FileStateEmptyModel
+    @ObservedObject var model: FileEmptyModel
     @State var isTargeted = false
     
     var body: some View {

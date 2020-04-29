@@ -2,8 +2,8 @@ import Foundation
 
 class FileDisplayModel: ObservableObject, Identifiable {
     
-    var fullName: String {
-        return "\(file.attributes.filename).\(file.attributes.fileExtension)"
+    var filename: String {
+        return file.name
     }
     
     private let file: File

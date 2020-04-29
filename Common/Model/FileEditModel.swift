@@ -3,16 +3,14 @@ import Foundation
 
 class FileEditModel: ObservableObject, Identifiable {
     
-    @Published var fileName = ""
-    
-    @Published var fileState: FileState {
+    @Published var state: State {
         didSet {
             setupStateTransitions()
         }
     }
     
     var isComplete: Bool {
-        guard !fileName.isEmpty, case .loaded = fileState else {
+        guard case .loaded = state else {
             return false
         }
         
@@ -20,29 +18,32 @@ class FileEditModel: ObservableObject, Identifiable {
     }
     
     var secureItem: SecureItem? {
-        guard !fileName.isEmpty, case .loaded(let model) = fileState else {
+        guard case .loaded(let model) = state else {
+            return nil
+        }
+        guard let file = model.file else {
             return nil
         }
         
-        let attributes = File.Attributes(filename: fileName, fileExtension: "")
-        let file = File(attributes: attributes, fileData: model.data)
         return SecureItem.file(file)
     }
     
     private var stateTransitionSubscription: AnyCancellable?
     
-    init(initialState: InitialState) {
-        switch initialState {
-        case .empty:
-            let model = FileStateEmptyModel()
-            self.fileState = .empty(model)
+    init(_ file: File? = nil) {
+        if let file = file {
+            let model = FileLoadedModel(file)
+            self.state = .loaded(model)
+        } else {
+            let model = FileEmptyModel()
+            self.state = .empty(model)
         }
         
         setupStateTransitions()
     }
     
     private func setupStateTransitions() {
-        switch fileState {
+        switch state {
         case .empty(let model):
             stateTransitionSubscription = model.didReceiveUrl
                 .receive(on: DispatchQueue.main)
@@ -53,8 +54,8 @@ class FileEditModel: ObservableObject, Identifiable {
                     
                     switch result {
                     case .success(let url):
-                        let model = FileStateCopyingModel(fileUrl: url)
-                        self.fileState = .copying(model)
+                        let model = FileCopyingModel(fileUrl: url)
+                        self.state = .copying(model)
                     case .failure:
                         break
                     }
@@ -68,17 +69,13 @@ class FileEditModel: ObservableObject, Identifiable {
                     }
                     
                     switch result {
-                    case .success(let data):
-                        let model = FileStateLoadedModel(data: data)
-                        self.fileState = .loaded(model)
+                    case .success(let file):
+                        let model = FileLoadedModel(file)
+                        self.state = .loaded(model)
                     case .failure:
                         break
                     }
                 }
-            return
-        case .available:
-            return
-        case .loading:
             return
         case .loaded:
             return
@@ -88,20 +85,12 @@ class FileEditModel: ObservableObject, Identifiable {
 }
 
 extension FileEditModel {
- 
-    enum InitialState {
-        
-        case empty
-        
-    }
     
-    enum FileState {
+    enum State {
         
-        case empty(FileStateEmptyModel)
-        case copying(FileStateCopyingModel)
-        case available
-        case loading
-        case loaded(FileStateLoadedModel)
+        case empty(FileEmptyModel)
+        case copying(FileCopyingModel)
+        case loaded(FileLoadedModel)
         
     }
     

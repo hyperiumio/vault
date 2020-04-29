@@ -3,8 +3,8 @@ import Foundation
 func FileEncode(_ file: File) throws -> Data {
     do {
         let container = [
-            try JSONEncoder().encode(file.attributes),
-            file.fileData
+            try JSONEncoder().encode(file.name),
+            file.data
         ] as DataContainer
         return try container.encode()
     } catch {
@@ -19,13 +19,13 @@ func FileDecode(data: Data) throws -> File {
         guard let encodedAttributes = container[.attributesIndex] else {
             throw CodingError.decodingFailed
         }
-        let attributes = try JSONDecoder().decode(File.Attributes.self, from: encodedAttributes)
-        
         guard let fileData = container[.fileDataIndex] else {
             throw CodingError.decodingFailed
         }
         
-        return File(attributes: attributes, fileData: fileData)
+        let filename = try JSONDecoder().decode(String.self, from: encodedAttributes)
+        
+        return File(name: filename, data: fileData)
     } catch {
         throw CodingError.encodingFailed
     }
