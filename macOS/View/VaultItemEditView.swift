@@ -7,12 +7,16 @@ struct VaultItemEditView: View {
     var body: some View {
         return VStack {
             TextField(.title, text: $model.title)
-            
-            Divider()
+                .padding()
             
             Form {
-                SecureItemEditView(secureItemModel: model.secureItemModel)
+                ForEach(model.secureItemModels) { secureItemModel in
+                    SecureItemEditView(secureItemModel: secureItemModel)
+                        .padding()
+                }
             }
+            
+            CreateVaultItemButton(action: model.addItem)
             
             HStack {
                 Button(.cancel, action: model.cancel)
@@ -20,7 +24,7 @@ struct VaultItemEditView: View {
                     .disabled(!model.saveButtonEnabled)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(minWidth: 200, maxWidth: .infinity, maxHeight: .infinity)
         .disabled(model.isLoading)
         .alert(item: $model.errorMessage) { error in
             return .saveFailed
