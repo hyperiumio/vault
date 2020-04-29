@@ -418,18 +418,17 @@
 			children = (
 				95F309A22457153100C3F591 /* Completable.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
-				953EF2972444BDF100627B1B /* FileCopyingModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2982444BDF100627B1B /* FileEditModel.swift */,
+				953EF2972444BDF100627B1B /* FileCopyingModel.swift */,
 				953EF2962444BDF100627B1B /* FileEmptyModel.swift */,
 				953EF2992444BDF100627B1B /* FileLoadedModel.swift */,
 				953EF2A92444BED700627B1B /* LockedModel.swift */,
 				95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */,
 				953EF2AB2444BED800627B1B /* LoginEditModel.swift */,
-				5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */,
-				5B43E770245737A700B7FC00 /* NoteEditModel.swift */,
 				95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */,
 				953EF2A62444BED700627B1B /* PasswordEditModel.swift */,
+				5B43E770245737A700B7FC00 /* NoteEditModel.swift */,
 				95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */,
 				95A550A524486F0700F061AB /* SecureItemEditModel.swift */,
 				953EF2AA2444BED700627B1B /* SetupModel.swift */,
@@ -440,6 +439,7 @@
 				95169CD62452E96000520DB6 /* VaultItemLoadedModel.swift */,
 				95169CD72452E96000520DB6 /* VaultItemLoadingModel.swift */,
 				95F309B724571D8700C3F591 /* VaultItemModel.swift */,
+				5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -447,6 +447,9 @@
 		951C33AD24367FEA002AA4CD /* View */ = {
 			isa = PBXGroup;
 			children = (
+				95F309BD24571E0300C3F591 /* VaultItemView.swift */,
+				95F309BA24571DA600C3F591 /* VaultItemCreatingView.swift */,
+				952A08CE2453770F0053B753 /* SecureText.swift */,
 				953EF2CB2444BF1C00627B1B /* ActivityIndicator.swift */,
 				953EF2C22444BF1B00627B1B /* ContentView.swift */,
 				957D1942245027E500BCA612 /* CreateVaultItemButton.swift */,
@@ -460,22 +463,19 @@
 				95169CBE2452E4CC00520DB6 /* LoginDisplayView.swift */,
 				953EF2CE2444BF1C00627B1B /* LoginEditView.swift */,
 				953EF2BF2444BF1B00627B1B /* MenuItem.swift */,
-				5B43E7682457345500B7FC00 /* NoteDisplayView.swift */,
-				5B43E7722457386A00B7FC00 /* NoteEditView.swift */,
 				95169CC72452E52400520DB6 /* PasswordDisplayView.swift */,
 				953EF2CC2444BF1C00627B1B /* PasswordEditView.swift */,
+				5B43E7722457386A00B7FC00 /* NoteEditView.swift */,
 				953EF2C62444BF1C00627B1B /* ProgressIndicator.swift */,
 				95169CCD2452E8FD00520DB6 /* SecureItemDisplayView.swift */,
 				953EF2C72444BF1C00627B1B /* SecureItemEditView.swift */,
-				952A08CE2453770F0053B753 /* SecureText.swift */,
 				953EF2CD2444BF1C00627B1B /* SetupView.swift */,
 				953EF2C32444BF1C00627B1B /* UnlockedView.swift */,
-				95F309BA24571DA600C3F591 /* VaultItemCreatingView.swift */,
 				95169CD32452E94000520DB6 /* VaultItemDisplayView.swift */,
 				953EF2C42444BF1C00627B1B /* VaultItemEditView.swift */,
 				95169CDC2452E97400520DB6 /* VaultItemLoadedView.swift */,
 				95169CDD2452E97400520DB6 /* VaultItemLoadingView.swift */,
-				95F309BD24571E0300C3F591 /* VaultItemView.swift */,
+				5B43E7682457345500B7FC00 /* NoteDisplayView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
