@@ -68,7 +68,7 @@ enum SecureItemEditModel: Identifiable {
             let model = PasswordEditModel()
             self = .password(model)
         case .file:
-            let model = FileEditModel(initialState: .empty)
+            let model = FileEditModel()
             self = .file(model)
         case .note:
             let model = NoteEditModel()
@@ -85,7 +85,8 @@ enum SecureItemEditModel: Identifiable {
             let model = LoginEditModel(login)
             self = .login(model)
         case .file(let file):
-            fatalError()
+            let model = FileEditModel(file)
+            self = .file(model)
         case .note(let note):
             let model = NoteEditModel(note)
             self = .note(model)

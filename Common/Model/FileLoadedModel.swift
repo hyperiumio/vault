@@ -1,12 +1,23 @@
 import Combine
 import Foundation
 
-class FileStateLoadedModel: ObservableObject {
+class FileLoadedModel: ObservableObject {
     
-    let data: Data
+    @Published var filename: String
     
-    init(data: Data) {
-        self.data = data
+    let fileData: Data
+    
+    var file: File? {
+        guard !filename.isEmpty else {
+            return nil
+        }
+        
+        return File(name: filename, data: fileData)
+    }
+    
+    init(_ file: File) {
+        self.filename = file.name
+        self.fileData = file.data
     }
     
     func itemProvider() -> NSItemProvider {

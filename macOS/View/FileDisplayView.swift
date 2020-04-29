@@ -6,7 +6,7 @@ struct FileDisplayView: View {
     
     var body: some View {
         return VStack {
-            Text(model.fullName)
+            Text(model.filename)
         }
     }
     
