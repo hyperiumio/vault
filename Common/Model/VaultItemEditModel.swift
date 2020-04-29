@@ -6,12 +6,12 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     @Published var title = ""
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
-    
-    let secureItemModel: SecureItemEditModel
+    @Published var secureItemModels: [SecureItemEditModel]
     
     var saveButtonEnabled: Bool {
-        let didChange = title != originalVaultItem.title || secureItemModel.secureItem != originalVaultItem.secureItem
-        return !title.isEmpty && secureItemModel.isComplete && didChange
+        let secureModelsComplete = secureItemModels.allSatisfy(\.isComplete)
+        let didChange = title != originalVaultItem.title || secureItemModels.compactMap(\.secureItem) != originalVaultItem.secureItems
+        return !isLoading && !title.isEmpty && secureModelsComplete && didChange
     }
     
     internal var completionPromise: Future<Completion, Never>.Promise?
@@ -24,20 +24,36 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     init(vaultItem: VaultItem, vault: Vault) {
         self.originalVaultItem = vaultItem
         self.title = vaultItem.title
-        self.secureItemModel = SecureItemEditModel(vaultItem.secureItem)
+        self.secureItemModels = vaultItem.secureItems.map(SecureItemEditModel.init)
         self.vault = vault
         
-        self.childModelSubscription = secureItemModel.objectWillChange
+        let willChangePublishers = secureItemModels.map(\.objectWillChange)
+        self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
+            .sink(receiveValue: objectWillChange.send)
+    }
+    
+    func addItem(itemType: SecureItemType) {
+        let model = SecureItemEditModel(itemType)
+        secureItemModels.append(model)
+        
+        let willChangePublishers = secureItemModels.map(\.objectWillChange)
+        childModelSubscription = Publishers.MergeMany(willChangePublishers)
             .sink(receiveValue: objectWillChange.send)
     }
     
     func save() {
-        guard let secureItem = secureItemModel.secureItem else {
+        let secureItems = secureItemModels.compactMap(\.secureItem)
+        guard secureItems.count == secureItemModels.count else {
             return
         }
+        guard let secureItem = secureItems.first else {
+            return
+        }
+        let secureItemsTail = secureItems.dropFirst()
+        let secondarySecureItems = Array(secureItemsTail)
+        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
         
         isLoading = true
-        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, secureItem: secureItem, secondarySecureItems: [])
         saveSubscription = vault.saveVaultItem(vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
@@ -48,7 +64,8 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
                 self.isLoading = false
                 switch result {
                 case .success:
-                    let saved = Result<Completion, Never>.success(.saved)
+                    let completion = Completion.saved(vaultItem)
+                    let saved = Result<Completion, Never>.success(completion)
                     self.completionPromise?(saved)
                 case .failure:
                     self.errorMessage = .saveOperationFailed
@@ -74,7 +91,7 @@ extension VaultItemEditModel {
     enum Completion {
         
         case canceled
-        case saved
+        case saved(VaultItem)
         
     }
     

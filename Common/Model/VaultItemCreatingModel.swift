@@ -6,11 +6,11 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     @Published var title = ""
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
-    
-    let secureItemModel: SecureItemEditModel
+    @Published var secureItemModels: [SecureItemEditModel]
     
     var saveButtonEnabled: Bool {
-        return !title.isEmpty && secureItemModel.isComplete
+        let secureModelsComplete = secureItemModels.allSatisfy(\.isComplete)
+        return !isLoading && !title.isEmpty && secureModelsComplete
     }
     
     internal var completionPromise: Future<Completion, Never>.Promise?
@@ -20,20 +20,36 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     private var saveSubscription: AnyCancellable?
     
     init(itemType: SecureItemType, vault: Vault) {
-        self.secureItemModel = SecureItemEditModel(itemType)
+        self.secureItemModels = [SecureItemEditModel(itemType)]
         self.vault = vault
         
-        self.childModelSubscription = secureItemModel.objectWillChange
+        let willChangePublishers = secureItemModels.map(\.objectWillChange)
+        self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
+            .sink(receiveValue: objectWillChange.send)
+    }
+    
+    func addItem(itemType: SecureItemType) {
+        let model = SecureItemEditModel(itemType)
+        secureItemModels.append(model)
+        
+        let willChangePublishers = secureItemModels.map(\.objectWillChange)
+        childModelSubscription = Publishers.MergeMany(willChangePublishers)
             .sink(receiveValue: objectWillChange.send)
     }
     
     func save() {
-        guard let secureItem = secureItemModel.secureItem else {
+        let secureItems = secureItemModels.compactMap(\.secureItem)
+        guard secureItems.count == secureItemModels.count else {
             return
         }
+        guard let secureItem = secureItems.first else {
+            return
+        }
+        let secureItemsTail = secureItems.dropFirst()
+        let secondarySecureItems = Array(secureItemsTail)
+        let vaultItem = VaultItem(title: title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
         
         isLoading = true
-        let vaultItem = VaultItem(title: title, secureItem: secureItem, secondarySecureItems: [])
         saveSubscription = vault.saveVaultItem(vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
