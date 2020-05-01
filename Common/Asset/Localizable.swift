@@ -6,6 +6,7 @@ extension LocalizedStringKey {
     static let appName = LocalizedStringKey("AppName")
     static let cancel = LocalizedStringKey("Cancel")
     static let changePasswordAdvice = LocalizedStringKey("ChangePasswordAdvice")
+    static let chooseItemType = LocalizedStringKey("ChooseItemType")
     static let copy = LocalizedStringKey("Copy")
     static let created = LocalizedStringKey("Created")
     static let createPasswordAdvice = LocalizedStringKey("CreatePasswordAdvice")
