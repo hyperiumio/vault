@@ -33,7 +33,7 @@ class LockedModel: ObservableObject {
     func login() {
         message = nil
         isLoading = true
-        decodeMasterKeySubscription = DecodeMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
+        decodeMasterKeySubscription = DecodeMasterKeyPublisher(masterKeyContainerUrl: masterKeyUrl, password: password)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

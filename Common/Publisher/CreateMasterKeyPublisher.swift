@@ -8,11 +8,11 @@ func CreateMasterKeyPublisher(masterKeyUrl: URL, password: String) -> Future<Sym
             do {
                 let salt = try Salt(size: .saltSize)
                 let masterKey = try DerivedKey(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
-                let encodedMasterKey = try MasterKeyContainer.encodeMasterKey(masterKey, salt: salt, rounds: .keyDerivationRounds, password: password)
+                let masterKeyContainer = try MasterKeyContainerEncrypt(masterKey: masterKey, salt: salt, rounds: .keyDerivationRounds, password: password)
                 
                 let masterKeyDirectory = masterKeyUrl.deletingLastPathComponent()
                 try FileManager.default.createDirectory(at: masterKeyDirectory, withIntermediateDirectories: true)
-                try encodedMasterKey.write(to: masterKeyUrl)
+                try masterKeyContainer.write(to: masterKeyUrl)
                 
                 let result = Result<SymmetricKey, Error>.success(masterKey)
                 promise(result)
