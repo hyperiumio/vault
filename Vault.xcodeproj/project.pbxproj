@@ -189,7 +189,7 @@
 		954AEA9E245AFD3300FEDE04 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
 		954AEA9F245AFD3300FEDE04 /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
-		954AEAA1245AFD3300FEDE04 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
+		954AEAA1245AFD3300FEDE04 /* KeyCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */; };
 		954AEAA2245AFD3300FEDE04 /* DerivedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* DerivedKey.swift */; };
 		954AEAA3245AFD3300FEDE04 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		954AEAA4245AFD3300FEDE04 /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
@@ -316,7 +316,7 @@
 		95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBC2365B9C900460726 /* SaltTestCase.swift */; };
 		95C12DBF2365B9D200460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		95C12DC02365B9E800460726 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
-		95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */; };
+		95C12DC52365C5F500460726 /* KeyCryptoTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DC42365C5F400460726 /* KeyCryptoTestCase.swift */; };
 		95D1C26A236CCD22001E66D7 /* SymmetricKeyWrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */; };
 		95D293412408247100FDD6F4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933D2408247000FDD6F4 /* File.swift */; };
 		95D293422408247100FDD6F4 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933E2408247100FDD6F4 /* Password.swift */; };
@@ -345,8 +345,8 @@
 		95F309BE24571E0300C3F591 /* VaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F309BD24571E0300C3F591 /* VaultItemView.swift */; };
 		95F309BF24571E0300C3F591 /* VaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F309BD24571E0300C3F591 /* VaultItemView.swift */; };
 		95F5193223F1599300C5ECA9 /* ByteBufferContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */; };
-		95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
-		95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
+		95F5193423F15BCF00C5ECA9 /* KeyCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */; };
+		95F5193723F15D6E00C5ECA9 /* KeyCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */; };
 		95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193823F15DE200C5ECA9 /* DataExtension.swift */; };
 		95F5193D23F1601100C5ECA9 /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
 		95F90422235DEAB700B1CFDB /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F90420235DEAB700B1CFDB /* main.swift */; };
@@ -476,7 +476,7 @@
 		95C12DBA2365B9C100460726 /* RNGStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RNGStub.swift; sourceTree = "<group>"; };
 		95C12DBC2365B9C900460726 /* SaltTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaltTestCase.swift; sourceTree = "<group>"; };
 		95C12DBE2365B9D200460726 /* Salt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Salt.swift; sourceTree = "<group>"; };
-		95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCryptorTestCase.swift; sourceTree = "<group>"; };
+		95C12DC42365C5F400460726 /* KeyCryptoTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyCryptoTestCase.swift; sourceTree = "<group>"; };
 		95CC68102381ADDE0018F923 /* Vault.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Vault.xctestplan; sourceTree = "<group>"; };
 		95D1C269236CCD22001E66D7 /* SymmetricKeyWrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyWrapMock.swift; sourceTree = "<group>"; };
 		95D2933D2408247000FDD6F4 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -499,7 +499,7 @@
 		95F309BA24571DA600C3F591 /* VaultItemCreatingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCreatingView.swift; sourceTree = "<group>"; };
 		95F309BD24571E0300C3F591 /* VaultItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemView.swift; sourceTree = "<group>"; };
 		95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ByteBufferContext.swift; sourceTree = "<group>"; };
-		95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCryptor.swift; sourceTree = "<group>"; };
+		95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCrypto.swift; sourceTree = "<group>"; };
 		95F5193823F15DE200C5ECA9 /* DataExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataExtension.swift; sourceTree = "<group>"; };
 		95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureDataByteBuffer.swift; sourceTree = "<group>"; };
 		95F9041F235DEAB700B1CFDB /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
@@ -735,7 +735,7 @@
 				9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */,
 				952A237A23F4350100142C38 /* SecureData.swift */,
 				95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */,
-				95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */,
+				95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */,
 				95B20B4523BA1840005D71CD /* DerivedKey.swift */,
 				95C12DBE2365B9D200460726 /* Salt.swift */,
 				952A237E23F44F6700142C38 /* MasterKeyContainer.swift */,
@@ -757,7 +757,7 @@
 			isa = PBXGroup;
 			children = (
 				95C12DBC2365B9C900460726 /* SaltTestCase.swift */,
-				95C12DC42365C5F400460726 /* KeyCryptorTestCase.swift */,
+				95C12DC42365C5F400460726 /* KeyCryptoTestCase.swift */,
 				954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */,
 				9517BFB3236B327D00195DC7 /* DataExtensionTestCase.swift */,
 			);
@@ -1101,7 +1101,7 @@
 				95791A6623B61CE20096DC79 /* CryptoWrapper.c in Sources */,
 				953EF2F92444BF8F00627B1B /* FileStateLoadedView.swift in Sources */,
 				95169CE12452E97400520DB6 /* VaultItemLoadingView.swift in Sources */,
-				95F5193723F15D6E00C5ECA9 /* KeyCryptor.swift in Sources */,
+				95F5193723F15D6E00C5ECA9 /* KeyCrypto.swift in Sources */,
 				953EF3052444BF8F00627B1B /* VaultItemEditView.swift in Sources */,
 				953EF2F42444BF8A00627B1B /* NSMenuExtension.swift in Sources */,
 				953EF2BE2444BEF700627B1B /* ContentModelContext.swift in Sources */,
@@ -1151,7 +1151,7 @@
 				95C12DBD2365B9C900460726 /* SaltTestCase.swift in Sources */,
 				953EF2F72444BF8F00627B1B /* FileStateCopyingView.swift in Sources */,
 				95F309BC24571DA600C3F591 /* VaultItemCreatingView.swift in Sources */,
-				95C12DC52365C5F500460726 /* KeyCryptorTestCase.swift in Sources */,
+				95C12DC52365C5F500460726 /* KeyCryptoTestCase.swift in Sources */,
 				953EF2FF2444BF8F00627B1B /* MenuItem.swift in Sources */,
 				958555DF245987B000219BDD /* Note.swift in Sources */,
 				9561125A2438DBE100028F6E /* Login.swift in Sources */,
@@ -1257,7 +1257,7 @@
 				95D293432408247100FDD6F4 /* Login.swift in Sources */,
 				953EF2B32444BED800627B1B /* LockedModel.swift in Sources */,
 				5B43E7692457345500B7FC00 /* NoteDisplayView.swift in Sources */,
-				95F5193423F15BCF00C5ECA9 /* KeyCryptor.swift in Sources */,
+				95F5193423F15BCF00C5ECA9 /* KeyCrypto.swift in Sources */,
 				95169CC82452E52400520DB6 /* PasswordDisplayView.swift in Sources */,
 				95169CD12452E93000520DB6 /* VaultItemDisplayModel.swift in Sources */,
 				95D29366240826FE00FDD6F4 /* PasswordCoding.swift in Sources */,
@@ -1387,7 +1387,7 @@
 				954AEA9E245AFD3300FEDE04 /* VaultItemCryptor.swift in Sources */,
 				954AEA9F245AFD3300FEDE04 /* SecureData.swift in Sources */,
 				954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */,
-				954AEAA1245AFD3300FEDE04 /* KeyCryptor.swift in Sources */,
+				954AEAA1245AFD3300FEDE04 /* KeyCrypto.swift in Sources */,
 				954AEAC7245B234200FEDE04 /* NoteEditView.swift in Sources */,
 				954AEAA2245AFD3300FEDE04 /* DerivedKey.swift in Sources */,
 				954AEAA3245AFD3300FEDE04 /* Salt.swift in Sources */,
