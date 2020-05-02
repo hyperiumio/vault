@@ -186,7 +186,7 @@
 		954AEA91245AFD3300FEDE04 /* Password.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2933E2408247100FDD6F4 /* Password.swift */; };
 		954AEA92245AFD3300FEDE04 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76C2457352900B7FC00 /* Note.swift */; };
 		954AEA9C245AFD3300FEDE04 /* CryptoWrapper.c in Sources */ = {isa = PBXBuildFile; fileRef = 957D62F3238815D7000577FE /* CryptoWrapper.c */; };
-		954AEA9E245AFD3300FEDE04 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
+		954AEA9E245AFD3300FEDE04 /* VaultItemCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */; };
 		954AEA9F245AFD3300FEDE04 /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
 		954AEAA1245AFD3300FEDE04 /* KeyCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCrypto.swift */; };
@@ -296,8 +296,8 @@
 		9593AAB1244F21DC004740D5 /* VaultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAAF244F21DC004740D5 /* VaultItem.swift */; };
 		9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		9593AAB4244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
-		9593AAB6244F221D004740D5 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
-		9593AAB7244F221D004740D5 /* VaultItemCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */; };
+		9593AAB6244F221D004740D5 /* VaultItemCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */; };
+		9593AAB7244F221D004740D5 /* VaultItemCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */; };
 		95A0A37E2448707D00815F9B /* SecureItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A550A524486F0700F061AB /* SecureItemEditModel.swift */; };
 		95A550A624486F0700F061AB /* SecureItemEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A550A524486F0700F061AB /* SecureItemEditModel.swift */; };
 		95A7CDAF245729B5000AF9DE /* VaulItemLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */; };
@@ -461,7 +461,7 @@
 		9593AAAC244F21B9004740D5 /* VaultItemInfoCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemInfoCoding.swift; sourceTree = "<group>"; };
 		9593AAAF244F21DC004740D5 /* VaultItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItem.swift; sourceTree = "<group>"; };
 		9593AAB2244F21FA004740D5 /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
-		9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCryptor.swift; sourceTree = "<group>"; };
+		9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCrypto.swift; sourceTree = "<group>"; };
 		95A550A524486F0700F061AB /* SecureItemEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditModel.swift; sourceTree = "<group>"; };
 		95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaulItemLocation.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -738,7 +738,7 @@
 				95C12DBE2365B9D200460726 /* Salt.swift */,
 				952A237A23F4350100142C38 /* SecureData.swift */,
 				95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */,
-				9593AAB5244F221D004740D5 /* VaultItemCryptor.swift */,
+				9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */,
 			);
 			path = Crypto;
 			sourceTree = "<group>";
@@ -1157,7 +1157,7 @@
 				9561125A2438DBE100028F6E /* Login.swift in Sources */,
 				95F309B324571CC700C3F591 /* VaultItemLoadedModelContext.swift in Sources */,
 				953EF2A22444BE0500627B1B /* PublisherExtension.swift in Sources */,
-				9593AAB7244F221D004740D5 /* VaultItemCryptor.swift in Sources */,
+				9593AAB7244F221D004740D5 /* VaultItemCrypto.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1246,7 +1246,7 @@
 				9593AAA4244F2170004740D5 /* DeleteVaultItemCollectionOperation.swift in Sources */,
 				95C12DC02365B9E800460726 /* Salt.swift in Sources */,
 				9561124524389EA400028F6E /* NSMenuExtension.swift in Sources */,
-				9593AAB6244F221D004740D5 /* VaultItemCryptor.swift in Sources */,
+				9593AAB6244F221D004740D5 /* VaultItemCrypto.swift in Sources */,
 				958555E52459E09800219BDD /* FileImageView.swift in Sources */,
 				95169CD82452E96000520DB6 /* VaultItemLoadedModel.swift in Sources */,
 				95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */,
@@ -1384,7 +1384,7 @@
 				954AEAE0245B29D900FEDE04 /* VaultItemEditView.swift in Sources */,
 				954AEA9C245AFD3300FEDE04 /* CryptoWrapper.c in Sources */,
 				954AEAC4245B234200FEDE04 /* MenuItem.swift in Sources */,
-				954AEA9E245AFD3300FEDE04 /* VaultItemCryptor.swift in Sources */,
+				954AEA9E245AFD3300FEDE04 /* VaultItemCrypto.swift in Sources */,
 				954AEA9F245AFD3300FEDE04 /* SecureData.swift in Sources */,
 				954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */,
 				954AEAA1245AFD3300FEDE04 /* KeyCrypto.swift in Sources */,
