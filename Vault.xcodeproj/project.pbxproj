@@ -190,7 +190,7 @@
 		954AEA9F245AFD3300FEDE04 /* SecureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237A23F4350100142C38 /* SecureData.swift */; };
 		954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */; };
 		954AEAA1245AFD3300FEDE04 /* KeyCryptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */; };
-		954AEAA2245AFD3300FEDE04 /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* KeyDerivation.swift */; };
+		954AEAA2245AFD3300FEDE04 /* DerivedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* DerivedKey.swift */; };
 		954AEAA3245AFD3300FEDE04 /* Salt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C12DBE2365B9D200460726 /* Salt.swift */; };
 		954AEAA4245AFD3300FEDE04 /* MasterKeyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237E23F44F6700142C38 /* MasterKeyContainer.swift */; };
 		954AEAA7245AFD7800FEDE04 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAA6245AFD5C00FEDE04 /* Pasteboard.swift */; };
@@ -237,6 +237,10 @@
 		954AEAE0245B29D900FEDE04 /* VaultItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEADF245B29D900FEDE04 /* VaultItemEditView.swift */; };
 		954AEAE2245B29FE00FEDE04 /* VaultItemCreatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAE1245B29FE00FEDE04 /* VaultItemCreatingView.swift */; };
 		954AEAE4245C46E800FEDE04 /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAE3245C46E800FEDE04 /* CreateVaultItemButton.swift */; };
+		954AEB08245D8EA900FEDE04 /* FuzzyMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEB07245D8EA900FEDE04 /* FuzzyMatch.swift */; };
+		954AEB09245D8ED100FEDE04 /* FuzzyMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEB07245D8EA900FEDE04 /* FuzzyMatch.swift */; };
+		954AEB0A245D8ED200FEDE04 /* FuzzyMatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEB07245D8EA900FEDE04 /* FuzzyMatch.swift */; };
+		954AEB0B245D8EF400FEDE04 /* FilePDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAD8245B253200FEDE04 /* FilePDFView.swift */; };
 		954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */; };
 		9561123F2437D45D00028F6E /* DecodeMasterKeyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561123E2437D45D00028F6E /* DecodeMasterKeyPublisher.swift */; };
 		9561124224389D6600028F6E /* MainMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561124124389D6600028F6E /* MainMenuController.swift */; };
@@ -299,8 +303,8 @@
 		95A7CDAF245729B5000AF9DE /* VaulItemLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */; };
 		95A7CDB0245729B5000AF9DE /* VaulItemLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */; };
 		95ACF7CA236F00B100128702 /* SymmetricKeyUnwrapMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */; };
-		95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* KeyDerivation.swift */; };
-		95B20B4723BA1840005D71CD /* KeyDerivation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* KeyDerivation.swift */; };
+		95B20B4623BA1840005D71CD /* DerivedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* DerivedKey.swift */; };
+		95B20B4723BA1840005D71CD /* DerivedKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B20B4523BA1840005D71CD /* DerivedKey.swift */; };
 		95B50FF92459ED6F003536E8 /* FileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B50FF82459ED6F003536E8 /* FileContentView.swift */; };
 		95B50FFA2459ED6F003536E8 /* FileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B50FF82459ED6F003536E8 /* FileContentView.swift */; };
 		95B50FFC2459EDE0003536E8 /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B50FFB2459EDE0003536E8 /* PDFView.swift */; };
@@ -428,9 +432,6 @@
 		953EF2CD2444BF1C00627B1B /* SetupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		953EF2CE2444BF1C00627B1B /* LoginEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEditView.swift; sourceTree = "<group>"; };
 		953EF2CF2444BF1C00627B1B /* FileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileEditView.swift; sourceTree = "<group>"; };
-		954AEA57245AFC2700FEDE04 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
-		954AEA58245AFC2700FEDE04 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		954AEA59245AFC2700FEDE04 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = Test.xctest; path = /Users/johannesauer/Documents/vault/build/Debug/Test.xctest; sourceTree = "<absolute>"; };
 		954AEAA6245AFD5C00FEDE04 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
 		954AEAAA245AFF3500FEDE04 /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
 		954AEAAB245AFF3500FEDE04 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -441,6 +442,10 @@
 		954AEADF245B29D900FEDE04 /* VaultItemEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemEditView.swift; sourceTree = "<group>"; };
 		954AEAE1245B29FE00FEDE04 /* VaultItemCreatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemCreatingView.swift; sourceTree = "<group>"; };
 		954AEAE3245C46E800FEDE04 /* CreateVaultItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemButton.swift; sourceTree = "<group>"; };
+		954AEB04245D8E7800FEDE04 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		954AEB05245D8E7800FEDE04 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		954AEB06245D8E7800FEDE04 /* Test.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		954AEB07245D8EA900FEDE04 /* FuzzyMatch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FuzzyMatch.swift; sourceTree = "<group>"; };
 		954FA4F32369D59F005BB821 /* RNGStubTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RNGStubTestCase.swift; sourceTree = "<group>"; };
 		9561123E2437D45D00028F6E /* DecodeMasterKeyPublisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeMasterKeyPublisher.swift; sourceTree = "<group>"; };
 		9561124124389D6600028F6E /* MainMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
@@ -461,7 +466,7 @@
 		95A7CDAE245729B5000AF9DE /* VaulItemLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaulItemLocation.swift; sourceTree = "<group>"; };
 		95ABF6E72360D39500CA6429 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95ACF7C9236F00B100128702 /* SymmetricKeyUnwrapMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymmetricKeyUnwrapMock.swift; sourceTree = "<group>"; };
-		95B20B4523BA1840005D71CD /* KeyDerivation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyDerivation.swift; sourceTree = "<group>"; };
+		95B20B4523BA1840005D71CD /* DerivedKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DerivedKey.swift; sourceTree = "<group>"; };
 		95B50FF82459ED6F003536E8 /* FileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileContentView.swift; sourceTree = "<group>"; };
 		95B50FFB2459EDE0003536E8 /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		95B51007245AEB16003536E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -690,6 +695,9 @@
 				95ABF6DD2360D35000CA6429 /* Test */,
 				95ABF6D92360CD7C00CA6429 /* Common */,
 				95F9041D235DEAB700B1CFDB /* macOS */,
+				954AEB04245D8E7800FEDE04 /* Vault.app */,
+				954AEB05245D8E7800FEDE04 /* Vault.app */,
+				954AEB06245D8E7800FEDE04 /* Test.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -728,7 +736,7 @@
 				952A237A23F4350100142C38 /* SecureData.swift */,
 				95F5193C23F1601100C5ECA9 /* SecureDataByteBuffer.swift */,
 				95F5193323F15BCF00C5ECA9 /* KeyCryptor.swift */,
-				95B20B4523BA1840005D71CD /* KeyDerivation.swift */,
+				95B20B4523BA1840005D71CD /* DerivedKey.swift */,
 				95C12DBE2365B9D200460726 /* Salt.swift */,
 				952A237E23F44F6700142C38 /* MasterKeyContainer.swift */,
 			);
@@ -860,6 +868,7 @@
 		95D29359240825F200FDD6F4 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				954AEB07245D8EA900FEDE04 /* FuzzyMatch.swift */,
 				95D2936C2408293400FDD6F4 /* FileReader.swift */,
 				95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */,
 				95F5193123F1599300C5ECA9 /* ByteBufferContext.swift */,
@@ -921,7 +930,7 @@
 			);
 			name = Test;
 			productName = Test;
-			productReference = 954AEA59245AFC2700FEDE04 /* Test.xctest */;
+			productReference = 954AEB06245D8E7800FEDE04 /* Test.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		95768D85235DE6F600BA7DC6 /* Vault macOS */ = {
@@ -938,7 +947,7 @@
 			);
 			name = "Vault macOS";
 			productName = macOS;
-			productReference = 954AEA57245AFC2700FEDE04 /* Vault.app */;
+			productReference = 954AEB04245D8E7800FEDE04 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95B51004245AEB16003536E8 /* Vault iOS */ = {
@@ -955,7 +964,7 @@
 			);
 			name = "Vault iOS";
 			productName = "Vault iOS";
-			productReference = 954AEA58245AFC2700FEDE04 /* Vault.app */;
+			productReference = 954AEB05245D8E7800FEDE04 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1067,9 +1076,10 @@
 				958555E62459E09800219BDD /* FileImageView.swift in Sources */,
 				95169CBD2452E42000520DB6 /* FileDisplayView.swift in Sources */,
 				953EF2A12444BDF100627B1B /* FileLoadedModel.swift in Sources */,
-				95B20B4723BA1840005D71CD /* KeyDerivation.swift in Sources */,
+				95B20B4723BA1840005D71CD /* DerivedKey.swift in Sources */,
 				953EF29D2444BDF100627B1B /* FileCopyingModel.swift in Sources */,
 				9561124F2438DBDA00028F6E /* FileReader.swift in Sources */,
+				954AEB0B245D8EF400FEDE04 /* FilePDFView.swift in Sources */,
 				95B50FFD2459EDE0003536E8 /* PDFView.swift in Sources */,
 				953EF2BA2444BED800627B1B /* ContentModel.swift in Sources */,
 				95169CE42452E99D00520DB6 /* LoadVaultItemOperation.swift in Sources */,
@@ -1106,6 +1116,7 @@
 				9561124B2438DBD100028F6E /* DecodeMasterKeyPublisher.swift in Sources */,
 				954FA4F42369D59F005BB821 /* RNGStubTestCase.swift in Sources */,
 				952A08D02453770F0053B753 /* SecureText.swift in Sources */,
+				954AEB09245D8ED100FEDE04 /* FuzzyMatch.swift in Sources */,
 				957D1944245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				956112502438DBDA00028F6E /* ManagedBuffer.swift in Sources */,
 				953EF2902444BC9A00627B1B /* SecureItem.swift in Sources */,
@@ -1217,7 +1228,7 @@
 				9561123F2437D45D00028F6E /* DecodeMasterKeyPublisher.swift in Sources */,
 				95D293422408247100FDD6F4 /* Password.swift in Sources */,
 				5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */,
-				95B20B4623BA1840005D71CD /* KeyDerivation.swift in Sources */,
+				95B20B4623BA1840005D71CD /* DerivedKey.swift in Sources */,
 				953EF2B72444BED800627B1B /* LoginEditModel.swift in Sources */,
 				957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
@@ -1264,6 +1275,7 @@
 				952A08CF2453770F0053B753 /* SecureText.swift in Sources */,
 				953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */,
 				95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */,
+				954AEB08245D8EA900FEDE04 /* FuzzyMatch.swift in Sources */,
 				951C33982436348C002AA4CD /* CreateMasterKeyPublisher.swift in Sources */,
 				95169CCB2452E8EB00520DB6 /* SecureItemDisplayModel.swift in Sources */,
 			);
@@ -1331,6 +1343,7 @@
 				954AEAC2245B234200FEDE04 /* LoginDisplayView.swift in Sources */,
 				954AEAD6245B248800FEDE04 /* ViewExtension.swift in Sources */,
 				954AEA7B245AFD3200FEDE04 /* LoadVaultItemInfoCollectionOperation.swift in Sources */,
+				954AEB0A245D8ED200FEDE04 /* FuzzyMatch.swift in Sources */,
 				954AEA7C245AFD3200FEDE04 /* LoadVaultItemOperation.swift in Sources */,
 				954AEA7D245AFD3200FEDE04 /* SaveVaultItemOperation.swift in Sources */,
 				954AEA7E245AFD3200FEDE04 /* VaulItemLocation.swift in Sources */,
@@ -1376,7 +1389,7 @@
 				954AEAA0245AFD3300FEDE04 /* SecureDataByteBuffer.swift in Sources */,
 				954AEAA1245AFD3300FEDE04 /* KeyCryptor.swift in Sources */,
 				954AEAC7245B234200FEDE04 /* NoteEditView.swift in Sources */,
-				954AEAA2245AFD3300FEDE04 /* KeyDerivation.swift in Sources */,
+				954AEAA2245AFD3300FEDE04 /* DerivedKey.swift in Sources */,
 				954AEAA3245AFD3300FEDE04 /* Salt.swift in Sources */,
 				954AEAA4245AFD3300FEDE04 /* MasterKeyContainer.swift in Sources */,
 				954AEAB1245B234200FEDE04 /* SecureItemDisplayView.swift in Sources */,
