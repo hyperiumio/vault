@@ -9,7 +9,6 @@ struct SecureData {
     
     init(using masterKey: SymmetricKey, from context: ByteBufferContext) throws {
         let byteBuffer = try SecureDataByteBuffer(from: context)
-        let keyCryptor = KeyCryptor(keyEncryptionKey: masterKey)
         
         let wrappedAesKey = try byteBuffer.readAesKey(from: context)
         let wrappedHmacKey = try byteBuffer.readHmacKey(from: context)
@@ -17,8 +16,8 @@ struct SecureData {
         let tags = try byteBuffer.readTags(from: context)
         let tagSegment = tags.reduce(.empty, +)
         
-        let aesKey = try keyCryptor.unwrap(wrappedAesKey)
-        let hmacKey = try keyCryptor.unwrap(wrappedHmacKey)
+        let aesKey = try  KeyDecrypt(keyEncryptionKey: masterKey, wrappedKey: wrappedAesKey)
+        let hmacKey = try KeyDecrypt(keyEncryptionKey: masterKey, wrappedKey: wrappedHmacKey)
         
         guard HMAC<SHA512>.isValidAuthenticationCode(tagSegmentTag, authenticating: tagSegment, using: hmacKey) else {
             throw Error.invalidTagSegment
@@ -50,7 +49,6 @@ struct SecureData {
 extension SecureData {
     
     static func encode(messages: [Data], using masterKey: SymmetricKey) throws -> Data {
-        let keyCryptor = KeyCryptor(keyEncryptionKey: masterKey)
         let aesKey = SymmetricKey(size: .bits256)
         let hmacKey = SymmetricKey(size: .bits256)
 
@@ -66,8 +64,8 @@ extension SecureData {
         
         let tagSegment = secureContainers.map(\.tag).reduce(.empty, +)
         let tagSegmentTag = HMAC<SHA512>.authenticationCode(for: tagSegment, using: hmacKey).bytes
-        let wrappedHmacKey = try keyCryptor.wrap(hmacKey)
-        let wrappedAesKey = try keyCryptor.wrap(aesKey)
+        let wrappedHmacKey = try KeyEncrypt(keyEncryptionKey: masterKey, key: hmacKey)
+        let wrappedAesKey = try KeyEncrypt(keyEncryptionKey: masterKey, key: aesKey)
         
         return try SecureDataByteBuffer.encode(aesKey: wrappedAesKey, hmacKey: wrappedHmacKey, tagSegmentTag: tagSegmentTag, secureContainers: secureContainers)
     }

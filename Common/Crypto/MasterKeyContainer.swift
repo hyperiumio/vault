@@ -28,7 +28,7 @@ struct MasterKeyContainer {
         }
         let derivedKey = try DerivedKey(salt: salt, rounds: rounds, keySize: .masterKeySize, password: password)
         
-        return try KeyCryptor(keyEncryptionKey: derivedKey).unwrap(wrappedKey)
+        return try KeyDecrypt(keyEncryptionKey: derivedKey, wrappedKey: wrappedKey)
     }
     
 }
@@ -41,7 +41,7 @@ extension MasterKeyContainer {
         guard let rounds = try? UnsignedInteger32BitEncode(rounds) else {
             throw Error.invalidRounds
         }
-        let wrappedKey = try KeyCryptor(keyEncryptionKey: derivedKey).wrap(masterKey)
+        let wrappedKey = try KeyEncrypt(keyEncryptionKey: derivedKey, key: masterKey)
         
         return salt.bytes + rounds + wrappedKey
     }

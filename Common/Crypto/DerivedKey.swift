@@ -1,5 +1,12 @@
 import CryptoKit
 
+enum DerivedKeyError: Error {
+    
+    case invalidRoundValue
+    case keyDerivationFailure
+    
+}
+
 func DerivedKey(salt: Salt, rounds: Int, keySize: Int, password: String) throws -> SymmetricKey {
     guard let rounds = UInt32(exactly: rounds) else {
         throw DerivedKeyError.invalidRoundValue
@@ -15,11 +22,4 @@ func DerivedKey(salt: Salt, rounds: Int, keySize: Int, password: String) throws 
         
         return SymmetricKey(data: buffer)
     }
-}
-
-enum DerivedKeyError: Error {
-    
-    case invalidRoundValue
-    case keyDerivationFailure
-    
 }
