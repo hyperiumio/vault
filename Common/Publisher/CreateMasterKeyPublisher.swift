@@ -7,7 +7,7 @@ func CreateMasterKeyPublisher(masterKeyUrl: URL, password: String) -> Future<Sym
         DispatchQueue.global().async {
             do {
                 let salt = try Salt(size: .saltSize)
-                let masterKey = try KeyDerivation(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize).derive(from: password)
+                let masterKey = try DerivedKey(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
                 let encodedMasterKey = try MasterKeyContainer.encodeMasterKey(masterKey, salt: salt, rounds: .keyDerivationRounds, password: password)
                 
                 let masterKeyDirectory = masterKeyUrl.deletingLastPathComponent()
