@@ -3,34 +3,32 @@ import Foundation
 
 func VaultItemEncrypt(_ vaultItem: VaultItem, key: SymmetricKey) throws -> Data {
     let encodedVaultItemInfo = try VaultItemInfoEncode(vaultItem.info)
-    let encodedSecureItems = try vaultItem.secureItems.map { vaultItem in
-        return try SecureItemEncode(vaultItem)
+    let encodedSecureItems = try vaultItem.secureItems.map { secureItem in
+        return try SecureItemEncode(secureItem)
     }
     let messages = [encodedVaultItemInfo] + encodedSecureItems
     
-    return try SecureData.encode(messages: messages, using: key)
+    return try SecureDataEncrypt(messages: messages, using: key)
 }
 
-func VaultItemDecryptInfo(from context: ByteBufferContext, key: SymmetricKey) throws -> VaultItem.Info {
-    let secureData = try SecureData(using: key, from: context)
-    let encodedVaultItemInfo = try secureData.plaintext(at: .infoIndex, from: context)
+func VaultItemInfoDecrypt(token: SecureDataDecryptionToken, context: ByteBufferContext) throws -> VaultItem.Info {
+    let encodedVaultItemInfo = try SecureDataDecryptPlaintext(token: token, context: context, index: .infoIndex)
     return try VaultItemInfoDecode(data: encodedVaultItemInfo)
 }
 
-func VaultItemDecrypt(from context: ByteBufferContext, key: SymmetricKey) throws -> VaultItem {
-    let secureData = try SecureData(using: key, from: context)
+func VaultItemDecrypt(token: SecureDataDecryptionToken, context: ByteBufferContext) throws -> VaultItem {
+    let vaultItemInfo = try VaultItemInfoDecrypt(token: token, context: context)
     
-    let encodedVaultItemInfo = try secureData.plaintext(at: .infoIndex, from: context)
-    let vaultItemInfo = try VaultItemInfoDecode(data: encodedVaultItemInfo)
+    let secureItem = try SecureDataDecryptPlaintext(token: token, context: context, index: .secureItemIndex).map { data in
+        return try SecureItemDecode(data: data, as: vaultItemInfo.itemType)
+    }
     
-    let encodedSecureItem = try secureData.plaintext(at: .secureItemIndex, from: context)
-    let secureItem = try SecureItemDecode(data: encodedSecureItem, as: vaultItemInfo.itemType)
-    
-    let secondarySecureItems = try vaultItemInfo.secondaryItemTypes.enumerated().map { index, type in
-        let secureItemIndex = index + .secondarySecureItemOffset
-        let encodedSecureItem = try secureData.plaintext(at: secureItemIndex, from: context)
-        return try SecureItemDecode(data: encodedSecureItem, as: type)
-    } as [SecureItem]
+    let secondarySecureItemIndexes = vaultItemInfo.secondaryItemTypes.indices.moved(by: .secondarySecureItemOffset)
+    let secondarySecureItems = try zip(secondarySecureItemIndexes, vaultItemInfo.secondaryItemTypes).map { index, type in
+        return try SecureDataDecryptPlaintext(token: token, context: context, index: index).map { data in
+            return try SecureItemDecode(data: data, as: type)
+        }
+    }
     
     return VaultItem(id: vaultItemInfo.id, title: vaultItemInfo.title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
 }

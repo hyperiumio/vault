@@ -8,19 +8,18 @@ enum MasterKeyError: Swift.Error {
     
 }
 
-func MasterKeyContainerEncrypt(masterKey: SymmetricKey, salt: Salt, rounds: Int, password: String) throws -> Data {
-    guard let encodedRounds = try? UnsignedInteger32BitEncode(rounds) else {
-        throw MasterKeyError.invalidRounds
-    }
-    
-    let derivedKey = try DerivedKey(salt: salt, rounds: rounds, keySize: .masterKeySize, password: password)
+func MasterKeyEncrypt(password: String) throws -> Data {
+    let salt = try Salt(size: .saltSize)
+    let encodedRounds = try UnsignedInteger32BitEncode(.keyDerivationRounds)
+    let derivedKey = try DerivedKey(salt: salt, rounds: .keyDerivationRounds, keySize: .masterKeySize, password: password)
+    let masterKey = SymmetricKey(size: .bits256)
     let wrappedKey = try KeyEncrypt(keyEncryptionKey: derivedKey, key: masterKey)
     
     return salt.bytes + encodedRounds + wrappedKey
 }
 
-func MasterKeyContainerDecrypt(masterKeyContainer: Data, password: String) throws -> SymmetricKey {
-    guard masterKeyContainer.count == .saltSize + .unsignedInteger32BitSize + .wrappedKeySize else {
+func MasterKeyDecrypt(encryptedMasterKey: Data, password: String) throws -> SymmetricKey {
+    guard encryptedMasterKey.count == .saltSize + .unsignedInteger32BitSize + .wrappedKeySize else {
         throw MasterKeyError.invalidDataSize
     }
     
@@ -28,13 +27,13 @@ func MasterKeyContainerDecrypt(masterKeyContainer: Data, password: String) throw
     let roundsRange = Range(lowerBound: saltRange.upperBound, count: .unsignedInteger32BitSize)
     let wrappedKeyRange = Range(lowerBound: roundsRange.upperBound, count: .wrappedKeySize)
     
-    let salt = masterKeyContainer[saltRange].map { data in
+    let salt = encryptedMasterKey[saltRange].map { data in
         return Salt(data: data)
     }
-    let rounds = try masterKeyContainer[roundsRange].map { data in
+    let rounds = try encryptedMasterKey[roundsRange].map { data in
         return try UnsignedInteger32BitDecode(data: data)
     }
-    let wrappedKey = masterKeyContainer[wrappedKeyRange]
+    let wrappedKey = encryptedMasterKey[wrappedKeyRange]
     let derivedKey = try DerivedKey(salt: salt, rounds: rounds, keySize: .masterKeySize, password: password)
     
     return try KeyDecrypt(keyEncryptionKey: derivedKey, wrappedKey: wrappedKey)
@@ -46,5 +45,7 @@ private extension Int {
     static let saltSize = 32
     static let wrappedKeySize = 40
     static let masterKeySize = 32
+    static let keyDerivationRounds = 524288
+    static let keySize = 32
 
 }
