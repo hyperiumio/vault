@@ -45,7 +45,7 @@ class SetupModel: ObservableObject {
         }
         
         isLoading = true
-        createMasterKeySubscription = CreateMasterKeyPublisher(masterKeyUrl: masterKeyUrl, password: password)
+        createMasterKeySubscription = Vault.createMasterKey(masterKeyUrl: masterKeyUrl, password: password)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

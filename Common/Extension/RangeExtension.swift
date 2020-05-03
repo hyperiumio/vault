@@ -4,4 +4,8 @@ extension Range where Bound == Int {
         self = lowerBound ..< lowerBound + count
     }
     
+    func moved(by count: Int) -> Self {
+        return lowerBound + count ..< upperBound + count
+    }
+    
 }

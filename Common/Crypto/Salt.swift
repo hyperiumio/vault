@@ -1,5 +1,11 @@
 import Foundation
 
+enum SaltError: Error {
+    
+    case randomNumberGeneratorFailure
+    
+}
+
 struct Salt {
     
     private let bytes: Data
@@ -10,7 +16,7 @@ struct Salt {
             return rng(buffer.baseAddress!, size)
         }
         guard status == CryptoSuccess else {
-            throw Error.randomNumberGeneratorFailure
+            throw SaltError.randomNumberGeneratorFailure
         }
         
         self.bytes = bytes
@@ -23,12 +29,6 @@ struct Salt {
 }
 
 extension Salt {
-    
-    enum Error: Swift.Error {
-        
-        case randomNumberGeneratorFailure
-        
-    }
     
     typealias RNG = (UnsafeMutableRawPointer, Int) -> Int32
     

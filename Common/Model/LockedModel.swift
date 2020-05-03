@@ -24,7 +24,7 @@ class LockedModel: ObservableObject {
     let didDecryptMasterKey = PassthroughSubject<SymmetricKey, Never>()
     
     private let masterKeyUrl: URL
-    private var decodeMasterKeySubscription: AnyCancellable?
+    private var loadMasterKeySubscription: AnyCancellable?
     
     init(masterKeyUrl: URL) {
         self.masterKeyUrl = masterKeyUrl
@@ -33,7 +33,7 @@ class LockedModel: ObservableObject {
     func login() {
         message = nil
         isLoading = true
-        decodeMasterKeySubscription = DecodeMasterKeyPublisher(masterKeyContainerUrl: masterKeyUrl, password: password)
+        loadMasterKeySubscription = Vault.loadMasterKey(masterKeyUrl: masterKeyUrl, password: password)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -48,7 +48,7 @@ class LockedModel: ObservableObject {
                     self.message = .invalidPassword
                 }
                 
-                self.decodeMasterKeySubscription = nil
+                self.loadMasterKeySubscription = nil
             }
     }
     

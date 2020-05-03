@@ -59,3 +59,27 @@ class Vault {
     }
     
 }
+
+extension Vault {
+    
+    static func createMasterKey(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
+        return Future { promise in
+            DispatchQueue.global().async {
+                let result = CreateMasterKey(masterKeyUrl: masterKeyUrl, password: password)
+                promise(result)
+            }
+        }
+    }
+    
+    static func loadMasterKey(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
+        let result = Future<SymmetricKey, Error> { promise in
+            DispatchQueue.global().async {
+                let result = LoadMasterKey(masterKeyUrl: masterKeyUrl, password: password)
+                promise(result)
+            }
+        }
+
+        return result
+    }
+    
+}
