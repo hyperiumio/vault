@@ -10,7 +10,9 @@ class UnlockedModel: ObservableObject {
     @Published var errorMessage: ErrorMessage?
     
     private let vault: Vault
-    private var loadOperationSubscription: AnyCancellable?
+    private let infoItemProcessingQueue = DispatchQueue(label: "UnlockedModelInfoItemProcessingQueue")
+    
+    private var infoItemsSubscription: AnyCancellable?
     private var deleteOperationSubscription: AnyCancellable?
     private var vaultDidChangeSubscription: AnyCancellable?
     private var vaultItemModelCompletionSubscription: AnyCancellable?
@@ -26,9 +28,18 @@ class UnlockedModel: ObservableObject {
     }
     
     func load() {
-        loadOperationSubscription = vault.loadVaultItemInfoCollection()
-            .map { [vault] infos in
-                return infos.map { itemInfo in
+        let vaultItemInfoCollectionPublisher = vault.loadVaultItemInfoCollection()
+        let searchTextPublisher = $searchText.setFailureType(to: Error.self)
+        
+        infoItemsSubscription = Publishers.CombineLatest(vaultItemInfoCollectionPublisher, searchTextPublisher)
+            .receive(on: infoItemProcessingQueue)
+            .map { infosItems, searchText in
+                return infosItems.filter { infoItem in
+                    return FuzzyMatch(query: searchText, target: infoItem.title)
+                }
+            }
+            .map { [vault] infosItems in
+                return infosItems.map { itemInfo in
                     let context = VaultItemModelContext(itemId: itemInfo.id, vault: vault)
                     let vaultItemModel = VaultItemModel(context: context)
                     return Item(itemInfo: itemInfo, detailModel: vaultItemModel)
@@ -46,8 +57,6 @@ class UnlockedModel: ObservableObject {
                 case .failure:
                     self.errorMessage = .loadOperationFailed
                 }
-                
-                self.loadOperationSubscription = nil
             }
     }
     

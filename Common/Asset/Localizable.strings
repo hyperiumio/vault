@@ -12,6 +12,7 @@
 "BankCardPinPlaceholder" = "BankCardPinPlaceholder";
 "Cancel" = "Cancel";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";
+"ChooseItemType" = "Choose item type";
 "Copy" = "Copy";
 "Created" = "created";
 "CreatePasswordAdvice" = "Don't use a short master password with alot of hard to remember special characters. Instead use an easy to remember, long password.";

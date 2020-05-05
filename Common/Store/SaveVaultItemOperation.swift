@@ -5,6 +5,6 @@ func SaveVaultItemOperation(vaultItem: VaultItem, itemUrl: URL, masterKey: Symme
     return Result {
         let itemDirectory = itemUrl.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: itemDirectory, withIntermediateDirectories: true)
-        try VaultItemCryptor(masterKey: masterKey).encode(vaultItem).write(to: itemUrl, options: .atomic)
+        try VaultItemEncrypt(vaultItem, key: masterKey).write(to: itemUrl, options: .atomic)
     }
 }

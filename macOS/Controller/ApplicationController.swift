@@ -9,7 +9,7 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     private var launchStateSubscription: AnyCancellable?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        launchStateSubscription = FileExistsPublisher(url: .masterKey)
+        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] masterKeyExists in
                 guard let self = self else {
