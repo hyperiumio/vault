@@ -1,7 +1,7 @@
 import Combine
 
 class BankCardDisplayModel: ObservableObject, Identifiable {
-    @Published var secureDisplay = true
+    @Published var pinSecureDisplay = true
     
     var name: String {
         return bankCard.name
@@ -21,10 +21,6 @@ class BankCardDisplayModel: ObservableObject, Identifiable {
     
     var validFrom: String {
         return bankCard.validFrom
-    }
-    
-    var note: String {
-        return bankCard.note
     }
     
     var pin: String {

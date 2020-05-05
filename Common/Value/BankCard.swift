@@ -11,9 +11,7 @@ struct BankCard: Codable, Equatable {
     let validityDate: String
     
     let validFrom: String
-    
-    let note: String
-    
+        
     let pin: String
     
 }

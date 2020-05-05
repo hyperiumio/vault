@@ -1,8 +1,6 @@
 import Combine
 
 class BankCardEditModel: ObservableObject, Identifiable {
-    @Published var secureDisplay = true
-
     @Published var name: String
     
     var type: BankCard.BankCardType?  {
@@ -17,9 +15,7 @@ class BankCardEditModel: ObservableObject, Identifiable {
     @Published var validityDate: String
     
     @Published var validFrom: String
-    
-    @Published var note: String
-    
+        
     @Published var pin: String
     
     var isComplete: Bool {
@@ -32,7 +28,7 @@ class BankCardEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, note: note, pin: pin)
+        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
         return SecureItem.bankCard(bankCard)
     }
     
@@ -41,7 +37,6 @@ class BankCardEditModel: ObservableObject, Identifiable {
         self.number = bankCard?.number ?? ""
         self.validityDate = bankCard?.validityDate ?? ""
         self.validFrom = bankCard?.validFrom ?? ""
-        self.note = bankCard?.note ?? ""
         self.pin = bankCard?.pin ?? ""
     }
     
