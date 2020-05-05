@@ -6,6 +6,7 @@ enum SecureItem: Equatable {
     case login(Login)
     case file(File)
     case note(Note)
+    case bankCard(BankCard)
     
     var itemType: SecureItemType {
         switch self {
@@ -17,6 +18,8 @@ enum SecureItem: Equatable {
             return .file
         case .note:
             return .note
+        case .bankCard:
+            return .bankCard
         }
     }
     

@@ -10,6 +10,8 @@ func SecureItemEncode(_ item: SecureItem) throws -> Data {
         return try FileEncode(value)
     case .note(let value):
         return try NoteEncode(value)
+    case .bankCard(let value):
+        return try BankCardEncode(value)
     }
 }
 
@@ -27,5 +29,8 @@ func SecureItemDecode(data: Data, as itemType: SecureItemType) throws -> SecureI
     case .note:
         let value = try NoteDecode(data: data)
         return .note(value)
+    case .bankCard:
+        let value = try BankCardDecode(data: data)
+        return .bankCard(value)
     }
 }

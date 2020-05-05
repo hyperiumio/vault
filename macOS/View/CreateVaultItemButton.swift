@@ -21,6 +21,10 @@ struct CreateVaultItemButton: View {
             MenuItem(titleKey: .note) {
                 self.action(.note)
             }
+            
+            MenuItem(titleKey: .bankCard) {
+                self.action(.bankCard)
+            }
         }
         .menuButtonStyle(BorderlessButtonMenuButtonStyle())
     }
