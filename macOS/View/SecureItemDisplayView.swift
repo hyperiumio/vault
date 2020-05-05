@@ -14,6 +14,8 @@ struct SecureItemDisplayView: View {
             return FileDisplayView(model: model).eraseToAnyView()
         case .note(let model):
             return NoteDisplayView(model: model).eraseToAnyView()
+        case .bankCard(let model):
+            return BankCardDisplayView(model: model).eraseToAnyView()
         }
     }
     

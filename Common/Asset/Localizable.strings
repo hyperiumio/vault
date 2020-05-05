@@ -2,6 +2,14 @@
 "AboutApp" = "About Vault";
 "AppName" = "Vault";
 "BringAllToFront" = "Bring All to Front";
+"BankCard" = "BankCard";
+"BankCardNamePlaceholder" = "BankCardNamePlaceholder";
+"BankCardTypePlaceholder" = "BankCardTypePlaceholder";
+"BankCardNumberPlaceholder" = "BankCardNumberPlaceholder";
+"BankCardValidityDatePlaceholder" = "BankCardValidityDatePlaceholder";
+"BankCardValidFromPlaceholder" = "BankCardValidFromPlaceholder";
+"BankCardNotePlaceholder" = "BankCardNotePlaceholder";
+"BankCardPinPlaceholder" = "BankCardPinPlaceholder";
 "Cancel" = "Cancel";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";
 "Copy" = "Copy";
