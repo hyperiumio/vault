@@ -9,7 +9,7 @@ extension LocalizedStringKey {
     static let bankCardTypePlaceholder = LocalizedStringKey("BankCardTypePlaceholder")
     static let bankCardNumberPlaceholder = LocalizedStringKey("BankCardNumberPlaceholder")
     static let bankCardValidityDatePlaceholder = LocalizedStringKey("BankCardValidityDatePlaceholder")
-    static let bankCardValidFromPlaceholder = LocalizedStringKey("BankCardValidityFromPlaceholder")
+    static let bankCardValidFromPlaceholder = LocalizedStringKey("BankCardValidFromPlaceholder")
     static let bankCardNotePlaceholder = LocalizedStringKey("BankCardNotePlaceholder")
     static let bankCardPinPlaceholder = LocalizedStringKey("BankCardPinPlaceholder")
     static let cancel = LocalizedStringKey("Cancel")

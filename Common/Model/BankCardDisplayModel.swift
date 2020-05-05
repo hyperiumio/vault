@@ -1,13 +1,14 @@
 import Combine
 
 class BankCardDisplayModel: ObservableObject, Identifiable {
+    @Published var secureDisplay = true
     
     var name: String {
         return bankCard.name
     }
     
-    var type: String {
-        return bankCard.type
+    var type: BankCard.BankCardType  {
+        return BankCard.BankCardType(number)
     }
     
     var number: String {

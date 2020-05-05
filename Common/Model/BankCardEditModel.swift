@@ -1,10 +1,16 @@
 import Combine
 
 class BankCardEditModel: ObservableObject, Identifiable {
-    
+    @Published var secureDisplay = true
+
     @Published var name: String
     
-    @Published var type: String
+    var type: BankCard.BankCardType?  {
+        guard isComplete else {
+            return nil
+        }
+        return BankCard.BankCardType(number)
+    }
     
     @Published var number: String
     
@@ -17,21 +23,21 @@ class BankCardEditModel: ObservableObject, Identifiable {
     @Published var pin: String
     
     var isComplete: Bool {
-        return !number.isEmpty
+        let validNumber = number.count > 16
+        return !number.isEmpty && validNumber
     }
     
     var secureItem: SecureItem? {
-        guard !name.isEmpty, !type.isEmpty, !number.isEmpty, !validityDate.isEmpty, !validFrom.isEmpty, !note.isEmpty, !pin.isEmpty else {
+        guard !number.isEmpty else {
             return nil
         }
             
-        let bankCard = BankCard(name: name, type: type, number: number, validityDate: validityDate, validFrom: validFrom, note: note, pin: pin)
+        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, note: note, pin: pin)
         return SecureItem.bankCard(bankCard)
     }
     
     init(_ bankCard: BankCard? = nil) {
         self.name = bankCard?.name ?? ""
-        self.type = bankCard?.type ?? ""
         self.number = bankCard?.number ?? ""
         self.validityDate = bankCard?.validityDate ?? ""
         self.validFrom = bankCard?.validFrom ?? ""

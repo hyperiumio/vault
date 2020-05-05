@@ -2,7 +2,9 @@ struct BankCard: Codable, Equatable {
     
     let name: String
     
-    let type: String
+    var type: BankCardType  {
+        return BankCardType(number)
+    }
     
     let number: String
     
@@ -14,4 +16,26 @@ struct BankCard: Codable, Equatable {
     
     let pin: String
     
+}
+
+extension BankCard {
+    enum BankCardType: String, Codable {
+        case masterCard
+        case visa
+        case americanExpress
+        case other
+        
+        init(_ number : String) {
+            switch number.prefix(1) {
+            case "5":
+                self = .masterCard
+            case "4":
+                self =  .visa
+            case "3" where number.prefix(2) == "38":
+                self = .americanExpress
+            default:
+                self = .other
+            }
+        }
+    }
 }
