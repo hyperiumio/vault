@@ -7,7 +7,7 @@ struct WifiEditView: View {
     var body: some View {
         return VStack {
             TextField(.wifiNetworkName, text: $model.networkName)
-            TextField(.wifiNetworkPassword, text: $model.networkPassword)
+            SecureField(.wifiNetworkPassword, text: $model.networkPassword)
         }
     }
     
