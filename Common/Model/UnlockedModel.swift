@@ -1,5 +1,5 @@
 import Combine
-import CryptoKit
+import Crypto
 import Foundation
 
 class UnlockedModel: ObservableObject {
@@ -17,7 +17,7 @@ class UnlockedModel: ObservableObject {
     private var vaultDidChangeSubscription: AnyCancellable?
     private var vaultItemModelCompletionSubscription: AnyCancellable?
     
-    init(vaultUrl: URL, masterKey: SymmetricKey) {
+    init(vaultUrl: URL, masterKey: MasterKey) {
         self.vault = Vault(url: vaultUrl, masterKey: masterKey)
         
         vaultDidChangeSubscription = vault.didChange

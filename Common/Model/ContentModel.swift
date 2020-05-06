@@ -1,5 +1,5 @@
 import Combine
-import CryptoKit
+import Crypto
 import Foundation
 
 class ContentModel: ObservableObject {

@@ -1,4 +1,4 @@
-import CryptoKit
+import Crypto
 import Foundation
 
 class ContentModelContext {
@@ -20,7 +20,7 @@ class ContentModelContext {
         return LockedModel(masterKeyUrl: masterKeyUrl)
     }
     
-    func unlockedModel(masterKey: SymmetricKey) -> UnlockedModel {
+    func unlockedModel(masterKey: MasterKey) -> UnlockedModel {
         return UnlockedModel(vaultUrl: vaultUrl, masterKey: masterKey)
     }
     

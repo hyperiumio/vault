@@ -1,31 +1,31 @@
-import CryptoKit
+import Crypto
 import Foundation
 
-func VaultItemEncrypt(_ vaultItem: VaultItem, key: SymmetricKey) throws -> Data {
+func VaultItemEncrypt(_ vaultItem: VaultItem, key: MasterKey) throws -> Data {
     let encodedVaultItemInfo = try VaultItemInfoEncode(vaultItem.info)
     let encodedSecureItems = try vaultItem.secureItems.map { secureItem in
         return try SecureItemEncode(secureItem)
     }
     let messages = [encodedVaultItemInfo] + encodedSecureItems
     
-    return try SecureDataEncrypt(messages: messages, using: key)
+    return try SecureDataEncrypt(messages, with: key)
 }
 
-func VaultItemInfoDecrypt(token: SecureDataDecryptionToken, context: ByteBufferContext) throws -> VaultItem.Info {
-    let encodedVaultItemInfo = try SecureDataDecryptPlaintext(token: token, context: context, index: .infoIndex)
+func VaultItemInfoDecrypt(token: SecureDataDecryptionToken, context: DataContext) throws -> VaultItem.Info {
+    let encodedVaultItemInfo = try SecureDataDecryptPlaintext(at: .infoIndex, using: token, from: context)
     return try VaultItemInfoDecode(data: encodedVaultItemInfo)
 }
 
-func VaultItemDecrypt(token: SecureDataDecryptionToken, context: ByteBufferContext) throws -> VaultItem {
+func VaultItemDecrypt(token: SecureDataDecryptionToken, context: DataContext) throws -> VaultItem {
     let vaultItemInfo = try VaultItemInfoDecrypt(token: token, context: context)
     
-    let secureItem = try SecureDataDecryptPlaintext(token: token, context: context, index: .secureItemIndex).map { data in
+    let secureItem = try SecureDataDecryptPlaintext(at: .secureItemIndex, using: token, from: context).map { data in
         return try SecureItemDecode(data: data, as: vaultItemInfo.itemType)
     }
     
     let secondarySecureItemIndexes = vaultItemInfo.secondaryItemTypes.indices.moved(by: .secondarySecureItemOffset)
     let secondarySecureItems = try zip(secondarySecureItemIndexes, vaultItemInfo.secondaryItemTypes).map { index, type in
-        return try SecureDataDecryptPlaintext(token: token, context: context, index: index).map { data in
+        return try SecureDataDecryptPlaintext(at: index, using: token, from: context).map { data in
             return try SecureItemDecode(data: data, as: type)
         }
     }

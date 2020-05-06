@@ -1,5 +1,5 @@
 import Combine
-import CryptoKit
+import Crypto
 import Foundation
 
 class Vault {
@@ -7,10 +7,10 @@ class Vault {
     let didChange = PassthroughSubject<Void, Never>()
     
     private let directoryUrl: URL
-    private let masterKey: SymmetricKey
+    private let masterKey: MasterKey
     private let fileOperationQueue = DispatchQueue(label: "VaultFileOperationQueue")
     
-    init(url: URL, masterKey: SymmetricKey) {
+    init(url: URL, masterKey: MasterKey) {
         self.directoryUrl = url
         self.masterKey = masterKey
     }
@@ -62,7 +62,7 @@ class Vault {
 
 extension Vault {
     
-    static func createMasterKey(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
+    static func createMasterKey(masterKeyUrl: URL, password: String) -> Future<MasterKey, Error> {
         return Future { promise in
             DispatchQueue.global().async {
                 let result = CreateMasterKey(masterKeyUrl: masterKeyUrl, password: password)
@@ -71,15 +71,13 @@ extension Vault {
         }
     }
     
-    static func loadMasterKey(masterKeyUrl: URL, password: String) -> Future<SymmetricKey, Error> {
-        let result = Future<SymmetricKey, Error> { promise in
+    static func loadMasterKey(masterKeyUrl: URL, password: String) -> Future<MasterKey, Error> {
+        return Future { promise in
             DispatchQueue.global().async {
                 let result = LoadMasterKey(masterKeyUrl: masterKeyUrl, password: password)
                 promise(result)
             }
         }
-
-        return result
     }
     
 }

@@ -1,5 +1,5 @@
 import Combine
-import CryptoKit
+import Crypto
 import Foundation
 
 class SetupModel: ObservableObject {
@@ -27,7 +27,7 @@ class SetupModel: ObservableObject {
         return isLoading
     }
     
-    let didCreateMasterKey = PassthroughSubject<SymmetricKey, Never>()
+    let didCreateMasterKey = PassthroughSubject<MasterKey, Never>()
     
     private let masterKeyUrl: URL
     private var createMasterKeySubscription: AnyCancellable?
