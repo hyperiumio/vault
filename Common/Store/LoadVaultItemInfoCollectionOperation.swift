@@ -1,7 +1,7 @@
-import CryptoKit
+import Crypto
 import Foundation
 
-func LoadVaultItemInfoCollectionOperation(directoryUrl: URL, masterKey: SymmetricKey) -> Result<[VaultItem.Info], Error>  {
+func LoadVaultItemInfoCollectionOperation(directoryUrl: URL, masterKey: MasterKey) -> Result<[VaultItem.Info], Error>  {
     return Result {
         guard FileManager.default.fileExists(atPath: directoryUrl.path) else {
             return []

@@ -1,7 +1,7 @@
-import CryptoKit
+import Crypto
 import Foundation
 
-func SaveVaultItemOperation(vaultItem: VaultItem, itemUrl: URL, masterKey: SymmetricKey) -> Result<Void, Error> {
+func SaveVaultItemOperation(vaultItem: VaultItem, itemUrl: URL, masterKey: MasterKey) -> Result<Void, Error> {
     return Result {
         let itemDirectory = itemUrl.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: itemDirectory, withIntermediateDirectories: true)

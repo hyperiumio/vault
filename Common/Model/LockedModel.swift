@@ -1,5 +1,5 @@
 import Combine
-import CryptoKit
+import Crypto
 import Foundation
 
 class LockedModel: ObservableObject {
@@ -21,7 +21,7 @@ class LockedModel: ObservableObject {
         return password.isEmpty || isLoading
     }
     
-    let didDecryptMasterKey = PassthroughSubject<SymmetricKey, Never>()
+    let didDecryptMasterKey = PassthroughSubject<MasterKey, Never>()
     
     private let masterKeyUrl: URL
     private var loadMasterKeySubscription: AnyCancellable?

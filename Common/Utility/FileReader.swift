@@ -1,6 +1,7 @@
+import Crypto
 import Foundation
 
-class FileReader: ByteBufferContext {
+class FileReader: DataContext {
     
     private let fileHandle: FileHandle
     private var isValid = true
@@ -9,43 +10,25 @@ class FileReader: ByteBufferContext {
         self.fileHandle = fileHandle
     }
     
-    func bytes(in range: Range<Int>) throws -> Data {
+    func bytes(in range: Range<Int>) throws -> [UInt8] {
         guard isValid else {
-            throw ByteBufferContextError.invalidContext
+            throw DataContextError.invalidContext
         }
         
         guard let offset = UInt64(exactly: range.startIndex) else {
-            throw ByteBufferContextError.invalidByteRange
+            throw DataContextError.invalidByteRange
         }
         do {
             try fileHandle.seek(toOffset: offset)
         } catch {
-            throw ByteBufferContextError.invalidByteRange
+            throw DataContextError.invalidByteRange
         }
         
-        guard let data = try? fileHandle.read(upToCount: range.count) else {
-            throw ByteBufferContextError.dataNotAvailable
+        guard let bytes = try? fileHandle.read(upToCount: range.count)?.bytes else {
+            throw DataContextError.dataNotAvailable
         }
         
-        return data
-    }
-    
-    func bytes() throws -> Data {
-        guard isValid else {
-            throw ByteBufferContextError.invalidContext
-        }
-        
-        do {
-            try fileHandle.seek(toOffset: 0)
-        } catch {
-            throw ByteBufferContextError.invalidByteRange
-        }
-        
-        guard let data = try? fileHandle.readToEnd() else {
-            throw ByteBufferContextError.dataNotAvailable
-        }
-        
-        return data
+        return bytes
     }
     
     func invalidate() {

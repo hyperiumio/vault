@@ -1,10 +1,10 @@
-import CryptoKit
+import Crypto
 import Foundation
 
-func LoadMasterKey(masterKeyUrl: URL, password: String) -> Result<SymmetricKey, Error> {
+func LoadMasterKey(masterKeyUrl: URL, password: String) -> Result<MasterKey, Error> {
     return Result {
         return try Data(contentsOf: masterKeyUrl).map { data in
-            return try MasterKeyDecrypt(encryptedMasterKey: data, password: password)
+            return try MasterKeyContainerDecode(data, with: password)
         }
     }
 }

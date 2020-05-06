@@ -1,14 +1,13 @@
-import CryptoKit
+import Crypto
 import Foundation
 
-func CreateMasterKey(masterKeyUrl: URL, password: String) -> Result<SymmetricKey, Error> {
+func CreateMasterKey(masterKeyUrl: URL, password: String) -> Result<MasterKey, Error> {
     return Result {
+        let masterKey = MasterKey()
         let masterKeyDirectory = masterKeyUrl.deletingLastPathComponent()
         try FileManager.default.createDirectory(at: masterKeyDirectory, withIntermediateDirectories: true)
-        try MasterKeyEncrypt(password: password).write(to: masterKeyUrl)
+        try MasterKeyContainerEncode(masterKey, with: password).write(to: masterKeyUrl)
         
-        return try Data(contentsOf: masterKeyUrl).map { data in
-            return try MasterKeyDecrypt(encryptedMasterKey: data, password: password)
-        }
+        return masterKey
     }
 }

@@ -2,9 +2,9 @@ import Foundation
 
 extension ContiguousBytes {
     
-    var bytes: Data {
+    var bytes: [UInt8] {
         return self.withUnsafeBytes { bytes in
-            return Data(bytes)
+            return [UInt8](bytes)
         }
     }
     

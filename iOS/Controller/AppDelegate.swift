@@ -13,7 +13,7 @@ class AppController: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         
-        launchStateSubscription = FileExistsPublisher(url: .masterKey)
+        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
         .receive(on: DispatchQueue.main)
         .sink { [weak self] masterKeyExists in
             guard let self = self else {
