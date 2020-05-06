@@ -66,6 +66,9 @@ extension LocalizedStringKey {
     static let vaultCreationFailed = LocalizedStringKey("VaultCreationFailed")
     static let view = LocalizedStringKey("View")
     static let wrongPassword = LocalizedStringKey("WrongPassword")
+    static let wifi = LocalizedStringKey("Wifi")
+    static let wifiNetworkName = LocalizedStringKey("WifiNetworkName")
+    static let wifiNetworkPassword = LocalizedStringKey("WifiNetworkPassword")
     
 }
 
