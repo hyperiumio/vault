@@ -20,6 +20,12 @@
 		5B43E76F245736BE00B7FC00 /* NoteCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76E245736BE00B7FC00 /* NoteCoding.swift */; };
 		5B43E771245737A700B7FC00 /* NoteEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E770245737A700B7FC00 /* NoteEditModel.swift */; };
 		5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E7722457386A00B7FC00 /* NoteEditView.swift */; };
+		5BADCF0424630A95000FB352 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0324630A95000FB352 /* BankAccount.swift */; };
+		5BADCF0624630B25000FB352 /* WifiCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0524630B25000FB352 /* WifiCoding.swift */; };
+		5BADCF0824630B63000FB352 /* WifiDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0724630B63000FB352 /* WifiDisplayModel.swift */; };
+		5BADCF0A24630B7A000FB352 /* WifiEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0924630B7A000FB352 /* WifiEditModel.swift */; };
+		5BADCF0C24630F68000FB352 /* WifiDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0B24630F68000FB352 /* WifiDisplayView.swift */; };
+		5BADCF0E24630F77000FB352 /* WifiEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0D24630F77000FB352 /* WifiEditView.swift */; };
 		950E89F82462D83D00EBFD66 /* BankCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F68246195EA0056D896 /* BankCardDisplayView.swift */; };
 		950E89F92462D83D00EBFD66 /* BankCardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F69246195EA0056D896 /* BankCardEditView.swift */; };
 		950E89FA2462D83D00EBFD66 /* BankCardTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F6C2461A6330056D896 /* BankCardTypeView.swift */; };
@@ -251,6 +257,12 @@
 		5B43E76E245736BE00B7FC00 /* NoteCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCoding.swift; sourceTree = "<group>"; };
 		5B43E770245737A700B7FC00 /* NoteEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditModel.swift; sourceTree = "<group>"; };
 		5B43E7722457386A00B7FC00 /* NoteEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditView.swift; sourceTree = "<group>"; };
+		5BADCF0324630A95000FB352 /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
+		5BADCF0524630B25000FB352 /* WifiCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiCoding.swift; sourceTree = "<group>"; };
+		5BADCF0724630B63000FB352 /* WifiDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDisplayModel.swift; sourceTree = "<group>"; };
+		5BADCF0924630B7A000FB352 /* WifiEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiEditModel.swift; sourceTree = "<group>"; };
+		5BADCF0B24630F68000FB352 /* WifiDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDisplayView.swift; sourceTree = "<group>"; };
+		5BADCF0D24630F77000FB352 /* WifiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiEditView.swift; sourceTree = "<group>"; };
 		950E89F52462D80C00EBFD66 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		950E89F62462D80C00EBFD66 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		950E89F72462D81600EBFD66 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
@@ -419,17 +431,18 @@
 				5B1A0F5C246194D00056D896 /* BankCardEditModel.swift */,
 				95F309A22457153100C3F591 /* Completable.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
+				953EF2972444BDF100627B1B /* FileCopyingModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2982444BDF100627B1B /* FileEditModel.swift */,
-				953EF2972444BDF100627B1B /* FileCopyingModel.swift */,
 				953EF2962444BDF100627B1B /* FileEmptyModel.swift */,
 				953EF2992444BDF100627B1B /* FileLoadedModel.swift */,
 				953EF2A92444BED700627B1B /* LockedModel.swift */,
 				95169CC12452E4DF00520DB6 /* LoginDisplayModel.swift */,
 				953EF2AB2444BED800627B1B /* LoginEditModel.swift */,
+				5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */,
+				5B43E770245737A700B7FC00 /* NoteEditModel.swift */,
 				95169CC42452E51700520DB6 /* PasswordDisplayModel.swift */,
 				953EF2A62444BED700627B1B /* PasswordEditModel.swift */,
-				5B43E770245737A700B7FC00 /* NoteEditModel.swift */,
 				95169CCA2452E8EB00520DB6 /* SecureItemDisplayModel.swift */,
 				95A550A524486F0700F061AB /* SecureItemEditModel.swift */,
 				953EF2AA2444BED700627B1B /* SetupModel.swift */,
@@ -440,7 +453,8 @@
 				95169CD62452E96000520DB6 /* VaultItemLoadedModel.swift */,
 				95169CD72452E96000520DB6 /* VaultItemLoadingModel.swift */,
 				95F309B724571D8700C3F591 /* VaultItemModel.swift */,
-				5B43E76A245734E700B7FC00 /* NoteDisplayModel.swift */,
+				5BADCF0724630B63000FB352 /* WifiDisplayModel.swift */,
+				5BADCF0924630B7A000FB352 /* WifiEditModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -517,6 +531,8 @@
 				95169CDC2452E97400520DB6 /* VaultItemLoadedView.swift */,
 				95169CDD2452E97400520DB6 /* VaultItemLoadingView.swift */,
 				95F309BD24571E0300C3F591 /* VaultItemView.swift */,
+				5BADCF0B24630F68000FB352 /* WifiDisplayView.swift */,
+				5BADCF0D24630F77000FB352 /* WifiEditView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -647,6 +663,7 @@
 				95D2933F2408247100FDD6F4 /* Login.swift */,
 				95D2933E2408247100FDD6F4 /* Password.swift */,
 				5B43E76C2457352900B7FC00 /* Note.swift */,
+				5BADCF0324630A95000FB352 /* BankAccount.swift */,
 			);
 			path = Value;
 			sourceTree = "<group>";
@@ -663,6 +680,7 @@
 				95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */,
 				95D293572408259D00FDD6F4 /* CodingError.swift */,
 				95D2935C2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift */,
+				5BADCF0524630B25000FB352 /* WifiCoding.swift */,
 			);
 			path = Coding;
 			sourceTree = "<group>";
@@ -822,6 +840,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				953EF2AF2444BED800627B1B /* UnlockedModel.swift in Sources */,
+				5BADCF0E24630F77000FB352 /* WifiEditView.swift in Sources */,
 				953EF2EA2444BF1C00627B1B /* PasswordEditView.swift in Sources */,
 				953EF2D62444BF1C00627B1B /* ContentView.swift in Sources */,
 				5B1A0F6A246195EA0056D896 /* BankCardDisplayView.swift in Sources */,
@@ -860,6 +879,7 @@
 				5B1A0F61246194FF0056D896 /* BankCard.swift in Sources */,
 				95D29361240826B200FDD6F4 /* DataContainer.swift in Sources */,
 				953EF2B92444BED800627B1B /* ContentModel.swift in Sources */,
+				5BADCF0824630B63000FB352 /* WifiDisplayModel.swift in Sources */,
 				9593AAAA244F2170004740D5 /* LoadVaultItemInfoCollectionOperation.swift in Sources */,
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
 				95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */,
@@ -888,7 +908,9 @@
 				5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */,
 				953EF2B72444BED800627B1B /* LoginEditModel.swift in Sources */,
 				957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
+				5BADCF0A24630B7A000FB352 /* WifiEditModel.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
+				5BADCF0624630B25000FB352 /* WifiCoding.swift in Sources */,
 				95F309B024571CC700C3F591 /* VaultItemModelContext.swift in Sources */,
 				5B43E76D2457352900B7FC00 /* Note.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
@@ -912,6 +934,7 @@
 				953EF2952444BD2100627B1B /* Localizable.swift in Sources */,
 				952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */,
 				95D293432408247100FDD6F4 /* Login.swift in Sources */,
+				5BADCF0424630A95000FB352 /* BankAccount.swift in Sources */,
 				953EF2B32444BED800627B1B /* LockedModel.swift in Sources */,
 				5B43E7692457345500B7FC00 /* NoteDisplayView.swift in Sources */,
 				95169CC82452E52400520DB6 /* PasswordDisplayView.swift in Sources */,
@@ -929,6 +952,7 @@
 				5B43E771245737A700B7FC00 /* NoteEditModel.swift in Sources */,
 				9561124224389D6600028F6E /* MainMenuController.swift in Sources */,
 				952A08CF2453770F0053B753 /* SecureText.swift in Sources */,
+				5BADCF0C24630F68000FB352 /* WifiDisplayView.swift in Sources */,
 				95F274F8245F7B4400B9C44A /* FileManagerExtension.swift in Sources */,
 				953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */,
 				95F5193923F15DE200C5ECA9 /* DataExtension.swift in Sources */,
@@ -1108,7 +1132,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 88RMAPX4GP;
+				DEVELOPMENT_TEAM = FT4SLDBC7Q;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1188,7 +1212,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 88RMAPX4GP;
+				DEVELOPMENT_TEAM = FT4SLDBC7Q;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
@@ -1307,7 +1331,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 88RMAPX4GP;
+				DEVELOPMENT_TEAM = FT4SLDBC7Q;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1357,7 +1381,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
-				DEVELOPMENT_TEAM = 88RMAPX4GP;
+				DEVELOPMENT_TEAM = FT4SLDBC7Q;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
