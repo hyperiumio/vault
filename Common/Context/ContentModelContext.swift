@@ -21,7 +21,8 @@ class ContentModelContext {
     }
     
     func unlockedModel(masterKey: MasterKey) -> UnlockedModel {
-        return UnlockedModel(vaultUrl: vaultUrl, masterKey: masterKey)
+        let context = UnlockedModelContext(vaultUrl: vaultUrl, masterKey: masterKey)
+        return UnlockedModel(context: context)
     }
     
 }
@@ -31,5 +32,16 @@ protocol ContentModelContextResponder: class {
     var isLockable: Bool { get }
     
     func lock()
+    
+}
+
+struct UnlockedModelContext {
+    
+    let vaultUrl: URL
+    let masterKey: MasterKey
+    
+    func vaultItemCollectionModel() -> VaultItemCollectionModel {
+        return VaultItemCollectionModel(vaultUrl: vaultUrl, masterKey: masterKey)
+    }
     
 }
