@@ -11,6 +11,7 @@
 "BankCardNotePlaceholder" = "Notes";
 "BankCardPinPlaceholder" = "PIN";
 "Cancel" = "Cancel";
+"ChangeMasterPassword" = "Change master password";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";
 "ChooseItemType" = "Choose item type";
 "Copy" = "Copy";
@@ -67,6 +68,7 @@
 "UnlockVault" = "Unlock Vault";
 "User" = "User";
 "Value" = "Value";
+"Vault" = "Vault";
 "VaultCreationFailed" = "The creation of the vault has failed. Try again.";
 "View" = "View";
 "Window" = "Window";

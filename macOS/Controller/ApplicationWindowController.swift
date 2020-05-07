@@ -2,7 +2,7 @@ import AppKit
 import Combine
 import SwiftUI
 
-class ContentWindowController: NSObject {
+class ApplicationWindowController: NSObject {
     
     private let window: NSWindow
     
@@ -25,7 +25,7 @@ class ContentWindowController: NSObject {
     
 }
 
-extension ContentWindowController: NSWindowDelegate {
+extension ApplicationWindowController: NSWindowDelegate {
     
     func windowWillClose(_ notification: Notification) {
         NSApplication.shared.terminate(self)
@@ -47,6 +47,6 @@ private extension NSWindow.StyleMask {
 
 private extension String {
     
-    static let applicationWindowFrameAutosaveName = "Application Window"
+    static let applicationWindowFrameAutosaveName = "ApplicationWindow"
     
 }
