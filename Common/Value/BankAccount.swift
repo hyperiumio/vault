@@ -1,6 +1,19 @@
-struct Wifi: Codable, Equatable {
+struct BankAccount: Codable, Equatable {
     
-    let networkName: String
+    let bankName: String
     
-    let networkPassword: Password
+    let accountHolder: String
+    
+    let bankCode: String
+    
+    let accountNumber: String
+        
+    let swiftCode: String
+    
+    let iban: String
+    
+    let pin: String
+    
+    let onlineBankingUrl: String
+    
 }
