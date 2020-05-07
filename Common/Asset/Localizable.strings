@@ -71,6 +71,9 @@
 "Vault" = "Vault";
 "VaultCreationFailed" = "The creation of the vault has failed. Try again.";
 "View" = "View";
+"Wifi" = "Wifi";
+"WifiNetworkName" = "Name";
+"WifiNetworkPassword" = "Password";
 "Window" = "Window";
 "WrongPassword" = "Wrong password";
 "Zoom" = "Zoom";

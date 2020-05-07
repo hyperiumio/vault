@@ -5,6 +5,7 @@ enum SecureItemDisplayModel {
     case file(FileDisplayModel)
     case note(NoteDisplayModel)
     case bankCard(BankCardDisplayModel)
+    case wifi(WifiDisplayModel)
     
     init(_ secureItem: SecureItem) {
         switch secureItem {
@@ -23,6 +24,9 @@ enum SecureItemDisplayModel {
         case .bankCard(let bankCard):
             let model = BankCardDisplayModel(bankCard)
             self = .bankCard(model)
+        case .wifi(let wifi):
+            let model = WifiDisplayModel(wifi)
+            self = .wifi(model)
         }
     }
     
@@ -41,6 +45,8 @@ extension SecureItemDisplayModel: Identifiable {
         case .note(let model):
             return model.id
         case .bankCard(let model):
+            return model.id
+        case .wifi(let model):
             return model.id
         }
     }

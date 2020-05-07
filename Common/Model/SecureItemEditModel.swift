@@ -7,6 +7,7 @@ enum SecureItemEditModel: Identifiable {
     case file(FileEditModel)
     case note(NoteEditModel)
     case bankCard(BankCardEditModel)
+    case wifi(WifiEditModel)
     
     var id: ObjectIdentifier {
         switch self {
@@ -19,6 +20,8 @@ enum SecureItemEditModel: Identifiable {
         case .note(let model):
             return model.id
         case .bankCard(let model):
+            return model.id
+        case .wifi(let model):
             return model.id
         }
     }
@@ -35,6 +38,8 @@ enum SecureItemEditModel: Identifiable {
             return model.isComplete
         case .bankCard(let model):
             return model.isComplete
+        case .wifi(let model):
+            return model.isComplete
         }
     }
     
@@ -50,6 +55,8 @@ enum SecureItemEditModel: Identifiable {
             return model.objectWillChange
         case .bankCard(let model):
             return model.objectWillChange
+        case .wifi(let model):
+            return model.objectWillChange
         }
     }
     
@@ -64,6 +71,8 @@ enum SecureItemEditModel: Identifiable {
         case .note(let model):
             return model.secureItem
         case .bankCard(let model):
+            return model.secureItem
+        case .wifi(let model):
             return model.secureItem
         }
     }
@@ -85,6 +94,9 @@ enum SecureItemEditModel: Identifiable {
         case .bankCard:
             let model = BankCardEditModel()
             self = .bankCard(model)
+        case .wifi:
+            let model = WifiEditModel()
+            self = .wifi(model)
         }
     }
     
@@ -105,6 +117,9 @@ enum SecureItemEditModel: Identifiable {
         case .bankCard(let bankCard):
             let model = BankCardEditModel(bankCard)
             self = .bankCard(model)
+        case .wifi(let wifi):
+            let model = WifiEditModel(wifi)
+            self = .wifi(model)
         }
     }
     

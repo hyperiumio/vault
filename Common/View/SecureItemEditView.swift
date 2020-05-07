@@ -16,6 +16,8 @@ struct SecureItemEditView: View {
             return NoteEditView(model: model).eraseToAnyView()
         case .bankCard(let model):
             return BankCardEditView(model: model).eraseToAnyView()
+        case .wifi(let model):
+            return WifiEditView(model: model).eraseToAnyView()
         }
     }
     
