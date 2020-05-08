@@ -32,6 +32,12 @@
 		5BADCF26246584C5000FB352 /* BankAccountDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF24246584C5000FB352 /* BankAccountDisplayModel.swift */; };
 		5BADCF28246584D5000FB352 /* BankAccountCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF27246584D5000FB352 /* BankAccountCoding.swift */; };
 		5BADCF2A246584FE000FB352 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF29246584FE000FB352 /* Wifi.swift */; };
+		5BADCF2B24658917000FB352 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF29246584FE000FB352 /* Wifi.swift */; };
+		5BADCF2C2465892E000FB352 /* BankAccountEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF23246584C5000FB352 /* BankAccountEditModel.swift */; };
+		5BADCF2D24658941000FB352 /* BankAccountDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF24246584C5000FB352 /* BankAccountDisplayModel.swift */; };
+		5BADCF2E2465894C000FB352 /* BankAccountDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF20246584B9000FB352 /* BankAccountDisplayView.swift */; };
+		5BADCF2F24658955000FB352 /* BankAccountEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF1F246584B9000FB352 /* BankAccountEditView.swift */; };
+		5BADCF302465896D000FB352 /* BankAccountCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF27246584D5000FB352 /* BankAccountCoding.swift */; };
 		950E89F82462D83D00EBFD66 /* BankCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F68246195EA0056D896 /* BankCardDisplayView.swift */; };
 		950E89F92462D83D00EBFD66 /* BankCardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F69246195EA0056D896 /* BankCardEditView.swift */; };
 		950E89FA2462D83D00EBFD66 /* BankCardTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B1A0F6C2461A6330056D896 /* BankCardTypeView.swift */; };
@@ -1059,6 +1065,7 @@
 				954AEAD2245B248800FEDE04 /* ContiguousBytesExtension.swift in Sources */,
 				954AEA66245AFD3200FEDE04 /* LoginEditModel.swift in Sources */,
 				954AEA67245AFD3200FEDE04 /* PasswordDisplayModel.swift in Sources */,
+				5BADCF2E2465894C000FB352 /* BankAccountDisplayView.swift in Sources */,
 				954AEAC3245B234200FEDE04 /* LoginEditView.swift in Sources */,
 				954AEA68245AFD3200FEDE04 /* PasswordEditModel.swift in Sources */,
 				95A7B498246411C100786A5C /* PreferencesView.swift in Sources */,
@@ -1090,6 +1097,7 @@
 				954AEAE2245B29FE00FEDE04 /* VaultItemCreatingView.swift in Sources */,
 				954AEAD3245B248800FEDE04 /* DataExtension.swift in Sources */,
 				954AEAAF245AFF3900FEDE04 /* ProgressIndicator.swift in Sources */,
+				5BADCF302465896D000FB352 /* BankAccountCoding.swift in Sources */,
 				954AEAB9245B234200FEDE04 /* NoteDisplayView.swift in Sources */,
 				954AEAD7245B248800FEDE04 /* UUIDExtension.swift in Sources */,
 				954AEAA7245AFD7800FEDE04 /* Pasteboard.swift in Sources */,
@@ -1144,6 +1152,8 @@
 				95A7B489246410F200786A5C /* WifiEditModel.swift in Sources */,
 				95A7B4912464113600786A5C /* UnlockedModel.swift in Sources */,
 				954AEAC0245B234200FEDE04 /* ListItem.swift in Sources */,
+				5BADCF2D24658941000FB352 /* BankAccountDisplayModel.swift in Sources */,
+				5BADCF2F24658955000FB352 /* BankAccountEditView.swift in Sources */,
 				954AEAE0245B29D900FEDE04 /* VaultItemEditView.swift in Sources */,
 				954AEAC4245B234200FEDE04 /* MenuItem.swift in Sources */,
 				954AEA9E245AFD3300FEDE04 /* VaultItemCrypto.swift in Sources */,
@@ -1152,7 +1162,9 @@
 				950E89F92462D83D00EBFD66 /* BankCardEditView.swift in Sources */,
 				954AEAB1245B234200FEDE04 /* SecureItemDisplayView.swift in Sources */,
 				95A7B48C2464110D00786A5C /* WifiEditView.swift in Sources */,
+				5BADCF2B24658917000FB352 /* Wifi.swift in Sources */,
 				95B51008245AEB16003536E8 /* AppDelegate.swift in Sources */,
+				5BADCF2C2465892E000FB352 /* BankAccountEditModel.swift in Sources */,
 				954AEABF245B234200FEDE04 /* FileStateLoadedView.swift in Sources */,
 				95F274F5245F78F400B9C44A /* LoadMasterKey.swift in Sources */,
 			);
