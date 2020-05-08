@@ -3,7 +3,8 @@ import Combine
 
 class ApplicationController: NSObject, NSApplicationDelegate {
     
-    let contentWindowController = ContentWindowController()
+    let applicationWindowController = ApplicationWindowController()
+    let preferencesWindowController = PreferencesWindowController()
     let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault)
     
     private var launchStateSubscription: AnyCancellable?
@@ -19,14 +20,14 @@ class ApplicationController: NSObject, NSApplicationDelegate {
                 let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
                 let contentModel = ContentModel(initialState: initialState, context: self.contentModelContext)
                 let contentView = ContentView(model: contentModel)
-                self.contentWindowController.showWindow(contentView: contentView)
+                self.applicationWindowController.showWindow(contentView: contentView)
                 
                 self.launchStateSubscription = nil
             }
     }
     
     @objc func showPreferences() {
-        
+        preferencesWindowController.showWindow()
     }
     
     @objc func lock() {

@@ -2,7 +2,7 @@ import Combine
 import Crypto
 import Foundation
 
-class UnlockedModel: ObservableObject {
+class VaultItemCollectionModel: ObservableObject {
     
     @Published var searchText: String = ""
     @Published private(set) var items: [Item] = []
@@ -10,7 +10,7 @@ class UnlockedModel: ObservableObject {
     @Published var errorMessage: ErrorMessage?
     
     private let vault: Vault
-    private let infoItemProcessingQueue = DispatchQueue(label: "UnlockedModelInfoItemProcessingQueue")
+    private let infoItemProcessingQueue = DispatchQueue(label: "VaultItemCollectionModelInfoItemProcessingQueue")
     
     private var infoItemsSubscription: AnyCancellable?
     private var deleteOperationSubscription: AnyCancellable?
@@ -97,7 +97,7 @@ class UnlockedModel: ObservableObject {
     
 }
 
-extension UnlockedModel {
+extension VaultItemCollectionModel {
     
     struct Item: Identifiable {
         
@@ -124,7 +124,7 @@ extension UnlockedModel {
     
 }
 
-extension UnlockedModel.ErrorMessage: Identifiable {
+extension VaultItemCollectionModel.ErrorMessage: Identifiable {
     
     var id: Self {
         return self
