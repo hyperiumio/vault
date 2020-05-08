@@ -30,6 +30,15 @@ struct CreateVaultItemButton: View {
                 },
                 ActionSheet.Button.default(Text(.note)) {
                     self.action(.note)
+                },
+                ActionSheet.Button.default(Text(.bankCard)) {
+                    self.action(.bankCard)
+                },
+                ActionSheet.Button.default(Text(.wifi)) {
+                    self.action(.wifi)
+                },
+                ActionSheet.Button.default(Text(.bankAccount)) {
+                    self.action(.bankAccount)
                 }
             ] as [ActionSheet.Button]
             return ActionSheet(title: title, buttons: buttons)

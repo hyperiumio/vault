@@ -10,6 +10,15 @@
 "BankCardValidFromPlaceholder" = "Valid From";
 "BankCardNotePlaceholder" = "Notes";
 "BankCardPinPlaceholder" = "PIN";
+"BankAccount" = "BankAccount";
+"BankAccountName" = "Bank Name";
+"BankAccountHolder" = "Account Holder";
+"BankAccountCode" = "Bank Code";
+"BankAccountNumber" = "Account Number";
+"BankAccountSwiftCode" = "Swift Code";
+"BankAccountIban" = "IBAN";
+"BankAccountPin" = "PIN";
+"BankAccountOnlineBankingUrl" = "Online Banking URL";
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";

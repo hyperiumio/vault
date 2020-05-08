@@ -29,6 +29,10 @@ struct CreateVaultItemButton: View {
             MenuItem(titleKey: .wifi) {
                 self.action(.wifi)
             }
+            
+            MenuItem(titleKey: .bankAccount) {
+                self.action(.bankAccount)
+            }
         }
         .menuButtonStyle(BorderlessButtonMenuButtonStyle())
     }
