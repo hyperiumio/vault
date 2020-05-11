@@ -290,8 +290,6 @@
 		5BADCF0924630B7A000FB352 /* WifiEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiEditModel.swift; sourceTree = "<group>"; };
 		5BADCF0B24630F68000FB352 /* WifiDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDisplayView.swift; sourceTree = "<group>"; };
 		5BADCF0D24630F77000FB352 /* WifiEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiEditView.swift; sourceTree = "<group>"; };
-		5BADCF1D246584A2000FB352 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BADCF1E246584A2000FB352 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BADCF1F246584B9000FB352 /* BankAccountEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountEditView.swift; sourceTree = "<group>"; };
 		5BADCF20246584B9000FB352 /* BankAccountDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountDisplayView.swift; sourceTree = "<group>"; };
 		5BADCF23246584C5000FB352 /* BankAccountEditModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountEditModel.swift; sourceTree = "<group>"; };
@@ -355,6 +353,8 @@
 		953EF2CD2444BF1C00627B1B /* SetupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		953EF2CE2444BF1C00627B1B /* LoginEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEditView.swift; sourceTree = "<group>"; };
 		953EF2CF2444BF1C00627B1B /* FileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileEditView.swift; sourceTree = "<group>"; };
+		95413239246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9541323A246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		954AEAA6245AFD5C00FEDE04 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
 		954AEAAA245AFF3500FEDE04 /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
 		954AEAAB245AFF3500FEDE04 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -619,8 +619,8 @@
 				95ABF6D92360CD7C00CA6429 /* Common */,
 				95B51019245AEBE6003536E8 /* iOS */,
 				95F9041D235DEAB700B1CFDB /* macOS */,
-				5BADCF1D246584A2000FB352 /* Vault.app */,
-				5BADCF1E246584A2000FB352 /* Vault.app */,
+				95413239246864EF00D4D33D /* Vault.app */,
+				9541323A246864EF00D4D33D /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -819,7 +819,7 @@
 				95142FBD2461F86000467C5C /* Crypto */,
 			);
 			productName = macOS;
-			productReference = 5BADCF1D246584A2000FB352 /* Vault.app */;
+			productReference = 95413239246864EF00D4D33D /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95B51004245AEB16003536E8 /* Vault iOS */ = {
@@ -839,7 +839,7 @@
 				95142FBF2461F86600467C5C /* Crypto */,
 			);
 			productName = "Vault iOS";
-			productReference = 5BADCF1E246584A2000FB352 /* Vault.app */;
+			productReference = 9541323A246864EF00D4D33D /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
