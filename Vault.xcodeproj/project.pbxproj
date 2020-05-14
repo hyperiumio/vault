@@ -253,6 +253,8 @@
 		95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */; };
 		95D2936B2408286B00FDD6F4 /* ManagedBuffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */; };
 		95D2936D2408293400FDD6F4 /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D2936C2408293400FDD6F4 /* FileReader.swift */; };
+		95D97394246D695B00306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97393246D695B00306537 /* Import */; };
+		95D97396246D696100306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97395246D696100306537 /* Import */; };
 		95F274F0245F76E000B9C44A /* CreateMasterKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F274EF245F76E000B9C44A /* CreateMasterKey.swift */; };
 		95F274F1245F76E000B9C44A /* CreateMasterKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F274EF245F76E000B9C44A /* CreateMasterKey.swift */; };
 		95F274F4245F78F400B9C44A /* LoadMasterKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F274F3245F78F400B9C44A /* LoadMasterKey.swift */; };
@@ -353,8 +355,8 @@
 		953EF2CD2444BF1C00627B1B /* SetupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		953EF2CE2444BF1C00627B1B /* LoginEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEditView.swift; sourceTree = "<group>"; };
 		953EF2CF2444BF1C00627B1B /* FileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileEditView.swift; sourceTree = "<group>"; };
-		95413239246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9541323A246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95413239246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		9541323A246864EF00D4D33D /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		954AEAA6245AFD5C00FEDE04 /* Pasteboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
 		954AEAAA245AFF3500FEDE04 /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
 		954AEAAB245AFF3500FEDE04 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 		95D29365240826FE00FDD6F4 /* SecureItemCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemCoding.swift; sourceTree = "<group>"; };
 		95D2936A2408286B00FDD6F4 /* ManagedBuffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagedBuffer.swift; sourceTree = "<group>"; };
 		95D2936C2408293400FDD6F4 /* FileReader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
+		95D97391246D670800306537 /* Import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Import; sourceTree = "<group>"; };
 		95F274EF245F76E000B9C44A /* CreateMasterKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateMasterKey.swift; sourceTree = "<group>"; };
 		95F274F3245F78F400B9C44A /* LoadMasterKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadMasterKey.swift; sourceTree = "<group>"; };
 		95F274F7245F7B4400B9C44A /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
@@ -433,6 +436,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95142FBE2461F86000467C5C /* Crypto in Frameworks */,
+				95D97394246D695B00306537 /* Import in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -441,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95142FC02461F86600467C5C /* Crypto in Frameworks */,
+				95D97396246D696100306537 /* Import in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,11 +621,11 @@
 			isa = PBXGroup;
 			children = (
 				950E89F72462D81600EBFD66 /* Crypto */,
+				95D97391246D670800306537 /* Import */,
 				95ABF6D92360CD7C00CA6429 /* Common */,
 				95B51019245AEBE6003536E8 /* iOS */,
 				95F9041D235DEAB700B1CFDB /* macOS */,
-				95413239246864EF00D4D33D /* Vault.app */,
-				9541323A246864EF00D4D33D /* Vault.app */,
+				95D97392246D695B00306537 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -776,6 +781,13 @@
 			path = Store;
 			sourceTree = "<group>";
 		};
+		95D97392246D695B00306537 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		95F9041D235DEAB700B1CFDB /* macOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -817,6 +829,7 @@
 			name = "Vault macOS";
 			packageProductDependencies = (
 				95142FBD2461F86000467C5C /* Crypto */,
+				95D97393246D695B00306537 /* Import */,
 			);
 			productName = macOS;
 			productReference = 95413239246864EF00D4D33D /* Vault.app */;
@@ -837,6 +850,7 @@
 			name = "Vault iOS";
 			packageProductDependencies = (
 				95142FBF2461F86600467C5C /* Crypto */,
+				95D97395246D696100306537 /* Import */,
 			);
 			productName = "Vault iOS";
 			productReference = 9541323A246864EF00D4D33D /* Vault.app */;
@@ -1543,6 +1557,14 @@
 		95142FBF2461F86600467C5C /* Crypto */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Crypto;
+		};
+		95D97393246D695B00306537 /* Import */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Import;
+		};
+		95D97395246D696100306537 /* Import */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Import;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
