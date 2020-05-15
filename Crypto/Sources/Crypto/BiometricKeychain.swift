@@ -12,6 +12,8 @@ public enum BiometricKeychainError: Error {
 }
 
 public func BiometricKeychainStorePassword(_ password: String, identifier: String) throws {
+    try BiometricKeychainDeletePassword(identifier: identifier)
+    
     guard let password = password.data(using: .utf8) else {
         throw BiometricKeychainError.storeDidFail
     }
@@ -31,7 +33,7 @@ public func BiometricKeychainStorePassword(_ password: String, identifier: Strin
     }
 }
 
-public func BiometricKeychainLoadPassword(identifier: String) throws -> String? {
+public func BiometricKeychainLoadPassword(identifier: String) throws -> String {
     let query = [
         kSecClass: kSecClassGenericPassword,
         kSecAttrService: identifier,
@@ -46,8 +48,11 @@ public func BiometricKeychainLoadPassword(identifier: String) throws -> String? 
     guard let data = item as? Data else {
         throw BiometricKeychainError.loadDidFail
     }
+    guard let password = String(data: data, encoding: .utf8) else {
+        throw BiometricKeychainError.loadDidFail
+    }
     
-    return String(data: data, encoding: .utf8)
+    return password
 }
 
 public func BiometricKeychainDeletePassword(identifier: String) throws {

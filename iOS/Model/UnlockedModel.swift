@@ -7,7 +7,7 @@ class UnlockedModel: ObservableObject {
     
     init(context: UnlockedModelContext) {
         self.vaulItemCollectionModel = context.vaultItemCollectionModel()
-        self.preferencesModel = PreferencesModel()
+        self.preferencesModel = context.preferencesModel()
     }
     
 }

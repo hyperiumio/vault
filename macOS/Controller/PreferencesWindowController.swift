@@ -4,6 +4,13 @@ import SwiftUI
 class PreferencesWindowController: NSObject {
     
     private var window: NSWindow?
+    private let preferencesStore: PreferencesStore
+    
+    init(preferencesStore: PreferencesStore) {
+        self.preferencesStore = preferencesStore
+        
+        super.init()
+    }
     
     func showWindow() {
         if let window = window {
@@ -11,7 +18,8 @@ class PreferencesWindowController: NSObject {
             return
         }
         
-        let preferencesModel = PreferencesModel()
+        let context = PreferencesModelContext(store: preferencesStore)
+        let preferencesModel = PreferencesModel(context: context)
         let preferencesView = PreferencesView(model: preferencesModel)
         
         let window = NSWindow(contentRect: .zero, styleMask: .preferencesWindow, backing: .buffered, defer: false)

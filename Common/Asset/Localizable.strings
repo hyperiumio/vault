@@ -19,6 +19,7 @@
 "BankAccountIban" = "IBAN";
 "BankAccountPin" = "PIN";
 "BankAccountOnlineBankingUrl" = "Online Banking URL";
+"BiometricActivationFailed" = "Enabling biometric unlock did fail";
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";
@@ -30,8 +31,10 @@
 "Delete" = "Delete";
 "DeleteFailed" = "Vault could not delete item";
 "Description" = "Description";
-"EnterPassword" = "Enter Your Master Password";
 "Edit" = "Edit";
+"Enable" = "Enable";
+"EnableBiometricUnlockDescription" = "Please enter your master password to activate biometric unlock";
+"EnterPassword" = "Enter Your Master Password";
 "File" = "File";
 "FileName" = "File Name";
 "GeneratePassword" = "Generate Password";
@@ -75,6 +78,7 @@
 "Title" = "Title";
 "Undo" = "Undo";
 "UnlockVault" = "Unlock Vault";
+"UseBiometricUnlock" = "Use biometric unlock";
 "User" = "User";
 "Value" = "Value";
 "Vault" = "Vault";
