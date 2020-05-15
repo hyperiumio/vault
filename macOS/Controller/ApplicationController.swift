@@ -4,10 +4,19 @@ import Combine
 class ApplicationController: NSObject, NSApplicationDelegate {
     
     let applicationWindowController = ApplicationWindowController()
-    let preferencesWindowController = PreferencesWindowController()
-    let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault)
+    let preferencesStore = PreferencesStore(userDefaults: .standard)
+    
+    let preferencesWindowController: PreferencesWindowController
+    let contentModelContext: ContentModelContext
     
     private var launchStateSubscription: AnyCancellable?
+    
+    override init() {
+        preferencesWindowController = PreferencesWindowController(preferencesStore: preferencesStore)
+        contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesStore: preferencesStore)
+        
+        super.init()
+    }
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)

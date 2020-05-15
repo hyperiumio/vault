@@ -4,11 +4,18 @@ import UIKit
 
 @UIApplicationMain
 class AppController: UIResponder, UIApplicationDelegate {
-
+    
+    let preferencesStore = PreferencesStore(userDefaults: .standard)
+    let contentModelContext: ContentModelContext
     var window: UIWindow?
-    let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault)
     
     private var launchStateSubscription: AnyCancellable?
+    
+    override init() {
+        self.contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesStore: preferencesStore)
+        
+        super.init()
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()

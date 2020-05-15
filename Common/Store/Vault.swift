@@ -80,4 +80,13 @@ extension Vault {
         }
     }
     
+    static func loadMasterKeyUsingBiometrics(masterKeyUrl: URL) -> Future<MasterKey, Error> {
+        return Future { promise in
+            DispatchQueue.global().async {
+                let result = LoadMasterKey(masterKeyUrl: masterKeyUrl)
+                promise(result)
+            }
+        }
+    }
+    
 }
