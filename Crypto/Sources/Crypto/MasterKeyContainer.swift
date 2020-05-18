@@ -9,6 +9,7 @@ public enum MasterKeyContainerError: Error {
 }
 
 public func MasterKeyContainerEncode(_ masterKey: MasterKey, with password: String) throws -> Data {
+    let version = MasterKeyContainerVersion.version1.encoded
     let salt = try RandomBytes(count: .saltSize)
     let rounds = try UnsignedInteger32BitEncode(.keyDerivationRounds)
     let derivedKey = try DerivedKey(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
@@ -20,16 +21,30 @@ public func MasterKeyContainerEncode(_ masterKey: MasterKey, with password: Stri
         return wrappedCryptoKey
     } as Data
     
-    return salt + rounds + wrappedCryptoKey
+    return version + salt + rounds + wrappedCryptoKey
 
 }
 
 public func MasterKeyContainerDecode(_ container: Data, with password: String) throws -> MasterKey {
+    guard container.count >= VersionRepresentableByteCount else {
+        throw MasterKeyContainerError.invalidDataSize
+    }
+    
+    let version = container[container.startIndex]
+    switch try MasterKeyContainerVersion(version) {
+    case .version1:
+        let payloadIndex = container.startIndex + VersionRepresentableByteCount
+        let payload = container[payloadIndex...]
+        return try MasterKeyContainerDecodeVersion1(payload, with: password)
+    }
+}
+
+private func MasterKeyContainerDecodeVersion1(_ container: Data, with password: String) throws -> MasterKey {
     guard container.count == .saltSize + .unsignedInteger32BitSize + .wrappedKeySize else {
         throw MasterKeyContainerError.invalidDataSize
     }
     
-    let saltRange = Range(lowerBound: 0, count: .saltSize)
+    let saltRange = Range(lowerBound: container.startIndex, count: .saltSize)
     let roundsRange = Range(lowerBound: saltRange.upperBound, count: .unsignedInteger32BitSize)
     let wrappedKeyRange = Range(lowerBound: roundsRange.upperBound, count: .wrappedKeySize)
     

@@ -31,7 +31,7 @@ extension DataContainer: ExpressibleByArrayLiteral {
 extension DataContainer {
     
     static func decode(data: Data) throws -> DataContainer {
-        var currentIndex = 0
+        var currentIndex = data.startIndex
         var elements = [Data]()
         
         while currentIndex < data.endIndex {

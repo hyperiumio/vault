@@ -16,7 +16,7 @@ func FileDecode(data: Data) throws -> File {
     do {
         let container = try DataContainer.decode(data: data)
         
-        guard let encodedAttributes = container[.attributesIndex] else {
+        guard let encodedAttributes = container[ .attributesIndex] else {
             throw CodingError.decodingFailed
         }
         guard let fileData = container[.fileDataIndex] else {
