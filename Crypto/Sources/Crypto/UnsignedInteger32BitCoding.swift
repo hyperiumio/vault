@@ -1,3 +1,5 @@
+import Foundation
+
 enum CodingError: Error {
     
     case encodingFailed
@@ -15,7 +17,7 @@ func UnsignedInteger32BitEncode(_ value: Int) throws -> [UInt8] {
     }
 }
 
-func UnsignedInteger32BitDecode(_ bytes: [UInt8]) throws -> Int {
+func UnsignedInteger32BitDecode(_ bytes: Data) throws -> Int {
     guard bytes.count == 4 else {
         throw CodingError.decodingFailed
     }

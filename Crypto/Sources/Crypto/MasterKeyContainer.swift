@@ -30,7 +30,8 @@ public func MasterKeyContainerDecode(_ container: Data, with password: String) t
         throw MasterKeyContainerError.invalidDataSize
     }
     
-    let version = container[container.startIndex]
+    let versionRange = Range(lowerBound: container.startIndex, count: VersionRepresentableByteCount)
+    let version = container[versionRange]
     switch try MasterKeyContainerVersion(version) {
     case .version1:
         let payloadIndex = container.startIndex + VersionRepresentableByteCount
@@ -48,9 +49,9 @@ private func MasterKeyContainerDecodeVersion1(_ container: Data, with password: 
     let roundsRange = Range(lowerBound: saltRange.upperBound, count: .unsignedInteger32BitSize)
     let wrappedKeyRange = Range(lowerBound: roundsRange.upperBound, count: .wrappedKeySize)
     
-    let salt = container[saltRange].bytes
+    let salt = container[saltRange]
     let rounds = try container[roundsRange].map { data in
-        return try UnsignedInteger32BitDecode(data.bytes)
+        return try UnsignedInteger32BitDecode(data)
     }
     let wrappedKey = try container[wrappedKeyRange].map { data in
         return try AES.GCM.SealedBox(combined: data)

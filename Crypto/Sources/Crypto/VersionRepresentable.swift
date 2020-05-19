@@ -6,14 +6,15 @@ protocol VersionRepresentable: RawRepresentable {
     
     var encoded: Data { get }
     
-    init(_ value: UInt8) throws
+    init(_ data: Data) throws
     
 }
 
 extension VersionRepresentable where RawValue == UInt8 {
     
-    init(_ value: UInt8) throws {
-        guard let version = Self(rawValue: value) else {
+    init(_ data: Data) throws {
+        let versionValue = data[data.startIndex]
+        guard let version = Self(rawValue: versionValue) else {
             throw VersionRepresentableError.unsupportedVersion
         }
         

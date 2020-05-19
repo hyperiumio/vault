@@ -8,8 +8,4 @@ extension Data {
         return try transform(self)
     }
     
-    var bytes: [UInt8] {
-        return [UInt8](self)
-    }
-    
 }
