@@ -1,5 +1,6 @@
-import CommonCrypto
+import CommonCryptoShim
 import CryptoKit
+import Foundation
 
 enum DerivedKeyError: Error {
     
@@ -7,7 +8,7 @@ enum DerivedKeyError: Error {
     
 }
 
-func DerivedKey(salt: [UInt8], rounds: Int, keySize: Int, password: String) throws -> SymmetricKey {
+func DerivedKey(salt: Data, rounds: Int, keySize: Int, password: String) throws -> SymmetricKey {
     guard let rounds = UInt32(exactly: rounds) else {
         throw DerivedKeyError.keyDerivationFailure
     }
@@ -20,7 +21,9 @@ func DerivedKey(salt: [UInt8], rounds: Int, keySize: Int, password: String) thro
         derivedKey.deallocate()
     }
     
-    let status = CCKeyDerivationPBKDF(.pbkdf2, password, password.count, salt, salt.count, .hmacSha512, rounds, derivedKey.baseAddress, derivedKey.count)
+    let status = salt.withUnsafeBytes { salt  in
+        return shim_CCKeyDerivationPBKDF(.pbkdf2, password, password.count, salt.baseAddress, salt.count, .hmacSha512, rounds, derivedKey.baseAddress, derivedKey.count)
+    }
     guard status == kCCSuccess else {
         throw DerivedKeyError.keyDerivationFailure
     }

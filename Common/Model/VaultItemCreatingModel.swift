@@ -7,6 +7,7 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     @Published var isLoading = false
     @Published var errorMessage: ErrorMessage?
     @Published var secureItemModels: [SecureItemEditModel]
+    @Published var child: SecureItemEditModel
     
     var saveButtonEnabled: Bool {
         let secureModelsComplete = secureItemModels.allSatisfy(\.isComplete)
@@ -26,6 +27,8 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
         let willChangePublishers = secureItemModels.map(\.objectWillChange)
         self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
             .sink(receiveValue: objectWillChange.send)
+        
+        self.childModelSubscription = child.objectWillChange.sink(receiveValue: self.objectWillChange.send)
     }
     
     func addItem(itemType: SecureItemType) {
