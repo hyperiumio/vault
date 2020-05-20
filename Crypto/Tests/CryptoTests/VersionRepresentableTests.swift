@@ -4,7 +4,16 @@ import XCTest
 final class VersionRepresentableTests: XCTestCase {
     
     func testInitSuccess() throws {
-        let version = try VersionMock(1)
+        let version = try VersionMock("01")
+        
+        XCTAssertEqual(version, VersionMock.version1)
+    }
+    
+    func testInitIsDataSliceIndependent() throws {
+        let data = Data("0001")
+        let versionData = data[1 ..< 2]
+        
+        let version = try VersionMock(versionData)
         
         XCTAssertEqual(version, VersionMock.version1)
     }
@@ -14,11 +23,11 @@ final class VersionRepresentableTests: XCTestCase {
     }
     
     func testInitFailureUnsupportedVersion() {
-        XCTAssertThrowsError(try VersionMock(2))
+        XCTAssertThrowsError(try VersionMock("02"))
     }
     
     func testEncoded() throws {
-        XCTAssertEqual(VersionMock.version1.encoded, 1)
+        XCTAssertEqual(VersionMock.version1.encoded, "01")
     }
     
 }

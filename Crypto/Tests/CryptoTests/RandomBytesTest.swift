@@ -21,7 +21,9 @@ final class RandomBytesTest: XCTestCase {
     
     func testReturnsRandomBytes() throws {
         let expectedData = Data(0 ... UInt8.max)
-        let buffer = UnsafeMutableRawPointer.allocate(byteCount: expectedData.count, alignment: MemoryLayout<UInt8>.alignment)
+        let extendedBufferCount = expectedData.count + 1
+        let buffer = UnsafeMutableRawPointer.allocate(byteCount: extendedBufferCount, alignment: MemoryLayout<UInt8>.alignment)
+        buffer.storeBytes(of: UInt8.max, toByteOffset: expectedData.endIndex, as: UInt8.self)
         
         func rng(buffer: UnsafeMutableRawPointer?, count: Int) -> Int32 {
             expectedData.withUnsafeBytes { bytes in
@@ -39,8 +41,10 @@ final class RandomBytesTest: XCTestCase {
         }
         
         let randomData = try RandomBytes(count: expectedData.count, rng: rng, allocator: allocator)
+        let beyondBufferByte = buffer.load(fromByteOffset: expectedData.endIndex, as: UInt8.self)
         
         XCTAssertEqual(randomData, expectedData)
+        XCTAssertEqual(beyondBufferByte, UInt8.max)
         for (index, expectedByte) in expectedData.enumerated() {
             let byte = buffer.load(fromByteOffset: index, as: UInt8.self)
             XCTAssertEqual(byte, expectedByte)
