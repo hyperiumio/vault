@@ -20,6 +20,16 @@ final class DataExtenionsTests: XCTestCase {
         XCTAssertEqual(result, expectedResult)
     }
     
+    func testExpressibleByIntegerLiteralAllValues() {
+        for value in 0 ... UInt8.max {
+            let data = Data(integerLiteral: value)
+            let expectedBytes = [value]
+            let expectedData = Data(expectedBytes)
+            
+            XCTAssertEqual(data, expectedData)
+        }
+    }
+    
     func testExpressibleByStringLiteralEmptyString() {
         let data = "" as Data
 
