@@ -1,7 +1,8 @@
 import CommonCrypto
 import Foundation
 
-typealias RNG = (UnsafeMutableRawPointer?, Int) -> Int32
+typealias RandomBytesRNG = (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> Int32
+typealias RandomBytesAllocator = (_ byteCount: Int, _ alignment: Int) -> UnsafeMutableRawPointer
 
 enum RandomBytesError: Error {
     
@@ -9,8 +10,8 @@ enum RandomBytesError: Error {
     
 }
 
-func RandomBytes(count: Int, rng: RNG = CCRandomGenerateBytes) throws -> Data {
-    let bytes = UnsafeMutableRawPointer.allocate(byteCount: count, alignment: MemoryLayout<UInt8>.alignment)
+func RandomBytes(count: Int, rng: RandomBytesRNG = CCRandomGenerateBytes, allocator: RandomBytesAllocator = UnsafeMutableRawPointer.allocate) throws -> Data {
+    let bytes = allocator(count, MemoryLayout<UInt8>.alignment)
     
     let status = rng(bytes, count)
     guard status == kCCSuccess else {
