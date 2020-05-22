@@ -1,22 +1,38 @@
 import CommonCrypto
 import Foundation
 
-typealias RandomBytesRNG = (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> Int32
-typealias RandomBytesAllocator = (_ byteCount: Int, _ alignment: Int) -> UnsafeMutableRawPointer
-
 enum RandomBytesError: Error {
     
     case randomNumberGeneratorFailure
     
 }
 
-func RandomBytes(count: Int, rng: RandomBytesRNG = CCRandomGenerateBytes, allocator: RandomBytesAllocator = UnsafeMutableRawPointer.allocate) throws -> Data {
-    let bytes = allocator(count, MemoryLayout<UInt8>.alignment)
+struct RandomNumberGenerator {
     
-    let status = rng(bytes, count)
-    guard status == kCCSuccess else {
-        throw RandomBytesError.randomNumberGeneratorFailure
+    private let allocate: Allocate
+    private let generate: Generate
+    
+    init(allocate: @escaping Allocate = UnsafeMutableRawPointer.allocate, generate: @escaping Generate = CCRandomGenerateBytes) {
+        self.allocate = allocate
+        self.generate = generate
     }
-   
-    return Data(bytesNoCopy: bytes, count: count, deallocator: .free)
+    
+    func generate(count: Int) throws -> Data {
+        let bytes = allocate(count, MemoryLayout<UInt8>.alignment)
+        
+        let status = generate(bytes, count)
+        guard status == kCCSuccess else {
+            throw RandomBytesError.randomNumberGeneratorFailure
+        }
+       
+        return Data(bytesNoCopy: bytes, count: count, deallocator: .free)
+    }
+    
+}
+
+extension RandomNumberGenerator {
+    
+    typealias Allocate = (_ byteCount: Int, _ alignment: Int) -> UnsafeMutableRawPointer
+    typealias Generate = (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> Int32
+    
 }

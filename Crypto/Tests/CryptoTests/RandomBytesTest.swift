@@ -7,14 +7,16 @@ class RandomBytesTest: XCTestCase {
     func testZeroCount() throws {
         let expectedByteCount = 0
         
-        func allocator(byteCount: Int, alignment: Int) -> UnsafeMutableRawPointer {
+        func allocate(byteCount: Int, alignment: Int) -> UnsafeMutableRawPointer {
             XCTAssertEqual(byteCount, expectedByteCount)
             XCTAssertEqual(alignment, MemoryLayout<UInt8>.alignment)
             
             return UnsafeMutableRawPointer.allocate(byteCount: byteCount, alignment: alignment)
         }
         
-        let randomData = try RandomBytes(count: expectedByteCount, allocator: allocator)
+        let rng = RandomNumberGenerator(allocate: allocate)
+        
+        let randomData = try rng.generate(count: expectedByteCount)
         
         XCTAssertEqual(randomData.count, expectedByteCount)
     }
@@ -25,7 +27,14 @@ class RandomBytesTest: XCTestCase {
         let buffer = UnsafeMutableRawPointer.allocate(byteCount: extendedBufferCount, alignment: MemoryLayout<UInt8>.alignment)
         buffer.storeBytes(of: UInt8.max, toByteOffset: expectedData.endIndex, as: UInt8.self)
         
-        func rng(buffer: UnsafeMutableRawPointer?, count: Int) -> Int32 {
+        func allocate(byteCount: Int, alignment: Int) -> UnsafeMutableRawPointer {
+            XCTAssertEqual(byteCount, expectedData.count)
+            XCTAssertEqual(alignment, MemoryLayout<UInt8>.alignment)
+            
+            return buffer
+        }
+        
+        func generate(buffer: UnsafeMutableRawPointer?, count: Int) -> Int32 {
             expectedData.withUnsafeBytes { bytes in
                 buffer?.copyMemory(from: bytes.baseAddress!, byteCount: bytes.count)
             }
@@ -33,14 +42,9 @@ class RandomBytesTest: XCTestCase {
             return Int32(kCCSuccess)
         }
         
-        func allocator(byteCount: Int, alignment: Int) -> UnsafeMutableRawPointer {
-            XCTAssertEqual(byteCount, expectedData.count)
-            XCTAssertEqual(alignment, MemoryLayout<UInt8>.alignment)
-            
-            return buffer
-        }
+        let rng = RandomNumberGenerator(allocate: allocate, generate: generate)
         
-        let randomData = try RandomBytes(count: expectedData.count, rng: rng, allocator: allocator)
+        let randomData = try rng.generate(count: expectedData.count)
         let beyondBufferByte = buffer.load(fromByteOffset: expectedData.endIndex, as: UInt8.self)
         
         XCTAssertEqual(randomData, expectedData)
@@ -53,11 +57,13 @@ class RandomBytesTest: XCTestCase {
     
     func testFailure() {
         
-        func rng(buffer: UnsafeMutableRawPointer?, count: Int) -> Int32 {
+        func generate(buffer: UnsafeMutableRawPointer?, count: Int) -> Int32 {
             return Int32(kCCRNGFailure)
         }
         
-        XCTAssertThrowsError(try RandomBytes(count: 0, rng: rng))
+        let rng = RandomNumberGenerator(generate: generate)
+        
+        XCTAssertThrowsError(try rng.generate(count: 0))
     }
     
 }

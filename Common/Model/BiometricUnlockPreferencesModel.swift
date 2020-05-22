@@ -30,7 +30,7 @@ class BiometricUnlockPreferencesModel: ObservableObject, Identifiable, Completab
         let biometricsStoreResultPublisher = Future<Void, Error> { [password] promise in
             DispatchQueue.global().async {
                 let result = Result {
-                    try BiometricKeychainStorePassword(password, identifier: bundleId)
+                    try BiometricKeychain().storePassword(password, identifier: bundleId)
                 }
                 promise(result)
             }

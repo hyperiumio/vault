@@ -7,7 +7,6 @@ enum MasterKeyContainerVersion: UInt8, VersionRepresentable {
     
 }
 
-
 public enum MasterKeyContainerError: Error {
     
     case invalidDataSize
@@ -17,9 +16,9 @@ public enum MasterKeyContainerError: Error {
 
 public func MasterKeyContainerEncode(_ masterKey: MasterKey, with password: String) throws -> Data {
     let version = MasterKeyContainerVersion.version1.encoded
-    let salt = try RandomBytes(count: .saltSize)
+    let salt = try RandomNumberGenerator().generate(count: .saltSize)
     let rounds = try UnsignedInteger32BitEncode(.keyDerivationRounds)
-    let derivedKey = try DerivedKey(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
+    let derivedKey = try KeyDerivationFunction().deriveKey(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
     
     let wrappedCryptoKey = try masterKey.cryptoKey.withUnsafeBytes { cryptoKey in
         guard let wrappedCryptoKey = try AES.GCM.seal(cryptoKey, using: derivedKey).combined else {
@@ -64,7 +63,7 @@ private func MasterKeyContainerDecodeVersion1(_ container: Data, with password: 
         return try AES.GCM.SealedBox(combined: data)
     }
     
-    let derivedKey = try DerivedKey(salt: salt, rounds: rounds, keySize: .keySize, password: password)
+    let derivedKey = try KeyDerivationFunction().deriveKey(salt: salt, rounds: rounds, keySize: .keySize, password: password)
     
     return try AES.GCM.open(wrappedKey, using: derivedKey).map { data in
         return MasterKey(data)

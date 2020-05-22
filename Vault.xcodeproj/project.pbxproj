@@ -84,7 +84,6 @@
 		952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		952A08CF2453770F0053B753 /* SecureText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A08CE2453770F0053B753 /* SecureText.swift */; };
 		952A08D32453775C0053B753 /* Pasteboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A08D22453775C0053B753 /* Pasteboard.swift */; };
-		952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
 		953EF2882444BB5B00627B1B /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
 		953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* PublisherExtension.swift */; };
 		953EF28E2444BC1800627B1B /* SecureItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28C2444BC1800627B1B /* SecureItem.swift */; };
@@ -201,7 +200,6 @@
 		954AEACF245B248800FEDE04 /* PublisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* PublisherExtension.swift */; };
 		954AEAD0245B248800FEDE04 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		954AEAD1245B248800FEDE04 /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
-		954AEAD2245B248800FEDE04 /* ContiguousBytesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A237823F4320800142C38 /* ContiguousBytesExtension.swift */; };
 		954AEAD3245B248800FEDE04 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193823F15DE200C5ECA9 /* DataExtension.swift */; };
 		954AEAD4245B248800FEDE04 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		954AEAD5245B248800FEDE04 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
@@ -352,7 +350,6 @@
 		952750FE23F0815300AFE423 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		952A08CE2453770F0053B753 /* SecureText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureText.swift; sourceTree = "<group>"; };
 		952A08D22453775C0053B753 /* Pasteboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pasteboard.swift; sourceTree = "<group>"; };
-		952A237823F4320800142C38 /* ContiguousBytesExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContiguousBytesExtension.swift; sourceTree = "<group>"; };
 		953EF2872444BB5B00627B1B /* ComparableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComparableExtension.swift; sourceTree = "<group>"; };
 		953EF28A2444BB7D00627B1B /* PublisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherExtension.swift; sourceTree = "<group>"; };
 		953EF28C2444BC1800627B1B /* SecureItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItem.swift; sourceTree = "<group>"; };
@@ -713,7 +710,6 @@
 			isa = PBXGroup;
 			children = (
 				953EF2872444BB5B00627B1B /* ComparableExtension.swift */,
-				952A237823F4320800142C38 /* ContiguousBytesExtension.swift */,
 				95F5193823F15DE200C5ECA9 /* DataExtension.swift */,
 				95F274F7245F7B4400B9C44A /* FileManagerExtension.swift */,
 				953EF28A2444BB7D00627B1B /* PublisherExtension.swift */,
@@ -1067,7 +1063,6 @@
 				95F309BE24571E0300C3F591 /* VaultItemView.swift in Sources */,
 				95E0EA01247264F600EEF919 /* VaultItemVersion.swift in Sources */,
 				953EF2952444BD2100627B1B /* Localizable.swift in Sources */,
-				952A237923F4320800142C38 /* ContiguousBytesExtension.swift in Sources */,
 				95D293432408247100FDD6F4 /* Login.swift in Sources */,
 				5BADCF2A246584FE000FB352 /* Wifi.swift in Sources */,
 				5BADCF0424630A95000FB352 /* BankAccount.swift in Sources */,
@@ -1127,7 +1122,6 @@
 				954AEAB3245B234200FEDE04 /* SetupView.swift in Sources */,
 				954AEAB5245B234200FEDE04 /* VaultItemDisplayView.swift in Sources */,
 				954AEAE4245C46E800FEDE04 /* CreateVaultItemButton.swift in Sources */,
-				954AEAD2245B248800FEDE04 /* ContiguousBytesExtension.swift in Sources */,
 				954AEA66245AFD3200FEDE04 /* LoginEditModel.swift in Sources */,
 				954AEA67245AFD3200FEDE04 /* PasswordDisplayModel.swift in Sources */,
 				5BADCF2E2465894C000FB352 /* BankAccountDisplayView.swift in Sources */,
