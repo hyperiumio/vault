@@ -12,7 +12,7 @@ class FileReader: DataContext {
         self.offset = offset
     }
     
-    func bytes(in range: Range<Int>) throws -> [UInt8] {
+    func bytes(in range: Range<Int>) throws -> Data {
         guard isValid else {
             throw DataContextError.invalidContext
         }
@@ -27,14 +27,14 @@ class FileReader: DataContext {
             throw DataContextError.invalidByteRange
         }
         
-        guard let bytes = try? fileHandle.read(upToCount: range.count)?.bytes else {
+        guard let data = try? fileHandle.read(upToCount: range.count) else {
             throw DataContextError.dataNotAvailable
         }
         
-        return bytes
+        return data
     }
     
-    func byte(at index: Int) throws -> UInt8 {
+    func byte(at index: Int) throws -> Data {
         guard isValid else {
             throw DataContextError.invalidContext
         }
@@ -49,11 +49,11 @@ class FileReader: DataContext {
             throw DataContextError.invalidIndex
         }
         
-        guard let byte = try? fileHandle.read(upToCount: 1)?.bytes.first else {
+        guard let data = try? fileHandle.read(upToCount: 1) else {
             throw DataContextError.dataNotAvailable
         }
         
-        return byte
+        return data
     }
     
     func offset(by delta: Int) -> DataContext {

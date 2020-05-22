@@ -11,70 +11,80 @@ public enum BiometricKeychainError: Error {
     
 }
 
-public func BiometricKeychainStorePassword(_ password: String, identifier: String) throws {
-    try BiometricKeychainDeletePassword(identifier: identifier)
+public struct BiometricKeychain {
     
-    guard let password = password.data(using: .utf8) else {
-        throw BiometricKeychainError.storeDidFail
+    private let accessControl: AccessControl
+    private let write: Write
+    private let load: Load
+    private let delete: Delete
+    
+    public init(accessControl: @escaping AccessControl = SecAccessControlCreateWithFlags, write: @escaping Write = SecItemAdd, load: @escaping Load = SecItemCopyMatching, delete: @escaping Delete = SecItemDelete) {
+        self.accessControl = accessControl
+        self.write = write
+        self.load = load
+        self.delete = delete
     }
     
-    let access = SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil)
-    let query = [
-        kSecClass: kSecClassGenericPassword,
-        kSecAttrService: identifier,
-        kSecAttrAccessControl: access as Any,
-        kSecUseAuthenticationContext: LAContext(),
-        kSecValueData: password
-    ] as CFDictionary
-    
-    let status = SecItemAdd(query, nil)
-    guard status == errSecSuccess else {
-        throw BiometricKeychainError.storeDidFail
-    }
-}
-
-public func BiometricKeychainLoadPassword(identifier: String) throws -> String {
-    let query = [
-        kSecClass: kSecClassGenericPassword,
-        kSecAttrService: identifier,
-        kSecReturnData: true
-    ] as CFDictionary
-    
-    var item: CFTypeRef?
-    let status = SecItemCopyMatching(query, &item)
-    guard status == errSecSuccess else {
-        throw BiometricKeychainError.loadDidFail
-    }
-    guard let data = item as? Data else {
-        throw BiometricKeychainError.loadDidFail
-    }
-    guard let password = String(data: data, encoding: .utf8) else {
-        throw BiometricKeychainError.loadDidFail
-    }
-    
-    return password
-}
-
-public func BiometricKeychainDeletePassword(identifier: String) throws {
-    let query = [
-        kSecClass: kSecClassGenericPassword,
-        kSecAttrService: identifier
-    ] as CFDictionary
-    
-    let status = SecItemDelete(query)
-    guard status == errSecSuccess || status == errSecItemNotFound else {
-        throw BiometricKeychainError.deleteDidFail
-    }
-}
-
-private extension ContiguousBytes {
-    
-    var dataRepresentation: Data? {
-        return self.withUnsafeBytes { bytes in
-            let length = bytes.count
-            let bytes = bytes.baseAddress?.assumingMemoryBound(to: UInt8.self)
-            return CFDataCreateWithBytesNoCopy(nil, bytes, length, kCFAllocatorNull) as Data?
+    public func storePassword(_ password: String, identifier: String) throws {
+        try deletePassword(identifier: identifier)
+        
+        let password = Data(password.utf8)
+        let access = accessControl(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil)
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: identifier,
+            kSecAttrAccessControl: access as Any,
+            kSecUseAuthenticationContext: LAContext(),
+            kSecValueData: password
+        ] as CFDictionary
+        
+        let status = write(query, nil)
+        guard status == errSecSuccess else {
+            throw BiometricKeychainError.storeDidFail
         }
     }
+    
+    public func loadPassword(identifier: String) throws -> String {
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: identifier,
+            kSecReturnData: true
+        ] as CFDictionary
+        
+        var item: CFTypeRef?
+        let status = load(query, &item)
+        guard status == errSecSuccess else {
+            throw BiometricKeychainError.loadDidFail
+        }
+        guard let data = item as? Data else {
+            throw BiometricKeychainError.loadDidFail
+        }
+        guard let password = String(data: data, encoding: .utf8) else {
+            throw BiometricKeychainError.loadDidFail
+        }
+        
+        return password
+    }
+    
+    public func deletePassword(identifier: String) throws {
+        let query = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrService: identifier
+        ] as CFDictionary
+        
+        let status = delete(query)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw BiometricKeychainError.deleteDidFail
+        }
+    }
+    
+}
+
+public extension BiometricKeychain {
+    
+    typealias AccessControl = (_ allocator: CFAllocator?, _ protection: CFTypeRef, _ flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl?
+    typealias Write = (_ attributes: CFDictionary, _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
+    typealias Load = (_ query: CFDictionary, _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
+    typealias Delete = (_ query: CFDictionary) -> OSStatus
     
 }
