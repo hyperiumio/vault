@@ -2,7 +2,7 @@ import CommonCrypto
 import XCTest
 @testable import Crypto
 
-final class RandomBytesTest: XCTestCase {
+class RandomBytesTest: XCTestCase {
     
     func testZeroCount() throws {
         let expectedByteCount = 0

@@ -1,6 +1,13 @@
 import CryptoKit
 import Foundation
 
+enum MasterKeyContainerVersion: UInt8, VersionRepresentable {
+    
+    case version1 = 1
+    
+}
+
+
 public enum MasterKeyContainerError: Error {
     
     case invalidDataSize

@@ -1,6 +1,9 @@
-import CommonCryptoShim
+import CoreCrypto
 import CryptoKit
 import Foundation
+
+typealias DerivedKeyAllocator = (_ byteCount: Int, _ alignment: Int) -> WritableBuffer
+typealias DerivedKeyKDF = (_ password: UnsafeRawPointer, _ passwordLen: Int, _ salt: UnsafeRawPointer, _ saltLen: Int, _ rounds: UInt32, _ derivedKey: UnsafeMutableRawPointer, _ derivedKeyLen: Int) -> Int32
 
 enum DerivedKeyError: Error {
     
@@ -8,37 +11,26 @@ enum DerivedKeyError: Error {
     
 }
 
-func DerivedKey(salt: Data, rounds: Int, keySize: Int, password: String) throws -> SymmetricKey {
+func DerivedKey(salt: Data, rounds: Int, keySize: Int, password: String, allocator: DerivedKeyAllocator = UnsafeMutableRawBufferPointer.allocate, keyDerivation: DerivedKeyKDF = CoreCrypto.DerivedKey) throws -> SymmetricKey {
+    
     guard let rounds = UInt32(exactly: rounds) else {
         throw DerivedKeyError.keyDerivationFailure
     }
     
-    let derivedKey = UnsafeMutableBufferPointer<UInt8>.allocate(capacity: keySize)
-    derivedKey.initialize(repeating: 0)
+    let derivedKey = allocator(keySize, MemoryLayout<UInt8>.alignment)
     defer {
-        derivedKey.assign(repeating: 0)
-        derivedKey.baseAddress?.deinitialize(count: derivedKey.count)
+        for index in derivedKey.indices {
+            derivedKey[index] = 0
+        }
         derivedKey.deallocate()
     }
     
-    let status = salt.withUnsafeBytes { salt  in
-        return shim_CCKeyDerivationPBKDF(.pbkdf2, password, password.count, salt.baseAddress, salt.count, .hmacSha512, rounds, derivedKey.baseAddress, derivedKey.count)
+    let status = salt.withUnsafeBytes { salt in
+        return keyDerivation(password, password.count, salt.baseAddress!, salt.count, rounds, derivedKey.baseAddress!, derivedKey.count)
     }
-    guard status == kCCSuccess else {
+    guard status == CoreCrypto.Success else {
         throw DerivedKeyError.keyDerivationFailure
     }
     
-    return SymmetricKey(data: derivedKey)
-}
-
-private extension CCPBKDFAlgorithm {
-    
-    static let pbkdf2 = Self(kCCPBKDF2)
-    
-}
-
-private extension CCPseudoRandomAlgorithm {
-    
-    static let hmacSha512 = Self(kCCPRFHmacAlgSHA512)
-    
+    return SymmetricKey(data: derivedKey.continousBytes)
 }
