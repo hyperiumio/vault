@@ -1,7 +1,7 @@
 import XCTest
 @testable import Crypto
 
-final class DataExtenionsTests: XCTestCase {
+class DataExtenionsTests: XCTestCase {
     
     func testEmpty() {
         XCTAssertEqual(Data.empty.count, 0)
@@ -23,7 +23,7 @@ final class DataExtenionsTests: XCTestCase {
     func testExpressibleByStringLiteralEmptyString() {
         let data = "" as Data
 
-        XCTAssertEqual(data.count, 0)
+        XCTAssertEqual(data, .empty)
     }
 
     func testExpressibleByStringLiteralUnevenCharacterCount() {

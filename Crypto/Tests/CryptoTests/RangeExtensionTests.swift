@@ -1,7 +1,7 @@
 import XCTest
 @testable import Crypto
 
-final class RangeExtensionTests: XCTestCase {
+class RangeExtensionTests: XCTestCase {
     
     func testZeroCount() {
         let range = Range(lowerBound: 0, count: 0)

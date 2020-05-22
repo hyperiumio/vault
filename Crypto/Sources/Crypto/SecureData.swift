@@ -1,6 +1,12 @@
 import CryptoKit
 import Foundation
 
+enum SecureDataVersion: UInt8, VersionRepresentable {
+    
+    case version1 = 1
+    
+}
+
 public enum SecureDataError: Error {
     
     case invalidMessageIndex
