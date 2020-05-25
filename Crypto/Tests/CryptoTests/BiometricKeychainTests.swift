@@ -4,57 +4,47 @@ import XCTest
 
 class BiometricKeychainTests: XCTestCase {
     
-    func testStorePasswordSuccess() throws {
+    override func setUp() {
+        super.setUp()
         
-        func write(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        func delete(query: CFDictionary) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        try BiometricKeychain(write: write, delete: delete).storePassword("foo", identifier: "bar")
+        BiometricKeychainWrite = { _, _ in fatalError() }
+        BiometricKeychainLoad = { _, _ in fatalError() }
+        BiometricKeychainDelete = { _ in fatalError() }
     }
     
-    func testStorePasswordAccessControlArguments() throws {
+    override func tearDown() {
+        BiometricKeychainWrite = SecItemAdd
+        BiometricKeychainLoad = SecItemCopyMatching
+        BiometricKeychainDelete = SecItemDelete
         
-        func accessControl(allocator: CFAllocator?, protection: CFTypeRef, flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl? {
-            XCTAssertNil(allocator)
-            XCTAssertEqual(protection as? String, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly as String)
-            XCTAssertEqual(flags, .biometryCurrentSet)
-            XCTAssertNil(error)
-            
-            return SecAccessControlCreateWithFlags(allocator, protection, flags, error)
-        }
+        super.tearDown()
+    }
+    
+    func testStorePasswordSuccess() throws {
+        BiometricKeychainWrite = { _, _ in errSecSuccess }
+        BiometricKeychainDelete = { _ in errSecSuccess }
         
-        func write(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        func delete(query: CFDictionary) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        try BiometricKeychain(accessControl: accessControl, write: write, delete: delete).storePassword("", identifier: "")
+        try BiometricKeychainStorePassword("foo", identifier: "bar")
     }
     
     func testStorePasswordWriteArguments() throws {
         let expectedPassword = "foo"
         let expectedIdentifier = "bar"
         let expectedPasswordData = Data(expectedPassword.utf8)
+        let expectedAccessControlTypeId = SecAccessControlGetTypeID()
         
-        func write(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainWrite = { attributes, result in
             let attributes = attributes as? [CFString: AnyObject]
             let secClass = attributes?[kSecClass] as? String
             let secAttrService = attributes?[kSecAttrService] as? String
             let secAttrAccessControl = attributes?[kSecAttrAccessControl]
             let secUseAuthenticationContext = attributes?[kSecUseAuthenticationContext]
             let secValueData = attributes?[kSecValueData] as? Data
+            let accessControlTypeId = CFGetTypeID(secAttrAccessControl)
             
             XCTAssertEqual(secClass, kSecClassGenericPassword as String)
             XCTAssertEqual(secAttrService, expectedIdentifier)
-            XCTAssertEqual(CFGetTypeID(secAttrAccessControl), SecAccessControlGetTypeID())
+            XCTAssertEqual(accessControlTypeId, expectedAccessControlTypeId)
             XCTAssert(secUseAuthenticationContext is LAContext)
             XCTAssertEqual(secValueData, expectedPasswordData)
             XCTAssertNil(result)
@@ -62,48 +52,33 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        func delete(query: CFDictionary) -> OSStatus {
-            return errSecSuccess
-        }
+        BiometricKeychainDelete = { _ in errSecSuccess }
         
-        try BiometricKeychain(write: write, delete: delete).storePassword(expectedPassword, identifier: expectedIdentifier)
+        try BiometricKeychainStorePassword(expectedPassword, identifier: expectedIdentifier)
     }
     
     func testStorePasswordDeleteDidFail() {
+        BiometricKeychainDelete = { query in -1 }
         
-        func delete(query: CFDictionary) -> OSStatus {
-            return -1
-        }
-        
-        let keychain = BiometricKeychain(delete: delete)
-        
-        XCTAssertThrowsError(try keychain.storePassword("", identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainStorePassword("", identifier: ""))
     }
     
     func testStorePasswordWriteDidFail() {
+        BiometricKeychainWrite = { attribtes, result in -1 }
+        BiometricKeychainDelete = { _ in errSecSuccess }
         
-        func delete(query: CFDictionary) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        func write(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
-            return -1
-        }
-        
-        let keychain = BiometricKeychain(write: write, delete: delete)
-        
-        XCTAssertThrowsError(try keychain.storePassword("", identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainStorePassword("", identifier: ""))
     }
     
     func testLoadPasswordSuccess() throws {
         let expectedPassword = "foo"
         
-        func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainLoad = { query, result in
             result?.pointee = Data(expectedPassword.utf8) as CFData
             return errSecSuccess
         }
         
-        let password = try BiometricKeychain(load: load).loadPassword(identifier: "")
+        let password = try BiometricKeychainLoadPassword(identifier: "")
         
         XCTAssertEqual(password, expectedPassword)
     }
@@ -111,7 +86,7 @@ class BiometricKeychainTests: XCTestCase {
     func testLoadPasswordLoadArguments() throws {
         let expectedIdentifier = "foo"
         
-        func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainLoad = { query, result in
             let query = query as? [CFString: AnyObject]
             let secClass = query?[kSecClass] as? String
             let secAttrService = query?[kSecAttrService] as? String
@@ -126,57 +101,45 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        _ = try BiometricKeychain(load: load).loadPassword(identifier: expectedIdentifier)
+        _ = try BiometricKeychainLoadPassword(identifier: expectedIdentifier)
     }
     
     func testLoadPasswordLoadDidFail() {
-        
-        func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainLoad = { query, result in
             return -1
         }
         
-        let keychain = BiometricKeychain(load: load)
-        
-        XCTAssertThrowsError(try keychain.loadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
     }
     
     func testLoadPasswordInvalidResultType() {
-        
-        func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainLoad = { query, result in
             result?.pointee = "" as CFString
             return errSecSuccess
         }
         
-        let keychain = BiometricKeychain(load: load)
-        
-        XCTAssertThrowsError(try keychain.loadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
     }
     
     func testLoadPasswordInvalidResultData() {
-        
-        func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+        BiometricKeychainLoad = { query, result in
             result?.pointee = Data("FF") as CFData
             return errSecSuccess
         }
         
-        let keychain = BiometricKeychain(load: load)
-        
-        XCTAssertThrowsError(try keychain.loadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
     }
     
     func testDeletePasswordSuccess() throws {
+        BiometricKeychainDelete = { _ in errSecSuccess }
         
-        func delete(query: CFDictionary) -> OSStatus {
-            return errSecSuccess
-        }
-        
-        try BiometricKeychain(delete: delete).deletePassword(identifier: "")
+        try BiometricKeychainDeletePassword(identifier: "")
     }
     
     func testDeletePasswordDeleteArguments() throws {
         let expectedIdentifier = "foo"
         
-        func delete(query: CFDictionary) -> OSStatus {
+        BiometricKeychainDelete = { query in
             let query = query as? [CFString: AnyObject]
             let secClass = query?[kSecClass] as? String
             let secAttrService = query?[kSecAttrService] as? String
@@ -187,16 +150,13 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        try BiometricKeychain(delete: delete).deletePassword(identifier: expectedIdentifier)
+        try BiometricKeychainDeletePassword(identifier: expectedIdentifier)
     }
     
     func testDeletePasswordDeleteDidFail() {
-        func delete(query: CFDictionary) -> OSStatus {
-            return -1
-        }
+        BiometricKeychainDelete = { query in -1 }
         
-        let keychain = BiometricKeychain(delete: delete)
-        XCTAssertThrowsError(try keychain.deletePassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychainDeletePassword(identifier: ""))
     }
     
 }

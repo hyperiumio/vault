@@ -12,11 +12,11 @@ class MasterKeyTests: XCTestCase {
     func testInitWithData() {
         let expectedData = Data(0 ..< 32)
         
-        let data = MasterKey(expectedData).cryptoKey.withUnsafeBytes { cryptoKey in
+        let cryptoKeyData = MasterKey(expectedData).cryptoKey.withUnsafeBytes { cryptoKey in
             return Data(cryptoKey)
         }
         
-        XCTAssertEqual(data, expectedData)
+        XCTAssertEqual(cryptoKeyData, expectedData)
     }
     
 }
