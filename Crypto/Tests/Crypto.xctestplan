@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "A9AE4FA5-08D2-44FA-AD4D-2E91BD4EBE3A",
+      "name" : "Default",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "CryptoTests",
+        "name" : "CryptoTests"
+      }
+    }
+  ],
+  "version" : 1
+}

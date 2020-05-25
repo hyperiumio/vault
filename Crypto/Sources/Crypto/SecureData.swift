@@ -1,6 +1,8 @@
 import CryptoKit
 import Foundation
 
+var SecureDataSeal = AES.GCM.seal as (Data, SymmetricKey, AES.GCM.Nonce?) throws -> AES.GCM.SealedBox
+
 enum SecureDataVersion: UInt8, VersionRepresentable {
     
     case version1 = 1
@@ -22,7 +24,7 @@ public struct SecureDataDecryptionToken {
     public init(masterKey: MasterKey, context: DataContext) throws {
         let versionValue = try context.byte(at: .versionIndex)
         let version = try SecureDataVersion(versionValue)
-        let decryptionTokenContext = context.offset(by: VersionRepresentableByteCount)
+        let decryptionTokenContext = context.offset(by: VersionRepresentableEncodingSize)
         
         switch version {
         case .version1:
@@ -39,7 +41,7 @@ public func SecureDataEncrypt(_ messages: [Data], with masterKey: MasterKey) thr
     let itemKey = SymmetricKey(size: .bits256)
 
     let seals = try messages.map { message in
-        return try AES.GCM.seal(message, using: itemKey)
+        return try SecureDataSeal(message, itemKey, nil)
     }
     
     let tagSegment = seals.map(\.tag).reduce(.empty, +)
@@ -58,7 +60,7 @@ public func SecureDataEncrypt(_ messages: [Data], with masterKey: MasterKey) thr
 }
 
 public func SecureDataDecryptPlaintext(at index: Int, using token: SecureDataDecryptionToken, from context: DataContext) throws -> Data {
-    let context = context.offset(by: VersionRepresentableByteCount)
+    let context = context.offset(by: VersionRepresentableEncodingSize)
     switch token.version {
     case .version1(let token):
         return try SecureDataDecryptPlaintextVersion1(at: index, using: token, from: context)

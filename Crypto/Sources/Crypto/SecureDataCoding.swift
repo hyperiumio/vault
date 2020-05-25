@@ -15,18 +15,18 @@ struct SecureDataDecodingToken {
     let ciphertextRanges: [Range<Int>]
     
     init(from context: DataContext) throws {
-        let messageCountRange = Range(lowerBound: 0, count: .unsignedInteger32BitSize)
+        let messageCountRange = Range(lowerBound: 0, count: UnsignedInteger32BitEncodingSize)
         let messageCountBytes = try context.bytes(in: messageCountRange)
-        let messageCount = try UnsignedInteger32BitDecode(messageCountBytes)
+        let messageCount = UnsignedInteger32BitDecode(messageCountBytes) as Int
 
         let ciphertextSizes = try (0 ..< messageCount).map { index in
-            let ciphertextSizeLowerBound = messageCountRange.upperBound + index * .unsignedInteger32BitSize
-            let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: .unsignedInteger32BitSize)
+            let ciphertextSizeLowerBound = messageCountRange.upperBound + index * UnsignedInteger32BitEncodingSize
+            let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: UnsignedInteger32BitEncodingSize)
             let ciphertextSizeBytes = try context.bytes(in: ciphertextSizeRange)
-            return try UnsignedInteger32BitDecode(ciphertextSizeBytes)
+            return UnsignedInteger32BitDecode(ciphertextSizeBytes)
         } as [Int]
 
-        let itemKeyRangeLowerBound = messageCountRange.upperBound + messageCount * .unsignedInteger32BitSize
+        let itemKeyRangeLowerBound = messageCountRange.upperBound + messageCount * UnsignedInteger32BitEncodingSize
         let itemKeyRange = Range(lowerBound: itemKeyRangeLowerBound, count: .wrappedKeySize)
 
         let tagRanges = (0 ..< messageCount).map { index in
@@ -59,10 +59,10 @@ struct SecureDataDecodingToken {
 }
 
 func SecureDataEncode(wrappedItemKey: Data, seals: [AES.GCM.SealedBox]) throws -> Data {
-    let messageCount = try UnsignedInteger32BitEncode(seals.count)
+    let messageCount = UnsignedInteger32BitEncode(seals.count)
     
-    let ciphertextSizes = try seals.reduce(.empty) { result, seal in
-        let ciphertextSize = try UnsignedInteger32BitEncode(seal.ciphertext.count)
+    let ciphertextSizes = seals.reduce(.empty) { result, seal in
+        let ciphertextSize = UnsignedInteger32BitEncode(seal.ciphertext.count)
         return result + ciphertextSize
     } as Data
     
@@ -109,7 +109,6 @@ func SecureDataDecodeCiphertext(index: Int, token: SecureDataDecodingToken, cont
 
 private extension Int {
 
-    static let unsignedInteger32BitSize = 4
     static let nonceSize = 12
     static let wrappedKeySize = 60
     static let tagSize = 16

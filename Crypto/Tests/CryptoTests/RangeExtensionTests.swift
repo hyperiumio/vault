@@ -4,7 +4,7 @@ import XCTest
 class RangeExtensionTests: XCTestCase {
     
     func testZeroCount() {
-        let range = Range(lowerBound: 0, count: 0)
+        let range = Range(lowerBound: 1, count: 0)
         
         XCTAssertEqual(range.count, 0)
     }

@@ -1,34 +1,30 @@
 import Foundation
 
-enum CodingError: Error {
-    
-    case encodingFailed
-    case decodingFailed
-    
-}
+let UnsignedInteger32BitEncodingSize = 4
 
-func UnsignedInteger32BitEncode(_ value: Int) throws -> [UInt8] {
-    guard let value = UInt32(exactly: value) else {
-        throw CodingError.encodingFailed
-    }
-
-    return [0, 8, 16, 24].map { shift in
+func UnsignedInteger32BitEncode(_ value: UInt32) -> Data {
+    let bytes = [0, 8, 16, 24].map { shift in
         return UInt8(truncatingIfNeeded: value >> shift)
     }
+    
+    return Data(bytes)
 }
 
-func UnsignedInteger32BitDecode(_ bytes: Data) throws -> Int {
-    guard bytes.count == 4 else {
-        throw CodingError.decodingFailed
-    }
+func UnsignedInteger32BitEncode(_ value: Int) -> Data {
+    let value = UInt32(value)
+    return UnsignedInteger32BitEncode(value)
+}
+
+func UnsignedInteger32BitDecode(_ data: Data) -> UInt32 {
+    precondition(data.count == UnsignedInteger32BitEncodingSize)
     
-    let value = bytes.enumerated().map { index, byte in
+    return data.enumerated().map { index, byte in
         return UInt32(byte) << (index * 8)
     }.reduce(0, |)
+}
+
+func UnsignedInteger32BitDecode(_ data: Data) -> Int {
+    let value = UnsignedInteger32BitDecode(data) as UInt32
     
-    guard let result = Int(exactly: value) else {
-        throw CodingError.decodingFailed
-    }
-    
-    return result
+    return Int(value)
 }
