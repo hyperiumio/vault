@@ -12,6 +12,10 @@ class LoginDisplayModel: ObservableObject, Identifiable {
         return login.password
     }
     
+    var url: String {
+        return login.url
+    }
+    
     private let login: Login
     
     init(_ login: Login) {
