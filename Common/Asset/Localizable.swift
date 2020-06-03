@@ -74,6 +74,7 @@ extension LocalizedStringKey {
     static let title = LocalizedStringKey("Title")
     static let undo = LocalizedStringKey("Undo")
     static let unlockVault = LocalizedStringKey("UnlockVault")
+    static let url = LocalizedStringKey("URL")
     static let useBiometricUnlock = LocalizedStringKey("UseBiometricUnlock")
     static let user = LocalizedStringKey("User")
     static let value = LocalizedStringKey("Value")
