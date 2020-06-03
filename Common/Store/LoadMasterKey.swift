@@ -11,7 +11,7 @@ func LoadMasterKey(masterKeyUrl: URL, password: String) -> Result<MasterKey, Err
 
 func LoadMasterKey(masterKeyUrl: URL) -> Result<MasterKey, Error> {
     return Result {
-        let password = try BiometricKeychain().loadPassword(identifier: Bundle.main.bundleIdentifier!)
+        let password = try BiometricKeychainLoadPassword(identifier: Bundle.main.bundleIdentifier!)
         
         return try Data(contentsOf: masterKeyUrl).map { data in
             return try MasterKeyContainerDecode(data, with: password)
