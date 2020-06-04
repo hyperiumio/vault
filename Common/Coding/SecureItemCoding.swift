@@ -16,6 +16,8 @@ func SecureItemEncode(_ item: SecureItem) throws -> Data {
         return try WifiEncode(value)
     case .bankAccount(let value):
         return try BankAccountEncode(value)
+    case .customField(let value):
+        return try CustomFieldEncode(value)
     }
 }
 
@@ -42,5 +44,8 @@ func SecureItemDecode(data: Data, as itemType: SecureItemType) throws -> SecureI
     case .bankAccount:
         let value = try BankAccountDecode(data: data)
         return .bankAccount(value)
+    case .customField:
+        let value = try CustomFieldDecode(data: data)
+        return .customField(value)
     }
 }

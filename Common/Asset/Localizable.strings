@@ -28,6 +28,9 @@
 "Created" = "created";
 "CreatePasswordAdvice" = "Don't use a short master password with alot of hard to remember special characters. Instead use an easy to remember, long password.";
 "CreateVault" = "Create new vault";
+"CustomField" = "Custom Field";
+"CustomFieldName" = "Field Name";
+"CustomFieldValue" = "Field Value";
 "Delete" = "Delete";
 "DeleteFailed" = "Vault could not delete item";
 "Description" = "Description";

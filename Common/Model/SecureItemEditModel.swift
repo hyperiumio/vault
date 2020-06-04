@@ -9,6 +9,7 @@ enum SecureItemEditModel: Identifiable {
     case bankCard(BankCardEditModel)
     case wifi(WifiEditModel)
     case bankAccount(BankAccountEditModel)
+    case customField(CustomFieldEditModel)
     
     var id: ObjectIdentifier {
         switch self {
@@ -25,6 +26,8 @@ enum SecureItemEditModel: Identifiable {
         case .wifi(let model):
             return model.id
         case .bankAccount(let model):
+            return model.id
+        case .customField(let model):
             return model.id
         }
     }
@@ -45,6 +48,8 @@ enum SecureItemEditModel: Identifiable {
             return model.isComplete
         case .bankAccount(let model):
             return model.isComplete
+        case .customField(let model):
+            return model.isComplete
         }
     }
     
@@ -64,6 +69,8 @@ enum SecureItemEditModel: Identifiable {
             return model.objectWillChange
         case .bankAccount(let model):
             return model.objectWillChange
+        case .customField(let model):
+            return model.objectWillChange
         }
     }
     
@@ -82,6 +89,8 @@ enum SecureItemEditModel: Identifiable {
         case .wifi(let model):
             return model.secureItem
         case .bankAccount(let model):
+            return model.secureItem
+        case .customField(let model):
             return model.secureItem
         }
     }
@@ -109,6 +118,9 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount:
             let model = BankAccountEditModel()
             self = .bankAccount(model)
+        case .customField:
+            let model = CustomFieldEditModel()
+            self = .customField(model)
         }
     }
     
@@ -135,6 +147,9 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount(let bankAccount):
             let model = BankAccountEditModel(bankAccount)
             self = .bankAccount(model)
+        case .customField(let customField):
+            let model = CustomFieldEditModel(customField)
+            self = .customField(model)
         }
     }
     

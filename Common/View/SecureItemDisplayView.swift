@@ -20,6 +20,8 @@ struct SecureItemDisplayView: View {
             return WifiDisplayView(model: model).eraseToAnyView()
         case .bankAccount(let model):
             return BankAccountDisplayView(model: model).eraseToAnyView()
+        case .customField(let model):
+            return CustomFieldDisplayView(model: model).eraseToAnyView()
         }
     }
     

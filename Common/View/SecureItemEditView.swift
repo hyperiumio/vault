@@ -20,6 +20,8 @@ struct SecureItemEditView: View {
             return WifiEditView(model: model).eraseToAnyView()
         case .bankAccount(let model):
             return BankAccountEditView(model: model).eraseToAnyView()
+        case .customField(let model):
+            return CustomFieldEditView(model: model).eraseToAnyView()
         }
     }
     
