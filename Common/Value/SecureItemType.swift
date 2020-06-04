@@ -7,5 +7,6 @@ enum SecureItemType: String, Codable {
     case bankCard
     case wifi
     case bankAccount
+    case customField
     
 }

@@ -20,6 +20,18 @@
 		5B43E76F245736BE00B7FC00 /* NoteCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E76E245736BE00B7FC00 /* NoteCoding.swift */; };
 		5B43E771245737A700B7FC00 /* NoteEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E770245737A700B7FC00 /* NoteEditModel.swift */; };
 		5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B43E7722457386A00B7FC00 /* NoteEditView.swift */; };
+		5BA1A7EE248931E300B6EA27 /* CustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7ED248931E300B6EA27 /* CustomField.swift */; };
+		5BA1A7EF248931E300B6EA27 /* CustomField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7ED248931E300B6EA27 /* CustomField.swift */; };
+		5BA1A7F12489325200B6EA27 /* CustomFieldCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F02489325200B6EA27 /* CustomFieldCoding.swift */; };
+		5BA1A7F22489325200B6EA27 /* CustomFieldCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F02489325200B6EA27 /* CustomFieldCoding.swift */; };
+		5BA1A7F42489329A00B6EA27 /* CustomFieldDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F32489329A00B6EA27 /* CustomFieldDisplayModel.swift */; };
+		5BA1A7F52489329A00B6EA27 /* CustomFieldDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F32489329A00B6EA27 /* CustomFieldDisplayModel.swift */; };
+		5BA1A7F72489330800B6EA27 /* CustomFieldEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F62489330800B6EA27 /* CustomFieldEditModel.swift */; };
+		5BA1A7F82489330800B6EA27 /* CustomFieldEditModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F62489330800B6EA27 /* CustomFieldEditModel.swift */; };
+		5BA1A7FA2489355C00B6EA27 /* CustomFieldDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F92489355C00B6EA27 /* CustomFieldDisplayView.swift */; };
+		5BA1A7FB2489355C00B6EA27 /* CustomFieldDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7F92489355C00B6EA27 /* CustomFieldDisplayView.swift */; };
+		5BA1A7FD2489359E00B6EA27 /* CustomFieldEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7FC2489359E00B6EA27 /* CustomFieldEditView.swift */; };
+		5BA1A7FE2489359E00B6EA27 /* CustomFieldEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA1A7FC2489359E00B6EA27 /* CustomFieldEditView.swift */; };
 		5BADCF0424630A95000FB352 /* BankAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0324630A95000FB352 /* BankAccount.swift */; };
 		5BADCF0624630B25000FB352 /* WifiCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0524630B25000FB352 /* WifiCoding.swift */; };
 		5BADCF0824630B63000FB352 /* WifiDisplayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BADCF0724630B63000FB352 /* WifiDisplayModel.swift */; };
@@ -306,6 +318,12 @@
 		5B43E76E245736BE00B7FC00 /* NoteCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCoding.swift; sourceTree = "<group>"; };
 		5B43E770245737A700B7FC00 /* NoteEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditModel.swift; sourceTree = "<group>"; };
 		5B43E7722457386A00B7FC00 /* NoteEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteEditView.swift; sourceTree = "<group>"; };
+		5BA1A7ED248931E300B6EA27 /* CustomField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomField.swift; sourceTree = "<group>"; };
+		5BA1A7F02489325200B6EA27 /* CustomFieldCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldCoding.swift; sourceTree = "<group>"; };
+		5BA1A7F32489329A00B6EA27 /* CustomFieldDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldDisplayModel.swift; sourceTree = "<group>"; };
+		5BA1A7F62489330800B6EA27 /* CustomFieldEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldEditModel.swift; sourceTree = "<group>"; };
+		5BA1A7F92489355C00B6EA27 /* CustomFieldDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldDisplayView.swift; sourceTree = "<group>"; };
+		5BA1A7FC2489359E00B6EA27 /* CustomFieldEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFieldEditView.swift; sourceTree = "<group>"; };
 		5BADCF0324630A95000FB352 /* BankAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccount.swift; sourceTree = "<group>"; };
 		5BADCF0524630B25000FB352 /* WifiCoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiCoding.swift; sourceTree = "<group>"; };
 		5BADCF0724630B63000FB352 /* WifiDisplayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDisplayModel.swift; sourceTree = "<group>"; };
@@ -509,6 +527,8 @@
 				95D9739E246D8DAD00306537 /* BiometricUnlockPreferencesModel.swift */,
 				95F309A22457153100C3F591 /* Completable.swift */,
 				953EF2AC2444BED800627B1B /* ContentModel.swift */,
+				5BA1A7F32489329A00B6EA27 /* CustomFieldDisplayModel.swift */,
+				5BA1A7F62489330800B6EA27 /* CustomFieldEditModel.swift */,
 				953EF2972444BDF100627B1B /* FileCopyingModel.swift */,
 				95169CB82452E40C00520DB6 /* FileDisplayModel.swift */,
 				953EF2982444BDF100627B1B /* FileEditModel.swift */,
@@ -595,6 +615,8 @@
 				95D9739B246D89D700306537 /* BiometricUnlockButton.swift */,
 				95D973A1246D8E5E00306537 /* BiometricUnlockPreferencesView.swift */,
 				953EF2C22444BF1B00627B1B /* ContentView.swift */,
+				5BA1A7F92489355C00B6EA27 /* CustomFieldDisplayView.swift */,
+				5BA1A7FC2489359E00B6EA27 /* CustomFieldEditView.swift */,
 				95B50FF82459ED6F003536E8 /* FileContentView.swift */,
 				95169CBB2452E42000520DB6 /* FileDisplayView.swift */,
 				953EF2CF2444BF1C00627B1B /* FileEditView.swift */,
@@ -765,6 +787,7 @@
 			children = (
 				5BADCF0324630A95000FB352 /* BankAccount.swift */,
 				5B1A0F60246194FF0056D896 /* BankCard.swift */,
+				5BA1A7ED248931E300B6EA27 /* CustomField.swift */,
 				95D2933D2408247000FDD6F4 /* File.swift */,
 				95D2933F2408247100FDD6F4 /* Login.swift */,
 				5B43E76C2457352900B7FC00 /* Note.swift */,
@@ -783,6 +806,7 @@
 				5BADCF27246584D5000FB352 /* BankAccountCoding.swift */,
 				5B1A0F62246195360056D896 /* BankCardCoding.swift */,
 				95D293572408259D00FDD6F4 /* CodingError.swift */,
+				5BA1A7F02489325200B6EA27 /* CustomFieldCoding.swift */,
 				95D29363240826FE00FDD6F4 /* FileCoding.swift */,
 				95D29364240826FE00FDD6F4 /* LoginCoding.swift */,
 				5B43E76E245736BE00B7FC00 /* NoteCoding.swift */,
@@ -1005,6 +1029,7 @@
 				5BADCF26246584C5000FB352 /* BankAccountDisplayModel.swift in Sources */,
 				95D293582408259D00FDD6F4 /* CodingError.swift in Sources */,
 				95D29369240826FE00FDD6F4 /* SecureItemCoding.swift in Sources */,
+				5BA1A7F12489325200B6EA27 /* CustomFieldCoding.swift in Sources */,
 				95169CB92452E40C00520DB6 /* FileDisplayModel.swift in Sources */,
 				9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */,
 				95D293412408247100FDD6F4 /* File.swift in Sources */,
@@ -1028,17 +1053,22 @@
 				95A550A624486F0700F061AB /* SecureItemEditModel.swift in Sources */,
 				952123AC246AFEBA0039F519 /* PreferencesModel.swift in Sources */,
 				95F274F0245F76E000B9C44A /* CreateMasterKey.swift in Sources */,
+				5BA1A7F72489330800B6EA27 /* CustomFieldEditModel.swift in Sources */,
+				5BA1A7F42489329A00B6EA27 /* CustomFieldDisplayModel.swift in Sources */,
 				9593AAA8244F2170004740D5 /* SaveVaultItemOperation.swift in Sources */,
 				952123A8246AFEBA0039F519 /* PreferencesLoadedModel.swift in Sources */,
 				95F274F4245F78F400B9C44A /* LoadMasterKey.swift in Sources */,
 				95169CE32452E99D00520DB6 /* LoadVaultItemOperation.swift in Sources */,
+				5BA1A7FA2489355C00B6EA27 /* CustomFieldDisplayView.swift in Sources */,
 				95D293422408247100FDD6F4 /* Password.swift in Sources */,
 				5B43E7732457386A00B7FC00 /* NoteEditView.swift in Sources */,
 				952123B3246AFF630039F519 /* PreferencesModelContext.swift in Sources */,
 				953EF2B72444BED800627B1B /* LoginEditModel.swift in Sources */,
 				957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */,
 				95E0E9FF247264C600EEF919 /* VersionRepresentable.swift in Sources */,
+				5BA1A7EE248931E300B6EA27 /* CustomField.swift in Sources */,
 				5BADCF0A24630B7A000FB352 /* WifiEditModel.swift in Sources */,
+				5BA1A7FD2489359E00B6EA27 /* CustomFieldEditView.swift in Sources */,
 				95D2935D2408261700FDD6F4 /* UnsignedInteger32BitCoding.swift in Sources */,
 				5BADCF0624630B25000FB352 /* WifiCoding.swift in Sources */,
 				95F309B024571CC700C3F591 /* VaultItemModelContext.swift in Sources */,
@@ -1129,6 +1159,7 @@
 				954AEA68245AFD3200FEDE04 /* PasswordEditModel.swift in Sources */,
 				954AEA69245AFD3200FEDE04 /* NoteEditModel.swift in Sources */,
 				954AEA6A245AFD3200FEDE04 /* SecureItemDisplayModel.swift in Sources */,
+				5BA1A7EF248931E300B6EA27 /* CustomField.swift in Sources */,
 				95A7B488246410F200786A5C /* WifiDisplayModel.swift in Sources */,
 				954AEA6B245AFD3200FEDE04 /* SecureItemEditModel.swift in Sources */,
 				950E89FA2462D83D00EBFD66 /* BankCardTypeView.swift in Sources */,
@@ -1140,11 +1171,13 @@
 				952123A7246AFEBA0039F519 /* PreferencesLoadingModel.swift in Sources */,
 				954AEACC245B234200FEDE04 /* FileContentView.swift in Sources */,
 				95A7B499246411C100786A5C /* VaultItemCollectionView.swift in Sources */,
+				5BA1A7FE2489359E00B6EA27 /* CustomFieldEditView.swift in Sources */,
 				954AEA6E245AFD3200FEDE04 /* VaultItemCreatingModel.swift in Sources */,
 				954AEABE245B234200FEDE04 /* FileStateEmptyView.swift in Sources */,
 				954AEA6F245AFD3200FEDE04 /* VaultItemDisplayModel.swift in Sources */,
 				954AEA70245AFD3200FEDE04 /* VaultItemEditModel.swift in Sources */,
 				954AEABB245B234200FEDE04 /* FileDisplayView.swift in Sources */,
+				5BA1A7F52489329A00B6EA27 /* CustomFieldDisplayModel.swift in Sources */,
 				954AEA71245AFD3200FEDE04 /* VaultItemLoadedModel.swift in Sources */,
 				954AEA72245AFD3200FEDE04 /* VaultItemLoadingModel.swift in Sources */,
 				954AEABD245B234200FEDE04 /* FileStateCopyingView.swift in Sources */,
@@ -1182,7 +1215,10 @@
 				95E0E9FE247264C600EEF919 /* VersionRepresentable.swift in Sources */,
 				954AEADE245B29AE00FEDE04 /* UnlockedView.swift in Sources */,
 				954AEA84245AFD3300FEDE04 /* VaultItemInfoCoding.swift in Sources */,
+				5BA1A7F82489330800B6EA27 /* CustomFieldEditModel.swift in Sources */,
+				5BA1A7FB2489355C00B6EA27 /* CustomFieldDisplayView.swift in Sources */,
 				954AEA85245AFD3300FEDE04 /* FileCoding.swift in Sources */,
+				5BA1A7F22489325200B6EA27 /* CustomFieldCoding.swift in Sources */,
 				954AEA86245AFD3300FEDE04 /* LoginCoding.swift in Sources */,
 				954AEAD4245B248800FEDE04 /* RangeExtension.swift in Sources */,
 				954AEA87245AFD3300FEDE04 /* PasswordCoding.swift in Sources */,

@@ -9,6 +9,7 @@ enum SecureItem: Equatable {
     case bankCard(BankCard)
     case wifi(Wifi)
     case bankAccount(BankAccount)
+    case customField(CustomField)
     
     var itemType: SecureItemType {
         switch self {
@@ -26,6 +27,8 @@ enum SecureItem: Equatable {
             return .wifi
         case .bankAccount:
             return .bankAccount
+        case .customField:
+            return .customField
         }
     }
     
