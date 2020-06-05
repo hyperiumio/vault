@@ -1,4 +1,5 @@
 import Foundation
+import Pasteboard
 
 class LoginDisplayModel: ObservableObject, Identifiable {
     
