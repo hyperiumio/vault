@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import Preferences
 
 class PreferencesLoadedModel: ObservableObject {
     

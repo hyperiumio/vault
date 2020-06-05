@@ -1,3 +1,5 @@
+import Preferences
+
 struct PreferencesModelContext {
     
     let store: PreferencesStore
