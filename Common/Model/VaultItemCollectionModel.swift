@@ -1,6 +1,7 @@
 import Combine
 import Crypto
 import Foundation
+import Search
 
 class VaultItemCollectionModel: ObservableObject {
     
@@ -35,7 +36,7 @@ class VaultItemCollectionModel: ObservableObject {
             .receive(on: infoItemProcessingQueue)
             .map { infosItems, searchText in
                 return infosItems.filter { infoItem in
-                    return FuzzyMatch(query: searchText, target: infoItem.title)
+                    return FuzzyMatch(searchText, in: infoItem.title)
                 }
             }
             .map { [vault] infosItems in
