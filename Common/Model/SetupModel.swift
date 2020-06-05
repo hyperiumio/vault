@@ -19,13 +19,9 @@ class SetupModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var message: Message?
     
-    var createMasterKeyButtonDisabled: Bool {
-        return password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || isLoading
-    }
+    var createMasterKeyButtonDisabled: Bool { password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || isLoading }
     
-    var textInputDisabled: Bool {
-        return isLoading
-    }
+    var textInputDisabled: Bool { isLoading }
     
     let didCreateMasterKey = PassthroughSubject<MasterKey, Never>()
     
@@ -45,7 +41,22 @@ class SetupModel: ObservableObject {
         }
         
         isLoading = true
-        createMasterKeySubscription = Vault.createMasterKey(masterKeyUrl: masterKeyUrl, password: password)
+        
+        let masterKeyPublisher = Future<MasterKey, Error> { [masterKeyUrl, password] promise in
+            DispatchQueue.global().async {
+                let result = Result<MasterKey, Error> {
+                    let masterKey = MasterKey()
+                    let masterKeyDirectory = masterKeyUrl.deletingLastPathComponent()
+                    try FileManager.default.createDirectory(at: masterKeyDirectory, withIntermediateDirectories: true)
+                    try MasterKeyContainerEncode(masterKey, with: password).write(to: masterKeyUrl)
+                    
+                    return masterKey
+                }
+                promise(result)
+            }
+        }
+        
+        createMasterKeySubscription = masterKeyPublisher
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

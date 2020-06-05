@@ -6,11 +6,11 @@ struct LockedView: View {
     
     var body: some View {
         return VStack {
-            SecureField(.enterPassword, text: $model.password, onCommit: model.masterPasswordLogin)
+            SecureField(.enterPassword, text: $model.password, onCommit: model.loginWithMasterPassword)
                 .frame(width: 220)
                 .disabled(model.textInputDisabled)
             
-            Button(.unlockVault, action: model.masterPasswordLogin)
+            Button(.unlockVault, action: model.loginWithMasterPassword)
                 .disabled(model.decryptMasterKeyButtonDisabled)
             
             model.biometricUnlockMethod.map { method in

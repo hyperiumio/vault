@@ -1,8 +1,11 @@
 import Combine
+import Store
 
 class NoteDisplayModel: ObservableObject, Identifiable {
         
-    let note: String
+    var text: String { note.text }
+    
+    private let note: Note
     
     init(_ note: Note) {
         self.note = note

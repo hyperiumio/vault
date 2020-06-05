@@ -1,21 +1,14 @@
 import Foundation
 import Pasteboard
+import Store
 
 class LoginDisplayModel: ObservableObject, Identifiable {
     
     @Published var secureDisplay = true
     
-    var username: String {
-        return login.username
-    }
-    
-    var password: String {
-        return login.password
-    }
-    
-    var url: String {
-        return login.url
-    }
+    var username: String { login.username }
+    var password: String { login.password }
+    var url: String? { login.url }
     
     private let login: Login
     

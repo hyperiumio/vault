@@ -1,14 +1,12 @@
 import Combine
+import Store
 
 class WifiEditModel: ObservableObject, Identifiable {
     
-    @Published var networkPassword: Password
-    
+    @Published var networkPassword: String
     @Published var networkName: String
     
-    var isComplete: Bool {
-        return !networkPassword.isEmpty && !networkName.isEmpty
-    }
+    var isComplete: Bool { !networkPassword.isEmpty && !networkName.isEmpty }
     
     var secureItem: SecureItem? {
         guard !networkPassword.isEmpty, !networkName.isEmpty else {

@@ -1,11 +1,12 @@
 import SwiftUI
+import Store
 
 struct BankCardTypeView: View {
-    let bankCardType: BankCard.BankCardType
+    
+    let vendor: BankCard.Vendor
     
     var body: some View {
-        switch bankCardType {
-            
+        switch vendor {
         case .masterCard:
             return Text("MasterCard")
         case .visa:
@@ -16,4 +17,5 @@ struct BankCardTypeView: View {
             return Text("Other")
         }
     }
+    
 }

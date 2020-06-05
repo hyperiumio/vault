@@ -1,8 +1,9 @@
 import SwiftUI
+import Store
 
 struct CreateVaultItemButton: View {
     
-    let action: (SecureItemType) -> Void
+    let action: (SecureItem.TypeIdentifier) -> Void
     
     var body: some View {
         return MenuButton(.addItem) {

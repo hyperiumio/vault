@@ -8,7 +8,6 @@ struct LoginEditView: View {
         return VStack {
             TextField(.user, text: $model.user)
             SecureField(.password, text: $model.password)
-            TextField(.url, text: $model.url)
         }
     }
     

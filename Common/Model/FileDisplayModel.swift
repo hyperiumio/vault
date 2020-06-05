@@ -1,18 +1,11 @@
 import Foundation
+import Store
 
 class FileDisplayModel: ObservableObject, Identifiable {
     
-    var filename: String {
-        return file.name
-    }
-    
-    var fileType: File.FileType {
-        return file.type
-    }
-    
-    var fileData: Data {
-        return file.data
-    }
+    var filename: String { file.name }
+    var fileFormat: File.Format { file.format }
+    var fileData: Data { file.data }
     
     private let file: File
     

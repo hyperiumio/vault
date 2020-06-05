@@ -1,16 +1,18 @@
+import Crypto
 import Foundation
+import Store
 
 struct VaultItemModelContext {
     
-    let itemId: UUID
-    let vault: Vault
+    let itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo
+    let store: VaultItemStore<SecureDataCryptor>
     
     func vaultItemLoadingModel() -> VaultItemLoadingModel {
-        return VaultItemLoadingModel(itemId: itemId, vault: vault)
+        return VaultItemLoadingModel(itemInfo: itemInfo, store: store)
     }
     
     func vaultItemLoadedModelContext() -> VaultItemLoadedModelContext {
-        return VaultItemLoadedModelContext(vault: vault)
+        return VaultItemLoadedModelContext(store: store)
     }
     
 }

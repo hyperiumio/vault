@@ -1,39 +1,18 @@
 import Combine
+import Store
 
 class BankAccountDisplayModel: ObservableObject, Identifiable {
+    
     @Published var pinSecureDisplay = true
     
-    var bankName: String {
-        return bankAccount.bankName
-    }
-    
-    var accountHolder: String {
-        return bankAccount.accountHolder
-    }
-    
-    var bankCode: String {
-        return bankAccount.bankCode
-    }
-    
-    var accountNumber: String {
-        return bankAccount.accountNumber
-    }
-    
-    var swiftCode: String {
-        return bankAccount.swiftCode
-    }
-    
-    var iban: String {
-        return bankAccount.iban
-    }
-    
-    var pin: String {
-        return bankAccount.pin
-    }
-    
-    var onlineBankingUrl: String {
-        return bankAccount.onlineBankingUrl
-    }
+    var bankName: String { bankAccount.bankName }
+    var accountHolder: String { bankAccount.accountHolder }
+    var bankCode: String { bankAccount.bankCode }
+    var accountNumber: String { bankAccount.accountNumber }
+    var swiftCode: String { bankAccount.swiftCode }
+    var iban: String { bankAccount.iban }
+    var pin: String { bankAccount.pin }
+    var onlineBankingUrl: String { bankAccount.onlineBankingUrl }
     
     private let bankAccount: BankAccount
     

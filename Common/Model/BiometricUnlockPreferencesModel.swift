@@ -1,6 +1,7 @@
 import Combine
 import Crypto
 import Foundation
+import Store
 
 class BiometricUnlockPreferencesModel: ObservableObject, Identifiable, Completable {
     
@@ -9,6 +10,7 @@ class BiometricUnlockPreferencesModel: ObservableObject, Identifiable, Completab
             message = nil
         }
     }
+    
     @Published var isLoading = false
     @Published var message: Message?
     

@@ -1,12 +1,13 @@
 import SwiftUI
+import Store
 
 struct FileContentView: View {
     
     let fileData: Data
-    let fileType: File.FileType
+    let fileFormat: File.Format
     
     var body: some View {
-        switch fileType {
+        switch fileFormat {
         case .unrepresentable:
             return Text("?").eraseToAnyView()
         case .pdf:

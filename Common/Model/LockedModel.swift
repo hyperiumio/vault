@@ -15,13 +15,8 @@ class LockedModel: ObservableObject {
     @Published private(set) var biometricUnlockMethod: BiometricUnlock.Method?
     @Published private(set) var message: Message?
     
-    var textInputDisabled: Bool {
-        return isLoading
-    }
-    
-    var decryptMasterKeyButtonDisabled: Bool {
-        return password.isEmpty || isLoading
-    }
+    var textInputDisabled: Bool { isLoading }
+    var decryptMasterKeyButtonDisabled: Bool { password.isEmpty || isLoading }
     
     let didDecryptMasterKey = PassthroughSubject<MasterKey, Never>()
     
@@ -45,10 +40,22 @@ class LockedModel: ObservableObject {
             .assign(to: \.biometricUnlockMethod, on: self)
     }
     
-    func masterPasswordLogin() {
+    func loginWithMasterPassword() {
         message = nil
         isLoading = true
-        loadMasterKeySubscription = Vault.loadMasterKey(masterKeyUrl: masterKeyUrl, password: password)
+        
+        let masterKeyProvider = Future<MasterKey, Error> { [masterKeyUrl, password] promise in
+            DispatchQueue.global().async {
+                let result = Result {
+                    return try Data(contentsOf: masterKeyUrl).map { data in
+                        return try MasterKeyContainerDecode(data, with: password)
+                    }
+                }
+                promise(result)
+            }
+        }
+        
+        loadMasterKeySubscription = masterKeyProvider
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -70,8 +77,21 @@ class LockedModel: ObservableObject {
     func biometricLogin() {
         message = nil
         isLoading = true
+        
+        let masterKeyProvider = Future<MasterKey, Error> { [masterKeyUrl] promise in
+            DispatchQueue.global().async {
+                let result = Result<MasterKey, Error> {
+                    let password = try BiometricKeychainLoadPassword(identifier: Bundle.main.bundleIdentifier!)
+                    
+                    return try Data(contentsOf: masterKeyUrl).map { data in
+                        return try MasterKeyContainerDecode(data, with: password)
+                    }
+                }
+                promise(result)
+            }
+        }
 
-        loadMasterKeySubscription = Vault.loadMasterKeyUsingBiometrics(masterKeyUrl: masterKeyUrl)
+        loadMasterKeySubscription = masterKeyProvider
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

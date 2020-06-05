@@ -6,7 +6,7 @@ struct NoteDisplayView: View {
     
     var body: some View {
         return VStack {
-            Text(model.note)
+            Text(model.text)
         }
     }
     

@@ -7,14 +7,13 @@ struct BankCardEditView: View {
     var body: some View {
         return VStack {
             TextField(.bankCardNamePlaceholder, text: $model.name)
-            model.type.map { type in
-                BankCardTypeView(bankCardType: type)
+            model.vendor.map { vendor in
+                BankCardTypeView(vendor: vendor)
             }
             TextField(.bankCardNumberPlaceholder, text: $model.number)
             TextField(.bankCardValidityDatePlaceholder, text: $model.validityDate)
             TextField(.bankCardValidFromPlaceholder, text: $model.validFrom)
             TextField(.bankCardPinPlaceholder, text: $model.pin)
-            TextField(.bankCardCvvPlaceholder, text: $model.cvv)
         }
     }
     
