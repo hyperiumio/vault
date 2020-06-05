@@ -1,6 +1,7 @@
 import Combine
 import Crypto
 import Foundation
+import Preferences
 
 class LockedModel: ObservableObject {
     

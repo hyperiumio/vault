@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import Preferences
 
 class ApplicationController: NSObject, NSApplicationDelegate {
     

@@ -1,15 +1,14 @@
-import Combine
 import Foundation
 
-class PreferencesStore {
+public class PreferencesStore {
     
     private let userDefaults: UserDefaults
     
-    init(userDefaults: UserDefaults) {
+    public init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
     }
     
-    var isBiometricUnlockEnabled: Bool {
+    public var isBiometricUnlockEnabled: Bool {
         get {
             return userDefaults.bool(forKey: .isBiometricUnlockEnabled)
         }
@@ -18,8 +17,8 @@ class PreferencesStore {
         }
     }
     
-    var preferences: Preferences {
-        return Preferences(from: self)
+    public var preferences: Preferences {
+        return Preferences(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
     }
     
 }
@@ -30,12 +29,8 @@ private extension String {
     
 }
 
-struct Preferences {
+public struct Preferences {
     
-    let isBiometricUnlockEnabled: Bool
-    
-    fileprivate init(from store: PreferencesStore) {
-        self.isBiometricUnlockEnabled = store.isBiometricUnlockEnabled
-    }
+    public let isBiometricUnlockEnabled: Bool
     
 }

@@ -1,6 +1,7 @@
 import Combine
 import SwiftUI
 import UIKit
+import Preferences
 
 @UIApplicationMain
 class AppController: UIResponder, UIApplicationDelegate {
