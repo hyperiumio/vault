@@ -1,6 +1,6 @@
 import LocalAuthentication
 
-enum BiometricAvailablity {
+public enum BiometricAvailablity {
     
     case notAvailable
     case notEnrolled
@@ -10,7 +10,7 @@ enum BiometricAvailablity {
     
 }
 
-func BiometricAvailablityEvaluate() -> BiometricAvailablity {
+public func BiometricAvailablityEvaluate() -> BiometricAvailablity {
     let context = LAContext()
     
     var error: NSError?

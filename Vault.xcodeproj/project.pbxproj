@@ -238,8 +238,6 @@
 		9593AAB0244F21DC004740D5 /* VaultItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAAF244F21DC004740D5 /* VaultItem.swift */; };
 		9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		9593AAB6244F221D004740D5 /* VaultItemCrypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */; };
-		95991A41246C3399002FEB10 /* BiometricAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95991A40246C3399002FEB10 /* BiometricAuthentication.swift */; };
-		95991A42246C3399002FEB10 /* BiometricAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95991A40246C3399002FEB10 /* BiometricAuthentication.swift */; };
 		95A3349A246E9E42004800AC /* PreferencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952123A3246AFEBA0039F519 /* PreferencesModel.swift */; };
 		95A3349B246E9ED7004800AC /* PreferencesModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952123B2246AFF630039F519 /* PreferencesModelContext.swift */; };
 		95A3349C246EA56D004800AC /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7B49A246411D000786A5C /* PreferencesView.swift */; };
@@ -336,6 +334,8 @@
 		5BADCF24246584C5000FB352 /* BankAccountDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountDisplayModel.swift; sourceTree = "<group>"; };
 		5BADCF27246584D5000FB352 /* BankAccountCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountCoding.swift; sourceTree = "<group>"; };
 		5BADCF29246584FE000FB352 /* Wifi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
+		950C405A248A75F200A32908 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		950C405B248A75F200A32908 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		950E89F72462D81600EBFD66 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		95169CB82452E40C00520DB6 /* FileDisplayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayModel.swift; sourceTree = "<group>"; };
 		95169CBB2452E42000520DB6 /* FileDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileDisplayView.swift; sourceTree = "<group>"; };
@@ -410,8 +410,6 @@
 		954AEADF245B29D900FEDE04 /* VaultItemEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemEditView.swift; sourceTree = "<group>"; };
 		954AEAE1245B29FE00FEDE04 /* VaultItemCreatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemCreatingView.swift; sourceTree = "<group>"; };
 		954AEAE3245C46E800FEDE04 /* CreateVaultItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemButton.swift; sourceTree = "<group>"; };
-		956105E9248A67770031BB4C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
-		956105EA248A67770031BB4C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		956105EB248A68570031BB4C /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
 		9561124124389D6600028F6E /* MainMenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuController.swift; sourceTree = "<group>"; };
 		9561124424389EA400028F6E /* NSMenuExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMenuExtension.swift; sourceTree = "<group>"; };
@@ -425,7 +423,6 @@
 		9593AAAF244F21DC004740D5 /* VaultItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItem.swift; sourceTree = "<group>"; };
 		9593AAB2244F21FA004740D5 /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
 		9593AAB5244F221D004740D5 /* VaultItemCrypto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCrypto.swift; sourceTree = "<group>"; };
-		95991A40246C3399002FEB10 /* BiometricAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthentication.swift; sourceTree = "<group>"; };
 		95A550A524486F0700F061AB /* SecureItemEditModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditModel.swift; sourceTree = "<group>"; };
 		95A7B48F2464113600786A5C /* UnlockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedModel.swift; sourceTree = "<group>"; };
 		95A7B4942464119900786A5C /* VaultItemCollectionModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemCollectionModel.swift; sourceTree = "<group>"; };
@@ -682,15 +679,9 @@
 				951DAC5E248A5B5200B18311 /* Frameworks */,
 				95B51019245AEBE6003536E8 /* iOS */,
 				95F9041D235DEAB700B1CFDB /* macOS */,
+				950C405A248A75F200A32908 /* Vault.app */,
+				950C405B248A75F200A32908 /* Vault.app */,
 			);
-			sourceTree = "<group>";
-		};
-		95991A3F246C337E002FEB10 /* System */ = {
-			isa = PBXGroup;
-			children = (
-				95991A40246C3399002FEB10 /* BiometricAuthentication.swift */,
-			);
-			path = System;
 			sourceTree = "<group>";
 		};
 		95A7B48D2464113600786A5C /* Model */ = {
@@ -712,7 +703,6 @@
 		95ABF6D92360CD7C00CA6429 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				95991A3F246C337E002FEB10 /* System */,
 				951C339A243637A5002AA4CD /* Asset */,
 				95D293542408257000FDD6F4 /* Coding */,
 				953EF2BB2444BEED00627B1B /* Context */,
@@ -889,7 +879,7 @@
 				956105EE248A696A0031BB4C /* Pasteboard */,
 			);
 			productName = macOS;
-			productReference = 956105E9248A67770031BB4C /* Vault.app */;
+			productReference = 950C405A248A75F200A32908 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95B51004245AEB16003536E8 /* Vault iOS */ = {
@@ -913,7 +903,7 @@
 				956105EC248A69630031BB4C /* Pasteboard */,
 			);
 			productName = "Vault iOS";
-			productReference = 956105EA248A67770031BB4C /* Vault.app */;
+			productReference = 950C405B248A75F200A32908 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1074,7 +1064,6 @@
 				5B43E76D2457352900B7FC00 /* Note.swift in Sources */,
 				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
 				9593AAAD244F21B9004740D5 /* VaultItemInfoCoding.swift in Sources */,
-				95991A41246C3399002FEB10 /* BiometricAuthentication.swift in Sources */,
 				5B1A0F63246195360056D896 /* BankCardCoding.swift in Sources */,
 				953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */,
 				5B43E76F245736BE00B7FC00 /* NoteCoding.swift in Sources */,
@@ -1237,7 +1226,6 @@
 				954AEA90245AFD3300FEDE04 /* Login.swift in Sources */,
 				954AEACF245B248800FEDE04 /* PublisherExtension.swift in Sources */,
 				954AEA91245AFD3300FEDE04 /* Password.swift in Sources */,
-				95991A42246C3399002FEB10 /* BiometricAuthentication.swift in Sources */,
 				954AEAD1245B248800FEDE04 /* ComparableExtension.swift in Sources */,
 				95D973A3246D8E5E00306537 /* BiometricUnlockPreferencesView.swift in Sources */,
 				954AEAD5245B248800FEDE04 /* UnsignedIntegerExtension.swift in Sources */,
