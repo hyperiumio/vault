@@ -1,4 +1,4 @@
 import XCTest
 @testable import Store
 
-class VaultTests: XCTestCase {}
+class BankAccountTests: XCTestCase {}
