@@ -14,6 +14,7 @@ struct BankCardEditView: View {
             TextField(.bankCardValidityDatePlaceholder, text: $model.validityDate)
             TextField(.bankCardValidFromPlaceholder, text: $model.validFrom)
             TextField(.bankCardPinPlaceholder, text: $model.pin)
+            TextField(.bankCardCvvPlaceholder, text: $model.cvv)
         }
     }
     

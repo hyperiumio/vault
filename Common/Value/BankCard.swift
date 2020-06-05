@@ -14,6 +14,8 @@ struct BankCard: Codable, Equatable {
         
     let pin: String
     
+    let cvv: String
+    
 }
 
 extension BankCard {

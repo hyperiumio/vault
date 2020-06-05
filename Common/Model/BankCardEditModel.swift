@@ -18,6 +18,8 @@ class BankCardEditModel: ObservableObject, Identifiable {
         
     @Published var pin: String
     
+    @Published var cvv: String
+    
     var isComplete: Bool {
         let validNumber = number.count > 16
         return !number.isEmpty && validNumber
@@ -28,7 +30,7 @@ class BankCardEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
+        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin, cvv: cvv)
         return SecureItem.bankCard(bankCard)
     }
     
@@ -38,6 +40,7 @@ class BankCardEditModel: ObservableObject, Identifiable {
         self.validityDate = bankCard?.validityDate ?? ""
         self.validFrom = bankCard?.validFrom ?? ""
         self.pin = bankCard?.pin ?? ""
+        self.cvv = bankCard?.cvv ?? ""
     }
     
 }
