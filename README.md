@@ -1,3 +1,3 @@
 # vault
 
-Delete vault: delete ~/Library/Containers/io.hyperium.vault
+rm -r ~/Library/Containers/io.hyperium.vault
