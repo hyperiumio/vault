@@ -12,6 +12,7 @@ struct BankCardDisplayView: View {
             Text(model.validityDate)
             Text(model.validFrom)
             SecureText(content: model.pin, secureDisplay: $model.pinSecureDisplay)
+            Text(model.cvv)
         }
     }
     

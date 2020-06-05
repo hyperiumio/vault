@@ -27,6 +27,10 @@ class BankCardDisplayModel: ObservableObject, Identifiable {
         return bankCard.pin
     }
     
+    var cvv: String {
+        return bankCard.cvv
+    }
+    
     private let bankCard: BankCard
     
     init(_ bankCard: BankCard) {

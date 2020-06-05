@@ -19,6 +19,7 @@
 "BankAccountIban" = "IBAN";
 "BankAccountPin" = "PIN";
 "BankAccountOnlineBankingUrl" = "Online Banking URL";
+"BankCardCvvPlaceholder" = "CVV";
 "BiometricActivationFailed" = "Enabling biometric unlock did fail";
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
