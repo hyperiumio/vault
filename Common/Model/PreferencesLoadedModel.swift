@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
+import Store
 
 class PreferencesLoadedModel: ObservableObject {
     

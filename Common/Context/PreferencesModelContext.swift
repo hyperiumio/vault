@@ -1,3 +1,4 @@
+import Store
 import Preferences
 
 struct PreferencesModelContext {

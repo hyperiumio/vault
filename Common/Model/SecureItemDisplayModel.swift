@@ -1,3 +1,5 @@
+import Store
+
 enum SecureItemDisplayModel {
     
     case login(LoginDisplayModel)

@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import Preferences
+import Store
 
 class PreferencesLoadingModel: ObservableObject, Completable, Loadable {
     

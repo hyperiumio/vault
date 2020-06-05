@@ -1,5 +1,7 @@
 import Combine
+import Crypto
 import Foundation
+import Store
 
 class VaultItemLoadingModel: ObservableObject, Completable {
     
@@ -8,19 +10,19 @@ class VaultItemLoadingModel: ObservableObject, Completable {
     
     internal var completionPromise: Future<VaultItem, Never>.Promise?
     
-    private let itemId: UUID
-    private let vault: Vault
+    private let itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo
+    private let store: VaultItemStore<SecureDataCryptor>
     private var loadSubscription: AnyCancellable?
     
-    init(itemId: UUID, vault: Vault) {
-        self.itemId = itemId
-        self.vault = vault
+    init(itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo, store: VaultItemStore<SecureDataCryptor>) {
+        self.itemInfo = itemInfo
+        self.store = store
     }
     
     func load() {
         isLoading = true
         
-        loadSubscription = vault.loadVaultItem(itemId: itemId)
+        loadSubscription = store.loadVaultItem(for: itemInfo)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

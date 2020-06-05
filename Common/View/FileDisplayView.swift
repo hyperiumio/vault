@@ -8,7 +8,7 @@ struct FileDisplayView: View {
         return VStack {
             Text(model.filename)
             
-            FileContentView(fileData: model.fileData, fileType: model.fileType)
+            FileContentView(fileData: model.fileData, fileFormat: model.fileFormat)
         }
     }
     

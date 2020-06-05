@@ -1,8 +1,9 @@
 import SwiftUI
+import Store
 
 struct CreateVaultItemButton: View {
     
-    let action: (SecureItemType) -> Void
+    let action: (SecureItem.TypeIdentifier) -> Void
     
     @State private var isSheetVisible = false
     
@@ -39,6 +40,9 @@ struct CreateVaultItemButton: View {
                 },
                 ActionSheet.Button.default(Text(.bankAccount)) {
                     self.action(.bankAccount)
+                },
+                ActionSheet.Button.default(Text(.customField)) {
+                    self.action(.customField)
                 }
             ] as [ActionSheet.Button]
             return ActionSheet(title: title, buttons: buttons)

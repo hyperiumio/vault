@@ -1,25 +1,18 @@
 import Combine
+import Store
 
 class BankAccountEditModel: ObservableObject, Identifiable {
+    
     @Published var bankName: String
-    
     @Published var accountHolder: String
-    
     @Published var bankCode: String
-    
     @Published var accountNumber: String
-        
     @Published var swiftCode: String
-    
     @Published var iban: String
-    
     @Published var pin: String
-    
     @Published var onlineBankingUrl: String
     
-    var isComplete: Bool {
-        return !accountNumber.isEmpty
-    }
+    var isComplete: Bool { !accountNumber.isEmpty }
     
     var secureItem: SecureItem? {
         guard !accountNumber.isEmpty else {

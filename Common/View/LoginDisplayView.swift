@@ -11,7 +11,9 @@ struct LoginDisplayView: View {
             SecureText(content: model.password, secureDisplay: $model.secureDisplay)
                 .onTapGesture(perform: model.copyPasswordToPasteboard)
             
-            Text(model.url)
+            model.url.map { url in
+                Text(url)
+            }
         }
     }
     

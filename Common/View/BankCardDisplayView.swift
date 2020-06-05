@@ -7,12 +7,11 @@ struct BankCardDisplayView: View {
     var body: some View {
         return VStack {
             Text(model.name)
-            BankCardTypeView(bankCardType: model.type)
+            BankCardTypeView(vendor: model.vendor)
             Text(model.number)
             Text(model.validityDate)
             Text(model.validFrom)
             SecureText(content: model.pin, secureDisplay: $model.pinSecureDisplay)
-            Text(model.cvv)
         }
     }
     

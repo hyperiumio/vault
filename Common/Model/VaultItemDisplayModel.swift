@@ -1,14 +1,13 @@
 import Combine
 import Foundation
+import Store
 
 class VaultItemDisplayModel: ObservableObject, Completable {
     
     private let vaultItem: VaultItem
     internal var completionPromise: Future<Completion, Never>.Promise?
     
-    var title: String {
-        return vaultItem.title
-    }
+    var title: String { vaultItem.title }
     
     var secureItemModels: [SecureItemDisplayModel] {
         return vaultItem.secureItems.map { secureItem in

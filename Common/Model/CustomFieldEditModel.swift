@@ -1,13 +1,12 @@
 import Combine
+import Store
 
 class CustomFieldEditModel: ObservableObject, Identifiable {
-    @Published var fieldName: String
     
+    @Published var fieldName: String
     @Published var fieldValue: String
     
-    var isComplete: Bool {
-        return !fieldName.isEmpty && !fieldValue.isEmpty
-    }
+    var isComplete: Bool { !fieldName.isEmpty && !fieldValue.isEmpty }
     
     var secureItem: SecureItem? {
         guard !fieldName.isEmpty && !fieldValue.isEmpty else {

@@ -1,5 +1,7 @@
 import Combine
+import Crypto
 import Foundation
+import Store
 
 class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     
@@ -17,22 +19,22 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     internal var completionPromise: Future<Completion, Never>.Promise?
     
     private let originalVaultItem: VaultItem
-    private let vault: Vault
+    private let store: VaultItemStore<SecureDataCryptor>
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(vaultItem: VaultItem, vault: Vault) {
+    init(vaultItem: VaultItem, store: VaultItemStore<SecureDataCryptor>) {
         self.originalVaultItem = vaultItem
         self.title = vaultItem.title
         self.secureItemModels = vaultItem.secureItems.map(SecureItemEditModel.init)
-        self.vault = vault
+        self.store = store
         
         let willChangePublishers = secureItemModels.map(\.objectWillChange)
         self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
             .sink(receiveValue: objectWillChange.send)
     }
     
-    func addItem(itemType: SecureItemType) {
+    func addItem(itemType: SecureItem.TypeIdentifier) {
         let model = SecureItemEditModel(itemType)
         secureItemModels.append(model)
         
@@ -46,15 +48,15 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
         guard secureItems.count == secureItemModels.count else {
             return
         }
-        guard let secureItem = secureItems.first else {
+        guard let primarySecureItem = secureItems.first else {
             return
         }
         let secureItemsTail = secureItems.dropFirst()
         let secondarySecureItems = Array(secureItemsTail)
-        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
+        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
         
         isLoading = true
-        saveSubscription = vault.saveVaultItem(vaultItem)
+        saveSubscription = store.saveVaultItem(vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

@@ -1,17 +1,13 @@
 import Combine
 import Pasteboard
+import Store
 
 class WifiDisplayModel: ObservableObject, Identifiable {
     
     @Published var networkPasswordSecureDisplay = true
     
-    var networkName: String {
-        return wifi.networkName
-    }
-    
-    var networkPassword: String {
-        return wifi.networkPassword
-    }
+    var networkName: String { wifi.networkName }
+    var networkPassword: String { wifi.networkPassword }
     
     private let wifi: Wifi
     

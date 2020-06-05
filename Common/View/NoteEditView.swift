@@ -6,7 +6,7 @@ struct NoteEditView: View {
     
     var body: some View {
         return VStack {
-            TextField(.notePlaceholder, text: $model.note)
+            TextField(.notePlaceholder, text: $model.text)
         }
     }
     

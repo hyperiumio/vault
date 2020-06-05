@@ -1,5 +1,7 @@
 import Combine
+import Crypto
 import Foundation
+import Store
 
 class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     
@@ -8,18 +10,15 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     @Published var errorMessage: ErrorMessage?
     @Published var secureItemModels: [SecureItemEditModel]
     
-    var saveButtonEnabled: Bool {
-        let secureModelsComplete = secureItemModels.allSatisfy(\.isComplete)
-        return !isLoading && !title.isEmpty && secureModelsComplete
-    }
+    var saveButtonEnabled: Bool { !isLoading && !title.isEmpty && secureItemModels.allSatisfy(\.isComplete) }
     
     internal var completionPromise: Future<Completion, Never>.Promise?
     
-    private let vault: Vault
+    private let vault: VaultItemStore<SecureDataCryptor>
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(itemType: SecureItemType, vault: Vault) {
+    init(itemType: SecureItem.TypeIdentifier, vault: VaultItemStore<SecureDataCryptor>) {
         self.secureItemModels = [SecureItemEditModel(itemType)]
         self.vault = vault
         
@@ -28,7 +27,7 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
             .sink(receiveValue: objectWillChange.send)
     }
     
-    func addItem(itemType: SecureItemType) {
+    func addItem(itemType: SecureItem.TypeIdentifier) {
         let model = SecureItemEditModel(itemType)
         secureItemModels.append(model)
         
@@ -42,12 +41,12 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
         guard secureItems.count == secureItemModels.count else {
             return
         }
-        guard let secureItem = secureItems.first else {
+        guard let primarySecureItem = secureItems.first else {
             return
         }
         let secureItemsTail = secureItems.dropFirst()
         let secondarySecureItems = Array(secureItemsTail)
-        let vaultItem = VaultItem(title: title, secureItem: secureItem, secondarySecureItems: secondarySecureItems)
+        let vaultItem = VaultItem(title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
         
         isLoading = true
         saveSubscription = vault.saveVaultItem(vaultItem)

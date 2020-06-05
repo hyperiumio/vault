@@ -1,24 +1,20 @@
 import Combine
+import Store
 
 class BankCardEditModel: ObservableObject, Identifiable {
-    @Published var name: String
     
-    var type: BankCard.BankCardType?  {
+    @Published var name: String
+    @Published var number: String
+    @Published var validityDate: String
+    @Published var validFrom: String
+    @Published var pin: String
+    
+    var vendor: BankCard.Vendor?  {
         guard isComplete else {
             return nil
         }
-        return BankCard.BankCardType(number)
+        return BankCard.Vendor(number)
     }
-    
-    @Published var number: String
-    
-    @Published var validityDate: String
-    
-    @Published var validFrom: String
-        
-    @Published var pin: String
-    
-    @Published var cvv: String
     
     var isComplete: Bool {
         let validNumber = number.count > 16
@@ -30,7 +26,7 @@ class BankCardEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin, cvv: cvv)
+        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
         return SecureItem.bankCard(bankCard)
     }
     
@@ -40,7 +36,6 @@ class BankCardEditModel: ObservableObject, Identifiable {
         self.validityDate = bankCard?.validityDate ?? ""
         self.validFrom = bankCard?.validFrom ?? ""
         self.pin = bankCard?.pin ?? ""
-        self.cvv = bankCard?.cvv ?? ""
     }
     
 }

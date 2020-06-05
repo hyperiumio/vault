@@ -1,1 +1,0 @@
-typealias Note = String

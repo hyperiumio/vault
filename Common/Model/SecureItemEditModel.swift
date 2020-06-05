@@ -1,4 +1,5 @@
 import Combine
+import Store
 
 enum SecureItemEditModel: Identifiable {
     
@@ -95,7 +96,7 @@ enum SecureItemEditModel: Identifiable {
         }
     }
     
-    init(_ itemType: SecureItemType) {
+    init(_ itemType: SecureItem.TypeIdentifier) {
         switch itemType {
         case .login:
             let model = LoginEditModel()

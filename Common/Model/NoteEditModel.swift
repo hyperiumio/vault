@@ -1,23 +1,23 @@
 import Combine
+import Store
 
 class NoteEditModel: ObservableObject, Identifiable {
     
-    @Published var note: Note
+    @Published var text: String
     
-    var isComplete: Bool {
-        return !note.isEmpty
-    }
+    var isComplete: Bool { !text.isEmpty }
     
     var secureItem: SecureItem? {
-        guard !note.isEmpty else {
+        guard !text.isEmpty else {
             return nil
         }
         
+        let note = Note(text: text)
         return SecureItem.note(note)
     }
     
     init(_ note: Note? = nil) {
-        self.note = note ?? ""
+        self.text = note?.text ?? ""
     }
     
 }

@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Search
+import Store
 
 class VaultItemCollectionModel: ObservableObject {
     
@@ -10,7 +11,7 @@ class VaultItemCollectionModel: ObservableObject {
     @Published var newVaultItemModel: VaultItemCreatingModel?
     @Published var errorMessage: ErrorMessage?
     
-    private let vault: Vault
+    private let store: VaultItemStore<SecureDataCryptor>
     private let infoItemProcessingQueue = DispatchQueue(label: "VaultItemCollectionModelInfoItemProcessingQueue")
     
     private var infoItemsSubscription: AnyCancellable?
@@ -19,9 +20,9 @@ class VaultItemCollectionModel: ObservableObject {
     private var vaultItemModelCompletionSubscription: AnyCancellable?
     
     init(vaultUrl: URL, masterKey: MasterKey) {
-        self.vault = Vault(url: vaultUrl, masterKey: masterKey)
+        self.store = VaultItemStore<SecureDataCryptor>(url: vaultUrl, masterKey: masterKey)
         
-        vaultDidChangeSubscription = vault.didChange
+        vaultDidChangeSubscription = store.didChange
             .receive(on: DispatchQueue.main)
             .sink { [weak self] in
                 self?.load()
@@ -29,19 +30,19 @@ class VaultItemCollectionModel: ObservableObject {
     }
     
     func load() {
-        let vaultItemInfoCollectionPublisher = vault.loadVaultItemInfoCollection()
+        let vaultItemInfoCollectionPublisher = store.loadItemInfos()
         let searchTextPublisher = $searchText.setFailureType(to: Error.self)
         
         infoItemsSubscription = Publishers.CombineLatest(vaultItemInfoCollectionPublisher, searchTextPublisher)
             .receive(on: infoItemProcessingQueue)
             .map { infosItems, searchText in
-                return infosItems.filter { infoItem in
-                    return FuzzyMatch(searchText, in: infoItem.title)
+                return infosItems.filter { itemDescription in
+                    return FuzzyMatch(searchText, in: itemDescription.title)
                 }
             }
-            .map { [vault] infosItems in
+            .map { [store] infosItems in
                 return infosItems.map { itemInfo in
-                    let context = VaultItemModelContext(itemId: itemInfo.id, vault: vault)
+                    let context = VaultItemModelContext(itemInfo: itemInfo, store: store)
                     let vaultItemModel = VaultItemModel(context: context)
                     return Item(itemInfo: itemInfo, detailModel: vaultItemModel)
                 } as [Item]
@@ -61,8 +62,8 @@ class VaultItemCollectionModel: ObservableObject {
             }
     }
     
-    func createVaultItem(itemType: SecureItemType) {
-        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, vault: vault)
+    func createVaultItem(itemType: SecureItem.TypeIdentifier) {
+        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, vault: store)
         
         vaultItemModelCompletionSubscription = vaultItemModel.completion()
             .sink { [weak self] completion in
@@ -80,7 +81,7 @@ class VaultItemCollectionModel: ObservableObject {
     }
     
     func requestDelete(id: UUID) {
-        deleteOperationSubscription = vault.deleteVaultItem(itemId: id)
+        deleteOperationSubscription = store.deleteVaultItem(id: id)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -107,7 +108,7 @@ extension VaultItemCollectionModel {
         let iconName: String
         let detailModel: VaultItemModel
         
-        fileprivate init(itemInfo: VaultItem.Info, detailModel: VaultItemModel) {
+        fileprivate init(itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo, detailModel: VaultItemModel) {
             self.id = itemInfo.id
             self.title = itemInfo.title
             self.iconName = ""

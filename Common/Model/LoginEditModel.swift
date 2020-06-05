@@ -1,4 +1,5 @@
 import Combine
+import Store
 
 class LoginEditModel: ObservableObject, Identifiable {
     
@@ -6,9 +7,7 @@ class LoginEditModel: ObservableObject, Identifiable {
     @Published var password: String
     @Published var url: String
     
-    var isComplete: Bool {
-        return !user.isEmpty && !password.isEmpty
-    }
+    var isComplete: Bool { !user.isEmpty && !password.isEmpty }
     
     var secureItem: SecureItem? {
         guard !user.isEmpty, !password.isEmpty else {

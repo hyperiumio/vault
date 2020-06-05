@@ -1,4 +1,5 @@
 import Combine
+import Store
 
 class VaultItemLoadedModel: ObservableObject {
     
