@@ -12,12 +12,12 @@ class PasswordEditModel: ObservableObject, Identifiable {
             return nil
         }
         
-        let password = Password(value: self.password)
+        let password = PasswordItem(password: self.password)
         return SecureItem.password(password)
     }
     
-    init(_ password: Password? = nil) {
-        self.password = password?.value ?? ""
+    init(_ passwordItem: PasswordItem? = nil) {
+        self.password = passwordItem?.password ?? ""
     }
     
 }

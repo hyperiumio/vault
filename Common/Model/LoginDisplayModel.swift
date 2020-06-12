@@ -10,9 +10,9 @@ class LoginDisplayModel: ObservableObject, Identifiable {
     var password: String { login.password }
     var url: String? { login.url }
     
-    private let login: Login
+    private let login: LoginItem
     
-    init(_ login: Login) {
+    init(_ login: LoginItem) {
         self.login = login
     }
     

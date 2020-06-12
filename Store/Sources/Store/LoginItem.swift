@@ -1,4 +1,4 @@
-public struct Login: JSONCodable {
+public struct LoginItem: JSONCodable {
     
     public let username: String
     public let password: String

@@ -12,11 +12,11 @@ class NoteEditModel: ObservableObject, Identifiable {
             return nil
         }
         
-        let note = Note(text: text)
+        let note = NoteItem(text: text)
         return SecureItem.note(note)
     }
     
-    init(_ note: Note? = nil) {
+    init(_ note: NoteItem? = nil) {
         self.text = note?.text ?? ""
     }
     

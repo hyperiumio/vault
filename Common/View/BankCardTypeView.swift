@@ -3,7 +3,7 @@ import Store
 
 struct BankCardTypeView: View {
     
-    let vendor: BankCard.Vendor
+    let vendor: BankCardItem.Vendor
     
     var body: some View {
         switch vendor {

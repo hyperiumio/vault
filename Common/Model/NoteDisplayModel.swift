@@ -5,9 +5,9 @@ class NoteDisplayModel: ObservableObject, Identifiable {
         
     var text: String { note.text }
     
-    private let note: Note
+    private let note: NoteItem
     
-    init(_ note: Note) {
+    init(_ note: NoteItem) {
         self.note = note
     }
 }

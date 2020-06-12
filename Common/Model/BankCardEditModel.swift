@@ -9,11 +9,11 @@ class BankCardEditModel: ObservableObject, Identifiable {
     @Published var validFrom: String
     @Published var pin: String
     
-    var vendor: BankCard.Vendor?  {
+    var vendor: BankCardItem.Vendor?  {
         guard isComplete else {
             return nil
         }
-        return BankCard.Vendor(number)
+        return BankCardItem.Vendor(number)
     }
     
     var isComplete: Bool {
@@ -26,11 +26,11 @@ class BankCardEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let bankCard = BankCard(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
+        let bankCard = BankCardItem(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
         return SecureItem.bankCard(bankCard)
     }
     
-    init(_ bankCard: BankCard? = nil) {
+    init(_ bankCard: BankCardItem? = nil) {
         self.name = bankCard?.name ?? ""
         self.number = bankCard?.number ?? ""
         self.validityDate = bankCard?.validityDate ?? ""

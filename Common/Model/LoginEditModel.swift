@@ -14,11 +14,11 @@ class LoginEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let login = Login(username: user, password: password, url: url)
+        let login = LoginItem(username: user, password: password, url: url)
         return SecureItem.login(login)
     }
     
-    init(_ login: Login? = nil) {
+    init(_ login: LoginItem? = nil) {
         self.user = login?.username ?? ""
         self.password = login?.password ?? ""
         self.url = login?.url ?? ""
