@@ -1,4 +1,4 @@
-public struct CustomField: JSONCodable {
+public struct GenericItem: JSONCodable {
     
     public let name: String
     public let value: String

@@ -1,4 +1,4 @@
-public struct BankCard: JSONCodable {
+public struct BankCardItem: JSONCodable {
     
     public let name: String
     public let number: String
@@ -20,7 +20,7 @@ public struct BankCard: JSONCodable {
     
 }
 
-extension BankCard {
+extension BankCardItem {
     
     public enum Vendor {
         

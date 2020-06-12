@@ -1,4 +1,4 @@
-public struct BankAccount: JSONCodable {
+public struct BankAccountItem: JSONCodable {
     
     public let bankName: String
     public let accountHolder: String

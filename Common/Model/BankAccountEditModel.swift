@@ -19,11 +19,11 @@ class BankAccountEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let bankAccount = BankAccount(bankName: bankName, accountHolder: accountHolder, bankCode: bankCode, accountNumber: accountNumber, swiftCode: swiftCode, iban: iban, pin: pin, onlineBankingUrl: onlineBankingUrl)
+        let bankAccount = BankAccountItem(bankName: bankName, accountHolder: accountHolder, bankCode: bankCode, accountNumber: accountNumber, swiftCode: swiftCode, iban: iban, pin: pin, onlineBankingUrl: onlineBankingUrl)
         return SecureItem.bankAccount(bankAccount)
     }
     
-    init(_ bankAccount: BankAccount? = nil) {
+    init(_ bankAccount: BankAccountItem? = nil) {
         self.bankName = bankAccount?.bankName ?? ""
         self.accountHolder = bankAccount?.accountHolder ?? ""
         self.bankCode = bankAccount?.bankCode ?? ""

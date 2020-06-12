@@ -14,9 +14,9 @@ class BankAccountDisplayModel: ObservableObject, Identifiable {
     var pin: String { bankAccount.pin }
     var onlineBankingUrl: String { bankAccount.onlineBankingUrl }
     
-    private let bankAccount: BankAccount
+    private let bankAccount: BankAccountItem
     
-    init(_ bankAccount: BankAccount) {
+    init(_ bankAccount: BankAccountItem) {
         self.bankAccount = bankAccount
     }
 }

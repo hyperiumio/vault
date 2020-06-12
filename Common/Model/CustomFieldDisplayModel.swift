@@ -6,9 +6,9 @@ class CustomFieldDisplayModel: ObservableObject, Identifiable {
     var fieldName: String { customField.name }
     var fieldValue: String { customField.value }
 
-    private let customField: CustomField
+    private let customField: GenericItem
     
-    init(_ customField: CustomField) {
+    init(_ customField: GenericItem) {
         self.customField = customField
     }
 }

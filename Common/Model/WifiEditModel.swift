@@ -13,11 +13,11 @@ class WifiEditModel: ObservableObject, Identifiable {
             return nil
         }
         
-        let wifi = Wifi(networkName: networkName, networkPassword: networkPassword)
+        let wifi = WiFiItem(networkName: networkName, networkPassword: networkPassword)
         return SecureItem.wifi(wifi)
     }
     
-    init(_ wifi: Wifi? = nil) {
+    init(_ wifi: WiFiItem? = nil) {
         self.networkName = wifi?.networkName ?? ""
         self.networkPassword = wifi?.networkPassword ?? ""
     }

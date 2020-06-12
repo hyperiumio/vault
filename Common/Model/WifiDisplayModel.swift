@@ -9,9 +9,9 @@ class WifiDisplayModel: ObservableObject, Identifiable {
     var networkName: String { wifi.networkName }
     var networkPassword: String { wifi.networkPassword }
     
-    private let wifi: Wifi
+    private let wifi: WiFiItem
     
-    init(_ wifi: Wifi) {
+    init(_ wifi: WiFiItem) {
         self.wifi = wifi
     }
     

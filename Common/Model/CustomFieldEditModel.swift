@@ -13,11 +13,11 @@ class CustomFieldEditModel: ObservableObject, Identifiable {
             return nil
         }
             
-        let customField = CustomField(name: fieldName, value: fieldValue)
+        let customField = GenericItem(name: fieldName, value: fieldValue)
         return SecureItem.customField(customField)
     }
     
-    init(_ customField: CustomField? = nil) {
+    init(_ customField: GenericItem? = nil) {
         self.fieldName = customField?.name ?? ""
         self.fieldValue = customField?.value ?? ""
     }
