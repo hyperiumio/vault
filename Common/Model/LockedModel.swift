@@ -24,18 +24,18 @@ class LockedModel: ObservableObject {
     private var loadMasterKeySubscription: AnyCancellable?
     private var loadBiometricUnlockMethodSubscription: AnyCancellable?
     
-    init(masterKeyUrl: URL, preferencesStore: PreferencesStore) {
+    init(masterKeyUrl: URL, preferencesManager: PreferencesManager) {
         self.masterKeyUrl = masterKeyUrl
         
-        let biometricUnlockMethodProvider = Future<BiometricUnlock.Method?, Never> { promise in
-            DispatchQueue.global().async {
-                let biometricAvailability = BiometricAvailablityEvaluate()
-                let biometricUnlockMethod = preferencesStore.isBiometricUnlockEnabled ? BiometricUnlock.Method(biometricAvailability) : nil
-                let result = Result<BiometricUnlock.Method?, Never>.success(biometricUnlockMethod)
-                promise(result)
+        loadBiometricUnlockMethodSubscription = preferencesManager.didChange
+            .map { preferences in
+                if preferences.isBiometricUnlockEnabled {
+                    let biometricAvailability = BiometricAvailablityEvaluate()
+                    return BiometricUnlock.Method(biometricAvailability)
+                } else {
+                    return nil
+                }
             }
-        }
-        loadBiometricUnlockMethodSubscription = biometricUnlockMethodProvider
             .receive(on: DispatchQueue.main)
             .assign(to: \.biometricUnlockMethod, on: self)
     }

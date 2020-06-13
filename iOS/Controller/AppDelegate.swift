@@ -1,42 +1,36 @@
 import Combine
+import Preferences
 import SwiftUI
 import UIKit
-import Preferences
 
 @UIApplicationMain
 class AppController: UIResponder, UIApplicationDelegate {
     
-    let preferencesStore = PreferencesStore(userDefaults: .standard)
-    let contentModelContext: ContentModelContext
+    var contentModelContext: ContentModelContext?
     var window: UIWindow?
     
     private var launchStateSubscription: AnyCancellable?
     
-    override init() {
-        self.contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesStore: preferencesStore)
-        
-        super.init()
-    }
-    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         
-        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] masterKeyExists in
-            guard let self = self else {
-                return
+        launchStateSubscription = LaunchState.publisher(masterKeyUrl: .masterKey)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] launchState in
+                guard let self = self else {
+                    return
+                }
+                
+                let initialState = launchState.vaultExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: launchState.preferencesManager)
+                let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
+                let contentView = ContentView(model: contentModel)
+                
+                self.contentModelContext = contentModelContext
+                self.window?.rootViewController = UIHostingController(rootView: contentView)
+                self.window?.makeKeyAndVisible()
+                self.launchStateSubscription = nil
             }
-            
-            let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-            let contentModel = ContentModel(initialState: initialState, context: self.contentModelContext)
-            let contentView = ContentView(model: contentModel)
-            
-            self.window?.rootViewController = UIHostingController(rootView: contentView)
-            self.window?.makeKeyAndVisible()
-            self.launchStateSubscription = nil
-        }
-        
         
         return true
     }

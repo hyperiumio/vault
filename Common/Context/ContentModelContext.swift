@@ -6,13 +6,13 @@ class ContentModelContext {
     
     private let masterKeyUrl: URL
     private let vaultUrl: URL
-    private let preferencesStore: PreferencesStore
+    private let preferencesManager: PreferencesManager
     weak var responder: ContentModelContextResponder?
     
-    init(masterKeyUrl: URL, vaultUrl: URL, preferencesStore: PreferencesStore) {
+    init(masterKeyUrl: URL, vaultUrl: URL, preferencesManager: PreferencesManager) {
         self.masterKeyUrl = masterKeyUrl
         self.vaultUrl = vaultUrl
-        self.preferencesStore = preferencesStore
+        self.preferencesManager = preferencesManager
     }
     
     func setupModel() -> SetupModel {
@@ -20,11 +20,11 @@ class ContentModelContext {
     }
     
     func lockedModel() -> LockedModel {
-        return LockedModel(masterKeyUrl: masterKeyUrl, preferencesStore: preferencesStore)
+        return LockedModel(masterKeyUrl: masterKeyUrl, preferencesManager: preferencesManager)
     }
     
     func unlockedModel(masterKey: MasterKey) -> UnlockedModel {
-        let context = UnlockedModelContext(vaultUrl: vaultUrl, masterKey: masterKey, preferencesStore: preferencesStore)
+        let context = UnlockedModelContext(vaultUrl: vaultUrl, masterKey: masterKey, preferencesManager: preferencesManager)
         return UnlockedModel(context: context)
     }
     
@@ -42,14 +42,14 @@ struct UnlockedModelContext {
     
     let vaultUrl: URL
     let masterKey: MasterKey
-    let preferencesStore: PreferencesStore
+    let preferencesManager: PreferencesManager
     
     func vaultItemCollectionModel() -> VaultItemCollectionModel {
         return VaultItemCollectionModel(vaultUrl: vaultUrl, masterKey: masterKey)
     }
     
     func preferencesModel() -> PreferencesModel {
-        let context = PreferencesModelContext(store: preferencesStore)
+        let context = PreferencesModelContext(preferencesManager: preferencesManager)
         return PreferencesModel(context: context)
     }
     
