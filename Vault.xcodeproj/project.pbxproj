@@ -47,8 +47,6 @@
 		952123A4246AFEBA0039F519 /* UnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9521239F246AFEBA0039F519 /* UnlockedModel.swift */; };
 		952123AF246AFEEF0039F519 /* PreferencesLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952123AE246AFEEF0039F519 /* PreferencesLoadedView.swift */; };
 		952123B0246AFEEF0039F519 /* PreferencesLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952123AE246AFEEF0039F519 /* PreferencesLoadedView.swift */; };
-		952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
-		952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
 		952A08CF2453770F0053B753 /* SecureText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952A08CE2453770F0053B753 /* SecureText.swift */; };
 		953EF2882444BB5B00627B1B /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
 		953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF28A2444BB7D00627B1B /* PublisherExtension.swift */; };
@@ -99,8 +97,6 @@
 		954AEAD0245B248800FEDE04 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		954AEAD1245B248800FEDE04 /* ComparableExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953EF2872444BB5B00627B1B /* ComparableExtension.swift */; };
 		954AEAD3245B248800FEDE04 /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F5193823F15DE200C5ECA9 /* DataExtension.swift */; };
-		954AEAD4245B248800FEDE04 /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FE23F0815300AFE423 /* RangeExtension.swift */; };
-		954AEAD5245B248800FEDE04 /* UnsignedIntegerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */; };
 		954AEAD6245B248800FEDE04 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951C33A124367707002AA4CD /* ViewExtension.swift */; };
 		954AEAD7245B248800FEDE04 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
 		954AEAD9245B257600FEDE04 /* FilePDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954AEAD8245B253200FEDE04 /* FilePDFView.swift */; };
@@ -264,8 +260,6 @@
 		95212398246AFDC90039F519 /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		9521239F246AFEBA0039F519 /* UnlockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedModel.swift; sourceTree = "<group>"; };
 		952123AE246AFEEF0039F519 /* PreferencesLoadedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesLoadedView.swift; sourceTree = "<group>"; };
-		952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnsignedIntegerExtension.swift; sourceTree = "<group>"; };
-		952750FE23F0815300AFE423 /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		952A08CE2453770F0053B753 /* SecureText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureText.swift; sourceTree = "<group>"; };
 		953EF2872444BB5B00627B1B /* ComparableExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComparableExtension.swift; sourceTree = "<group>"; };
 		953EF28A2444BB7D00627B1B /* PublisherExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PublisherExtension.swift; sourceTree = "<group>"; };
@@ -621,9 +615,7 @@
 				953EF2872444BB5B00627B1B /* ComparableExtension.swift */,
 				95F5193823F15DE200C5ECA9 /* DataExtension.swift */,
 				953EF28A2444BB7D00627B1B /* PublisherExtension.swift */,
-				952750FE23F0815300AFE423 /* RangeExtension.swift */,
 				9593AAB2244F21FA004740D5 /* ResultExtension.swift */,
-				952750FC23F080C900AFE423 /* UnsignedIntegerExtension.swift */,
 				957D193F245026E700BCA612 /* UUIDExtension.swift */,
 				951C33A124367707002AA4CD /* ViewExtension.swift */,
 			);
@@ -848,7 +840,6 @@
 				95E71D73248A89F8004BDDAB /* FileEmptyModel.swift in Sources */,
 				9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */,
 				95212399246AFDC90039F519 /* LoadingView.swift in Sources */,
-				952750FF23F0815300AFE423 /* RangeExtension.swift in Sources */,
 				953EF2D82444BF1C00627B1B /* UnlockedView.swift in Sources */,
 				95F309BB24571DA600C3F591 /* VaultItemCreatingView.swift in Sources */,
 				95E71D8B248A8A86004BDDAB /* CustomFieldEditModel.swift in Sources */,
@@ -873,7 +864,6 @@
 				5BA1A7FD2489359E00B6EA27 /* CustomFieldEditView.swift in Sources */,
 				95E71D35248A89F8004BDDAB /* SecureItemEditModel.swift in Sources */,
 				95E71D85248A8A22004BDDAB /* VaultItemModelContext.swift in Sources */,
-				952750FD23F080C900AFE423 /* UnsignedIntegerExtension.swift in Sources */,
 				953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */,
 				95E71D57248A89F8004BDDAB /* PreferencesLoadedModel.swift in Sources */,
 				95B50FF92459ED6F003536E8 /* FileContentView.swift in Sources */,
@@ -980,7 +970,6 @@
 				95E71D46248A89F8004BDDAB /* NoteEditModel.swift in Sources */,
 				95E71D36248A89F8004BDDAB /* SecureItemEditModel.swift in Sources */,
 				5BA1A7FB2489355C00B6EA27 /* CustomFieldDisplayView.swift in Sources */,
-				954AEAD4245B248800FEDE04 /* RangeExtension.swift in Sources */,
 				954AEAB8245B234200FEDE04 /* VaultItemLoadingView.swift in Sources */,
 				954AEAB2245B234200FEDE04 /* SecureItemEditView.swift in Sources */,
 				954AEAC9245B234200FEDE04 /* SecureText.swift in Sources */,
@@ -1000,7 +989,6 @@
 				954AEAD1245B248800FEDE04 /* ComparableExtension.swift in Sources */,
 				95E71D4E248A89F8004BDDAB /* FileDisplayModel.swift in Sources */,
 				95D973A3246D8E5E00306537 /* BiometricUnlockPreferencesView.swift in Sources */,
-				954AEAD5245B248800FEDE04 /* UnsignedIntegerExtension.swift in Sources */,
 				954AEACB245B234200FEDE04 /* VaultItemView.swift in Sources */,
 				954AEAB7245B234200FEDE04 /* VaultItemLoadedView.swift in Sources */,
 				954AEAB0245B233D00FEDE04 /* ContentView.swift in Sources */,
