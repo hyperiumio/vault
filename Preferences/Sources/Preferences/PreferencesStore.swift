@@ -1,36 +1,31 @@
 import Foundation
 
-public class PreferencesStore {
+class PreferencesStore {
     
     private let userDefaults: UserDefaults
     
-    public init(userDefaults: UserDefaults) {
+    init(userDefaults: UserDefaults) {
+        let defaults = [
+            String.isBiometricUnlockEnabledKey: false
+        ]
+        userDefaults.register(defaults: defaults)
+        
         self.userDefaults = userDefaults
     }
     
-    public var isBiometricUnlockEnabled: Bool {
+    var isBiometricUnlockEnabled: Bool {
         get {
-            return userDefaults.bool(forKey: .isBiometricUnlockEnabled)
+            return userDefaults.bool(forKey: .isBiometricUnlockEnabledKey)
         }
         set(isBiometricUnlockEnabled) {
-            userDefaults.set(isBiometricUnlockEnabled, forKey: .isBiometricUnlockEnabled)
+            userDefaults.set(isBiometricUnlockEnabled, forKey: .isBiometricUnlockEnabledKey)
         }
-    }
-    
-    public var preferences: Preferences {
-        return Preferences(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
     }
     
 }
 
 private extension String {
     
-    static let isBiometricUnlockEnabled = "isBiometricUnlockEnabled"
-    
-}
-
-public struct Preferences {
-    
-    public let isBiometricUnlockEnabled: Bool
+    static var isBiometricUnlockEnabledKey: Self { "isBiometricUnlockEnabled" }
     
 }

@@ -6,7 +6,7 @@ class ApplicationWindowController: NSObject {
     
     private let window: NSWindow
     
-    override init() {
+    init<Content>(contentView: Content) where Content: View {
         self.window = NSWindow(contentRect: .zero, styleMask: .applicationWindow, backing: .buffered, defer: false)
         
         super.init()
@@ -16,10 +16,10 @@ class ApplicationWindowController: NSObject {
         window.center()
         window.setFrameAutosaveName(.applicationWindowFrameAutosaveName)
         window.delegate = self
+        window.contentView = NSHostingView(rootView: contentView)
     }
     
-    func showWindow<Content>(contentView: Content) where Content: View {
-        window.contentView = NSHostingView(rootView: contentView)
+    func showWindow() {
         window.makeKeyAndOrderFront(nil)
     }
     

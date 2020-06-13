@@ -1,53 +1,49 @@
 import AppKit
 import Combine
-import Preferences
 
 class ApplicationController: NSObject, NSApplicationDelegate {
     
-    let applicationWindowController = ApplicationWindowController()
-    let preferencesStore = PreferencesStore(userDefaults: .standard)
-    
-    let preferencesWindowController: PreferencesWindowController
-    let contentModelContext: ContentModelContext
+    var applicationWindowController: ApplicationWindowController?
+    var preferencesWindowController: PreferencesWindowController?
+    var contentModelContext: ContentModelContext?
     
     private var launchStateSubscription: AnyCancellable?
     
-    override init() {
-        preferencesWindowController = PreferencesWindowController(preferencesStore: preferencesStore)
-        contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesStore: preferencesStore)
-        
-        super.init()
-    }
-    
     func applicationDidFinishLaunching(_ notification: Notification) {
-        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
+        launchStateSubscription = LaunchState.publisher(masterKeyUrl: .masterKey)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] masterKeyExists in
+            .sink { [weak self] launchState in
                 guard let self = self else {
                     return
                 }
-                
-                let initialState = masterKeyExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-                let contentModel = ContentModel(initialState: initialState, context: self.contentModelContext)
+                let initialState = launchState.vaultExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: launchState.preferencesManager)
+                let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
-                self.applicationWindowController.showWindow(contentView: contentView)
+                let applicationWindowController = ApplicationWindowController(contentView: contentView)
+                applicationWindowController.showWindow()
                 
+                let preferencesWindowController = PreferencesWindowController(preferencesManager: launchState.preferencesManager)
+
+                self.applicationWindowController = applicationWindowController
+                self.preferencesWindowController = preferencesWindowController
+                self.contentModelContext = contentModelContext
                 self.launchStateSubscription = nil
             }
     }
     
     @objc func showPreferences() {
-        preferencesWindowController.showWindow()
+        preferencesWindowController?.showWindow()
     }
     
     @objc func lock() {
-        contentModelContext.responder?.lock()
+        contentModelContext?.responder?.lock()
     }
     
     @objc func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
         switch item.action {
         case #selector(lock):
-            return contentModelContext.responder?.isLockable ?? false
+            return contentModelContext?.responder?.isLockable ?? false
         default:
             return true
         }

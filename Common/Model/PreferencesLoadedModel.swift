@@ -15,19 +15,19 @@ class PreferencesLoadedModel: ObservableObject {
             objectWillChange.send()
         }
         didSet {
-            store.isBiometricUnlockEnabled = isBiometricUnlockEnabled
+            preferencesManager.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
         }
     }
     
-    private let store: PreferencesStore
+    private let preferencesManager: PreferencesManager
     private var biometricUnlockPreferencesSubscription: AnyCancellable?
     
-    init(initialValues: Preferences, store: PreferencesStore) {
+    init(initialValues: Preferences, preferencesManager: PreferencesManager) {
         let supportsBiometricUnlock = BiometricAvailablityEvaluate().supportsBiometricUnlock
         
         self.isBiometricUnlockEnabled = supportsBiometricUnlock ? initialValues.isBiometricUnlockEnabled : false
         self.supportsBiometricUnlock = supportsBiometricUnlock
-        self.store = store
+        self.preferencesManager = preferencesManager
     }
     
     func getIsBiometricUnlockEnabled() -> Bool {

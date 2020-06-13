@@ -3,14 +3,14 @@ import Preferences
 
 struct PreferencesModelContext {
     
-    let store: PreferencesStore
+    let preferencesManager: PreferencesManager
     
     func loadingModel() -> PreferencesLoadingModel {
-        return PreferencesLoadingModel(store: store)
+        return PreferencesLoadingModel(preferencesManager: preferencesManager)
     }
     
     func loadedModel(initialValues: Preferences) -> PreferencesLoadedModel {
-        return PreferencesLoadedModel(initialValues: initialValues, store: store)
+        return PreferencesLoadedModel(initialValues: initialValues, preferencesManager: preferencesManager)
     }
     
 }

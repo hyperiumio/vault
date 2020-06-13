@@ -9,31 +9,26 @@ class PreferencesLoadingModel: ObservableObject, Completable, Loadable {
     
     var completionPromise: Future<Preferences, Never>.Promise?
     
-    private var store: PreferencesStore
+    private var preferencesManager: PreferencesManager
     private var loadingSubscription: AnyCancellable?
     
-    init(store: PreferencesStore) {
-        self.store = store
+    init(preferencesManager: PreferencesManager) {
+        self.preferencesManager = preferencesManager
     }
     
     func load() {
         isLoading = true
-        loadingSubscription = Future<Preferences, Never> { [store] promise in
-            DispatchQueue.global().async {
-                let result = Result<Preferences, Never>.success(store.preferences)
-                promise(result)
+        loadingSubscription = preferencesManager.didChange
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] preferences in
+                guard let self = self else {
+                    return
+                }
+                
+                let result = Result<Preferences, Never>.success(preferences)
+                self.completionPromise?(result)
+                self.isLoading = false
             }
-        }
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] preferences in
-            guard let self = self else {
-                return
-            }
-            
-            let result = Result<Preferences, Never>.success(preferences)
-            self.completionPromise?(result)
-            self.isLoading = false
-        }
     }
     
 }

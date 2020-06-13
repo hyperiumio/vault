@@ -5,10 +5,10 @@ import Preferences
 class PreferencesWindowController: NSObject {
     
     private var window: NSWindow?
-    private let preferencesStore: PreferencesStore
+    private let preferencesManager: PreferencesManager
     
-    init(preferencesStore: PreferencesStore) {
-        self.preferencesStore = preferencesStore
+    init(preferencesManager: PreferencesManager) {
+        self.preferencesManager = preferencesManager
         
         super.init()
     }
@@ -19,7 +19,7 @@ class PreferencesWindowController: NSObject {
             return
         }
         
-        let context = PreferencesModelContext(store: preferencesStore)
+        let context = PreferencesModelContext(preferencesManager: preferencesManager)
         let preferencesModel = PreferencesModel(context: context)
         let preferencesView = PreferencesView(model: preferencesModel)
         
