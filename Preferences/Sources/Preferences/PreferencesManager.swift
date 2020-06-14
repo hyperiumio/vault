@@ -3,21 +3,32 @@ import Foundation
 
 public class PreferencesManager {
     
-    public let didChange: CurrentValueSubject<Preferences, Never>
+    public var didChange: AnyPublisher<Preferences, Never> {
+        return didChangeSubject
+            .compactMap { preferences in preferences }
+            .removeDuplicates()
+            .eraseToAnyPublisher()
+    }
     
     private let store: PreferencesStore
+    private let workQueue = DispatchQueue(label: "PreferencesManagerWorkQueue")
+    private let didChangeSubject = CurrentValueSubject<Preferences?, Never>(nil)
     
     public init(userDefaults: UserDefaults) {
-        let store = PreferencesStore(userDefaults: userDefaults)
-        let preferences = Preferences(from: store)
+        self.store = PreferencesStore(userDefaults: userDefaults)
         
-        self.didChange = CurrentValueSubject(preferences)
-        self.store = store
+        workQueue.async { [store, didChangeSubject] in
+            let preferences = Preferences(from: store)
+            didChangeSubject.send(preferences)
+        }
     }
     
     public func set(isBiometricUnlockEnabled: Bool) {
-        store.isBiometricUnlockEnabled = isBiometricUnlockEnabled
-        didChange.value = Preferences(from: store)
+        workQueue.async { [store, didChangeSubject] in
+            store.isBiometricUnlockEnabled = isBiometricUnlockEnabled
+            let preferences = Preferences(from: store)
+            didChangeSubject.send(preferences)
+        }
     }
     
 }

@@ -1,4 +1,4 @@
-public struct Preferences {
+public struct Preferences: Equatable {
     
     public let isBiometricUnlockEnabled: Bool
     
