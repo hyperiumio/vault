@@ -1,5 +1,6 @@
 import AppKit
 import Combine
+import Preferences
 
 class ApplicationController: NSObject, NSApplicationDelegate {
     
@@ -10,20 +11,24 @@ class ApplicationController: NSObject, NSApplicationDelegate {
     private var launchStateSubscription: AnyCancellable?
     
     func applicationDidFinishLaunching(_ notification: Notification) {
-        launchStateSubscription = LaunchState.publisher(masterKeyUrl: .masterKey)
+        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
+            .map { fileExists in
+                return (fileExists ? .locked : .setup) as ContentModel.InitialState
+            }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] launchState in
+            .sink { [weak self] initialState in
                 guard let self = self else {
                     return
                 }
-                let initialState = launchState.vaultExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: launchState.preferencesManager)
+                
+                let preferencesManager = PreferencesManager(userDefaults: .standard)
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: preferencesManager)
                 let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 let applicationWindowController = ApplicationWindowController(contentView: contentView)
                 applicationWindowController.showWindow()
                 
-                let preferencesWindowController = PreferencesWindowController(preferencesManager: launchState.preferencesManager)
+                let preferencesWindowController = PreferencesWindowController(preferencesManager: preferencesManager)
 
                 self.applicationWindowController = applicationWindowController
                 self.preferencesWindowController = preferencesWindowController

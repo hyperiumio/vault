@@ -14,15 +14,18 @@ class AppController: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
         
-        launchStateSubscription = LaunchState.publisher(masterKeyUrl: .masterKey)
+        launchStateSubscription = FileManager.default.fileExistsPublisher(url: .masterKey)
+            .map { fileExists in
+                return (fileExists ? .locked : .setup) as ContentModel.InitialState
+            }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] launchState in
+            .sink { [weak self] initialState in
                 guard let self = self else {
                     return
                 }
                 
-                let initialState = launchState.vaultExists ? ContentModel.InitialState.locked : ContentModel.InitialState.setup
-                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: launchState.preferencesManager)
+                let preferencesManager = PreferencesManager(userDefaults: .standard)
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: preferencesManager)
                 let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 
