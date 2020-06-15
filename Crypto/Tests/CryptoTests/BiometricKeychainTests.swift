@@ -24,7 +24,7 @@ class BiometricKeychainTests: XCTestCase {
         BiometricKeychainWrite = { _, _ in errSecSuccess }
         BiometricKeychainDelete = { _ in errSecSuccess }
         
-        try BiometricKeychainStorePassword("foo", identifier: "bar")
+        try BiometricKeychain.shared.storePassword("foo", identifier: "bar")
     }
     
     func testStorePasswordWriteArguments() throws {
@@ -54,20 +54,20 @@ class BiometricKeychainTests: XCTestCase {
         
         BiometricKeychainDelete = { _ in errSecSuccess }
         
-        try BiometricKeychainStorePassword(expectedPassword, identifier: expectedIdentifier)
+        try BiometricKeychain.shared.storePassword(expectedPassword, identifier: expectedIdentifier)
     }
     
     func testStorePasswordDeleteDidFail() {
         BiometricKeychainDelete = { query in -1 }
         
-        XCTAssertThrowsError(try BiometricKeychainStorePassword("", identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.storePassword("", identifier: ""))
     }
     
     func testStorePasswordWriteDidFail() {
         BiometricKeychainWrite = { attribtes, result in -1 }
         BiometricKeychainDelete = { _ in errSecSuccess }
         
-        XCTAssertThrowsError(try BiometricKeychainStorePassword("", identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.storePassword("", identifier: ""))
     }
     
     func testLoadPasswordSuccess() throws {
@@ -78,7 +78,7 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        let password = try BiometricKeychainLoadPassword(identifier: "")
+        let password = try BiometricKeychain.shared.loadPassword(identifier: "")
         
         XCTAssertEqual(password, expectedPassword)
     }
@@ -101,7 +101,7 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        _ = try BiometricKeychainLoadPassword(identifier: expectedIdentifier)
+        _ = try BiometricKeychain.shared.loadPassword(identifier: expectedIdentifier)
     }
     
     func testLoadPasswordLoadDidFail() {
@@ -109,7 +109,7 @@ class BiometricKeychainTests: XCTestCase {
             return -1
         }
         
-        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
     }
     
     func testLoadPasswordInvalidResultType() {
@@ -118,7 +118,7 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
     }
     
     func testLoadPasswordInvalidResultData() {
@@ -127,13 +127,13 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        XCTAssertThrowsError(try BiometricKeychainLoadPassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
     }
     
     func testDeletePasswordSuccess() throws {
         BiometricKeychainDelete = { _ in errSecSuccess }
         
-        try BiometricKeychainDeletePassword(identifier: "")
+        try BiometricKeychain.shared.deletePassword(identifier: "")
     }
     
     func testDeletePasswordDeleteArguments() throws {
@@ -150,13 +150,13 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        try BiometricKeychainDeletePassword(identifier: expectedIdentifier)
+        try BiometricKeychain.shared.deletePassword(identifier: expectedIdentifier)
     }
     
     func testDeletePasswordDeleteDidFail() {
         BiometricKeychainDelete = { query in -1 }
         
-        XCTAssertThrowsError(try BiometricKeychainDeletePassword(identifier: ""))
+        XCTAssertThrowsError(try BiometricKeychain.shared.deletePassword(identifier: ""))
     }
     
 }
