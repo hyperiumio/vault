@@ -24,8 +24,7 @@ class AppController: UIResponder, UIApplicationDelegate {
                     return
                 }
                 
-                let preferencesManager = PreferencesManager(userDefaults: .standard)
-                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: preferencesManager)
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: .shared)
                 let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 

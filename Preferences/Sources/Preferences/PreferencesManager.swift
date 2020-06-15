@@ -14,8 +14,8 @@ public class PreferencesManager {
     private let workQueue = DispatchQueue(label: "PreferencesManagerWorkQueue")
     private let didChangeSubject = CurrentValueSubject<Preferences?, Never>(nil)
     
-    public init(userDefaults: UserDefaults) {
-        self.store = PreferencesStore(userDefaults: userDefaults)
+    private init() {
+        self.store = PreferencesStore(userDefaults: .standard)
         
         workQueue.async { [store, didChangeSubject] in
             let preferences = Preferences(from: store)
@@ -30,5 +30,11 @@ public class PreferencesManager {
             didChangeSubject.send(preferences)
         }
     }
+    
+}
+
+extension PreferencesManager {
+    
+    public static let shared = PreferencesManager()
     
 }
