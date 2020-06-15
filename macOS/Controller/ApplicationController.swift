@@ -21,14 +21,13 @@ class ApplicationController: NSObject, NSApplicationDelegate {
                     return
                 }
                 
-                let preferencesManager = PreferencesManager(userDefaults: .standard)
-                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: preferencesManager)
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: .shared)
                 let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 let applicationWindowController = ApplicationWindowController(contentView: contentView)
                 applicationWindowController.showWindow()
                 
-                let preferencesWindowController = PreferencesWindowController(preferencesManager: preferencesManager)
+                let preferencesWindowController = PreferencesWindowController(preferencesManager: .shared)
 
                 self.applicationWindowController = applicationWindowController
                 self.preferencesWindowController = preferencesWindowController
