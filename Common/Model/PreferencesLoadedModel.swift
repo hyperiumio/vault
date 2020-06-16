@@ -7,27 +7,30 @@ import Store
 class PreferencesLoadedModel: ObservableObject {
     
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
-    
-    let supportsBiometricUnlock: Bool
-    
-    private var isBiometricUnlockEnabled: Bool {
-        willSet {
-            objectWillChange.send()
-        }
-        didSet {
-            preferencesManager.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-        }
-    }
+    @Published var biometricAvailablity: BiometricKeychain.Availablity
+    @Published var isBiometricUnlockEnabled: Bool
     
     private let preferencesManager: PreferencesManager
+    private let biometricKeychain: BiometricKeychain
+    
+    private var preferencesDidChangeSubscription: AnyCancellable?
+    private var biometricAvailabilityDidChangeSubscription: AnyCancellable?
     private var biometricUnlockPreferencesSubscription: AnyCancellable?
     
-    init(initialValues: Preferences, preferencesManager: PreferencesManager) {
-        let supportsBiometricUnlock = BiometricAvailablityEvaluate().supportsBiometricUnlock
-        
-        self.isBiometricUnlockEnabled = supportsBiometricUnlock ? initialValues.isBiometricUnlockEnabled : false
-        self.supportsBiometricUnlock = supportsBiometricUnlock
+    init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.biometricAvailablity = biometricKeychain.availability
+        self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled
         self.preferencesManager = preferencesManager
+        self.biometricKeychain = biometricKeychain
+        
+        preferencesDidChangeSubscription = preferencesManager.didChange
+            .map { preferences in preferences.isBiometricUnlockEnabled }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.isBiometricUnlockEnabled, on: self)
+        
+        biometricAvailabilityDidChangeSubscription = biometricKeychain.availabilityDidChange
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.biometricAvailablity, on: self)
     }
     
     func getIsBiometricUnlockEnabled() -> Bool {
@@ -36,22 +39,22 @@ class PreferencesLoadedModel: ObservableObject {
     
     func setIsBiometricUnlockEnabled(isEnabling: Bool) {
         guard isEnabling else {
-            isBiometricUnlockEnabled = false
+            preferencesManager.set(isBiometricUnlockEnabled: false)
             return
         }
         
-        let biometricUnlockPreferencesModel = BiometricUnlockPreferencesModel()
+        let biometricUnlockPreferencesModel = BiometricUnlockPreferencesModel(biometricKeychain: biometricKeychain)
         biometricUnlockPreferencesSubscription = biometricUnlockPreferencesModel.completion()
-            .sink { [weak self] completion in
+            .sink { [weak self, preferencesManager] completion in
                 guard let self = self else {
                     return
                 }
                 
                 switch completion {
                 case .canceled:
-                    self.isBiometricUnlockEnabled = false
+                    preferencesManager.set(isBiometricUnlockEnabled: false)
                 case .enabled:
-                    self.isBiometricUnlockEnabled = true
+                    preferencesManager.set(isBiometricUnlockEnabled: true)
                 }
                 
                 self.biometricUnlockPreferencesSubscription = nil
@@ -63,19 +66,6 @@ class PreferencesLoadedModel: ObservableObject {
     
     func changeMasterPassword() {
         
-    }
-    
-}
-
-private extension BiometricAvailablity {
-    
-    var supportsBiometricUnlock: Bool {
-        switch self {
-        case .notAvailable, .notEnrolled:
-            return false
-        case .notAccessible, .touchID, .faceID:
-            return true
-        }
     }
     
 }

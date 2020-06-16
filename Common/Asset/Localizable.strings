@@ -21,6 +21,8 @@
 "BankAccountOnlineBankingUrl" = "Online Banking URL";
 "BankCardCvvPlaceholder" = "CVV";
 "BiometricActivationFailed" = "Enabling biometric unlock did fail";
+"BiometricNotAvailable" = "Biometric unlock is not available";
+"BiometricNotEnrolled" = "Biometric unlock is not enrolled";
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangePasswordAdvice" = "Changing your passwords frequently does not increase security. Only change a password if it got compromised.";

@@ -1,18 +1,23 @@
+import Combine
 import LocalAuthentication
 import XCTest
 @testable import Crypto
 
 class BiometricKeychainTests: XCTestCase {
     
+    var subscriptions = Set<AnyCancellable>()
+    
     override func setUp() {
         super.setUp()
         
+        subscriptions.removeAll()
         BiometricKeychainWrite = { _, _ in fatalError() }
         BiometricKeychainLoad = { _, _ in fatalError() }
         BiometricKeychainDelete = { _ in fatalError() }
     }
     
     override func tearDown() {
+        subscriptions.removeAll()
         BiometricKeychainWrite = SecItemAdd
         BiometricKeychainLoad = SecItemCopyMatching
         BiometricKeychainDelete = SecItemDelete
@@ -20,18 +25,37 @@ class BiometricKeychainTests: XCTestCase {
         super.tearDown()
     }
     
-    func testStorePasswordSuccess() throws {
-        BiometricKeychainWrite = { _, _ in errSecSuccess }
+    func testStorePasswordSuccess() {
         BiometricKeychainDelete = { _ in errSecSuccess }
+        BiometricKeychainWrite = { _, _ in errSecSuccess }
         
-        try BiometricKeychain.shared.storePassword("foo", identifier: "bar")
+        let successExpectation = XCTestExpectation()
+        let expectations = [successExpectation]
+        
+        BiometricKeychain.shared.storePassword("foo", identifier: "bar")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        XCTFail()
+                    }
+                },
+                receiveValue: { _ in
+                    successExpectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
-    func testStorePasswordWriteArguments() throws {
+    func testStorePasswordWriteArguments() {
         let expectedPassword = "foo"
         let expectedIdentifier = "bar"
         let expectedPasswordData = Data(expectedPassword.utf8)
         let expectedAccessControlTypeId = SecAccessControlGetTypeID()
+        
+        BiometricKeychainDelete = { _ in errSecSuccess }
         
         BiometricKeychainWrite = { attributes, result in
             let attributes = attributes as? [CFString: AnyObject]
@@ -51,26 +75,73 @@ class BiometricKeychainTests: XCTestCase {
             
             return errSecSuccess
         }
+
+        let doneExpectation = XCTestExpectation()
+        let expectations = [doneExpectation]
         
-        BiometricKeychainDelete = { _ in errSecSuccess }
+        BiometricKeychain.shared.storePassword(expectedPassword, identifier: expectedIdentifier)
+            .sink(
+                receiveCompletion: { completion in
+                    doneExpectation.fulfill()
+                },
+                receiveValue: { _ in
+                    doneExpectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
         
-        try BiometricKeychain.shared.storePassword(expectedPassword, identifier: expectedIdentifier)
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testStorePasswordDeleteDidFail() {
         BiometricKeychainDelete = { query in -1 }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.storePassword("", identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.storePassword("", identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { _ in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testStorePasswordWriteDidFail() {
-        BiometricKeychainWrite = { attribtes, result in -1 }
         BiometricKeychainDelete = { _ in errSecSuccess }
+        BiometricKeychainWrite = { attribtes, result in -1 }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.storePassword("", identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.storePassword("", identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { _ in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
-    func testLoadPasswordSuccess() throws {
+    func testLoadPasswordSuccess() {
         let expectedPassword = "foo"
         
         BiometricKeychainLoad = { query, result in
@@ -78,12 +149,28 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        let password = try BiometricKeychain.shared.loadPassword(identifier: "")
+        let successExpectation = XCTestExpectation()
+        let expectations = [successExpectation]
         
-        XCTAssertEqual(password, expectedPassword)
+        BiometricKeychain.shared.loadPassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        XCTFail()
+                    }
+                },
+                receiveValue: { password in
+                    successExpectation.fulfill()
+                    XCTAssertEqual(password, expectedPassword)
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
-    func testLoadPasswordLoadArguments() throws {
+    func testLoadPasswordLoadArguments() {
         let expectedIdentifier = "foo"
         
         BiometricKeychainLoad = { query, result in
@@ -101,7 +188,22 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        _ = try BiometricKeychain.shared.loadPassword(identifier: expectedIdentifier)
+        let doneExpectation = XCTestExpectation()
+        let expectations = [doneExpectation]
+        
+        BiometricKeychain.shared.loadPassword(identifier: expectedIdentifier)
+            .sink(
+                receiveCompletion: { completion in
+                    doneExpectation.fulfill()
+                },
+                receiveValue: { _ in
+                    doneExpectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testLoadPasswordLoadDidFail() {
@@ -109,7 +211,24 @@ class BiometricKeychainTests: XCTestCase {
             return -1
         }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.loadPassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { password in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testLoadPasswordInvalidResultType() {
@@ -118,7 +237,24 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.loadPassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { password in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testLoadPasswordInvalidResultData() {
@@ -127,13 +263,47 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.loadPassword(identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.loadPassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { password in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
-    func testDeletePasswordSuccess() throws {
+    func testDeletePasswordSuccess() {
         BiometricKeychainDelete = { _ in errSecSuccess }
         
-        try BiometricKeychain.shared.deletePassword(identifier: "")
+        let successExpectation = XCTestExpectation()
+        let expectations = [successExpectation]
+        
+        BiometricKeychain.shared.deletePassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        XCTFail()
+                    }
+                },
+                receiveValue: { password in
+                    successExpectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testDeletePasswordDeleteArguments() throws {
@@ -150,14 +320,47 @@ class BiometricKeychainTests: XCTestCase {
             return errSecSuccess
         }
         
-        try BiometricKeychain.shared.deletePassword(identifier: expectedIdentifier)
+        let successExpectation = XCTestExpectation()
+        let expectations = [successExpectation]
+        
+        BiometricKeychain.shared.deletePassword(identifier: expectedIdentifier)
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        XCTFail()
+                    }
+                },
+                receiveValue: { password in
+                    successExpectation.fulfill()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
     func testDeletePasswordDeleteDidFail() {
         BiometricKeychainDelete = { query in -1 }
         
-        XCTAssertThrowsError(try BiometricKeychain.shared.deletePassword(identifier: ""))
+        let failureExpectation = XCTestExpectation()
+        let expectations = [failureExpectation]
+        
+        BiometricKeychain.shared.deletePassword(identifier: "")
+            .sink(
+                receiveCompletion: { completion in
+                    if case .failure = completion {
+                        failureExpectation.fulfill()
+                    }
+                },
+                receiveValue: { password in
+                    XCTFail()
+                }
+            )
+            .store(in: &subscriptions)
+        
+        let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        XCTAssertEqual(result, .completed)
     }
     
 }
-

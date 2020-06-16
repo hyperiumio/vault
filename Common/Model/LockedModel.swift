@@ -21,20 +21,17 @@ class LockedModel: ObservableObject {
     let didDecryptMasterKey = PassthroughSubject<MasterKey, Never>()
     
     private let masterKeyUrl: URL
+    private let biometricKeychain: BiometricKeychain
     private var loadMasterKeySubscription: AnyCancellable?
     private var loadBiometricUnlockMethodSubscription: AnyCancellable?
     
-    init(masterKeyUrl: URL, preferencesManager: PreferencesManager) {
+    init(masterKeyUrl: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.masterKeyUrl = masterKeyUrl
+        self.biometricKeychain = biometricKeychain
         
-        loadBiometricUnlockMethodSubscription = preferencesManager.didChange
-            .map { preferences in
-                if preferences.isBiometricUnlockEnabled {
-                    let biometricAvailability = BiometricAvailablityEvaluate()
-                    return BiometricUnlock.Method(biometricAvailability)
-                } else {
-                    return nil
-                }
+        loadBiometricUnlockMethodSubscription = Publishers.CombineLatest(preferencesManager.didChange, biometricKeychain.availabilityDidChange)
+            .map { preferences, biometricAvailability in
+                return preferences.isBiometricUnlockEnabled ? BiometricUnlock.Method(biometricAvailability) : nil
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.biometricUnlockMethod, on: self)
@@ -77,21 +74,14 @@ class LockedModel: ObservableObject {
     func biometricLogin() {
         message = nil
         isLoading = true
-        
-        let masterKeyProvider = Future<MasterKey, Error> { [masterKeyUrl] promise in
-            DispatchQueue.global().async {
-                let result = Result<MasterKey, Error> {
-                    let password = try BiometricKeychainLoadPassword(identifier: Bundle.main.bundleIdentifier!)
-                    
-                    return try Data(contentsOf: masterKeyUrl).map { data in
-                        return try MasterKeyContainerDecode(data, with: password)
-                    }
-                }
-                promise(result)
-            }
-        }
 
-        loadMasterKeySubscription = masterKeyProvider
+        let masterKeyDataProvider = Data.provider(contentsOf: masterKeyUrl)
+        let passwordProvider = biometricKeychain.loadPassword(identifier: Bundle.main.bundleIdentifier!)
+        
+        loadMasterKeySubscription = Publishers.Zip(masterKeyDataProvider, passwordProvider)
+            .tryMap { data, password in
+                return try MasterKeyContainerDecode(data, with: password)
+            }
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -124,7 +114,7 @@ extension LockedModel {
 
 private extension BiometricUnlock.Method {
     
-    init?(_ biometricAvailability: BiometricAvailablity) {
+    init?(_ biometricAvailability: BiometricKeychain.Availablity) {
         switch biometricAvailability {
         case .notAvailable, .notEnrolled, .notAccessible:
             return nil

@@ -1,4 +1,5 @@
 import AppKit
+import Crypto
 import SwiftUI
 import Preferences
 
@@ -6,9 +7,11 @@ class PreferencesWindowController: NSObject {
     
     private var window: NSWindow?
     private let preferencesManager: PreferencesManager
+    private let biometricKeychain: BiometricKeychain
     
-    init(preferencesManager: PreferencesManager) {
+    init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.preferencesManager = preferencesManager
+        self.biometricKeychain = biometricKeychain
         
         super.init()
     }
@@ -19,7 +22,7 @@ class PreferencesWindowController: NSObject {
             return
         }
         
-        let context = PreferencesModelContext(preferencesManager: preferencesManager)
+        let context = PreferencesModelContext(preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
         let preferencesModel = PreferencesModel(context: context)
         let preferencesView = PreferencesView(model: preferencesModel)
         

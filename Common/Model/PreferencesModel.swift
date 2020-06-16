@@ -26,7 +26,7 @@ class PreferencesModel: ObservableObject {
         case .loading(let model):
             stateTransitionSubscription = model.completion()
                 .map { [context] preferences in
-                    let model = context.loadedModel(initialValues: preferences)
+                    let model = context.loadedModel()
                     return .loaded(model)
                 }
                 .assign(to: \.state, on: self)
