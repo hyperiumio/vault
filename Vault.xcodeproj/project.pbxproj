@@ -123,7 +123,7 @@
 		95A7B4BB2464128700786A5C /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7B4B72464127700786A5C /* PreferencesWindowController.swift */; };
 		95B50FF92459ED6F003536E8 /* FileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B50FF82459ED6F003536E8 /* FileContentView.swift */; };
 		95B50FFC2459EDE0003536E8 /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B50FFB2459EDE0003536E8 /* PDFView.swift */; };
-		95B51008245AEB16003536E8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B51007245AEB16003536E8 /* AppDelegate.swift */; };
+		95B51008245AEB16003536E8 /* ApplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B51007245AEB16003536E8 /* ApplicationController.swift */; };
 		95B5100E245AEB17003536E8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95B5100D245AEB17003536E8 /* Images.xcassets */; };
 		95B51014245AEB17003536E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95B51012245AEB17003536E8 /* LaunchScreen.storyboard */; };
 		95BC40782496CE3900553AB5 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40772496CE3900553AB5 /* FileManagerExtension.swift */; };
@@ -302,7 +302,7 @@
 		95A7B4B72464127700786A5C /* PreferencesWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesWindowController.swift; sourceTree = "<group>"; };
 		95B50FF82459ED6F003536E8 /* FileContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileContentView.swift; sourceTree = "<group>"; };
 		95B50FFB2459EDE0003536E8 /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
-		95B51007245AEB16003536E8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		95B51007245AEB16003536E8 /* ApplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationController.swift; sourceTree = "<group>"; };
 		95B5100D245AEB17003536E8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		95B51013245AEB17003536E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95B51015245AEB17003536E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -629,7 +629,7 @@
 		95B5101A245AEBF4003536E8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				95B51007245AEB16003536E8 /* AppDelegate.swift */,
+				95B51007245AEB16003536E8 /* ApplicationController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -996,7 +996,7 @@
 				95E71D86248A8A22004BDDAB /* VaultItemModelContext.swift in Sources */,
 				95A7B48C2464110D00786A5C /* WifiEditView.swift in Sources */,
 				95E71D70248A89F8004BDDAB /* BankCardDisplayModel.swift in Sources */,
-				95B51008245AEB16003536E8 /* AppDelegate.swift in Sources */,
+				95B51008245AEB16003536E8 /* ApplicationController.swift in Sources */,
 				95E71D84248A8A22004BDDAB /* ContentModelContext.swift in Sources */,
 				954AEABF245B234200FEDE04 /* FileStateLoadedView.swift in Sources */,
 				95E71D6E248A89F8004BDDAB /* Completable.swift in Sources */,

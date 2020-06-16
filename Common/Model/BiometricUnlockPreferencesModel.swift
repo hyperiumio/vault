@@ -15,7 +15,12 @@ class BiometricUnlockPreferencesModel: ObservableObject, Identifiable, Completab
     @Published var message: Message?
     
     internal var completionPromise: Future<Completion, Never>.Promise?
+    private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
+    
+    init(biometricKeychain: BiometricKeychain) {
+        self.biometricKeychain = biometricKeychain
+    }
     
     func cancel() {
         let result = Result<Completion, Never>.success(.canceled)
@@ -29,17 +34,8 @@ class BiometricUnlockPreferencesModel: ObservableObject, Identifiable, Completab
             return
         }
         
-        let biometricsStoreResultPublisher = Future<Void, Error> { [password] promise in
-            DispatchQueue.global().async {
-                let result = Result {
-                    try BiometricKeychainStorePassword(password, identifier: bundleId)
-                }
-                promise(result)
-            }
-        }
-        
         isLoading = true
-        keychainStoreSubscription = biometricsStoreResultPublisher
+        keychainStoreSubscription = biometricKeychain.storePassword(password, identifier: bundleId)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

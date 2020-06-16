@@ -1,15 +1,23 @@
 import Combine
+import Crypto
 import Preferences
 import SwiftUI
 import UIKit
 
 @UIApplicationMain
-class AppController: UIResponder, UIApplicationDelegate {
+class ApplicationController: UIResponder {
+    
+    let preferencesManager = PreferencesManager.shared
+    let biometricKeychain = BiometricKeychain.shared
     
     var contentModelContext: ContentModelContext?
     var window: UIWindow?
     
     private var launchStateSubscription: AnyCancellable?
+
+}
+
+extension ApplicationController: UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow()
@@ -24,7 +32,7 @@ class AppController: UIResponder, UIApplicationDelegate {
                     return
                 }
                 
-                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: .shared)
+                let contentModelContext = ContentModelContext(masterKeyUrl: .masterKey, vaultUrl: .vault, preferencesManager: self.preferencesManager, biometricKeychain: self.biometricKeychain)
                 let contentModel = ContentModel(initialState: initialState, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 
@@ -36,7 +44,7 @@ class AppController: UIResponder, UIApplicationDelegate {
         
         return true
     }
-
+    
 }
 
 private extension URL {

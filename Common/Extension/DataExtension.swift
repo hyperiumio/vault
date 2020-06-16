@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 
 extension Data {
@@ -6,6 +7,15 @@ extension Data {
         return try transform(self)
     }
     
+    static func provider(contentsOf url: URL) -> Future<Self, Error> {
+        return Future { promise in
+            DispatchQueue.global().async {
+                let result = Result {
+                    return try Data(contentsOf: url)
+                }
+                promise(result)
+            }
+        }
+    }
+    
 }
-
-

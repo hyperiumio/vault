@@ -23,6 +23,8 @@ extension LocalizedStringKey {
     static let bankAccountOnlineBankingUrl = LocalizedStringKey("BankAccountOnlineBankingUrl")
     static let bankCardCvvPlaceholder = LocalizedStringKey("BankCardCvvPlaceholder")
     static let biometricActivationFailed = LocalizedStringKey("BiometricActivationFailed")
+    static let biometricNotAvailable = LocalizedStringKey("BiometricNotAvailable")
+    static let biometricNotEnrolled = LocalizedStringKey("BiometricNotEnrolled")
     static let cancel = LocalizedStringKey("Cancel")
     static let changeMasterPassword = LocalizedStringKey("ChangeMasterPassword")
     static let changePasswordAdvice = LocalizedStringKey("ChangePasswordAdvice")
