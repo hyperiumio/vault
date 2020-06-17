@@ -8,17 +8,17 @@ class FileLoadedModel: ObservableObject {
     
     let fileData: Data
     
-    var file: File? {
+    var fileItem: FileItem? {
         guard !filename.isEmpty else {
             return nil
         }
         
-        return File(name: filename, data: fileData)
+        return FileItem(name: filename, data: fileData)
     }
     
-    init(_ file: File) {
-        self.filename = file.name
-        self.fileData = file.data
+    init(_ fileItem: FileItem) {
+        self.filename = fileItem.name
+        self.fileData = fileItem.data
     }
     
     func itemProvider() -> NSItemProvider {

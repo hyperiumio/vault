@@ -4,7 +4,7 @@ import Store
 struct FileContentView: View {
     
     let fileData: Data
-    let fileFormat: File.Format
+    let fileFormat: FileItem.Format
     
     var body: some View {
         switch fileFormat {

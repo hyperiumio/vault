@@ -22,7 +22,7 @@ class FileEditModel: ObservableObject, Identifiable {
         guard case .loaded(let model) = state else {
             return nil
         }
-        guard let file = model.file else {
+        guard let file = model.fileItem else {
             return nil
         }
         
@@ -31,9 +31,9 @@ class FileEditModel: ObservableObject, Identifiable {
     
     private var stateTransitionSubscription: AnyCancellable?
     
-    init(_ file: File? = nil) {
-        if let file = file {
-            let model = FileLoadedModel(file)
+    init(_ fileItem: FileItem? = nil) {
+        if let fileItem = fileItem {
+            let model = FileLoadedModel(fileItem)
             self.state = .loaded(model)
         } else {
             let model = FileEmptyModel()
