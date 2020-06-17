@@ -4,7 +4,7 @@ public enum SecureItem: Equatable {
     
     case password(PasswordItem)
     case login(LoginItem)
-    case file(File)
+    case file(FileItem)
     case note(NoteItem)
     case bankCard(BankCardItem)
     case wifi(WiFiItem)
@@ -60,7 +60,7 @@ extension SecureItem {
         case .login(let value):
             return try LoginItem.jsonEncoded(value)
         case .file(let value):
-            return try File.jsonEncoded(value)
+            return try FileItem.jsonEncoded(value)
         case .note(let value):
             return try NoteItem.jsonEncoded(value)
         case .bankCard(let value):
@@ -83,7 +83,7 @@ extension SecureItem {
             let value = try LoginItem.jsonDecoded(encodedSecureItem)
             return .login(value)
         case .file:
-            let value = try File.jsonDecoded(encodedSecureItem)
+            let value = try FileItem.jsonDecoded(encodedSecureItem)
             return .file(value)
         case .note:
             let value = try NoteItem.jsonDecoded(encodedSecureItem)

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct File: JSONCodable {
+public struct FileItem: JSONCodable {
     
     public let name: String
     public let data: Data
@@ -17,7 +17,7 @@ public struct File: JSONCodable {
     
 }
 
-public extension File {
+public extension FileItem {
     
     enum Format {
         

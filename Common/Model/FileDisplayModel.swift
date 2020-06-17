@@ -3,14 +3,14 @@ import Store
 
 class FileDisplayModel: ObservableObject, Identifiable {
     
-    var filename: String { file.name }
-    var fileFormat: File.Format { file.format }
-    var fileData: Data { file.data }
+    var filename: String { fileItem.name }
+    var fileFormat: FileItem.Format { fileItem.format }
+    var fileData: Data { fileItem.data }
     
-    private let file: File
+    private let fileItem: FileItem
     
-    init(_ file: File) {
-        self.file = file
+    init(_ fileItem: FileItem) {
+        self.fileItem = fileItem
     }
     
 }

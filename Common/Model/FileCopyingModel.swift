@@ -6,7 +6,7 @@ class FileCopyingModel: ObservableObject {
     
     @Published var progress: Double = 0
     
-    let didReceiveData = PassthroughSubject<File, Error>()
+    let didReceiveData = PassthroughSubject<FileItem, Error>()
     
     private var progressSubscription: AnyCancellable?
     
@@ -21,8 +21,8 @@ class FileCopyingModel: ObservableObject {
                 return
             }
             
-            let file = File(name: fileUrl.lastPathComponent, data: data)
-            didReceiveData.send(file)
+            let fileItem = FileItem(name: fileUrl.lastPathComponent, data: data)
+            didReceiveData.send(fileItem)
         }
 
         progressSubscription = task.progress.publisher(for: \.fractionCompleted)
