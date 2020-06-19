@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
+import Store
 
 class LockedModel: ObservableObject {
     
@@ -18,15 +19,16 @@ class LockedModel: ObservableObject {
     var textInputDisabled: Bool { isLoading }
     var decryptMasterKeyButtonDisabled: Bool { password.isEmpty || isLoading }
     
-    let didDecryptMasterKey = PassthroughSubject<MasterKey, Never>()
+    let didOpenVault = PassthroughSubject<Vault<SecureDataCryptor>, Never>()
     
-    private let masterKeyUrl: URL
+    private let vaultLocation: Vault<SecureDataCryptor>.Location
     private let biometricKeychain: BiometricKeychain
-    private var loadMasterKeySubscription: AnyCancellable?
+    
+    private var openVaultSubscription: AnyCancellable?
     private var loadBiometricUnlockMethodSubscription: AnyCancellable?
     
-    init(masterKeyUrl: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.masterKeyUrl = masterKeyUrl
+    init(vaultLocation: Vault<SecureDataCryptor>.Location, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vaultLocation = vaultLocation
         self.biometricKeychain = biometricKeychain
         
         loadBiometricUnlockMethodSubscription = Publishers.CombineLatest(preferencesManager.didChange, biometricKeychain.availabilityDidChange)
@@ -41,18 +43,7 @@ class LockedModel: ObservableObject {
         message = nil
         isLoading = true
         
-        let masterKeyProvider = Future<MasterKey, Error> { [masterKeyUrl, password] promise in
-            DispatchQueue.global().async {
-                let result = Result {
-                    return try Data(contentsOf: masterKeyUrl).map { data in
-                        return try MasterKeyContainerDecode(data, with: password)
-                    }
-                }
-                promise(result)
-            }
-        }
-        
-        loadMasterKeySubscription = masterKeyProvider
+        openVaultSubscription = Vault<SecureDataCryptor>.open(at: vaultLocation, using: password)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -61,26 +52,23 @@ class LockedModel: ObservableObject {
             
                 self.isLoading = false
                 switch result {
-                case .success(let masterKey):
-                    self.didDecryptMasterKey.send(masterKey)
+                case .success(let vault):
+                    self.didOpenVault.send(vault)
                 case .failure:
                     self.message = .invalidPassword
                 }
                 
-                self.loadMasterKeySubscription = nil
+                self.openVaultSubscription = nil
             }
     }
     
     func biometricLogin() {
         message = nil
         isLoading = true
-
-        let masterKeyDataProvider = Data.provider(contentsOf: masterKeyUrl)
-        let passwordProvider = biometricKeychain.loadPassword(identifier: Bundle.main.bundleIdentifier!)
         
-        loadMasterKeySubscription = Publishers.Zip(masterKeyDataProvider, passwordProvider)
-            .tryMap { data, password in
-                return try MasterKeyContainerDecode(data, with: password)
+        openVaultSubscription = biometricKeychain.loadPassword(identifier: Bundle.main.bundleIdentifier!)
+            .flatMap { [vaultLocation] password in
+                return Vault<SecureDataCryptor>.open(at: vaultLocation, using: password)
             }
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
@@ -90,13 +78,13 @@ class LockedModel: ObservableObject {
             
                 self.isLoading = false
                 switch result {
-                case .success(let masterKey):
-                    self.didDecryptMasterKey.send(masterKey)
+                case .success(let vault):
+                    self.didOpenVault.send(vault)
                 case .failure:
                     self.message = .invalidPassword
                 }
                 
-                self.loadMasterKeySubscription = nil
+                self.openVaultSubscription = nil
             }
     }
     

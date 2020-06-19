@@ -1,34 +1,31 @@
 import Crypto
 import Foundation
 import Preferences
+import Store
 
 class ContentModelContext {
     
     weak var responder: ContentModelContextResponder?
     
-    private let masterKeyUrl: URL
-    private let vaultUrl: URL
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     
-    init(masterKeyUrl: URL, vaultUrl: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.masterKeyUrl = masterKeyUrl
-        self.vaultUrl = vaultUrl
+    init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
     }
     
-    func setupModel() -> SetupModel {
-        return SetupModel(masterKeyUrl: masterKeyUrl)
+    func setupModel(vaultDirectory: URL) -> SetupModel {
+        return SetupModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager)
     }
     
-    func lockedModel() -> LockedModel {
-        return LockedModel(masterKeyUrl: masterKeyUrl, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func lockedModel(vaultLocation: Vault<SecureDataCryptor>.Location) -> LockedModel {
+        return LockedModel(vaultLocation: vaultLocation, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func unlockedModel(masterKey: MasterKey) -> UnlockedModel {
-        let context = UnlockedModelContext(vaultUrl: vaultUrl, masterKey: masterKey, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        return UnlockedModel(context: context)
+    func unlockedModel(vault: Vault<SecureDataCryptor>) -> UnlockedModel {
+        let context = UnlockedModelContext(store: vault.store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        return UnlockedModel(vaultLocation: vault.location, context: context)
     }
     
 }
@@ -38,23 +35,5 @@ protocol ContentModelContextResponder: class {
     var isLockable: Bool { get }
     
     func lock()
-    
-}
-
-struct UnlockedModelContext {
-    
-    let vaultUrl: URL
-    let masterKey: MasterKey
-    let preferencesManager: PreferencesManager
-    let biometricKeychain: BiometricKeychain
-    
-    func vaultItemCollectionModel() -> VaultItemCollectionModel {
-        return VaultItemCollectionModel(vaultUrl: vaultUrl, masterKey: masterKey)
-    }
-    
-    func preferencesModel() -> PreferencesModel {
-        let context = PreferencesModelContext(preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        return PreferencesModel(context: context)
-    }
     
 }

@@ -19,8 +19,8 @@ class VaultItemCollectionModel: ObservableObject {
     private var vaultDidChangeSubscription: AnyCancellable?
     private var vaultItemModelCompletionSubscription: AnyCancellable?
     
-    init(vaultUrl: URL, masterKey: MasterKey) {
-        self.store = VaultItemStore<SecureDataCryptor>(url: vaultUrl, masterKey: masterKey)
+    init(store: VaultItemStore<SecureDataCryptor>) {
+        self.store = store
         
         vaultDidChangeSubscription = store.didChange
             .receive(on: DispatchQueue.main)

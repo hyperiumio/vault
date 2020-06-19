@@ -2,7 +2,7 @@ import Foundation
 
 public protocol MultiMessageCryptor {
     
-    associatedtype Key
+    associatedtype Key: CryptoKeyRepresentable
     
     init(using key: Key, from reader: FileReader) throws
     
@@ -11,4 +11,3 @@ public protocol MultiMessageCryptor {
     static func encrypted(_ messages: [Data], using key: Key) throws -> Data
     
 }
-

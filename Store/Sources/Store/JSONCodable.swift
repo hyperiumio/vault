@@ -10,11 +10,15 @@ protocol JSONCodable: Codable, Equatable {
 extension JSONCodable {
     
     static func jsonEncoded(_ value: Self) throws -> Data {
-        return try JSONEncoder().encode(value)
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(value)
     }
     
     static func jsonDecoded(_ data: Data) throws -> Self {
-        return try JSONDecoder().decode(Self.self, from: data)
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return try decoder.decode(Self.self, from: data)
     }
     
 }
