@@ -27,6 +27,11 @@ public class PreferencesManager {
         didChangeSubject.value = Preferences(from: store)
     }
     
+    public func set(activeVaultIdentifier: UUID) {
+        store.activeVaultIdentifier = activeVaultIdentifier
+        didChangeSubject.value = Preferences(from: store)
+    }
+    
 }
 
 extension PreferencesManager {

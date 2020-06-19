@@ -1,6 +1,8 @@
 import Combine
 import Crypto
 import Foundation
+import Preferences
+import Store
 
 class SetupModel: ObservableObject {
     
@@ -23,13 +25,16 @@ class SetupModel: ObservableObject {
     
     var textInputDisabled: Bool { isLoading }
     
-    let didCreateMasterKey = PassthroughSubject<MasterKey, Never>()
+    let didCreateVault = PassthroughSubject<Vault<SecureDataCryptor>, Never>()
     
-    private let masterKeyUrl: URL
-    private var createMasterKeySubscription: AnyCancellable?
+    private let vaultDirectory: URL
+    private let preferencesManager: PreferencesManager
     
-    init(masterKeyUrl: URL) {
-        self.masterKeyUrl = masterKeyUrl
+    private var createVaultSubscription: AnyCancellable?
+    
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager) {
+        self.vaultDirectory = vaultDirectory
+        self.preferencesManager = preferencesManager
     }
     
     func createMasterKey() {
@@ -42,21 +47,7 @@ class SetupModel: ObservableObject {
         
         isLoading = true
         
-        let masterKeyPublisher = Future<MasterKey, Error> { [masterKeyUrl, password] promise in
-            DispatchQueue.global().async {
-                let result = Result<MasterKey, Error> {
-                    let masterKey = MasterKey()
-                    let masterKeyDirectory = masterKeyUrl.deletingLastPathComponent()
-                    try FileManager.default.createDirectory(at: masterKeyDirectory, withIntermediateDirectories: true)
-                    try MasterKeyContainerEncode(masterKey, with: password).write(to: masterKeyUrl)
-                    
-                    return masterKey
-                }
-                promise(result)
-            }
-        }
-        
-        createMasterKeySubscription = masterKeyPublisher
+        createVaultSubscription = Vault<SecureDataCryptor>.create(inDirectory: vaultDirectory, using: password)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
@@ -65,8 +56,9 @@ class SetupModel: ObservableObject {
                 
                 self.isLoading = false
                 switch result {
-                case .success(let masterKey):
-                    self.didCreateMasterKey.send(masterKey)
+                case .success(let vault):
+                    self.preferencesManager.set(activeVaultIdentifier: vault.info.id)
+                    self.didCreateVault.send(vault)
                 case .failure:
                     self.message = .vaultCreationFailed
                 }

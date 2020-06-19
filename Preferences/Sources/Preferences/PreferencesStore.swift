@@ -22,10 +22,23 @@ class PreferencesStore {
         }
     }
     
+    var activeVaultIdentifier: UUID? {
+        get {
+            guard let vaultIdentifier = userDefaults.string(forKey: .activeVaultIdentifier) else {
+                return nil
+            }
+            return UUID(uuidString: vaultIdentifier)
+        }
+        set(activeVaultIdentifier) {
+            userDefaults.set(activeVaultIdentifier?.uuidString, forKey: .activeVaultIdentifier)
+        }
+    }
+    
 }
 
 private extension String {
     
     static var isBiometricUnlockEnabledKey: Self { "isBiometricUnlockEnabled" }
+    static var activeVaultIdentifier: Self { "activeVaultIdentifier" }
     
 }

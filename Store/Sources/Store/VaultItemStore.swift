@@ -6,16 +6,16 @@ public class VaultItemStore<Cryptor> where Cryptor: MultiMessageCryptor {
     public let didChange = PassthroughSubject<Void, Never>()
     
     private let directoryUrl: URL
-    private let masterKey: Cryptor.Key
+    private let cryptoKey: Cryptor.Key
     private let fileOperationQueue = DispatchQueue(label: "VaultFileOperationQueue")
     
-    public init(url: URL, masterKey: Cryptor.Key) {
-        self.directoryUrl = url
-        self.masterKey = masterKey
+    public init(directoryUrl: URL, cryptoKey: Cryptor.Key) {
+        self.directoryUrl = directoryUrl
+        self.cryptoKey = cryptoKey
     }
     
     public func loadItemInfos() -> Future<[ItemInfo], Error> {
-        return Future { [directoryUrl, masterKey, fileOperationQueue] promise in
+        return Future { [directoryUrl, cryptoKey, fileOperationQueue] promise in
             fileOperationQueue.async {
                 let result = Result<[ItemInfo], Error> {
                     guard FileManager.default.fileExists(atPath: directoryUrl.path) else {
@@ -24,7 +24,7 @@ public class VaultItemStore<Cryptor> where Cryptor: MultiMessageCryptor {
                     
                     return try FileManager.default.contentsOfDirectory(at: directoryUrl, includingPropertiesForKeys: [], options: .skipsHiddenFiles).map { url in
                         return try FileReader.read(url: url) { fileReader in
-                            return try ItemInfo(key: masterKey, from: fileReader)
+                            return try ItemInfo(cryptoKey: cryptoKey, from: fileReader)
                         }
                     }
                 }
@@ -34,12 +34,12 @@ public class VaultItemStore<Cryptor> where Cryptor: MultiMessageCryptor {
     }
     
     public func loadVaultItem(for itemInfo: ItemInfo) -> Future<VaultItem, Error> {
-        return Future { [directoryUrl, masterKey, fileOperationQueue] promise in
+        return Future { [directoryUrl, cryptoKey, fileOperationQueue] promise in
             fileOperationQueue.async {
                 let result = Result<VaultItem, Error> {
                     let itemUrl = directoryUrl.appendingPathComponent(itemInfo.id.uuidString, isDirectory: false)
                     return try FileReader.read(url: itemUrl) { fileReader in
-                        return try itemInfo.decryptedVaultItem(using: masterKey, from: fileReader)
+                        return try itemInfo.decryptedVaultItem(using: cryptoKey, from: fileReader)
                     }
                 }
                 promise(result)
@@ -48,13 +48,11 @@ public class VaultItemStore<Cryptor> where Cryptor: MultiMessageCryptor {
     }
     
     public func saveVaultItem(_ vaultItem: VaultItem) -> Future<Void, Error> {
-        return Future { [didChange, directoryUrl, masterKey, fileOperationQueue] promise in
+        return Future { [didChange, directoryUrl, cryptoKey, fileOperationQueue] promise in
             fileOperationQueue.async {
                 let result = Result {
                     let itemUrl = directoryUrl.appendingPathComponent(vaultItem.id.uuidString, isDirectory: false)
-                    let itemDirectory = itemUrl.deletingLastPathComponent()
-                    try FileManager.default.createDirectory(at: itemDirectory, withIntermediateDirectories: true)
-                    try VaultItemCryptor<Cryptor>.encrypted(vaultItem, using: masterKey).write(to: itemUrl, options: .atomic)
+                    try VaultItemCryptor<Cryptor>.encrypted(vaultItem, using: cryptoKey).write(to: itemUrl, options: .atomic)
                 }
                 promise(result)
                 
@@ -89,9 +87,9 @@ extension VaultItemStore {
         private let itemInfo: VaultItem.Info
         private let cryptor: VaultItemCryptor<Cryptor>
         
-        init(key: Cryptor.Key, from reader: FileReader) throws {
-            let cryptor = try VaultItemCryptor<Cryptor>(using: key, from: reader)
-            let itemInfo = try cryptor.decryptedItemInfo(using: key, from: reader)
+        init(cryptoKey: Cryptor.Key, from reader: FileReader) throws {
+            let cryptor = try VaultItemCryptor<Cryptor>(using: cryptoKey, from: reader)
+            let itemInfo = try cryptor.decryptedItemInfo(using: cryptoKey, from: reader)
             
             self.itemInfo = itemInfo
             self.cryptor = cryptor

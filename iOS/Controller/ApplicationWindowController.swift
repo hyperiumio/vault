@@ -1,42 +1,29 @@
-import AppKit
 import Combine
 import Crypto
 import Preferences
 import Store
 import SwiftUI
+import UIKit
 
-class ApplicationWindowController: NSObject {
-    
-    var isLockable: Bool {
-        contentModelContext.responder?.isLockable ?? false
-    }
+class ApplicationWindowController {
     
     private let preferencesManager: PreferencesManager
     private let contentModelContext: ContentModelContext
-    private let window: NSWindow
+    private let window = UIWindow()
     
     private var launchStateSubscription: AnyCancellable?
     
     init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.preferencesManager = preferencesManager
         self.contentModelContext = ContentModelContext(preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        self.window = NSWindow(contentRect: .zero, styleMask: .applicationWindow, backing: .buffered, defer: false)
-        
-        super.init()
-        
-        window.titleVisibility = .hidden
-        window.isMovableByWindowBackground = true
-        window.center()
-        window.setFrameAutosaveName(.applicationWindowFrameAutosaveName)
-        window.delegate = self
     }
     
     func load() {
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
             let contentModel = ContentModel(setupWithVaultDirectory: .vaultDirectory, context: contentModelContext)
             let contentView = ContentView(model: contentModel)
-            window.contentView = NSHostingView(rootView: contentView)
-            window.makeKeyAndOrderFront(nil)
+            window.rootViewController = UIHostingController(rootView: contentView)
+            window.makeKeyAndVisible()
             return
         }
         
@@ -53,41 +40,11 @@ class ApplicationWindowController: NSObject {
                 } ?? ContentModel(setupWithVaultDirectory: .vaultDirectory, context: contentModelContext)
                 let contentView = ContentView(model: contentModel)
                 
-                self.window.contentView = NSHostingView(rootView: contentView)
-                self.window.makeKeyAndOrderFront(nil)
+                self.window.rootViewController = UIHostingController(rootView: contentView)
+                self.window.makeKeyAndVisible()
                 self.launchStateSubscription = nil
             }
     }
-    
-    func lock() {
-        contentModelContext.responder?.lock()
-    }
-    
-}
-
-extension ApplicationWindowController: NSWindowDelegate {
-    
-    func windowWillClose(_ notification: Notification) {
-        NSApplication.shared.terminate(self)
-    }
-    
-}
-
-private extension NSWindow.StyleMask {
-    
-    static let applicationWindow: Self = [
-        .titled,
-        .closable,
-        .miniaturizable,
-        .resizable,
-        .fullSizeContentView
-    ]
-    
-}
-
-private extension String {
-    
-    static let applicationWindowFrameAutosaveName = "ApplicationWindow"
     
 }
 

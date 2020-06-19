@@ -1,6 +1,7 @@
 import Combine
 import Crypto
 import Foundation
+import  Store
 
 class ContentModel: ObservableObject {
     
@@ -13,16 +14,18 @@ class ContentModel: ObservableObject {
     private let context: ContentModelContext
     private var stateTransitionSubscription: AnyCancellable?
     
-    init(initialState: InitialState, context: ContentModelContext) {
-        switch initialState {
-        case .setup:
-            let model = context.setupModel()
-            self.state = .setup(model)
-        case .locked:
-            let model = context.lockedModel()
-            self.state = .locked(model)
-        }
+    init(setupWithVaultDirectory vaultDirectory: URL, context: ContentModelContext) {
+        let model = context.setupModel(vaultDirectory: vaultDirectory)
+        self.state = .setup(model)
+        self.context = context
+        context.responder = self
         
+        setupStateTransitions()
+    }
+    
+    init(lockedWithVaultLocation vaultLocation: Vault<SecureDataCryptor>.Location, context: ContentModelContext) {
+        let model = context.lockedModel(vaultLocation: vaultLocation)
+        self.state = .locked(model)
         self.context = context
         context.responder = self
         
@@ -32,25 +35,25 @@ class ContentModel: ObservableObject {
     private func setupStateTransitions() {
         switch state {
         case .setup(let model):
-            stateTransitionSubscription = model.didCreateMasterKey
+            stateTransitionSubscription = model.didCreateVault
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] masterKey in
+                .sink { [weak self] vault in
                     guard let self = self else {
                         return
                     }
                 
-                    let model = self.context.unlockedModel(masterKey: masterKey)
+                    let model = self.context.unlockedModel(vault: vault)
                     self.state = .unlocked(model)
                 }
         case .locked(let model):
-            stateTransitionSubscription = model.didDecryptMasterKey
+            stateTransitionSubscription = model.didOpenVault
                 .receive(on: DispatchQueue.main)
-                .sink { [weak self] masterKey in
+                .sink { [weak self] vault in
                     guard let self = self else {
                         return
                     }
                 
-                    let model = self.context.unlockedModel(masterKey: masterKey)
+                    let model = self.context.unlockedModel(vault: vault)
                     self.state = .unlocked(model)
                 }
         case .unlocked:
@@ -73,20 +76,18 @@ extension ContentModel: ContentModelContextResponder {
     }
     
     func lock() {
-        let model = context.lockedModel()
-        state = .locked(model)
+        switch state {
+        case .unlocked(let model):
+            let model = context.lockedModel(vaultLocation: model.vaultLocation)
+            state = .locked(model)
+        case .setup, .locked:
+           return
+        }
     }
     
 }
 
 extension ContentModel {
-    
-    enum InitialState {
-        
-        case setup
-        case locked
-        
-    }
     
     enum State {
         
