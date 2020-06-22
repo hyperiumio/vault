@@ -1,6 +1,6 @@
 import Foundation
 
-public protocol CryptoKeyRepresentable {
+public protocol CryptoKeyRepresentable: Equatable {
     
     init()
     

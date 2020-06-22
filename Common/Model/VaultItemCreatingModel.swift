@@ -14,11 +14,11 @@ class VaultItemCreatingModel: ObservableObject, Identifiable, Completable {
     
     internal var completionPromise: Future<Completion, Never>.Promise?
     
-    private let vault: VaultItemStore<SecureDataCryptor>
+    private let vault: Vault<SecureDataCryptor>
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(itemType: SecureItem.TypeIdentifier, vault: VaultItemStore<SecureDataCryptor>) {
+    init(itemType: SecureItem.TypeIdentifier, vault: Vault<SecureDataCryptor>) {
         self.secureItemModels = [SecureItemEditModel(itemType)]
         self.vault = vault
         

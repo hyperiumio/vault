@@ -7,8 +7,8 @@ class ContentModelContext {
     
     weak var responder: ContentModelContextResponder?
     
-    private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    let preferencesManager: PreferencesManager
+    let biometricKeychain: BiometricKeychain
     
     init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.preferencesManager = preferencesManager
@@ -19,13 +19,20 @@ class ContentModelContext {
         return SetupModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager)
     }
     
-    func lockedModel(vaultLocation: Vault<SecureDataCryptor>.Location) -> LockedModel {
+    func lockedModel(vaultLocation: VaultLocation) -> LockedModel {
         return LockedModel(vaultLocation: vaultLocation, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
     func unlockedModel(vault: Vault<SecureDataCryptor>) -> UnlockedModel {
-        let context = UnlockedModelContext(store: vault.store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        let context = UnlockedModelContext(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        
+        #if canImport(AppKit)
+        return UnlockedModel(vault: vault, context: context)
+        #endif
+        
+        #if canImport(UIKit)
         return UnlockedModel(vaultLocation: vault.location, context: context)
+        #endif
     }
     
 }
@@ -33,7 +40,9 @@ class ContentModelContext {
 protocol ContentModelContextResponder: class {
  
     var isLockable: Bool { get }
+    var canShowPreferences: Bool { get }
     
     func lock()
+    func showPreferences()
     
 }

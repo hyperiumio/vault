@@ -10,19 +10,19 @@ class VaultItemLoadingModel: ObservableObject, Completable {
     
     internal var completionPromise: Future<VaultItem, Never>.Promise?
     
-    private let itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo
-    private let store: VaultItemStore<SecureDataCryptor>
+    private let itemToken: VaultItemToken<SecureDataCryptor>
+    private let vault: Vault<SecureDataCryptor>
     private var loadSubscription: AnyCancellable?
     
-    init(itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo, store: VaultItemStore<SecureDataCryptor>) {
-        self.itemInfo = itemInfo
-        self.store = store
+    init(itemToken: VaultItemToken<SecureDataCryptor>, vault: Vault<SecureDataCryptor>) {
+        self.itemToken = itemToken
+        self.vault = vault
     }
     
     func load() {
         isLoading = true
         
-        loadSubscription = store.loadVaultItem(for: itemInfo)
+        loadSubscription = vault.loadVaultItem(for: itemToken)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {

@@ -57,7 +57,7 @@ class SetupModel: ObservableObject {
                 self.isLoading = false
                 switch result {
                 case .success(let vault):
-                    self.preferencesManager.set(activeVaultIdentifier: vault.info.id)
+                    self.preferencesManager.set(activeVaultIdentifier: vault.id)
                     self.didCreateVault.send(vault)
                 case .failure:
                     self.message = .vaultCreationFailed

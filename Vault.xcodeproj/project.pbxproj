@@ -111,6 +111,8 @@
 		9561124524389EA400028F6E /* NSMenuExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9561124424389EA400028F6E /* NSMenuExtension.swift */; };
 		957D1940245026E700BCA612 /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D193F245026E700BCA612 /* UUIDExtension.swift */; };
 		957D1943245027E500BCA612 /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D1942245027E500BCA612 /* CreateVaultItemButton.swift */; };
+		95836C37249E0C6C00AA6261 /* ChangeMasterPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95836C36249E0C6C00AA6261 /* ChangeMasterPasswordView.swift */; };
+		95836C38249E0C6C00AA6261 /* ChangeMasterPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95836C36249E0C6C00AA6261 /* ChangeMasterPasswordView.swift */; };
 		958555E52459E09800219BDD /* FileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958555E42459E09800219BDD /* FileImageView.swift */; };
 		9593AAB3244F21FA004740D5 /* ResultExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9593AAB2244F21FA004740D5 /* ResultExtension.swift */; };
 		95A3349C246EA56D004800AC /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A7B49A246411D000786A5C /* PreferencesView.swift */; };
@@ -129,6 +131,8 @@
 		95B51014245AEB17003536E8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95B51012245AEB17003536E8 /* LaunchScreen.storyboard */; };
 		95BC40782496CE3900553AB5 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40772496CE3900553AB5 /* FileManagerExtension.swift */; };
 		95BC40792496D23D00553AB5 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40772496CE3900553AB5 /* FileManagerExtension.swift */; };
+		95BEFA4C249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */; };
+		95BEFA4D249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */; };
 		95D97394246D695B00306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97393246D695B00306537 /* Import */; };
 		95D97396246D696100306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97395246D696100306537 /* Import */; };
 		95D9739C246D89D700306537 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9739B246D89D700306537 /* BiometricUnlockButton.swift */; };
@@ -296,6 +300,7 @@
 		9561124424389EA400028F6E /* NSMenuExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSMenuExtension.swift; sourceTree = "<group>"; };
 		957D193F245026E700BCA612 /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
 		957D1942245027E500BCA612 /* CreateVaultItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemButton.swift; sourceTree = "<group>"; };
+		95836C36249E0C6C00AA6261 /* ChangeMasterPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeMasterPasswordView.swift; sourceTree = "<group>"; };
 		958555E42459E09800219BDD /* FileImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
 		9593AAB2244F21FA004740D5 /* ResultExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultExtension.swift; sourceTree = "<group>"; };
 		95A7B48F2464113600786A5C /* UnlockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedModel.swift; sourceTree = "<group>"; };
@@ -311,6 +316,7 @@
 		95B51013245AEB17003536E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		95B51015245AEB17003536E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95BC40772496CE3900553AB5 /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
+		95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeMasterPasswordModel.swift; sourceTree = "<group>"; };
 		95D97391246D670800306537 /* Import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Import; sourceTree = "<group>"; };
 		95D9739B246D89D700306537 /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
 		95D973A1246D8E5E00306537 /* BiometricUnlockPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockPreferencesView.swift; sourceTree = "<group>"; };
@@ -426,6 +432,7 @@
 				95E71D2F248A89F8004BDDAB /* BankCardDisplayModel.swift */,
 				95E71D25248A89F7004BDDAB /* BankCardEditModel.swift */,
 				95E71D2C248A89F7004BDDAB /* BiometricUnlockPreferencesModel.swift */,
+				95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */,
 				95E71D2E248A89F7004BDDAB /* Completable.swift */,
 				95E71D13248A89F6004BDDAB /* ContentModel.swift */,
 				95E71D87248A8A86004BDDAB /* CustomFieldDisplayModel.swift */,
@@ -500,6 +507,7 @@
 				5B1A0F6C2461A6330056D896 /* BankCardTypeView.swift */,
 				95D9739B246D89D700306537 /* BiometricUnlockButton.swift */,
 				95D973A1246D8E5E00306537 /* BiometricUnlockPreferencesView.swift */,
+				95836C36249E0C6C00AA6261 /* ChangeMasterPasswordView.swift */,
 				953EF2C22444BF1B00627B1B /* ContentView.swift */,
 				5BA1A7F92489355C00B6EA27 /* CustomFieldDisplayView.swift */,
 				5BA1A7FC2489359E00B6EA27 /* CustomFieldEditView.swift */,
@@ -865,10 +873,12 @@
 				95E71D85248A8A22004BDDAB /* VaultItemModelContext.swift in Sources */,
 				953EF28B2444BB7D00627B1B /* PublisherExtension.swift in Sources */,
 				95E71D57248A89F8004BDDAB /* PreferencesLoadedModel.swift in Sources */,
+				95836C37249E0C6C00AA6261 /* ChangeMasterPasswordView.swift in Sources */,
 				95B50FF92459ED6F003536E8 /* FileContentView.swift in Sources */,
 				953EF2DA2444BF1C00627B1B /* VaultItemEditView.swift in Sources */,
 				95BC40782496CE3900553AB5 /* FileManagerExtension.swift in Sources */,
 				95F90422235DEAB700B1CFDB /* main.swift in Sources */,
+				95BEFA4C249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */,
 				95E71D45248A89F8004BDDAB /* NoteEditModel.swift in Sources */,
 				9561124524389EA400028F6E /* NSMenuExtension.swift in Sources */,
 				95E71D69248A89F8004BDDAB /* BiometricUnlockPreferencesModel.swift in Sources */,
@@ -982,9 +992,11 @@
 				954AEAC6245B234200FEDE04 /* PasswordEditView.swift in Sources */,
 				952123B0246AFEEF0039F519 /* PreferencesLoadedView.swift in Sources */,
 				95E71D62248A89F8004BDDAB /* VaultItemLoadingModel.swift in Sources */,
+				95836C38249E0C6C00AA6261 /* ChangeMasterPasswordView.swift in Sources */,
 				95E71D3E248A89F8004BDDAB /* BankAccountDisplayModel.swift in Sources */,
 				95E71D68248A89F8004BDDAB /* PreferencesModel.swift in Sources */,
 				95E71D8A248A8A86004BDDAB /* CustomFieldDisplayModel.swift in Sources */,
+				95BEFA4D249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */,
 				95E71D50248A89F8004BDDAB /* FileCopyingModel.swift in Sources */,
 				954AEACF245B248800FEDE04 /* PublisherExtension.swift in Sources */,
 				95E71D4A248A89F8004BDDAB /* LoginDisplayModel.swift in Sources */,

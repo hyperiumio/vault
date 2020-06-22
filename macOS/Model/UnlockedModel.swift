@@ -3,11 +3,11 @@ import Store
 
 struct UnlockedModel {
     
-    let vaultLocation: Vault<SecureDataCryptor>.Location
+    let vault: Vault<SecureDataCryptor>
     let vaulItemCollectionModel: VaultItemCollectionModel
 
-    init(vaultLocation: Vault<SecureDataCryptor>.Location, context: UnlockedModelContext) {
-        self.vaultLocation = vaultLocation
+    init(vault: Vault<SecureDataCryptor>, context: UnlockedModelContext) {
+        self.vault = vault
         self.vaulItemCollectionModel = context.vaultItemCollectionModel()
     }
     

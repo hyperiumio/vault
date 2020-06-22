@@ -50,6 +50,14 @@ extension VaultItemCryptor {
         return version + secureData
     }
     
+    static func decryptedVaultItem(from url: URL, using masterKey: Cryptor.Key) throws -> VaultItem {
+        return try FileReader.read(url: url) { fileReader in
+            let cryptor = try VaultItemCryptor(using: masterKey, from: fileReader)
+            let itemInfo = try cryptor.decryptedItemInfo(using: masterKey, from: fileReader)
+            return try cryptor.decryptedVaultItem(for: itemInfo, using: masterKey, from: fileReader)
+        }
+    }
+    
 }
 
 private extension MultiMessageCryptor {

@@ -7,9 +7,12 @@ struct PreferencesLoadedView: View {
     var body: some View {
         
         return VStack {
-            Button(.changeMasterPassword, action: model.changeMasterPassword)
-            
             biometricSetting
+            
+            Button(.changeMasterPassword, action: model.changeMasterPassword)
+                .sheet(item: $model.changeMasterPasswordModel) { model in
+                    return ChangeMasterPasswordView(model: model)
+                }
         }
     }
     

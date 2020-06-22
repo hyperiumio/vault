@@ -1,14 +1,15 @@
 import AppKit
 import Crypto
 import Preferences
+import Store
 
 class ApplicationController: NSObject {
     
-    let preferencesWindowController = PreferencesWindowController(preferencesManager: .shared, biometricKeychain: .shared)
     let applicationWindowController = ApplicationWindowController(preferencesManager: .shared, biometricKeychain: .shared)
+    var vault: Vault<SecureDataCryptor>?
     
     @objc func showPreferences() {
-        preferencesWindowController.showWindow()
+        applicationWindowController.showPreferences()
     }
     
     @objc func lock() {
@@ -19,6 +20,8 @@ class ApplicationController: NSObject {
         switch item.action {
         case #selector(lock):
             return applicationWindowController.isLockable
+        case #selector(showPreferences):
+            return applicationWindowController.canShowPreferences
         default:
             return true
         }

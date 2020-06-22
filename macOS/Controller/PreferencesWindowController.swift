@@ -1,5 +1,6 @@
 import AppKit
 import Crypto
+import Store
 import SwiftUI
 import Preferences
 
@@ -16,13 +17,13 @@ class PreferencesWindowController: NSObject {
         super.init()
     }
     
-    func showWindow() {
+    func showWindow(using vault: Vault<SecureDataCryptor>) {
         if let window = window {
             window.makeKeyAndOrderFront(nil)
             return
         }
         
-        let context = PreferencesModelContext(preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        let context = PreferencesModelContext(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
         let preferencesModel = PreferencesModel(context: context)
         let preferencesView = PreferencesView(model: preferencesModel)
         
