@@ -31,6 +31,7 @@
 "Created" = "created";
 "CreatePasswordAdvice" = "Don't use a short master password with alot of hard to remember special characters. Instead use an easy to remember, long password.";
 "CreateVault" = "Create new vault";
+"CurrentMasterPassword" = "Current Master Password";
 "CustomField" = "Custom Field";
 "CustomFieldName" = "Field Name";
 "CustomFieldValue" = "Field Value";
@@ -55,13 +56,16 @@
 "IncludeUppercase" = "Include Uppercase";
 "IncludeDigits" = "Include Digits";
 "IncludeSpecialCharacters" = "Include Special Characters";
+"InvalidCurrentPassword" = "Your current master password is invalid";
 "Length" = "Length";
 "LoadFailed" = "Vault could not be loaded";
 "Lock" = "Lock";
 "Login" = "Login";
 "MasterPassword" = "Master Password";
+"MasterPasswordChangeDidFail" = "The change of the master password did fail. Try again.";
 "Minimize" = "Minimize";
 "Modified" = "modified";
+"NewMasterPassword" = "New Master Password";
 "Next" = "Continue";
 "NoMatches" = "Sorry, no matches";
 "Note" = "Note";
@@ -74,6 +78,7 @@
 "QuitApp" = "Quit Vault";
 "Redo" = "Redo";
 "RepeatPassword" = "Repeat Master Password";
+"RepeatNewPassword" = "Repeat new Master Password";
 "Retry" = "Retry";
 "ReusePasswordAdvice" = "Never reuse a password. Never ever.";
 "Save" = "Save";

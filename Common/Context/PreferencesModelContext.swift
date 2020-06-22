@@ -4,6 +4,7 @@ import Preferences
 
 struct PreferencesModelContext {
     
+    let vault: Vault<SecureDataCryptor>
     let preferencesManager: PreferencesManager
     let biometricKeychain: BiometricKeychain
     
@@ -12,7 +13,7 @@ struct PreferencesModelContext {
     }
     
     func loadedModel() -> PreferencesLoadedModel {
-        return PreferencesLoadedModel(preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        return PreferencesLoadedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
 }

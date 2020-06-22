@@ -11,6 +11,10 @@ class ApplicationWindowController: NSObject {
         contentModelContext.responder?.isLockable ?? false
     }
     
+    var canShowPreferences: Bool {
+        contentModelContext.responder?.canShowPreferences ?? false
+    }
+    
     private let preferencesManager: PreferencesManager
     private let contentModelContext: ContentModelContext
     private let window: NSWindow
@@ -61,6 +65,10 @@ class ApplicationWindowController: NSObject {
     
     func lock() {
         contentModelContext.responder?.lock()
+    }
+    
+    func showPreferences() {
+        contentModelContext.responder?.showPreferences()
     }
     
 }

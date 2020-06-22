@@ -1,7 +1,7 @@
 import Combine
 import Crypto
 import Foundation
-import  Store
+import Store
 
 class ContentModel: ObservableObject {
     
@@ -11,6 +11,10 @@ class ContentModel: ObservableObject {
         }
     }
     
+    #if canImport(AppKit)
+    private let preferencesWindowController: PreferencesWindowController
+    #endif
+    
     private let context: ContentModelContext
     private var stateTransitionSubscription: AnyCancellable?
     
@@ -18,16 +22,24 @@ class ContentModel: ObservableObject {
         let model = context.setupModel(vaultDirectory: vaultDirectory)
         self.state = .setup(model)
         self.context = context
+        
+        #if canImport(AppKit)
+        self.preferencesWindowController = PreferencesWindowController(preferencesManager: context.preferencesManager, biometricKeychain: context.biometricKeychain)
         context.responder = self
+        #endif
         
         setupStateTransitions()
     }
     
-    init(lockedWithVaultLocation vaultLocation: Vault<SecureDataCryptor>.Location, context: ContentModelContext) {
+    init(lockedWithVaultLocation vaultLocation: VaultLocation, context: ContentModelContext) {
         let model = context.lockedModel(vaultLocation: vaultLocation)
         self.state = .locked(model)
         self.context = context
+        
+        #if canImport(AppKit)
+        self.preferencesWindowController = PreferencesWindowController(preferencesManager: context.preferencesManager, biometricKeychain: context.biometricKeychain)
         context.responder = self
+        #endif
         
         setupStateTransitions()
     }
@@ -64,7 +76,17 @@ class ContentModel: ObservableObject {
     
 }
 
+#if canImport(AppKit)
 extension ContentModel: ContentModelContextResponder {
+    
+    var canShowPreferences: Bool {
+        switch state {
+        case .setup, .locked:
+            return false
+        case .unlocked:
+            return true
+        }
+    }
     
     var isLockable: Bool {
         switch state {
@@ -78,14 +100,24 @@ extension ContentModel: ContentModelContextResponder {
     func lock() {
         switch state {
         case .unlocked(let model):
-            let model = context.lockedModel(vaultLocation: model.vaultLocation)
+            let model = context.lockedModel(vaultLocation: model.vault.location)
             state = .locked(model)
         case .setup, .locked:
            return
         }
     }
     
+    func showPreferences() {
+        switch state {
+        case .unlocked(let model):
+            preferencesWindowController.showWindow(using: model.vault)
+        case .setup, .locked:
+           return
+        }
+    }
+    
 }
+#endif
 
 extension ContentModel {
     

@@ -21,13 +21,13 @@ class LockedModel: ObservableObject {
     
     let didOpenVault = PassthroughSubject<Vault<SecureDataCryptor>, Never>()
     
-    private let vaultLocation: Vault<SecureDataCryptor>.Location
+    private let vaultLocation: VaultLocation
     private let biometricKeychain: BiometricKeychain
     
     private var openVaultSubscription: AnyCancellable?
     private var loadBiometricUnlockMethodSubscription: AnyCancellable?
     
-    init(vaultLocation: Vault<SecureDataCryptor>.Location, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vaultLocation: VaultLocation, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vaultLocation = vaultLocation
         self.biometricKeychain = biometricKeychain
         

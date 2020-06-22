@@ -4,15 +4,15 @@ import Store
 
 struct VaultItemModelContext {
     
-    let itemInfo: VaultItemStore<SecureDataCryptor>.ItemInfo
-    let store: VaultItemStore<SecureDataCryptor>
+    let itemToken: VaultItemToken<SecureDataCryptor>
+    let vault: Vault<SecureDataCryptor>
     
     func vaultItemLoadingModel() -> VaultItemLoadingModel {
-        return VaultItemLoadingModel(itemInfo: itemInfo, store: store)
+        return VaultItemLoadingModel(itemToken: itemToken, vault: vault)
     }
     
     func vaultItemLoadedModelContext() -> VaultItemLoadedModelContext {
-        return VaultItemLoadedModelContext(store: store)
+        return VaultItemLoadedModelContext(vault: vault)
     }
     
 }

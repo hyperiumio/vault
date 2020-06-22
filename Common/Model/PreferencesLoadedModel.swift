@@ -7,17 +7,21 @@ import Store
 class PreferencesLoadedModel: ObservableObject {
     
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
+    @Published var changeMasterPasswordModel: ChangeMasterPasswordModel?
     @Published var biometricAvailablity: BiometricKeychain.Availablity
     @Published var isBiometricUnlockEnabled: Bool
     
+    private let vault: Vault<SecureDataCryptor>
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     
     private var preferencesDidChangeSubscription: AnyCancellable?
     private var biometricAvailabilityDidChangeSubscription: AnyCancellable?
     private var biometricUnlockPreferencesSubscription: AnyCancellable?
+    private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault<SecureDataCryptor>, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vault = vault
         self.biometricAvailablity = biometricKeychain.availability
         self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled
         self.preferencesManager = preferencesManager
@@ -57,15 +61,30 @@ class PreferencesLoadedModel: ObservableObject {
                     preferencesManager.set(isBiometricUnlockEnabled: true)
                 }
                 
-                self.biometricUnlockPreferencesSubscription = nil
                 self.biometricUnlockPreferencesModel = nil
+                self.biometricUnlockPreferencesSubscription = nil
             }
         
         self.biometricUnlockPreferencesModel = biometricUnlockPreferencesModel
     }
     
     func changeMasterPassword() {
+        let changeMasterPasswordModel = ChangeMasterPasswordModel(vault: vault)
+        changeMasterPasswordSubscription = changeMasterPasswordModel.completion()
+            .sink { [weak self] completion in
+                guard let self = self else {
+                    return
+                }
+                
+                if case .passwordChanged(let id) = completion {
+                    self.preferencesManager.set(activeVaultIdentifier: id)
+                }
+                
+                self.changeMasterPasswordModel = nil
+                self.changeMasterPasswordSubscription = nil
+            }
         
+        self.changeMasterPasswordModel = changeMasterPasswordModel
     }
     
 }

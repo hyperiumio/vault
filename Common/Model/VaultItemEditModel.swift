@@ -19,15 +19,15 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
     internal var completionPromise: Future<Completion, Never>.Promise?
     
     private let originalVaultItem: VaultItem
-    private let store: VaultItemStore<SecureDataCryptor>
+    private let vault: Vault<SecureDataCryptor>
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(vaultItem: VaultItem, store: VaultItemStore<SecureDataCryptor>) {
+    init(vaultItem: VaultItem, vault: Vault<SecureDataCryptor>) {
         self.originalVaultItem = vaultItem
         self.title = vaultItem.title
         self.secureItemModels = vaultItem.secureItems.map(SecureItemEditModel.init)
-        self.store = store
+        self.vault = vault
         
         let willChangePublishers = secureItemModels.map(\.objectWillChange)
         self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
@@ -56,7 +56,7 @@ class VaultItemEditModel: ObservableObject, Identifiable, Completable {
         let vaultItem = VaultItem(id: originalVaultItem.id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
         
         isLoading = true
-        saveSubscription = store.saveVaultItem(vaultItem)
+        saveSubscription = vault.saveVaultItem(vaultItem)
             .receive(on: DispatchQueue.main)
             .result { [weak self] result in
                 guard let self = self else {
