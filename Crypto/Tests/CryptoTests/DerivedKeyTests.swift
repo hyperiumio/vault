@@ -17,6 +17,7 @@ class DerivedKeyTests: XCTestCase {
     }
     
     func testDerivedKeySuccess() throws {
+        XCTAssertEqual(1, 2)
         let expectedKeyData = Data(0 ..< 32)
         
         DerivedKeyKDF = { _, _, _, _, _, buffer, _ in
