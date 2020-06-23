@@ -5,4 +5,7 @@ jobs:
     name: Run Tests
     runs-on: macos-10.15
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Test Crypto Package
+      run: xcodebuild test -target 'Vault macOS' -scheme 'Crypto'
