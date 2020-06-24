@@ -9,8 +9,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Test Crypto package
         run: xcodebuild test -quiet -scheme 'Crypto'
-      - name: Test Import package
-        run: xcodebuild test -quiet -scheme 'Import'
       - name: Test Pasteboard package
         run: xcodebuild test -quiet -scheme 'Pasteboard'
       - name: Test Preferences package
