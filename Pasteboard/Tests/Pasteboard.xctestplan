@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "201CE130-63CD-47F7-B0D1-F546531C336B",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "PasteboardTests",
+        "name" : "PasteboardTests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "8CFC3F0B-A992-40CC-A472-5C30F937A81F",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "PreferencesTests",
+        "name" : "PreferencesTests"
+      }
+    }
+  ],
+  "version" : 1
+}

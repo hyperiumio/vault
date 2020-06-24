@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DA9972A9-C5E7-4C58-B57C-73A9E9830648",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SearchTests",
+        "name" : "SearchTests"
+      }
+    }
+  ],
+  "version" : 1
+}

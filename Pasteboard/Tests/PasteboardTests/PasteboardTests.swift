@@ -1,4 +1,10 @@
 import XCTest
 @testable import Pasteboard
 
-final class PasteboardTests: XCTestCase {}
+final class PasteboardTests: XCTestCase {
+    
+    func testSuccess() {
+        
+    }
+    
+}

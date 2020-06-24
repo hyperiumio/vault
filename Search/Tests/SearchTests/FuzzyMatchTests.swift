@@ -1,4 +1,10 @@
 import XCTest
 @testable import Search
 
-final class FuzzyMatchTests: XCTestCase {}
+final class FuzzyMatchTests: XCTestCase {
+    
+    func testSuccess() {
+        
+    }
+    
+}
