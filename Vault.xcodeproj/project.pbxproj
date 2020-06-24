@@ -133,8 +133,6 @@
 		95BC40792496D23D00553AB5 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC40772496CE3900553AB5 /* FileManagerExtension.swift */; };
 		95BEFA4C249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */; };
 		95BEFA4D249E0982003FD9E6 /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */; };
-		95D97394246D695B00306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97393246D695B00306537 /* Import */; };
-		95D97396246D696100306537 /* Import in Frameworks */ = {isa = PBXBuildFile; productRef = 95D97395246D696100306537 /* Import */; };
 		95D9739C246D89D700306537 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9739B246D89D700306537 /* BiometricUnlockButton.swift */; };
 		95D9739D246D89D700306537 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9739B246D89D700306537 /* BiometricUnlockButton.swift */; };
 		95D973A2246D8E5E00306537 /* BiometricUnlockPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D973A1246D8E5E00306537 /* BiometricUnlockPreferencesView.swift */; };
@@ -317,7 +315,6 @@
 		95B51015245AEB17003536E8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		95BC40772496CE3900553AB5 /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
 		95BEFA4B249E0982003FD9E6 /* ChangeMasterPasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeMasterPasswordModel.swift; sourceTree = "<group>"; };
-		95D97391246D670800306537 /* Import */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Import; sourceTree = "<group>"; };
 		95D9739B246D89D700306537 /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
 		95D973A1246D8E5E00306537 /* BiometricUnlockPreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockPreferencesView.swift; sourceTree = "<group>"; };
 		95E71D0D248A88FC004BDDAB /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
@@ -382,7 +379,6 @@
 				95E71D0F248A894B004BDDAB /* Store in Frameworks */,
 				95142FBE2461F86000467C5C /* Crypto in Frameworks */,
 				951DAC84248A635500B18311 /* Preferences in Frameworks */,
-				95D97394246D695B00306537 /* Import in Frameworks */,
 				956105EF248A696A0031BB4C /* Pasteboard in Frameworks */,
 				951DAC60248A5B5200B18311 /* Search in Frameworks */,
 			);
@@ -395,7 +391,6 @@
 				95E71D11248A8952004BDDAB /* Store in Frameworks */,
 				95142FC02461F86600467C5C /* Crypto in Frameworks */,
 				951DAC82248A634E00B18311 /* Preferences in Frameworks */,
-				95D97396246D696100306537 /* Import in Frameworks */,
 				956105ED248A69630031BB4C /* Pasteboard in Frameworks */,
 				951DAC62248A5B5900B18311 /* Search in Frameworks */,
 			);
@@ -572,7 +567,6 @@
 			isa = PBXGroup;
 			children = (
 				950E89F72462D81600EBFD66 /* Crypto */,
-				95D97391246D670800306537 /* Import */,
 				956105EB248A68570031BB4C /* Pasteboard */,
 				951DAC80248A631300B18311 /* Preferences */,
 				951DAC5D248A5B0A00B18311 /* Search */,
@@ -706,7 +700,6 @@
 			name = "Vault macOS";
 			packageProductDependencies = (
 				95142FBD2461F86000467C5C /* Crypto */,
-				95D97393246D695B00306537 /* Import */,
 				951DAC5F248A5B5200B18311 /* Search */,
 				951DAC83248A635500B18311 /* Preferences */,
 				956105EE248A696A0031BB4C /* Pasteboard */,
@@ -731,7 +724,6 @@
 			name = "Vault iOS";
 			packageProductDependencies = (
 				95142FBF2461F86600467C5C /* Crypto */,
-				95D97395246D696100306537 /* Import */,
 				951DAC61248A5B5900B18311 /* Search */,
 				951DAC81248A634E00B18311 /* Preferences */,
 				956105EC248A69630031BB4C /* Pasteboard */,
@@ -1423,14 +1415,6 @@
 		956105EE248A696A0031BB4C /* Pasteboard */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Pasteboard;
-		};
-		95D97393246D695B00306537 /* Import */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Import;
-		};
-		95D97395246D696100306537 /* Import */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Import;
 		};
 		95E71D0E248A894B004BDDAB /* Store */ = {
 			isa = XCSwiftPackageProductDependency;
