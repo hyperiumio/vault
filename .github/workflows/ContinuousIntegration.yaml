@@ -5,7 +5,17 @@ jobs:
     name: Run tests
     runs-on: macos-10.15
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-    - name: Test crypto package
-      run: xcodebuild test -quiet -target 'Vault macOS' -scheme 'Crypto'
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Test Crypto package
+        run: xcodebuild test -quiet -scheme 'Crypto'
+      - name: Test Import package
+        run: xcodebuild test -quiet -scheme 'Import'
+      - name: Test Pasteboard package
+        run: xcodebuild test -quiet -scheme 'Pasteboard'
+      - name: Test Preferences package
+        run: xcodebuild test -quiet -scheme 'Preferences'
+      - name: Test Search package
+        run: xcodebuild test -quiet -scheme 'Search'
+      - name: Test Store package
+        run: xcodebuild test -quiet -scheme 'Store'
