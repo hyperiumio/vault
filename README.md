@@ -1,3 +1,1 @@
-# vault
-
-rm -r ~/Library/Containers/io.hyperium.vault
+![Continuous integration](https://github.com/hyperiumio/vault/workflows/Continuous%20integration/badge.svg?branch=master&event=push)
