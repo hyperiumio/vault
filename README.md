@@ -1,1 +1,1 @@
-![Continuous integration](https://github.com/hyperiumio/vault/workflows/Continuous%20integration/badge.svg?branch=master&event=push)
+![CI](https://github.com/hyperiumio/vault/workflows/CI/badge.svg?branch=master&event=push)
