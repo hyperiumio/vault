@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Select Xcode version
+        run: xcode-select -s /Applications/Xcode_12_beta.app
       - name: Test Crypto package
         run: xcodebuild test -quiet -scheme 'Crypto'
       - name: Test Pasteboard package
