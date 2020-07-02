@@ -1,5 +1,14 @@
 import Foundation
 
+// TODO: remove shim after setting deployment target to 10.16
+extension FileHandle {
+    
+    func read(upToCount count: Int) throws -> Data? {
+        return readData(ofLength: count)
+    }
+    
+}
+
 public final class FileReader {
     
     private let fileHandle: FileHandle
