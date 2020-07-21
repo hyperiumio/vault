@@ -1,9 +1,13 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 
 import PackageDescription
 
 let package = Package(
     name: "Pasteboard",
+    platforms: [
+        .macOS(.v10_16),
+        .iOS(.v14)
+    ],
     products: [
         .library(name: "Pasteboard", targets: ["Pasteboard"])
     ],

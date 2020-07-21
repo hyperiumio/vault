@@ -33,7 +33,7 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
         }
     }
     
-    public func loadVaultItem(for itemToken: VaultItemToken<Cryptor>) -> Future<VaultItem, Error> {
+    public func loadVaultItem(for itemToken: VaultItemToken<Cryptor>) -> AnyPublisher<VaultItem, Error> {
         return storeOperationQueue.future { [configuration] in
             return Result<VaultItem, Error> {
                 let itemUrl = configuration.location.item(matching: itemToken.id)
@@ -42,9 +42,10 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
                 }
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public func saveVaultItem(_ vaultItem: VaultItem) -> Future<Void, Error> {
+    public func saveVaultItem(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         return storeOperationQueue.future { [configuration, didChange] in
             return Result {
                 let itemUrl = configuration.location.item(matching: vaultItem.id)
@@ -52,19 +53,24 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
                 didChange.send()
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public func deleteVaultItem(id: UUID) -> Future<Void, Error> {
+    public func deleteVaultItem(id: UUID) -> AnyPublisher<UUID, Error> {
         return storeOperationQueue.future { [configuration, didChange] in
             return Result {
+                defer {
+                    didChange.send()
+                }
                 let itemUrl = configuration.location.item(matching: id)
                 try FileManager.default.removeItem(at: itemUrl)
-                didChange.send()
+                return id
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public func changeMasterPassword(to newPassword: String) -> Future<UUID, Error> {
+    public func changeMasterPassword(to newPassword: String) -> AnyPublisher<UUID, Error> {
         return storeOperationQueue.future {
             return Result {
                 let oldVaultLocation = self.configuration.location
@@ -93,13 +99,14 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
                 return newVaultInfo.id
             }
         }
+        .eraseToAnyPublisher()
     }
     
 }
 
 extension Vault {
     
-    public static func vaultLocation(for vaultId: UUID, inDirectory directoryUrl: URL) -> Future<VaultLocation?, Error> {
+    public static func vaultLocation(for vaultId: UUID, inDirectory directoryUrl: URL) -> AnyPublisher<VaultLocation?, Error> {
         return DispatchQueue.global().future {
             return Result<VaultLocation?, Error> {
                 guard FileManager.default.fileExists(atPath: directoryUrl.path) else {
@@ -120,9 +127,10 @@ extension Vault {
                     }
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public static func open(at location: VaultLocation, using password: String) -> Future<Vault, Error> {
+    public static func open(at location: VaultLocation, using password: String) -> AnyPublisher<Vault, Error> {
         return DispatchQueue.global().future {
             return Result<Vault<Cryptor>, Error> {
                 let vaultInfo = try Data(contentsOf: location.info).map { data in
@@ -136,9 +144,10 @@ extension Vault {
                 return try Vault(info: vaultInfo, location: location, cryptoKey: cryptoKey)
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public static func create(inDirectory directoryUrl: URL, using password: String) -> Future<Vault, Error> {
+    public static func create(inDirectory directoryUrl: URL, using password: String) -> AnyPublisher<Vault, Error> {
         return DispatchQueue.global().future {
             return Result<Vault<Cryptor>, Error> {
                 let vaultLocation = try VaultLocation(in: directoryUrl)
@@ -154,6 +163,7 @@ extension Vault {
                 return try Vault(info: vaultInfo, location: vaultLocation, cryptoKey: cryptoKey)
             }
         }
+        .eraseToAnyPublisher()
     }
     
 }

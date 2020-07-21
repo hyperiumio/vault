@@ -4,6 +4,7 @@ public struct VaultItemToken<Cryptor> where Cryptor: MultiMessageCryptor {
     
     public var id: UUID { itemInfo.id }
     public var title: String { itemInfo.title }
+    public var typeIdentifier: SecureItem.TypeIdentifier { itemInfo.primaryTypeIdentifier }
     
     private let itemInfo: VaultItem.Info
     private let cryptor: VaultItemCryptor<Cryptor>

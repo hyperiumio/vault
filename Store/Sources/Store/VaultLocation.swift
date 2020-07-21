@@ -41,7 +41,7 @@ public struct VaultLocation {
     }
     
     public var itemDirectory: URL {
-        return vaultDirectory.appendingPathComponent("item", isDirectory: true)
+        return vaultDirectory.appendingPathComponent("items", isDirectory: true)
     }
     
     public func item(matching id: UUID) -> URL {

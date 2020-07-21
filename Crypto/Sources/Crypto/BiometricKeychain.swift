@@ -18,16 +18,17 @@ public class BiometricKeychain {
     
     public var availability: Availablity { availabilityDidChangeSubject.value }
     
+    private let operationQueue = DispatchQueue(label: "BiometricKeychainOperationQueue")
     private let context: LAContext
     private let availabilityDidChangeSubject: CurrentValueSubject<Availablity, Never>
-    private let operationQueue = DispatchQueue(label: "BiometricKeychainOperationQueue")
     
     private init() {
         let context = LAContext()
         let availability = Availablity(from: context)
+        let availabilityDidChangeSubject = CurrentValueSubject<Availablity, Never>(availability)
         
         self.context = context
-        self.availabilityDidChangeSubject = CurrentValueSubject<Availablity, Never>(availability)
+        self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
     public func storePassword(_ password: String, identifier: String) -> Future<Void, Error> {
@@ -129,7 +130,6 @@ extension BiometricKeychain {
         
         case notAvailable
         case notEnrolled
-        case notAccessible
         case touchID
         case faceID
         
@@ -143,12 +143,10 @@ extension BiometricKeychain {
                 self = .touchID
             case (true, .faceID, _):
                 self = .faceID
-            case (false, .none, _):
-                self = .notAvailable
             case (false, _, LAError.biometryNotEnrolled.rawValue):
                 self = .notEnrolled
             default:
-                self = .notAccessible
+                self = .notAvailable
             }
         }
         

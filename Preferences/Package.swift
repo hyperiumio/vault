@@ -1,12 +1,12 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 
 import PackageDescription
 
 let package = Package(
     name: "Preferences",
     platforms: [
-        .macOS(.v10_15),
-        .iOS(.v13)
+        .macOS(.v10_16),
+        .iOS(.v14)
     ],
     products: [
         .library(name: "Preferences", targets: ["Preferences"])
