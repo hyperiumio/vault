@@ -6,6 +6,7 @@ struct ErrorBadge: View {
     
     var body: some View {
         Text(message)
+            .font(.footnote)
             .multilineTextAlignment(.center)
             .padding(edgeInsets)
             .background(Color.red)
@@ -14,7 +15,7 @@ struct ErrorBadge: View {
     }
     
     var clipShape: some Shape {
-        RoundedRectangle(cornerRadius: 15, style: .continuous)
+        Capsule(style: .continuous)
     }
     
     var edgeInsets: EdgeInsets {

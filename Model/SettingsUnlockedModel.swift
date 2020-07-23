@@ -39,12 +39,12 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
         
         biometricKeychain.availabilityDidChange
             .receive(on: DispatchQueue.main)
-            .assign(to: $biometricAvailablity)
+            .assign(to: &$biometricAvailablity)
         
         preferencesManager.didChange
             .map { preferences in preferences.isBiometricUnlockEnabled }
             .receive(on: DispatchQueue.main)
-            .assign(to: $isBiometricUnlockEnabled)
+            .assign(to: &$isBiometricUnlockEnabled)
     }
     
     func lockVault() {
@@ -61,7 +61,7 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
         model.event
             .map { _ in nil }
             .receive(on: DispatchQueue.main)
-            .assign(to: $biometricUnlockPreferencesModel)
+            .assign(to: &$biometricUnlockPreferencesModel)
         
         self.biometricUnlockPreferencesModel = model
     }
@@ -71,7 +71,7 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
         model.event
             .map { _ in nil }
             .receive(on: DispatchQueue.main)
-            .assign(to: $changeMasterPasswordModel)
+            .assign(to: &$changeMasterPasswordModel)
         
         self.changeMasterPasswordModel = model
     }

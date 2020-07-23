@@ -41,7 +41,7 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         
         Publishers.Merge3($currentPassword, $newPassword, $repeatedNewPassword)
             .map { _ in .none }
-            .assign(to: $status)
+            .assign(to: &$status)
     }
     
     func cancel() {

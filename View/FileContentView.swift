@@ -6,7 +6,7 @@ struct FileContentView: View {
     let fileData: Data
     let fileFormat: FileItem.Format
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch fileFormat {
         case .unrepresentable:
             Text("?")

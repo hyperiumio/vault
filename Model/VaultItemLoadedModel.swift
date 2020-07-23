@@ -17,7 +17,7 @@ class VaultItemLoadedModel: ObservableObject {
                         }
                     }
                     .receive(on: DispatchQueue.main)
-                    .assign(to: $state)
+                    .assign(to: &$state)
             case .edit(let model):
                 model.event
                     .map { event in
@@ -28,7 +28,7 @@ class VaultItemLoadedModel: ObservableObject {
                         }
                     }
                     .receive(on: DispatchQueue.main)
-                    .assign(to: $state)
+                    .assign(to: &$state)
             }
         }
     }
@@ -50,7 +50,7 @@ class VaultItemLoadedModel: ObservableObject {
                 }
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: $state)
+            .assign(to: &$state)
     }
     
 }

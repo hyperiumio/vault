@@ -84,7 +84,7 @@ class UnlockedModel: ObservableObject {
             .map { _ in nil }
             .catch { _ in Just(Failure.deleteOperationFailed) }
             .receive(on: DispatchQueue.main)
-            .assign(to: $failure)
+            .assign(to: &$failure)
     }
     
 }

@@ -21,7 +21,7 @@ class FileCopyingModel: ObservableObject {
 
         task.progress.publisher(for: \.fractionCompleted)
             .receive(on: DispatchQueue.main)
-            .assign(to: $progress)
+            .assign(to: &$progress)
         
         task.resume()
     }

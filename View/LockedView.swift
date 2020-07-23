@@ -7,18 +7,12 @@ struct LockedView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: "lock.square.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-                .padding()
-            
-            SecureField(LocalizedString.masterPassword, text: $model.password, onCommit: model.loginWithMasterPassword)
+            UnlockField(title: LocalizedString.masterPassword, text: $model.password, unlock: model.loginWithMasterPassword)
                 .frame(maxWidth: 300)
                 .disabled(model.textInputDisabled)
             
-            Button(LocalizedString.unlockVault, action: model.loginWithMasterPassword)
-                .disabled(model.decryptMasterKeyButtonDisabled)
+            Spacer()
+                .frame(maxHeight: 30)
             
             switch model.biometricUnlockAvailability {
             case .touchID:
@@ -29,18 +23,19 @@ struct LockedView: View {
                 EmptyView()
             }
 
+            Spacer()
+                .frame(maxHeight: 30)
+            
             switch model.status {
-            case .none:
+            case .none, .unlocking:
                 EmptyView()
-            case .unlocking:
-                ProgressView()
             case .invalidPassword:
-                Text(LocalizedString.wrongPassword)
-                    .padding()
+                ErrorBadge(LocalizedString.wrongPassword)
             case .unlockDidFail:
-                Text(LocalizedString.unlockFailed)
+                ErrorBadge(LocalizedString.unlockFailed)
             }
         }
+        .padding()
     }
     
 }

@@ -4,7 +4,7 @@ struct SecureItemEditView: View {
     
     let secureItemModel: SecureItemEditModel
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch secureItemModel {
         case .login(let model):
             LoginEditView(model: model)

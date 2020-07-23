@@ -7,7 +7,7 @@ struct VaultApp: App {
     
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    @SceneBuilder var body: some Scene {
+    var body: some Scene {
         WindowGroup {
             AppView(model: appDelegate.appModel)
         }

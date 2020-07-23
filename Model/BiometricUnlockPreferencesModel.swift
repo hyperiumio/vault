@@ -39,7 +39,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
         
         $password
             .map { _ in .none }
-            .assign(to: $status)
+            .assign(to: &$status)
     }
     
     func cancel() {

@@ -5,7 +5,7 @@ struct BankCardTypeView: View {
     
     let vendor: BankCardItem.Vendor
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch vendor {
         case .masterCard:
             Text("MasterCard")

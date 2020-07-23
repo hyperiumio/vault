@@ -22,7 +22,7 @@ class VaultItemModel: ObservableObject {
                 }
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: $state)
+            .assign(to: &$state)
     }
     
 }
