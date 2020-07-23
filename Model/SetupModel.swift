@@ -27,7 +27,7 @@ class SetupModel: ObservableObject {
         
         Publishers.Merge($password, $repeatedPassword)
             .map { _ in .none }
-            .assign(to: $status)
+            .assign(to: &$status)
     }
     
     func createMasterKey() {

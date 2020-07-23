@@ -4,7 +4,7 @@ struct VaultItemLoadedView: View {
     
     @ObservedObject var model: VaultItemLoadedModel
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch model.state {
         case .display(let model):
             VaultItemDisplayView(model: model)

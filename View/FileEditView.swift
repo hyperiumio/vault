@@ -4,7 +4,7 @@ struct FileEditView: View {
     
     @ObservedObject var model: FileEditModel
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch model.state {
         case .empty(let model):
             FileStateEmptyView(model: model)

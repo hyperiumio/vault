@@ -5,7 +5,7 @@ struct SettingsView: View {
     
     @ObservedObject var model: SettingsModel
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch model.state {
         case .locked:
             SettingsLockedView()

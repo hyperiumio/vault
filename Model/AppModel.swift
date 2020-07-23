@@ -16,12 +16,12 @@ class AppModel: ObservableObject {
         
         state.transition(using: context, lockVault: lock)
             .receive(on: DispatchQueue.main)
-            .assign(to: $state)
+            .assign(to: &$state)
         
         $state
             .flatMap { state in state.transition(using: context, lockVault: self.lock) }
             .receive(on: DispatchQueue.main)
-            .assign(to: $state)
+            .assign(to: &$state)
         
         model.load()
     }

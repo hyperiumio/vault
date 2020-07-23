@@ -14,7 +14,7 @@ class FileEditModel: ObservableObject, Identifiable {
                         return .copying(model)
                     }
                     .receive(on: DispatchQueue.main)
-                    .assign(to: $state)
+                    .assign(to: &$state)
             case .copying(let model):
                 model.didReceiveData
                     .map { file in
@@ -22,7 +22,7 @@ class FileEditModel: ObservableObject, Identifiable {
                         return .loaded(model)
                     }
                     .receive(on: DispatchQueue.main)
-                    .assign(to: $state)
+                    .assign(to: &$state)
                 return
             case .loaded:
                 return

@@ -11,6 +11,7 @@ struct BiometricUnlockButton: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
+                .foregroundColor(.accentColor)
         }
         .buttonStyle(buttonStyle)
         .padding()
@@ -39,3 +40,14 @@ extension BiometricUnlockButton {
     }
     
 }
+
+#if DEBUG
+struct BiometricUnlockButtonPreview: PreviewProvider {
+    
+    static var previews: some View {
+        BiometricUnlockButton(biometricType: .faceID, action: {})
+            .preferredColorScheme(.dark)
+    }
+    
+}
+#endif

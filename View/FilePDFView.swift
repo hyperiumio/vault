@@ -4,7 +4,7 @@ struct FilePDFView: View {
     
     let data: Data
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         if let document = PDFDocument(data: data) {
             PDFView(document: document)
         } else {

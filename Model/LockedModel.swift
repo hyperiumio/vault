@@ -27,11 +27,11 @@ class LockedModel: ObservableObject {
         Publishers.CombineLatest(preferencesManager.didChange, biometricKeychain.availabilityDidChange)
             .map { preferences, biometricAvailability in preferences.isBiometricUnlockEnabled ? biometricAvailability : .notAvailable }
             .receive(on: DispatchQueue.main)
-            .assign(to: $biometricUnlockAvailability)
+            .assign(to: &$biometricUnlockAvailability)
         
         $password
             .map { _ in .none }
-            .assign(to: $status)
+            .assign(to: &$status)
     }
     
     func loginWithMasterPassword() {

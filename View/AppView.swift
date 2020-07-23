@@ -40,9 +40,7 @@ struct AppView: View {
                     SetupView(model: model)
                 }
             case .locked(let model):
-                ScrollView(showsIndicators: false) {
-                    LockedView(model: model)
-                }
+                LockedView(model: model)
             case .unlocked(let unlockedModel):
                 UnlockedView(model: unlockedModel)
                     .environmentObject(model)

@@ -4,7 +4,7 @@ struct SecureItemDisplayView: View {
     
     let model: SecureItemDisplayModel
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         switch model {
         case .login(let model):
             LoginDisplayView(model: model)

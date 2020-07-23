@@ -2,92 +2,48 @@ import Localization
 import SwiftUI
 import Store
 
-#if os(macOS)
 struct CreateVaultItemButton: View {
     
     let action: (SecureItem.TypeIdentifier) -> Void
     
     var body: some View {
         Menu {
-            Button(LocalizedString.login, systemImage: "person.fill") { action(.login) }
+            VaultItemButton(title: LocalizedString.login, systemImage: "person.fill", typeIdentifier: .login, action: action)
             
-            Button(LocalizedString.password, systemImage: "key.fill") { action(.password) }
+            VaultItemButton(title: LocalizedString.password, systemImage: "key.fill", typeIdentifier: .password, action: action)
             
-            Button(LocalizedString.file, systemImage: "paperclip") { action(.file) }
+            VaultItemButton(title: LocalizedString.file, systemImage: "paperclip", typeIdentifier: .file, action: action)
             
-            Button(LocalizedString.note, systemImage: "note.text") { action(.note) }
+            VaultItemButton(title: LocalizedString.note, systemImage: "note.text", typeIdentifier: .note, action: action)
             
-            Button(LocalizedString.bankCard, systemImage: "creditcard.fill") { action(.bankCard) }
+            VaultItemButton(title: LocalizedString.bankCard, systemImage: "creditcard.fill", typeIdentifier: .bankCard, action: action)
             
-            Button(LocalizedString.wifi, systemImage: "wifi") { action(.wifi) }
+            VaultItemButton(title: LocalizedString.wifi, systemImage: "wifi", typeIdentifier: .wifi, action: action)
             
-            Button(LocalizedString.bankAccount, systemImage: "dollarsign.circle.fill") { action(.bankAccount) }
+            VaultItemButton(title: LocalizedString.bankAccount, systemImage: "dollarsign.circle.fill", typeIdentifier: .bankAccount, action: action)
             
-            Button(LocalizedString.customField, systemImage: "scribble.variable") { action(.customField) }
+            VaultItemButton(title: LocalizedString.customField, systemImage: "scribble.variable", typeIdentifier: .customField, action: action)
         } label: {
             Image(systemName: "plus")
                 .foregroundColor(.accentColor)
         }
-        .menuStyle(BorderlessButtonMenuStyle())
-        .fixedSize()
     }
     
 }
-#endif
 
-#if os(iOS)
-struct CreateVaultItemButton: View {
+
+private struct VaultItemButton: View {
     
+    let title: String
+    let systemImage: String
+    let typeIdentifier: SecureItem.TypeIdentifier
     let action: (SecureItem.TypeIdentifier) -> Void
-    
-    @State private var isSheetVisible = false
     
     var body: some View {
         Button {
-            isSheetVisible = true
+            action(typeIdentifier)
         } label: {
-            Image(systemName: "plus")
-        }
-        .actionSheet(isPresented: $isSheetVisible) {
-            let buttons = [
-                .default(Text(LocalizedString.login)) {
-                    action(.login)
-                },
-                .default(Text(LocalizedString.password)) {
-                    action(.password)
-                },
-                .default(Text(LocalizedString.file)) {
-                    action(.file)
-                },
-                .default(Text(LocalizedString.note)) {
-                    action(.note)
-                },
-                .default(Text(LocalizedString.bankCard)) {
-                    action(.bankCard)
-                },
-                .default(Text(LocalizedString.wifi)) {
-                    action(.wifi)
-                },
-                .default(Text(LocalizedString.bankAccount)) {
-                    action(.bankAccount)
-                },
-                .default(Text(LocalizedString.customField)) {
-                    action(.customField)
-                },
-                .cancel()
-            ] as [ActionSheet.Button]
-            return ActionSheet(title: Text("Select"), buttons: buttons)
-        }
-    }
-    
-}
-#endif
-
-private extension Button where Label == SwiftUI.Label<Text, Image> {
-    
-    init<S>(_ title: S, systemImage name: String, action: @escaping () -> Void) where S : StringProtocol {
-        self = Button(action: action) {
-            Label(title, systemImage: name)
+            Label(title, systemImage: systemImage)
         }
     }
     
