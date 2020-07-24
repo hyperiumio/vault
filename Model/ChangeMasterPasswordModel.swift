@@ -55,7 +55,7 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         }
         
         guard newPassword.count >= 8 else {
-            status = .invalidCurrentPassword
+            status = .invalidPassword
             return
         }
         
@@ -65,9 +65,21 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         }
         
         status = .loading
-        let changeMasterPasswordPublisher = vault.changeMasterPassword(to: newPassword)
-        let storeKeychainPasswordPublisher = biometricKeychain.storePassword(newPassword, identifier: bundleID)
-        changeMasterPasswordSubscription = Publishers.Zip(changeMasterPasswordPublisher, storeKeychainPasswordPublisher)
+        changeMasterPasswordSubscription = biometricKeychain.deletePassword(identifier: bundleID)
+            .mapError { _ in ChangeMasterPasswordError.masterPasswordChangeDidFail }
+            .flatMap { [vault, currentPassword] _ in
+                vault.validatePassword(currentPassword)
+                    .mapError { _ in ChangeMasterPasswordError.invalidPassword }
+            }
+            .flatMap { [vault, newPassword] _ in
+                vault.changeMasterPassword(to: newPassword)
+                    .mapError { _ in ChangeMasterPasswordError.masterPasswordChangeDidFail }
+            }
+            .flatMap { [biometricKeychain, newPassword] vaultID in
+                biometricKeychain.storePassword(newPassword, identifier: bundleID)
+                    .map { _ in vaultID }
+                    .catch { _ in Just(vaultID) }
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -75,11 +87,13 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
                 switch completion {
                 case .finished:
                     self.status = .none
-                case .failure:
+                case .failure(.invalidPassword):
+                    self.status = .invalidPassword
+                case .failure(.masterPasswordChangeDidFail):
                     self.status = .masterPasswordChangeDidFail
                 }
-            } receiveValue: { [eventSubject, preferencesManager] vaultId, _ in
-                preferencesManager.set(activeVaultIdentifier: vaultId)
+            } receiveValue: { [preferencesManager, eventSubject] vaultID in
+                preferencesManager.set(activeVaultIdentifier: vaultID)
                 eventSubject.send(.passwordChanged)
             }
     }
@@ -92,7 +106,7 @@ extension ChangeMasterPasswordModel {
         
         case none
         case loading
-        case invalidCurrentPassword
+        case invalidPassword
         case newPasswordMismatch
         case insecureNewPassword
         case masterPasswordChangeDidFail
@@ -105,5 +119,12 @@ extension ChangeMasterPasswordModel {
         case passwordChanged
         
     }
+    
+}
+
+private enum ChangeMasterPasswordError: Error {
+    
+    case invalidPassword
+    case masterPasswordChangeDidFail
     
 }

@@ -27,7 +27,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             switch model.status {
             case .none, .loading:
                 EmptyView()
-            case .invalidCurrentPassword:
+            case .invalidPassword:
                 ErrorBadge(LocalizedString.invalidCurrentPassword)
             case .newPasswordMismatch:
                 ErrorBadge(LocalizedString.passwordMismatch)
@@ -110,7 +110,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             switch model.status {
             case .none, .loading:
                 EmptyView()
-            case .invalidCurrentPassword:
+            case .invalidPassword:
                 ErrorBadge(LocalizedString.invalidCurrentPassword)
             case .newPasswordMismatch:
                 ErrorBadge(LocalizedString.passwordMismatch)

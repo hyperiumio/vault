@@ -17,7 +17,22 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
         self.configuration = Configuration(info: info, location: location, cryptoKey: cryptoKey)
     }
     
-    public func loadItemInfos() -> Future<[VaultItemToken<Cryptor>], Error> {
+    public func validatePassword(_ password: String) -> AnyPublisher<Bool, Error> {
+        return DispatchQueue.global().future { [configuration] in
+            return Result<Bool, Error> {
+                let encodedCryptoKey = try Data(contentsOf: configuration.location.key)
+                
+                guard let cryptoKey = try? Cryptor.Key.decoded(from: encodedCryptoKey, using: password) else {
+                    return false
+                }
+                
+                return cryptoKey == configuration.cryptoKey
+            }
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func loadItemInfos() -> AnyPublisher<[VaultItemToken<Cryptor>], Error> {
         return storeOperationQueue.future { [configuration] in
             return Result<[VaultItemToken<Cryptor>], Error> {
                 guard FileManager.default.fileExists(atPath: configuration.location.itemDirectory.path) else {
@@ -31,6 +46,7 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
                 }
             }
         }
+        .eraseToAnyPublisher()
     }
     
     public func loadVaultItem(for itemToken: VaultItemToken<Cryptor>) -> AnyPublisher<VaultItem, Error> {

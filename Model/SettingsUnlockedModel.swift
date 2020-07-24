@@ -57,7 +57,7 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
             return
         }
         
-        let model = BiometricUnlockPreferencesModel(biometricType: .faceID, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        let model = BiometricUnlockPreferencesModel(vault: vault, biometricType: .faceID, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
         model.event
             .map { _ in nil }
             .receive(on: DispatchQueue.main)

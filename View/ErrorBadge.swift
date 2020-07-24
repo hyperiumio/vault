@@ -14,13 +14,9 @@ struct ErrorBadge: View {
             .clipShape(clipShape)
     }
     
-    var clipShape: some Shape {
-        Capsule(style: .continuous)
-    }
+    var clipShape: some Shape { Capsule(style: .continuous) }
     
-    var edgeInsets: EdgeInsets {
-        EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15)
-    }
+    var edgeInsets: EdgeInsets { EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15) }
     
     init(_ message: String) {
         self.message = message
