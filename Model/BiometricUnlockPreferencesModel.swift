@@ -28,11 +28,13 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     let biometricType: BiometryType
     
     private let eventSubject = PassthroughSubject<Event, Never>()
+    private let vault: Vault<SecureDataCryptor>
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(biometricType: BiometryType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault<SecureDataCryptor>, biometricType: BiometryType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
@@ -53,7 +55,16 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
         }
         
         status = .loading
-        keychainStoreSubscription = biometricKeychain.storePassword(password, identifier: bundleId)
+        keychainStoreSubscription = vault.validatePassword(password)
+            .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
+            .flatMap { [biometricKeychain, password] passwordIsValid in
+                passwordIsValid ?
+                    biometricKeychain.storePassword(password, identifier: bundleId)
+                        .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
+                        .eraseToAnyPublisher() :
+                    Fail(error: EnableBiometricUnlockError.invalidPassword)
+                        .eraseToAnyPublisher()
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -61,7 +72,9 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
                 switch completion {
                 case .finished:
                     self.status = .none
-                case .failure:
+                case .failure(.invalidPassword):
+                    self.status = .invalidPassword
+                case .failure(.biometricActivationFailed):
                     self.status = .biometricActivationFailed
                 }
             } receiveValue: { [preferencesManager, eventSubject] _ in
@@ -96,5 +109,12 @@ extension BiometricUnlockPreferencesModel {
         case enabled
         
     }
+    
+}
+
+private enum EnableBiometricUnlockError: Error {
+    
+    case invalidPassword
+    case biometricActivationFailed
     
 }
