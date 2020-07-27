@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CustomFieldEditView: View {
     
-    @ObservedObject var model: CustomFieldEditModel
+    @ObservedObject var model: GenericItemEditModel
     
     var body: some View {
         VStack {

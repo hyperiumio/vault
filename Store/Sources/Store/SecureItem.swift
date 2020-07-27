@@ -11,7 +11,7 @@ public enum SecureItem: Equatable {
     case bankAccount(BankAccountItem)
     case customField(GenericItem)
     
-    var typeIdentifier: TypeIdentifier {
+    public var typeIdentifier: TypeIdentifier {
         switch self {
         case .password:
             return .password

@@ -8,10 +8,8 @@ class FileLoadedModel: ObservableObject {
     
     let fileData: Data
     
-    var fileItem: FileItem? {
-        guard !filename.isEmpty else { return nil }
-        
-        return FileItem(name: filename, data: fileData)
+    var fileItem: FileItem {
+        FileItem(name: filename, data: fileData)
     }
     
     init(_ fileItem: FileItem) {

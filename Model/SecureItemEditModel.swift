@@ -10,7 +10,7 @@ enum SecureItemEditModel: Identifiable {
     case bankCard(BankCardEditModel)
     case wifi(WifiEditModel)
     case bankAccount(BankAccountEditModel)
-    case customField(CustomFieldEditModel)
+    case customField(GenericItemEditModel)
     
     var id: ObjectIdentifier {
         switch self {
@@ -33,66 +33,45 @@ enum SecureItemEditModel: Identifiable {
         }
     }
     
-    var isComplete: Bool {
+    var secureItem: SecureItem {
         switch self {
         case .login(let model):
-            return model.isComplete
+            return SecureItem.login(model.loginItem)
         case .password(let model):
-            return model.isComplete
+            return SecureItem.password(model.passwordItem)
         case .file(let model):
-            return model.isComplete
+            return SecureItem.file(model.fileItem)
         case .note(let model):
-            return model.isComplete
+            return SecureItem.note(model.noteItem)
         case .bankCard(let model):
-            return model.isComplete
+            return SecureItem.bankCard(model.bankCardItem)
         case .wifi(let model):
-            return model.isComplete
+            return SecureItem.wifi(model.wiFiItem)
         case .bankAccount(let model):
-            return model.isComplete
+            return SecureItem.bankAccount(model.bankAccountItem)
         case .customField(let model):
-            return model.isComplete
+            return SecureItem.customField(model.genericItem)
         }
     }
     
-    var objectWillChange: ObservableObjectPublisher {
+    var typeIdentifier: SecureItem.TypeIdentifier {
         switch self {
-        case .login(let model):
-            return model.objectWillChange
-        case .password(let model):
-            return model.objectWillChange
-        case .file(let model):
-            return model.objectWillChange
-        case .note(let model):
-            return model.objectWillChange
-        case .bankCard(let model):
-            return model.objectWillChange
-        case .wifi(let model):
-            return model.objectWillChange
-        case .bankAccount(let model):
-            return model.objectWillChange
-        case .customField(let model):
-            return model.objectWillChange
-        }
-    }
-    
-    var secureItem: SecureItem? {
-        switch self {
-        case .login(let model):
-            return model.secureItem
-        case .password(let model):
-            return model.secureItem
-        case .file(let model):
-            return model.secureItem
-        case .note(let model):
-            return model.secureItem
-        case .bankCard(let model):
-            return model.secureItem
-        case .wifi(let model):
-            return model.secureItem
-        case .bankAccount(let model):
-            return model.secureItem
-        case .customField(let model):
-            return model.secureItem
+        case .login:
+            return .login
+        case .password:
+            return .password
+        case .file:
+            return .file
+        case .note:
+            return .note
+        case .bankCard:
+            return .bankCard
+        case .wifi:
+            return .wifi
+        case .bankAccount:
+            return .bankAccount
+        case .customField:
+            return .customField
         }
     }
     
@@ -120,7 +99,7 @@ enum SecureItemEditModel: Identifiable {
             let model = BankAccountEditModel()
             self = .bankAccount(model)
         case .customField:
-            let model = CustomFieldEditModel()
+            let model = GenericItemEditModel()
             self = .customField(model)
         }
     }
@@ -149,7 +128,7 @@ enum SecureItemEditModel: Identifiable {
             let model = BankAccountEditModel(bankAccount)
             self = .bankAccount(model)
         case .customField(let customField):
-            let model = CustomFieldEditModel(customField)
+            let model = GenericItemEditModel(customField)
             self = .customField(model)
         }
     }

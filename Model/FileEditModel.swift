@@ -30,17 +30,12 @@ class FileEditModel: ObservableObject, Identifiable {
         }
     }
     
-    var isComplete: Bool {
-        guard case .loaded = state else { return false }
+    var fileItem: FileItem {
+        guard case .loaded(let model) = state else {
+            return FileItem()
+        }
         
-        return true
-    }
-    
-    var secureItem: SecureItem? {
-        guard case .loaded(let model) = state else { return nil }
-        guard let file = model.fileItem else { return nil }
-        
-        return SecureItem.file(file)
+        return model.fileItem
     }
     
     init(_ fileItem: FileItem) {

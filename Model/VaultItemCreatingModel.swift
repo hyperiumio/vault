@@ -3,13 +3,30 @@ import Crypto
 import Foundation
 import Store
 
-class VaultItemCreatingModel: ObservableObject, Identifiable {
+protocol VaultItemCreatingModelRepresentable: ObservableObject, Identifiable {
+    
+    var title: String { get set }
+    var status: VaultItemCreatingModel.Status { get }
+    var saveButtonEnabled: Bool { get }
+    var primaryItemModel: SecureItemEditModel { get }
+    var secondaryItemModels: [SecureItemEditModel] { get }
+    
+    func addSecondaryItem(itemType: VaultItemCreatingModel.ItemType)
+    func deleteSecondaryItems(at indexSet: IndexSet)
+    func moveSecondaryItems(from source: IndexSet, to destination: Int)
+    func save()
+    func cancel()
+    
+}
+
+class VaultItemCreatingModel: VaultItemCreatingModelRepresentable {
     
     @Published var title = ""
-    @Published var status = Status.none
-    @Published var secureItemModels: [SecureItemEditModel]
+    @Published private(set) var status = Status.none
+    @Published private(set) var primaryItemModel: SecureItemEditModel
+    @Published private(set) var secondaryItemModels = [SecureItemEditModel]()
     
-    var saveButtonEnabled: Bool { !title.isEmpty && status != .loading && secureItemModels.allSatisfy(\.isComplete) }
+    var saveButtonEnabled: Bool { !title.isEmpty && status != .loading }
     
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
@@ -19,30 +36,26 @@ class VaultItemCreatingModel: ObservableObject, Identifiable {
     private var saveSubscription: AnyCancellable?
     
     init(itemType: SecureItem.TypeIdentifier, vault: Vault<SecureDataCryptor>) {
-        self.secureItemModels = [SecureItemEditModel(itemType)]
+        self.primaryItemModel = SecureItemEditModel(itemType)
         self.vault = vault
-        
-        let willChangePublishers = secureItemModels.map(\.objectWillChange)
-        childModelSubscription = Publishers.MergeMany(willChangePublishers)
-            .sink(receiveValue: objectWillChange.send)
     }
     
-    func addItem(itemType: SecureItem.TypeIdentifier) {
+    func addSecondaryItem(itemType: SecureItem.TypeIdentifier) {
         let model = SecureItemEditModel(itemType)
-        secureItemModels.append(model)
-        
-        let willChangePublishers = secureItemModels.map(\.objectWillChange)
-        childModelSubscription = Publishers.MergeMany(willChangePublishers)
-            .sink(receiveValue: objectWillChange.send)
+        secondaryItemModels.append(model)
+    }
+    
+    func deleteSecondaryItems(at indexSet: IndexSet) {
+        secondaryItemModels.remove(atOffsets: indexSet)
+    }
+    
+    func moveSecondaryItems(from source: IndexSet, to destination: Int) {
+        secondaryItemModels.move(fromOffsets: source, toOffset: destination)
     }
     
     func save() {
-        let secureItems = secureItemModels.compactMap(\.secureItem)
-        guard secureItems.count == secureItemModels.count else { return }
-        guard let primarySecureItem = secureItems.first else { return }
-        
-        let secureItemsTail = secureItems.dropFirst()
-        let secondarySecureItems = Array(secureItemsTail)
+        let primarySecureItem = primaryItemModel.secureItem
+        let secondarySecureItems = secondaryItemModels.map(\.secureItem)
         let vaultItem = VaultItem(title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
         
         status = .loading
@@ -66,6 +79,8 @@ class VaultItemCreatingModel: ObservableObject, Identifiable {
 }
 
 extension VaultItemCreatingModel {
+    
+    typealias ItemType = SecureItem.TypeIdentifier
     
     enum Status {
         

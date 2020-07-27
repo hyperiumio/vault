@@ -2,9 +2,15 @@ import Localization
 import SwiftUI
 import Store
 
-struct CreateVaultItemButton: View {
+struct CreateVaultItemButton<Label>: View where Label: View {
     
     let action: (SecureItem.TypeIdentifier) -> Void
+    let label: Label
+    
+    init(action: @escaping (SecureItem.TypeIdentifier) -> Void, @ViewBuilder label: () -> Label) {
+        self.action = action
+        self.label = label()
+    }
     
     var body: some View {
         Menu {
@@ -24,8 +30,7 @@ struct CreateVaultItemButton: View {
             
             VaultItemButton(title: LocalizedString.customField, systemImage: "scribble.variable", typeIdentifier: .customField, action: action)
         } label: {
-            Image(systemName: "plus")
-                .foregroundColor(.accentColor)
+            label
         }
     }
     

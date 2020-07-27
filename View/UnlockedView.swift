@@ -57,10 +57,14 @@ struct UnlockedView: View {
                 HStack {
                     TextField(LocalizedString.search, text: $model.searchText)
                     
-                    CreateVaultItemButton(action: model.createVaultItem)
-                        .sheet(item: $model.newVaultItemModel) { model in
-                            VaultItemCreatingView(model: model)
-                        }
+                    CreateVaultItemButton(action: model.createVaultItem) {
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .foregroundColor(.accentColor)
+                    }
+                    .sheet(item: $model.newVaultItemModel) { model in
+                        VaultItemCreatingView(model: model)
+                    }
                 }
                 .padding()
                 

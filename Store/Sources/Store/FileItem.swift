@@ -15,6 +15,11 @@ public struct FileItem: JSONCodable {
         self.data = data
     }
     
+    public init() {
+        self.name = ""
+        self.data = Data()
+    }
+    
 }
 
 public extension FileItem {
