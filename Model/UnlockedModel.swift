@@ -3,6 +3,7 @@ import Crypto
 import Foundation
 import Preferences
 import Search
+import Sort
 import Store
 
 class UnlockedModel: ObservableObject {
@@ -10,7 +11,13 @@ class UnlockedModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var newVaultItemModel: VaultItemCreatingModel?
     @Published var failure: Failure?
-    @Published var items: [Item] = []
+    @Published private var itemCollation = AlphabeticCollation<Item>()
+    
+    var sections: [Section] {
+        itemCollation.sections.enumerated().map { index, section in
+            Section(section: section, index: index)
+        }
+    }
     
     let preferencesUnlockedModel: SettingsUnlockedModel
     let vault: Vault<SecureDataCryptor>
@@ -40,12 +47,13 @@ class UnlockedModel: ObservableObject {
             .map { infosItems, searchText in
                 return infosItems.filter { itemDescription in FuzzyMatch(searchText, in: itemDescription.title) }
             }
-            .map { [vault] itemTokens in
-                return itemTokens.map { itemToken in
+            .map { [vault] itemTokens -> AlphabeticCollation<Item> in
+                let items = itemTokens.map { itemToken in
                     let context = VaultItemModelContext(vault: vault, itemToken: itemToken)
                     let vaultItemModel = VaultItemModel(context: context)
                     return Item(itemToken: itemToken, detailModel: vaultItemModel)
                 } as [Item]
+                return AlphabeticCollation(from: items)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -54,10 +62,10 @@ class UnlockedModel: ObservableObject {
                 if case .failure = completion {
                     self.failure = .loadOperationFailed
                 }
-            } receiveValue: { [weak self] items in
+            } receiveValue: { [weak self] itemCollation in
                 guard let self = self else { return }
                 
-                self.items = items
+                self.itemCollation = itemCollation
             }
     }
     
@@ -78,22 +86,27 @@ class UnlockedModel: ObservableObject {
         newVaultItemModel = vaultItemModel
     }
     
-    func deleteVaultItems(at indexSet: IndexSet) {
-        let itemIDsToBeDeleted = indexSet.map { index in items[index].id }
-        vault.deleteVaultItem(id: itemIDsToBeDeleted.first!)
-            .map { _ in nil }
-            .catch { _ in Just(Failure.deleteOperationFailed) }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$failure)
-    }
-    
 }
 
 extension UnlockedModel {
     
     typealias ItemType = SecureItem.TypeIdentifier
     
-    struct Item: Identifiable {
+    struct Section {
+        
+        let index: Int
+        let title: String
+        let items: [Item]
+        
+        fileprivate init(section: AlphabeticCollation<UnlockedModel.Item>.Section, index: Int) {
+            self.index = index
+            self.title = String(section.letter)
+            self.items = section.elements
+        }
+        
+    }
+    
+    struct Item {
         
         let id: UUID
         let title: String
@@ -115,6 +128,24 @@ extension UnlockedModel {
         case deleteOperationFailed
         
     }
+    
+}
+
+extension UnlockedModel.Section: Identifiable {
+    
+    var id: String { title }
+    
+}
+
+extension UnlockedModel.Item: Identifiable {}
+
+extension UnlockedModel.Item: AlphabeticCollationElement {
+    
+    var sectionKey: Character? { title.first }
+    
+    static func < (lhs: UnlockedModel.Item, rhs: UnlockedModel.Item) -> Bool { lhs.title < rhs.title }
+    
+    static func == (lhs: UnlockedModel.Item, rhs: UnlockedModel.Item) -> Bool { lhs.title == rhs.title }
     
 }
 

@@ -3,16 +3,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "Sync",
+    name: "Sort",
     platforms: [
         .macOS(.v11),
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Sync", targets: ["Sync"])
+        .library(name: "Sort", targets: ["Sort"])
     ],
     targets: [
-        .target(name: "Sync"),
-        .testTarget(name: "SyncTests", dependencies: ["Sync"])
+        .target(name: "Sort"),
+        .testTarget(name: "SortTests", dependencies: ["Sort"]),
     ]
 )

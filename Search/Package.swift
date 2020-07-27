@@ -5,7 +5,7 @@ import PackageDescription
 let package = Package(
     name: "Search",
     platforms: [
-        .macOS(.v10_16),
+        .macOS(.v11),
         .iOS(.v14)
     ],
     products: [
