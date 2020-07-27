@@ -205,6 +205,8 @@
 		95D206E524C6D7A700C1DC9D /* ErrorBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */; };
 		95D206E624C6D7A700C1DC9D /* ErrorBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */; };
 		95E609FE24C073C60053D4E0 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95E609FD24C073C60053D4E0 /* Sync */; };
+		95F8BBC924CEC936001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBC824CEC936001FC495 /* Sort */; };
+		95F8BBCB24CEC949001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBCA24CEC949001FC495 /* Sort */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -309,10 +311,11 @@
 		95A87A3924ACC75400C1026F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		95A87A3C24ACC83D00C1026F /* PreferencesModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModelContext.swift; sourceTree = "<group>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		95C80BFE24CEE61300229BB2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95C80BFF24CEE61300229BB2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBadge.swift; sourceTree = "<group>"; };
 		95DA1CF124B363350087D649 /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
-		95F8BBC224CC496F001FC495 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		95F8BBC324CC496F001FC495 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +327,7 @@
 				95ABC96524A9D5AA009D87A4 /* Search in Frameworks */,
 				95ABC95D24A9D5AA009D87A4 /* Crypto in Frameworks */,
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
+				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC95F24A9D5AA009D87A4 /* Localization in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
@@ -338,6 +342,7 @@
 				95ABC97324A9D5B8009D87A4 /* Store in Frameworks */,
 				95ABC97124A9D5B8009D87A4 /* Search in Frameworks */,
 				95ABC96924A9D5B8009D87A4 /* Crypto in Frameworks */,
+				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95ABC96B24A9D5B8009D87A4 /* Localization in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
@@ -489,6 +494,7 @@
 				9574336A24AA13C30062B05A /* Pasteboard */,
 				9574336624AA13C20062B05A /* Preferences */,
 				9574336824AA13C30062B05A /* Search */,
+				95F8BBC624CEB8FF001FC495 /* Sort */,
 				9574336924AA13C30062B05A /* Store */,
 				95DA1CF124B363350087D649 /* Sync */,
 				9574322F24AA05710062B05A /* Asset */,
@@ -499,8 +505,8 @@
 				95B63C5924ABA23E00152E55 /* Misc */,
 				9574323124AA05710062B05A /* Model */,
 				9574323224AA05710062B05A /* View */,
-				95F8BBC224CC496F001FC495 /* Vault.app */,
-				95F8BBC324CC496F001FC495 /* Vault.app */,
+				95C80BFE24CEE61300229BB2 /* Vault.app */,
+				95C80BFF24CEE61300229BB2 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -546,9 +552,10 @@
 				95ABC96424A9D5AA009D87A4 /* Search */,
 				95ABC96624A9D5AA009D87A4 /* Store */,
 				95E609FD24C073C60053D4E0 /* Sync */,
+				95F8BBC824CEC936001FC495 /* Sort */,
 			);
 			productName = iOS;
-			productReference = 95F8BBC224CC496F001FC495 /* Vault.app */;
+			productReference = 95C80BFE24CEE61300229BB2 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -572,9 +579,10 @@
 				95ABC97024A9D5B8009D87A4 /* Search */,
 				95ABC97224A9D5B8009D87A4 /* Store */,
 				9512F7F824B46733008A4DB8 /* Sync */,
+				95F8BBCA24CEC949001FC495 /* Sort */,
 			);
 			productName = macOS;
-			productReference = 95F8BBC324CC496F001FC495 /* Vault.app */;
+			productReference = 95C80BFF24CEE61300229BB2 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1134,6 +1142,14 @@
 		95E609FD24C073C60053D4E0 /* Sync */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Sync;
+		};
+		95F8BBC824CEC936001FC495 /* Sort */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sort;
+		};
+		95F8BBCA24CEC949001FC495 /* Sort */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sort;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

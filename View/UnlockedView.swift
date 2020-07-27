@@ -9,22 +9,30 @@ struct UnlockedView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(model.items) { item in
-                    NavigationLink(destination: VaultItemView(model: item.detailModel)) {
-                        Label(item.title, systemImage: item.itemType.systemImage)
+                ForEach (model.sections) { section in
+                    Section(header: Text(section.title)) {
+                        ForEach(section.items) { item in
+                            NavigationLink(destination: VaultItemView(model: item.detailModel)) {
+                                Label(item.title, systemImage: item.itemType.systemImage)
+                            }
+                        }
                     }
                 }
-                .onDelete(perform: model.deleteVaultItems)
             }
+            .listStyle(PlainListStyle())
         }
         .toolbar {
             TextField(LocalizedString.search, text: $model.searchText)
                 .frame(minWidth: 120)
             
-            CreateVaultItemButton(action: model.createVaultItem)
-                .sheet(item: $model.newVaultItemModel) { model in
-                    VaultItemCreatingView(model: model)
-                }
+            CreateVaultItemButton(action: model.createVaultItem) {
+                Image(systemName: "plus")
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+            }
+            .sheet(item: $model.newVaultItemModel) { model in
+                VaultItemCreatingView(model: model)
+            }
         }
         .alert(item: $model.failure) { failure in
             switch failure {
@@ -69,13 +77,17 @@ struct UnlockedView: View {
                 .padding()
                 
                 List {
-                    ForEach(model.items) { item in
-                        NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
-                            Label(item.title, systemImage: item.itemType.systemImage)
+                    ForEach (model.sections) { section in
+                        Section(header: Text(section.title)) {
+                            ForEach(section.items) { item in
+                                NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
+                                    Label(item.title, systemImage: item.itemType.systemImage)
+                                }
+                            }
                         }
                     }
-                    .onDelete(perform: model.deleteVaultItems)
                 }
+                .listStyle(PlainListStyle())
                 
                 Button {
                     settingsPresented = true

@@ -1,6 +1,57 @@
 import Localization
 import SwiftUI
 
+#if os(macOS)
+struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRepresentable {
+    
+    @ObservedObject var model: Model
+    
+    var body: some View {
+        NavigationView {
+            List {
+                Section {
+                    TextField(LocalizedString.title, text: $model.title)
+                    
+                    SecureItemEditView(secureItemModel: model.primaryItemModel)
+                }
+                
+                Section(header: Text(LocalizedString.additionalItems)) {
+                    ForEach(model.secondaryItemModels) { secureItemModel in
+                        SecureItemEditView(secureItemModel: secureItemModel)
+                    }
+                    .onDelete(perform: model.deleteSecondaryItems)
+                    .onMove(perform: model.moveSecondaryItems)
+                    
+                    CreateVaultItemButton(action: model.addSecondaryItem) {
+                        Text(LocalizedString.add)
+                    }
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel, action: model.cancel)
+                }
+                
+                ToolbarItem(placement: .principal) {
+                    HStack {
+                        Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
+                        
+                        Text(model.primaryItemModel.typeIdentifier.title)
+                    }
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(LocalizedString.save, action: model.save)
+                        .disabled(!model.saveButtonEnabled)
+                }
+            }
+        }
+    }
+    
+}
+#endif
+
+#if os(iOS)
 struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRepresentable {
     
     @ObservedObject var model: Model
@@ -50,6 +101,7 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
     }
     
 }
+#endif
 
 import Store
 
