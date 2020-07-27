@@ -2,7 +2,7 @@ import SwiftUI
 
 struct CustomFieldDisplayView: View {
     
-    @ObservedObject var model: CustomFieldDisplayModel
+    @ObservedObject var model: GenericItemDisplayModel
     
     var body: some View {
         VStack {

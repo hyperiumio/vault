@@ -55,7 +55,7 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
     
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 Section(footer: lockVaultDescription) {
                     Button(LocalizedString.lockVault, action: model.lockVault)
                 }
@@ -88,6 +88,7 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
                         }
                 }
             }
+            .listStyle(GroupedListStyle())
             .navigationBarTitle(LocalizedString.settings)
             .navigationBarItems(trailing: cancelButton)
         }

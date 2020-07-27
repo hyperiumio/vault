@@ -5,13 +5,8 @@ class PasswordEditModel: ObservableObject, Identifiable {
     
     @Published var password: String
     
-    var isComplete: Bool { !password.isEmpty }
-    
-    var secureItem: SecureItem? {
-        guard isComplete else { return nil }
-        
-        let password = PasswordItem(password: self.password)
-        return SecureItem.password(password)
+    var passwordItem: PasswordItem {
+        PasswordItem(password: password)
     }
     
     init(_ passwordItem: PasswordItem) {

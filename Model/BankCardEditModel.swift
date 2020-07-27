@@ -9,23 +9,18 @@ class BankCardEditModel: ObservableObject, Identifiable {
     @Published var validFrom: String
     @Published var pin: String
     
-    var vendor: BankCardItem.Vendor? { isComplete ? BankCardItem.Vendor(number) : nil }
+    var vendor: BankCardItem.Vendor? { number.count > 16 ? BankCardItem.Vendor(number) : nil }
     
-    var isComplete: Bool { !number.isEmpty && number.count > 16 }
-    
-    var secureItem: SecureItem? {
-        guard !number.isEmpty else { return nil }
-            
-        let bankCard = BankCardItem(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
-        return SecureItem.bankCard(bankCard)
+    var bankCardItem: BankCardItem {
+        BankCardItem(name: name, number: number, validityDate: validityDate, validFrom: validFrom, pin: pin)
     }
     
-    init(_ bankCard: BankCardItem) {
-        self.name = bankCard.name
-        self.number = bankCard.number
-        self.validityDate = bankCard.validityDate
-        self.validFrom = bankCard.validFrom
-        self.pin = bankCard.pin
+    init(_ bankCardItem: BankCardItem) {
+        self.name = bankCardItem.name
+        self.number = bankCardItem.number
+        self.validityDate = bankCardItem.validityDate
+        self.validFrom = bankCardItem.validFrom
+        self.pin = bankCardItem.pin
     }
     
     init() {

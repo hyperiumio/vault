@@ -11,9 +11,7 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     @Published var secureItemModels: [SecureItemEditModel]
     
     var saveButtonEnabled: Bool {
-        let secureModelsComplete = secureItemModels.allSatisfy(\.isComplete)
-        let didChange = title != originalVaultItem.title || secureItemModels.compactMap(\.secureItem) != originalVaultItem.secureItems
-        return !isLoading && !title.isEmpty && secureModelsComplete && didChange
+        !isLoading && !title.isEmpty && title != originalVaultItem.title || secureItemModels.map(\.secureItem) != originalVaultItem.secureItems
     }
     
     var event: AnyPublisher<Event, Never> { eventSubjet.eraseToAnyPublisher() }
@@ -31,23 +29,15 @@ class VaultItemEditModel: ObservableObject, Identifiable {
         self.title = vaultItem.title
         self.secureItemModels = vaultItem.secureItems.map(SecureItemEditModel.init)
         self.vault = vault
-        
-        let willChangePublishers = secureItemModels.map(\.objectWillChange)
-        self.childModelSubscription = Publishers.MergeMany(willChangePublishers)
-            .sink(receiveValue: objectWillChange.send)
     }
     
     func addItem(itemType: SecureItem.TypeIdentifier) {
         let model = SecureItemEditModel(itemType)
         secureItemModels.append(model)
-        
-        let willChangePublishers = secureItemModels.map(\.objectWillChange)
-        childModelSubscription = Publishers.MergeMany(willChangePublishers)
-            .sink(receiveValue: objectWillChange.send)
     }
     
     func save() {
-        let secureItems = secureItemModels.compactMap(\.secureItem)
+        let secureItems = secureItemModels.map(\.secureItem)
         guard secureItems.count == secureItemModels.count else {
             return
         }

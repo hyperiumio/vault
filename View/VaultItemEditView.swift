@@ -17,7 +17,11 @@ struct VaultItemEditView: View {
                 }
             }
             
-            CreateVaultItemButton(action: model.addItem)
+            CreateVaultItemButton(action: model.addItem) {
+                Image(systemName: "plus")
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+            }
             
             HStack {
                 Button(LocalizedString.cancel, action: model.cancel)

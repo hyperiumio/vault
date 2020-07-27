@@ -2,6 +2,8 @@ import SwiftUI
 
 public enum LocalizedString {
     
+    public static let add = Bundle.module.localizedString(forKey: "Add")
+    public static let additionalItems = Bundle.module.localizedString(forKey: "AdditionalItems")
     public static let appLaunchError = Bundle.module.localizedString(forKey: "AppLaunchError")
     public static let bankCard = Bundle.module.localizedString(forKey: "BankCard")
     public static let bankCardNamePlaceholder = Bundle.module.localizedString(forKey: "BankCardNamePlaceholder")
