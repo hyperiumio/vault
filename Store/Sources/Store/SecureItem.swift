@@ -9,7 +9,7 @@ public enum SecureItem: Equatable {
     case bankCard(BankCardItem)
     case wifi(WiFiItem)
     case bankAccount(BankAccountItem)
-    case customField(GenericItem)
+    case generic(GenericItem)
     
     public var typeIdentifier: TypeIdentifier {
         switch self {
@@ -27,8 +27,8 @@ public enum SecureItem: Equatable {
             return .wifi
         case .bankAccount:
             return .bankAccount
-        case .customField:
-            return .customField
+        case .generic:
+            return .generic
         }
     }
     
@@ -45,7 +45,7 @@ public extension SecureItem {
         case bankCard
         case wifi
         case bankAccount
-        case customField
+        case generic
         
     }
     
@@ -69,7 +69,7 @@ extension SecureItem {
             return try WiFiItem.jsonEncoded(value)
         case .bankAccount(let value):
             return try BankAccountItem.jsonEncoded(value)
-        case .customField(let value):
+        case .generic(let value):
             return try GenericItem.jsonEncoded(value)
         }
     }
@@ -97,9 +97,9 @@ extension SecureItem {
         case .bankAccount:
             let value = try BankAccountItem.jsonDecoded(encodedSecureItem)
             return .bankAccount(value)
-        case .customField:
+        case .generic:
             let value = try GenericItem.jsonDecoded(encodedSecureItem)
-            return .customField(value)
+            return .generic(value)
         }
     }
     

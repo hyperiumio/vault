@@ -1,25 +1,69 @@
 import Localization
 import SwiftUI
 
+#if os(macOS)
 struct VaultItemDisplayView: View {
     
     @ObservedObject var model: VaultItemDisplayModel
     
     var body: some View {
-        VStack {
-            Text(model.title)
-                .padding()
+        List {
+            VaultItemTitleView(title: model.title)
             
-            Form {
-                ForEach(model.secureItemModels) { secureItemModel in
-                    SecureItemDisplayView(model: secureItemModel)
-                        .padding()
-                }
+            SecureItemDisplayView(model: model.primaryItemModel)
+            
+            ForEach(model.secondaryItemModels) { secureItemModel in
+                SecureItemDisplayView(model: secureItemModel)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(LocalizedString.edit, action: model.edit)
             }
             
-            Button(LocalizedString.edit, action: model.edit)
+            ToolbarItem(placement: .principal) {
+                HStack {
+                    Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
+                    
+                    Text(model.primaryItemModel.typeIdentifier.title)
+                }
+            }
         }
-        .frame(minWidth: 200, maxWidth: .infinity, maxHeight: .infinity)
     }
     
 }
+#endif
+
+#if os(iOS)
+struct VaultItemDisplayView: View {
+    
+    @ObservedObject var model: VaultItemDisplayModel
+    
+    var body: some View {
+        List {
+            VaultItemTitleView(title: model.title)
+            
+            SecureItemDisplayView(model: model.primaryItemModel)
+            
+            ForEach(model.secondaryItemModels) { secureItemModel in
+                SecureItemDisplayView(model: secureItemModel)
+            }
+        }
+        .listStyle(GroupedListStyle())
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(LocalizedString.edit, action: model.edit)
+            }
+            
+            ToolbarItem(placement: .principal) {
+                HStack {
+                    Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
+                    
+                    Text(model.primaryItemModel.typeIdentifier.title)
+                }
+            }
+        }
+    }
+    
+}
+#endif

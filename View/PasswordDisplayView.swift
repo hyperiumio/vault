@@ -1,14 +1,48 @@
+import Localization
 import SwiftUI
 
-struct PasswordDisplayView: View {
+struct PasswordDisplayView<Model>: View where Model: PasswordDisplayModelRepresentable {
     
-    @ObservedObject var model: PasswordDisplayModel
+    @ObservedObject var model: Model
     
     var body: some View {
-        VStack {
-            SecureText(content: model.value, secureDisplay: $model.secureDisplay)
+        Section {
+            SecureItemDisplaySecureField(title: LocalizedString.password, content: model.password)
                 .onTapGesture(perform: model.copyPasswordToPasteboard)
         }
     }
     
 }
+
+#if DEBUG
+class PasswordDisplayModelStub: PasswordDisplayModelRepresentable {
+    
+    var password = "123abc"
+    
+    func copyPasswordToPasteboard() {}
+    
+}
+
+struct PasswordDisplayViewPreview: PreviewProvider {
+    
+    static let model = PasswordDisplayModelStub()
+    
+    #if os(macOS)
+    static var previews: some View {
+        List {
+            PasswordDisplayView(model: model)
+        }
+    }
+    #endif
+    
+    #if os(iOS)
+    static var previews: some View {
+        List {
+            PasswordDisplayView(model: model)
+        }
+        .listStyle(GroupedListStyle())
+    }
+    #endif
+    
+}
+#endif

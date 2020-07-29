@@ -140,7 +140,7 @@ extension UnlockedModel.ItemType {
             return "wifi"
         case .bankAccount:
             return "dollarsign.circle.fill"
-        case .customField:
+        case .generic:
             return "scribble.variable"
         }
     }

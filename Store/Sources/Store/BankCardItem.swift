@@ -1,20 +1,18 @@
+import Foundation
+
 public struct BankCardItem: JSONCodable {
     
     public let name: String
     public let number: String
-    public let validityDate: String
-    public let validFrom: String
+    public let expirationDate: Date
     public let pin: String
     
-    public var vendor: Vendor {
-        return Vendor(number)
-    }
+    public var vendor: Vendor { Vendor(number) }
     
-    public init(name: String, number: String, validityDate: String, validFrom: String, pin: String) {
+    public init(name: String, number: String, expirationDate: Date, pin: String) {
         self.name = name
         self.number = number
-        self.validityDate = validityDate
-        self.validFrom = validFrom
+        self.expirationDate = expirationDate
         self.pin = pin
     }
     

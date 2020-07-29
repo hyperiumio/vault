@@ -20,8 +20,8 @@ struct SecureItemDisplayView: View {
             WifiDisplayView(model: model)
         case .bankAccount(let model):
             BankAccountDisplayView(model: model)
-        case .customField(let model):
-            CustomFieldDisplayView(model: model)
+        case .generic(let model):
+            GenericItemDisplayView(model: model)
         }
     }
     

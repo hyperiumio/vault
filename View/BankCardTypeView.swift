@@ -1,21 +1,27 @@
 import SwiftUI
 import Store
 
-struct BankCardTypeView: View {
+struct BankCardVendorField: View {
     
+    let title: String
     let vendor: BankCardItem.Vendor
     
     var body: some View {
-        switch vendor {
-        case .masterCard:
-            Text("MasterCard")
-        case .visa:
-            Text("Visa")
-        case .americanExpress:
-            Text("American Express")
-        case .other:
-            Text("Other")
+        VStack(alignment: .leading, spacing: 2) {
+            FieldLabel(title)
+            
+            switch vendor {
+            case .masterCard:
+                Text("MasterCard")
+            case .visa:
+                Text("Visa")
+            case .americanExpress:
+                Text("American Express")
+            case .other:
+                Text("Other")
+            }
         }
+        .padding([.top, .bottom], 5)
     }
     
 }

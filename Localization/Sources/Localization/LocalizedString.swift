@@ -1,4 +1,4 @@
-import SwiftUI
+import Foundation
 
 public enum LocalizedString {
     
@@ -6,11 +6,11 @@ public enum LocalizedString {
     public static let additionalItems = Bundle.module.localizedString(forKey: "AdditionalItems")
     public static let appLaunchError = Bundle.module.localizedString(forKey: "AppLaunchError")
     public static let bankCard = Bundle.module.localizedString(forKey: "BankCard")
-    public static let bankCardNamePlaceholder = Bundle.module.localizedString(forKey: "BankCardNamePlaceholder")
-    public static let bankCardNumberPlaceholder = Bundle.module.localizedString(forKey: "BankCardNumberPlaceholder")
-    public static let bankCardValidityDatePlaceholder = Bundle.module.localizedString(forKey: "BankCardValidityDatePlaceholder")
-    public static let bankCardValidFromPlaceholder = Bundle.module.localizedString(forKey: "BankCardValidFromPlaceholder")
-    public static let bankCardPinPlaceholder = Bundle.module.localizedString(forKey: "BankCardPinPlaceholder")
+    public static let bankCardName = Bundle.module.localizedString(forKey: "BankCardName")
+    public static let bankCardNumber = Bundle.module.localizedString(forKey: "BankCardNumber")
+    public static let bankCardExpirationDate = Bundle.module.localizedString(forKey: "BankCardExpirationDate")
+    public static let bankCardPin = Bundle.module.localizedString(forKey: "BankCardPin")
+    public static let bankCardVendor = Bundle.module.localizedString(forKey: "BankCardVendor")
     public static let bankAccount = Bundle.module.localizedString(forKey: "BankAccount")
     public static let bankAccountName = Bundle.module.localizedString(forKey: "BankAccountName")
     public static let bankAccountHolder = Bundle.module.localizedString(forKey: "BankAccountHolder")
@@ -71,6 +71,7 @@ public enum LocalizedString {
     public static let touchIDNotEnrolled = Bundle.module.localizedString(forKey: "TouchIDNotEnrolled")
     public static let unlockFailed = Bundle.module.localizedString(forKey: "UnlockFailed")
     public static let unlockVault = Bundle.module.localizedString(forKey: "UnlockVault")
+    public static let url = Bundle.module.localizedString(forKey: "URL")
     public static let useFaceID = Bundle.module.localizedString(forKey: "UseFaceID")
     public static let useTouchID = Bundle.module.localizedString(forKey: "UseTouchID")
     public static let user = Bundle.module.localizedString(forKey: "User")

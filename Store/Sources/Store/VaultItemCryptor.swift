@@ -41,6 +41,7 @@ extension VaultItemCryptor {
         let version = VaultItem.Version.version1.encoded
         
         let encodedVaultItemInfo = try VaultItem.Info.jsonEncoded(vaultItem.info)
+        
         let encodedSecureItems = try vaultItem.secureItems.map { secureItem in
             return try SecureItem.encoded(secureItem)
         }

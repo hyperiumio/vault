@@ -1,13 +1,27 @@
 import Combine
+import Pasteboard
 import Store
 
-class NoteDisplayModel: ObservableObject, Identifiable {
+protocol NoteDisplayModelRepresentable: ObservableObject, Identifiable {
+    
+    var text: String { get }
+    
+    func copyTextToPasteboard()
+    
+}
+
+class NoteDisplayModel: NoteDisplayModelRepresentable {
         
-    var text: String { note.text }
+    var text: String { noteItem.text }
     
-    private let note: NoteItem
+    private let noteItem: NoteItem
     
-    init(_ note: NoteItem) {
-        self.note = note
+    init(_ noteItem: NoteItem) {
+        self.noteItem = noteItem
     }
+    
+    func copyTextToPasteboard() {
+        Pasteboard.general.string = text
+    }
+    
 }

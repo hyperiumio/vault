@@ -2,20 +2,26 @@ import Combine
 import Pasteboard
 import Store
 
-class PasswordDisplayModel: ObservableObject, Identifiable {
+protocol PasswordDisplayModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var secureDisplay = true
+    var password: String { get }
     
-    var value: String { password.password }
+    func copyPasswordToPasteboard()
     
-    private let password: PasswordItem
+}
+
+class PasswordDisplayModel: PasswordDisplayModelRepresentable {
     
-    init(_ password: PasswordItem) {
-        self.password = password
+    var password: String { passwordItem.password }
+    
+    private let passwordItem: PasswordItem
+    
+    init(_ passwordItem: PasswordItem) {
+        self.passwordItem = passwordItem
     }
     
     func copyPasswordToPasteboard() {
-        Pasteboard.general.string = password.password
+        Pasteboard.general.string = password
     }
     
 }

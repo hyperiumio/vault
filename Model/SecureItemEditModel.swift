@@ -50,7 +50,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount(let model):
             return SecureItem.bankAccount(model.bankAccountItem)
         case .customField(let model):
-            return SecureItem.customField(model.genericItem)
+            return SecureItem.generic(model.genericItem)
         }
     }
     
@@ -71,7 +71,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount:
             return .bankAccount
         case .customField:
-            return .customField
+            return .generic
         }
     }
     
@@ -98,7 +98,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount:
             let model = BankAccountEditModel()
             self = .bankAccount(model)
-        case .customField:
+        case .generic:
             let model = GenericItemEditModel()
             self = .customField(model)
         }
@@ -127,7 +127,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount(let bankAccount):
             let model = BankAccountEditModel(bankAccount)
             self = .bankAccount(model)
-        case .customField(let customField):
+        case .generic(let customField):
             let model = GenericItemEditModel(customField)
             self = .customField(model)
         }
