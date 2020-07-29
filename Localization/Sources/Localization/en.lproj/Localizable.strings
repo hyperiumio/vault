@@ -1,12 +1,12 @@
 "Add" = "Add";
 "AdditionalItems" = "Additional items";
 "AppLaunchError" = "The application failed to launch.";
-"BankCard" = "BankCard";
-"BankCardNamePlaceholder" = "Name";
-"BankCardNumberPlaceholder" = "Number";
-"BankCardValidityDatePlaceholder" = "Valid Until";
-"BankCardValidFromPlaceholder" = "Valid From";
-"BankCardPinPlaceholder" = "PIN";
+"BankCard" = "Bank Card";
+"BankCardName" = "Name";
+"BankCardNumber" = "Number";
+"BankCardExpirationDate" = "Expiration date";
+"BankCardPin" = "PIN";
+"BankCardVendor" = "Vendor";
 "BankAccount" = "BankAccount";
 "BankAccountName" = "Bank Name";
 "BankAccountHolder" = "Account Holder";
@@ -67,6 +67,7 @@
 "TouchIDNotEnrolled" = "Touch ID is not enrolled.";
 "UnlockFailed" = "There was an issue, please try again.";
 "UnlockVault" = "Unlock vault";
+"URL" = "URL";
 "UseFaceID" = "Use Face ID";
 "UseTouchID" = "Use Touch ID";
 "User" = "User";

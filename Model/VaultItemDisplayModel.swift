@@ -4,21 +4,20 @@ import Store
 
 class VaultItemDisplayModel: ObservableObject {
     
-    private let vaultItem: VaultItem
-    private let eventSubjet = PassthroughSubject<Event, Never>()
-    
-    var event: AnyPublisher<Event, Never> { eventSubjet.eraseToAnyPublisher() }
+    let primaryItemModel: SecureItemDisplayModel
+    let secondaryItemModels: [SecureItemDisplayModel]
     
     var title: String { vaultItem.title }
     
-    var secureItemModels: [SecureItemDisplayModel] {
-        return vaultItem.secureItems.map { secureItem in
-            return SecureItemDisplayModel(secureItem)
-        }
-    }
+    var event: AnyPublisher<Event, Never> { eventSubjet.eraseToAnyPublisher() }
+    
+    private let vaultItem: VaultItem
+    private let eventSubjet = PassthroughSubject<Event, Never>()
     
     init(vaultItem: VaultItem) {
         self.vaultItem = vaultItem
+        self.primaryItemModel = SecureItemDisplayModel(vaultItem.primarySecureItem)
+        self.secondaryItemModels = vaultItem.secondarySecureItems.map(SecureItemDisplayModel.init)
     }
     
     func edit() {

@@ -28,7 +28,7 @@ struct CreateVaultItemButton<Label>: View where Label: View {
             
             VaultItemButton(title: LocalizedString.bankAccount, systemImage: "dollarsign.circle.fill", typeIdentifier: .bankAccount, action: action)
             
-            VaultItemButton(title: LocalizedString.customField, systemImage: "scribble.variable", typeIdentifier: .customField, action: action)
+            VaultItemButton(title: LocalizedString.customField, systemImage: "scribble.variable", typeIdentifier: .generic, action: action)
         } label: {
             label
         }

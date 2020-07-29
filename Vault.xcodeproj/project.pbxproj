@@ -10,6 +10,8 @@
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
 		9530C51524B6FA90008F1D2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530C51424B6FA90008F1D2C /* AppDelegate.swift */; };
 		9530C51624B6FA90008F1D2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530C51424B6FA90008F1D2C /* AppDelegate.swift */; };
+		953F470424D00CC200001C31 /* SecureItemDisplayField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953F470324D00CC200001C31 /* SecureItemDisplayField.swift */; };
+		953F470524D00CC200001C31 /* SecureItemDisplayField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953F470324D00CC200001C31 /* SecureItemDisplayField.swift */; };
 		9547470024C5A16600B50040 /* SettingsUnlockedModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954746FF24C5A16600B50040 /* SettingsUnlockedModelContext.swift */; };
 		9547470124C5A16600B50040 /* SettingsUnlockedModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954746FF24C5A16600B50040 /* SettingsUnlockedModelContext.swift */; };
 		956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
@@ -95,28 +97,25 @@
 		957432BE24AA083F0062B05A /* VaultItemLoadedModelContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432B524AA083F0062B05A /* VaultItemLoadedModelContext.swift */; };
 		957432C924AA084E0062B05A /* CryptoBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432C124AA084E0062B05A /* CryptoBridge.swift */; };
 		957432CA24AA084E0062B05A /* CryptoBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432C124AA084E0062B05A /* CryptoBridge.swift */; };
-		957432E724AA0F460062B05A /* FileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432DE24AA0F460062B05A /* FileImageView.swift */; };
 		957432E924AA0F460062B05A /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432E024AA0F460062B05A /* CreateVaultItemButton.swift */; };
 		9574331524AA135E0062B05A /* LoginEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432ED24AA135D0062B05A /* LoginEditView.swift */; };
 		9574331624AA135E0062B05A /* LoginEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432ED24AA135D0062B05A /* LoginEditView.swift */; };
-		9574331724AA135E0062B05A /* CustomFieldDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EE24AA135D0062B05A /* CustomFieldDisplayView.swift */; };
-		9574331824AA135E0062B05A /* CustomFieldDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EE24AA135D0062B05A /* CustomFieldDisplayView.swift */; };
+		9574331724AA135E0062B05A /* GenericItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EE24AA135D0062B05A /* GenericItemDisplayView.swift */; };
+		9574331824AA135E0062B05A /* GenericItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EE24AA135D0062B05A /* GenericItemDisplayView.swift */; };
 		9574331924AA135E0062B05A /* FileStateEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EF24AA135D0062B05A /* FileStateEmptyView.swift */; };
 		9574331A24AA135E0062B05A /* FileStateEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432EF24AA135D0062B05A /* FileStateEmptyView.swift */; };
 		9574331B24AA135E0062B05A /* NoteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F024AA135D0062B05A /* NoteEditView.swift */; };
 		9574331C24AA135E0062B05A /* NoteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F024AA135D0062B05A /* NoteEditView.swift */; };
-		9574331D24AA135E0062B05A /* CustomFieldEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F124AA135D0062B05A /* CustomFieldEditView.swift */; };
-		9574331E24AA135E0062B05A /* CustomFieldEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F124AA135D0062B05A /* CustomFieldEditView.swift */; };
+		9574331D24AA135E0062B05A /* GenericItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F124AA135D0062B05A /* GenericItemEditView.swift */; };
+		9574331E24AA135E0062B05A /* GenericItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F124AA135D0062B05A /* GenericItemEditView.swift */; };
 		9574331F24AA135E0062B05A /* FileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F224AA135D0062B05A /* FileEditView.swift */; };
 		9574332024AA135E0062B05A /* FileEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F224AA135D0062B05A /* FileEditView.swift */; };
-		9574332124AA135E0062B05A /* FileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F324AA135D0062B05A /* FileContentView.swift */; };
-		9574332224AA135E0062B05A /* FileContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F324AA135D0062B05A /* FileContentView.swift */; };
 		9574332324AA135E0062B05A /* FileStateCopyingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F424AA135D0062B05A /* FileStateCopyingView.swift */; };
 		9574332424AA135E0062B05A /* FileStateCopyingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F424AA135D0062B05A /* FileStateCopyingView.swift */; };
 		9574332724AA135E0062B05A /* PasswordEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F624AA135D0062B05A /* PasswordEditView.swift */; };
 		9574332824AA135E0062B05A /* PasswordEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F624AA135D0062B05A /* PasswordEditView.swift */; };
-		9574332924AA135E0062B05A /* SecureText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F724AA135D0062B05A /* SecureText.swift */; };
-		9574332A24AA135E0062B05A /* SecureText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F724AA135D0062B05A /* SecureText.swift */; };
+		9574332924AA135E0062B05A /* SecureItemDisplaySecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F724AA135D0062B05A /* SecureItemDisplaySecureField.swift */; };
+		9574332A24AA135E0062B05A /* SecureItemDisplaySecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F724AA135D0062B05A /* SecureItemDisplaySecureField.swift */; };
 		9574332B24AA135E0062B05A /* VaultItemLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F824AA135D0062B05A /* VaultItemLoadedView.swift */; };
 		9574332C24AA135E0062B05A /* VaultItemLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F824AA135D0062B05A /* VaultItemLoadedView.swift */; };
 		9574332D24AA135E0062B05A /* BankCardDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432F924AA135D0062B05A /* BankCardDisplayView.swift */; };
@@ -127,8 +126,6 @@
 		9574333224AA135E0062B05A /* BiometricUnlockPreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FB24AA135D0062B05A /* BiometricUnlockPreferencesView.swift */; };
 		9574333324AA135E0062B05A /* FileStateLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FC24AA135D0062B05A /* FileStateLoadedView.swift */; };
 		9574333424AA135E0062B05A /* FileStateLoadedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FC24AA135D0062B05A /* FileStateLoadedView.swift */; };
-		9574333524AA135E0062B05A /* FilePDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FD24AA135D0062B05A /* FilePDFView.swift */; };
-		9574333624AA135E0062B05A /* FilePDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FD24AA135D0062B05A /* FilePDFView.swift */; };
 		9574333724AA135E0062B05A /* BankCardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FE24AA135D0062B05A /* BankCardEditView.swift */; };
 		9574333824AA135E0062B05A /* BankCardEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FE24AA135D0062B05A /* BankCardEditView.swift */; };
 		9574333924AA135E0062B05A /* SetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432FF24AA135D0062B05A /* SetupView.swift */; };
@@ -175,9 +172,19 @@
 		9574338324AA358A0062B05A /* BootstrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574338124AA358A0062B05A /* BootstrapView.swift */; };
 		95756C2424AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */; };
 		95756C2524AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */; };
+		9583624224D0644700C10BBB /* SecureItemDisplayDateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624124D0644700C10BBB /* SecureItemDisplayDateField.swift */; };
+		9583624324D0644700C10BBB /* SecureItemDisplayDateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624124D0644700C10BBB /* SecureItemDisplayDateField.swift */; };
+		9583624524D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
+		9583624624D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
+		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
+		9583624924D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
+		958BB43C24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
+		958BB43D24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
 		958E17EB24ABD4DB00487EA4 /* VaultApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* VaultApp.swift */; };
 		958E17EE24ABD71400487EA4 /* VaultItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337024AA23D30062B05A /* VaultItemEditView.swift */; };
 		958E17EF24ABD7D500487EA4 /* VaultItemCreatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574336F24AA23D30062B05A /* VaultItemCreatingView.swift */; };
+		959CB4BD24CF36F100010A43 /* FieldLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959CB4BA24CF36B800010A43 /* FieldLabel.swift */; };
+		959CB4BE24CF36F200010A43 /* FieldLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959CB4BA24CF36B800010A43 /* FieldLabel.swift */; };
 		95A87A3724ACC6AA00C1026F /* SettingsLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */; };
 		95A87A3824ACC6AA00C1026F /* SettingsLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */; };
 		95A87A3A24ACC75400C1026F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A87A3924ACC75400C1026F /* SettingsModel.swift */; };
@@ -200,7 +207,6 @@
 		95AD564C24C9AB7A00A62CAE /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */; };
 		95B0D37224AC867800567FF7 /* CreateVaultItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432E024AA0F460062B05A /* CreateVaultItemButton.swift */; };
 		95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337124AA23D30062B05A /* UnlockedView.swift */; };
-		95B63C5824AB9F1A00152E55 /* FileImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957432DE24AA0F460062B05A /* FileImageView.swift */; };
 		95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574330524AA135D0062B05A /* AppView.swift */; };
 		95D206E524C6D7A700C1DC9D /* ErrorBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */; };
 		95D206E624C6D7A700C1DC9D /* ErrorBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */; };
@@ -212,6 +218,7 @@
 /* Begin PBXFileReference section */
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
 		9530C51424B6FA90008F1D2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		953F470324D00CC200001C31 /* SecureItemDisplayField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayField.swift; sourceTree = "<group>"; };
 		954746FF24C5A16600B50040 /* SettingsUnlockedModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsUnlockedModelContext.swift; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* UnlockField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockField.swift; sourceTree = "<group>"; };
@@ -258,24 +265,21 @@
 		957432B324AA083F0062B05A /* AppModelContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModelContext.swift; sourceTree = "<group>"; };
 		957432B524AA083F0062B05A /* VaultItemLoadedModelContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemLoadedModelContext.swift; sourceTree = "<group>"; };
 		957432C124AA084E0062B05A /* CryptoBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoBridge.swift; sourceTree = "<group>"; };
-		957432DE24AA0F460062B05A /* FileImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileImageView.swift; sourceTree = "<group>"; };
 		957432E024AA0F460062B05A /* CreateVaultItemButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateVaultItemButton.swift; sourceTree = "<group>"; };
 		957432ED24AA135D0062B05A /* LoginEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginEditView.swift; sourceTree = "<group>"; };
-		957432EE24AA135D0062B05A /* CustomFieldDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFieldDisplayView.swift; sourceTree = "<group>"; };
+		957432EE24AA135D0062B05A /* GenericItemDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericItemDisplayView.swift; sourceTree = "<group>"; };
 		957432EF24AA135D0062B05A /* FileStateEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStateEmptyView.swift; sourceTree = "<group>"; };
 		957432F024AA135D0062B05A /* NoteEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteEditView.swift; sourceTree = "<group>"; };
-		957432F124AA135D0062B05A /* CustomFieldEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomFieldEditView.swift; sourceTree = "<group>"; };
+		957432F124AA135D0062B05A /* GenericItemEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericItemEditView.swift; sourceTree = "<group>"; };
 		957432F224AA135D0062B05A /* FileEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileEditView.swift; sourceTree = "<group>"; };
-		957432F324AA135D0062B05A /* FileContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileContentView.swift; sourceTree = "<group>"; };
 		957432F424AA135D0062B05A /* FileStateCopyingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStateCopyingView.swift; sourceTree = "<group>"; };
 		957432F624AA135D0062B05A /* PasswordEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordEditView.swift; sourceTree = "<group>"; };
-		957432F724AA135D0062B05A /* SecureText.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureText.swift; sourceTree = "<group>"; };
+		957432F724AA135D0062B05A /* SecureItemDisplaySecureField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemDisplaySecureField.swift; sourceTree = "<group>"; };
 		957432F824AA135D0062B05A /* VaultItemLoadedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemLoadedView.swift; sourceTree = "<group>"; };
 		957432F924AA135D0062B05A /* BankCardDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankCardDisplayView.swift; sourceTree = "<group>"; };
 		957432FA24AA135D0062B05A /* SecureItemDisplayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayView.swift; sourceTree = "<group>"; };
 		957432FB24AA135D0062B05A /* BiometricUnlockPreferencesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BiometricUnlockPreferencesView.swift; sourceTree = "<group>"; };
 		957432FC24AA135D0062B05A /* FileStateLoadedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStateLoadedView.swift; sourceTree = "<group>"; };
-		957432FD24AA135D0062B05A /* FilePDFView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilePDFView.swift; sourceTree = "<group>"; };
 		957432FE24AA135D0062B05A /* BankCardEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankCardEditView.swift; sourceTree = "<group>"; };
 		957432FF24AA135D0062B05A /* SetupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupView.swift; sourceTree = "<group>"; };
 		9574330024AA135D0062B05A /* VaultItemLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemLoadingView.swift; sourceTree = "<group>"; };
@@ -307,6 +311,11 @@
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
 		95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
+		9583624124D0644700C10BBB /* SecureItemDisplayDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayDateField.swift; sourceTree = "<group>"; };
+		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
+		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
+		958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleView.swift; sourceTree = "<group>"; };
+		959CB4BA24CF36B800010A43 /* FieldLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldLabel.swift; sourceTree = "<group>"; };
 		95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLockedView.swift; sourceTree = "<group>"; };
 		95A87A3924ACC75400C1026F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		95A87A3C24ACC83D00C1026F /* PreferencesModelContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModelContext.swift; sourceTree = "<group>"; };
@@ -386,6 +395,7 @@
 			isa = PBXGroup;
 			children = (
 				9574323024AA05710062B05A /* Icon.xcassets */,
+				9583624724D1643700C10BBB /* Preview.xcassets */,
 			);
 			path = Asset;
 			sourceTree = "<group>";
@@ -401,13 +411,13 @@
 				9574325124AA081A0062B05A /* BiometricUnlockPreferencesModel.swift */,
 				956EFCDB24AA368E0084D716 /* BootstrapModel.swift */,
 				9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */,
-				9574324524AA081A0062B05A /* GenericItemDisplayModel.swift */,
-				9574326224AA081A0062B05A /* GenericItemEditModel.swift */,
 				9574325C24AA081A0062B05A /* FileCopyingModel.swift */,
 				9574324724AA081A0062B05A /* FileDisplayModel.swift */,
 				9574324624AA081A0062B05A /* FileEditModel.swift */,
 				9574324224AA08190062B05A /* FileEmptyModel.swift */,
 				9574324E24AA081A0062B05A /* FileLoadedModel.swift */,
+				9574324524AA081A0062B05A /* GenericItemDisplayModel.swift */,
+				9574326224AA081A0062B05A /* GenericItemEditModel.swift */,
 				9574325B24AA081A0062B05A /* LockedModel.swift */,
 				9574325A24AA081A0062B05A /* LoginDisplayModel.swift */,
 				9574324924AA081A0062B05A /* LoginEditModel.swift */,
@@ -447,17 +457,15 @@
 				9574338124AA358A0062B05A /* BootstrapView.swift */,
 				9574330224AA135D0062B05A /* ChangeMasterPasswordView.swift */,
 				957432E024AA0F460062B05A /* CreateVaultItemButton.swift */,
-				957432EE24AA135D0062B05A /* CustomFieldDisplayView.swift */,
-				957432F124AA135D0062B05A /* CustomFieldEditView.swift */,
 				95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */,
-				957432F324AA135D0062B05A /* FileContentView.swift */,
+				959CB4BA24CF36B800010A43 /* FieldLabel.swift */,
 				9574330824AA135D0062B05A /* FileDisplayView.swift */,
 				957432F224AA135D0062B05A /* FileEditView.swift */,
-				957432DE24AA0F460062B05A /* FileImageView.swift */,
-				957432FD24AA135D0062B05A /* FilePDFView.swift */,
 				957432F424AA135D0062B05A /* FileStateCopyingView.swift */,
 				957432EF24AA135D0062B05A /* FileStateEmptyView.swift */,
 				957432FC24AA135D0062B05A /* FileStateLoadedView.swift */,
+				957432EE24AA135D0062B05A /* GenericItemDisplayView.swift */,
+				957432F124AA135D0062B05A /* GenericItemEditView.swift */,
 				9574331024AA135E0062B05A /* LockedView.swift */,
 				9574330324AA135D0062B05A /* LoginDisplayView.swift */,
 				957432ED24AA135D0062B05A /* LoginEditView.swift */,
@@ -465,9 +473,12 @@
 				957432F024AA135D0062B05A /* NoteEditView.swift */,
 				9574330924AA135D0062B05A /* PasswordDisplayView.swift */,
 				957432F624AA135D0062B05A /* PasswordEditView.swift */,
+				9583624424D15EAF00C10BBB /* PDFView.swift */,
+				9583624124D0644700C10BBB /* SecureItemDisplayDateField.swift */,
+				953F470324D00CC200001C31 /* SecureItemDisplayField.swift */,
+				957432F724AA135D0062B05A /* SecureItemDisplaySecureField.swift */,
 				957432FA24AA135D0062B05A /* SecureItemDisplayView.swift */,
 				9574331424AA135E0062B05A /* SecureItemEditView.swift */,
-				957432F724AA135D0062B05A /* SecureText.swift */,
 				95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */,
 				9574330A24AA135D0062B05A /* SettingsUnlockedView.swift */,
 				9574330C24AA135D0062B05A /* SettingsView.swift */,
@@ -482,6 +493,7 @@
 				9574331124AA135E0062B05A /* VaultItemView.swift */,
 				9574330D24AA135E0062B05A /* WifiDisplayView.swift */,
 				9574330E24AA135E0062B05A /* WifiEditView.swift */,
+				958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -626,6 +638,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9583624824D1643700C10BBB /* Preview.xcassets in Resources */,
 				9574323424AA05710062B05A /* Icon.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -634,6 +647,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9583624924D1643700C10BBB /* Preview.xcassets in Resources */,
 				9574323524AA05710062B05A /* Icon.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,6 +664,7 @@
 				9574331524AA135E0062B05A /* LoginEditView.swift in Sources */,
 				956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */,
 				9574332324AA135E0062B05A /* FileStateCopyingView.swift in Sources */,
+				959CB4BE24CF36F200010A43 /* FieldLabel.swift in Sources */,
 				9574335524AA135E0062B05A /* WifiDisplayView.swift in Sources */,
 				957432A824AA081B0062B05A /* SecureItemDisplayModel.swift in Sources */,
 				957432AC24AA081B0062B05A /* SetupModel.swift in Sources */,
@@ -665,7 +680,7 @@
 				9574333724AA135E0062B05A /* BankCardEditView.swift in Sources */,
 				9574327424AA081B0062B05A /* FileDisplayModel.swift in Sources */,
 				9574328624AA081B0062B05A /* VaultItemModel.swift in Sources */,
-				9574332924AA135E0062B05A /* SecureText.swift in Sources */,
+				9574332924AA135E0062B05A /* SecureItemDisplaySecureField.swift in Sources */,
 				9574335F24AA135E0062B05A /* VaultItemDisplayView.swift in Sources */,
 				9574338224AA358A0062B05A /* BootstrapView.swift in Sources */,
 				957432B024AA081B0062B05A /* VaultItemCreatingModel.swift in Sources */,
@@ -679,20 +694,20 @@
 				9574332724AA135E0062B05A /* PasswordEditView.swift in Sources */,
 				95D206E524C6D7A700C1DC9D /* ErrorBadge.swift in Sources */,
 				95B0D37224AC867800567FF7 /* CreateVaultItemButton.swift in Sources */,
-				9574331724AA135E0062B05A /* CustomFieldDisplayView.swift in Sources */,
+				9574331724AA135E0062B05A /* GenericItemDisplayView.swift in Sources */,
 				95726C2B24C82B6D005F025A /* UnlockField.swift in Sources */,
 				9574326624AA081B0062B05A /* NoteDisplayModel.swift in Sources */,
 				9574335324AA135E0062B05A /* SettingsView.swift in Sources */,
 				9574332D24AA135E0062B05A /* BankCardDisplayView.swift in Sources */,
 				9574328824AA081B0062B05A /* BiometricUnlockPreferencesModel.swift in Sources */,
 				9574326A24AA081B0062B05A /* FileEmptyModel.swift in Sources */,
+				958BB43C24D1947B00DF585B /* VaultItemTitleView.swift in Sources */,
 				9574335924AA135E0062B05A /* BankAccountDisplayView.swift in Sources */,
 				957432C924AA084E0062B05A /* CryptoBridge.swift in Sources */,
 				9574337924AA23D30062B05A /* VaultItemEditView.swift in Sources */,
 				9574335D24AA135E0062B05A /* VaultItemView.swift in Sources */,
-				9574332124AA135E0062B05A /* FileContentView.swift in Sources */,
 				9574329624AA081B0062B05A /* PasswordEditModel.swift in Sources */,
-				9574331D24AA135E0062B05A /* CustomFieldEditView.swift in Sources */,
+				9574331D24AA135E0062B05A /* GenericItemEditView.swift in Sources */,
 				9574333924AA135E0062B05A /* SetupView.swift in Sources */,
 				9574323E24AA075A0062B05A /* AppModel.swift in Sources */,
 				9574327224AA081B0062B05A /* FileEditModel.swift in Sources */,
@@ -700,13 +715,13 @@
 				957432BD24AA083F0062B05A /* VaultItemLoadedModelContext.swift in Sources */,
 				9574334924AA135E0062B05A /* NoteDisplayView.swift in Sources */,
 				9574336324AA135E0062B05A /* SecureItemEditView.swift in Sources */,
+				9583624224D0644700C10BBB /* SecureItemDisplayDateField.swift in Sources */,
 				9574326824AA081B0062B05A /* PasswordDisplayModel.swift in Sources */,
 				957432AA24AA081B0062B05A /* GenericItemEditModel.swift in Sources */,
 				957432B724AA083F0062B05A /* VaultItemModelContext.swift in Sources */,
 				95A87A3D24ACC83D00C1026F /* PreferencesModelContext.swift in Sources */,
 				9574329424AA081B0062B05A /* WifiEditModel.swift in Sources */,
 				957432A624AA081B0062B05A /* BankCardEditModel.swift in Sources */,
-				9574333524AA135E0062B05A /* FilePDFView.swift in Sources */,
 				9574326E24AA081B0062B05A /* NoteEditModel.swift in Sources */,
 				95A87A3A24ACC75400C1026F /* SettingsModel.swift in Sources */,
 				9574328C24AA081B0062B05A /* WifiDisplayModel.swift in Sources */,
@@ -719,16 +734,17 @@
 				9574332B24AA135E0062B05A /* VaultItemLoadedView.swift in Sources */,
 				9547470024C5A16600B50040 /* SettingsUnlockedModelContext.swift in Sources */,
 				9574328A24AA081B0062B05A /* VaultItemLoadedModel.swift in Sources */,
+				953F470424D00CC200001C31 /* SecureItemDisplayField.swift in Sources */,
 				9574329C24AA081B0062B05A /* LockedModel.swift in Sources */,
 				9574334B24AA135E0062B05A /* FileDisplayView.swift in Sources */,
 				9574329824AA081B0062B05A /* BankCardDisplayModel.swift in Sources */,
 				9574332F24AA135E0062B05A /* SecureItemDisplayView.swift in Sources */,
 				9574337824AA23D30062B05A /* VaultItemCreatingView.swift in Sources */,
 				9574331B24AA135E0062B05A /* NoteEditView.swift in Sources */,
+				9583624524D15EAF00C10BBB /* PDFView.swift in Sources */,
 				9574327E24AA081B0062B05A /* VaultItemEditModel.swift in Sources */,
 				957432B924AA083F0062B05A /* AppModelContext.swift in Sources */,
 				9574334D24AA135E0062B05A /* PasswordDisplayView.swift in Sources */,
-				95B63C5824AB9F1A00152E55 /* FileImageView.swift in Sources */,
 				9574327C24AA081B0062B05A /* VaultItemDisplayModel.swift in Sources */,
 				958E17EB24ABD4DB00487EA4 /* VaultApp.swift in Sources */,
 				9574329224AA081B0062B05A /* BankAccountEditModel.swift in Sources */,
@@ -748,6 +764,7 @@
 				9574332C24AA135E0062B05A /* VaultItemLoadedView.swift in Sources */,
 				956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */,
 				9574329324AA081B0062B05A /* BankAccountEditModel.swift in Sources */,
+				959CB4BD24CF36F100010A43 /* FieldLabel.swift in Sources */,
 				9574327324AA081B0062B05A /* FileEditModel.swift in Sources */,
 				9574334024AA135E0062B05A /* ChangeMasterPasswordView.swift in Sources */,
 				9574328724AA081B0062B05A /* VaultItemModel.swift in Sources */,
@@ -776,7 +793,6 @@
 				957432BA24AA083F0062B05A /* AppModelContext.swift in Sources */,
 				9530C51624B6FA90008F1D2C /* AppDelegate.swift in Sources */,
 				95D206E624C6D7A700C1DC9D /* ErrorBadge.swift in Sources */,
-				957432E724AA0F460062B05A /* FileImageView.swift in Sources */,
 				957432B124AA081B0062B05A /* VaultItemCreatingModel.swift in Sources */,
 				95726C2C24C82B6D005F025A /* UnlockField.swift in Sources */,
 				958E17EE24ABD71400487EA4 /* VaultItemEditView.swift in Sources */,
@@ -785,6 +801,7 @@
 				9574326724AA081B0062B05A /* NoteDisplayModel.swift in Sources */,
 				9574335024AA135E0062B05A /* SettingsUnlockedView.swift in Sources */,
 				9574335E24AA135E0062B05A /* VaultItemView.swift in Sources */,
+				958BB43D24D1947B00DF585B /* VaultItemTitleView.swift in Sources */,
 				9574335624AA135E0062B05A /* WifiDisplayView.swift in Sources */,
 				9574332024AA135E0062B05A /* FileEditView.swift in Sources */,
 				9574329524AA081B0062B05A /* WifiEditModel.swift in Sources */,
@@ -795,21 +812,20 @@
 				9574333C24AA135E0062B05A /* VaultItemLoadingView.swift in Sources */,
 				957432AD24AA081B0062B05A /* SetupModel.swift in Sources */,
 				9574331C24AA135E0062B05A /* NoteEditView.swift in Sources */,
-				9574332224AA135E0062B05A /* FileContentView.swift in Sources */,
 				9574335A24AA135E0062B05A /* BankAccountDisplayView.swift in Sources */,
 				9574328B24AA081B0062B05A /* VaultItemLoadedModel.swift in Sources */,
+				9583624324D0644700C10BBB /* SecureItemDisplayDateField.swift in Sources */,
 				9574333824AA135E0062B05A /* BankCardEditView.swift in Sources */,
 				95A87A3E24ACC83D00C1026F /* PreferencesModelContext.swift in Sources */,
 				9574333A24AA135E0062B05A /* SetupView.swift in Sources */,
 				957432E924AA0F460062B05A /* CreateVaultItemButton.swift in Sources */,
-				9574333624AA135E0062B05A /* FilePDFView.swift in Sources */,
-				9574332A24AA135E0062B05A /* SecureText.swift in Sources */,
+				9574332A24AA135E0062B05A /* SecureItemDisplaySecureField.swift in Sources */,
 				95A87A3B24ACC75400C1026F /* SettingsModel.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardEditModel.swift in Sources */,
 				9574323F24AA075A0062B05A /* AppModel.swift in Sources */,
 				957432B824AA083F0062B05A /* VaultItemModelContext.swift in Sources */,
 				9574328124AA081B0062B05A /* VaultItemLoadingModel.swift in Sources */,
-				9574331824AA135E0062B05A /* CustomFieldDisplayView.swift in Sources */,
+				9574331824AA135E0062B05A /* GenericItemDisplayView.swift in Sources */,
 				95A87A3824ACC6AA00C1026F /* SettingsLockedView.swift in Sources */,
 				9574327D24AA081B0062B05A /* VaultItemDisplayModel.swift in Sources */,
 				957432A524AA081B0062B05A /* UnlockedModel.swift in Sources */,
@@ -817,6 +833,7 @@
 				9574326B24AA081B0062B05A /* FileEmptyModel.swift in Sources */,
 				9547470124C5A16600B50040 /* SettingsUnlockedModelContext.swift in Sources */,
 				9574334224AA135E0062B05A /* LoginDisplayView.swift in Sources */,
+				953F470524D00CC200001C31 /* SecureItemDisplayField.swift in Sources */,
 				9574334A24AA135E0062B05A /* NoteDisplayView.swift in Sources */,
 				9574332824AA135E0062B05A /* PasswordEditView.swift in Sources */,
 				9574332E24AA135E0062B05A /* BankCardDisplayView.swift in Sources */,
@@ -824,10 +841,11 @@
 				9574335224AA135E0062B05A /* BankCardTypeView.swift in Sources */,
 				9574331A24AA135E0062B05A /* FileStateEmptyView.swift in Sources */,
 				9574329F24AA081B0062B05A /* FileCopyingModel.swift in Sources */,
+				9583624624D15EAF00C10BBB /* PDFView.swift in Sources */,
 				957432AF24AA081B0062B05A /* SecureItemEditModel.swift in Sources */,
 				957432BE24AA083F0062B05A /* VaultItemLoadedModelContext.swift in Sources */,
 				9574328D24AA081B0062B05A /* WifiDisplayModel.swift in Sources */,
-				9574331E24AA135E0062B05A /* CustomFieldEditView.swift in Sources */,
+				9574331E24AA135E0062B05A /* GenericItemEditView.swift in Sources */,
 				9574327524AA081B0062B05A /* FileDisplayModel.swift in Sources */,
 				9574333024AA135E0062B05A /* SecureItemDisplayView.swift in Sources */,
 				9574327124AA081B0062B05A /* GenericItemDisplayModel.swift in Sources */,

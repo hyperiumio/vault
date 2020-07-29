@@ -123,7 +123,7 @@ extension SecureItem.TypeIdentifier {
             return LocalizedString.wifi
         case .bankAccount:
             return LocalizedString.bankAccount
-        case .customField:
+        case .generic:
             return LocalizedString.customField
         }
     }

@@ -1,23 +1,76 @@
 import Combine
+import Pasteboard
 import Store
 
-class BankAccountDisplayModel: ObservableObject, Identifiable {
+protocol BankAccountDisplayModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var pinSecureDisplay = true
+    var bankName: String { get }
+    var accountHolder: String { get }
+    var bankCode: String { get }
+    var accountNumber: String { get }
+    var swiftCode: String { get }
+    var iban: String { get }
+    var pin: String { get }
+    var onlineBankingUrl: String { get }
     
-    var bankName: String { bankAccount.bankName }
-    var accountHolder: String { bankAccount.accountHolder }
-    var bankCode: String { bankAccount.bankCode }
-    var accountNumber: String { bankAccount.accountNumber }
-    var swiftCode: String { bankAccount.swiftCode }
-    var iban: String { bankAccount.iban }
-    var pin: String { bankAccount.pin }
-    var onlineBankingUrl: String { bankAccount.onlineBankingUrl }
+    func copyBankNameToPasteboard()
+    func copyAccountHolderToPasteboard()
+    func copyBankCodeToPasteboard()
+    func copyAccountNumberToPasteboard()
+    func copySwiftCodeToPasteboard()
+    func copyIbanToPasteboard()
+    func copyPinToPasteboard()
+    func copyOnlineBankingUrlToPasteboard()
     
-    private let bankAccount: BankAccountItem
+}
+
+class BankAccountDisplayModel: BankAccountDisplayModelRepresentable {
     
-    init(_ bankAccount: BankAccountItem) {
-        self.bankAccount = bankAccount
+    var bankName: String { bankAccountItem.bankName }
+    var accountHolder: String { bankAccountItem.accountHolder }
+    var bankCode: String { bankAccountItem.bankCode }
+    var accountNumber: String { bankAccountItem.accountNumber }
+    var swiftCode: String { bankAccountItem.swiftCode }
+    var iban: String { bankAccountItem.iban }
+    var pin: String { bankAccountItem.pin }
+    var onlineBankingUrl: String { bankAccountItem.onlineBankingUrl }
+    
+    private let bankAccountItem: BankAccountItem
+    
+    init(_ bankAccountItem: BankAccountItem) {
+        self.bankAccountItem = bankAccountItem
+    }
+    
+    func copyBankNameToPasteboard() {
+        Pasteboard.general.string = bankName
+    }
+    
+    func copyAccountHolderToPasteboard() {
+        Pasteboard.general.string = accountHolder
+    }
+    
+    func copyBankCodeToPasteboard() {
+        Pasteboard.general.string = bankCode
+    }
+    
+    func copyAccountNumberToPasteboard() {
+        Pasteboard.general.string = accountNumber
+    }
+    
+    func copySwiftCodeToPasteboard() {
+        Pasteboard.general.string = swiftCode
+    }
+    
+    func copyIbanToPasteboard() {
+        Pasteboard.general.string = iban
+    }
+    
+    func copyPinToPasteboard() {
+        Pasteboard.general.string = pin
+    }
+    
+    func copyOnlineBankingUrlToPasteboard() {
+        Pasteboard.general.string = onlineBankingUrl
     }
     
 }

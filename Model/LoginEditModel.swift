@@ -14,7 +14,7 @@ class LoginEditModel: ObservableObject, Identifiable {
     init(_ loginItem: LoginItem) {
         self.user = loginItem.username
         self.password = loginItem.password
-        self.url = loginItem.url ?? ""
+        self.url = loginItem.url
     }
     
     init() {

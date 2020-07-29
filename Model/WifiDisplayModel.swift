@@ -2,21 +2,33 @@ import Combine
 import Pasteboard
 import Store
 
-class WifiDisplayModel: ObservableObject, Identifiable {
+protocol WifiDisplayModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var networkPasswordSecureDisplay = true
+    var networkName: String { get }
+    var networkPassword: String { get }
     
-    var networkName: String { wifi.networkName }
-    var networkPassword: String { wifi.networkPassword }
+    func copyNetworkNameToPasteboard()
+    func copyNetworkPasswordToPasteboard()
     
-    private let wifi: WiFiItem
+}
+
+class WifiDisplayModel: WifiDisplayModelRepresentable {
     
-    init(_ wifi: WiFiItem) {
-        self.wifi = wifi
+    var networkName: String { wifiItem.networkName }
+    var networkPassword: String { wifiItem.networkPassword }
+    
+    private let wifiItem: WiFiItem
+    
+    init(_ wifiItem: WiFiItem) {
+        self.wifiItem = wifiItem
+    }
+    
+    func copyNetworkNameToPasteboard() {
+        Pasteboard.general.string = networkName
     }
     
     func copyNetworkPasswordToPasteboard() {
-        Pasteboard.general.string = wifi.networkPassword
+        Pasteboard.general.string = networkPassword
     }
     
 }

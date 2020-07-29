@@ -1,7 +1,7 @@
 import Localization
 import SwiftUI
 
-struct CustomFieldEditView: View {
+struct GenericItemEditView: View {
     
     @ObservedObject var model: GenericItemEditModel
     

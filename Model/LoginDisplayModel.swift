@@ -2,22 +2,40 @@ import Foundation
 import Pasteboard
 import Store
 
-class LoginDisplayModel: ObservableObject, Identifiable {
+protocol LoginDisplayModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var secureDisplay = true
+    var username: String { get }
+    var password: String { get }
+    var url: String { get }
     
-    var username: String { login.username }
-    var password: String { login.password }
-    var url: String? { login.url }
+    func copyUsernameToPasteboard()
+    func copyPasswordToPasteboard()
+    func copyURLToPasteboard()
     
-    private let login: LoginItem
+}
+
+class LoginDisplayModel: LoginDisplayModelRepresentable {
     
-    init(_ login: LoginItem) {
-        self.login = login
+    var username: String { loginItem.username }
+    var password: String { loginItem.password }
+    var url: String { loginItem.url }
+    
+    private let loginItem: LoginItem
+    
+    init(_ loginItem: LoginItem) {
+        self.loginItem = loginItem
+    }
+    
+    func copyUsernameToPasteboard() {
+        Pasteboard.general.string = username
     }
     
     func copyPasswordToPasteboard() {
         Pasteboard.general.string = password
+    }
+    
+    func copyURLToPasteboard() {
+        Pasteboard.general.string = url
     }
     
 }

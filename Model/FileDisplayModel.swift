@@ -1,10 +1,20 @@
 import Foundation
 import Store
 
-class FileDisplayModel: ObservableObject, Identifiable {
+typealias FileFormat = FileItem.Format
+
+protocol FileDisplayModelRepresentable: ObservableObject, Identifiable {
+    
+    var filename: String { get }
+    var fileFormat: FileFormat { get }
+    var fileData: Data { get }
+    
+}
+
+class FileDisplayModel: FileDisplayModelRepresentable {
     
     var filename: String { fileItem.name }
-    var fileFormat: FileItem.Format { fileItem.format }
+    var fileFormat: FileFormat { fileItem.format }
     var fileData: Data { fileItem.data }
     
     private let fileItem: FileItem
