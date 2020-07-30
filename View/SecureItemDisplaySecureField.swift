@@ -25,7 +25,7 @@ struct SecureItemDisplaySecureField: View {
             }
             .buttonStyle(BorderlessButtonStyle())
         }
-        .padding([.top, .bottom], 5)
+        .padding([.top, .bottom])
     }
     
 }

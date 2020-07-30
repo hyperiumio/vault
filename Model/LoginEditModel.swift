@@ -1,7 +1,15 @@
 import Combine
 import Store
 
-class LoginEditModel: ObservableObject, Identifiable {
+protocol LoginEditModelRepresentable: ObservableObject, Identifiable {
+
+    var user: String { get set }
+    var password: String { get set }
+    var url: String { get set}
+    
+}
+
+class LoginEditModel: LoginEditModelRepresentable {
     
     @Published var user: String
     @Published var password: String

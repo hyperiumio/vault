@@ -61,7 +61,9 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
             List {
                 Section {
                     TextField(LocalizedString.title, text: $model.title)
-                    
+                }
+                
+                Section {
                     SecureItemEditView(secureItemModel: model.primaryItemModel)
                 }
                 

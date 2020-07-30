@@ -1,15 +1,18 @@
 import SwiftUI
 
-struct SecureItemDisplayDateField: View {
+struct SecureItemEditDateField: View {
     
     let title: String
-    let date: Date
+    let date: Binding<Date>
     
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             FieldLabel(title)
             
-            Text(date, style: .date)
+            DatePicker(selection: date, displayedComponents: .date) {
+                EmptyView()
+            }
+            .labelsHidden()
         }
         .padding([.top, .bottom])
     }

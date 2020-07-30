@@ -6,14 +6,18 @@ struct LoginDisplayView<Model>: View where Model: LoginDisplayModelRepresentable
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
+        VStack(alignment: .leading, spacing: 0) {
             SecureItemDisplayField(title: LocalizedString.user, content: model.username)
                 .onTapGesture(perform: model.copyUsernameToPasteboard)
+            
+            Divider()
             
             SecureItemDisplaySecureField(title: LocalizedString.password, content: model.password)
                 .onTapGesture(perform: model.copyPasswordToPasteboard)
             
             if !model.url.isEmpty {
+                Divider()
+                
                 SecureItemDisplayField(title: LocalizedString.url, content: model.url)
                     .onTapGesture(perform: model.copyURLToPasteboard)
             }
@@ -27,7 +31,7 @@ class LoginDisplayModelStub: LoginDisplayModelRepresentable {
     
     var username = "john.doe@example.com"
     var password = "123abc"
-    var url: String = "www.example.com"
+    var url = "www.example.com"
     
     func copyUsernameToPasteboard() {}
     func copyPasswordToPasteboard() {}
@@ -39,22 +43,10 @@ struct LoginDisplayViewPreview: PreviewProvider {
     
     static let model = LoginDisplayModelStub()
     
-    #if os(macOS)
     static var previews: some View {
-        List {
-            LoginDisplayView(model: model)
-        }
+        LoginDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-    #endif
-    
-    #if os(iOS)
-    static var previews: some View {
-        List {
-            LoginDisplayView(model: model)
-        }
-        .listStyle(GroupedListStyle())
-    }
-    #endif
     
 }
 #endif

@@ -1,15 +1,15 @@
 import SwiftUI
 
-struct SecureItemDisplayDateField: View {
+struct SecureItemEditSecureField: View {
     
     let title: String
-    let date: Date
+    let text: Binding<String>
     
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             FieldLabel(title)
             
-            Text(date, style: .date)
+            SecureField(title, text: text)
         }
         .padding([.top, .bottom])
     }

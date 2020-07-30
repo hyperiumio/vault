@@ -8,24 +8,17 @@ struct VaultItemDisplayView: View {
     
     var body: some View {
         List {
-            VaultItemTitleView(title: model.title)
+            Section {
+                VaultItemTitleView(title: model.title)
+            }
             
-            SecureItemDisplayView(model: model.primaryItemModel)
+            Section {
+                SecureItemDisplayView(model: model.primaryItemModel)
+            }
             
             ForEach(model.secondaryItemModels) { secureItemModel in
-                SecureItemDisplayView(model: secureItemModel)
-            }
-        }
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                Button(LocalizedString.edit, action: model.edit)
-            }
-            
-            ToolbarItem(placement: .principal) {
-                HStack {
-                    Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
-                    
-                    Text(model.primaryItemModel.typeIdentifier.title)
+                Section {
+                    SecureItemDisplayView(model: secureItemModel)
                 }
             }
         }
@@ -41,12 +34,18 @@ struct VaultItemDisplayView: View {
     
     var body: some View {
         List {
-            VaultItemTitleView(title: model.title)
+            Section {
+                VaultItemTitleView(title: model.title)
+            }
             
-            SecureItemDisplayView(model: model.primaryItemModel)
+            Section {
+                SecureItemDisplayView(model: model.primaryItemModel)
+            }
             
             ForEach(model.secondaryItemModels) { secureItemModel in
-                SecureItemDisplayView(model: secureItemModel)
+                Section {
+                    SecureItemDisplayView(model: secureItemModel)
+                }
             }
         }
         .listStyle(GroupedListStyle())

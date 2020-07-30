@@ -6,30 +6,58 @@ struct BankAccountDisplayView<Model>: View where Model: BankAccountDisplayModelR
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
+        VStack(alignment: .leading, spacing: 0) {
             SecureItemDisplayField(title: LocalizedString.bankAccountName, content: model.bankName)
                 .onTapGesture(perform: model.copyBankNameToPasteboard)
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountNumber, content: model.accountNumber)
-                .onTapGesture(perform: model.copyAccountNumberToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountNumber, content: model.accountNumber)
+                    .onTapGesture(perform: model.copyAccountNumberToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountHolder, content: model.accountHolder)
-                .onTapGesture(perform: model.copyAccountHolderToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountHolder, content: model.accountHolder)
+                    .onTapGesture(perform: model.copyAccountHolderToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountCode, content: model.bankCode)
-                .onTapGesture(perform: model.copyBankCodeToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountCode, content: model.bankCode)
+                    .onTapGesture(perform: model.copyBankCodeToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountSwiftCode, content: model.swiftCode)
-                .onTapGesture(perform: model.copySwiftCodeToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountSwiftCode, content: model.swiftCode)
+                    .onTapGesture(perform: model.copySwiftCodeToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountIban, content: model.iban)
-                .onTapGesture(perform: model.copyIbanToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountIban, content: model.iban)
+                    .onTapGesture(perform: model.copyIbanToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountPin, content: model.pin)
-                .onTapGesture(perform: model.copyPinToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountPin, content: model.pin)
+                    .onTapGesture(perform: model.copyPinToPasteboard)
+            }
             
-            SecureItemDisplayField(title: LocalizedString.bankAccountOnlineBankingUrl, content: model.onlineBankingUrl)
-                .onTapGesture(perform: model.copyOnlineBankingUrlToPasteboard)
+            Group {
+                Divider()
+                
+                SecureItemDisplayField(title: LocalizedString.bankAccountOnlineBankingUrl, content: model.onlineBankingUrl)
+                    .onTapGesture(perform: model.copyOnlineBankingUrlToPasteboard)
+            }
         }
     }
     
@@ -62,21 +90,9 @@ struct BankAccountDisplayViewProvider: PreviewProvider {
     
     static let model = BankAccountDisplayModelStub()
     
-    #if os(macOS)
     static var previews: some View {
-        List {
-            BankAccountDisplayView(model: model)
-        }
+        BankAccountDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-    #endif
-    
-    #if os(iOS)
-    static var previews: some View {
-        List {
-            BankAccountDisplayView(model: model)
-        }
-        .listStyle(GroupedListStyle())
-    }
-    #endif
 }
 #endif

@@ -6,10 +6,8 @@ struct PasswordDisplayView<Model>: View where Model: PasswordDisplayModelReprese
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
-            SecureItemDisplaySecureField(title: LocalizedString.password, content: model.password)
-                .onTapGesture(perform: model.copyPasswordToPasteboard)
-        }
+        SecureItemDisplaySecureField(title: LocalizedString.password, content: model.password)
+            .onTapGesture(perform: model.copyPasswordToPasteboard)
     }
     
 }
@@ -27,22 +25,10 @@ struct PasswordDisplayViewPreview: PreviewProvider {
     
     static let model = PasswordDisplayModelStub()
     
-    #if os(macOS)
     static var previews: some View {
-        List {
-            PasswordDisplayView(model: model)
-        }
+        PasswordDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-    #endif
-    
-    #if os(iOS)
-    static var previews: some View {
-        List {
-            PasswordDisplayView(model: model)
-        }
-        .listStyle(GroupedListStyle())
-    }
-    #endif
     
 }
 #endif

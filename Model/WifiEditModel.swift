@@ -1,7 +1,14 @@
 import Combine
 import Store
 
-class WifiEditModel: ObservableObject, Identifiable {
+protocol WifiEditModelRepresentable: ObservableObject, Identifiable {
+    
+    var networkPassword: String { get set }
+    var networkName: String { get set }
+    
+}
+
+class WifiEditModel: WifiEditModelRepresentable {
     
     @Published var networkPassword: String
     @Published var networkName: String

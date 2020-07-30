@@ -7,18 +7,16 @@ struct FileDisplayView<Model>: View where Model: FileDisplayModelRepresentable {
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 2) {
-                SecureItemDisplayField(title: LocalizedString.title, content: model.filename)
-                
-                switch model.fileFormat {
-                case .unrepresentable:
-                    FileGenericView()
-                case .pdf:
-                    FilePDFView(data: model.fileData)
-                case .image:
-                    FileImageView(data: model.fileData)
-                }
+        VStack(alignment: .leading, spacing: 0) {
+            SecureItemDisplayField(title: LocalizedString.title, content: model.filename)
+            
+            switch model.fileFormat {
+            case .unrepresentable:
+                FileGenericView()
+            case .pdf:
+                FilePDFView(data: model.fileData)
+            case .image:
+                FileImageView(data: model.fileData)
             }
         }
     }
@@ -94,22 +92,10 @@ struct FileDisplayViewProvider: PreviewProvider {
     
     static let model = FileDisplayModelStub()
     
-    #if os(macOS)
     static var previews: some View {
-        List {
-            FileDisplayView(model: model)
-        }
+        FileDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-    #endif
-    
-    #if os(iOS)
-    static var previews: some View {
-        List {
-            FileDisplayView(model: model)
-        }
-        .listStyle(GroupedListStyle())
-    }
-    #endif
     
 }
 #endif
