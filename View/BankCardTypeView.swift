@@ -21,7 +21,7 @@ struct BankCardVendorField: View {
                 Text("Other")
             }
         }
-        .padding([.top, .bottom], 5)
+        .padding([.top, .bottom])
     }
     
 }

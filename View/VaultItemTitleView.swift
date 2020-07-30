@@ -5,9 +5,8 @@ struct VaultItemTitleView: View {
     let title: String
     
     var body: some View {
-        Section {
-            Text(title)
-        }
+        Text(title)
+            .frame(alignment: .leading)
     }
     
 }

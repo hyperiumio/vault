@@ -1,7 +1,13 @@
 import Combine
 import Store
 
-class PasswordEditModel: ObservableObject, Identifiable {
+protocol PasswordEditModelRepresentable: ObservableObject, Identifiable {
+    
+    var password: String { get set }
+    
+}
+
+class PasswordEditModel: PasswordEditModelRepresentable {
     
     @Published var password: String
     

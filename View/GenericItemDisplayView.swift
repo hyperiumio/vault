@@ -6,10 +6,8 @@ struct GenericItemDisplayView<Model>: View where Model: GenericItemDisplayModelR
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
-            SecureItemDisplayField(title: model.fieldName, content: model.fieldValue)
-                .onTapGesture(perform: model.copyFieldValueToPasteboard)
-        }
+        SecureItemDisplayField(title: model.fieldName, content: model.fieldValue)
+            .onTapGesture(perform: model.copyFieldValueToPasteboard)
     }
     
 }
@@ -28,22 +26,10 @@ struct GenericItemDisplayViewProvider: PreviewProvider {
     
     static let model = GenericItemDisplayModelStub()
     
-    #if os(macOS)
     static var previews: some View {
-        List {
-            GenericItemDisplayView(model: model)
-        }
+        GenericItemDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-    #endif
-    
-    #if os(iOS)
-    static var previews: some View {
-        List {
-            GenericItemDisplayView(model: model)
-        }
-        .listStyle(GroupedListStyle())
-    }
-    #endif
     
 }
 #endif

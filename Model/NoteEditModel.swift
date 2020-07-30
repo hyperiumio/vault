@@ -1,7 +1,13 @@
 import Combine
 import Store
 
-class NoteEditModel: ObservableObject, Identifiable {
+protocol NoteEditModelRepresentable: ObservableObject, Identifiable {
+    
+    var text: String { get set }
+    
+}
+
+class NoteEditModel: NoteEditModelRepresentable {
     
     @Published var text: String
     

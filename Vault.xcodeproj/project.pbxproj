@@ -180,6 +180,12 @@
 		9583624924D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
 		958BB43C24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
 		958BB43D24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
+		958BB43F24D1A38E00DF585B /* SecureItemEditField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */; };
+		958BB44024D1A38E00DF585B /* SecureItemEditField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */; };
+		958BB44524D1A58100DF585B /* SecureItemEditSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */; };
+		958BB44624D1A58100DF585B /* SecureItemEditSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */; };
+		958BB44824D1B51300DF585B /* SecureItemEditDateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB44724D1B51300DF585B /* SecureItemEditDateField.swift */; };
+		958BB44924D1B51300DF585B /* SecureItemEditDateField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB44724D1B51300DF585B /* SecureItemEditDateField.swift */; };
 		958E17EB24ABD4DB00487EA4 /* VaultApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* VaultApp.swift */; };
 		958E17EE24ABD71400487EA4 /* VaultItemEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337024AA23D30062B05A /* VaultItemEditView.swift */; };
 		958E17EF24ABD7D500487EA4 /* VaultItemCreatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574336F24AA23D30062B05A /* VaultItemCreatingView.swift */; };
@@ -315,6 +321,9 @@
 		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
 		958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleView.swift; sourceTree = "<group>"; };
+		958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditField.swift; sourceTree = "<group>"; };
+		958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditSecureField.swift; sourceTree = "<group>"; };
+		958BB44724D1B51300DF585B /* SecureItemEditDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditDateField.swift; sourceTree = "<group>"; };
 		959CB4BA24CF36B800010A43 /* FieldLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldLabel.swift; sourceTree = "<group>"; };
 		95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLockedView.swift; sourceTree = "<group>"; };
 		95A87A3924ACC75400C1026F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
@@ -478,6 +487,9 @@
 				953F470324D00CC200001C31 /* SecureItemDisplayField.swift */,
 				957432F724AA135D0062B05A /* SecureItemDisplaySecureField.swift */,
 				957432FA24AA135D0062B05A /* SecureItemDisplayView.swift */,
+				958BB44724D1B51300DF585B /* SecureItemEditDateField.swift */,
+				958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */,
+				958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */,
 				9574331424AA135E0062B05A /* SecureItemEditView.swift */,
 				95A87A3624ACC6AA00C1026F /* SettingsLockedView.swift */,
 				9574330A24AA135D0062B05A /* SettingsUnlockedView.swift */,
@@ -490,10 +502,10 @@
 				9574337024AA23D30062B05A /* VaultItemEditView.swift */,
 				957432F824AA135D0062B05A /* VaultItemLoadedView.swift */,
 				9574330024AA135D0062B05A /* VaultItemLoadingView.swift */,
+				958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */,
 				9574331124AA135E0062B05A /* VaultItemView.swift */,
 				9574330D24AA135E0062B05A /* WifiDisplayView.swift */,
 				9574330E24AA135E0062B05A /* WifiEditView.swift */,
-				958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,8 +700,10 @@
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
 				9574328224AA081B0062B05A /* FileLoadedModel.swift in Sources */,
 				9574331F24AA135E0062B05A /* FileEditView.swift in Sources */,
+				958BB43F24D1A38E00DF585B /* SecureItemEditField.swift in Sources */,
 				9574327624AA081B0062B05A /* SettingsUnlockedModel.swift in Sources */,
 				95756C2424AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */,
+				958BB44524D1A58100DF585B /* SecureItemEditSecureField.swift in Sources */,
 				9530C51524B6FA90008F1D2C /* AppDelegate.swift in Sources */,
 				9574332724AA135E0062B05A /* PasswordEditView.swift in Sources */,
 				95D206E524C6D7A700C1DC9D /* ErrorBadge.swift in Sources */,
@@ -711,6 +725,7 @@
 				9574333924AA135E0062B05A /* SetupView.swift in Sources */,
 				9574323E24AA075A0062B05A /* AppModel.swift in Sources */,
 				9574327224AA081B0062B05A /* FileEditModel.swift in Sources */,
+				958BB44824D1B51300DF585B /* SecureItemEditDateField.swift in Sources */,
 				9574333F24AA135E0062B05A /* ChangeMasterPasswordView.swift in Sources */,
 				957432BD24AA083F0062B05A /* VaultItemLoadedModelContext.swift in Sources */,
 				9574334924AA135E0062B05A /* NoteDisplayView.swift in Sources */,
@@ -788,8 +803,10 @@
 				957432CA24AA084E0062B05A /* CryptoBridge.swift in Sources */,
 				95756C2524AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */,
 				9574333224AA135E0062B05A /* BiometricUnlockPreferencesView.swift in Sources */,
+				958BB44024D1A38E00DF585B /* SecureItemEditField.swift in Sources */,
 				958E17EF24ABD7D500487EA4 /* VaultItemCreatingView.swift in Sources */,
 				957432A924AA081B0062B05A /* SecureItemDisplayModel.swift in Sources */,
+				958BB44624D1A58100DF585B /* SecureItemEditSecureField.swift in Sources */,
 				957432BA24AA083F0062B05A /* AppModelContext.swift in Sources */,
 				9530C51624B6FA90008F1D2C /* AppDelegate.swift in Sources */,
 				95D206E624C6D7A700C1DC9D /* ErrorBadge.swift in Sources */,
@@ -811,6 +828,7 @@
 				9574327724AA081B0062B05A /* SettingsUnlockedModel.swift in Sources */,
 				9574333C24AA135E0062B05A /* VaultItemLoadingView.swift in Sources */,
 				957432AD24AA081B0062B05A /* SetupModel.swift in Sources */,
+				958BB44924D1B51300DF585B /* SecureItemEditDateField.swift in Sources */,
 				9574331C24AA135E0062B05A /* NoteEditView.swift in Sources */,
 				9574335A24AA135E0062B05A /* BankAccountDisplayView.swift in Sources */,
 				9574328B24AA081B0062B05A /* VaultItemLoadedModel.swift in Sources */,

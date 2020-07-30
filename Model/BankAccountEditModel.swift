@@ -1,7 +1,20 @@
 import Combine
 import Store
 
-class BankAccountEditModel: ObservableObject, Identifiable {
+protocol BankAccountEditModelRepresentable: ObservableObject, Identifiable {
+    
+    var bankName: String { get set }
+    var accountHolder: String { get set }
+    var bankCode: String { get set }
+    var accountNumber: String { get set }
+    var swiftCode: String { get set }
+    var iban: String { get set }
+    var pin: String { get set }
+    var onlineBankingUrl: String { get set }
+    
+}
+
+class BankAccountEditModel: BankAccountEditModelRepresentable {
     
     @Published var bankName: String
     @Published var accountHolder: String

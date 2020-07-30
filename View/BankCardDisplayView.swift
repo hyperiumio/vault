@@ -6,17 +6,25 @@ struct BankCardDisplayView<Model>: View where Model: BankCardDisplayModelReprese
     @ObservedObject var model: Model
     
     var body: some View {
-        Section {
+        VStack(alignment: .leading, spacing: 0) {
             SecureItemDisplayField(title: LocalizedString.bankCardName, content: model.name)
                 .onTapGesture(perform: model.copyNameToPasteboard)
             
+            Divider()
+            
             BankCardVendorField(title: LocalizedString.bankCardVendor, vendor: model.vendor)
+            
+            Divider()
             
             SecureItemDisplayField(title: LocalizedString.bankCardNumber, content: model.number)
                 .onTapGesture(perform: model.copyNumberToPasteboard)
             
+            Divider()
+            
             SecureItemDisplayDateField(title: LocalizedString.bankCardExpirationDate, date: model.expirationDate)
                 .onTapGesture(perform: model.copyExpirationDateToPasteboard)
+            
+            Divider()
             
             SecureItemDisplaySecureField(title: LocalizedString.bankCardPin , content: model.pin)
                 .onTapGesture(perform: model.copyPinToPasteboard)
@@ -26,7 +34,6 @@ struct BankCardDisplayView<Model>: View where Model: BankCardDisplayModelReprese
 }
 
 #if DEBUG
-
 class BankCardDisplayModelStub: BankCardDisplayModelRepresentable {
     
     var name = "John Doe"
@@ -47,12 +54,9 @@ struct BankCardDisplayViewPreview: PreviewProvider {
     static let model = BankCardDisplayModelStub()
     
     static var previews: some View {
-        List {
-            BankCardDisplayView(model: model)
-        }
-     //   .listStyle(GroupedListStyle())
+        BankCardDisplayView(model: model)
+            .previewLayout(.sizeThatFits)
     }
-
     
 }
 #endif
