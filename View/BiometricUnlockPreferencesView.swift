@@ -8,10 +8,12 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
     
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: model.biometricType.systemImageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
+            switch  model.biometricType {
+            case .touchID:
+                Icon(.touchID)
+            case .faceID:
+                Icon(.faceID)
+            }
 
             Text(model.biometricType.localizedDescription)
             
@@ -98,12 +100,16 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
         HStack {
             Spacer()
             
-            Image(systemName: model.biometricType.systemImageName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
-                .padding(.top, 40)
-                .padding(.bottom, 20)
+            Group {
+                switch model.biometricType {
+                case .touchID:
+                    Icon(.touchID)
+                case .faceID:
+                    Icon(.faceID)
+                }
+            }
+            .padding(.top, 40)
+            .padding(.bottom, 20)
             
             Spacer()
         }
@@ -164,15 +170,6 @@ private extension BiometricUnlockPreferencesModel.BiometryType {
             return LocalizedString.touchIDActivationFailed
         case .faceID:
             return LocalizedString.faceIDActivationFailed
-        }
-    }
-    
-    var systemImageName: String {
-        switch self {
-        case .touchID:
-            return "touchid"
-        case .faceID:
-            return "faceid"
         }
     }
     

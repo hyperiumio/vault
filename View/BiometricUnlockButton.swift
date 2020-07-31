@@ -7,11 +7,16 @@ struct BiometricUnlockButton: View {
     
     var body: some View {
         Button(action: action) {
-            Image(systemName: biometricType.imageSystemName)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-                .foregroundColor(.accentColor)
+            Group {
+                switch biometricType {
+                case .touchID:
+                    Icon(.touchID)
+                case .faceID:
+                    Icon(.faceID)
+                }
+            }
+            
+                
         }
         .buttonStyle(buttonStyle)
         .padding()
@@ -27,15 +32,6 @@ extension BiometricUnlockButton {
         
         case touchID
         case faceID
-        
-        fileprivate var imageSystemName: String {
-            switch self {
-            case .touchID:
-                return "touchid"
-            case .faceID:
-                return "faceid"
-            }
-        }
         
     }
     

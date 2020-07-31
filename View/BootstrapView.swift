@@ -12,10 +12,7 @@ struct BootstrapView: View {
                 Text("fpp")
             case .loadingDidFail:
                 VStack {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                    Icon(.warning)
                         .padding()
                     
                     Text(LocalizedString.appLaunchError)

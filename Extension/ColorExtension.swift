@@ -1,11 +1,21 @@
 import SwiftUI
 
+extension Color {
+    
+    static let appBlue = Color("AppBlue")
+    static let appGray = Color("AppGray")
+    static let appGreen = Color("AppGreen")
+    static let appRed = Color("AppRed")
+    static let appYellow = Color("AppYellow")
+    
+}
+
 #if canImport(AppKit)
 import AppKit
 
 extension Color {
     
-    public static let textFieldBackground = Self(.textBackgroundColor)
+    static let textFieldBackground = Self(.textBackgroundColor)
     
 }
 
@@ -16,7 +26,7 @@ import UIKit
 
 extension Color {
     
-    public static let textFieldBackground = Self(.secondarySystemBackground)
+    static let textFieldBackground = Self(.secondarySystemBackground)
     
 }
 
