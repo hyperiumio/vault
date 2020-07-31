@@ -6,13 +6,7 @@ struct SetupView: View {
     @ObservedObject var model: SetupModel
     
     var body: some View {
-        VStack {
-            Image(systemName: "lock.square.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 50)
-                .padding()
-            
+        VStack {            
             SecureField(LocalizedString.masterPassword, text: $model.password)
                 .frame(width: 220)
                 .disabled(model.textInputDisabled)

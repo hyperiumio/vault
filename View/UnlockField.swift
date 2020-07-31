@@ -14,9 +14,7 @@ struct UnlockField: View {
                 .background(Color.textFieldBackground)
             
             Button(action: unlock) {
-                Image(systemName: "lock.fill")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                Icon(.lock)
                     .frame(width: 22, height: 22)
                     .foregroundColor(Color.white)
             }

@@ -34,7 +34,24 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
+                        switch model.primaryItemModel.typeIdentifier {
+                        case .password:
+                            Icon(.password)
+                        case .login:
+                            Icon(.login)
+                        case .file:
+                            Icon(.file)
+                        case .note:
+                            Icon(.note)
+                        case .bankCard:
+                            Icon(.bankCard)
+                        case .wifi:
+                            Icon(.wifi)
+                        case .bankAccount:
+                            Icon(.bankAccount)
+                        case .generic:
+                            Icon(.custom)
+                        }
                         
                         Text(model.primaryItemModel.typeIdentifier.title)
                     }
@@ -87,7 +104,24 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        Image(systemName: model.primaryItemModel.typeIdentifier.systemImage)
+                        switch model.primaryItemModel.typeIdentifier {
+                        case .password:
+                            Icon(.password)
+                        case .login:
+                            Icon(.login)
+                        case .file:
+                            Icon(.file)
+                        case .note:
+                            Icon(.note)
+                        case .bankCard:
+                            Icon(.bankCard)
+                        case .wifi:
+                            Icon(.wifi)
+                        case .bankAccount:
+                            Icon(.bankAccount)
+                        case .generic:
+                            Icon(.custom)
+                        }
                         
                         Text(model.primaryItemModel.typeIdentifier.title)
                     }

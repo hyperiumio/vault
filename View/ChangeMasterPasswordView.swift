@@ -8,10 +8,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     
     var body: some View {
         VStack(spacing: 20) {
-            Image(systemName: "key.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
+            Icon(.masterPassword)
             
             VStack {
                 SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
@@ -92,10 +89,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
         HStack {
             Spacer()
             
-            Image(systemName: "key.fill")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 60, height: 60)
+            Icon(.masterPassword)
                 .padding(.top, 40)
                 .padding(.bottom, 20)
             

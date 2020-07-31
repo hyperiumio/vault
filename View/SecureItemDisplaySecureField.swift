@@ -21,7 +21,11 @@ struct SecureItemDisplaySecureField: View {
             Button {
                 secureDisplay.toggle()
             } label: {
-                Image(systemName: secureDisplay ? "eye.slash.fill" : "eye.fill")
+                if secureDisplay {
+                    Icon(.hideSecret)
+                } else {
+                    Icon(.showSecret)
+                }
             }
             .buttonStyle(BorderlessButtonStyle())
         }

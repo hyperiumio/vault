@@ -13,7 +13,28 @@ struct UnlockedView: View {
                     Section(header: Text(section.title)) {
                         ForEach(section.items) { item in
                             NavigationLink(destination: VaultItemView(model: item.detailModel)) {
-                                Label(item.title, systemImage: item.itemType.systemImage)
+                                Label {
+                                    Text(item.title)
+                                } icon: {
+                                    switch item.itemType {
+                                    case .password:
+                                        Icon(.password)
+                                    case .login:
+                                        Icon(.login)
+                                    case .file:
+                                        Icon(.file)
+                                    case .note:
+                                        Icon(.note)
+                                    case .bankCard:
+                                        Icon(.bankCard)
+                                    case .wifi:
+                                        Icon(.wifi)
+                                    case .bankAccount:
+                                        Icon(.bankAccount)
+                                    case .generic:
+                                        Icon(.custom)
+                                    }
+                                }
                             }
                         }
                     }
@@ -26,9 +47,7 @@ struct UnlockedView: View {
                 .frame(minWidth: 120)
             
             CreateVaultItemButton(action: model.createVaultItem) {
-                Image(systemName: "plus")
-                    .imageScale(.large)
-                    .foregroundColor(.accentColor)
+                Icon(.plus)
             }
             .sheet(item: $model.newVaultItemModel) { model in
                 VaultItemCreatingView(model: model)
@@ -66,9 +85,7 @@ struct UnlockedView: View {
                     TextField(LocalizedString.search, text: $model.searchText)
                     
                     CreateVaultItemButton(action: model.createVaultItem) {
-                        Image(systemName: "plus")
-                            .imageScale(.large)
-                            .foregroundColor(.accentColor)
+                        Icon(.plus)
                     }
                     .sheet(item: $model.newVaultItemModel) { model in
                         VaultItemCreatingView(model: model)
@@ -81,7 +98,28 @@ struct UnlockedView: View {
                         Section(header: Text(section.title)) {
                             ForEach(section.items) { item in
                                 NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
-                                    Label(item.title, systemImage: item.itemType.systemImage)
+                                    Label {
+                                        Text(item.title)
+                                    } icon: {
+                                        switch item.itemType {
+                                        case .password:
+                                            Icon(.password)
+                                        case .login:
+                                            Icon(.login)
+                                        case .file:
+                                            Icon(.file)
+                                        case .note:
+                                            Icon(.note)
+                                        case .bankCard:
+                                            Icon(.bankCard)
+                                        case .wifi:
+                                            Icon(.wifi)
+                                        case .bankAccount:
+                                            Icon(.bankAccount)
+                                        case .generic:
+                                            Icon(.custom)
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -121,28 +159,3 @@ struct UnlockedView: View {
     
 }
 #endif
-
-extension UnlockedModel.ItemType {
-    
-    var systemImage: String {
-        switch self {
-        case .password:
-            return "key.fill"
-        case .login:
-            return "person.fill"
-        case .file:
-            return "paperclip"
-        case .note:
-            return "note.text"
-        case .bankCard:
-            return "creditcard.fill"
-        case .wifi:
-            return "wifi"
-        case .bankAccount:
-            return "dollarsign.circle.fill"
-        case .generic:
-            return "scribble.variable"
-        }
-    }
-    
-}
