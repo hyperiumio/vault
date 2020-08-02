@@ -9,7 +9,7 @@ protocol BiometricUnlockPreferencesModelRepresentable: ObservableObject, Identif
     var password: String { get set }
     var userInputDisabled: Bool { get }
     var status: BiometricUnlockPreferencesModel.Status { get }
-    var biometricType: BiometricUnlockPreferencesModel.BiometryType { get }
+    var biometricType: BiometricType { get }
     
     func cancel()
     func enabledBiometricUnlock()
@@ -25,7 +25,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
-    let biometricType: BiometryType
+    let biometricType: BiometricType
     
     private let eventSubject = PassthroughSubject<Event, Never>()
     private let vault: Vault<SecureDataCryptor>
@@ -33,7 +33,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault<SecureDataCryptor>, biometricType: BiometryType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault<SecureDataCryptor>, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
@@ -86,13 +86,6 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
 }
 
 extension BiometricUnlockPreferencesModel {
-    
-    enum BiometryType {
-        
-        case touchID
-        case faceID
-        
-    }
     
     enum Status {
         

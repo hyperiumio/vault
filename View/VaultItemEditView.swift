@@ -18,7 +18,7 @@ struct VaultItemEditView: View {
             }
             
             CreateVaultItemButton(action: model.addItem) {
-                Icon(.plus)
+                Image.plus
                     .imageScale(.large)
                     .foregroundColor(.accentColor)
             }

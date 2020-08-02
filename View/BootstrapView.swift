@@ -12,7 +12,7 @@ struct BootstrapView: View {
                 Text("fpp")
             case .loadingDidFail:
                 VStack {
-                    Icon(.warning)
+                    Image.warning
                         .padding()
                     
                     Text(LocalizedString.appLaunchError)

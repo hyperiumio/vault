@@ -78,7 +78,7 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
     
 }
 
-extension BiometricUnlockPreferencesModel.BiometryType {
+extension BiometricType {
     
     init?(_ biometricAvailablity: BiometricKeychain.Availablity) {
         switch biometricAvailablity {

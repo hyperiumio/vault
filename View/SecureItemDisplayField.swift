@@ -11,7 +11,7 @@ struct SecureItemDisplayField: View {
             
             Text(content)
         }
-        .padding([.top, .bottom])
+        .padding(.vertical)
     }
     
 }

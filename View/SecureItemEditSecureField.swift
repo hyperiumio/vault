@@ -11,7 +11,7 @@ struct SecureItemEditSecureField: View {
             
             SecureField(title, text: text)
         }
-        .padding([.top, .bottom])
+        .padding(.vertical)
     }
     
 }
