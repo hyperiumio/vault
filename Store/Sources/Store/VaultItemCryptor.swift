@@ -81,7 +81,7 @@ private extension MultiMessageCryptor {
             }
         }
         
-        return VaultItem(id: itemInfo.id, title: itemInfo.title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
+        return VaultItem(id: itemInfo.id, title: itemInfo.title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: itemInfo.created, modified: itemInfo.modified)
     }
     
 }

@@ -20,6 +20,7 @@
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangeMasterPasswordDescription" = "If you think your master password is too weak or has been compromised you can change it here.";
+"Created" = "Created";
 "CreateVault" = "Create Vault";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomField" = "Custom Field";
@@ -46,6 +47,7 @@
 "Login" = "Login";
 "MasterPassword" = "Master password";
 "MasterPasswordChangeDidFail" = "The change of the master password did fail. Try again.";
+"Modified" = "Modified";
 "NewMasterPassword" = "New Master Password";
 "Note" = "Note";
 "NotePlaceholder" = "Enter note here";
