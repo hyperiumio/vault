@@ -22,14 +22,14 @@ struct SecureItemDisplaySecureField: View {
                 secureDisplay.toggle()
             } label: {
                 if secureDisplay {
-                    Icon(.hideSecret)
+                    Image.hideSecret
                 } else {
-                    Icon(.showSecret)
+                    Image.showSecret
                 }
             }
             .buttonStyle(BorderlessButtonStyle())
         }
-        .padding([.top, .bottom])
+        .padding(.vertical)
     }
     
 }

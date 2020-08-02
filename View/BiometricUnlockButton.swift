@@ -7,33 +7,14 @@ struct BiometricUnlockButton: View {
     
     var body: some View {
         Button(action: action) {
-            Group {
-                switch biometricType {
-                case .touchID:
-                    Icon(.touchID)
-                case .faceID:
-                    Icon(.faceID)
-                }
-            }
-            
-                
+            BiometryIcon(biometricType)
         }
+        .frame(width: 40, height: 40)
         .buttonStyle(buttonStyle)
         .padding()
     }
     
     var buttonStyle: some PrimitiveButtonStyle { PlainButtonStyle() }
-    
-}
-
-extension BiometricUnlockButton {
-    
-    enum BiometricType {
-        
-        case touchID
-        case faceID
-        
-    }
     
 }
 

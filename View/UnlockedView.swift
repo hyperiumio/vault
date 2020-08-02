@@ -16,24 +16,8 @@ struct UnlockedView: View {
                                 Label {
                                     Text(item.title)
                                 } icon: {
-                                    switch item.itemType {
-                                    case .password:
-                                        Icon(.password)
-                                    case .login:
-                                        Icon(.login)
-                                    case .file:
-                                        Icon(.file)
-                                    case .note:
-                                        Icon(.note)
-                                    case .bankCard:
-                                        Icon(.bankCard)
-                                    case .wifi:
-                                        Icon(.wifi)
-                                    case .bankAccount:
-                                        Icon(.bankAccount)
-                                    case .generic:
-                                        Icon(.custom)
-                                    }
+                                    Image(item.itemType)
+                                        .foregroundColor(Color(item.itemType))
                                 }
                             }
                         }
@@ -47,7 +31,8 @@ struct UnlockedView: View {
                 .frame(minWidth: 120)
             
             CreateVaultItemButton(action: model.createVaultItem) {
-                Icon(.plus)
+                Image.plus
+                    .imageScale(.large)
             }
             .sheet(item: $model.newVaultItemModel) { model in
                 VaultItemCreatingView(model: model)
@@ -85,7 +70,8 @@ struct UnlockedView: View {
                     TextField(LocalizedString.search, text: $model.searchText)
                     
                     CreateVaultItemButton(action: model.createVaultItem) {
-                        Icon(.plus)
+                        Image.plus
+                            .imageScale(.large)
                     }
                     .sheet(item: $model.newVaultItemModel) { model in
                         VaultItemCreatingView(model: model)
@@ -101,24 +87,8 @@ struct UnlockedView: View {
                                     Label {
                                         Text(item.title)
                                     } icon: {
-                                        switch item.itemType {
-                                        case .password:
-                                            Icon(.password)
-                                        case .login:
-                                            Icon(.login)
-                                        case .file:
-                                            Icon(.file)
-                                        case .note:
-                                            Icon(.note)
-                                        case .bankCard:
-                                            Icon(.bankCard)
-                                        case .wifi:
-                                            Icon(.wifi)
-                                        case .bankAccount:
-                                            Icon(.bankAccount)
-                                        case .generic:
-                                            Icon(.custom)
-                                        }
+                                        Image(item.itemType)
+                                            .foregroundColor(Color(item.itemType))
                                     }
                                 }
                             }

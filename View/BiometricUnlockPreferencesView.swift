@@ -8,12 +8,7 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
     
     var body: some View {
         VStack(spacing: 20) {
-            switch  model.biometricType {
-            case .touchID:
-                Icon(.touchID)
-            case .faceID:
-                Icon(.faceID)
-            }
+            BiometryIcon(model.biometricType)
 
             Text(model.biometricType.localizedDescription)
             
@@ -100,16 +95,10 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
         HStack {
             Spacer()
             
-            Group {
-                switch model.biometricType {
-                case .touchID:
-                    Icon(.touchID)
-                case .faceID:
-                    Icon(.faceID)
-                }
-            }
-            .padding(.top, 40)
-            .padding(.bottom, 20)
+            BiometryIcon(model.biometricType)
+                .frame(width: 60, height: 60)
+                .padding(.top, 40)
+                .padding(.bottom, 20)
             
             Spacer()
         }
@@ -144,7 +133,7 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
 }
 #endif
 
-private extension BiometricUnlockPreferencesModel.BiometryType {
+private extension BiometricType {
     
     var localizedTitle: String {
         switch self {
@@ -183,7 +172,7 @@ class BiometricUnlockPreferencesModelStub: BiometricUnlockPreferencesModelRepres
     var password = ""
     var status = BiometricUnlockPreferencesModel.Status.biometricActivationFailed
     var userInputDisabled: Bool { status == .loading }
-    let biometricType = BiometricUnlockPreferencesModel.BiometryType.touchID
+    let biometricType = BiometricType.touchID
     
     func cancel() {}
     func enabledBiometricUnlock() {}

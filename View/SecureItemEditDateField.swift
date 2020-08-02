@@ -14,7 +14,7 @@ struct SecureItemEditDateField: View {
             }
             .labelsHidden()
         }
-        .padding([.top, .bottom])
+        .padding(.vertical)
     }
     
 }

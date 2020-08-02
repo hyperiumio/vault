@@ -34,24 +34,7 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        switch model.primaryItemModel.typeIdentifier {
-                        case .password:
-                            Icon(.password)
-                        case .login:
-                            Icon(.login)
-                        case .file:
-                            Icon(.file)
-                        case .note:
-                            Icon(.note)
-                        case .bankCard:
-                            Icon(.bankCard)
-                        case .wifi:
-                            Icon(.wifi)
-                        case .bankAccount:
-                            Icon(.bankAccount)
-                        case .generic:
-                            Icon(.custom)
-                        }
+                        Image(model.primaryItemModel.typeIdentifier)
                         
                         Text(model.primaryItemModel.typeIdentifier.title)
                     }
@@ -104,24 +87,8 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 
                 ToolbarItem(placement: .principal) {
                     HStack {
-                        switch model.primaryItemModel.typeIdentifier {
-                        case .password:
-                            Icon(.password)
-                        case .login:
-                            Icon(.login)
-                        case .file:
-                            Icon(.file)
-                        case .note:
-                            Icon(.note)
-                        case .bankCard:
-                            Icon(.bankCard)
-                        case .wifi:
-                            Icon(.wifi)
-                        case .bankAccount:
-                            Icon(.bankAccount)
-                        case .generic:
-                            Icon(.custom)
-                        }
+                        Image(model.primaryItemModel.typeIdentifier)
+                            .foregroundColor(Color(model.primaryItemModel.typeIdentifier))
                         
                         Text(model.primaryItemModel.typeIdentifier.title)
                     }

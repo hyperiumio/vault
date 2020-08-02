@@ -11,7 +11,7 @@ struct SecureItemDisplayDateField: View {
             
             Text(date, style: .date)
         }
-        .padding([.top, .bottom])
+        .padding(.vertical)
     }
     
 }

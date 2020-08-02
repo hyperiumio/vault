@@ -9,7 +9,7 @@ struct VaultItemDisplayView: View {
     var body: some View {
         List {
             Section {
-                VaultItemTitleView(title: model.title)
+                VaultItemTitleView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
             }
             
             Section {
@@ -35,7 +35,7 @@ struct VaultItemDisplayView: View {
     var body: some View {
         List {
             Section {
-                VaultItemTitleView(title: model.title)
+                VaultItemTitleView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
             }
             
             Section {
@@ -50,33 +50,8 @@ struct VaultItemDisplayView: View {
         }
         .listStyle(GroupedListStyle())
         .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
+            ToolbarItem(placement: .primaryAction) {
                 Button(LocalizedString.edit, action: model.edit)
-            }
-            
-            ToolbarItem(placement: .principal) {
-                HStack {
-                    switch model.primaryItemModel.typeIdentifier {
-                    case .password:
-                        Icon(.password)
-                    case .login:
-                        Icon(.login)
-                    case .file:
-                        Icon(.file)
-                    case .note:
-                        Icon(.note)
-                    case .bankCard:
-                        Icon(.bankCard)
-                    case .wifi:
-                        Icon(.wifi)
-                    case .bankAccount:
-                        Icon(.bankAccount)
-                    case .generic:
-                        Icon(.custom)
-                    }
-                    
-                    Text(model.primaryItemModel.typeIdentifier.title)
-                }
             }
         }
     }
