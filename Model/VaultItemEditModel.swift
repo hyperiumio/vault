@@ -46,7 +46,8 @@ class VaultItemEditModel: ObservableObject, Identifiable {
         }
         let secureItemsTail = secureItems.dropFirst()
         let secondarySecureItems = Array(secureItemsTail)
-        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
+        let now = Date()
+        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: originalVaultItem.created, modified: now)
         
         isLoading = true
         saveSubscription = vault.saveVaultItem(vaultItem)

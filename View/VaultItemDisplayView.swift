@@ -38,13 +38,19 @@ struct VaultItemDisplayView: View {
                 VaultItemTitleView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
             }
             
-            Section {
-                SecureItemDisplayView(model: model.primaryItemModel)
-            }
-            
-            ForEach(model.secondaryItemModels) { secureItemModel in
+            if model.secondaryItemModels.isEmpty {
+                Section(footer: dateFooter) {
+                    SecureItemDisplayView(model: model.primaryItemModel)
+                }
+            } else {
                 Section {
-                    SecureItemDisplayView(model: secureItemModel)
+                    SecureItemDisplayView(model: model.primaryItemModel)
+                }
+                
+                Section(footer: dateFooter) {
+                    ForEach(model.secondaryItemModels) { secureItemModel in
+                        SecureItemDisplayView(model: secureItemModel)
+                    }
                 }
             }
         }
@@ -56,5 +62,8 @@ struct VaultItemDisplayView: View {
         }
     }
     
+    private var dateFooter: some View {
+        VaultItemFooter(created: Date(), modified: Date())
+    }
 }
 #endif

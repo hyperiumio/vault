@@ -56,7 +56,8 @@ class VaultItemCreatingModel: VaultItemCreatingModelRepresentable {
     func save() {
         let primarySecureItem = primaryItemModel.secureItem
         let secondarySecureItems = secondaryItemModels.map(\.secureItem)
-        let vaultItem = VaultItem(title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems)
+        let now = Date()
+        let vaultItem = VaultItem(title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: now, modified: now)
         
         status = .loading
         saveSubscription = vault.saveVaultItem(vaultItem)

@@ -8,6 +8,8 @@ class VaultItemDisplayModel: ObservableObject {
     let secondaryItemModels: [SecureItemDisplayModel]
     
     var title: String { vaultItem.title }
+    var created: Date { vaultItem.created }
+    var modified: Date { vaultItem.modified }
     
     var event: AnyPublisher<Event, Never> { eventSubjet.eraseToAnyPublisher() }
     
