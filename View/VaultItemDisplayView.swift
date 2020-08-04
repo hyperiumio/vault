@@ -9,7 +9,7 @@ struct VaultItemDisplayView: View {
     var body: some View {
         List {
             Section {
-                VaultItemTitleView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
+                VaultItemTitleDisplayView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
             }
             
             Section {
@@ -35,7 +35,7 @@ struct VaultItemDisplayView: View {
     var body: some View {
         List {
             Section {
-                VaultItemTitleView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
+                VaultItemTitleDisplayView(secureItemType: model.primaryItemModel.typeIdentifier, title: model.title)
             }
             
             if model.secondaryItemModels.isEmpty {

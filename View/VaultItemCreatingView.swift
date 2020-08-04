@@ -12,12 +12,12 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 Section {
                     TextField(LocalizedString.title, text: $model.title)
                     
-                    SecureItemEditView(secureItemModel: model.primaryItemModel)
+                    SecureItemEditView(model: model.primaryItemModel)
                 }
                 
                 Section(header: Text(LocalizedString.additionalItems)) {
                     ForEach(model.secondaryItemModels) { secureItemModel in
-                        SecureItemEditView(secureItemModel: secureItemModel)
+                        SecureItemEditView(model: secureItemModel)
                     }
                     .onDelete(perform: model.deleteSecondaryItems)
                     .onMove(perform: model.moveSecondaryItems)
@@ -64,12 +64,12 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 }
                 
                 Section {
-                    SecureItemEditView(secureItemModel: model.primaryItemModel)
+                    SecureItemEditView(model: model.primaryItemModel)
                 }
                 
                 Section(header: Text(LocalizedString.additionalItems)) {
                     ForEach(model.secondaryItemModels) { secureItemModel in
-                        SecureItemEditView(secureItemModel: secureItemModel)
+                        SecureItemEditView(model: secureItemModel)
                     }
                     .onDelete(perform: model.deleteSecondaryItems)
                     .onMove(perform: model.moveSecondaryItems)

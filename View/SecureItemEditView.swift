@@ -2,10 +2,10 @@ import SwiftUI
 
 struct SecureItemEditView: View {
     
-    let secureItemModel: SecureItemEditModel
+    let model: SecureItemEditModel
     
     var body: some View {
-        switch secureItemModel {
+        switch model {
         case .login(let model):
             LoginEditView(model: model)
         case .password(let model):

@@ -24,6 +24,8 @@
 		956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		95726C2B24C82B6D005F025A /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
 		95726C2C24C82B6D005F025A /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
+		9574056D24D99C2D00FC79CD /* VaultItemTitleEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574056C24D99C2D00FC79CD /* VaultItemTitleEditView.swift */; };
+		9574056E24D99C2D00FC79CD /* VaultItemTitleEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574056C24D99C2D00FC79CD /* VaultItemTitleEditView.swift */; };
 		9574322A24AA05430062B05A /* VaultApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* VaultApp.swift */; };
 		9574323424AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
 		9574323524AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
@@ -184,8 +186,8 @@
 		9583624624D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
 		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
 		9583624924D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
-		958BB43C24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
-		958BB43D24D1947B00DF585B /* VaultItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */; };
+		958BB43C24D1947B00DF585B /* VaultItemTitleDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleDisplayView.swift */; };
+		958BB43D24D1947B00DF585B /* VaultItemTitleDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43B24D1947B00DF585B /* VaultItemTitleDisplayView.swift */; };
 		958BB43F24D1A38E00DF585B /* SecureItemEditField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */; };
 		958BB44024D1A38E00DF585B /* SecureItemEditField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */; };
 		958BB44524D1A58100DF585B /* SecureItemEditSecureField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */; };
@@ -241,6 +243,7 @@
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* UnlockField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockField.swift; sourceTree = "<group>"; };
+		9574056C24D99C2D00FC79CD /* VaultItemTitleEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleEditView.swift; sourceTree = "<group>"; };
 		9574321F24AA05340062B05A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9574322424AA05430062B05A /* VaultApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultApp.swift; sourceTree = "<group>"; };
 		9574322524AA05430062B05A /* macOS.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
@@ -333,7 +336,7 @@
 		9583624124D0644700C10BBB /* SecureItemDisplayDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayDateField.swift; sourceTree = "<group>"; };
 		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
-		958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleView.swift; sourceTree = "<group>"; };
+		958BB43B24D1947B00DF585B /* VaultItemTitleDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleDisplayView.swift; sourceTree = "<group>"; };
 		958BB43E24D1A38E00DF585B /* SecureItemEditField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditField.swift; sourceTree = "<group>"; };
 		958BB44424D1A58100DF585B /* SecureItemEditSecureField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditSecureField.swift; sourceTree = "<group>"; };
 		958BB44724D1B51300DF585B /* SecureItemEditDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemEditDateField.swift; sourceTree = "<group>"; };
@@ -518,12 +521,13 @@
 				9574337024AA23D30062B05A /* VaultItemEditView.swift */,
 				957432F824AA135D0062B05A /* VaultItemLoadedView.swift */,
 				9574330024AA135D0062B05A /* VaultItemLoadingView.swift */,
-				958BB43B24D1947B00DF585B /* VaultItemTitleView.swift */,
+				958BB43B24D1947B00DF585B /* VaultItemTitleDisplayView.swift */,
 				9574331124AA135E0062B05A /* VaultItemView.swift */,
 				9574330D24AA135E0062B05A /* WifiDisplayView.swift */,
 				9574330E24AA135E0062B05A /* WifiEditView.swift */,
 				952F3E9A24D4663500D55EB9 /* BiometryIcon.swift */,
 				95A7496D24D6F87900D05BA2 /* VaultItemFooter.swift */,
+				9574056C24D99C2D00FC79CD /* VaultItemTitleEditView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -693,6 +697,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9574056D24D99C2D00FC79CD /* VaultItemTitleEditView.swift in Sources */,
 				9574333B24AA135E0062B05A /* VaultItemLoadingView.swift in Sources */,
 				9574335724AA135E0062B05A /* WifiEditView.swift in Sources */,
 				9574331524AA135E0062B05A /* LoginEditView.swift in Sources */,
@@ -739,7 +744,7 @@
 				9574332D24AA135E0062B05A /* BankCardDisplayView.swift in Sources */,
 				9574328824AA081B0062B05A /* BiometricUnlockPreferencesModel.swift in Sources */,
 				9574326A24AA081B0062B05A /* FileEmptyModel.swift in Sources */,
-				958BB43C24D1947B00DF585B /* VaultItemTitleView.swift in Sources */,
+				958BB43C24D1947B00DF585B /* VaultItemTitleDisplayView.swift in Sources */,
 				9574335924AA135E0062B05A /* BankAccountDisplayView.swift in Sources */,
 				957432C924AA084E0062B05A /* CryptoBridge.swift in Sources */,
 				9574337924AA23D30062B05A /* VaultItemEditView.swift in Sources */,
@@ -800,6 +805,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9574056E24D99C2D00FC79CD /* VaultItemTitleEditView.swift in Sources */,
 				9574331624AA135E0062B05A /* LoginEditView.swift in Sources */,
 				9574329B24AA081B0062B05A /* LoginDisplayModel.swift in Sources */,
 				9574332C24AA135E0062B05A /* VaultItemLoadedView.swift in Sources */,
@@ -846,7 +852,7 @@
 				9574326724AA081B0062B05A /* NoteDisplayModel.swift in Sources */,
 				9574335024AA135E0062B05A /* SettingsUnlockedView.swift in Sources */,
 				9574335E24AA135E0062B05A /* VaultItemView.swift in Sources */,
-				958BB43D24D1947B00DF585B /* VaultItemTitleView.swift in Sources */,
+				958BB43D24D1947B00DF585B /* VaultItemTitleDisplayView.swift in Sources */,
 				9574335624AA135E0062B05A /* WifiDisplayView.swift in Sources */,
 				9574332024AA135E0062B05A /* FileEditView.swift in Sources */,
 				9574329524AA081B0062B05A /* WifiEditModel.swift in Sources */,
