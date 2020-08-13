@@ -30,12 +30,12 @@ class VaultItemCreatingModel: VaultItemCreatingModelRepresentable {
     
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
-    private let vault: Vault<SecureDataCryptor>
+    private let vault: Vault
     private let eventSubject = PassthroughSubject<Event, Never>()
     private var childModelSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(itemType: SecureItem.TypeIdentifier, vault: Vault<SecureDataCryptor>) {
+    init(itemType: SecureItem.TypeIdentifier, vault: Vault) {
         self.primaryItemModel = SecureItemEditModel(itemType)
         self.vault = vault
     }
@@ -54,10 +54,11 @@ class VaultItemCreatingModel: VaultItemCreatingModelRepresentable {
     }
     
     func save() {
+        let id = UUID()
         let primarySecureItem = primaryItemModel.secureItem
         let secondarySecureItems = secondaryItemModels.map(\.secureItem)
         let now = Date()
-        let vaultItem = VaultItem(title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: now, modified: now)
+        let vaultItem = VaultItem(id: id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: now, modified: now)
         
         status = .loading
         saveSubscription = vault.saveVaultItem(vaultItem)

@@ -1,14 +1,14 @@
 import Combine
 import Store
 
-protocol GenericItemEditModelRepresentable: ObservableObject, Identifiable {
+protocol CustomItemEditModelRepresentable: ObservableObject, Identifiable {
     
     var fieldName: String { get set }
     var fieldValue: String { get set }
     
 }
 
-class CustomItemEditModel: GenericItemEditModelRepresentable {
+class CustomItemEditModel: CustomItemEditModelRepresentable {
     
     @Published var fieldName: String
     @Published var fieldValue: String

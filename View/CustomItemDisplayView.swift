@@ -1,7 +1,7 @@
 import Localization
 import SwiftUI
 
-struct GenericItemDisplayView<Model>: View where Model: GenericItemDisplayModelRepresentable {
+struct CustomItemDisplayView<Model>: View where Model: CustomItemDisplayModelRepresentable {
     
     @ObservedObject var model: Model
     
@@ -13,7 +13,7 @@ struct GenericItemDisplayView<Model>: View where Model: GenericItemDisplayModelR
 }
 
 #if DEBUG
-class GenericItemDisplayModelStub: GenericItemDisplayModelRepresentable {
+class CustomItemDisplayModelStub: CustomItemDisplayModelRepresentable {
     
     var fieldName = "Foo"
     var fieldValue = "Bar"
@@ -22,12 +22,12 @@ class GenericItemDisplayModelStub: GenericItemDisplayModelRepresentable {
     
 }
 
-struct GenericItemDisplayViewProvider: PreviewProvider {
+struct CustomItemDisplayViewProvider: PreviewProvider {
     
-    static let model = GenericItemDisplayModelStub()
+    static let model = CustomItemDisplayModelStub()
     
     static var previews: some View {
-        GenericItemDisplayView(model: model)
+        CustomItemDisplayView(model: model)
             .previewLayout(.sizeThatFits)
     }
     

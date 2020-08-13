@@ -13,7 +13,9 @@ protocol VersionRepresentable: RawRepresentable {
 extension VersionRepresentable where RawValue == UInt8 {
     
     init(_ data: Data) throws {
-        precondition(data.count == 1)
+        guard data.count == 1 else {
+            throw VersionRepresentableError.invalidData
+        }
         
         let versionValue = data[data.startIndex]
         guard let version = Self(rawValue: versionValue) else {
@@ -32,6 +34,7 @@ extension VersionRepresentable where RawValue == UInt8 {
 
 enum VersionRepresentableError: Error {
     
+    case invalidData
     case unsupportedVersion
     
 }

@@ -9,7 +9,7 @@ enum SecureItemDisplayModel {
     case bankCard(BankCardDisplayModel)
     case wifi(WifiDisplayModel)
     case bankAccount(BankAccountDisplayModel)
-    case generic(GenericItemDisplayModel)
+    case custom(CustomItemDisplayModel)
     
     init(_ secureItem: SecureItem) {
         switch secureItem {
@@ -34,9 +34,9 @@ enum SecureItemDisplayModel {
         case .bankAccount(let bankAccount):
             let model = BankAccountDisplayModel(bankAccount)
             self = .bankAccount(model)
-        case .generic(let customField):
-            let model = GenericItemDisplayModel(customField)
-            self = .generic(model)
+        case .custom(let custom):
+            let model = CustomItemDisplayModel(custom)
+            self = .custom(model)
         }
     }
     
@@ -56,8 +56,8 @@ enum SecureItemDisplayModel {
             return .wifi
         case .bankAccount:
             return .bankAccount
-        case .generic:
-            return .generic
+        case .custom:
+            return .custom
         }
     }
     
@@ -81,7 +81,7 @@ extension SecureItemDisplayModel: Identifiable {
             return model.id
         case .bankAccount(let model):
             return model.id
-        case .generic(let model):
+        case .custom(let model):
             return model.id
         }
     }

@@ -1,119 +1,82 @@
 import Combine
 import Foundation
 
-public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
+public class Vault {
     
-    public let didChange = PassthroughSubject<Void, Never>()
+    public var id: UUID { info.id }
+    public var vaultDirectory: URL { resourceLocator.vaultDirectory }
     
-    private let storeOperationQueue = DispatchQueue(label: "VaultStoreOperationQueue")
-    private var configuration: Configuration
-    private var changeMasterPasswordSubscription: AnyCancellable?
+    public var didChange: AnyPublisher<Void, Never> {
+        didChangeSubject.eraseToAnyPublisher()
+    }
     
-    
-    public var id: UUID { configuration.info.id }
-    public var location: VaultLocation { configuration.location }
+    private let info: Info
+    private let cryptor: CryptoOperationProvider
+    private let resourceLocator: VaultResourceLocator
+    private let didChangeSubject = PassthroughSubject<Void, Never>()
  
-    public init(info: Info, location: VaultLocation, cryptoKey: Cryptor.Key) throws {
-        self.configuration = Configuration(info: info, location: location, cryptoKey: cryptoKey)
+    init(info: Info, resourceLocator: VaultResourceLocator, cryptor: CryptoOperationProvider) {
+        self.info = info
+        self.resourceLocator = resourceLocator
+        self.cryptor = cryptor
     }
     
-    public func validatePassword(_ password: String) -> AnyPublisher<Bool, Error> {
-        return DispatchQueue.global().future { [configuration] in
-            return Result<Bool, Error> {
-                let encodedCryptoKey = try Data(contentsOf: configuration.location.key)
-                
-                guard let cryptoKey = try? Cryptor.Key.decoded(from: encodedCryptoKey, using: password) else {
-                    return false
-                }
-                
-                return cryptoKey == configuration.cryptoKey
-            }
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    public func loadItemInfos() -> AnyPublisher<[VaultItemToken<Cryptor>], Error> {
-        return storeOperationQueue.future { [configuration] in
-            return Result<[VaultItemToken<Cryptor>], Error> {
-                guard FileManager.default.fileExists(atPath: configuration.location.itemDirectory.path) else {
-                    return []
-                }
-                
-                return try FileManager.default.contentsOfDirectory(at: configuration.location.itemDirectory, includingPropertiesForKeys: [], options: .skipsHiddenFiles).map { url in
-                    return try FileReader.read(url: url) { fileReader in
-                        return try VaultItemToken(cryptoKey: configuration.cryptoKey, from: fileReader)
-                    }
+    public func loadVaultItemInfoCiphertextContainers() -> AnyPublisher<[CiphertextContainerRepresentable], Error> {
+        Self.operationQueue.future { [resourceLocator, cryptor] in
+            try FileManager.default.contentsOfDirectory(at: resourceLocator.itemsDirectory, includingPropertiesForKeys: [], options: .skipsHiddenFiles).map { url in
+                try FileReader.read(url: url) { fileReader in
+                    try VaultItem.Info.ciphertextContainer(from: fileReader, using: cryptor)
                 }
             }
         }
         .eraseToAnyPublisher()
     }
     
-    public func loadVaultItem(for itemToken: VaultItemToken<Cryptor>) -> AnyPublisher<VaultItem, Error> {
-        return storeOperationQueue.future { [configuration] in
-            return Result<VaultItem, Error> {
-                let itemUrl = configuration.location.item(matching: itemToken.id)
-                return try FileReader.read(url: itemUrl) { fileReader in
-                    return try itemToken.decryptedVaultItem(using: configuration.cryptoKey, from: fileReader)
+    public func loadVaultItemInfos() -> AnyPublisher<[VaultItem.Info], Error> {
+        Self.operationQueue.future { [resourceLocator, cryptor] in
+            try FileManager.default.contentsOfDirectory(at: resourceLocator.itemsDirectory, includingPropertiesForKeys: [], options: .skipsHiddenFiles).map { url in
+                try FileReader.read(url: url) { fileReader in
+                    try VaultItem.Info.decrypted(from: fileReader, using: cryptor)
                 }
             }
         }
         .eraseToAnyPublisher()
+    }
+    
+    public func loadVaultItem(with itemID: UUID) -> AnyPublisher<VaultItem, Error> {
+        Self.operationQueue.future { [resourceLocator, cryptor] in
+            let itemURL = resourceLocator.itemFile(for: itemID)
+            return try FileReader.read(url: itemURL) { fileReader in
+                try VaultItem.decrypted(from: fileReader, using: cryptor)
+            }
+        }
+        .eraseToAnyPublisher()
+
     }
     
     public func saveVaultItem(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
-        return storeOperationQueue.future { [configuration, didChange] in
-            return Result {
-                let itemUrl = configuration.location.item(matching: vaultItem.id)
-                try VaultItemCryptor<Cryptor>.encrypted(vaultItem, using: configuration.cryptoKey).write(to: itemUrl, options: .atomic)
-                didChange.send()
-            }
+        Self.operationQueue.future { [resourceLocator, cryptor, didChangeSubject] in
+            let itemURL = resourceLocator.itemFile(for: vaultItem.id)
+            try VaultItem.encrypted(vaultItem, using: cryptor).write(to: itemURL, options: .atomic)
+            didChangeSubject.send()
         }
         .eraseToAnyPublisher()
     }
     
-    public func deleteVaultItem(id: UUID) -> AnyPublisher<UUID, Error> {
-        return storeOperationQueue.future { [configuration, didChange] in
-            return Result {
-                defer {
-                    didChange.send()
-                }
-                let itemUrl = configuration.location.item(matching: id)
-                try FileManager.default.removeItem(at: itemUrl)
-                return id
-            }
+    public func deleteVaultItem(with itemID: UUID) -> AnyPublisher<Void, Error> {
+        Self.operationQueue.future { [resourceLocator, didChangeSubject] in
+            let itemURL = resourceLocator.itemFile(for: itemID)
+            try FileManager.default.removeItem(at: itemURL)
+            didChangeSubject.send()
         }
         .eraseToAnyPublisher()
     }
     
-    public func changeMasterPassword(to newPassword: String) -> AnyPublisher<UUID, Error> {
-        return storeOperationQueue.future {
-            return Result {
-                let oldVaultLocation = self.configuration.location
-                let newVaultLocation = try VaultLocation(in: oldVaultLocation.rootDirectory)
-                try FileManager.default.createDirectory(at: newVaultLocation.vaultDirectory, withIntermediateDirectories: true)
-                try FileManager.default.createDirectory(at: newVaultLocation.itemDirectory, withIntermediateDirectories: true)
-                
-                let newVaultInfo = Info()
-                try Info.jsonEncoded(newVaultInfo).write(to: newVaultLocation.info, options: .atomic)
-                
-                let newCryptoKey = Cryptor.Key()
-                try Cryptor.Key.encoded(newCryptoKey, using: newPassword).write(to: newVaultLocation.key, options: .atomic)
-                
-                for url in try FileManager.default.contentsOfDirectory(at: oldVaultLocation.itemDirectory, includingPropertiesForKeys: [], options: .skipsHiddenFiles) {
-                    let vaultItem = try VaultItemCryptor<Cryptor>.decryptedVaultItem(from: url, using: self.configuration.cryptoKey)
-                    let newItemUrl = newVaultLocation.item(matching: vaultItem.id)
-                    try VaultItemCryptor<Cryptor>.encrypted(vaultItem, using: newCryptoKey).write(to: newItemUrl, options: .atomic)
-                }
-                
-                self.configuration = Configuration(info: newVaultInfo, location: newVaultLocation, cryptoKey: newCryptoKey)
-                
-                try FileManager.default.removeItem(at: oldVaultLocation.vaultDirectory)
-                
-                self.didChange.send()
-                
-                return newVaultInfo.id
-            }
+    public func validatePassword(_ password: String) -> AnyPublisher<Bool, Error> {
+        Self.operationQueue.future { [resourceLocator, cryptor] in
+            let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
+            return cryptor.keyIsEqualToKey(from: keyContainer, using: password)
+            
         }
         .eraseToAnyPublisher()
     }
@@ -122,62 +85,57 @@ public class Vault<Cryptor> where Cryptor: MultiMessageCryptor {
 
 extension Vault {
     
-    public static func vaultLocation(for vaultId: UUID, inDirectory directoryUrl: URL) -> AnyPublisher<VaultLocation?, Error> {
-        return DispatchQueue.global().future {
-            return Result<VaultLocation?, Error> {
-                guard FileManager.default.fileExists(atPath: directoryUrl.path) else {
-                    return nil
-                }
-                
-                return try FileManager.default.contentsOfDirectory(at: directoryUrl, includingPropertiesForKeys: [], options: .skipsHiddenFiles)
-                    .filter { url in
-                        return url.hasDirectoryPath
-                    }
-                    .map { vaultUrl in
-                        return try VaultLocation(from: vaultUrl)
-                    }
-                    .first { location in
-                        return try Data(contentsOf: location.info).map { data in
-                            return try Info.jsonDecoded(data)
-                        }.id == vaultId
-                    }
-            }
+    private static let fileQueue = DispatchQueue(label: "VaultFileQueue")
+    private static let processingQueue = DispatchQueue(label: "VaultProcessingQueue")
+    private static let outputQueue = DispatchQueue(label: "VaultOutputQueue")
+    
+    private static let operationQueue = DispatchQueue(label: "VaultOperationQueue")
+    
+    public static func create<Cryptor>(in containerDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<Vault, Error> where Cryptor: CryptoOperationProvider {
+        operationQueue.future {
+            let vaultDirectoryName = UUID().uuidString
+            let vaultDirectory = containerDirectory.appendingPathComponent(vaultDirectoryName, isDirectory: true)
+            let resourceLocator = VaultResourceLocator(vaultDirectory)
+            let info = Info()
+            let cryptor = Cryptor()
+            
+            try FileManager.default.createDirectory(at: resourceLocator.vaultDirectory, withIntermediateDirectories: false)
+            try FileManager.default.createDirectory(at: resourceLocator.itemsDirectory, withIntermediateDirectories: false)
+            try info.binaryEncoded().write(to: resourceLocator.infoFile, options: .atomic)
+            try cryptor.encryptedKeyContainer(with: password).write(to: resourceLocator.keyFile, options: .atomic)
+            
+            return Vault(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
         }
         .eraseToAnyPublisher()
     }
     
-    public static func open(at location: VaultLocation, using password: String) -> AnyPublisher<Vault, Error> {
-        return DispatchQueue.global().future {
-            return Result<Vault<Cryptor>, Error> {
-                let vaultInfo = try Data(contentsOf: location.info).map { data in
-                    return try Info.jsonDecoded(data)
-                }
-                
-                let cryptoKey = try Data(contentsOf: location.key).map { data in
-                    return try Cryptor.Key.decoded(from: data, using: password)
-                }
-                
-                return try Vault(info: vaultInfo, location: location, cryptoKey: cryptoKey)
-            }
+    public static func open<Cryptor>(at vaultDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<Vault, Error> where Cryptor: CryptoOperationProvider {
+        operationQueue.future {
+            let resourceLocator = VaultResourceLocator(vaultDirectory)
+            let encodedInfo = try Data(contentsOf: resourceLocator.infoFile)
+            let encrytedKey = try Data(contentsOf: resourceLocator.keyFile)
+            
+            let info = try Info(binaryEncoded: encodedInfo)
+            let cryptor = try Cryptor(from: encrytedKey, with: password)
+            
+            return Vault(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
         }
         .eraseToAnyPublisher()
     }
     
-    public static func create(inDirectory directoryUrl: URL, using password: String) -> AnyPublisher<Vault, Error> {
-        return DispatchQueue.global().future {
-            return Result<Vault<Cryptor>, Error> {
-                let vaultLocation = try VaultLocation(in: directoryUrl)
-                try FileManager.default.createDirectory(at: vaultLocation.vaultDirectory, withIntermediateDirectories: true)
-                try FileManager.default.createDirectory(at: vaultLocation.itemDirectory, withIntermediateDirectories: true)
+    public static func vaultDirectory(in directory: URL, with vaultID: UUID) -> AnyPublisher<URL?, Error> {
+        operationQueue.future {
+            for url in try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) {
+                let resourceLocator = VaultResourceLocator(url)
+                let encodedInfo = try Data(contentsOf: resourceLocator.infoFile)
+                let info = try Info(binaryEncoded: encodedInfo)
                 
-                let vaultInfo = Info()
-                try Info.jsonEncoded(vaultInfo).write(to: vaultLocation.info, options: .atomic)
-                
-                let cryptoKey = Cryptor.Key()
-                try Cryptor.Key.encoded(cryptoKey, using: password).write(to: vaultLocation.key, options: .atomic)
-                
-                return try Vault(info: vaultInfo, location: vaultLocation, cryptoKey: cryptoKey)
+                if info.id == vaultID {
+                    return url
+                }
             }
+            
+            return nil
         }
         .eraseToAnyPublisher()
     }
@@ -186,7 +144,7 @@ extension Vault {
 
 extension Vault {
     
-    public struct Info: JSONCodable {
+    public struct Info: BinaryCodable {
         
         public let id: UUID
         public let createdAt: Date
@@ -195,14 +153,6 @@ extension Vault {
             self.id = UUID()
             self.createdAt = Date()
         }
-        
-    }
-    
-    struct Configuration {
-        
-        let info: Info
-        let location: VaultLocation
-        let cryptoKey: Cryptor.Key
         
     }
     

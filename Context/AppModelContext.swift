@@ -2,6 +2,7 @@ import Crypto
 import Foundation
 import Preferences
 import Store
+import Sort
 
 struct AppModelContext {
     
@@ -17,18 +18,18 @@ struct AppModelContext {
         return BootstrapModel(preferencesManager: preferencesManager)
     }
     
-    func setupModel(vaultDirectory: URL) -> SetupModel {
-        return SetupModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager)
+    func setupModel(vaultContainerDirectory: URL) -> SetupModel {
+        return SetupModel(vaultContainerDirectory: vaultContainerDirectory, preferencesManager: preferencesManager)
     }
     
-    func lockedModel(vaultLocation: VaultLocation) -> LockedModel {
-        return LockedModel(vaultLocation: vaultLocation, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func lockedModel(vaultDirectory: URL) -> LockedModel {
+        return LockedModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func unlockedModel(vault: Vault<SecureDataCryptor>, lockVault: @escaping () -> Void) -> UnlockedModel {
+    func unlockedModel(initialItemCollation: AlphabeticCollation<UnlockedModel.Item>, vault: Vault, lockVault: @escaping () -> Void) -> UnlockedModel {
         let context = SettingsUnlockedModelContext(lockVault: lockVault)
         let preferencesUnlockedModel = SettingsUnlockedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, context: context)
-        return UnlockedModel(vault: vault, preferencesUnlockedModel: preferencesUnlockedModel)
+        return UnlockedModel(initialItemCollation: initialItemCollation, vault: vault, preferencesUnlockedModel: preferencesUnlockedModel)
     }
     
 }

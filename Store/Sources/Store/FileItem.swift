@@ -1,6 +1,6 @@
 import Foundation
 
-public struct FileItem: JSONCodable {
+public struct FileItem: BinaryCodable {
     
     public let name: String
     public let data: Data

@@ -26,6 +26,11 @@ public struct SecureDataCryptor {
         }
     }
     
+    public func ciphertextContainer(at index: Int, from context: DataContext) throws -> CiphertextContainer {
+        let context = context.offset(by: VersionRepresentableEncodingSize)
+        return try versionedCryptor.ciphertextContainer(at: index, from: context)
+    }
+    
     public func decryptPlaintext(at index: Int, using masterKey: MasterKey, from context: DataContext) throws -> Data {
         let context = context.offset(by: VersionRepresentableEncodingSize)
         return try versionedCryptor.decryptPlaintext(at: index, using: masterKey, from: context)
@@ -41,13 +46,22 @@ extension SecureDataCryptor {
         
     }
     
+    public struct CiphertextContainer {
+        
+        let sealedBox: AES.GCM.SealedBox
+        fileprivate let cryptor: SecureDataCryptorRepresentable
+        
+        public func decrypted() throws -> Data {
+            try cryptor.decrypt(self)
+        }
+        
+    }
+    
 }
 
 extension SecureDataCryptor {
     
     public static func encrypted(_ messages: [Data], using masterKey: MasterKey) throws -> Data {
-        let version = Version.version1.encoded
-        
         let itemKey = SymmetricKey(size: .bits256)
 
         let seals = try messages.map { message in
@@ -66,13 +80,15 @@ extension SecureDataCryptor {
         
         let secureData = try SecureDataCoder.encode(wrappedItemKey: wrappedItemKey, seals: seals)
         
-        return version + secureData
+        return Version.version1.encoded + secureData
     }
     
 }
 
 private protocol SecureDataCryptorRepresentable {
     
+    func ciphertextContainer(at index: Int, from context: DataContext) throws -> SecureDataCryptor.CiphertextContainer
+    func decrypt(_ ciphertextContainer: SecureDataCryptor.CiphertextContainer) throws -> Data
     func decryptPlaintext(at index: Int, using masterKey: MasterKey, from context: DataContext) throws -> Data
     
 }
@@ -104,6 +120,32 @@ private struct SecureDataCryptorVersion1 {
 }
 
 extension SecureDataCryptorVersion1: SecureDataCryptorRepresentable {
+    
+    func ciphertextContainer(at index: Int, from context: DataContext) throws -> SecureDataCryptor.CiphertextContainer {
+        guard tags.indices.contains(index) else {
+            throw SecureDataError.invalidMessageIndex
+        }
+
+        do {
+            let nonce = try coder.decodeNonce(at: index, from: context).map { data in
+                return try AES.GCM.Nonce(data: data)
+            }
+            let ciphertext = try coder.decodeCiphertext(at: index, from: context)
+            let tag = tags[index]
+            let sealedBox = try AES.GCM.SealedBox(nonce: nonce, ciphertext: ciphertext, tag: tag)
+            return SecureDataCryptor.CiphertextContainer(sealedBox: sealedBox, cryptor: self)
+        } catch {
+            throw SecureDataError.decryptionFailure
+        }
+    }
+    
+    func decrypt(_ ciphertextContainer: SecureDataCryptor.CiphertextContainer) throws -> Data {
+        do {
+            return try AES.GCM.open(ciphertextContainer.sealedBox, using: itemKey)
+        } catch {
+            throw SecureDataError.decryptionFailure
+        }
+    }
     
     func decryptPlaintext(at index: Int, using masterKey: MasterKey, from context: DataContext) throws -> Data {
         guard tags.indices.contains(index) else {

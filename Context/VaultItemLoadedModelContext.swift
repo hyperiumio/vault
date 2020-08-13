@@ -3,14 +3,14 @@ import Store
 
 struct VaultItemLoadedModelContext {
     
-    private let vault: Vault<SecureDataCryptor>
+    private let vault: Vault
     
-    init(vault: Vault<SecureDataCryptor>) {
+    init(vault: Vault) {
         self.vault = vault
     }
     
     func vaultItemEditModel(vaultItem: VaultItem) -> VaultItemEditModel {
-        return VaultItemEditModel(vaultItem: vaultItem, vault: vault)
+        return VaultItemEditModel(vault: vault, vaultItem: vaultItem)
     }
     
 }

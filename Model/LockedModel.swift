@@ -3,6 +3,7 @@ import Crypto
 import Foundation
 import Preferences
 import Store
+import Sort
 
 class LockedModel: ObservableObject {
     
@@ -13,14 +14,17 @@ class LockedModel: ObservableObject {
     var textInputDisabled: Bool { status == .unlocking }
     var decryptMasterKeyButtonDisabled: Bool { password.isEmpty || status == .unlocking }
     
-    let didOpenVault = PassthroughSubject<Vault<SecureDataCryptor>, Never>()
+    var event: AnyPublisher<Event, Never> {
+        eventSubject.eraseToAnyPublisher()
+    }
     
-    private let vaultLocation: VaultLocation
+    private let vaultDirectory: URL
+    private let eventSubject = PassthroughSubject<Event, Never>()
     private let biometricKeychain: BiometricKeychain
     private var openVaultSubscription: AnyCancellable?
     
-    init(vaultLocation: VaultLocation, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vaultLocation = vaultLocation
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vaultDirectory = vaultDirectory
         self.biometricKeychain = biometricKeychain
         self.biometricUnlockAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
         
@@ -37,7 +41,7 @@ class LockedModel: ObservableObject {
     func loginWithMasterPassword() {
         status = .unlocking
         
-        openVaultSubscription = Vault<SecureDataCryptor>.open(at: vaultLocation, using: password)
+        openVaultSubscription = Vault.open(at: vaultDirectory, with: password, using: Cryptor.self)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -48,8 +52,9 @@ class LockedModel: ObservableObject {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [didOpenVault] vault in
-                didOpenVault.send(vault)
+            } receiveValue: { [eventSubject] vault in
+                let event = Event.didUnlock(vault, AlphabeticCollation<UnlockedModel.Item>())
+                eventSubject.send(event)
             }
     }
     
@@ -62,7 +67,9 @@ class LockedModel: ObservableObject {
         }
         
         openVaultSubscription = biometricKeychain.loadPassword(identifier: bundleID)
-            .flatMap { [vaultLocation] password in Vault<SecureDataCryptor>.open(at: vaultLocation, using: password) }
+            .flatMap { [vaultDirectory] password in
+                Vault.open(at: vaultDirectory, with: password, using: Cryptor.self)
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -73,8 +80,9 @@ class LockedModel: ObservableObject {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [didOpenVault] vault in
-                didOpenVault.send(vault)
+            } receiveValue: { [eventSubject] vault in
+                let event = Event.didUnlock(vault, AlphabeticCollation<UnlockedModel.Item>())
+                eventSubject.send(event)
             }
     }
     
@@ -88,6 +96,12 @@ extension LockedModel {
         case unlocking
         case unlockDidFail
         case invalidPassword
+        
+    }
+    
+    enum Event {
+        
+        case didUnlock(Vault, AlphabeticCollation<UnlockedModel.Item>)
         
     }
     

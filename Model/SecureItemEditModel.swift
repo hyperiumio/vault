@@ -10,7 +10,7 @@ enum SecureItemEditModel: Identifiable {
     case bankCard(BankCardEditModel)
     case wifi(WifiEditModel)
     case bankAccount(BankAccountEditModel)
-    case customField(GenericItemEditModel)
+    case customField(CustomItemEditModel)
     
     var id: ObjectIdentifier {
         switch self {
@@ -50,7 +50,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount(let model):
             return SecureItem.bankAccount(model.bankAccountItem)
         case .customField(let model):
-            return SecureItem.generic(model.genericItem)
+            return SecureItem.custom(model.customItem)
         }
     }
     
@@ -71,7 +71,7 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount:
             return .bankAccount
         case .customField:
-            return .generic
+            return .custom
         }
     }
     
@@ -98,8 +98,8 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount:
             let model = BankAccountEditModel()
             self = .bankAccount(model)
-        case .generic:
-            let model = GenericItemEditModel()
+        case .custom:
+            let model = CustomItemEditModel()
             self = .customField(model)
         }
     }
@@ -127,8 +127,8 @@ enum SecureItemEditModel: Identifiable {
         case .bankAccount(let bankAccount):
             let model = BankAccountEditModel(bankAccount)
             self = .bankAccount(model)
-        case .generic(let customField):
-            let model = GenericItemEditModel(customField)
+        case .custom(let custom):
+            let model = CustomItemEditModel(custom)
             self = .customField(model)
         }
     }

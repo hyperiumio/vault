@@ -10,20 +10,20 @@ class VaultItemLoadingModel: ObservableObject {
     
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
+    private let vault: Vault
+    private let itemID: UUID
     private let eventSubject = PassthroughSubject<Event, Never>()
-    private let itemToken: VaultItemToken<SecureDataCryptor>
-    private let vault: Vault<SecureDataCryptor>
     private var loadSubscription: AnyCancellable?
     
-    init(itemToken: VaultItemToken<SecureDataCryptor>, vault: Vault<SecureDataCryptor>) {
-        self.itemToken = itemToken
+    init(vault: Vault, itemID: UUID) {
         self.vault = vault
+        self.itemID = itemID
     }
     
     func load() {
         isLoading = true
         
-        loadSubscription = vault.loadVaultItem(for: itemToken)
+        loadSubscription = vault.loadVaultItem(with: itemID)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }

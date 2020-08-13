@@ -3,6 +3,7 @@ import Crypto
 import Foundation
 import Preferences
 import Store
+import Sort
 
 class SetupModel: ObservableObject {
     
@@ -14,15 +15,17 @@ class SetupModel: ObservableObject {
     
     var textInputDisabled: Bool { status == .loading }
     
-    var didCreateVault: AnyPublisher<Vault<SecureDataCryptor>, Never> { didCreateVaultSubject.eraseToAnyPublisher() }
+    var event: AnyPublisher<Event, Never> {
+        eventSubject.eraseToAnyPublisher()
+    }
     
-    private let didCreateVaultSubject = PassthroughSubject<Vault<SecureDataCryptor>, Never>()
-    private let vaultDirectory: URL
+    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let vaultContainerDirectory: URL
     private let preferencesManager: PreferencesManager
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager) {
-        self.vaultDirectory = vaultDirectory
+    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager) {
+        self.vaultContainerDirectory = vaultContainerDirectory
         self.preferencesManager = preferencesManager
         
         Publishers.Merge($password, $repeatedPassword)
@@ -40,8 +43,15 @@ class SetupModel: ObservableObject {
             return
         }
         
+        do {
+            try FileManager.default.createDirectory(at: vaultContainerDirectory, withIntermediateDirectories: true, attributes: nil)
+        } catch {
+            status = .vaultCreationFailed
+            return
+        }
+        
         status = .loading
-        createVaultSubscription = Vault<SecureDataCryptor>.create(inDirectory: vaultDirectory, using: password)
+        createVaultSubscription = Vault.create(in: vaultContainerDirectory, with: password, using: Cryptor.self)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -52,9 +62,11 @@ class SetupModel: ObservableObject {
                 case .failure:
                     self.status = .vaultCreationFailed
                 }
-            } receiveValue: { [preferencesManager, didCreateVaultSubject] vault in
+            } receiveValue: { [preferencesManager, eventSubject] vault in
                 preferencesManager.set(activeVaultIdentifier: vault.id)
-                didCreateVaultSubject.send(vault)
+                
+                let event = Event.didSetup(vault, AlphabeticCollation<UnlockedModel.Item>())
+                eventSubject.send(event)
             }
     }
     
@@ -69,6 +81,12 @@ extension SetupModel {
         case passwordMismatch
         case insecurePassword
         case vaultCreationFailed
+        
+    }
+    
+    enum Event {
+        
+        case didSetup(Vault, AlphabeticCollation<UnlockedModel.Item>)
         
     }
     

@@ -1,4 +1,4 @@
-public struct GenericItem: JSONCodable {
+public struct CustomItem: BinaryCodable {
     
     public let name: String
     public let value: String

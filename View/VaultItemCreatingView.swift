@@ -96,7 +96,6 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
                 
                 ToolbarItem(placement: .confirmationAction) {
                     Button(LocalizedString.save, action: model.save)
-                        .disabled(!model.saveButtonEnabled)
                 }
             }
             .environment(\.editMode, .constant(.active))
@@ -126,7 +125,7 @@ extension SecureItem.TypeIdentifier {
             return LocalizedString.wifi
         case .bankAccount:
             return LocalizedString.bankAccount
-        case .generic:
+        case .custom:
             return LocalizedString.customField
         }
     }
