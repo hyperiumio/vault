@@ -39,7 +39,7 @@ extension Image {
             self = .wifi
         case .bankAccount:
             self = .bankAccount
-        case .generic:
+        case .custom:
             self = .custom
         }
     }

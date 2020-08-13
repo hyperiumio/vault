@@ -4,16 +4,16 @@ import Store
 
 struct VaultItemModelContext {
     
-    private let vault: Vault<SecureDataCryptor>
-    private let itemToken: VaultItemToken<SecureDataCryptor>
+    private let vault: Vault
+    private let itemID: UUID
     
-    init(vault: Vault<SecureDataCryptor>, itemToken: VaultItemToken<SecureDataCryptor>) {
+    init(vault: Vault, itemID: UUID) {
         self.vault = vault
-        self.itemToken = itemToken
+        self.itemID = itemID
     }
     
     func vaultItemLoadingModel() -> VaultItemLoadingModel {
-        return VaultItemLoadingModel(itemToken: itemToken, vault: vault)
+        return VaultItemLoadingModel(vault: vault, itemID: itemID)
     }
     
     func vaultItemLoadedModel(vaultItem: VaultItem) -> VaultItemLoadedModel {

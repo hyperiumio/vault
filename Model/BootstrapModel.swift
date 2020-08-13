@@ -30,21 +30,17 @@ class BootstrapModel: ObservableObject {
             status = .loadingDidFail
             return
         }
-        let vaultDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
-            let setup = InitialAppState.setup(vaultDirectory)
+            let setup = InitialAppState.setup(vaultContainerDirectory)
             didBootstrapSubject.send(setup)
             return
         }
         
-        vaultLocationSubscription = Vault<SecureDataCryptor>.vaultLocation(for: activeVaultIdentifier, inDirectory: vaultDirectory)
-            .map { vaultLocation in
-                if let vaultLocation = vaultLocation {
-                    return .locked(vaultLocation)
-                } else {
-                    return .setup(vaultDirectory)
-                }
+        vaultLocationSubscription = Vault.vaultDirectory(in: vaultContainerDirectory, with: activeVaultIdentifier)
+            .map { vaultDirectory in
+                vaultDirectory.map(InitialAppState.locked) ?? InitialAppState.setup(vaultContainerDirectory)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -76,7 +72,7 @@ extension BootstrapModel {
     enum InitialAppState {
         
         case setup(URL)
-        case locked(VaultLocation)
+        case locked(URL)
         
     }
     

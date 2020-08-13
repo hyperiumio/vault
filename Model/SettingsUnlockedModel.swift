@@ -24,12 +24,12 @@ class SettingsUnlockedModel: SettingsUnlockedModelRepresantable {
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
     @Published private(set) var isBiometricUnlockEnabled: Bool = true
     
-    private let vault: Vault<SecureDataCryptor>
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private let context: SettingsUnlockedModelContext
     
-    init(vault: Vault<SecureDataCryptor>, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, context: SettingsUnlockedModelContext) {
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, context: SettingsUnlockedModelContext) {
         self.vault = vault
         self.biometricAvailablity = biometricKeychain.availability
         self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled

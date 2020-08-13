@@ -13,14 +13,14 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     var saveButtonEnabled: Bool { status != .loading && !title.isEmpty }
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let vault: Vault
     private let originalVaultItem: VaultItem
-    private let vault: Vault<SecureDataCryptor>
+    private let eventSubject = PassthroughSubject<Event, Never>()
     private var saveSubscription: AnyCancellable?
     
-    init(vaultItem: VaultItem, vault: Vault<SecureDataCryptor>) {
-        self.originalVaultItem = vaultItem
+    init(vault: Vault, vaultItem: VaultItem) {
         self.vault = vault
+        self.originalVaultItem = vaultItem
         self.title = vaultItem.title
         self.primaryItemModel = SecureItemEditModel(vaultItem.primarySecureItem)
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(SecureItemEditModel.init)

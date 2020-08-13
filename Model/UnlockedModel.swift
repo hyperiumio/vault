@@ -11,7 +11,7 @@ class UnlockedModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var newVaultItemModel: VaultItemCreatingModel?
     @Published var failure: Failure?
-    @Published private var itemCollation = AlphabeticCollation<Item>()
+    @Published private var itemCollation: AlphabeticCollation<Item>
     
     var sections: [Section] {
         itemCollation.sections.enumerated().map { index, section in
@@ -20,39 +20,34 @@ class UnlockedModel: ObservableObject {
     }
     
     let preferencesUnlockedModel: SettingsUnlockedModel
-    let vault: Vault<SecureDataCryptor>
+    let vault: Vault
     
-    private let infoItemProcessingQueue = DispatchQueue(label: "UnlockedModelInfoItemProcessingQueue")
+    private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private var infoItemsSubscription: AnyCancellable?
-    private var vaultDidChangeSubscription: AnyCancellable?
-    private var vaultItemModelCompletionSubscription: AnyCancellable?
     
-    init(vault: Vault<SecureDataCryptor>, preferencesUnlockedModel: SettingsUnlockedModel) {
+    init(initialItemCollation: AlphabeticCollation<Item>, vault: Vault, preferencesUnlockedModel: SettingsUnlockedModel) {
+        self.itemCollation = initialItemCollation
         self.vault = vault
         self.preferencesUnlockedModel = preferencesUnlockedModel
         
-        vaultDidChangeSubscription = vault.didChange
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] in
-                self?.load()
-            }
-    }
-    
-    func load() {
-        let vaultItemInfoCollectionPublisher = vault.loadItemInfos()
+        let vaultItemInfosPublisher = vault.didChange.flatMap {
+            vault.loadVaultItemInfos()
+        }
+        
         let searchTextPublisher = $searchText.setFailureType(to: Error.self)
         
-        infoItemsSubscription = Publishers.CombineLatest(vaultItemInfoCollectionPublisher, searchTextPublisher)
-            .receive(on: infoItemProcessingQueue)
-            .map { infosItems, searchText in
-                return infosItems.filter { itemDescription in FuzzyMatch(searchText, in: itemDescription.title) }
-            }
-            .map { [vault] itemTokens -> AlphabeticCollation<Item> in
-                let items = itemTokens.map { itemToken in
-                    let context = VaultItemModelContext(vault: vault, itemToken: itemToken)
-                    let vaultItemModel = VaultItemModel(context: context)
-                    return Item(itemToken: itemToken, detailModel: vaultItemModel)
-                } as [Item]
+        infoItemsSubscription = Publishers.CombineLatest(vaultItemInfosPublisher, searchTextPublisher)
+            .receive(on: operationQueue)
+            .map { vaultItemInfos, searchText -> AlphabeticCollation<Item> in
+                let items = vaultItemInfos
+                    .filter { itemDescription in
+                        FuzzyMatch(searchText, in: itemDescription.title)
+                    }
+                    .map { vaultItemInfo in
+                        let context = VaultItemModelContext(vault: vault, itemID: vaultItemInfo.id)
+                        let vaultItemModel = VaultItemModel(context: context)
+                        return Item(vaultItemInfo: vaultItemInfo, detailModel: vaultItemModel)
+                    } as [Item]
                 return AlphabeticCollation(from: items)
             }
             .receive(on: DispatchQueue.main)
@@ -72,18 +67,20 @@ class UnlockedModel: ObservableObject {
     func createVaultItem(itemType: SecureItem.TypeIdentifier) {
         let vaultItemModel = VaultItemCreatingModel(itemType: itemType, vault: vault)
         
-        vaultItemModelCompletionSubscription = vaultItemModel.event
+        vaultItemModel.event
+            .map { event in nil }
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] event in
-                guard let self = self else { return }
-                
-                if case .saved = event {
-                    self.load()
-                }
-                self.newVaultItemModel = nil
-            }
+            .assign(to: &$newVaultItemModel)
         
         newVaultItemModel = vaultItemModel
+    }
+    
+}
+
+extension UnlockedModel {
+    
+    static func itemCollation(from vaultItemInfoCiphertextContainers: [CiphertextContainerRepresentable]) -> AlphabeticCollation<Item> {
+        fatalError()
     }
     
 }
@@ -113,10 +110,10 @@ extension UnlockedModel {
         let itemType: ItemType
         let detailModel: VaultItemModel
         
-        fileprivate init(itemToken: VaultItemToken<SecureDataCryptor>, detailModel: VaultItemModel) {
-            self.id = itemToken.id
-            self.title = itemToken.title
-            self.itemType = itemToken.typeIdentifier
+        fileprivate init(vaultItemInfo: VaultItem.Info, detailModel: VaultItemModel) {
+            self.id = vaultItemInfo.id
+            self.title = vaultItemInfo.title
+            self.itemType = vaultItemInfo.primaryTypeIdentifier
             self.detailModel = detailModel
         }
         

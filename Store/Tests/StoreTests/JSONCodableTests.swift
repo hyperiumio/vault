@@ -1,4 +1,4 @@
 import XCTest
 @testable import Store
 
-class JSONCodableTests: XCTestCase {}
+class BinaryCodableTests: XCTestCase {}

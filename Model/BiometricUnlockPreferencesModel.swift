@@ -28,12 +28,12 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     let biometricType: BiometricType
     
     private let eventSubject = PassthroughSubject<Event, Never>()
-    private let vault: Vault<SecureDataCryptor>
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault<SecureDataCryptor>, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager

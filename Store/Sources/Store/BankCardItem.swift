@@ -1,13 +1,15 @@
 import Foundation
 
-public struct BankCardItem: JSONCodable {
+public struct BankCardItem: BinaryCodable {
     
     public let name: String
     public let number: String
     public let expirationDate: Date
     public let pin: String
     
-    public var vendor: Vendor { Vendor(number) }
+    public var vendor: Vendor {
+        Vendor(number)
+    }
     
     public init(name: String, number: String, expirationDate: Date, pin: String) {
         self.name = name

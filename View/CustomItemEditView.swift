@@ -1,7 +1,7 @@
 import Localization
 import SwiftUI
 
-struct GenericItemEditView<Model>: View where Model: GenericItemEditModelRepresentable {
+struct CustomItemEditView<Model>: View where Model: CustomItemEditModelRepresentable {
     
     @ObservedObject var model: Model
     
@@ -18,19 +18,19 @@ struct GenericItemEditView<Model>: View where Model: GenericItemEditModelReprese
 }
 
 #if DEBUG
-class GenericItemEditModelStub: GenericItemEditModelRepresentable {
+class CustomItemEditModelStub: CustomItemEditModelRepresentable {
     
     var fieldName = ""
     var fieldValue = ""
     
 }
 
-struct GenericItemEditViewProvider: PreviewProvider {
+struct CustomItemEditViewProvider: PreviewProvider {
     
-    static let model = GenericItemEditModelStub()
+    static let model = CustomItemEditModelStub()
     
     static var previews: some View {
-        GenericItemEditView(model: model)
+        CustomItemEditView(model: model)
             .previewLayout(.sizeThatFits)
     }
     

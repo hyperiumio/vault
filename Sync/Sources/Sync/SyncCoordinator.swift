@@ -11,9 +11,9 @@ public class SyncCoordinator {
     public func initialize() {
         initializeSubscription = Server.initialize()
             .sink { completion in
-                //print(completion)
+                
             } receiveValue: { server in
-                //print(server)
+                
             }
     }
     

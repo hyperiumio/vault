@@ -1,4 +1,4 @@
-public struct BankAccountItem: JSONCodable {
+public struct BankAccountItem: BinaryCodable {
     
     public let bankName: String
     public let accountHolder: String

@@ -115,10 +115,7 @@ struct UnlockedView: View {
             switch failure {
             case .loadOperationFailed:
                 let title = Text(LocalizedString.loadFailed)
-                let retryText = Text(LocalizedString.retry)
-                let primaryButton = Alert.Button.default(retryText, action: model.load)
-                let cancel = Alert.Button.cancel()
-                return Alert(title: title, primaryButton: primaryButton, secondaryButton: cancel)
+                return Alert(title: title)
             case .deleteOperationFailed:
                 let title = Text(LocalizedString.deleteFailed)
                 return Alert(title: title)

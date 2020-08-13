@@ -28,7 +28,7 @@ extension Color {
             self = .appBlue
         case .bankAccount:
             self = .appGreen
-        case .generic:
+        case .custom:
             self = .appRed
         }
     }

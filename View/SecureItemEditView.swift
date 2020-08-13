@@ -21,7 +21,7 @@ struct SecureItemEditView: View {
         case .bankAccount(let model):
             BankAccountEditView(model: model)
         case .customField(let model):
-            GenericItemEditView(model: model)
+            CustomItemEditView(model: model)
         }
     }
     

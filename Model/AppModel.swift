@@ -31,7 +31,7 @@ class AppModel: ObservableObject {
         case .bootstrap, .setup, .locked:
             return
         case .unlocked(let unlockedModel):
-            let lockedModel = context.lockedModel(vaultLocation: unlockedModel.vault.location)
+            let lockedModel = context.lockedModel(vaultDirectory: unlockedModel.vault.vaultDirectory)
             self.state = .locked(lockedModel)
         }
     }
@@ -54,28 +54,32 @@ extension AppModel {
                     .map { appState in
                         switch appState {
                         case .setup(let url):
-                            let model = context.setupModel(vaultDirectory: url)
+                            let model = context.setupModel(vaultContainerDirectory: url)
                             return .setup(model)
-                        case .locked(let location):
-                            let model = context.lockedModel(vaultLocation: location)
+                        case .locked(let url):
+                            let model = context.lockedModel(vaultDirectory: url)
                             return .locked(model)
                         }
                     }
                     .eraseToAnyPublisher()
             case .setup(let model):
-                return model.didCreateVault
-                    .map { vault in
-                        let model = context.unlockedModel(vault: vault, lockVault: lockVault)
-                        model.load()
-                        return .unlocked(model)
+                return model.event
+                    .map { event in
+                        switch event {
+                        case .didSetup(let vault, let collation):
+                            let model = context.unlockedModel(initialItemCollation: collation, vault: vault, lockVault: lockVault)
+                            return .unlocked(model)
+                        }
                     }
                     .eraseToAnyPublisher()
             case .locked(let model):
-                return model.didOpenVault
-                    .map { vault in
-                        let model = context.unlockedModel(vault: vault, lockVault: lockVault)
-                        model.load()
-                        return .unlocked(model)
+                return model.event
+                    .map { event in
+                        switch event {
+                        case .didUnlock(let vault, let collation):
+                            let model = context.unlockedModel(initialItemCollation: collation, vault: vault, lockVault: lockVault)
+                            return .unlocked(model)
+                        }
                     }
                     .eraseToAnyPublisher()
             case .unlocked:

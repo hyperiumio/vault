@@ -3,10 +3,10 @@ import Foundation
 
 extension DispatchQueue {
     
-    func future<Success, Failure>(execute work: @escaping () -> Result<Success, Failure>) -> Future<Success, Failure> {
-        return Future { promise in
+    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
+        Future { promise in
             self.async {
-                let result = work()
+                let result = Result(catching: body)
                 promise(result)
             }
         }
