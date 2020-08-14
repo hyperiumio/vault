@@ -65,51 +65,56 @@ struct UnlockedView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                HStack {
-                    TextField(LocalizedString.search, text: $model.searchText)
-                    
-                    CreateVaultItemButton(action: model.createVaultItem) {
-                        Image.plus
-                            .imageScale(.large)
-                    }
-                    .sheet(item: $model.newVaultItemModel) { model in
-                        VaultItemCreatingView(model: model)
-                    }
-                }
-                .padding()
-                
-                List {
-                    ForEach (model.sections) { section in
-                        Section(header: Text(section.title)) {
-                            ForEach(section.items) { item in
-                                NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
-                                    Label {
-                                        Text(item.title)
-                                    } icon: {
-                                        Image(item.itemType)
-                                            .foregroundColor(Color(item.itemType))
-                                    }
+            List {
+                ForEach (model.sections) { section in
+                    Section(header: Text(section.title)) {
+                        ForEach(section.items) { item in
+                            NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
+                                Label {
+                                    Text(item.title)
+                                } icon: {
+                                    Image(item.itemType)
+                                        .foregroundColor(Color(item.itemType))
                                 }
                             }
                         }
                     }
                 }
-                .listStyle(PlainListStyle())
+            }
+            .listStyle(PlainListStyle())
+            .navigationTitle(LocalizedString.vault)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                    Button {
+                        settingsPresented = true
+                    } label: {
+                        Image.settings
+                    }
+                }
                 
-                Button {
-                    settingsPresented = true
-                } label: {
-                    Label(LocalizedString.settings, systemImage: "gear")
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                    Button {
+                        model.createVaultItem()
+                    } label: {
+                        Image.plus
+                            .imageScale(.large)
+                    }
+                    .sheet(item: $model.presentedModel) { presentedModel in
+                        switch presentedModel {
+                        case .select(let model):
+                            VaultItemCreatingSelectionView(model: model)
+                        case .create(let model):
+                            NavigationView {
+                                VaultItemEditView(model: model)
+                            }
+                        }
+                    }
                 }
             }
-            .navigationBarHidden(true)
             
         }
         .sheet(isPresented: $settingsPresented) {
-            SettingsUnlockedView(model: model.preferencesUnlockedModel) {
-                settingsPresented = false
-            }
+            SettingsUnlockedView(model: model.preferencesUnlockedModel)
         }
         .alert(item: $model.failure) { failure in
             switch failure {

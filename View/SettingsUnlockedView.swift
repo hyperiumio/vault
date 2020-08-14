@@ -21,6 +21,7 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
                     }
             case .faceID:
                 Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
+                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                     .animation(.default)
                     .sheet(item: $model.biometricUnlockPreferencesModel) { model in
                         BiometricUnlockPreferencesView(model: model)
@@ -50,8 +51,7 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
 struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepresantable {
     
     @ObservedObject var model: Model
-    
-    let cancel: () -> Void
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
@@ -74,6 +74,7 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
                 case .faceID:
                     Section(footer: faceIDDescription) {
                         Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
+                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                             .animation(.default)
                             .sheet(item: $model.biometricUnlockPreferencesModel) { model in
                                 BiometricUnlockPreferencesView(model: model)
@@ -89,8 +90,14 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
                 }
             }
             .listStyle(GroupedListStyle())
-            .navigationBarTitle(LocalizedString.settings)
-            .navigationBarItems(trailing: cancelButton)
+            .navigationTitle(LocalizedString.settings)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
     }
     
@@ -100,10 +107,6 @@ struct SettingsUnlockedView<Model>: View where Model: SettingsUnlockedModelRepre
         } set: { isEnabled in
             model.setBiometricUnlock(isEnabled: isEnabled)
         }
-    }
-    
-    var cancelButton: some View {
-        Button(LocalizedString.done, action: cancel)
     }
     
     var lockVaultDescription: some View {
@@ -145,7 +148,7 @@ struct SettingsUnlockedViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            SettingsUnlockedView(model: SettingsUnlockedModelStub(), cancel: {})
+            SettingsUnlockedView(model: SettingsUnlockedModelStub())
                 .preferredColorScheme(.dark)
         }
         .frame(width: 400)

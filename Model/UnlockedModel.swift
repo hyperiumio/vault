@@ -9,7 +9,7 @@ import Store
 class UnlockedModel: ObservableObject {
     
     @Published var searchText: String = ""
-    @Published var newVaultItemModel: VaultItemCreatingModel?
+    @Published var presentedModel: PresentedModel?
     @Published var failure: Failure?
     @Published private var itemCollation: AlphabeticCollation<Item>
     
@@ -64,15 +64,27 @@ class UnlockedModel: ObservableObject {
             }
     }
     
-    func createVaultItem(itemType: SecureItem.TypeIdentifier) {
-        let vaultItemModel = VaultItemCreatingModel(itemType: itemType, vault: vault)
+    func createVaultItem() {
+        let model = VaultItemCreatingSelectionModel()
+        model.event
+            .map { [vault] event in
+                switch event {
+                case .creationRequest(let typeIdentifier):
+                    let model = VaultItemEditModel(vault: vault, secureItemType: typeIdentifier)
+                    model.event
+                        .map { event in
+                            switch event {
+                            case .done:
+                                return nil
+                            }
+                        }
+                        .assign(to: &self.$presentedModel) // memory leak
+                    return .create(model)
+                }
+            }
+            .assign(to: &$presentedModel)
         
-        vaultItemModel.event
-            .map { event in nil }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$newVaultItemModel)
-        
-        newVaultItemModel = vaultItemModel
+        presentedModel = .select(model)
     }
     
 }
@@ -126,6 +138,13 @@ extension UnlockedModel {
         
     }
     
+    enum PresentedModel {
+        
+        case select(VaultItemCreatingSelectionModel)
+        case create(VaultItemEditModel)
+        
+    }
+    
 }
 
 extension UnlockedModel.Section: Identifiable {
@@ -155,5 +174,18 @@ extension UnlockedModel.Failure: Identifiable {
 extension UUID: Identifiable {
     
     public var id: Self { self }
+    
+}
+
+extension UnlockedModel.PresentedModel: Identifiable {
+    
+    var id: ObjectIdentifier {
+        switch self {
+        case .select(let model):
+            return model.id
+        case .create(let model):
+            return model.id
+        }
+    }
     
 }

@@ -2,10 +2,13 @@ import SwiftUI
 
 extension Color {
     
-    static let appBlue = Color("AppBlue")
+    static let appBlue = Color.accentColor
     static let appGray = Color("AppGray")
     static let appGreen = Color("AppGreen")
+    static let appPink = Color("AppPink")
+    static let appPurple = Color("AppPurple")
     static let appRed = Color("AppRed")
+    static let appTeal = Color("AppTeal")
     static let appYellow = Color("AppYellow")
     
 }
@@ -19,13 +22,13 @@ extension Color {
         case .login:
             self = .appBlue
         case .file:
-            self = .appGray
+            self = .appPink
         case .note:
             self = .appYellow
         case .bankCard:
-            self = .appGreen
+            self = .appPurple
         case .wifi:
-            self = .appBlue
+            self = .appTeal
         case .bankAccount:
             self = .appGreen
         case .custom:

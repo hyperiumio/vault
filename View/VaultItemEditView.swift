@@ -35,7 +35,6 @@ struct VaultItemEditView: View {
             
             ToolbarItem(placement: .confirmationAction) {
                 Button(LocalizedString.save, action: model.save)
-                    .disabled(!model.saveButtonEnabled)
             }
         }
     }
@@ -55,6 +54,7 @@ struct VaultItemEditView: View {
 struct VaultItemEditView: View {
     
     @ObservedObject var model: VaultItemEditModel
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         List {
@@ -62,39 +62,24 @@ struct VaultItemEditView: View {
                 VaultItemTitleEditView(secureItemType: model.primaryItemModel.typeIdentifier, title: $model.title)
             }
             
-            Section {
+            Section(footer: dateFooter) {
                 SecureItemEditView(model: model.primaryItemModel)
-            }
-            
-            Section(header: additionalItemsHeader, footer: dateFooter) {
-                ForEach(model.secondaryItemModels) { secureItemModel in
-                    SecureItemEditView(model: secureItemModel)
-                }
-                .onDelete(perform: model.deleteSecondaryItems)
-                .onMove(perform: model.moveSecondaryItems)
-                
-                CreateVaultItemButton(action: model.addSecondaryItem) {
-                    Text(LocalizedString.add)
-                }
             }
         }
         .listStyle(GroupedListStyle())
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(LocalizedString.cancel, action: model.cancel)
+                Button(LocalizedString.cancel) {
+                    presentationMode.wrappedValue.dismiss()
+                }
             }
             
             ToolbarItem(placement: .confirmationAction) {
                 Button(LocalizedString.save, action: model.save)
-                    .disabled(!model.saveButtonEnabled)
             }
         }
         .navigationBarBackButtonHidden(true)
         .environment(\.editMode, .constant(.active))
-    }
-    
-    private var additionalItemsHeader: some View {
-        Text(LocalizedString.additionalItems)
     }
     
     private var dateFooter: some View {

@@ -9,7 +9,7 @@ struct ErrorBadge: View {
             .font(.footnote)
             .multilineTextAlignment(.center)
             .padding(edgeInsets)
-            .background(Color.red)
+            .background(Color.appRed)
             .foregroundColor(.white)
             .clipShape(clipShape)
     }

@@ -67,10 +67,11 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
 struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockPreferencesModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 Section(header: headerImage, footer: enableBiometricUnlockDescription) {
                     SecureField(LocalizedString.masterPassword, text: $model.password)
                 }
@@ -85,8 +86,16 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
                     }
                 }
             }
-            .navigationBarTitle(model.biometricType.localizedTitle, displayMode: .inline)
-            .navigationBarItems(trailing: cancelButton)
+            .listStyle(GroupedListStyle())
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(model.biometricType.localizedTitle)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
         .disabled(model.userInputDisabled)
     }
@@ -124,10 +133,6 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
             Spacer()
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-    }
-    
-    private var cancelButton: some View {
-        Button(LocalizedString.cancel, action: model.cancel)
     }
     
 }
@@ -174,7 +179,6 @@ class BiometricUnlockPreferencesModelStub: BiometricUnlockPreferencesModelRepres
     var userInputDisabled: Bool { status == .loading }
     let biometricType = BiometricType.touchID
     
-    func cancel() {}
     func enabledBiometricUnlock() {}
     
 }

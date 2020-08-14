@@ -14,7 +14,7 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
     
     private let vault: Vault
-    private let originalVaultItem: VaultItem
+    private let originalVaultItem: VaultItem?
     private let eventSubject = PassthroughSubject<Event, Never>()
     private var saveSubscription: AnyCancellable?
     
@@ -24,6 +24,13 @@ class VaultItemEditModel: ObservableObject, Identifiable {
         self.title = vaultItem.title
         self.primaryItemModel = SecureItemEditModel(vaultItem.primarySecureItem)
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(SecureItemEditModel.init)
+    }
+    
+    init(vault: Vault, secureItemType: SecureItemType) {
+        self.vault = vault
+        self.originalVaultItem = nil
+        self.primaryItemModel = SecureItemEditModel(secureItemType)
+        self.secondaryItemModels = []
     }
     
     func addSecondaryItem(itemType: SecureItem.TypeIdentifier) {
@@ -40,10 +47,13 @@ class VaultItemEditModel: ObservableObject, Identifiable {
     }
     
     func save() {
+        let now = Date()
+        let id = originalVaultItem?.id ?? UUID()
         let primarySecureItem = primaryItemModel.secureItem
         let secondarySecureItems = secondaryItemModels.map(\.secureItem)
-        let now = Date()
-        let vaultItem = VaultItem(id: originalVaultItem.id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: originalVaultItem.created, modified: now)
+        let created = originalVaultItem?.created ?? now
+        let modified = now
+        let vaultItem = VaultItem(id: id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
         
         status = .loading
         saveSubscription = vault.saveVaultItem(vaultItem)
@@ -55,14 +65,8 @@ class VaultItemEditModel: ObservableObject, Identifiable {
                     self.status = .saveOperationFailed
                 }
             } receiveValue: { [eventSubject] _ in
-                let event = Event.done(vaultItem)
-                eventSubject.send(event)
+                eventSubject.send(.done)
             }
-    }
-    
-    func cancel() {
-        let event = Event.done(originalVaultItem)
-        eventSubject.send(event)
     }
     
 }
@@ -79,7 +83,7 @@ extension VaultItemEditModel {
     
     enum Event {
         
-        case done(VaultItem)
+        case done
         
     }
     

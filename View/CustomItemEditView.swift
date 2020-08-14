@@ -7,11 +7,11 @@ struct CustomItemEditView<Model>: View where Model: CustomItemEditModelRepresent
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            SecureItemEditField(title: LocalizedString.customFieldName, text: $model.fieldName)
+            SecureItemEditField(title: LocalizedString.customItemName, text: $model.itemName)
             
             Divider()
             
-            SecureItemEditField(title: LocalizedString.customFieldValue, text: $model.fieldValue)
+            SecureItemEditField(title: LocalizedString.customItemValue, text: $model.itemValue)
         }
     }
     
@@ -20,8 +20,8 @@ struct CustomItemEditView<Model>: View where Model: CustomItemEditModelRepresent
 #if DEBUG
 class CustomItemEditModelStub: CustomItemEditModelRepresentable {
     
-    var fieldName = ""
-    var fieldValue = ""
+    var itemName = ""
+    var itemValue = ""
     
 }
 
