@@ -11,7 +11,6 @@ protocol BiometricUnlockPreferencesModelRepresentable: ObservableObject, Identif
     var status: BiometricUnlockPreferencesModel.Status { get }
     var biometricType: BiometricType { get }
     
-    func cancel()
     func enabledBiometricUnlock()
     
 }
@@ -42,10 +41,6 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
         $password
             .map { _ in .none }
             .assign(to: &$status)
-    }
-    
-    func cancel() {
-        eventSubject.send(.canceled)
     }
     
     func enabledBiometricUnlock() {
@@ -98,7 +93,6 @@ extension BiometricUnlockPreferencesModel {
     
     enum Event {
         
-        case canceled
         case enabled
         
     }

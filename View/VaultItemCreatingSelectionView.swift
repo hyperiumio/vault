@@ -52,57 +52,72 @@ struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRep
 #endif
 
 #if os(iOS)
-struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRepresentable {
+struct VaultItemCreatingSelectionView<Model>: View where Model: VaultItemCreatingSelectionModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
             List {
-                Section {
-                    TextField(LocalizedString.title, text: $model.title)
-                }
+                VaultItemButton(LocalizedString.login, icon: .login, color: .appBlue, action: model.createLogin)
                 
-                Section {
-                    SecureItemEditView(model: model.primaryItemModel)
-                }
+                VaultItemButton(LocalizedString.password, icon: .password, color: .appGray, action: model.createPassword)
                 
-                Section(header: Text(LocalizedString.additionalItems)) {
-                    ForEach(model.secondaryItemModels) { secureItemModel in
-                        SecureItemEditView(model: secureItemModel)
-                    }
-                    .onDelete(perform: model.deleteSecondaryItems)
-                    .onMove(perform: model.moveSecondaryItems)
-                    
-                    CreateVaultItemButton(action: model.addSecondaryItem) {
-                        Text(LocalizedString.add)
-                    }
-                }
+                VaultItemButton(LocalizedString.file, icon: .file, color: .appPink, action: model.createFile)
+                
+                VaultItemButton(LocalizedString.note, icon: .note, color: .appYellow, action: model.createNote)
+                
+                VaultItemButton(LocalizedString.bankCard, icon: .bankCard, color: .appPurple, action: model.createBankCard)
+                
+                VaultItemButton(LocalizedString.wifi, icon: .wifi, color: .appTeal, action: model.createWifi)
+                
+                VaultItemButton(LocalizedString.bankAccount, icon: .bankAccount, color: .appGreen, action: model.createBankAccount)
+                
+                VaultItemButton(LocalizedString.customItem, icon: .custom, color: .appRed, action: model.createCustomItem)
             }
-            .listStyle(GroupedListStyle())
+            .listStyle(PlainListStyle())
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(LocalizedString.select)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel, action: model.cancel)
-                }
-                
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Image(model.primaryItemModel.typeIdentifier)
-                            .foregroundColor(Color(model.primaryItemModel.typeIdentifier))
-                        
-                        Text(model.primaryItemModel.typeIdentifier.title)
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizedString.save, action: model.save)
-                }
             }
-            .environment(\.editMode, .constant(.active))
         }
     }
     
 }
+
+private struct VaultItemButton: View {
+    
+    let title: String
+    let icon: Image
+    let color: Color
+    let action: () -> Void
+    
+    init(_ title: String, icon: Image, color: Color, action: @escaping () -> Void) {
+        self.title = title
+        self.icon = icon
+        self.color = color
+        self.action = action
+    }
+    
+    var body: some View {
+        Button(action: action) {
+            Label {
+                Text(title)
+                    .foregroundColor(.label)
+            } icon: {
+                icon.foregroundColor(color)
+            }
+        }
+    }
+    
+}
+
 #endif
 
 import Store
@@ -126,13 +141,14 @@ extension SecureItem.TypeIdentifier {
         case .bankAccount:
             return LocalizedString.bankAccount
         case .custom:
-            return LocalizedString.customField
+            return LocalizedString.customItem
         }
     }
     
 }
 
 #if DEBUG
+/*
 class VaultItemCreatingModelStub: VaultItemCreatingModelRepresentable {
     
     var title = ""
@@ -161,4 +177,5 @@ struct VaultItemCreatingViewPreview: PreviewProvider {
     }
     
 }
+ */
 #endif

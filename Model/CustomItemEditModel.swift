@@ -3,28 +3,28 @@ import Store
 
 protocol CustomItemEditModelRepresentable: ObservableObject, Identifiable {
     
-    var fieldName: String { get set }
-    var fieldValue: String { get set }
+    var itemName: String { get set }
+    var itemValue: String { get set }
     
 }
 
 class CustomItemEditModel: CustomItemEditModelRepresentable {
     
-    @Published var fieldName: String
-    @Published var fieldValue: String
+    @Published var itemName: String
+    @Published var itemValue: String
     
     var customItem: CustomItem {
-        CustomItem(name: fieldName, value: fieldValue)
+        CustomItem(name: itemName, value: itemValue)
     }
     
     init(_ customItem: CustomItem) {
-        self.fieldName = customItem.name
-        self.fieldValue = customItem.value
+        self.itemName = customItem.name
+        self.itemValue = customItem.value
     }
     
     init() {
-        self.fieldName = ""
-        self.fieldValue = ""
+        self.itemName = ""
+        self.itemValue = ""
     }
     
 }

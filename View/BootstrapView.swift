@@ -9,7 +9,7 @@ struct BootstrapView: View {
         Group {
             switch model.status {
             case .none, .loading:
-                Text("fpp")
+                EmptyView()
             case .loadingDidFail:
                 VStack {
                     Image.warning

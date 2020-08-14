@@ -12,7 +12,6 @@ protocol ChangeMasterPasswordModelRepresentable: ObservableObject, Identifiable 
     var textInputDisabled: Bool { get }
     var status: ChangeMasterPasswordModel.Status { get }
     
-    func cancel()
     func changeMasterPassword()
     
 }
@@ -42,10 +41,6 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         Publishers.Merge3($currentPassword, $newPassword, $repeatedNewPassword)
             .map { _ in .none }
             .assign(to: &$status)
-    }
-    
-    func cancel() {
-        eventSubject.send(.canceled)
     }
     
     func changeMasterPassword() {
@@ -84,7 +79,6 @@ extension ChangeMasterPasswordModel {
     
     enum Event {
         
-        case canceled
         case passwordChanged
         
     }

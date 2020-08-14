@@ -18,6 +18,7 @@ extension Image {
     static let showSecret = Image(systemName: "eye.fill")
     static let plus = Image(systemName: "plus")
     static let lock = Image(systemName: "lock.fill")
+    static let settings = Image(systemName: "slider.horizontal.3")
     
 }
 

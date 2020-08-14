@@ -58,10 +58,11 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 Section(header: headerImage) {
                     SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
                         .disabled(model.textInputDisabled)
@@ -83,8 +84,16 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
                     }
                 }
             }
-            .navigationBarTitle(LocalizedString.masterPassword, displayMode: .inline)
-            .navigationBarItems(trailing: cancelButton)
+            .listStyle(GroupedListStyle())
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(LocalizedString.masterPassword)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
     }
     
@@ -123,10 +132,6 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             Spacer()
         }
         .padding(.all, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-    }
-    
-    private var cancelButton: some View {
-        Button(LocalizedString.cancel, action: model.cancel)
     }
     
 }

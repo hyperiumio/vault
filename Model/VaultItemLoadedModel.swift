@@ -29,7 +29,7 @@ extension VaultItemLoadedModel {
     enum State {
         
         case display(VaultItemDisplayModel)
-        case edit(VaultItemEditModel)
+        case edit(VaultItemEditModel, VaultItem)
         
         func transition(using context: VaultItemLoadedModelContext) -> AnyPublisher<Self, Never> {
             switch self {
@@ -39,15 +39,15 @@ extension VaultItemLoadedModel {
                         switch event {
                         case .requestsEditMode(let vaultItem):
                             let editModel = context.vaultItemEditModel(vaultItem: vaultItem)
-                            return .edit(editModel)
+                            return .edit(editModel, vaultItem)
                         }
                     }
                     .eraseToAnyPublisher()
-            case .edit(let model):
+            case .edit(let model, let vaultItem):
                 return model.event
                     .map { event in
                         switch event {
-                        case .done(let vaultItem):
+                        case .done:
                             let displayModel = VaultItemDisplayModel(vaultItem: vaultItem)
                             return .display(displayModel)
                         }
