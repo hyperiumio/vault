@@ -9,7 +9,7 @@ import Store
 class UnlockedModel: ObservableObject {
     
     @Published var searchText: String = ""
-    @Published var presentedModel: PresentedModel?
+    @Published var creationModel: VaultItemCreationModel?
     @Published var failure: Failure?
     @Published private var itemCollation: AlphabeticCollation<Item>
     
@@ -43,10 +43,9 @@ class UnlockedModel: ObservableObject {
                     .filter { itemDescription in
                         FuzzyMatch(searchText, in: itemDescription.title)
                     }
-                    .map { vaultItemInfo in
-                        let context = VaultItemModelContext(vault: vault, itemID: vaultItemInfo.id)
-                        let vaultItemModel = VaultItemModel(context: context)
-                        return Item(vaultItemInfo: vaultItemInfo, detailModel: vaultItemModel)
+                    .map { [vault] vaultItemInfo in
+                        let vaultItemModel = VaultItemReferenceModel(vault: vault, itemID: vaultItemInfo.id)
+                        return Item(vaultItemInfo: vaultItemInfo, model: vaultItemModel)
                     } as [Item]
                 return AlphabeticCollation(from: items)
             }
@@ -65,26 +64,17 @@ class UnlockedModel: ObservableObject {
     }
     
     func createVaultItem() {
-        let model = VaultItemCreatingSelectionModel()
+        let model = VaultItemCreationModel(vault: vault)
         model.event
-            .map { [vault] event in
+            .map { event in
                 switch event {
-                case .creationRequest(let typeIdentifier):
-                    let model = VaultItemEditModel(vault: vault, secureItemType: typeIdentifier)
-                    model.event
-                        .map { event in
-                            switch event {
-                            case .done:
-                                return nil
-                            }
-                        }
-                        .assign(to: &self.$presentedModel) // memory leak
-                    return .create(model)
+                case .didCreate:
+                    return nil
                 }
             }
-            .assign(to: &$presentedModel)
+            .assign(to: &$creationModel)
         
-        presentedModel = .select(model)
+        creationModel = model
     }
     
 }
@@ -120,13 +110,13 @@ extension UnlockedModel {
         let id: UUID
         let title: String
         let itemType: ItemType
-        let detailModel: VaultItemModel
+        let model: VaultItemReferenceModel
         
-        fileprivate init(vaultItemInfo: VaultItem.Info, detailModel: VaultItemModel) {
+        fileprivate init(vaultItemInfo: VaultItem.Info, model: VaultItemReferenceModel) {
             self.id = vaultItemInfo.id
             self.title = vaultItemInfo.title
             self.itemType = vaultItemInfo.primaryTypeIdentifier
-            self.detailModel = detailModel
+            self.model = model
         }
         
     }
@@ -135,13 +125,6 @@ extension UnlockedModel {
         
         case loadOperationFailed
         case deleteOperationFailed
-        
-    }
-    
-    enum PresentedModel {
-        
-        case select(VaultItemCreatingSelectionModel)
-        case create(VaultItemEditModel)
         
     }
     
@@ -174,18 +157,5 @@ extension UnlockedModel.Failure: Identifiable {
 extension UUID: Identifiable {
     
     public var id: Self { self }
-    
-}
-
-extension UnlockedModel.PresentedModel: Identifiable {
-    
-    var id: ObjectIdentifier {
-        switch self {
-        case .select(let model):
-            return model.id
-        case .create(let model):
-            return model.id
-        }
-    }
     
 }

@@ -69,13 +69,11 @@ struct UnlockedView: View {
                 ForEach (model.sections) { section in
                     Section(header: Text(section.title)) {
                         ForEach(section.items) { item in
-                            NavigationLink(destination: VaultItemView(model: item.detailModel).navigationBarHidden(false)) {
-                                Label {
-                                    Text(item.title)
-                                } icon: {
-                                    Image(item.itemType)
-                                        .foregroundColor(Color(item.itemType))
-                                }
+                            Label {
+                                Text(item.title)
+                            } icon: {
+                                Image(item.itemType)
+                                    .foregroundColor(Color(item.itemType))
                             }
                         }
                     }
@@ -99,15 +97,8 @@ struct UnlockedView: View {
                         Image.plus
                             .imageScale(.large)
                     }
-                    .sheet(item: $model.presentedModel) { presentedModel in
-                        switch presentedModel {
-                        case .select(let model):
-                            VaultItemCreatingSelectionView(model: model)
-                        case .create(let model):
-                            NavigationView {
-                                VaultItemEditView(model: model)
-                            }
-                        }
+                    .sheet(item: $model.creationModel) { model in
+                        VaultItemCreationView(model: model)
                     }
                 }
             }

@@ -3,21 +3,21 @@ import Foundation
 public struct FileItem: BinaryCodable {
     
     public let name: String
-    public let data: Data
+    public let data: Data?
     
     public var format: Format {
         let fileExtension = (name as NSString).pathExtension
         return Format(fileExtension)
     }
     
-    public init(name: String, data: Data) {
+    public init(name: String, data: Data?) {
         self.name = name
         self.data = data
     }
     
     public init() {
         self.name = ""
-        self.data = Data()
+        self.data = nil
     }
     
 }
