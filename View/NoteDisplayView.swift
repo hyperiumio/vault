@@ -1,7 +1,7 @@
 import Localization
 import SwiftUI
 
-struct NoteDisplayView<Model>: View where Model: NoteDisplayModelRepresentable {
+struct NoteDisplayView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject var model: Model
     
@@ -12,7 +12,7 @@ struct NoteDisplayView<Model>: View where Model: NoteDisplayModelRepresentable {
 }
 
 #if DEBUG
-class NoteDisplayModelStub: NoteDisplayModelRepresentable {
+class NoteDisplayModelStub: NoteModelRepresentable {
     
     var text = """
     Title
@@ -29,7 +29,7 @@ struct NoteDisplayViewPreview: PreviewProvider {
     static let model = NoteDisplayModelStub()
     
     static var previews: some View {
-        NoteDisplayView(model: model)
+        NoteView(model: model)
     }
     
 }

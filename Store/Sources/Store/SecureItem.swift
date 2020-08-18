@@ -7,7 +7,7 @@ public enum SecureItem: Equatable {
     case file(FileItem)
     case note(NoteItem)
     case bankCard(BankCardItem)
-    case wifi(WiFiItem)
+    case wifi(WifiItem)
     case bankAccount(BankAccountItem)
     case custom(CustomItem)
     
@@ -36,16 +36,18 @@ public enum SecureItem: Equatable {
 
 public extension SecureItem {
     
-    enum TypeIdentifier: String, Codable {
+    enum TypeIdentifier: String, Codable, CaseIterable, Identifiable {
         
-        case password
         case login
-        case file
+        case password
+        case wifi
         case note
         case bankCard
-        case wifi
         case bankAccount
         case custom
+        case file
+     
+        public var id: TypeIdentifier { self }
         
     }
     
@@ -92,7 +94,7 @@ extension SecureItem {
             let value = try BankCardItem(binaryEncoded: encodedSecureItem)
             return .bankCard(value)
         case .wifi:
-            let value = try WiFiItem(binaryEncoded: encodedSecureItem)
+            let value = try WifiItem(binaryEncoded: encodedSecureItem)
             return .wifi(value)
         case .bankAccount:
             let value = try BankAccountItem(binaryEncoded: encodedSecureItem)

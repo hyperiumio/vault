@@ -10,7 +10,7 @@ struct VaultItemFooter: View {
         HStack {
             Spacer()
             
-            VStack(alignment: .custom, spacing: 8) {
+            VStack(alignment: .custom, spacing: 4) {
                 HStack(alignment: .center) {
                     Text(LocalizedString.created)
                         .fontWeight(.semibold)
@@ -33,11 +33,10 @@ struct VaultItemFooter: View {
                     Text(created, formatter: dateFormatter)
                 }
             }
-            .font(.footnote)
+            .font(.caption)
             
             Spacer()
         }
-        .padding(.top)
     }
     
     private var dateFormatter: DateFormatter {
