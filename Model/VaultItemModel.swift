@@ -43,8 +43,8 @@ class VaultItemModel: ObservableObject, Identifiable {
         secondaryItemModels.append(model)
     }
     
-    func deleteSecondaryItems(at indexSet: IndexSet) {
-        secondaryItemModels.remove(atOffsets: indexSet)
+    func deleteSecondaryItem(at index: Int) {
+        secondaryItemModels.remove(at: index)
     }
     
     func save() {

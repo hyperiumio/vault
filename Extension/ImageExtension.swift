@@ -17,8 +17,10 @@ extension Image {
     static let hideSecret = Image(systemName: "eye.slash.fill")
     static let showSecret = Image(systemName: "eye.fill")
     static let plus = Image(systemName: "plus")
+    static let plusCircle = Image(systemName: "plus.circle.fill")
     static let lock = Image(systemName: "lock.fill")
     static let settings = Image(systemName: "slider.horizontal.3")
+    static let trashCircle = Image(systemName: "trash.circle.fill")
     
 }
 

@@ -97,12 +97,11 @@ struct UnlockedView: View {
                         Image.plus
                             .imageScale(.large)
                     }
-                    .sheet(item: $model.creationModel) { model in
-                        VaultItemCreationView(model: model)
-                    }
                 }
             }
-            
+            .sheet(item: $model.creationModel) { model in
+                VaultItemCreationView(model: model)
+            }
         }
         .sheet(isPresented: $settingsPresented) {
             SettingsUnlockedView(model: model.preferencesUnlockedModel)
@@ -116,7 +115,6 @@ struct UnlockedView: View {
                 let title = Text(LocalizedString.deleteFailed)
                 return Alert(title: title)
             }
-            
         }
     }
     

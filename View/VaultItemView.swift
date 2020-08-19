@@ -55,21 +55,41 @@ struct VaultItemView: View {
     @State private var isAddItemViewVisible = false
     
     var body: some View {
-        List {
-            Section {
+        ScrollView {
+            VStack(alignment: .trailing, spacing: 0) {
                 VaultItemTitleField(text: $model.title, isEditable: $isEditable)
+                
+                Divider()
                 
                 SecureItemView(model: model.primaryItemModel, isEditable: $isEditable)
                 
-                ForEach(model.secondaryItemModels) { model in
-                    SecureItemView(model: model, isEditable: $isEditable)
+                ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
+                    Divider()
+                    
+                    HStack(alignment: .top) {
+                        SecureItemView(model: secureItemModel, isEditable: $isEditable)
+                        
+                        Button {
+                            model.deleteSecondaryItem(at: index)
+                        } label: {
+                            Image.trashCircle
+                                .renderingMode(.original)
+                                .imageScale(.large)
+                        }
+                        .padding(.vertical)
+                    }
                 }
-                .onDelete(perform: model.deleteSecondaryItems)
                 
-                Button(LocalizedString.addItem) {
+                Divider()
+                
+                Button {
                     isAddItemViewVisible = true
+                } label: {
+                    Image.plusCircle
+                        .renderingMode(.original)
+                        .imageScale(.large)
                 }
-                .foregroundColor(.accentColor)
+                .padding(.vertical)
                 .sheet(isPresented: $isAddItemViewVisible) {
                     NavigationView {
                         List(SecureItemType.allCases) { typeIdentifier in
@@ -98,8 +118,8 @@ struct VaultItemView: View {
                     }
                 }
             }
+            .padding(.horizontal)
         }
-        .listStyle(InsetListStyle())
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
@@ -110,6 +130,7 @@ struct VaultItemView: View {
                 Button(LocalizedString.save) {
                     model.save()
                 }
+                .disabled(!model.saveButtonEnabled)
             }
         }
     }

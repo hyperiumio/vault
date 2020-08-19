@@ -12,6 +12,7 @@ struct SecureItemDateField: View {
             if isEditable {
                 DatePicker(title, selection: $date, displayedComponents: .date)
                     .labelsHidden()
+                    .frame(height: 40)
             } else {
                 Text(date, style: .date)
             }
