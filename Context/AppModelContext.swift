@@ -26,9 +26,9 @@ struct AppModelContext {
         return LockedModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func unlockedModel(initialItemCollation: AlphabeticCollation<UnlockedModel.Item>, vault: Vault, lockVault: @escaping () -> Void) -> UnlockedModel {
+    func unlockedModel(initialItemCollation: AlphabeticCollation<VaultItemReferenceModel>, vault: Vault, lockVault: @escaping () -> Void) -> UnlockedModel {
         let context = SettingsUnlockedModelContext(lockVault: lockVault)
-        let preferencesUnlockedModel = SettingsUnlockedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, context: context)
+        let preferencesUnlockedModel = SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, context: context)
         return UnlockedModel(initialItemCollation: initialItemCollation, vault: vault, preferencesUnlockedModel: preferencesUnlockedModel)
     }
     

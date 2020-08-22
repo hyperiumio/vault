@@ -47,10 +47,7 @@ struct BankCardViewPreviewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            BankCardView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        BankCardView(model: model, isEditable: $isEditable)
     }
     
 }

@@ -3,7 +3,13 @@ import Crypto
 import Foundation
 import Store
 
-class AppModel: ObservableObject {
+protocol AppModelRepresentable: ObservableObject, Identifiable {
+    
+    var state: AppModel.State { get }
+    
+}
+
+class AppModel: AppModelRepresentable {
     
     @Published private(set) var state: State
     

@@ -2,47 +2,32 @@ import Localization
 import SwiftUI
 
 #if os(macOS)
-struct VaultItemCreatingView<Model>: View where Model: VaultItemCreatingModelRepresentable {
+struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
+    
     
     var body: some View {
         NavigationView {
-            List {
-                Section {
-                    TextField(LocalizedString.title, text: $model.title)
-                    
-                    SecureItemEditView(model: model.primaryItemModel)
-                }
-                
-                Section(header: Text(LocalizedString.additionalItems)) {
-                    ForEach(model.secondaryItemModels) { secureItemModel in
-                        SecureItemEditView(model: secureItemModel)
-                    }
-                    .onDelete(perform: model.deleteSecondaryItems)
-                    .onMove(perform: model.moveSecondaryItems)
-                    
-                    CreateVaultItemButton(action: model.addSecondaryItem) {
-                        Text(LocalizedString.add)
+            List(model.detailModels) { detailModel in
+                NavigationLink(destination: VaultItemView(model: detailModel)) {
+                    Label {
+                        Text(detailModel.primaryItemModel.typeIdentifier.name)
+                            .foregroundColor(.label)
+                    } icon: {
+                        Image(detailModel.primaryItemModel.typeIdentifier).foregroundColor(Color(detailModel.primaryItemModel.typeIdentifier))
                     }
                 }
             }
+            .listStyle(PlainListStyle())
+          //  .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(LocalizedString.select)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel, action: model.cancel)
-                }
-                
-                ToolbarItem(placement: .principal) {
-                    HStack {
-                        Image(model.primaryItemModel.typeIdentifier)
-                        
-                        Text(model.primaryItemModel.typeIdentifier.title)
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
                     }
-                }
-                
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizedString.save, action: model.save)
-                        .disabled(!model.saveButtonEnabled)
                 }
             }
         }
@@ -63,7 +48,7 @@ struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRep
             List(model.detailModels) { detailModel in
                 NavigationLink(destination: VaultItemView(model: detailModel)) {
                     Label {
-                        Text(detailModel.primaryItemModel.typeIdentifier.title)
+                        Text(detailModel.primaryItemModel.typeIdentifier.name)
                             .foregroundColor(.label)
                     } icon: {
                         Image(detailModel.primaryItemModel.typeIdentifier).foregroundColor(Color(detailModel.primaryItemModel.typeIdentifier))
@@ -84,14 +69,13 @@ struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRep
     }
     
 }
-
 #endif
 
 import Store
 
 extension SecureItem.TypeIdentifier {
     
-    var title: String {
+    var name: String {
         switch self {
         case .password:
             return LocalizedString.password

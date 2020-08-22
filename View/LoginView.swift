@@ -38,10 +38,7 @@ struct LoginViewPreviewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            LoginView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        LoginView(model: model, isEditable: $isEditable)
     }
     
 }

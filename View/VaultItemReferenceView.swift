@@ -1,13 +1,17 @@
 import SwiftUI
 
-struct VaultItemReferenceView: View {
+struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
     
-    @ObservedObject var model: VaultItemReferenceModel
+    @ObservedObject var model: Model
     
     var body: some View {
         switch model.state {
-        case .loading(let model):
-            VaultItemLoadingView(model: model)
+        case .none:
+            EmptyView()
+        case .loading:
+            EmptyView()
+        case .loadingError:
+            EmptyView()
         case .loaded(let model):
             VaultItemView(model: model)
         }

@@ -8,7 +8,7 @@ import AppKit
 class AppDelegate: NSObject {
     
     let appModel: AppModel
-    let preferencesModel: SettingsModel
+    let preferencesModel: LockedSettingsModel
     let syncCoordinator = SyncCoordinator()
     
     override init() {
@@ -16,7 +16,7 @@ class AppDelegate: NSObject {
         let preferencesModelContext = PreferencesModelContext(preferencesManager: .shared, biometricKeychain: .shared)
         
         self.appModel = AppModel(context: appModelContext)
-        self.preferencesModel = SettingsModel(context: preferencesModelContext)
+        self.preferencesModel = LockedSettingsModel(context: preferencesModelContext)
         
         super.init()
     }

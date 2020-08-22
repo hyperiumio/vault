@@ -9,7 +9,7 @@ struct CustomItemView<Model>: View where Model: CustomItemModelRepresentable {
     
     var body: some View {
         SecureItemContainer {
-            SecureItemKeyValueField(keyTitle: LocalizedString.customItemName, keyText: $model.itemName, valueTitle: LocalizedString.customItemValue, valueText: $model.itemValue, isEditable: isEditable)
+            SecureItemKeyValueField(keyTitle: LocalizedString.customItemName, keyText: $model.name, valueTitle: LocalizedString.customItemValue, valueText: $model.value, isEditable: isEditable)
         }
     }
     
@@ -18,8 +18,8 @@ struct CustomItemView<Model>: View where Model: CustomItemModelRepresentable {
 #if DEBUG
 class CustomItemModelStub: CustomItemModelRepresentable {
 
-    var itemName = "Foo"
-    var itemValue = "Bar"
+    var name = "Foo"
+    var value = "Bar"
     
     func copyFieldValueToPasteboard() {}
     
@@ -34,7 +34,6 @@ struct CustomItemViewProvider: PreviewProvider {
         List {
             CustomItemView(model: model, isEditable: $isEditable)
         }
-        .listStyle(GroupedListStyle())
     }
     
 }

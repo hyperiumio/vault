@@ -2,23 +2,38 @@ import Combine
 import Foundation
 import Store
 
-class VaultItemReferenceModel: ObservableObject {
+protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var state: State
+    var state: VaultItemReferenceModel.State { get }
     
-    init(vault: Vault, itemID: UUID) {
-        let model = VaultItemLoadingModel(vault: vault, itemID: itemID)
+    func load()
+    
+}
+
+class VaultItemReferenceModel: VaultItemReferenceModelRepresentable {
+    
+    @Published var state = State.none
+    
+    let info: VaultItem.Info
+    
+    private let vault: Vault
+    
+    init(vault: Vault, info: VaultItem.Info) {
+        self.info = info
+        self.vault = vault
+    }
+    
+    func load() {
+        state = .loading
         
-        self.state = .loading(model)
-        
-        model.event
-            .map { event in
-                switch event {
-                case .loaded(let vaultItem):
-                    let model = VaultItemModel(vault: vault, vaultItem: vaultItem)
-                    return State.loaded(model)
-                }
+        vault.loadVaultItem(with: info.id)
+            .map { [vault] vaultItem in
+                VaultItemModel(vault: vault, vaultItem: vaultItem)
             }
+            .map { model in
+                State.loaded(model)
+            }
+            .replaceError(with: .loadingError)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
     }
@@ -29,7 +44,9 @@ extension VaultItemReferenceModel {
     
     enum State {
         
-        case loading(VaultItemLoadingModel)
+        case none
+        case loading
+        case loadingError
         case loaded(VaultItemModel)
         
     }

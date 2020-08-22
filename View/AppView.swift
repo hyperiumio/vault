@@ -2,9 +2,9 @@ import Localization
 import SwiftUI
 
 #if os(macOS)
-struct AppView: View {
+struct AppView<Model>: View where Model: AppModelRepresentable {
     
-    @ObservedObject var model: AppModel
+    @ObservedObject var model: Model
     
     var body: some View {
         Group {
@@ -26,9 +26,9 @@ struct AppView: View {
 #endif
 
 #if os(iOS)
-struct AppView: View {
+struct AppView<Model>: View where Model: AppModelRepresentable {
     
-    @ObservedObject var model: AppModel
+    @ObservedObject var model: Model
     
     var body: some View {
         Group {

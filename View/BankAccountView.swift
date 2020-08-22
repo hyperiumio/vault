@@ -38,10 +38,7 @@ struct BankAccountViewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            BankAccountView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        BankAccountView(model: model, isEditable: $isEditable)
     }
     
 }

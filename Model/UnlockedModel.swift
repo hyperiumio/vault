@@ -6,26 +6,33 @@ import Search
 import Sort
 import Store
 
-class UnlockedModel: ObservableObject {
+protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
+    
+    var searchText: String { get set }
+    var itemCollation: AlphabeticCollation<VaultItemReferenceModel> { get }
+    var preferencesUnlockedModel: SettingsModel { get }
+    var creationModel: VaultItemCreationModel? { get set }
+    var failure: UnlockedModel.Failure? { get set }
+    
+    func reload()
+    func createVaultItem()
+    
+}
+
+class UnlockedModel: UnlockedModelRepresentable {
     
     @Published var searchText: String = ""
+    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>
     @Published var creationModel: VaultItemCreationModel?
     @Published var failure: Failure?
-    @Published private var itemCollation: AlphabeticCollation<Item>
     
-    var sections: [Section] {
-        itemCollation.sections.enumerated().map { index, section in
-            Section(section: section, index: index)
-        }
-    }
-    
-    let preferencesUnlockedModel: SettingsUnlockedModel
+    let preferencesUnlockedModel: SettingsModel
     let vault: Vault
     
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private var infoItemsSubscription: AnyCancellable?
     
-    init(initialItemCollation: AlphabeticCollation<Item>, vault: Vault, preferencesUnlockedModel: SettingsUnlockedModel) {
+    init(initialItemCollation: AlphabeticCollation<VaultItemReferenceModel>, vault: Vault, preferencesUnlockedModel: SettingsModel) {
         self.itemCollation = initialItemCollation
         self.vault = vault
         self.preferencesUnlockedModel = preferencesUnlockedModel
@@ -38,15 +45,14 @@ class UnlockedModel: ObservableObject {
         
         infoItemsSubscription = Publishers.CombineLatest(vaultItemInfosPublisher, searchTextPublisher)
             .receive(on: operationQueue)
-            .map { vaultItemInfos, searchText -> AlphabeticCollation<Item> in
+            .map { vaultItemInfos, searchText -> AlphabeticCollation<VaultItemReferenceModel> in
                 let items = vaultItemInfos
                     .filter { itemDescription in
-                        FuzzyMatch(searchText, in: itemDescription.title)
+                        FuzzyMatch(searchText, in: itemDescription.name)
                     }
                     .map { [vault] vaultItemInfo in
-                        let vaultItemModel = VaultItemReferenceModel(vault: vault, itemID: vaultItemInfo.id)
-                        return Item(vaultItemInfo: vaultItemInfo, model: vaultItemModel)
-                    } as [Item]
+                        VaultItemReferenceModel(vault: vault, info: vaultItemInfo)
+                    }
                 return AlphabeticCollation(from: items)
             }
             .receive(on: DispatchQueue.main)
@@ -61,6 +67,10 @@ class UnlockedModel: ObservableObject {
                 
                 self.itemCollation = itemCollation
             }
+    }
+    
+    func reload() {
+        vault.didChangeSubject.send()
     }
     
     func createVaultItem() {
@@ -81,7 +91,7 @@ class UnlockedModel: ObservableObject {
 
 extension UnlockedModel {
     
-    static func itemCollation(from vaultItemInfoCiphertextContainers: [CiphertextContainerRepresentable]) -> AlphabeticCollation<Item> {
+    static func itemCollation(from vaultItemInfoCiphertextContainers: [CiphertextContainerRepresentable]) -> AlphabeticCollation<VaultItemReferenceModel> {
         fatalError()
     }
     
@@ -90,36 +100,6 @@ extension UnlockedModel {
 extension UnlockedModel {
     
     typealias ItemType = SecureItem.TypeIdentifier
-    
-    struct Section {
-        
-        let index: Int
-        let title: String
-        let items: [Item]
-        
-        fileprivate init(section: AlphabeticCollation<UnlockedModel.Item>.Section, index: Int) {
-            self.index = index
-            self.title = String(section.letter)
-            self.items = section.elements
-        }
-        
-    }
-    
-    struct Item {
-        
-        let id: UUID
-        let title: String
-        let itemType: ItemType
-        let model: VaultItemReferenceModel
-        
-        fileprivate init(vaultItemInfo: VaultItem.Info, model: VaultItemReferenceModel) {
-            self.id = vaultItemInfo.id
-            self.title = vaultItemInfo.title
-            self.itemType = vaultItemInfo.primaryTypeIdentifier
-            self.model = model
-        }
-        
-    }
     
     enum Failure {
         
@@ -130,21 +110,20 @@ extension UnlockedModel {
     
 }
 
-extension UnlockedModel.Section: Identifiable {
+extension VaultItemReferenceModel: AlphabeticCollationElement {
     
-    var id: String { title }
+    var sectionKey: String {
+        let firstCharacter = info.name.prefix(1)
+        return String(firstCharacter)
+    }
     
-}
-
-extension UnlockedModel.Item: Identifiable {}
-
-extension UnlockedModel.Item: AlphabeticCollationElement {
+    static func < (lhs: VaultItemReferenceModel, rhs: VaultItemReferenceModel) -> Bool {
+        lhs.info.name < rhs.info.name
+    }
     
-    var sectionKey: Character? { title.first }
-    
-    static func < (lhs: UnlockedModel.Item, rhs: UnlockedModel.Item) -> Bool { lhs.title < rhs.title }
-    
-    static func == (lhs: UnlockedModel.Item, rhs: UnlockedModel.Item) -> Bool { lhs.title == rhs.title }
+    static func == (lhs: VaultItemReferenceModel, rhs: VaultItemReferenceModel) -> Bool {
+        lhs.info.name == rhs.info.name
+    }
     
 }
 

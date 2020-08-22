@@ -5,14 +5,22 @@ import Preferences
 import Store
 import Sort
 
-class LockedModel: ObservableObject {
+protocol LockedModelRepresentable: ObservableObject, Identifiable {
+    
+    var password: String { get set }
+    var biometricUnlockAvailability: BiometricKeychain.Availablity { get }
+    var status: LockedModel.Status { get }
+    
+    func loginWithMasterPassword()
+    func loginWithBiometrics()
+    
+}
+
+class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
     @Published private(set) var biometricUnlockAvailability: BiometricKeychain.Availablity
     @Published private(set) var status = Status.none
-    
-    var textInputDisabled: Bool { status == .unlocking }
-    var decryptMasterKeyButtonDisabled: Bool { password.isEmpty || status == .unlocking }
     
     var event: AnyPublisher<Event, Never> {
         eventSubject.eraseToAnyPublisher()
@@ -53,7 +61,7 @@ class LockedModel: ObservableObject {
                     self.status = .invalidPassword
                 }
             } receiveValue: { [eventSubject] vault in
-                let event = Event.didUnlock(vault, AlphabeticCollation<UnlockedModel.Item>())
+                let event = Event.didUnlock(vault, AlphabeticCollation<VaultItemReferenceModel>())
                 eventSubject.send(event)
             }
     }
@@ -81,7 +89,7 @@ class LockedModel: ObservableObject {
                     self.status = .invalidPassword
                 }
             } receiveValue: { [eventSubject] vault in
-                let event = Event.didUnlock(vault, AlphabeticCollation<UnlockedModel.Item>())
+                let event = Event.didUnlock(vault, AlphabeticCollation<VaultItemReferenceModel>())
                 eventSubject.send(event)
             }
     }
@@ -101,7 +109,7 @@ extension LockedModel {
     
     enum Event {
         
-        case didUnlock(Vault, AlphabeticCollation<UnlockedModel.Item>)
+        case didUnlock(Vault, AlphabeticCollation<VaultItemReferenceModel>)
         
     }
     

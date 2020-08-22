@@ -18,8 +18,6 @@ protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     
 }
 
-typealias BankCardVendor = BankCardItem.Vendor
-
 class BankCardModel: BankCardModelRepresentable {
     
     @Published var name: String

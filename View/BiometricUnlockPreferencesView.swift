@@ -5,37 +5,54 @@ import SwiftUI
 struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockPreferencesModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        VStack(spacing: 20) {
-            BiometryIcon(model.biometricType)
-
-            Text(model.biometricType.localizedDescription)
-            
-            SecureField(LocalizedString.masterPassword, text: $model.password)
-            
-            switch model.status {
-            case .none, .loading:
-                EmptyView()
-            case .biometricActivationFailed:
-                ErrorBadge(model.biometricType.activationFailedError)
-            case .invalidPassword:
-                ErrorBadge(LocalizedString.wrongPassword)
+        NavigationView {
+            List {
+                Section(header: headerImage, footer: enableBiometricUnlockDescription) {
+                    SecureField(LocalizedString.masterPassword, text: $model.password)
+                }
+                
+                Section(footer: errorMessage) {
+                    HStack {
+                        Spacer()
+                        
+                        Button(LocalizedString.enable, action: model.enabledBiometricUnlock)
+                        
+                        Spacer()
+                    }
+                }
             }
-            
-            HStack {
-                Spacer()
-                
-                Button(LocalizedString.cancel, action: model.cancel)
-                    .keyboardShortcut(.cancelAction)
-                
-                Button(LocalizedString.enable, action: model.enabledBiometricUnlock)
-                    .keyboardShortcut(.defaultAction)
+            //.listStyle(GroupedListStyle())
+            //.navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(model.biometricType.localizedTitle)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
             }
         }
         .disabled(model.userInputDisabled)
-        .frame(width: 300)
-        .padding()
+    }
+    
+    private var headerImage: some View {
+        HStack {
+            Spacer()
+            
+            BiometryIcon(model.biometricType)
+                .frame(width: 60, height: 60)
+                .padding(.top, 40)
+                .padding(.bottom, 20)
+            
+            Spacer()
+        }
+    }
+    
+    private var enableBiometricUnlockDescription: some View {
+        Text(model.biometricType.localizedDescription)
     }
     
     private var errorMessage: some View {
@@ -54,10 +71,6 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
             Spacer()
         }
         .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-    }
-    
-    private var cancelButton: some View {
-        Button(LocalizedString.cancel, action: model.cancel)
     }
     
 }

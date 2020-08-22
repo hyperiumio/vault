@@ -5,24 +5,63 @@ import SwiftUI
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        VStack(spacing: 20) {
+        NavigationView {
+            List {
+                Section(header: headerImage) {
+                    SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
+                        .disabled(model.textInputDisabled)
+                    
+                    SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
+                        .disabled(model.textInputDisabled)
+                    
+                    SecureField(LocalizedString.repeatNewPassword, text: $model.repeatedNewPassword)
+                        .disabled(model.textInputDisabled)
+                }
+                
+                Section(footer: errorMessage) {
+                    HStack {
+                        Spacer()
+                        
+                        Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
+                        
+                        Spacer()
+                    }
+                }
+            }
+           // .listStyle(GroupedListStyle())
+           // .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(LocalizedString.masterPassword)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    private var headerImage: some View {
+        HStack {
+            Spacer()
+            
             Image.masterPassword
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 60, height: 60)
+                .padding(.top, 40)
+                .padding(.bottom, 20)
             
-            VStack {
-                SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
-                    .disabled(model.textInputDisabled)
-                
-                SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
-                    .disabled(model.textInputDisabled)
-                
-                SecureField(LocalizedString.repeatNewPassword, text: $model.repeatedNewPassword)
-                    .disabled(model.textInputDisabled)
-            }
+            Spacer()
+        }
+    }
+    
+    private var errorMessage: some View {
+        HStack {
+            Spacer()
             
             switch model.status {
             case .none, .loading:
@@ -37,20 +76,11 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
                 ErrorBadge(LocalizedString.masterPasswordChangeDidFail)
             }
             
-            HStack {
-                Spacer()
-                
-                Button(LocalizedString.cancel, action: model.cancel)
-                    .keyboardShortcut(.cancelAction)
-                
-                Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
-                    .keyboardShortcut(.defaultAction)
-            }
+            Spacer()
         }
-        .frame(width: 300)
-        .padding()
+        .padding(.all, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
     }
-
+    
 }
 #endif
 

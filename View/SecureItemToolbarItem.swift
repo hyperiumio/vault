@@ -9,7 +9,7 @@ struct SecureItemToolbarItem: View {
             Image(type)
                 .foregroundColor(Color(type))
             
-            Text(type.title)
+            Text(type.name)
         }
     }
     

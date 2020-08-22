@@ -3,9 +3,25 @@ import Crypto
 import Foundation
 import Store
 
-class VaultItemModel: ObservableObject, Identifiable {
+protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
     
-    @Published var title = ""
+    var name: String { get set }
+    var status: VaultItemModel.Status { get }
+    var primaryItemModel: SecureItemModel { get }
+    var secondaryItemModels: [SecureItemModel] { get }
+    var createVaultItemModel: VaultItemCreationModel? { get }
+    var created: Date? { get }
+    var modified: Date? { get }
+    
+    func addSecondaryItem(with secureItemType: SecureItemType)
+    func deleteSecondaryItem(at index: Int)
+    func save()
+    
+}
+
+class VaultItemModel: VaultItemModelRepresentable {
+    
+    @Published var name = ""
     @Published var status = Status.none
     @Published var primaryItemModel: SecureItemModel
     @Published var secondaryItemModels: [SecureItemModel]
@@ -14,8 +30,9 @@ class VaultItemModel: ObservableObject, Identifiable {
     var created: Date? { originalVaultItem?.created }
     var modified: Date? { originalVaultItem?.modified }
     
-    var saveButtonEnabled: Bool { status != .loading && !title.isEmpty }
-    var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
+    var event: AnyPublisher<Event, Never> {
+        eventSubject.eraseToAnyPublisher()
+    }
     
     private let vault: Vault
     private let originalVaultItem: VaultItem?
@@ -26,7 +43,7 @@ class VaultItemModel: ObservableObject, Identifiable {
     init(vault: Vault, vaultItem: VaultItem) {
         self.vault = vault
         self.originalVaultItem = vaultItem
-        self.title = vaultItem.title
+        self.name = vaultItem.name
         self.primaryItemModel = SecureItemModel(vaultItem.primarySecureItem)
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(SecureItemModel.init)
     }
@@ -54,7 +71,7 @@ class VaultItemModel: ObservableObject, Identifiable {
         let secondarySecureItems = secondaryItemModels.map(\.secureItem)
         let created = originalVaultItem?.created ?? now
         let modified = now
-        let vaultItem = VaultItem(id: id, title: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
+        let vaultItem = VaultItem(id: id, name: name, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
         
         status = .loading
         saveSubscription = vault.saveVaultItem(vaultItem)

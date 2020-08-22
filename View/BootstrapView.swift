@@ -1,9 +1,9 @@
 import Localization
 import SwiftUI
 
-struct BootstrapView: View {
+struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
-    @ObservedObject var model: BootstrapModel
+    @ObservedObject var model: Model
     
     var body: some View {
         Group {

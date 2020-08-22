@@ -5,15 +5,21 @@ import Preferences
 import Store
 import Sort
 
-class SetupModel: ObservableObject {
+protocol SetupModelRepresentable: ObservableObject, Identifiable {
+    
+    var password: String { get set }
+    var repeatedPassword: String { get set }
+    var status: SetupModel.Status { get }
+    
+    func createMasterKey()
+    
+}
+
+class SetupModel: SetupModelRepresentable {
     
     @Published var password = ""
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.none
-    
-    var createMasterKeyButtonDisabled: Bool { password.isEmpty || repeatedPassword.isEmpty || password.count != repeatedPassword.count || status == .loading }
-    
-    var textInputDisabled: Bool { status == .loading }
     
     var event: AnyPublisher<Event, Never> {
         eventSubject.eraseToAnyPublisher()
@@ -65,7 +71,7 @@ class SetupModel: ObservableObject {
             } receiveValue: { [preferencesManager, eventSubject] vault in
                 preferencesManager.set(activeVaultIdentifier: vault.id)
                 
-                let event = Event.didSetup(vault, AlphabeticCollation<UnlockedModel.Item>())
+                let event = Event.didSetup(vault, AlphabeticCollation<VaultItemReferenceModel>())
                 eventSubject.send(event)
             }
     }
@@ -86,7 +92,7 @@ extension SetupModel {
     
     enum Event {
         
-        case didSetup(Vault, AlphabeticCollation<UnlockedModel.Item>)
+        case didSetup(Vault, AlphabeticCollation<VaultItemReferenceModel>)
         
     }
     

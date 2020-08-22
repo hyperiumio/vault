@@ -1,22 +1,22 @@
 import Localization
 import SwiftUI
 
-struct SetupView: View {
+struct SetupView<Model>: View where Model: SetupModelRepresentable {
     
-    @ObservedObject var model: SetupModel
+    @ObservedObject var model: Model
     
     var body: some View {
         VStack {            
             SecureField(LocalizedString.masterPassword, text: $model.password)
                 .frame(width: 220)
-                .disabled(model.textInputDisabled)
+                .disabled(textInputDisabled)
             
             SecureField(LocalizedString.repeatPassword, text: $model.repeatedPassword)
                 .frame(width: 220)
-                .disabled(model.textInputDisabled)
+                .disabled(textInputDisabled)
             
             Button(LocalizedString.createVault, action: model.createMasterKey)
-                .disabled(model.createMasterKeyButtonDisabled)
+                .disabled(createMasterKeyButtonDisabled)
             
             
             switch model.status {
@@ -34,5 +34,9 @@ struct SetupView: View {
 
         }
     }
+    
+    var textInputDisabled: Bool { model.status == .loading }
+    
+    var createMasterKeyButtonDisabled: Bool { model.password.isEmpty || model.repeatedPassword.isEmpty || model.password.count != model.repeatedPassword.count || model.status == .loading }
     
 }

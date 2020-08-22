@@ -13,7 +13,8 @@ public class Vault {
     private let info: Info
     private let cryptor: CryptoOperationProvider
     private let resourceLocator: VaultResourceLocator
-    private let didChangeSubject = PassthroughSubject<Void, Never>()
+    
+    public let didChangeSubject = PassthroughSubject<Void, Never>() // hack, should be private
  
     init(info: Info, resourceLocator: VaultResourceLocator, cryptor: CryptoOperationProvider) {
         self.info = info
@@ -125,6 +126,10 @@ extension Vault {
     
     public static func vaultDirectory(in directory: URL, with vaultID: UUID) -> AnyPublisher<URL?, Error> {
         operationQueue.future {
+            guard FileManager.default.fileExists(atPath: directory.path) else {
+                return nil
+            }
+            
             for url in try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) {
                 let resourceLocator = VaultResourceLocator(url)
                 let encodedInfo = try Data(contentsOf: resourceLocator.infoFile)

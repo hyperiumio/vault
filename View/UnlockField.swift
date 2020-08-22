@@ -8,7 +8,7 @@ struct UnlockField: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            NativeTextField(title: title, text: text, action: unlock)
+            NativeTextField(name: title, text: text, action: unlock)
                 .frame(height: 44)
                 .padding(texfieldInsets)
                 .background(Color.textFieldBackground)
@@ -43,7 +43,7 @@ import AppKit
 
 private struct NativeTextField: NSViewRepresentable {
     
-    let title: String
+    let name: String
     let text: Binding<String>
     let action: () -> Void
     
@@ -52,7 +52,7 @@ private struct NativeTextField: NSViewRepresentable {
         textField.font = .systemFont(ofSize: 20)
         textField.isBezeled = false
         textField.focusRingType = .none
-        textField.placeholderString = title
+        textField.placeholderString = name
         textField.target = context.coordinator
         textField.action = #selector(Coordinator.doneButtonPressed)
         textField.delegate = context.coordinator

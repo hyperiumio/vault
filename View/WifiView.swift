@@ -34,10 +34,7 @@ struct WifiViewPreviewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            WifiView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        WifiView(model: model, isEditable: $isEditable)
     }
     
 }

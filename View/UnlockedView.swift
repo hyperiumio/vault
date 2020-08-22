@@ -2,79 +2,66 @@ import Localization
 import SwiftUI
 
 #if os(macOS)
-struct UnlockedView: View {
+struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
-    @ObservedObject var model: UnlockedModel
+    @ObservedObject var model: Model
     
     var body: some View {
         NavigationView {
             List {
-                ForEach (model.sections) { section in
-                    Section(header: Text(section.title)) {
-                        ForEach(section.items) { item in
-                            NavigationLink(destination: VaultItemView(model: item.detailModel)) {
-                                Label {
-                                    Text(item.title)
-                                } icon: {
-                                    Image(item.itemType)
-                                        .foregroundColor(Color(item.itemType))
-                                }
-                            }
+                ForEach(model.itemCollation.sections) { section in
+                    Section(header: Text(section.key)) {
+                        ForEach(section.elements) { element in
+                            VaultItemInfoView(element.info)
                         }
                     }
                 }
             }
             .listStyle(PlainListStyle())
-        }
-        .toolbar {
-            TextField(LocalizedString.search, text: $model.searchText)
-                .frame(minWidth: 120)
-            
-            CreateVaultItemButton(action: model.createVaultItem) {
-                Image.plus
-                    .imageScale(.large)
+            .navigationTitle(LocalizedString.vault)
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
+                    Button {
+                        model.createVaultItem()
+                    } label: {
+                        Image.plus
+                            .imageScale(.large)
+                    }
+                }
             }
-            .sheet(item: $model.newVaultItemModel) { model in
-                VaultItemCreatingView(model: model)
+            .sheet(item: $model.creationModel) { model in
+                VaultItemCreationView(model: model)
             }
         }
         .alert(item: $model.failure) { failure in
             switch failure {
             case .loadOperationFailed:
-                let title = Text(LocalizedString.loadFailed)
-                let retryText = Text(LocalizedString.retry)
-                let primaryButton = Alert.Button.default(retryText, action: model.load)
-                let cancel = Alert.Button.cancel()
-                return Alert(title: title, primaryButton: primaryButton, secondaryButton: cancel)
+                let name = Text(LocalizedString.loadFailed)
+                return Alert(title: name)
             case .deleteOperationFailed:
-                let title = Text(LocalizedString.deleteFailed)
-                return Alert(title: title)
+                let name = Text(LocalizedString.deleteFailed)
+                return Alert(title: name)
             }
-            
         }
+        .onAppear(perform: model.reload)
     }
     
 }
 #endif
 
 #if os(iOS)
-struct UnlockedView: View {
+struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
-    @ObservedObject var model: UnlockedModel
+    @ObservedObject var model: Model
     @State private var settingsPresented = false
     
     var body: some View {
         NavigationView {
             List {
-                ForEach (model.sections) { section in
-                    Section(header: Text(section.title)) {
-                        ForEach(section.items) { item in
-                            Label {
-                                Text(item.title)
-                            } icon: {
-                                Image(item.itemType)
-                                    .foregroundColor(Color(item.itemType))
-                            }
+                ForEach(model.itemCollation.sections) { section in
+                    Section(header: Text(section.key)) {
+                        ForEach(section.elements) { element in
+                            VaultItemInfoView(element.info)
                         }
                     }
                 }
@@ -109,13 +96,14 @@ struct UnlockedView: View {
         .alert(item: $model.failure) { failure in
             switch failure {
             case .loadOperationFailed:
-                let title = Text(LocalizedString.loadFailed)
-                return Alert(title: title)
+                let name = Text(LocalizedString.loadFailed)
+                return Alert(title: name)
             case .deleteOperationFailed:
-                let title = Text(LocalizedString.deleteFailed)
-                return Alert(title: title)
+                let name = Text(LocalizedString.deleteFailed)
+                return Alert(title: name)
             }
         }
+        .onAppear(perform: model.reload)
     }
     
 }

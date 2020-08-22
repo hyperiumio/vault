@@ -13,9 +13,9 @@ struct PreferencesModelContext {
         self.biometricKeychain = biometricKeychain
     }
     
-    func preferencesUnlockedModel(vault: Vault<SecureDataCryptor>) -> SettingsUnlockedModel {
+    func preferencesUnlockedModel(vault: Vault) -> SettingsModel {
         let context = SettingsUnlockedModelContext(lockVault: {})
-        return SettingsUnlockedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, context: context)
+        return SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, context: context)
     }
     
 }

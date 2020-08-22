@@ -1,15 +1,15 @@
 import Localization
 import SwiftUI
 
-struct LockedView: View {
+struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
-    @ObservedObject var model: LockedModel
+    @ObservedObject var model: Model
     
     var body: some View {
         VStack {
             UnlockField(title: LocalizedString.masterPassword, text: $model.password, unlock: model.loginWithMasterPassword)
                 .frame(maxWidth: 300)
-                .disabled(model.textInputDisabled)
+                .disabled(textInputDisabled)
             
             Spacer()
                 .frame(maxHeight: 30)
@@ -38,4 +38,10 @@ struct LockedView: View {
         .padding()
     }
     
+    var textInputDisabled: Bool {
+        model.status == .unlocking
+    }
+    
 }
+
+

@@ -4,8 +4,8 @@ import Store
 
 protocol CustomItemModelRepresentable: ObservableObject, Identifiable {
     
-    var itemName: String { get set }
-    var itemValue: String { get set }
+    var name: String { get set }
+    var value: String { get set }
     
     func copyFieldValueToPasteboard()
     
@@ -13,25 +13,25 @@ protocol CustomItemModelRepresentable: ObservableObject, Identifiable {
 
 class CustomItemModel: CustomItemModelRepresentable {
     
-    @Published var itemName: String
-    @Published var itemValue: String
+    @Published var name: String
+    @Published var value: String
     
     var customItem: CustomItem {
-        CustomItem(name: itemName, value: itemValue)
+        CustomItem(name: name, value: value)
     }
     
     init(_ customItem: CustomItem) {
-        self.itemName = customItem.name
-        self.itemValue = customItem.value
+        self.name = customItem.name
+        self.value = customItem.value
     }
     
     init() {
-        self.itemName = ""
-        self.itemValue = ""
+        self.name = ""
+        self.value = ""
     }
     
     func copyFieldValueToPasteboard() {
-        Pasteboard.general.string = itemValue
+        Pasteboard.general.string = value
     }
     
 }

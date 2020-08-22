@@ -1,7 +1,15 @@
 import Foundation
 import Store
 
-class FileModel: ObservableObject, Identifiable {
+protocol FileModelRepresentable: ObservableObject, Identifiable {
+    
+    var name: String { get set }
+    var data: Data? { get }
+    var format: FileItem.Format { get }
+    
+}
+
+class FileModel: FileModelRepresentable {
     
     @Published var name = ""
     @Published var data: Data?

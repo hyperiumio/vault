@@ -21,7 +21,7 @@ struct VaultApp: App {
         }
         
         Settings {
-            SettingsView(model: appDelegate.preferencesModel)
+            SettingsLockedView()
         }
     }
     

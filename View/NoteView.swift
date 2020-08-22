@@ -34,10 +34,7 @@ struct NoteViewPreviewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            NoteView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        NoteView(model: model, isEditable: $isEditable)
     }
     
 }

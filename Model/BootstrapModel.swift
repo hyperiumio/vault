@@ -4,7 +4,15 @@ import Foundation
 import Preferences
 import Store
 
-class BootstrapModel: ObservableObject {
+protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
+    
+    var status: BootstrapModel.Status { get }
+    
+    func load()
+    
+}
+
+class BootstrapModel: BootstrapModelRepresentable {
     
     @Published private(set) var status = Status.none
     
@@ -26,10 +34,12 @@ class BootstrapModel: ObservableObject {
             status = .loadingDidFail
             return
         }
+        
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             status = .loadingDidFail
             return
         }
+        
         let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {

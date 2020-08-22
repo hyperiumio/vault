@@ -30,10 +30,7 @@ struct PasswordViewPreviewProvider: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            PasswordView(model: model, isEditable: $isEditable)
-        }
-        .listStyle(GroupedListStyle())
+        PasswordView(model: model, isEditable: $isEditable)
     }
     
 }

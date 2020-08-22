@@ -2,9 +2,9 @@ import Localization
 import PDFKit
 import SwiftUI
 
-struct FileView: View {
+struct FileView<Model>: View where Model: FileModelRepresentable {
     
-    @ObservedObject var model: FileModel
+    @ObservedObject var model: Model
     
     let isEditable: Binding<Bool>
     

@@ -3,20 +3,41 @@ import Foundation
 public struct VaultItem {
     
     public let id: UUID
-    public let title: String
+    public let name: String
     public let primarySecureItem: SecureItem
     public let secondarySecureItems: [SecureItem]
     public let created: Date
     public let modified: Date
     
     var info: Info {
+        let description: String
+        switch primarySecureItem {
+        case .password:
+            description = DateFormatter().string(from: modified)
+        case .login(let item):
+            description = item.username
+        case .file(let item):
+            let byteCount = item.data?.count ?? 0
+            description = ByteCountFormatter.string(fromByteCount: Int64(byteCount), countStyle: .binary)
+        case .note(let item):
+            description = item.text.components(separatedBy: .newlines).first ?? ""
+        case .bankCard(let item):
+            description = item.name
+        case .wifi(let item):
+            description = item.networkName
+        case .bankAccount(let item):
+            description = item.accountHolder
+        case .custom(let item):
+            description = item.name
+        }
+        
         let secondaryTypeIdentifiers = secondarySecureItems.map(\.typeIdentifier)
-        return Info(id: id, title: title, primaryTypeIdentifier: primarySecureItem.typeIdentifier, secondaryTypeIdentifiers: secondaryTypeIdentifiers, created: created, modified: modified)
+        return Info(id: id, name: name, description: description, primaryTypeIdentifier: primarySecureItem.typeIdentifier, secondaryTypeIdentifiers: secondaryTypeIdentifiers, created: created, modified: modified)
     }
     
-    public init(id: UUID, title: String, primarySecureItem: SecureItem, secondarySecureItems: [SecureItem], created: Date, modified: Date) {
+    public init(id: UUID, name: String, primarySecureItem: SecureItem, secondarySecureItems: [SecureItem], created: Date, modified: Date) {
         self.id = id
-        self.title = title
+        self.name = name
         self.primarySecureItem = primarySecureItem
         self.secondarySecureItems = secondarySecureItems
         self.created = created
@@ -30,7 +51,8 @@ extension VaultItem {
     public struct Info: BinaryCodable, Hashable {
         
         public let id: UUID
-        public let title: String
+        public let name: String
+        public let description: String
         public let primaryTypeIdentifier: SecureItem.TypeIdentifier
         public let secondaryTypeIdentifiers: [SecureItem.TypeIdentifier]
         public let created: Date
@@ -70,7 +92,7 @@ extension VaultItem {
                 }
             }
             
-            return VaultItem(id: info.id, title: info.title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: info.created, modified: info.modified)
+            return VaultItem(id: info.id, name: info.name, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: info.created, modified: info.modified)
         }
     }
     
