@@ -6,18 +6,25 @@ import Store
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     
+    associatedtype BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable
+    associatedtype ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable
+    
+    typealias BiometricKeychainAvailablity = BiometricKeychain.Availablity
+    
     var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel? { get set }
     var changeMasterPasswordModel: ChangeMasterPasswordModel? { get set }
-    var biometricAvailablity: BiometricKeychain.Availablity { get }
+    var biometricAvailablity: BiometricKeychainAvailablity { get }
     var isBiometricUnlockEnabled: Bool { get }
     
     func lockVault()
     func setBiometricUnlock(isEnabled: Bool)
     func changeMasterPassword()
     
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+    
 }
 
-class SettingsModel: SettingsModelRepresentable {
+class SettingsModel<ChangeMasterPasswordModel, BiometricUnlockPreferencesModel>: SettingsModelRepresentable where BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable, ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     
     @Published var changeMasterPasswordModel: ChangeMasterPasswordModel?
     @Published var biometricAvailablity: BiometricKeychain.Availablity
@@ -27,15 +34,13 @@ class SettingsModel: SettingsModelRepresentable {
     private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
-    private let context: SettingsUnlockedModelContext
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, context: SettingsUnlockedModelContext) {
+    required init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
         self.biometricAvailablity = biometricKeychain.availability
         self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
-        self.context = context
         
         biometricKeychain.availabilityDidChange
             .receive(on: DispatchQueue.main)
@@ -48,7 +53,7 @@ class SettingsModel: SettingsModelRepresentable {
     }
     
     func lockVault() {
-        context.lockVault()
+        
     }
     
     func setBiometricUnlock(isEnabled: Bool) {
@@ -58,8 +63,8 @@ class SettingsModel: SettingsModelRepresentable {
         }
         
         let model = BiometricUnlockPreferencesModel(vault: vault, biometricType: .faceID, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        model.event
-            .map { _ in nil }
+        model.done
+            .map { nil }
             .receive(on: DispatchQueue.main)
             .assign(to: &$biometricUnlockPreferencesModel)
         
@@ -68,27 +73,12 @@ class SettingsModel: SettingsModelRepresentable {
     
     func changeMasterPassword() {
         let model = ChangeMasterPasswordModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        model.event
-            .map { _ in nil }
+        model.done
+            .map { nil }
             .receive(on: DispatchQueue.main)
             .assign(to: &$changeMasterPasswordModel)
         
         self.changeMasterPasswordModel = model
-    }
-    
-}
-
-extension BiometricType {
-    
-    init?(_ biometricAvailablity: BiometricKeychain.Availablity) {
-        switch biometricAvailablity {
-        case .notAvailable, .notEnrolled:
-            return nil
-        case .touchID:
-            self = .touchID
-        case .faceID:
-            self = .faceID
-        }
     }
     
 }

@@ -20,4 +20,18 @@ struct SecureItemBankCardVendorField: View {
         }
     }
     
+    init(_ vendor: BankCardVendor) {
+        self.vendor = vendor
+    }
+    
 }
+
+#if DEBUG
+struct SecureItemBankCardVendorFieldPreviews: PreviewProvider {
+    
+    static var previews: some View {
+        SecureItemBankCardVendorField(.visa)
+    }
+    
+}
+#endif

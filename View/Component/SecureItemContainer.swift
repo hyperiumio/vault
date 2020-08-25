@@ -16,3 +16,17 @@ struct SecureItemContainer<Content>: View where Content: View {
     }
     
 }
+
+#if DEBUG
+struct SecureItemContainerPreviews: PreviewProvider {
+    
+    static var previews: some View {
+        SecureItemContainer {
+            Text("Title")
+            
+            Text("Description")
+        }
+    }
+    
+}
+#endif

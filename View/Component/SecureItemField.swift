@@ -5,8 +5,8 @@ struct SecureItemField<Content>: View where Content: View {
     private let style: Style
     private let content: Content
     
-    init(_ text: String, @ViewBuilder content: () -> Content) {
-        self.style = .display(text: text)
+    init(_ title: String, @ViewBuilder content: () -> Content) {
+        self.style = .display(title: title)
         self.content = content()
     }
     
@@ -39,9 +39,32 @@ extension SecureItemField {
     
     enum Style {
         
-        case display(text: String)
+        case display(title: String)
         case edit(title: String, text: Binding<String>, isEditable: Binding<Bool>)
         
     }
     
 }
+
+#if DEBUG
+struct SecureItemFieldPreviews: PreviewProvider {
+    
+    @State static var text = ""
+    @State static var isEditable = true
+    
+    static var previews: some View {
+        Group {
+            SecureItemField("Title") {
+                Text("Field")
+            }
+            
+            SecureItemField("Title", text: $text, isEditable: $isEditable) {
+                Text("Field")
+            }
+        }
+        .previewLayout(.sizeThatFits)
+        
+    }
+    
+}
+#endif

@@ -5,41 +5,36 @@ import Store
 
 protocol VaultItemCreationModelRepresentable: ObservableObject, Identifiable {
     
+    associatedtype VaultItemModel: VaultItemModelRepresentable
+    
     var detailModels: [VaultItemModel] { get }
+    var done: AnyPublisher<Void, Never> { get }
+    
+    init(vault: Vault)
     
 }
 
-class VaultItemCreationModel: VaultItemCreationModelRepresentable {
+class VaultItemCreationModel<VaultItemModel>: VaultItemCreationModelRepresentable where VaultItemModel: VaultItemModelRepresentable {
     
     let detailModels: [VaultItemModel]
     
-    var event: AnyPublisher<Event, Never> {
-        eventSubject.eraseToAnyPublisher()
+    var done: AnyPublisher<Void, Never> {
+        doneSubject.eraseToAnyPublisher()
     }
     
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let doneSubject = PassthroughSubject<Void, Never>()
     private var detailModelEventsSubscription: AnyCancellable?
     
-    init(vault: Vault) {
-        self.detailModels = SecureItemType.allCases.map { typeIdentifier in
-            VaultItemModel(vault: vault, secureItemType: typeIdentifier)
+    required init(vault: Vault) {
+        self.detailModels = SecureItem.TypeIdentifier.allCases.map { typeIdentifier in
+            VaultItemModel(vault: vault, typeIdentifier: typeIdentifier)
         }
         
-        let eventPublishers = detailModels.map(\.event)
-        detailModelEventsSubscription = Publishers.MergeMany(eventPublishers)
-            .sink { [eventSubject] event in
-                eventSubject.send(.didCreate)
+        let donePublishers = detailModels.map(\.done)
+        detailModelEventsSubscription = Publishers.MergeMany(donePublishers)
+            .sink { [doneSubject] done in
+                doneSubject.send()
             }
-    }
-    
-}
-
-extension VaultItemCreationModel {
-    
-    enum Event {
-        
-        case didCreate
-        
     }
     
 }

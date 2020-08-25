@@ -7,16 +7,17 @@ import AppKit
 
 class AppDelegate: NSObject {
     
+    typealias VaultItemCreationModel = Vault.VaultItemCreationModel<VaultItemModel>
+    typealias VaultItemReferenceModel = Vault.VaultItemReferenceModel<VaultItemModel>
+    typealias SettingsModel = Vault.SettingsModel<ChangeMasterPasswordModel, BiometricUnlockPreferencesModel>
+    typealias UnlockedModel = Vault.UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>
+    typealias AppModel = Vault.AppModel<BootstrapModel, SetupModel, LockedModel, UnlockedModel>
+    
     let appModel: AppModel
-    let preferencesModel: LockedSettingsModel
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelContext = AppModelContext(preferencesManager: .shared, biometricKeychain: .shared)
-        let preferencesModelContext = PreferencesModelContext(preferencesManager: .shared, biometricKeychain: .shared)
-        
-        self.appModel = AppModel(context: appModelContext)
-        self.preferencesModel = LockedSettingsModel(context: preferencesModelContext)
+        self.appModel = AppModel(preferencesManager: .shared, biometricKeychain: .shared)
         
         super.init()
     }
@@ -46,13 +47,17 @@ import UIKit
 
 class AppDelegate: NSObject {
     
+    typealias VaultItemCreationModel = Vault.VaultItemCreationModel<VaultItemModel>
+    typealias VaultItemReferenceModel = Vault.VaultItemReferenceModel<VaultItemModel>
+    typealias SettingsModel = Vault.SettingsModel<ChangeMasterPasswordModel, BiometricUnlockPreferencesModel>
+    typealias UnlockedModel = Vault.UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>
+    typealias AppModel = Vault.AppModel<BootstrapModel, SetupModel, LockedModel, UnlockedModel>
+    
     let appModel: AppModel
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelContext = AppModelContext(preferencesManager: .shared, biometricKeychain: .shared)
-        
-        self.appModel = AppModel(context: appModelContext)
+        self.appModel = AppModel(preferencesManager: .shared, biometricKeychain: .shared)
         
         super.init()
     }

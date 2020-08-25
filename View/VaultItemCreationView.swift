@@ -99,34 +99,4 @@ extension SecureItem.TypeIdentifier {
 }
 
 #if DEBUG
-/*
-class VaultItemCreatingModelStub: VaultItemCreatingModelRepresentable {
-    
-    var title = ""
-    var status = VaultItemCreatingModel.Status.none
-    var primaryItemModel = SecureItemEditModel(.login)
-    var secondaryItemModels = [SecureItemEditModel]()
-    var saveButtonEnabled = true
-    var primaryItemType: VaultItemCreatingModel.ItemType?
-    
-    func addSecondaryItem(itemType: VaultItemCreatingModel.ItemType) {}
-    func deleteSecondaryItems(at indexSet: IndexSet) {}
-    func moveSecondaryItems(from source: IndexSet, to destination: Int) {}
-    func save() {}
-    func cancel() {}
-    
-}
-
-struct VaultItemCreatingViewPreview: PreviewProvider {
-    
-    @StateObject static var model = VaultItemCreatingModelStub()
-    
-    static var previews: some View {
-        NavigationView {
-            VaultItemCreatingView(model: model)
-        }
-    }
-    
-}
- */
 #endif

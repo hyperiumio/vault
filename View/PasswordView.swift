@@ -9,28 +9,25 @@ struct PasswordView<Model>: View where Model: PasswordModelRepresentable {
     
     var body: some View {
         SecureItemContainer {
-            SecureItemSecureField(title: LocalizedString.password, text: $model.password, isEditable: isEditable)
+            SecureItemSecureField(LocalizedString.password, text: $model.password, isEditable: isEditable)
         }
+    }
+    
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
     }
     
 }
 
 #if DEBUG
-class PasswordModelStub: PasswordModelRepresentable {
-    
-    var password = "123abc"
-    
-    func copyPasswordToPasteboard() {}
-    
-}
-
-struct PasswordViewPreviewProvider: PreviewProvider {
+struct PasswordViewPreviews: PreviewProvider {
     
     static let model = PasswordModelStub()
     @State static var isEditable = false
     
     static var previews: some View {
-        PasswordView(model: model, isEditable: $isEditable)
+        PasswordView(model, isEditable: $isEditable)
     }
     
 }

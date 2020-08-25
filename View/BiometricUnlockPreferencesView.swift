@@ -1,95 +1,44 @@
 import Localization
 import SwiftUI
 
-#if os(macOS)
 struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockPreferencesModelRepresentable {
     
     @ObservedObject var model: Model
     @Environment(\.presentationMode) var presentationMode
     
+    #if os(macOS)
     var body: some View {
-        NavigationView {
-            List {
-                Section(header: headerImage, footer: enableBiometricUnlockDescription) {
-                    SecureField(LocalizedString.masterPassword, text: $model.password)
+        VStack {
+            Header(biometricType: model.biometricType)
+            
+            SecureField(LocalizedString.masterPassword, text: $model.password)
+                .frame(maxWidth: 300)
+            
+            Text(model.enterMasterPasswordDescription)
+            
+            HStack {
+                Spacer()
+                
+                Button(LocalizedString.cancel) {
+                    presentationMode.wrappedValue.dismiss()
                 }
                 
-                Section(footer: errorMessage) {
-                    HStack {
-                        Spacer()
-                        
-                        Button(LocalizedString.enable, action: model.enabledBiometricUnlock)
-                        
-                        Spacer()
-                    }
-                }
-            }
-            //.listStyle(GroupedListStyle())
-            //.navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(model.biometricType.localizedTitle)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
+                Button(LocalizedString.enable, action: model.enabledBiometricUnlock)
             }
         }
         .disabled(model.userInputDisabled)
     }
+    #endif
     
-    private var headerImage: some View {
-        HStack {
-            Spacer()
-            
-            BiometryIcon(model.biometricType)
-                .frame(width: 60, height: 60)
-                .padding(.top, 40)
-                .padding(.bottom, 20)
-            
-            Spacer()
-        }
-    }
-    
-    private var enableBiometricUnlockDescription: some View {
-        Text(model.biometricType.localizedDescription)
-    }
-    
-    private var errorMessage: some View {
-        HStack {
-            Spacer()
-            
-            switch model.status {
-            case .none, .loading:
-                EmptyView()
-            case .biometricActivationFailed:
-                ErrorBadge(model.biometricType.activationFailedError)
-            case .invalidPassword:
-                ErrorBadge(LocalizedString.wrongPassword)
-            }
-            
-            Spacer()
-        }
-        .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-    }
-    
-}
-#endif
-
-#if os(iOS)
-struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockPreferencesModelRepresentable {
-    
-    @ObservedObject var model: Model
-    @Environment(\.presentationMode) var presentationMode
-    
+    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
-                Section(header: headerImage, footer: enableBiometricUnlockDescription) {
+                Section(header: Header(biometricType: model.biometricType), footer: Text(model.enterMasterPasswordDescription)) {
                     SecureField(LocalizedString.masterPassword, text: $model.password)
                 }
                 
-                Section(footer: errorMessage) {
+                Section(footer: ErrorMessage(status: model.status, biometricType: model.biometricType)) {
                     HStack {
                         Spacer()
                         
@@ -99,9 +48,10 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
                     }
                 }
             }
+            .disabled(model.userInputDisabled)
             .listStyle(GroupedListStyle())
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(model.biometricType.localizedTitle)
+            .navigationTitle(model.navigationTitle)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(LocalizedString.cancel) {
@@ -110,51 +60,73 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
                 }
             }
         }
-        .disabled(model.userInputDisabled)
     }
+    #endif
     
-    private var headerImage: some View {
-        HStack {
-            Spacer()
-            
-            BiometryIcon(model.biometricType)
-                .frame(width: 60, height: 60)
-                .padding(.top, 40)
-                .padding(.bottom, 20)
-            
-            Spacer()
-        }
+    init(_ model: Model) {
+        self.model = model
     }
+}
+
+private extension BiometricUnlockPreferencesView {
     
-    private var enableBiometricUnlockDescription: some View {
-        Text(model.biometricType.localizedDescription)
-    }
-    
-    private var errorMessage: some View {
-        HStack {
-            Spacer()
-            
-            switch model.status {
-            case .none, .loading:
-                EmptyView()
-            case .biometricActivationFailed:
-                ErrorBadge(model.biometricType.activationFailedError)
-            case .invalidPassword:
-                ErrorBadge(LocalizedString.wrongPassword)
+    struct Header: View {
+        
+        let biometricType: BiometricType
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                
+                BiometricIcon(biometricType)
+                    .frame(width: 60, height: 60)
+                    .padding(.top, 40)
+                    .padding(.bottom, 20)
+                
+                Spacer()
             }
-            
-            Spacer()
         }
-        .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+        
+    }
+    
+    struct ErrorMessage: View {
+        
+        let status: BiometricUnlockPreferencesStatus
+        let biometricType: BiometricType
+        
+        var body: some View {
+            HStack {
+                Spacer()
+                
+                switch status {
+                case .none, .loading:
+                    EmptyView()
+                case .biometricActivationFailed:
+                    switch biometricType {
+                    case .touchID:
+                        ErrorBadge(LocalizedString.touchIDActivationFailed)
+                    case .faceID:
+                        ErrorBadge(LocalizedString.faceIDActivationFailed)
+                    }
+                case .invalidPassword:
+                    ErrorBadge(LocalizedString.wrongPassword)
+                }
+                
+                Spacer()
+            }
+            .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+        }
+        
     }
     
 }
-#endif
 
-private extension BiometricType {
+private extension BiometricUnlockPreferencesModelRepresentable {
     
-    var localizedTitle: String {
-        switch self {
+    var userInputDisabled: Bool { status == .loading }
+    
+    var navigationTitle: String {
+        switch self.biometricType {
         case .touchID:
             return LocalizedString.touchID
         case .faceID:
@@ -162,8 +134,8 @@ private extension BiometricType {
         }
     }
     
-    var localizedDescription: String {
-        switch self {
+    var enterMasterPasswordDescription: String {
+        switch self.biometricType {
         case .touchID:
             return LocalizedString.enableTouchIDUnlockDescription
         case .faceID:
@@ -171,39 +143,18 @@ private extension BiometricType {
         }
     }
     
-    var activationFailedError: String {
-        switch self {
-        case .touchID:
-            return LocalizedString.touchIDActivationFailed
-        case .faceID:
-            return LocalizedString.faceIDActivationFailed
-        }
-    }
-    
 }
 
 #if DEBUG
-import Combine
-
-class BiometricUnlockPreferencesModelStub: BiometricUnlockPreferencesModelRepresentable {
+/*
+struct BiometricUnlockPreferencesPreviews: PreviewProvider {
     
-    var password = ""
-    var status = BiometricUnlockPreferencesModel.Status.biometricActivationFailed
-    var userInputDisabled: Bool { status == .loading }
-    let biometricType = BiometricType.touchID
-    
-    func enabledBiometricUnlock() {}
-    
-}
-
-struct BiometricUnlockPreferencesViewPreview: PreviewProvider {
+    static let model = BiometricUnlockPreferencesModelStub()
     
     static var previews: some View {
-        Group {
-            BiometricUnlockPreferencesView(model: BiometricUnlockPreferencesModelStub())
-                .preferredColorScheme(.dark)
-        }
+        BiometricUnlockPreferencesView(model)
     }
     
 }
+ */
 #endif

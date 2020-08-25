@@ -6,25 +6,19 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
     @ObservedObject var model: Model
     
     var body: some View {
-        VStack {
-            UnlockField(title: LocalizedString.masterPassword, text: $model.password, unlock: model.loginWithMasterPassword)
+        VStack(spacing: 20) {
+            UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                 .frame(maxWidth: 300)
-                .disabled(textInputDisabled)
+                .disabled(model.textInputDisabled)
             
-            Spacer()
-                .frame(maxHeight: 30)
-            
-            switch model.biometricUnlockAvailability {
+            switch model.biometricKeychainAvailability {
             case .touchID:
-                BiometricUnlockButton(biometricType: .touchID, action: model.loginWithBiometrics)
+                BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
             case .faceID:
-                BiometricUnlockButton(biometricType: .faceID, action: model.loginWithBiometrics)
+                BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
             case .notAvailable, .notEnrolled:
                 EmptyView()
             }
-
-            Spacer()
-                .frame(maxHeight: 30)
             
             switch model.status {
             case .none, .unlocking:
@@ -38,10 +32,27 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
         .padding()
     }
     
-    var textInputDisabled: Bool {
-        model.status == .unlocking
+    init(_ model: Model) {
+        self.model = model
     }
     
 }
 
+extension LockedModelRepresentable {
+    
+    var textInputDisabled: Bool {
+        status == .unlocking
+    }
+    
+}
 
+#if DEBUG
+struct LockedViewPreviews: PreviewProvider {
+    
+    static let model = LockedModelStub()
+    
+    static var previews: some View {
+        LockedView(model)
+    }
+}
+#endif

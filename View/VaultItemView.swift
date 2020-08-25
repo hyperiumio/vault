@@ -1,6 +1,127 @@
 import Localization
 import SwiftUI
 
+struct SecureItemToolbarItem: View {
+    
+    let type: SecureItemType
+    
+    var body: some View {
+        HStack {
+            Image(type)
+                .foregroundColor(Color(type))
+            
+            Text(type.name)
+        }
+    }
+    
+}
+
+struct VaultItemTitleField: View {
+    
+    let text: Binding<String>
+    
+    @Binding var isEditable: Bool
+    
+    var body: some View {
+        TextField(LocalizedString.title, text: text)
+            .font(.title3)
+            .padding(.vertical)
+            .disabled(!isEditable)
+            
+    }
+    
+}
+
+struct SecureItemView: View {
+    
+    let model: SecureItemModel
+    let isEditable: Binding<Bool>
+    
+    var body: some View {
+        switch model {
+        case .login(let model):
+            LoginView(model, isEditable: isEditable)
+        case .password(let model):
+            PasswordView(model, isEditable: isEditable)
+        case .file(let model):
+            FileView(model: model, isEditable: isEditable)
+        case .note(let model):
+            NoteView(model, isEditable: isEditable)
+        case .bankCard(let model):
+            BankCardView(model, isEditable: isEditable)
+        case .wifi(let model):
+            WifiView(model, isEditable: isEditable)
+        case .bankAccount(let model):
+            BankAccountView(model, isEditable: isEditable)
+        case .custom(let model):
+            CustomItemView(model, isEditable: isEditable)
+        }
+    }
+    
+}
+
+
+struct VaultItemFooter: View {
+    
+    let created: Date
+    let modified: Date
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            
+            VStack(alignment: .custom, spacing: 4) {
+                HStack(alignment: .center) {
+                    Text(LocalizedString.created)
+                        .fontWeight(.semibold)
+                        .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
+                        .alignmentGuide(.custom) { dimension in
+                            dimension[HorizontalAlignment.trailing]
+                        }
+                        
+                    Text(created, formatter: dateFormatter)
+                }
+                
+                HStack {
+                    Text(LocalizedString.modified)
+                        .fontWeight(.semibold)
+                        .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
+                        .alignmentGuide(.custom) { dimension in
+                            dimension[HorizontalAlignment.trailing]
+                        }
+                    
+                    Text(created, formatter: dateFormatter)
+                }
+            }
+            .font(.caption)
+            
+            Spacer()
+        }
+    }
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
+}
+
+private extension HorizontalAlignment {
+    
+    struct CustomAlignment: AlignmentID {
+        
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            context[HorizontalAlignment.center]
+        }
+        
+    }
+
+    static let custom = HorizontalAlignment(CustomAlignment.self)
+}
+
+
 #if os(macOS)
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
@@ -84,7 +205,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 Button(LocalizedString.save) {
                     model.save()
                 }
-                .disabled(model.status != .loading && !model.name.isEmpty)
+                .disabled(model.status != .saving && !model.name.isEmpty)
             }
         }
     }
@@ -175,7 +296,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 Button(LocalizedString.save) {
                     model.save()
                 }
-                .disabled(model.status != .loading && !model.name.isEmpty)
+                .disabled(model.status != .saving && !model.name.isEmpty)
             }
         }
     }

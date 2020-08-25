@@ -12,7 +12,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 ForEach(model.itemCollation.sections) { section in
                     Section(header: Text(section.key)) {
                         ForEach(section.elements) { element in
-                            VaultItemInfoView(element.info)
+                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
                         }
                     }
                 }
@@ -61,7 +61,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 ForEach(model.itemCollation.sections) { section in
                     Section(header: Text(section.key)) {
                         ForEach(section.elements) { element in
-                            VaultItemInfoView(element.info)
+                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
                         }
                     }
                 }
@@ -91,7 +91,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
         .sheet(isPresented: $settingsPresented) {
-            SettingsUnlockedView(model: model.preferencesUnlockedModel)
+            SettingsView(model.settingsModel)
         }
         .alert(item: $model.failure) { failure in
             switch failure {
@@ -107,4 +107,8 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     }
     
 }
+#endif
+
+#if DEBUG
+
 #endif

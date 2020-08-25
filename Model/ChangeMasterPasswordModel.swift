@@ -6,13 +6,28 @@ import Store
 
 protocol ChangeMasterPasswordModelRepresentable: ObservableObject, Identifiable {
     
+    typealias Status = ChangeMasterPasswordStatus
+    
     var currentPassword: String { get set }
     var newPassword: String { get set }
     var repeatedNewPassword: String { get set }
-    var textInputDisabled: Bool { get }
-    var status: ChangeMasterPasswordModel.Status { get }
+    var status: Status { get }
+    var done: AnyPublisher<Void, Never> { get }
     
     func changeMasterPassword()
+    
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+    
+}
+
+enum ChangeMasterPasswordStatus {
+    
+    case none
+    case loading
+    case invalidPassword
+    case newPasswordMismatch
+    case insecureNewPassword
+    case masterPasswordChangeDidFail
     
 }
 
@@ -23,17 +38,16 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     @Published var repeatedNewPassword = ""
     @Published private(set) var status = Status.none
     
-    var textInputDisabled: Bool { status == .loading }
     var createMasterKeyButtonDisabled: Bool { currentPassword.isEmpty || newPassword.isEmpty || repeatedNewPassword.isEmpty || newPassword.count != repeatedNewPassword.count || status == .loading }
-    var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
+    var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
     private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let doneSubject = PassthroughSubject<Void, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    required init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
@@ -60,27 +74,6 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         }
         
         // change password
-    }
-    
-}
-
-extension ChangeMasterPasswordModel {
-    
-    enum Status {
-        
-        case none
-        case loading
-        case invalidPassword
-        case newPasswordMismatch
-        case insecureNewPassword
-        case masterPasswordChangeDidFail
-        
-    }
-    
-    enum Event {
-        
-        case passwordChanged
-        
     }
     
 }

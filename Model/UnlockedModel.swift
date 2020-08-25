@@ -3,39 +3,59 @@ import Crypto
 import Foundation
 import Preferences
 import Search
-import Sort
 import Store
+import Sort
 
 protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
+    associatedtype SettingsModel: SettingsModelRepresentable
+    associatedtype VaultItemCreationModel: VaultItemCreationModelRepresentable
+    associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
+    
+    typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
+    
     var searchText: String { get set }
-    var itemCollation: AlphabeticCollation<VaultItemReferenceModel> { get }
-    var preferencesUnlockedModel: SettingsModel { get }
+    var itemCollation: Collation { get }
+    var settingsModel: SettingsModel { get }
     var creationModel: VaultItemCreationModel? { get set }
-    var failure: UnlockedModel.Failure? { get set }
+    var failure: UnlockedFailure? { get set }
     
     func reload()
     func createVaultItem()
     
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+    
 }
 
-class UnlockedModel: UnlockedModelRepresentable {
+enum UnlockedFailure {
+    
+    case loadOperationFailed
+    case deleteOperationFailed
+    
+}
+
+extension UnlockedFailure: Identifiable {
+    
+    var id: Self { self }
+    
+}
+
+class UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>: UnlockedModelRepresentable where SettingsModel: SettingsModelRepresentable, VaultItemCreationModel: VaultItemCreationModelRepresentable, VaultItemReferenceModel: VaultItemReferenceModelRepresentable {
     
     @Published var searchText: String = ""
-    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>
+    @Published private(set) var itemCollation = Collation()
     @Published var creationModel: VaultItemCreationModel?
-    @Published var failure: Failure?
+    @Published var failure: UnlockedFailure?
     
-    let preferencesUnlockedModel: SettingsModel
+    let settingsModel: SettingsModel
     let vault: Vault
     
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private var infoItemsSubscription: AnyCancellable?
     
-    init(initialItemCollation: AlphabeticCollation<VaultItemReferenceModel>, vault: Vault, preferencesUnlockedModel: SettingsModel) {
-        self.itemCollation = initialItemCollation
+    required init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
-        self.preferencesUnlockedModel = preferencesUnlockedModel
+        self.settingsModel = SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
         
         let vaultItemInfosPublisher = vault.didChange.flatMap {
             vault.loadVaultItemInfos()
@@ -75,66 +95,11 @@ class UnlockedModel: UnlockedModelRepresentable {
     
     func createVaultItem() {
         let model = VaultItemCreationModel(vault: vault)
-        model.event
-            .map { event in
-                switch event {
-                case .didCreate:
-                    return nil
-                }
-            }
+        model.done
+            .map { nil }
             .assign(to: &$creationModel)
         
         creationModel = model
     }
-    
-}
-
-extension UnlockedModel {
-    
-    static func itemCollation(from vaultItemInfoCiphertextContainers: [CiphertextContainerRepresentable]) -> AlphabeticCollation<VaultItemReferenceModel> {
-        fatalError()
-    }
-    
-}
-
-extension UnlockedModel {
-    
-    typealias ItemType = SecureItem.TypeIdentifier
-    
-    enum Failure {
-        
-        case loadOperationFailed
-        case deleteOperationFailed
-        
-    }
-    
-}
-
-extension VaultItemReferenceModel: AlphabeticCollationElement {
-    
-    var sectionKey: String {
-        let firstCharacter = info.name.prefix(1)
-        return String(firstCharacter)
-    }
-    
-    static func < (lhs: VaultItemReferenceModel, rhs: VaultItemReferenceModel) -> Bool {
-        lhs.info.name < rhs.info.name
-    }
-    
-    static func == (lhs: VaultItemReferenceModel, rhs: VaultItemReferenceModel) -> Bool {
-        lhs.info.name == rhs.info.name
-    }
-    
-}
-
-extension UnlockedModel.Failure: Identifiable {
-    
-    var id: Self { self }
-    
-}
-
-extension UUID: Identifiable {
-    
-    public var id: Self { self }
     
 }

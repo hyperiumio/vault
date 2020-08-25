@@ -5,6 +5,8 @@ import Store
 
 protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     
+    typealias BankCardVendor = BankCardItem.Vendor
+    
     var name: String { get set }
     var number: String { get set }
     var expirationDate: Date { get set }

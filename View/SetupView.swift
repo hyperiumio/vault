@@ -6,17 +6,17 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
     @ObservedObject var model: Model
     
     var body: some View {
-        VStack {            
-            SecureField(LocalizedString.masterPassword, text: $model.password)
-                .frame(width: 220)
-                .disabled(textInputDisabled)
-            
-            SecureField(LocalizedString.repeatPassword, text: $model.repeatedPassword)
-                .frame(width: 220)
-                .disabled(textInputDisabled)
-            
-            Button(LocalizedString.createVault, action: model.createMasterKey)
-                .disabled(createMasterKeyButtonDisabled)
+        VStack {
+            Group {
+                SecureField(LocalizedString.masterPassword, text: $model.password)
+                    .frame(maxWidth: 220)
+                
+                SecureField(LocalizedString.repeatPassword, text: $model.repeatedPassword)
+                    .frame(maxWidth: 220)
+                
+                Button(LocalizedString.createVault, action: model.createMasterKey)
+            }
+            .disabled(model.status == .loading)
             
             
             switch model.status {
@@ -35,8 +35,20 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
         }
     }
     
-    var textInputDisabled: Bool { model.status == .loading }
-    
-    var createMasterKeyButtonDisabled: Bool { model.password.isEmpty || model.repeatedPassword.isEmpty || model.password.count != model.repeatedPassword.count || model.status == .loading }
+    init(_ model: Model) {
+        self.model = model
+    }
     
 }
+
+#if DEBUG
+struct SetupViewPreviews: PreviewProvider {
+    
+    static let model = SetupModelStub()
+    
+    static var previews: some View {
+        SetupView(model)
+    }
+    
+}
+#endif

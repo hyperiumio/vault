@@ -1,4 +1,5 @@
 import SwiftUI
+import Store
 
 extension Image {
     
@@ -26,7 +27,7 @@ extension Image {
 
 extension Image {
     
-    init(_ secureItemType: SecureItemType) {
+    init(_ secureItemType: SecureItem.TypeIdentifier) {
         switch secureItemType {
         case .password:
             self = .password

@@ -21,8 +21,8 @@
 "CreateVault" = "Create Vault";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomItem" = "Custom Item";
-"CustomItemName" = "Item Name";
-"CustomItemValue" = "Item Value";
+"CustomItemName" = "Name";
+"CustomItemValue" = "Value";
 "Delete" = "Delete";
 "DeleteConfirmation" = "Are you sure you want to delete this item?";
 "DeleteFailed" = "Vault could not delete item";

@@ -7,11 +7,26 @@ import Sort
 
 protocol SetupModelRepresentable: ObservableObject, Identifiable {
     
+    typealias Status = SetupStatus
+    
     var password: String { get set }
     var repeatedPassword: String { get set }
-    var status: SetupModel.Status { get }
+    var status: Status { get }
+    var done: AnyPublisher<Vault, Never> { get }
+    
+    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager)
     
     func createMasterKey()
+    
+}
+
+enum SetupStatus {
+    
+    case none
+    case loading
+    case passwordMismatch
+    case insecurePassword
+    case vaultCreationFailed
     
 }
 
@@ -21,16 +36,16 @@ class SetupModel: SetupModelRepresentable {
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.none
     
-    var event: AnyPublisher<Event, Never> {
-        eventSubject.eraseToAnyPublisher()
+    var done: AnyPublisher<Vault, Never> {
+        doneSubject.eraseToAnyPublisher()
     }
     
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let doneSubject = PassthroughSubject<Vault, Never>()
     private let vaultContainerDirectory: URL
     private let preferencesManager: PreferencesManager
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager) {
+    required init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager) {
         self.vaultContainerDirectory = vaultContainerDirectory
         self.preferencesManager = preferencesManager
         
@@ -68,32 +83,12 @@ class SetupModel: SetupModelRepresentable {
                 case .failure:
                     self.status = .vaultCreationFailed
                 }
-            } receiveValue: { [preferencesManager, eventSubject] vault in
+            } receiveValue: { [preferencesManager, doneSubject] vault in
                 preferencesManager.set(activeVaultIdentifier: vault.id)
-                
-                let event = Event.didSetup(vault, AlphabeticCollation<VaultItemReferenceModel>())
-                eventSubject.send(event)
+                doneSubject.send(vault)
             }
     }
     
 }
 
-extension SetupModel {
-    
-    enum Status {
-        
-        case none
-        case loading
-        case passwordMismatch
-        case insecurePassword
-        case vaultCreationFailed
-        
-    }
-    
-    enum Event {
-        
-        case didSetup(Vault, AlphabeticCollation<VaultItemReferenceModel>)
-        
-    }
-    
-}
+

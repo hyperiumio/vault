@@ -9,36 +9,29 @@ struct LoginView<Model>: View where Model: LoginModelRepresentable {
     
     var body: some View {
         SecureItemContainer {
-            SecureItemTextField(title: LocalizedString.user, text: $model.username, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.user, text: $model.username, isEditable: isEditable)
             
-            SecureItemSecureField(title: LocalizedString.password, text: $model.password, isEditable: isEditable)
+            SecureItemSecureField(LocalizedString.password, text: $model.password, isEditable: isEditable)
             
-            SecureItemTextField(title: LocalizedString.url, text: $model.url, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.url, text: $model.url, isEditable: isEditable)
         }
+    }
+    
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
     }
     
 }
 
 #if DEBUG
-class LoginModelStub: LoginModelRepresentable {
-    
-    var username = "john.doe@example.com"
-    var password = "123abc"
-    var url = "www.example.com"
-    
-    func copyUsernameToPasteboard() {}
-    func copyPasswordToPasteboard() {}
-    func copyURLToPasteboard() {}
-    
-}
-
-struct LoginViewPreviewProvider: PreviewProvider {
+struct LoginViewPreviews: PreviewProvider {
     
     static let model = LoginModelStub()
     @State static var isEditable = false
     
     static var previews: some View {
-        LoginView(model: model, isEditable: $isEditable)
+        LoginView(model, isEditable: $isEditable)
     }
     
 }

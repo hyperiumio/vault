@@ -7,7 +7,7 @@ protocol CustomItemModelRepresentable: ObservableObject, Identifiable {
     var name: String { get set }
     var value: String { get set }
     
-    func copyFieldValueToPasteboard()
+    func copyValueToPasteboard()
     
 }
 
@@ -30,7 +30,7 @@ class CustomItemModel: CustomItemModelRepresentable {
         self.value = ""
     }
     
-    func copyFieldValueToPasteboard() {
+    func copyValueToPasteboard() {
         Pasteboard.general.string = value
     }
     

@@ -4,80 +4,11 @@ import SwiftUI
 #if os(macOS)
 struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
     
-    @ObservedObject var model: Model
-    @Environment(\.presentationMode) var presentationMode
-    
     var body: some View {
-        NavigationView {
-            List {
-                Section(footer: lockVaultDescription) {
-                    Button(LocalizedString.lockVault, action: model.lockVault)
-                }
-                
-                switch model.biometricAvailablity {
-                case .notAvailable, .notEnrolled:
-                    EmptyView()
-                case .touchID:
-                    Section(footer: touchIDDescription) {
-                        Toggle(LocalizedString.useTouchID, isOn: isBiometricsEnabledBinding)
-                            .animation(.default)
-                            .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model: model)
-                            }
-                    }
-                case .faceID:
-                    Section(footer: faceIDDescription) {
-                        Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
-                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                            .animation(.default)
-                            .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model: model)
-                            }
-                    }
-                }
-                
-                Section(footer: changeMasterPasswordDescription) {
-                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
-                        .sheet(item: $model.changeMasterPasswordModel) { model in
-                            ChangeMasterPasswordView(model: model)
-                        }
-                }
-            }
-            //.listStyle(GroupedListStyle())
-            .navigationTitle(LocalizedString.settings)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-        }
+        Text("Settings")
     }
     
-    var isBiometricsEnabledBinding: Binding<Bool> {
-        Binding {
-            model.isBiometricUnlockEnabled
-        } set: { isEnabled in
-            model.setBiometricUnlock(isEnabled: isEnabled)
-        }
-    }
-    
-    var lockVaultDescription: some View {
-        Text(LocalizedString.lockVaultDescription)
-    }
-    
-    var touchIDDescription: some View {
-        Text(LocalizedString.touchIDDescription)
-    }
-    
-    var faceIDDescription: some View {
-        Text(LocalizedString.faceIDDescription)
-    }
-    
-    var changeMasterPasswordDescription: some View {
-        Text(LocalizedString.changeMasterPasswordDescription)
-    }
+    init(_ model: Model) {}
     
 }
 #endif
@@ -88,10 +19,18 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
     @ObservedObject var model: Model
     @Environment(\.presentationMode) var presentationMode
     
+    var isBiometricsEnabledBinding: Binding<Bool> {
+        Binding {
+            model.isBiometricUnlockEnabled
+        } set: { isEnabled in
+            model.setBiometricUnlock(isEnabled: isEnabled)
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
-                Section(footer: lockVaultDescription) {
+                Section(footer: Text(LocalizedString.lockVaultDescription)) {
                     Button(LocalizedString.lockVault, action: model.lockVault)
                 }
                 
@@ -99,28 +38,28 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .touchID:
-                    Section(footer: touchIDDescription) {
+                    Section(footer: Text(LocalizedString.touchIDDescription)) {
                         Toggle(LocalizedString.useTouchID, isOn: isBiometricsEnabledBinding)
                             .animation(.default)
                             .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model: model)
+                                BiometricUnlockPreferencesView(model)
                             }
                     }
                 case .faceID:
-                    Section(footer: faceIDDescription) {
+                    Section(footer: Text(LocalizedString.faceIDDescription)) {
                         Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
                             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                             .animation(.default)
                             .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model: model)
+                                BiometricUnlockPreferencesView(model)
                             }
                     }
                 }
                 
-                Section(footer: changeMasterPasswordDescription) {
+                Section(footer: Text(LocalizedString.changeMasterPasswordDescription)) {
                     Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
                         .sheet(item: $model.changeMasterPasswordModel) { model in
-                            ChangeMasterPasswordView(model: model)
+                            ChangeMasterPasswordView(model)
                         }
                 }
             }
@@ -136,54 +75,23 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
         }
     }
     
-    var isBiometricsEnabledBinding: Binding<Bool> {
-        Binding {
-            model.isBiometricUnlockEnabled
-        } set: { isEnabled in
-            model.setBiometricUnlock(isEnabled: isEnabled)
-        }
-    }
-    
-    var lockVaultDescription: some View {
-        Text(LocalizedString.lockVaultDescription)
-    }
-    
-    var touchIDDescription: some View {
-        Text(LocalizedString.touchIDDescription)
-    }
-    
-    var faceIDDescription: some View {
-        Text(LocalizedString.faceIDDescription)
-    }
-    
-    var changeMasterPasswordDescription: some View {
-        Text(LocalizedString.changeMasterPasswordDescription)
+    init(_ model: Model) {
+        self.model = model
     }
     
 }
 #endif
 
 #if DEBUG
-import Crypto
-
-class SettingsUnlockedModelStub: SettingsModelRepresentable {
+/*
+struct SettingsViewPreviews: PreviewProvider {
     
-    var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
-    var changeMasterPasswordModel: ChangeMasterPasswordModel?
-    var biometricAvailablity: BiometricKeychain.Availablity = .faceID
-    var isBiometricUnlockEnabled = false
-    
-    func lockVault() {}
-    func setBiometricUnlock(isEnabled: Bool) {}
-    func changeMasterPassword() {}
-    
-}
-
-struct SettingsUnlockedViewPreview: PreviewProvider {
+    static let model = SettingsModelStub()
     
     static var previews: some View {
-        SettingsView(model: SettingsUnlockedModelStub())
+        SettingsView(model)
     }
     
 }
+ */
 #endif

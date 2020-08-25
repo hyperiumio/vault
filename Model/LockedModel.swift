@@ -7,39 +7,54 @@ import Sort
 
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
+    typealias BiometricKeychainAvailablity = BiometricKeychain.Availablity
+    typealias Status = LockedStatus
+    
     var password: String { get set }
-    var biometricUnlockAvailability: BiometricKeychain.Availablity { get }
-    var status: LockedModel.Status { get }
+    var biometricKeychainAvailability: BiometricKeychainAvailablity { get }
+    var status: Status { get }
+    var done: AnyPublisher<Vault, Never> { get }
+    
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
     
     func loginWithMasterPassword()
     func loginWithBiometrics()
     
 }
 
+enum LockedStatus {
+    
+    case none
+    case unlocking
+    case unlockDidFail
+    case invalidPassword
+    
+}
+
 class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
-    @Published private(set) var biometricUnlockAvailability: BiometricKeychain.Availablity
+    @Published private(set) var biometricKeychainAvailability: BiometricKeychain.Availablity
     @Published private(set) var status = Status.none
     
-    var event: AnyPublisher<Event, Never> {
-        eventSubject.eraseToAnyPublisher()
+    var done: AnyPublisher<Vault, Never> {
+        doneSubject.eraseToAnyPublisher()
     }
     
     private let vaultDirectory: URL
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let doneSubject = PassthroughSubject<Vault, Never>()
     private let biometricKeychain: BiometricKeychain
     private var openVaultSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    required init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vaultDirectory = vaultDirectory
         self.biometricKeychain = biometricKeychain
-        self.biometricUnlockAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
+        self.biometricKeychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
         
         Publishers.CombineLatest(preferencesManager.didChange, biometricKeychain.availabilityDidChange)
             .map { preferences, biometricAvailability in preferences.isBiometricUnlockEnabled ? biometricAvailability : .notAvailable }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$biometricUnlockAvailability)
+            .assign(to: &$biometricKeychainAvailability)
         
         $password
             .map { _ in .none }
@@ -60,9 +75,8 @@ class LockedModel: LockedModelRepresentable {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [eventSubject] vault in
-                let event = Event.didUnlock(vault, AlphabeticCollation<VaultItemReferenceModel>())
-                eventSubject.send(event)
+            } receiveValue: { [doneSubject] vault in
+                doneSubject.send(vault)
             }
     }
     
@@ -88,29 +102,9 @@ class LockedModel: LockedModelRepresentable {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [eventSubject] vault in
-                let event = Event.didUnlock(vault, AlphabeticCollation<VaultItemReferenceModel>())
-                eventSubject.send(event)
+            } receiveValue: { [doneSubject] vault in
+                doneSubject.send(vault)
             }
-    }
-    
-}
-
-extension LockedModel {
-    
-    enum Status {
-        
-        case none
-        case unlocking
-        case unlockDidFail
-        case invalidPassword
-        
-    }
-    
-    enum Event {
-        
-        case didUnlock(Vault, AlphabeticCollation<VaultItemReferenceModel>)
-        
     }
     
 }

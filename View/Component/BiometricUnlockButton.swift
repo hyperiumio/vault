@@ -7,23 +7,25 @@ struct BiometricUnlockButton: View {
     
     var body: some View {
         Button(action: action) {
-            BiometryIcon(biometricType)
+            BiometricIcon(biometricType)
         }
         .frame(width: 40, height: 40)
-        .buttonStyle(buttonStyle)
+        .buttonStyle(PlainButtonStyle())
         .padding()
     }
     
-    var buttonStyle: some PrimitiveButtonStyle { PlainButtonStyle() }
+    init(_ biometricType: BiometricType, action: @escaping () -> Void) {
+        self.biometricType = biometricType
+        self.action = action
+    }
     
 }
 
 #if DEBUG
-struct BiometricUnlockButtonPreview: PreviewProvider {
+struct BiometricUnlockButtonPreviews: PreviewProvider {
     
     static var previews: some View {
-        BiometricUnlockButton(biometricType: .faceID, action: {})
-            .preferredColorScheme(.dark)
+        BiometricUnlockButton(.faceID) {}
     }
     
 }

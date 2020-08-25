@@ -9,32 +9,27 @@ struct WifiView<Model>: View where Model: WifiModelRepresentable {
     
     var body: some View {
         SecureItemContainer {
-            SecureItemTextField(title: LocalizedString.wifiNetworkName, text: $model.networkName, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.wifiNetworkName, text: $model.networkName, isEditable: isEditable)
             
-            SecureItemSecureField(title: LocalizedString.wifiNetworkPassword, text: $model.networkPassword, isEditable: isEditable)
+            SecureItemSecureField(LocalizedString.wifiNetworkPassword, text: $model.networkPassword, isEditable: isEditable)
         }
+    }
+    
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
     }
     
 }
 
 #if DEBUG
-class WifiModelStub: WifiModelRepresentable {
-    
-    var networkName = "Office"
-    var networkPassword = "123abc"
-    
-    func copyNetworkNameToPasteboard() {}
-    func copyNetworkPasswordToPasteboard() {}
-    
-}
-
 struct WifiViewPreviewProvider: PreviewProvider {
     
     static let model = WifiModelStub()
     @State static var isEditable = false
     
     static var previews: some View {
-        WifiView(model: model, isEditable: $isEditable)
+        WifiView(model, isEditable: $isEditable)
     }
     
 }

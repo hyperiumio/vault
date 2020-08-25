@@ -4,16 +4,16 @@ struct UnlockField: View {
     
     let title: String
     let text: Binding<String>
-    let unlock: () -> Void
+    let action: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {
-            NativeTextField(name: title, text: text, action: unlock)
+            NativeTextField(title: title, text: text, action: action)
                 .frame(height: 44)
-                .padding(texfieldInsets)
+                .padding(.horizontal, 20)
                 .background(Color.textFieldBackground)
             
-            Button(action: unlock) {
+            Button(action: action) {
                 Image.lock
                     .resizable()
                     .aspectRatio(contentMode: .fit)
@@ -24,48 +24,14 @@ struct UnlockField: View {
             .background(Color.accentColor)
             .buttonStyle(PlainButtonStyle())
         }
-        .clipShape(textfieldClipShape)
+        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         
     }
     
-    var textfieldClipShape: some Shape {
-        RoundedRectangle(cornerRadius: 10, style: .continuous)
-    }
-    
-    var texfieldInsets: EdgeInsets {
-        EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-    }
-    
-}
-
-#if canImport(AppKit)
-import AppKit
-
-private struct NativeTextField: NSViewRepresentable {
-    
-    let name: String
-    let text: Binding<String>
-    let action: () -> Void
-    
-    func makeNSView(context: Context) -> NSSecureTextField {
-        let textField = NSSecureTextField()
-        textField.font = .systemFont(ofSize: 20)
-        textField.isBezeled = false
-        textField.focusRingType = .none
-        textField.placeholderString = name
-        textField.target = context.coordinator
-        textField.action = #selector(Coordinator.doneButtonPressed)
-        textField.delegate = context.coordinator
-        
-        return textField
-    }
-    
-    func updateNSView(_ textField: NSSecureTextField, context: Context) {
-        textField.stringValue = text.wrappedValue
-    }
-    
-    func makeCoordinator() -> NativeTextFieldCoordinator {
-        return NativeTextFieldCoordinator(text: text, action: action)
+    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
+        self.title = title
+        self.text = text
+        self.action = action
     }
     
 }
@@ -82,6 +48,38 @@ private class NativeTextFieldCoordinator: NSObject {
     
     @objc func doneButtonPressed() {
         action()
+    }
+    
+}
+
+#if canImport(AppKit)
+import AppKit
+
+private struct NativeTextField: NSViewRepresentable {
+    
+    let title: String
+    let text: Binding<String>
+    let action: () -> Void
+    
+    func makeNSView(context: Context) -> NSSecureTextField {
+        let textField = NSSecureTextField()
+        textField.font = .systemFont(ofSize: 20)
+        textField.isBezeled = false
+        textField.focusRingType = .none
+        textField.placeholderString = title
+        textField.target = context.coordinator
+        textField.action = #selector(Coordinator.doneButtonPressed)
+        textField.delegate = context.coordinator
+        
+        return textField
+    }
+    
+    func updateNSView(_ textField: NSSecureTextField, context: Context) {
+        textField.stringValue = text.wrappedValue
+    }
+    
+    func makeCoordinator() -> NativeTextFieldCoordinator {
+        return NativeTextFieldCoordinator(text: text, action: action)
     }
     
 }
@@ -128,36 +126,22 @@ private struct NativeTextField: UIViewRepresentable {
     
 }
 
-private class NativeTextFieldCoordinator: NSObject {
-    
-    let text: Binding<String>
-    let action: () -> Void
-    
-    init(text: Binding<String>, action: @escaping () -> Void) {
-        self.text = text
-        self.action = action
-    }
+extension NativeTextFieldCoordinator {
     
     @objc func textFieldDidChange(_ textField: UITextField) {
         text.wrappedValue = textField.text ?? ""
-    }
-    
-    @objc func doneButtonPressed() {
-        action()
     }
     
 }
 #endif
 
 #if DEBUG
-struct UnlockFieldPreview: PreviewProvider {
+struct UnlockFieldPreviews: PreviewProvider {
     
     @State static var text = ""
     
     static var previews: some View {
-        UnlockField(title: "Password", text: $text, unlock: {})
-            .preferredColorScheme(.dark)
-            .padding()
+        UnlockField("Password", text: $text) {}
     }
     
 }

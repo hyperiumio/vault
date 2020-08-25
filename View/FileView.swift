@@ -41,7 +41,7 @@ private struct FilePDFView: View {
     
     var body: some View {
         if let document = PDFDocument(data: data) {
-            Vault.PDFView(document: document)
+            PDF(document)
         } else {
             FileGenericView()
         }

@@ -13,27 +13,21 @@ struct CustomItemView<Model>: View where Model: CustomItemModelRepresentable {
         }
     }
     
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
+    }
+    
 }
 
 #if DEBUG
-class CustomItemModelStub: CustomItemModelRepresentable {
-
-    var name = "Foo"
-    var value = "Bar"
-    
-    func copyFieldValueToPasteboard() {}
-    
-}
-
-struct CustomItemViewProvider: PreviewProvider {
+struct CustomItemViewPreviews: PreviewProvider {
     
     static let model = CustomItemModelStub()
     @State static var isEditable = false
     
     static var previews: some View {
-        List {
-            CustomItemView(model: model, isEditable: $isEditable)
-        }
+        CustomItemView(model, isEditable: $isEditable)
     }
     
 }

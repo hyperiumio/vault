@@ -6,12 +6,32 @@ import Store
 
 protocol BiometricUnlockPreferencesModelRepresentable: ObservableObject, Identifiable {
     
+    typealias Status = BiometricUnlockPreferencesStatus
+    
     var password: String { get set }
-    var userInputDisabled: Bool { get }
-    var status: BiometricUnlockPreferencesModel.Status { get }
+    var status: Status { get }
     var biometricType: BiometricType { get }
+    var done: AnyPublisher<Void, Never> { get }
     
     func enabledBiometricUnlock()
+    
+    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+    
+}
+
+enum BiometricType {
+    
+    case touchID
+    case faceID
+    
+}
+
+enum BiometricUnlockPreferencesStatus {
+    
+    case none
+    case loading
+    case biometricActivationFailed
+    case invalidPassword
     
 }
 
@@ -20,19 +40,17 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     @Published var password = ""
     @Published private(set) var status = Status.none
     
-    var userInputDisabled: Bool { status == .loading }
-    
-    var event: AnyPublisher<Event, Never> { eventSubject.eraseToAnyPublisher() }
+    var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
     let biometricType: BiometricType
     
-    private let eventSubject = PassthroughSubject<Event, Never>()
+    private let doneSubject = PassthroughSubject<Void, Never>()
     private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    required init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
@@ -72,29 +90,10 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
                 case .failure(.biometricActivationFailed):
                     self.status = .biometricActivationFailed
                 }
-            } receiveValue: { [preferencesManager, eventSubject] _ in
+            } receiveValue: { [preferencesManager, doneSubject] _ in
                 preferencesManager.set(isBiometricUnlockEnabled: true)
-                eventSubject.send(.enabled)
+                doneSubject.send()
             }
-    }
-    
-}
-
-extension BiometricUnlockPreferencesModel {
-    
-    enum Status {
-        
-        case none
-        case loading
-        case biometricActivationFailed
-        case invalidPassword
-        
-    }
-    
-    enum Event {
-        
-        case enabled
-        
     }
     
 }

@@ -9,36 +9,29 @@ struct BankAccountView<Model>: View where Model: BankAccountModelRepresentable {
     
     var body: some View {
         SecureItemContainer {
-            SecureItemTextField(title: LocalizedString.bankAccountHolder, text: $model.accountHolder, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.bankAccountHolder, text: $model.accountHolder, isEditable: isEditable)
             
-            SecureItemTextField(title: LocalizedString.bankAccountIban, text: $model.iban, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.bankAccountIban, text: $model.iban, isEditable: isEditable)
             
-            SecureItemSecureField(title: LocalizedString.bankAccountBic, text: $model.bic, isEditable: isEditable)
+            SecureItemSecureField(LocalizedString.bankAccountBic, text: $model.bic, isEditable: isEditable)
         }
+    }
+    
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
     }
     
 }
 
 #if DEBUG
-class BankAccountModelStub: BankAccountModelRepresentable {
-    
-    var accountHolder = "John Doe"
-    var iban = "DE91 1000 0000 0123 4567 89"
-    var bic = "12345678"
-    
-    func copyAccountHolderToPasteboard() {}
-    func copyIbanToPasteboard() {}
-    func copyBicToPasteboard() {}
-    
-}
-
-struct BankAccountViewProvider: PreviewProvider {
+struct BankAccountViewPreviews: PreviewProvider {
     
     static let model = BankAccountModelStub()
     @State static var isEditable = false
     
     static var previews: some View {
-        BankAccountView(model: model, isEditable: $isEditable)
+        BankAccountView(model, isEditable: $isEditable)
     }
     
 }

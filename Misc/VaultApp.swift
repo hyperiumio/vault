@@ -9,7 +9,7 @@ struct VaultApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppView(model: appDelegate.appModel)
+            AppView(appDelegate.appModel)
         }
         .windowStyle(windowStyle)
         .commands {
@@ -21,7 +21,7 @@ struct VaultApp: App {
         }
         
         Settings {
-            SettingsLockedView()
+            
         }
     }
     
@@ -38,7 +38,7 @@ struct VaultApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppView(model: appDelegate.appModel)
+            AppView(appDelegate.appModel)
         }
     }
     

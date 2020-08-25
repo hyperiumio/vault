@@ -8,15 +8,12 @@ struct ErrorBadge: View {
         Text(message)
             .font(.footnote)
             .multilineTextAlignment(.center)
-            .padding(edgeInsets)
+            .padding(.vertical, 5)
+            .padding(.horizontal, 15)
             .background(Color.appRed)
             .foregroundColor(.white)
-            .clipShape(clipShape)
+            .clipShape(Capsule(style: .continuous))
     }
-    
-    var clipShape: some Shape { Capsule(style: .continuous) }
-    
-    var edgeInsets: EdgeInsets { EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15) }
     
     init(_ message: String) {
         self.message = message
@@ -25,11 +22,10 @@ struct ErrorBadge: View {
 }
 
 #if DEBUG
-struct ErrorMessagePreview: PreviewProvider {
+struct ErrorMessagePreviews: PreviewProvider {
     
     static var previews: some View {
         ErrorBadge("Invalid password")
-            .preferredColorScheme(.dark)
     }
     
 }

@@ -1,12 +1,9 @@
 import SwiftUI
 
-struct BiometryIcon: View {
+struct BiometricIcon: View {
     
     let biometricType: BiometricType
-    
-    init(_ biometricType: BiometricType) {
-        self.biometricType = biometricType
-    }
+
     
     var body: some View {
         switch biometricType {
@@ -23,4 +20,18 @@ struct BiometryIcon: View {
         }
     }
     
+    init(_ biometricType: BiometricType) {
+        self.biometricType = biometricType
+    }
+    
 }
+
+#if DEBUG
+struct BiometricIconPreviews: PreviewProvider {
+    
+    static var previews: some View {
+        BiometricIcon(.faceID)
+    }
+    
+}
+#endif
