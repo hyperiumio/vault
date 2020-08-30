@@ -25,23 +25,3 @@ struct SecureItemBankCardVendorField: View {
     }
     
 }
-
-#if DEBUG
-struct SecureItemBankCardVendorFieldPreviews: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            SecureItemBankCardVendorField(.masterCard)
-            
-            SecureItemBankCardVendorField(.visa)
-            
-            SecureItemBankCardVendorField(.americanExpress)
-            
-            SecureItemBankCardVendorField(.other)
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

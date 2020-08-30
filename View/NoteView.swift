@@ -19,17 +19,3 @@ struct NoteView<Model>: View where Model: NoteModelRepresentable {
     }
     
 }
-
-
-#if DEBUG
-struct NoteViewPreviews: PreviewProvider {
-    
-    static let model = NoteModelStub(text: "")
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        NoteView(model, isEditable: $isEditable)
-    }
-    
-}
-#endif

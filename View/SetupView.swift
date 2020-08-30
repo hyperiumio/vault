@@ -40,15 +40,3 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
     }
     
 }
-
-#if DEBUG
-struct SetupViewPreviews: PreviewProvider {
-    
-    static let model = SetupModelStub(password: "", repeatedPassword: "", status: .none)
-    
-    static var previews: some View {
-        SetupView(model)
-    }
-    
-}
-#endif

@@ -19,21 +19,3 @@ struct BiometricUnlockButton: View {
     }
     
 }
-
-#if DEBUG
-struct BiometricUnlockButtonPreviews: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            BiometricUnlockButton(.touchID) {}
-            
-            BiometricUnlockButton(.faceID) {}
-        }
-        .padding()
-        .previewLayout(.sizeThatFits)
-        
-        
-    }
-    
-}
-#endif

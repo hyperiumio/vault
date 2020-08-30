@@ -58,18 +58,3 @@ private extension AnyTransition {
     }
     
 }
-
-#if DEBUG
-struct SecureItemSecureFieldPreviews: PreviewProvider {
-    
-    @State static var text = ""
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        SecureItemSecureField("Title", text: $text, isEditable: $isEditable)
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

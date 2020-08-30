@@ -23,16 +23,3 @@ struct BankAccountView<Model>: View where Model: BankAccountModelRepresentable {
     }
     
 }
-
-#if DEBUG
-struct BankAccountViewPreviews: PreviewProvider {
-    
-    static let model = BankAccountModelStub(accountHolder: "", iban: "", bic: "")
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        BankAccountView(model, isEditable: $isEditable)
-    }
-    
-}
-#endif

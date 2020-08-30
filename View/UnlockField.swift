@@ -134,17 +134,3 @@ extension NativeTextFieldCoordinator {
     
 }
 #endif
-
-#if DEBUG
-struct UnlockFieldPreviews: PreviewProvider {
-    
-    @State static var text = ""
-    
-    static var previews: some View {
-        UnlockField("Password", text: $text) {}
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

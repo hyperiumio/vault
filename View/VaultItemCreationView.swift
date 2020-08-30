@@ -66,6 +66,3 @@ extension SecureItem.TypeIdentifier {
     }
     
 }
-
-#if DEBUG
-#endif

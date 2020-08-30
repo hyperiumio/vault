@@ -45,14 +45,3 @@ extension LockedModelRepresentable {
     }
     
 }
-
-#if DEBUG
-struct LockedViewPreviews: PreviewProvider {
-    
-    static let model = LockedModelStub(password: "", biometricKeychainAvailability: .faceID, status: .none)
-    
-    static var previews: some View {
-        LockedView(model)
-    }
-}
-#endif

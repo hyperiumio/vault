@@ -32,15 +32,3 @@ struct VaultItemInfoView: View {
     }
     
 }
-
-#if DEBUG
-struct VaultItemInfoViewPreviews: PreviewProvider {
-    
-    static var previews: some View {
-        VaultItemInfoView("Title", description: "Description", itemType: .login)
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

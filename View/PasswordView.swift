@@ -19,16 +19,3 @@ struct PasswordView<Model>: View where Model: PasswordModelRepresentable {
     }
     
 }
-
-#if DEBUG
-struct PasswordViewPreviews: PreviewProvider {
-    
-    static let model = PasswordModelStub(password: "")
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        PasswordView(model, isEditable: $isEditable)
-    }
-    
-}
-#endif

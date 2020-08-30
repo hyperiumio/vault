@@ -29,16 +29,3 @@ struct BankCardView<Model>: View where Model: BankCardModelRepresentable {
     }
     
 }
-
-#if DEBUG
-struct BankCardViewPreviews: PreviewProvider {
-    
-    static let model = BankCardModelStub(name: "", vendor: nil, number: "", expirationDate: .distantFuture, pin: "")
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        BankCardView(model, isEditable: $isEditable)
-    }
-    
-}
-#endif

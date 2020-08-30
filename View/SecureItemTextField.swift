@@ -20,18 +20,3 @@ struct SecureItemTextField: View {
     }
     
 }
-
-#if DEBUG
-struct SecureItemTextFieldPreviews: PreviewProvider {
-    
-    @State static var text = ""
-    @State static var isEditable = false
-    
-    static var previews: some View {
-        SecureItemTextField("Title", text: $text, isEditable: $isEditable)
-            .padding()
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

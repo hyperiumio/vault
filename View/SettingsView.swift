@@ -77,15 +77,3 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     
 }
 #endif
-
-#if DEBUG
-struct SettingsViewPreviews: PreviewProvider {
-    
-    static let model = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, biometricAvailablity: .faceID, isBiometricUnlockEnabled: true)
-    
-    static var previews: some View {
-        Text("foo")
-    }
-    
-}
-#endif
