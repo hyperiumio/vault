@@ -62,6 +62,7 @@ struct SecureItemFieldPreviews: PreviewProvider {
                 Text("Field")
             }
         }
+        .padding()
         .previewLayout(.sizeThatFits)
         
     }

@@ -6,6 +6,7 @@ protocol CustomItemModelRepresentable: ObservableObject, Identifiable {
     
     var name: String { get set }
     var value: String { get set }
+    var customItem: CustomItem { get }
     
     func copyValueToPasteboard()
     

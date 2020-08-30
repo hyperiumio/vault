@@ -6,13 +6,8 @@ import Store
 
 protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
     
-    typealias InitialState = BootstrapInitialState
-    typealias Status = BootstrapStatus
-    
-    var didBootstrap: AnyPublisher<InitialState, Never> { get }
+    var didBootstrap: AnyPublisher<BootstrapInitialState, Never> { get }
     var status: BootstrapStatus { get }
-    
-    init(preferencesManager: PreferencesManager)
     
     func load()
     
@@ -35,16 +30,16 @@ enum BootstrapStatus {
 
 class BootstrapModel: BootstrapModelRepresentable {
     
-    @Published private(set) var status = Status.none
+    @Published private(set) var status = BootstrapStatus.none
     
     let preferencesManager: PreferencesManager
     
-    var didBootstrap: AnyPublisher<InitialState, Never> { didBootstrapSubject.eraseToAnyPublisher() }
+    var didBootstrap: AnyPublisher<BootstrapInitialState, Never> { didBootstrapSubject.eraseToAnyPublisher() }
     
-    private let didBootstrapSubject = PassthroughSubject<InitialState, Never>()
+    private let didBootstrapSubject = PassthroughSubject<BootstrapInitialState, Never>()
     private var vaultLocationSubscription: AnyCancellable?
     
-    required init(preferencesManager: PreferencesManager) {
+    init(preferencesManager: PreferencesManager) {
         self.preferencesManager = preferencesManager
     }
     
@@ -64,14 +59,14 @@ class BootstrapModel: BootstrapModelRepresentable {
         let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
-            let setup = InitialState.setup(vaultContainerDirectory)
+            let setup = BootstrapInitialState.setup(vaultContainerDirectory)
             didBootstrapSubject.send(setup)
             return
         }
         
-        vaultLocationSubscription = Vault.vaultDirectory(in: vaultContainerDirectory, with: activeVaultIdentifier)
+        vaultLocationSubscription = VaultItemStore.vaultDirectory(in: vaultContainerDirectory, with: activeVaultIdentifier)
             .map { vaultDirectory in
-                vaultDirectory.map(InitialState.locked) ?? InitialState.setup(vaultContainerDirectory)
+                vaultDirectory.map(BootstrapInitialState.locked) ?? BootstrapInitialState.setup(vaultContainerDirectory)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

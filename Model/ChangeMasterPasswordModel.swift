@@ -6,17 +6,13 @@ import Store
 
 protocol ChangeMasterPasswordModelRepresentable: ObservableObject, Identifiable {
     
-    typealias Status = ChangeMasterPasswordStatus
-    
     var currentPassword: String { get set }
     var newPassword: String { get set }
     var repeatedNewPassword: String { get set }
-    var status: Status { get }
+    var status: ChangeMasterPasswordStatus { get }
     var done: AnyPublisher<Void, Never> { get }
     
     func changeMasterPassword()
-    
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
     
 }
 
@@ -36,19 +32,19 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     @Published var currentPassword = ""
     @Published var newPassword = ""
     @Published var repeatedNewPassword = ""
-    @Published private(set) var status = Status.none
+    @Published private(set) var status = ChangeMasterPasswordStatus.none
     
     var createMasterKeyButtonDisabled: Bool { currentPassword.isEmpty || newPassword.isEmpty || repeatedNewPassword.isEmpty || newPassword.count != repeatedNewPassword.count || status == .loading }
     var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
-    private let vault: Vault
+    private let store: VaultItemStore
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    required init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vault = vault
+    init(store: VaultItemStore, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.store = store
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
         

@@ -142,6 +142,8 @@ struct UnlockFieldPreviews: PreviewProvider {
     
     static var previews: some View {
         UnlockField("Password", text: $text) {}
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

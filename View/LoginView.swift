@@ -27,7 +27,7 @@ struct LoginView<Model>: View where Model: LoginModelRepresentable {
 #if DEBUG
 struct LoginViewPreviews: PreviewProvider {
     
-    static let model = LoginModelStub()
+    static let model = LoginModelStub(username: "", password: "", url: "")
     @State static var isEditable = false
     
     static var previews: some View {

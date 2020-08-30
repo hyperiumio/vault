@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public class Vault {
+public class VaultItemStore {
     
     public var id: UUID { info.id }
     public var vaultDirectory: URL { resourceLocator.vaultDirectory }
@@ -84,7 +84,7 @@ public class Vault {
     
 }
 
-extension Vault {
+extension VaultItemStore {
     
     private static let fileQueue = DispatchQueue(label: "VaultFileQueue")
     private static let processingQueue = DispatchQueue(label: "VaultProcessingQueue")
@@ -92,7 +92,7 @@ extension Vault {
     
     private static let operationQueue = DispatchQueue(label: "VaultOperationQueue")
     
-    public static func create<Cryptor>(in containerDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<Vault, Error> where Cryptor: CryptoOperationProvider {
+    public static func create<Cryptor>(in containerDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<VaultItemStore, Error> where Cryptor: CryptoOperationProvider {
         operationQueue.future {
             let vaultDirectoryName = UUID().uuidString
             let vaultDirectory = containerDirectory.appendingPathComponent(vaultDirectoryName, isDirectory: true)
@@ -105,12 +105,12 @@ extension Vault {
             try info.binaryEncoded().write(to: resourceLocator.infoFile, options: .atomic)
             try cryptor.encryptedKeyContainer(with: password).write(to: resourceLocator.keyFile, options: .atomic)
             
-            return Vault(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
+            return VaultItemStore(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
         }
         .eraseToAnyPublisher()
     }
     
-    public static func open<Cryptor>(at vaultDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<Vault, Error> where Cryptor: CryptoOperationProvider {
+    public static func open<Cryptor>(at vaultDirectory: URL, with password: String, using type: Cryptor.Type) -> AnyPublisher<VaultItemStore, Error> where Cryptor: CryptoOperationProvider {
         operationQueue.future {
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let encodedInfo = try Data(contentsOf: resourceLocator.infoFile)
@@ -119,7 +119,7 @@ extension Vault {
             let info = try Info(binaryEncoded: encodedInfo)
             let cryptor = try Cryptor(from: encrytedKey, with: password)
             
-            return Vault(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
+            return VaultItemStore(info: info, resourceLocator: resourceLocator, cryptor: cryptor)
         }
         .eraseToAnyPublisher()
     }
@@ -147,7 +147,7 @@ extension Vault {
     
 }
 
-extension Vault {
+extension VaultItemStore {
     
     public struct Info: BinaryCodable {
         

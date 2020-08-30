@@ -11,7 +11,6 @@ struct BiometricUnlockButton: View {
         }
         .frame(width: 40, height: 40)
         .buttonStyle(PlainButtonStyle())
-        .padding()
     }
     
     init(_ biometricType: BiometricType, action: @escaping () -> Void) {
@@ -25,7 +24,15 @@ struct BiometricUnlockButton: View {
 struct BiometricUnlockButtonPreviews: PreviewProvider {
     
     static var previews: some View {
-        BiometricUnlockButton(.faceID) {}
+        Group {
+            BiometricUnlockButton(.touchID) {}
+            
+            BiometricUnlockButton(.faceID) {}
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
+        
+        
     }
     
 }

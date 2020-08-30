@@ -7,6 +7,7 @@ protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
     var accountHolder: String { get set }
     var iban: String { get set }
     var bic: String { get set }
+    var bankAccountItem: BankAccountItem { get }
     
     func copyAccountHolderToPasteboard()
     func copyIbanToPasteboard()

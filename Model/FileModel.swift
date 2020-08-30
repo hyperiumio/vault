@@ -3,11 +3,10 @@ import Store
 
 protocol FileModelRepresentable: ObservableObject, Identifiable {
     
-    typealias FileFormat = FileItem.Format
-    
     var name: String { get set }
     var data: Data? { get }
-    var format: FileFormat { get }
+    var format: FileItemFormat { get }
+    var fileItem: FileItem { get }
     
 }
 

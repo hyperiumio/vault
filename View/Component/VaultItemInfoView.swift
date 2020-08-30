@@ -4,7 +4,7 @@ struct VaultItemInfoView: View {
     
     let name: String
     let description: String
-    let itemType: SecureItemType
+    let itemType: SecureItemTypeIdentifier
     
     var body: some View {
         Label {
@@ -25,7 +25,7 @@ struct VaultItemInfoView: View {
         .padding(.vertical, 2)
     }
     
-    init(_ name: String, description: String, itemType: SecureItemType) {
+    init(_ name: String, description: String, itemType: SecureItemTypeIdentifier) {
         self.name = name
         self.description = description
         self.itemType = itemType
@@ -38,6 +38,8 @@ struct VaultItemInfoViewPreviews: PreviewProvider {
     
     static var previews: some View {
         VaultItemInfoView("Title", description: "Description", itemType: .login)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

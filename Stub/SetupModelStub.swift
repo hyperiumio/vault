@@ -1,24 +1,26 @@
 #if DEBUG
 import Combine
-import Preferences
-import Foundation
 import Store
 
 class SetupModelStub: SetupModelRepresentable {
     
-    @Published var password = ""
-    @Published var repeatedPassword = ""
-    @Published var status = SetupModel.Status.none
+    @Published var password: String
+    @Published var repeatedPassword: String
+    @Published var status: SetupStatus
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<VaultItemStore, Never> {
         doneSubject.eraseToAnyPublisher()
+    }
+    
+    init(password: String, repeatedPassword: String, status: SetupStatus) {
+        self.password = password
+        self.repeatedPassword = repeatedPassword
+        self.status = status
     }
     
     func createMasterKey() {}
     
-    let doneSubject = PassthroughSubject<Vault, Never>()
-    
-    required init(vaultContainerDirectory: URL = URL(fileURLWithPath: ""), preferencesManager: PreferencesManager = .shared) {}
+    let doneSubject = PassthroughSubject<VaultItemStore, Never>()
     
 }
 #endif

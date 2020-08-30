@@ -1,21 +1,6 @@
 import Localization
 import SwiftUI
 
-struct SecureItemToolbarItem: View {
-    
-    let type: SecureItemType
-    
-    var body: some View {
-        HStack {
-            Image(type)
-                .foregroundColor(Color(type))
-            
-            Text(type.name)
-        }
-    }
-    
-}
-
 struct VaultItemTitleField: View {
     
     let text: Binding<String>
@@ -31,35 +16,6 @@ struct VaultItemTitleField: View {
     }
     
 }
-
-struct SecureItemView: View {
-    
-    let model: SecureItemModel
-    let isEditable: Binding<Bool>
-    
-    var body: some View {
-        switch model {
-        case .login(let model):
-            LoginView(model, isEditable: isEditable)
-        case .password(let model):
-            PasswordView(model, isEditable: isEditable)
-        case .file(let model):
-            FileView(model: model, isEditable: isEditable)
-        case .note(let model):
-            NoteView(model, isEditable: isEditable)
-        case .bankCard(let model):
-            BankCardView(model, isEditable: isEditable)
-        case .wifi(let model):
-            WifiView(model, isEditable: isEditable)
-        case .bankAccount(let model):
-            BankAccountView(model, isEditable: isEditable)
-        case .custom(let model):
-            CustomItemView(model, isEditable: isEditable)
-        }
-    }
-    
-}
-
 
 struct VaultItemFooter: View {
     
@@ -227,13 +183,13 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 
                 Divider()
                 
-                SecureItemView(model: model.primaryItemModel, isEditable: $isEditable)
+                ElementView(element: model.primaryItemModel, isEditable: $isEditable)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
                     Divider()
                     
                     HStack(alignment: .top) {
-                        SecureItemView(model: secureItemModel, isEditable: $isEditable)
+                        ElementView(element: secureItemModel, isEditable: $isEditable)
                         
                         Button {
                             model.deleteSecondaryItem(at: index)
@@ -258,7 +214,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 .padding(.vertical)
                 .sheet(isPresented: $isAddItemViewVisible) {
                     NavigationView {
-                        List(SecureItemType.allCases) { typeIdentifier in
+                        List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
                             Button {
                                 model.addSecondaryItem(with: typeIdentifier)
                                 isAddItemViewVisible = false
@@ -289,16 +245,63 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                SecureItemToolbarItem(type: model.primaryItemModel.typeIdentifier)
+                ElementToolbarItem(type: model.primaryItemModel.secureItem.typeIdentifier)
             }
             
             ToolbarItem(placement: .confirmationAction) {
                 Button(LocalizedString.save) {
                     model.save()
                 }
-                .disabled(model.status != .saving && !model.name.isEmpty)
+                //.disabled(model.status != .saving && !model.name.isEmpty)
             }
         }
+    }
+    
+}
+
+extension VaultItemView {
+    
+    struct ElementView: View {
+        
+        let element: Model.Element
+        let isEditable: Binding<Bool>
+        
+        var body: some View {
+            switch element {
+            case .login(let model):
+                LoginView(model, isEditable: isEditable)
+            case .password(let model):
+                PasswordView(model, isEditable: isEditable)
+            case .file(let model):
+                FileView(model: model, isEditable: isEditable)
+            case .note(let model):
+                NoteView(model, isEditable: isEditable)
+            case .bankCard(let model):
+                BankCardView(model, isEditable: isEditable)
+            case .wifi(let model):
+                WifiView(model, isEditable: isEditable)
+            case .bankAccount(let model):
+                BankAccountView(model, isEditable: isEditable)
+            case .custom(let model):
+                CustomItemView(model, isEditable: isEditable)
+            }
+        }
+        
+    }
+    
+    struct ElementToolbarItem: View {
+        
+        let type: SecureItemTypeIdentifier
+        
+        var body: some View {
+            HStack {
+                Image(type)
+                    .foregroundColor(Color(type))
+                
+                Text(type.name)
+            }
+        }
+        
     }
     
 }

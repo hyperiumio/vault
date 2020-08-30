@@ -5,13 +5,12 @@ import Store
 
 protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     
-    typealias BankCardVendor = BankCardItem.Vendor
-    
     var name: String { get set }
     var number: String { get set }
     var expirationDate: Date { get set }
     var pin: String { get set }
-    var vendor: BankCardVendor? { get }
+    var vendor: BankCardItemVendor? { get }
+    var bankCardItem: BankCardItem { get }
     
     func copyNameToPasteboard()
     func copyNumberToPasteboard()

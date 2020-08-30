@@ -7,15 +7,12 @@ protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable, A
     
     associatedtype VaultItemModel: VaultItemModelRepresentable
     
-    typealias VaultItemInfo = VaultItem.Info
     typealias State = VaultItemReferenceState<VaultItemModel>
     
     var state: State { get }
     var info: VaultItemInfo { get }
     
     func load()
-    
-    init(vault: Vault, info: VaultItem.Info)
     
 }
 
@@ -36,6 +33,15 @@ extension VaultItemReferenceModelRepresentable {
     
 }
 
+protocol VaultItemReferenceModelDependency {
+    
+    associatedtype VaultItemModel: VaultItemModelRepresentable
+    
+    func vaultItemModel(vaultItem: VaultItem) -> VaultItemModel
+    
+}
+
+
 enum VaultItemReferenceState<VaultItemModel> {
     
     case none
@@ -45,29 +51,29 @@ enum VaultItemReferenceState<VaultItemModel> {
     
 }
 
-class VaultItemReferenceModel<VaultItemModel>: VaultItemReferenceModelRepresentable where VaultItemModel: VaultItemModelRepresentable {
+class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: VaultItemReferenceModelRepresentable {
+    
+    typealias VaultItemModel = Dependency.VaultItemModel
     
     @Published var state = State.none
     
     let info: VaultItem.Info
     
-    private let vault: Vault
+    private let store: VaultItemStore
+    private let dependency: Dependency
     
-    required init(vault: Vault, info: VaultItem.Info) {
+    init(store: VaultItemStore, info: VaultItem.Info, dependency: Dependency) {
         self.info = info
-        self.vault = vault
+        self.store = store
+        self.dependency = dependency
     }
     
     func load() {
         state = .loading
         
-        vault.loadVaultItem(with: info.id)
-            .map { [vault] vaultItem in
-                VaultItemModel(vault: vault, vaultItem: vaultItem)
-            }
-            .map { model in
-                .loaded(model)
-            }
+        store.loadVaultItem(with: info.id)
+            .map(dependency.vaultItemModel)
+            .map(VaultItemReferenceState.loaded)
             .replaceError(with: .loadingError)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)

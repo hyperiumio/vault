@@ -5,6 +5,7 @@ import Store
 protocol PasswordModelRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
+    var passwordItem: PasswordItem { get }
     
     func copyPasswordToPasteboard()
     

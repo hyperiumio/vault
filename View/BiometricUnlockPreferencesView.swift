@@ -146,15 +146,13 @@ private extension BiometricUnlockPreferencesModelRepresentable {
 }
 
 #if DEBUG
-/*
 struct BiometricUnlockPreferencesPreviews: PreviewProvider {
     
-    static let model = BiometricUnlockPreferencesModelStub()
+    static let model = BiometricUnlockPreferencesModelStub(password: "", status: .none, biometricType: .faceID)
     
     static var previews: some View {
         BiometricUnlockPreferencesView(model)
     }
     
 }
- */
 #endif

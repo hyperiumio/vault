@@ -5,6 +5,7 @@ import Store
 protocol NoteModelRepresentable: ObservableObject, Identifiable {
     
     var text: String { get set }
+    var noteItem: NoteItem { get }
     
     func copyTextToPasteboard()
     

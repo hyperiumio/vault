@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
-		952F3E9524D4596600D55EB9 /* ModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9424D4596600D55EB9 /* ModelTypes.swift */; };
-		952F3E9624D4596600D55EB9 /* ModelTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9424D4596600D55EB9 /* ModelTypes.swift */; };
+		952F3E9524D4596600D55EB9 /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9424D4596600D55EB9 /* Type.swift */; };
+		952F3E9624D4596600D55EB9 /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9424D4596600D55EB9 /* Type.swift */; };
 		952F3E9B24D4663500D55EB9 /* BiometricIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9A24D4663500D55EB9 /* BiometricIcon.swift */; };
 		952F3E9C24D4663500D55EB9 /* BiometricIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952F3E9A24D4663500D55EB9 /* BiometricIcon.swift */; };
 		9530C51524B6FA90008F1D2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530C51424B6FA90008F1D2C /* AppDelegate.swift */; };
@@ -103,6 +103,10 @@
 		9574338324AA358A0062B05A /* BootstrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574338124AA358A0062B05A /* BootstrapView.swift */; };
 		95756C2424AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */; };
 		95756C2524AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */; };
+		9577121424F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
+		9577121524F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
+		9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
+		9577121824F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
 		9583624524D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
 		9583624624D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
 		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
@@ -187,10 +191,12 @@
 
 /* Begin PBXFileReference section */
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
-		952F3E9424D4596600D55EB9 /* ModelTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelTypes.swift; sourceTree = "<group>"; };
+		952F3E9424D4596600D55EB9 /* Type.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 		952F3E9A24D4663500D55EB9 /* BiometricIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricIcon.swift; sourceTree = "<group>"; };
 		9530C51424B6FA90008F1D2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9547EEFA24DEBDAD00DB5B21 /* Cryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cryptor.swift; sourceTree = "<group>"; };
+		954F58B924FAA040005FB72B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		954F58BA24FAA040005FB72B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		956665EA24EAA976002C6A1A /* SecureItemContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemContainer.swift; sourceTree = "<group>"; };
 		956665ED24EAAF78002C6A1A /* SecureItemBankCardVendorField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemBankCardVendorField.swift; sourceTree = "<group>"; };
@@ -246,6 +252,8 @@
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
 		95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
+		9577121324F815B30095AF33 /* AppLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockedDependency.swift; sourceTree = "<group>"; };
+		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
 		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
 		958A851C24E946DF002CABEB /* FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
@@ -273,8 +281,6 @@
 		95C1E54E24F17A69005F954F /* VaultItemModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemModelStub.swift; sourceTree = "<group>"; };
 		95C1E55124F17A83005F954F /* VaultItemReferenceModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemReferenceModelStub.swift; sourceTree = "<group>"; };
 		95C1E55424F17A9C005F954F /* WifiModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiModelStub.swift; sourceTree = "<group>"; };
-		95C1E55824F24B53005F954F /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		95C1E55924F24B5D005F954F /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBadge.swift; sourceTree = "<group>"; };
 		95DA1CF124B363350087D649 /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95E3260F24D2F22300F35FAB /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
@@ -397,6 +403,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		9577120F24F814E30095AF33 /* Dependency */ = {
+			isa = PBXGroup;
+			children = (
+				9577121324F815B30095AF33 /* AppLockedDependency.swift */,
+				9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */,
+			);
+			path = Dependency;
+			sourceTree = "<group>";
+		};
 		95ABC92E24A9D38E009D87A4 = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +424,7 @@
 				9574336924AA13C30062B05A /* Store */,
 				95DA1CF124B363350087D649 /* Sync */,
 				9574322F24AA05710062B05A /* Asset */,
+				9577120F24F814E30095AF33 /* Dependency */,
 				95AD564924C9AB5A00A62CAE /* Extension */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
@@ -416,8 +432,6 @@
 				9574323124AA05710062B05A /* Model */,
 				95C1E51D24F177D0005F954F /* Stub */,
 				9574323224AA05710062B05A /* View */,
-				95C1E55824F24B53005F954F /* Vault.app */,
-				95C1E55924F24B5D005F954F /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -435,7 +449,7 @@
 			children = (
 				9530C51424B6FA90008F1D2C /* AppDelegate.swift */,
 				9547EEFA24DEBDAD00DB5B21 /* Cryptor.swift */,
-				952F3E9424D4596600D55EB9 /* ModelTypes.swift */,
+				952F3E9424D4596600D55EB9 /* Type.swift */,
 				9574322424AA05430062B05A /* VaultApp.swift */,
 			);
 			path = Misc;
@@ -470,8 +484,8 @@
 		95C1E55724F17CD6005F954F /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */,
 				952F3E9A24D4663500D55EB9 /* BiometricIcon.swift */,
+				95756C2324AB8CC100EF3E47 /* BiometricUnlockButton.swift */,
 				95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */,
 				9583624424D15EAF00C10BBB /* PDFView.swift */,
 				956665ED24EAAF78002C6A1A /* SecureItemBankCardVendorField.swift */,
@@ -515,7 +529,7 @@
 				95F8BBC824CEC936001FC495 /* Sort */,
 			);
 			productName = iOS;
-			productReference = 95C1E55824F24B53005F954F /* Vault.app */;
+			productReference = 954F58B924FAA040005FB72B /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -542,7 +556,7 @@
 				95F8BBCA24CEC949001FC495 /* Sort */,
 			);
 			productName = macOS;
-			productReference = 95C1E55924F24B5D005F954F /* Vault.app */;
+			productReference = 954F58BA24FAA040005FB72B /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -642,6 +656,7 @@
 				95756C2424AB8CC100EF3E47 /* BiometricUnlockButton.swift in Sources */,
 				958BB44524D1A58100DF585B /* SecureItemSecureField.swift in Sources */,
 				95C1E55224F17A83005F954F /* VaultItemReferenceModelStub.swift in Sources */,
+				9577121424F815B30095AF33 /* AppLockedDependency.swift in Sources */,
 				9530C51524B6FA90008F1D2C /* AppDelegate.swift in Sources */,
 				9574332724AA135E0062B05A /* PasswordView.swift in Sources */,
 				95D206E524C6D7A700C1DC9D /* ErrorBadge.swift in Sources */,
@@ -661,7 +676,7 @@
 				9574333F24AA135E0062B05A /* ChangeMasterPasswordView.swift in Sources */,
 				957432AA24AA081B0062B05A /* CustomItemModel.swift in Sources */,
 				95C1E53124F17928005F954F /* CustomItemModelStub.swift in Sources */,
-				952F3E9524D4596600D55EB9 /* ModelTypes.swift in Sources */,
+				952F3E9524D4596600D55EB9 /* Type.swift in Sources */,
 				9574329424AA081B0062B05A /* WifiModel.swift in Sources */,
 				957432A624AA081B0062B05A /* BankCardModel.swift in Sources */,
 				9574326E24AA081B0062B05A /* NoteModel.swift in Sources */,
@@ -672,6 +687,7 @@
 				9574333D24AA135E0062B05A /* BankAccountView.swift in Sources */,
 				95C1E52824F178D6005F954F /* BiometricUnlockPreferencesModelStub.swift in Sources */,
 				95C1E53724F17962005F954F /* LockedModelStub.swift in Sources */,
+				9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */,
 				9547EEFB24DEBDAD00DB5B21 /* Cryptor.swift in Sources */,
 				95C1E54F24F17A69005F954F /* VaultItemModelStub.swift in Sources */,
 				95C1E51F24F17805005F954F /* AppModelStub.swift in Sources */,
@@ -726,6 +742,7 @@
 				958A852124E94730002CABEB /* FileModel.swift in Sources */,
 				9574333224AA135E0062B05A /* BiometricUnlockPreferencesView.swift in Sources */,
 				956665F524EAB2E1002C6A1A /* SecureItemKeyValueField.swift in Sources */,
+				9577121524F815B30095AF33 /* AppLockedDependency.swift in Sources */,
 				95C1E55324F17A83005F954F /* VaultItemReferenceModelStub.swift in Sources */,
 				958BB44024D1A38E00DF585B /* SecureItemTextField.swift in Sources */,
 				958E17EF24ABD7D500487EA4 /* VaultItemCreationView.swift in Sources */,
@@ -753,9 +770,10 @@
 				9574333824AA135E0062B05A /* BankCardView.swift in Sources */,
 				95C1E52324F17895005F954F /* BankAccountModelStub.swift in Sources */,
 				9574333A24AA135E0062B05A /* SetupView.swift in Sources */,
-				952F3E9624D4596600D55EB9 /* ModelTypes.swift in Sources */,
+				952F3E9624D4596600D55EB9 /* Type.swift in Sources */,
 				956665F224EAB04D002C6A1A /* SecureItemDateField.swift in Sources */,
 				95C1E52924F178D6005F954F /* BiometricUnlockPreferencesModelStub.swift in Sources */,
+				9577121824F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardModel.swift in Sources */,
 				95C1E53824F17962005F954F /* LockedModelStub.swift in Sources */,
 				9574323F24AA075A0062B05A /* AppModel.swift in Sources */,

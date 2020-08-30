@@ -18,6 +18,20 @@ protocol AppModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+protocol AppModelDependency {
+    
+    associatedtype BootstrapModel: BootstrapModelRepresentable
+    associatedtype SetupModel: SetupModelRepresentable
+    associatedtype LockedModel: LockedModelRepresentable
+    associatedtype UnlockedModel: UnlockedModelRepresentable
+    
+    func bootstrapModel() -> BootstrapModel
+    func setupModel(url: URL) -> SetupModel
+    func lockedModel(url: URL) -> LockedModel
+    func unlockedModel(store: VaultItemStore) -> UnlockedModel
+    
+}
+
 enum AppState<BootstrapModel, SetupModel, LockedModel, UnlockedModel> {
     
     case bootstrap(BootstrapModel)
@@ -27,49 +41,61 @@ enum AppState<BootstrapModel, SetupModel, LockedModel, UnlockedModel> {
     
 }
 
-class AppModel<BootstrapModel, SetupModel, LockedModel, UnlockedModel>: AppModelRepresentable where BootstrapModel: BootstrapModelRepresentable, SetupModel: SetupModelRepresentable, LockedModel: LockedModelRepresentable, UnlockedModel: UnlockedModelRepresentable {
+class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
+    
+    typealias BootstrapModel = Dependency.BootstrapModel
+    typealias SetupModel = Dependency.SetupModel
+    typealias LockedModel = Dependency.LockedModel
+    typealias UnlockedModel = Dependency.UnlockedModel
     
     @Published private(set) var state: State
     
-    init(preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        let model = BootstrapModel(preferencesManager: preferencesManager)
-
+    init(_ dependency: Dependency) {
+        
+        func stateEvent(from state: State) -> AnyPublisher<State, Never> {
+            switch state {
+            case .bootstrap(let model):
+                return model.didBootstrap
+                    .map { appState in
+                        switch appState {
+                        case .setup(let url):
+                            return .setup(dependency.setupModel(url: url))
+                        case .locked(let url):
+                            return .locked(dependency.lockedModel(url: url))
+                        }
+                    }
+                    .eraseToAnyPublisher()
+            case .setup(let model):
+                return model.done
+                    .map(dependency.unlockedModel)
+                    .map(State.unlocked)
+                    .eraseToAnyPublisher()
+            case .locked(let model):
+                return model.done
+                    .map(dependency.unlockedModel)
+                    .map(State.unlocked)
+                    .eraseToAnyPublisher()
+            case .unlocked(let model):
+                return model.lock
+                    .map(dependency.lockedModel)
+                    .map(State.locked)
+                    .eraseToAnyPublisher()
+            }
+        }
+        
+        let model = dependency.bootstrapModel()
         self.state = .bootstrap(model)
         
-        model.didBootstrap
-            .map { appState in
-                switch appState {
-                case .setup(let url):
-                    let model = SetupModel(vaultContainerDirectory: url, preferencesManager: preferencesManager)
-                    model.done
-                        .map { vault in
-                            UnlockedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-                        }
-                        .map { model in
-                            .unlocked(model)
-                        }
-                        .assign(to: &self.$state)
-                    return .setup(model)
-                case .locked(let url):
-                    let model = LockedModel(vaultDirectory: url, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-                    model.done
-                        .map { vault in
-                            UnlockedModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-                        }
-                        .map { model in
-                            .unlocked(model)
-                        }
-                        .assign(to: &self.$state)
-                    return .locked(model)
-                }
-            }
+        stateEvent(from: state)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$state)
+        
+        $state
+            .flatMap(stateEvent)
+            .receive(on: DispatchQueue.main)
             .assign(to: &$state)
         
         model.load()
-    }
-    
-    func lock() {
-
     }
     
 }

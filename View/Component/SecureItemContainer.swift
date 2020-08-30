@@ -26,6 +26,8 @@ struct SecureItemContainerPreviews: PreviewProvider {
             
             Text("Description")
         }
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
     
 }

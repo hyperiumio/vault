@@ -23,7 +23,7 @@ struct CustomItemView<Model>: View where Model: CustomItemModelRepresentable {
 #if DEBUG
 struct CustomItemViewPreviews: PreviewProvider {
     
-    static let model = CustomItemModelStub()
+    static let model = CustomItemModelStub(name: "", value: "")
     @State static var isEditable = false
     
     static var previews: some View {

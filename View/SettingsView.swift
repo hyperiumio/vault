@@ -14,7 +14,7 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
 #endif
 
 #if os(iOS)
-struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
+struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     @ObservedObject var model: Model
     @Environment(\.presentationMode) var presentationMode
@@ -30,10 +30,6 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
     var body: some View {
         NavigationView {
             List {
-                Section(footer: Text(LocalizedString.lockVaultDescription)) {
-                    Button(LocalizedString.lockVault, action: model.lockVault)
-                }
-                
                 switch model.biometricAvailablity {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
@@ -83,15 +79,13 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
 #endif
 
 #if DEBUG
-/*
 struct SettingsViewPreviews: PreviewProvider {
     
-    static let model = SettingsModelStub()
+    static let model = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, biometricAvailablity: .faceID, isBiometricUnlockEnabled: true)
     
     static var previews: some View {
-        SettingsView(model)
+        Text("foo")
     }
     
 }
- */
 #endif

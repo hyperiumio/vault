@@ -4,16 +4,19 @@ import Preferences
 
 class BootstrapModelStub: BootstrapModelRepresentable {
     
-    var didBootstrap: AnyPublisher<InitialState, Never> {
+    @Published var status: BootstrapStatus
+    
+    var didBootstrap: AnyPublisher<BootstrapInitialState, Never> {
         didBootstrapSubject.eraseToAnyPublisher()
     }
     
-    @Published var status = BootstrapStatus.none
-    
-    required init(preferencesManager: PreferencesManager = PreferencesManager.shared) {}
+    init(status: BootstrapStatus) {
+        self.status = status
+    }
     
     func load() {}
     
-    let didBootstrapSubject = PassthroughSubject<InitialState, Never>()
+    let didBootstrapSubject = PassthroughSubject<BootstrapInitialState, Never>()
+    
 }
 #endif

@@ -6,16 +6,12 @@ import Store
 
 protocol BiometricUnlockPreferencesModelRepresentable: ObservableObject, Identifiable {
     
-    typealias Status = BiometricUnlockPreferencesStatus
-    
     var password: String { get set }
-    var status: Status { get }
+    var status: BiometricUnlockPreferencesStatus { get }
     var biometricType: BiometricType { get }
     var done: AnyPublisher<Void, Never> { get }
     
     func enabledBiometricUnlock()
-    
-    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
     
 }
 
@@ -38,20 +34,20 @@ enum BiometricUnlockPreferencesStatus {
 class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable {
     
     @Published var password = ""
-    @Published private(set) var status = Status.none
+    @Published private(set) var status = BiometricUnlockPreferencesStatus.none
     
     var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
     let biometricType: BiometricType
     
     private let doneSubject = PassthroughSubject<Void, Never>()
-    private let vault: Vault
+    private let store: VaultItemStore
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    required init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vault = vault
+    init(store: VaultItemStore, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.store = store
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
@@ -68,7 +64,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
         }
         
         status = .loading
-        keychainStoreSubscription = vault.validatePassword(password)
+        keychainStoreSubscription = store.validatePassword(password)
             .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
             .flatMap { [biometricKeychain, password] passwordIsValid in
                 passwordIsValid ?

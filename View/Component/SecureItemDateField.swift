@@ -34,6 +34,8 @@ struct SecureItemDateFieldPreviews: PreviewProvider {
     
     static var previews: some View {
         SecureItemDateField("Title", date: $date, isEditable: $isEditable)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

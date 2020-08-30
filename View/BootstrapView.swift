@@ -36,11 +36,7 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
 #if DEBUG
 struct BootStrapViewPreviews: PreviewProvider {
     
-    static let model: BootstrapModelStub = {
-        let model = BootstrapModelStub()
-        model.status = .loadingDidFail
-        return model
-    }()
+    static let model = BootstrapModelStub(status: .none)
     
     static var previews: some View {
         BootstrapView(model)

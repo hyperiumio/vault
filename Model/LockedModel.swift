@@ -7,15 +7,10 @@ import Sort
 
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
-    typealias BiometricKeychainAvailablity = BiometricKeychain.Availablity
-    typealias Status = LockedStatus
-    
     var password: String { get set }
     var biometricKeychainAvailability: BiometricKeychainAvailablity { get }
-    var status: Status { get }
-    var done: AnyPublisher<Vault, Never> { get }
-    
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+    var status: LockedStatus { get }
+    var done: AnyPublisher<VaultItemStore, Never> { get }
     
     func loginWithMasterPassword()
     func loginWithBiometrics()
@@ -34,19 +29,19 @@ enum LockedStatus {
 class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
-    @Published private(set) var biometricKeychainAvailability: BiometricKeychain.Availablity
-    @Published private(set) var status = Status.none
+    @Published private(set) var biometricKeychainAvailability: BiometricKeychainAvailablity
+    @Published private(set) var status = LockedStatus.none
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<VaultItemStore, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
     private let vaultDirectory: URL
-    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let doneSubject = PassthroughSubject<VaultItemStore, Never>()
     private let biometricKeychain: BiometricKeychain
     private var openVaultSubscription: AnyCancellable?
     
-    required init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
         self.vaultDirectory = vaultDirectory
         self.biometricKeychain = biometricKeychain
         self.biometricKeychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
@@ -64,7 +59,7 @@ class LockedModel: LockedModelRepresentable {
     func loginWithMasterPassword() {
         status = .unlocking
         
-        openVaultSubscription = Vault.open(at: vaultDirectory, with: password, using: Cryptor.self)
+        openVaultSubscription = VaultItemStore.open(at: vaultDirectory, with: password, using: Cryptor.self)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -75,8 +70,8 @@ class LockedModel: LockedModelRepresentable {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [doneSubject] vault in
-                doneSubject.send(vault)
+            } receiveValue: { [doneSubject] store in
+                doneSubject.send(store)
             }
     }
     
@@ -90,7 +85,7 @@ class LockedModel: LockedModelRepresentable {
         
         openVaultSubscription = biometricKeychain.loadPassword(identifier: bundleID)
             .flatMap { [vaultDirectory] password in
-                Vault.open(at: vaultDirectory, with: password, using: Cryptor.self)
+                VaultItemStore.open(at: vaultDirectory, with: password, using: Cryptor.self)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -102,8 +97,8 @@ class LockedModel: LockedModelRepresentable {
                 case .failure:
                     self.status = .invalidPassword
                 }
-            } receiveValue: { [doneSubject] vault in
-                doneSubject.send(vault)
+            } receiveValue: { [doneSubject] store in
+                doneSubject.send(store)
             }
     }
     

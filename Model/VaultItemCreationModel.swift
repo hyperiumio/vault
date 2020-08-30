@@ -10,11 +10,19 @@ protocol VaultItemCreationModelRepresentable: ObservableObject, Identifiable {
     var detailModels: [VaultItemModel] { get }
     var done: AnyPublisher<Void, Never> { get }
     
-    init(vault: Vault)
+}
+
+protocol VaultItemCreationModelDependency {
+    
+    associatedtype VaultItemModel: VaultItemModelRepresentable
+    
+    func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel
     
 }
 
-class VaultItemCreationModel<VaultItemModel>: VaultItemCreationModelRepresentable where VaultItemModel: VaultItemModelRepresentable {
+class VaultItemCreationModel<Dependency: VaultItemCreationModelDependency>: VaultItemCreationModelRepresentable {
+    
+    typealias VaultItemModel = Dependency.VaultItemModel
     
     let detailModels: [VaultItemModel]
     
@@ -25,16 +33,12 @@ class VaultItemCreationModel<VaultItemModel>: VaultItemCreationModelRepresentabl
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var detailModelEventsSubscription: AnyCancellable?
     
-    required init(vault: Vault) {
-        self.detailModels = SecureItem.TypeIdentifier.allCases.map { typeIdentifier in
-            VaultItemModel(vault: vault, typeIdentifier: typeIdentifier)
-        }
+    init(dependency: Dependency) {
+        self.detailModels = SecureItem.TypeIdentifier.allCases.map(dependency.vaultItemModel)
         
         let donePublishers = detailModels.map(\.done)
         detailModelEventsSubscription = Publishers.MergeMany(donePublishers)
-            .sink { [doneSubject] done in
-                doneSubject.send()
-            }
+            .sink(receiveValue: doneSubject.send)
     }
     
 }

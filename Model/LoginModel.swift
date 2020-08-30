@@ -7,6 +7,7 @@ protocol LoginModelRepresentable: ObservableObject, Identifiable {
     var username: String { get set }
     var password: String { get set }
     var url: String { get set}
+    var loginItem: LoginItem { get }
     
     func copyUsernameToPasteboard()
     func copyPasswordToPasteboard()

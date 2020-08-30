@@ -29,6 +29,8 @@ struct SecureItemTextFieldPreviews: PreviewProvider {
     
     static var previews: some View {
         SecureItemTextField("Title", text: $text, isEditable: $isEditable)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

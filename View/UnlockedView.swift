@@ -69,18 +69,20 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             .listStyle(PlainListStyle())
             .navigationTitle(LocalizedString.vault)
             .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarLeading) {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
                         settingsPresented = true
                     } label: {
                         Image.settings
                     }
+                    
+                    Button(action:  model.lockApp) {
+                        Image.lock
+                    }
                 }
                 
-                ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
-                    Button {
-                        model.createVaultItem()
-                    } label: {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: model.createVaultItem) {
                         Image.plus
                             .imageScale(.large)
                     }

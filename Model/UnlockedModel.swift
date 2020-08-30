@@ -19,11 +19,24 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var settingsModel: SettingsModel { get }
     var creationModel: VaultItemCreationModel? { get set }
     var failure: UnlockedFailure? { get set }
+    var lock: AnyPublisher<URL, Never> { get }
     
     func reload()
     func createVaultItem()
+    func lockApp()
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain)
+}
+
+protocol UnlockedModelDependency {
+    
+    associatedtype SettingsModel: SettingsModelRepresentable
+    associatedtype VaultItemCreationModel: VaultItemCreationModelRepresentable
+    associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
+    
+    func settingsModel() -> SettingsModel
+    func vaultItemCreationModel() -> VaultItemCreationModel
+    func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel
+    
     
 }
 
@@ -40,25 +53,36 @@ extension UnlockedFailure: Identifiable {
     
 }
 
-class UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>: UnlockedModelRepresentable where SettingsModel: SettingsModelRepresentable, VaultItemCreationModel: VaultItemCreationModelRepresentable, VaultItemReferenceModel: VaultItemReferenceModelRepresentable {
+class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresentable {
+    
+    typealias SettingsModel = Dependency.SettingsModel
+    typealias VaultItemCreationModel = Dependency.VaultItemCreationModel
+    typealias VaultItemReferenceModel = Dependency.VaultItemReferenceModel
     
     @Published var searchText: String = ""
-    @Published private(set) var itemCollation = Collation()
+    @Published private(set) var itemCollation = AlphabeticCollation<VaultItemReferenceModel>()
     @Published var creationModel: VaultItemCreationModel?
     @Published var failure: UnlockedFailure?
     
-    let settingsModel: SettingsModel
-    let vault: Vault
+    var lock: AnyPublisher<URL, Never> {
+        lockSubject.eraseToAnyPublisher()
+    }
     
+    let settingsModel: SettingsModel
+    
+    private let dependency: Dependency
+    private let store: VaultItemStore
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
+    private let lockSubject = PassthroughSubject<URL, Never>()
     private var infoItemsSubscription: AnyCancellable?
     
-    required init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vault = vault
-        self.settingsModel = SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    init(store: VaultItemStore, dependency: Dependency) {
+        self.store = store
+        self.settingsModel = dependency.settingsModel()
+        self.dependency = dependency
         
-        let vaultItemInfosPublisher = vault.didChange.flatMap {
-            vault.loadVaultItemInfos()
+        let vaultItemInfosPublisher = store.didChange.flatMap {
+            store.loadVaultItemInfos()
         }
         
         let searchTextPublisher = $searchText.setFailureType(to: Error.self)
@@ -70,9 +94,7 @@ class UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceMod
                     .filter { itemDescription in
                         FuzzyMatch(searchText, in: itemDescription.name)
                     }
-                    .map { [vault] vaultItemInfo in
-                        VaultItemReferenceModel(vault: vault, info: vaultItemInfo)
-                    }
+                    .map(dependency.vaultItemReferenceModel)
                 return AlphabeticCollation(from: items)
             }
             .receive(on: DispatchQueue.main)
@@ -90,16 +112,20 @@ class UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceMod
     }
     
     func reload() {
-        vault.didChangeSubject.send()
+        store.didChangeSubject.send()
     }
     
     func createVaultItem() {
-        let model = VaultItemCreationModel(vault: vault)
+        let model = dependency.vaultItemCreationModel()
         model.done
             .map { nil }
             .assign(to: &$creationModel)
         
         creationModel = model
+    }
+    
+    func lockApp() {
+        lockSubject.send(store.vaultDirectory)
     }
     
 }

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SecureItemBankCardVendorField: View {
     
-    let vendor: BankCardVendor
+    let vendor: BankCardItemVendor
     
     var body: some View {
         SecureItemField(LocalizedString.bankCardVendor) {
@@ -20,7 +20,7 @@ struct SecureItemBankCardVendorField: View {
         }
     }
     
-    init(_ vendor: BankCardVendor) {
+    init(_ vendor: BankCardItemVendor) {
         self.vendor = vendor
     }
     
@@ -30,7 +30,17 @@ struct SecureItemBankCardVendorField: View {
 struct SecureItemBankCardVendorFieldPreviews: PreviewProvider {
     
     static var previews: some View {
-        SecureItemBankCardVendorField(.visa)
+        Group {
+            SecureItemBankCardVendorField(.masterCard)
+            
+            SecureItemBankCardVendorField(.visa)
+            
+            SecureItemBankCardVendorField(.americanExpress)
+            
+            SecureItemBankCardVendorField(.other)
+        }
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
     
 }

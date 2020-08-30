@@ -28,6 +28,8 @@ struct SecureItemKeyValueFieldPreviews: PreviewProvider {
     
     static var previews: some View {
         SecureItemKeyValueField(keyTitle: "Key", keyText: $keyText, valueTitle: "Value", valueText: $valueText, isEditable: $isEditable)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

@@ -7,14 +7,10 @@ import Sort
 
 protocol SetupModelRepresentable: ObservableObject, Identifiable {
     
-    typealias Status = SetupStatus
-    
     var password: String { get set }
     var repeatedPassword: String { get set }
-    var status: Status { get }
-    var done: AnyPublisher<Vault, Never> { get }
-    
-    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager)
+    var status: SetupStatus { get }
+    var done: AnyPublisher<VaultItemStore, Never> { get }
     
     func createMasterKey()
     
@@ -34,18 +30,18 @@ class SetupModel: SetupModelRepresentable {
     
     @Published var password = ""
     @Published var repeatedPassword = ""
-    @Published private(set) var status = Status.none
+    @Published private(set) var status = SetupStatus.none
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<VaultItemStore, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let doneSubject = PassthroughSubject<VaultItemStore, Never>()
     private let vaultContainerDirectory: URL
     private let preferencesManager: PreferencesManager
     private var createVaultSubscription: AnyCancellable?
     
-    required init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager) {
+    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager) {
         self.vaultContainerDirectory = vaultContainerDirectory
         self.preferencesManager = preferencesManager
         
@@ -72,7 +68,7 @@ class SetupModel: SetupModelRepresentable {
         }
         
         status = .loading
-        createVaultSubscription = Vault.create(in: vaultContainerDirectory, with: password, using: Cryptor.self)
+        createVaultSubscription = VaultItemStore.create(in: vaultContainerDirectory, with: password, using: Cryptor.self)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -83,9 +79,9 @@ class SetupModel: SetupModelRepresentable {
                 case .failure:
                     self.status = .vaultCreationFailed
                 }
-            } receiveValue: { [preferencesManager, doneSubject] vault in
-                preferencesManager.set(activeVaultIdentifier: vault.id)
-                doneSubject.send(vault)
+            } receiveValue: { [preferencesManager, doneSubject] store in
+                preferencesManager.set(activeVaultIdentifier: store.id)
+                doneSubject.send(store)
             }
     }
     

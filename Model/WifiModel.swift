@@ -6,6 +6,7 @@ protocol WifiModelRepresentable: ObservableObject, Identifiable {
     
     var networkPassword: String { get set }
     var networkName: String { get set }
+    var wifiItem: WifiItem { get }
     
     func copyNetworkNameToPasteboard()
     func copyNetworkPasswordToPasteboard()

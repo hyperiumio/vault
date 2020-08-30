@@ -25,7 +25,7 @@ struct WifiView<Model>: View where Model: WifiModelRepresentable {
 #if DEBUG
 struct WifiViewPreviewProvider: PreviewProvider {
     
-    static let model = WifiModelStub()
+    static let model = WifiModelStub(networkName: "", networkPassword: "")
     @State static var isEditable = false
     
     static var previews: some View {

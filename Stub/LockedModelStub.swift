@@ -1,26 +1,27 @@
 #if DEBUG
 import Combine
-import Foundation
-import Preferences
-import Crypto
 import Store
 
 class LockedModelStub: LockedModelRepresentable {
     
-    required init(vaultDirectory: URL = URL(fileURLWithPath: ""), preferencesManager: PreferencesManager = .shared, biometricKeychain: BiometricKeychain = .shared) {}
+    @Published var password: String
+    @Published var biometricKeychainAvailability: BiometricKeychainAvailablity
+    @Published var status: LockedStatus
     
-    @Published var password = ""
-    @Published var biometricKeychainAvailability = BiometricKeychainAvailablity.notAvailable
-    @Published var status = LockedModel.Status.none
-    
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<VaultItemStore, Never> {
         doneSubject.eraseToAnyPublisher()
+    }
+    
+    init(password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
+        self.password = password
+        self.biometricKeychainAvailability = biometricKeychainAvailability
+        self.status = status
     }
     
     func loginWithMasterPassword() {}
     func loginWithBiometrics() {}
     
-    let doneSubject = PassthroughSubject<Vault, Never>()
+    let doneSubject = PassthroughSubject<VaultItemStore, Never>()
     
 }
 #endif

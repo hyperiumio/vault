@@ -129,15 +129,13 @@ private extension ChangeMasterPasswordView {
 }
 
 #if DEBUG
-/*
 struct ChangeMasterPasswordViewPreviews: PreviewProvider {
     
-    static var model = ChangeMasterPasswordModelStub()
+    static var model = ChangeMasterPasswordModelStub(currentPassword: "", newPassword: "", repeatedNewPassword: "", status: .none)
     
     static var previews: some View {
         ChangeMasterPasswordView(model)
     }
     
 }
- */
 #endif

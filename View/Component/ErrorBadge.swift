@@ -26,6 +26,8 @@ struct ErrorMessagePreviews: PreviewProvider {
     
     static var previews: some View {
         ErrorBadge("Invalid password")
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

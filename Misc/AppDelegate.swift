@@ -7,16 +7,12 @@ import AppKit
 
 class AppDelegate: NSObject {
     
-    typealias VaultItemCreationModel = Vault.VaultItemCreationModel<VaultItemModel>
-    typealias VaultItemReferenceModel = Vault.VaultItemReferenceModel<VaultItemModel>
-    typealias SettingsModel = Vault.SettingsModel<ChangeMasterPasswordModel, BiometricUnlockPreferencesModel>
-    typealias UnlockedModel = Vault.UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>
-    typealias AppModel = Vault.AppModel<BootstrapModel, SetupModel, LockedModel, UnlockedModel>
-    
-    let appModel: AppModel
+    let appModel: AppModel<AppModelProductionDependency>
     let syncCoordinator = SyncCoordinator()
     
     override init() {
+        let appModelDependency = AppModelProductionDependency(preferencesManager: .shared, biometricKeychain: .shared)
+        self.appModel = AppModel(appModelDependency)
         self.appModel = AppModel(preferencesManager: .shared, biometricKeychain: .shared)
         
         super.init()
@@ -47,17 +43,13 @@ import UIKit
 
 class AppDelegate: NSObject {
     
-    typealias VaultItemCreationModel = Vault.VaultItemCreationModel<VaultItemModel>
-    typealias VaultItemReferenceModel = Vault.VaultItemReferenceModel<VaultItemModel>
-    typealias SettingsModel = Vault.SettingsModel<ChangeMasterPasswordModel, BiometricUnlockPreferencesModel>
-    typealias UnlockedModel = Vault.UnlockedModel<SettingsModel, VaultItemCreationModel, VaultItemReferenceModel>
-    typealias AppModel = Vault.AppModel<BootstrapModel, SetupModel, LockedModel, UnlockedModel>
-    
-    let appModel: AppModel
+    let appModel: AppModel<AppLockedDependency>
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        self.appModel = AppModel(preferencesManager: .shared, biometricKeychain: .shared)
+        
+        let dependency = AppLockedDependency(preferencesManager: .shared, biometricKeychain: .shared)
+        self.appModel = AppModel(dependency)
         
         super.init()
     }

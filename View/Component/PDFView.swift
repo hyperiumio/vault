@@ -60,6 +60,8 @@ struct PDFViewPreviews: PreviewProvider {
     
     static var previews: some View {
         PDF(document)
+            .padding()
+            .previewLayout(.sizeThatFits)
     }
     
 }

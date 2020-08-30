@@ -30,7 +30,14 @@ struct BiometricIcon: View {
 struct BiometricIconPreviews: PreviewProvider {
     
     static var previews: some View {
-        BiometricIcon(.faceID)
+        Group {
+            BiometricIcon(.touchID)
+            
+            BiometricIcon(.faceID)
+        }
+        .frame(width: 64, height: 64)
+        .padding()
+        .previewLayout(.sizeThatFits)
     }
     
 }
