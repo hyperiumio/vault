@@ -18,6 +18,7 @@
 "ChangeMasterPassword" = "Change master password";
 "ChangeMasterPasswordDescription" = "If you think your master password is too weak or has been compromised you can change it here.";
 "Created" = "Created";
+"CreateItem" = "Create item";
 "CreateVault" = "Create Vault";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomItem" = "Custom Item";
@@ -31,6 +32,7 @@
 "Enable" = "Enable";
 "EnableFaceIDUnlockDescription" = "Please enter your master password to activate unlock with Face ID.";
 "EnableTouchIDUnlockDescription" = "Please enter your master password to activate unlock with Touch ID.";
+"EmptyVault" = "Your vault is empty.";
 "FaceID" = "Face ID";
 "FaceIDActivationFailed" = "Enabling Face ID unlock did fail.";
 "FaceIDDescription" = "If you want to use Face ID to unlock your vault, enable it here.";

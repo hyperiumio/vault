@@ -39,7 +39,7 @@ private extension AppView {
             case .locked(let model):
                 LockedView(model)
             case .unlocked(let model):
-                UnlockedView(model: model)
+                UnlockedView(model)
             }
         }
         

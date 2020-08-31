@@ -57,17 +57,15 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(model.itemCollation.sections) { section in
-                    Section(header: Text(section.key)) {
-                        ForEach(section.elements) { element in
-                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
-                        }
-                    }
+            Group {
+                switch model.itemCollation.sections.isEmpty {
+                case true:
+                    Empty(createItem: model.createVaultItem)
+                case false:
+                    VaultItemList(itemCollation: model.itemCollation)
+                        .navigationTitle(LocalizedString.vault)
                 }
             }
-            .listStyle(PlainListStyle())
-            .navigationTitle(LocalizedString.vault)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
@@ -108,5 +106,54 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         .onAppear(perform: model.reload)
     }
     
+    init(_ model: Model) {
+        self.model = model
+    }
+    
 }
 #endif
+
+private extension UnlockedView {
+    
+    struct Empty: View {
+        
+        let createItem: () -> Void
+        
+        var body: some View {
+            VStack {
+                Text(LocalizedString.emptyVault)
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                
+                Button(LocalizedString.createItem, action: createItem)
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .background(Color.accentColor)
+                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .padding()
+            }
+            
+        }
+        
+    }
+    
+    struct VaultItemList: View {
+        
+        let itemCollation: Model.Collation
+        
+        var body: some View {
+            List {
+                ForEach(itemCollation.sections) { section in
+                    Section(header: Text(section.key)) {
+                        ForEach(section.elements) { element in
+                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
+                        }
+                    }
+                }
+            }
+            .listStyle(PlainListStyle())
+        }
+        
+    }
+    
+}
