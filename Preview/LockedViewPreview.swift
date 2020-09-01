@@ -7,6 +7,7 @@ struct LockedViewPreview: PreviewProvider {
     
     static var previews: some View {
         LockedView(model)
+            .previewLayout(.sizeThatFits)
     }
     
 }

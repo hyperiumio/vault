@@ -58,6 +58,16 @@ extension VaultItem {
         public let created: Date
         public let modified: Date
         
+        public init(id: UUID, name: String, description: String, primaryTypeIdentifier: SecureItem.TypeIdentifier, secondaryTypeIdentifiers: [SecureItem.TypeIdentifier], created: Date, modified: Date) {
+            self.id = id
+            self.name = name
+            self.description = description
+            self.primaryTypeIdentifier = primaryTypeIdentifier
+            self.secondaryTypeIdentifiers = secondaryTypeIdentifiers
+            self.created = created
+            self.modified = modified
+        }
+        
     }
     
     enum Version: UInt8, VersionRepresentable {

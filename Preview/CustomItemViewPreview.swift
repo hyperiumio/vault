@@ -3,11 +3,17 @@ import SwiftUI
 
 struct CustomItemViewPreview: PreviewProvider {
     
-    static let model = CustomItemModelStub(name: "", value: "")
-    @State static var isEditable = false
+    static let editModel = CustomItemModelStub(name: "", value: "")
+    
+    static let displayModel = CustomItemModelStub(name: "Name", value: "Value")
     
     static var previews: some View {
-        CustomItemView(model, isEditable: $isEditable)
+        Group {
+            CustomItemView(editModel, isEditable: .constant(true))
+            
+            CustomItemView(displayModel, isEditable: .constant(false))
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

@@ -145,8 +145,10 @@ private extension UnlockedView {
             List {
                 ForEach(itemCollation.sections) { section in
                     Section(header: Text(section.key)) {
-                        ForEach(section.elements) { element in
-                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
+                        ForEach(section.elements) { model in
+                            NavigationLink(destination: VaultItemReferenceView(model)) {
+                                    VaultItemInfoView(model.info.name, description: model.info.description, itemType: model.info.primaryTypeIdentifier)
+                                }
                         }
                     }
                 }

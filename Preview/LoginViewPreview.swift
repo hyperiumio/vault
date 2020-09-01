@@ -8,6 +8,7 @@ struct LoginViewPreview: PreviewProvider {
     
     static var previews: some View {
         LoginView(model, isEditable: $isEditable)
+            .previewLayout(.sizeThatFits)
     }
     
 }

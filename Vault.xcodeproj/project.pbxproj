@@ -262,6 +262,8 @@
 		9530C51424B6FA90008F1D2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9547EEFA24DEBDAD00DB5B21 /* Cryptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cryptor.swift; sourceTree = "<group>"; };
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		955D78C424FD004100B98AB7 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		955D78C524FD004100B98AB7 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		956665EA24EAA976002C6A1A /* SecureItemContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemContainer.swift; sourceTree = "<group>"; };
 		956665ED24EAAF78002C6A1A /* SecureItemBankCardVendorField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemBankCardVendorField.swift; sourceTree = "<group>"; };
 		956665F024EAB04D002C6A1A /* SecureItemDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemDateField.swift; sourceTree = "<group>"; };
@@ -347,8 +349,6 @@
 		95C1E55424F17A9C005F954F /* WifiModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiModelStub.swift; sourceTree = "<group>"; };
 		95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBadge.swift; sourceTree = "<group>"; };
 		95DA1CF124B363350087D649 /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
-		95DFA2C024FC362200BD50D4 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		95DFA2C124FC362200BD50D4 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		95E2DFF724FC33DE00A53DD7 /* SecureItemContainerPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemContainerPreview.swift; sourceTree = "<group>"; };
 		95E2DFF824FC33DE00A53DD7 /* VaultItemViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemViewPreview.swift; sourceTree = "<group>"; };
 		95E2DFF924FC33DE00A53DD7 /* BankAccountViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountViewPreview.swift; sourceTree = "<group>"; };
@@ -545,6 +545,8 @@
 				95E2DFF624FC33A200A53DD7 /* Preview */,
 				95C1E51D24F177D0005F954F /* Stub */,
 				9574323224AA05710062B05A /* View */,
+				955D78C424FD004100B98AB7 /* Vault.app */,
+				955D78C524FD004100B98AB7 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -661,7 +663,7 @@
 				95F8BBC824CEC936001FC495 /* Sort */,
 			);
 			productName = iOS;
-			productReference = 95DFA2C024FC362200BD50D4 /* Vault.app */;
+			productReference = 955D78C424FD004100B98AB7 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -688,7 +690,7 @@
 				95F8BBCA24CEC949001FC495 /* Sort */,
 			);
 			productName = macOS;
-			productReference = 95DFA2C124FC362200BD50D4 /* Vault.app */;
+			productReference = 955D78C524FD004100B98AB7 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1120,6 +1122,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1146,6 +1149,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";

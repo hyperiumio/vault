@@ -15,7 +15,7 @@ struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRep
     var body: some View {
         NavigationView {
             List(model.detailModels) { detailModel in
-                NavigationLink(destination: VaultItemView(model: detailModel)) {
+                NavigationLink(destination: VaultItemView(detailModel, mode: .creation)) {
                     Label {
                         Text(detailModel.primaryItemModel.secureItem.typeIdentifier.name)
                             .foregroundColor(.label)
@@ -37,7 +37,7 @@ struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRep
         }
     }
     
-}
+} 
 #endif
 
 import Store

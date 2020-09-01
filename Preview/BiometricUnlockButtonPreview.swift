@@ -11,8 +11,6 @@ struct BiometricUnlockButtonPreview: PreviewProvider {
         }
         .padding()
         .previewLayout(.sizeThatFits)
-        
-        
     }
     
 }

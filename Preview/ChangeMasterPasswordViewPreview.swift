@@ -7,6 +7,7 @@ struct ChangeMasterPasswordViewPreview: PreviewProvider {
     
     static var previews: some View {
         ChangeMasterPasswordView(model)
+            .previewLayout(.sizeThatFits)
     }
     
 }

@@ -3,11 +3,17 @@ import SwiftUI
 
 struct BankAccountViewPreview: PreviewProvider {
     
-    static let model = BankAccountModelStub(accountHolder: "", iban: "", bic: "")
-    @State static var isEditable = false
+    static let editModel = BankAccountModelStub(accountHolder: "", iban: "", bic: "")
+    
+    static let displayModel = BankAccountModelStub(accountHolder: "John Doe", iban: "AA12123456789123456789123456789123", bic: "BBBBCCLLbbb")
     
     static var previews: some View {
-        BankAccountView(model, isEditable: $isEditable)
+        Group {
+            BankAccountView(editModel, isEditable: .constant(true))
+            
+            BankAccountView(displayModel, isEditable: .constant(false))
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

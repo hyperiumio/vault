@@ -55,7 +55,7 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     typealias VaultItemModel = Dependency.VaultItemModel
     
-    @Published var state = State.none
+    @Published private(set) var state = State.none
     
     let info: VaultItem.Info
     
@@ -63,8 +63,8 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     private let dependency: Dependency
     
     init(store: VaultItemStore, info: VaultItem.Info, dependency: Dependency) {
-        self.info = info
         self.store = store
+        self.info = info
         self.dependency = dependency
     }
     

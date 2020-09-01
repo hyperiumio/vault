@@ -176,6 +176,8 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     @State private var isEditable = true
     @State private var isAddItemViewVisible = false
     
+    private let mode: Mode
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .trailing, spacing: 0) {
@@ -204,40 +206,45 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 
                 Divider()
                 
-                Button {
-                    isAddItemViewVisible = true
-                } label: {
-                    Image.plusCircle
-                        .renderingMode(.original)
-                        .imageScale(.large)
-                }
-                .padding(.vertical)
-                .sheet(isPresented: $isAddItemViewVisible) {
-                    NavigationView {
-                        List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
-                            Button {
-                                model.addSecondaryItem(with: typeIdentifier)
-                                isAddItemViewVisible = false
-                            } label: {
-                                Label {
-                                    Text(typeIdentifier.name)
-                                        .foregroundColor(.label)
-                                } icon: {
-                                    Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
+                switch mode {
+                case .creation, .edit:
+                    Button {
+                        isAddItemViewVisible = true
+                    } label: {
+                        Image.plusCircle
+                            .renderingMode(.original)
+                            .imageScale(.large)
+                    }
+                    .padding(.vertical)
+                    .sheet(isPresented: $isAddItemViewVisible) {
+                        NavigationView {
+                            List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
+                                Button {
+                                    model.addSecondaryItem(with: typeIdentifier)
+                                    isAddItemViewVisible = false
+                                } label: {
+                                    Label {
+                                        Text(typeIdentifier.name)
+                                            .foregroundColor(.label)
+                                    } icon: {
+                                        Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
+                                    }
                                 }
                             }
-                        }
-                        .listStyle(PlainListStyle())
-                        .navigationBarTitleDisplayMode(.inline)
-                        .navigationTitle(LocalizedString.addItem)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button(LocalizedString.cancel) {
-                                    isAddItemViewVisible = false
+                            .listStyle(PlainListStyle())
+                            .navigationBarTitleDisplayMode(.inline)
+                            .navigationTitle(LocalizedString.addItem)
+                            .toolbar {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button(LocalizedString.cancel) {
+                                        isAddItemViewVisible = false
+                                    }
                                 }
                             }
                         }
                     }
+                case .display:
+                    EmptyView()
                 }
             }
             .padding(.horizontal)
@@ -257,9 +264,33 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         }
     }
     
+    init(_ model: Model, mode: Mode) {
+        self.model = model
+        self.mode = mode
+        
+        switch mode {
+        case .creation, .edit:
+            _isEditable = State(initialValue: true)
+        case .display:
+            _isEditable = State(initialValue: false)            
+        }
+    }
+    
 }
 
 extension VaultItemView {
+    
+    enum Mode {
+        
+        case creation
+        case display
+        case edit
+        
+    }
+    
+}
+
+private extension VaultItemView {
     
     struct ElementView: View {
         

@@ -7,6 +7,7 @@ struct BiometricUnlockPreferencesPreview: PreviewProvider {
     
     static var previews: some View {
         BiometricUnlockPreferencesView(model)
+            .previewLayout(.sizeThatFits)
     }
     
 }

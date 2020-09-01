@@ -64,12 +64,14 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
             return
         }
         
+        /*
         guard let bundleID = Bundle.main.bundleIdentifier else {
             status = .masterPasswordChangeDidFail
             return
         }
         
         // change password
+ */
     }
     
 }
