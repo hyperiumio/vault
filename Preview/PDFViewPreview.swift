@@ -10,9 +10,14 @@ struct PDFViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        PDF(document)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            PDF(document)
+                .preferredColorScheme(.light)
+            
+            PDF(document)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

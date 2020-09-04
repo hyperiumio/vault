@@ -2,7 +2,42 @@ import Localization
 import SwiftUI
 
 #if os(macOS)
-
+struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRepresentable {
+    
+    @ObservedObject var model: Model
+    @Environment(\.presentationMode) var presentationMode
+    
+    
+    var body: some View {
+        NavigationView {
+            List(model.detailModels) { detailModel in
+                NavigationLink(destination: VaultItemView(detailModel, mode: .creation)) {
+                    Label {
+                        Text(detailModel.primaryItemModel.secureItem.typeIdentifier.name)
+                            .foregroundColor(.label)
+                    } icon: {
+                        Image(detailModel.primaryItemModel.secureItem.typeIdentifier).foregroundColor(Color(detailModel.primaryItemModel.secureItem.typeIdentifier))
+                    }
+                }
+            }
+            .listStyle(PlainListStyle())
+           // .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(LocalizedString.select)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+}
 #endif
 
 #if os(iOS)
@@ -35,6 +70,10 @@ struct VaultItemCreationView<Model>: View where Model: VaultItemCreationModelRep
                 }
             }
         }
+    }
+    
+    init(_ model: Model) {
+        self.model = model
     }
     
 } 

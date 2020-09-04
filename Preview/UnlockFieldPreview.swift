@@ -6,9 +6,14 @@ struct UnlockFieldPreview: PreviewProvider {
     @State static var text = ""
     
     static var previews: some View {
-        UnlockField("Password", text: $text) {}
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            UnlockField("Password", text: $text) {}
+                .preferredColorScheme(.light)
+            
+            UnlockField("Password", text: $text) {}
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

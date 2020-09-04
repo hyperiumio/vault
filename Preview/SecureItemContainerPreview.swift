@@ -4,13 +4,22 @@ import SwiftUI
 struct SecureItemContainerPreview: PreviewProvider {
     
     static var previews: some View {
-        SecureItemContainer {
-            Text("Title")
+        Group {
+            SecureItemContainer {
+                Text("Title")
+                
+                Text("Description")
+            }
+            .preferredColorScheme(.light)
             
-            Text("Description")
+            SecureItemContainer {
+                Text("Title")
+                
+                Text("Description")
+            }
+            .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
-        .padding()
     }
     
 }

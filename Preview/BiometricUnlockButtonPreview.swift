@@ -6,10 +6,11 @@ struct BiometricUnlockButtonPreview: PreviewProvider {
     static var previews: some View {
         Group {
             BiometricUnlockButton(.touchID) {}
+                .preferredColorScheme(.light)
             
-            BiometricUnlockButton(.faceID) {}
+            BiometricUnlockButton(.touchID) {}
+                .preferredColorScheme(.dark)
         }
-        .padding()
         .previewLayout(.sizeThatFits)
     }
     

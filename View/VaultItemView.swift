@@ -85,6 +85,8 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     @State private var isEditable = true
     @State private var isAddItemViewVisible = false
     
+    private let mode: Mode
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .trailing, spacing: 0) {
@@ -92,13 +94,13 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 
                 Divider()
                 
-                SecureItemView(model: model.primaryItemModel, isEditable: $isEditable)
+                ElementView(element: model.primaryItemModel, isEditable: $isEditable)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
                     Divider()
                     
                     HStack(alignment: .top) {
-                        SecureItemView(model: secureItemModel, isEditable: $isEditable)
+                        ElementView(element: secureItemModel, isEditable: $isEditable)
                         
                         Button {
                             model.deleteSecondaryItem(at: index)
@@ -113,56 +115,73 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 
                 Divider()
                 
-                Button {
-                    isAddItemViewVisible = true
-                } label: {
-                    Image.plusCircle
-                        .renderingMode(.original)
-                        .imageScale(.large)
-                }
-                .padding(.vertical)
-                .sheet(isPresented: $isAddItemViewVisible) {
-                    NavigationView {
-                        List(SecureItemType.allCases) { typeIdentifier in
-                            Button {
-                                model.addSecondaryItem(with: typeIdentifier)
-                                isAddItemViewVisible = false
-                            } label: {
-                                Label {
-                                    Text(typeIdentifier.name)
-                                        .foregroundColor(.label)
-                                } icon: {
-                                    Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
+                switch mode {
+                case .creation, .edit:
+                    Button {
+                        isAddItemViewVisible = true
+                    } label: {
+                        Image.plusCircle
+                            .renderingMode(.original)
+                            .imageScale(.large)
+                    }
+                    .padding(.vertical)
+                    .sheet(isPresented: $isAddItemViewVisible) {
+                        NavigationView {
+                            List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
+                                Button {
+                                    model.addSecondaryItem(with: typeIdentifier)
+                                    isAddItemViewVisible = false
+                                } label: {
+                                    Label {
+                                        Text(typeIdentifier.name)
+                                            .foregroundColor(.label)
+                                    } icon: {
+                                        Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
+                                    }
                                 }
                             }
-                        }
-                      //  .listStyle(PlainListStyle())
-                      //  .navigationBarTitleDisplayMode(.inline)
-                        .navigationTitle(LocalizedString.addItem)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button(LocalizedString.cancel) {
-                                    isAddItemViewVisible = false
+                            .listStyle(PlainListStyle())
+                            //.navigationBarTitleDisplayMode(.inline)
+                            .navigationTitle(LocalizedString.addItem)
+                            .toolbar {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button(LocalizedString.cancel) {
+                                        isAddItemViewVisible = false
+                                    }
                                 }
                             }
                         }
                     }
+                case .display:
+                    EmptyView()
                 }
             }
             .padding(.horizontal)
         }
-  //      .navigationBarTitleDisplayMode(.inline)
+        //.navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .principal) {
-                SecureItemToolbarItem(type: model.primaryItemModel.typeIdentifier)
+                ElementToolbarItem(type: model.primaryItemModel.secureItem.typeIdentifier)
             }
             
             ToolbarItem(placement: .confirmationAction) {
                 Button(LocalizedString.save) {
                     model.save()
                 }
-                .disabled(model.status != .saving && !model.name.isEmpty)
+                //.disabled(model.status != .saving && !model.name.isEmpty)
             }
+        }
+    }
+    
+    init(_ model: Model, mode: Mode) {
+        self.model = model
+        self.mode = mode
+        
+        switch mode {
+        case .creation, .edit:
+            _isEditable = State(initialValue: true)
+        case .display:
+            _isEditable = State(initialValue: false)
         }
     }
     
@@ -277,6 +296,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     }
     
 }
+#endif
 
 extension VaultItemView {
     
@@ -336,4 +356,3 @@ private extension VaultItemView {
     }
     
 }
-#endif

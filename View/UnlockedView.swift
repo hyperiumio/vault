@@ -5,33 +5,47 @@ import SwiftUI
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject var model: Model
+    @State private var settingsPresented = false
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(model.itemCollation.sections) { section in
-                    Section(header: Text(section.key)) {
-                        ForEach(section.elements) { element in
-                            VaultItemInfoView(element.info.name, description: element.info.description, itemType: element.info.primaryTypeIdentifier)
-                        }
-                    }
+            Group {
+                switch model.itemCollation.sections.isEmpty {
+                case true:
+                    Empty(createItem: model.createVaultItem)
+                case false:
+                    VaultItemList(itemCollation: model.itemCollation)
+                        .navigationTitle(LocalizedString.vault)
                 }
             }
-            .listStyle(PlainListStyle())
-            .navigationTitle(LocalizedString.vault)
             .toolbar {
-                ToolbarItem(placement: ToolbarItemPlacement.primaryAction) {
+                /*
+                ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
-                        model.createVaultItem()
+                        settingsPresented = true
                     } label: {
+                        Image.settings
+                    }
+                    
+                    Button(action:  model.lockApp) {
+                        Image.lock
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: model.createVaultItem) {
                         Image.plus
                             .imageScale(.large)
                     }
                 }
+ */
             }
             .sheet(item: $model.creationModel) { model in
-                VaultItemCreationView(model: model)
+                VaultItemCreationView(model)
             }
+        }
+        .sheet(isPresented: $settingsPresented) {
+            SettingsView(model.settingsModel)
         }
         .alert(item: $model.failure) { failure in
             switch failure {
@@ -44,6 +58,10 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
         .onAppear(perform: model.reload)
+    }
+    
+    init(_ model: Model) {
+        self.model = model
     }
     
 }
@@ -87,7 +105,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 }
             }
             .sheet(item: $model.creationModel) { model in
-                VaultItemCreationView(model: model)
+                VaultItemCreationView(model)
             }
         }
         .sheet(isPresented: $settingsPresented) {

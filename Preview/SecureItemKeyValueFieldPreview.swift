@@ -8,9 +8,14 @@ struct SecureItemKeyValueFieldPreview: PreviewProvider {
     @State static var isEditable = true
     
     static var previews: some View {
-        SecureItemKeyValueField(keyTitle: "Key", keyText: $keyText, valueTitle: "Value", valueText: $valueText, isEditable: $isEditable)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            SecureItemKeyValueField(keyTitle: "Key", keyText: $keyText, valueTitle: "Value", valueText: $valueText, isEditable: $isEditable)
+                .preferredColorScheme(.light)
+            
+            SecureItemKeyValueField(keyTitle: "Key", keyText: $keyText, valueTitle: "Value", valueText: $valueText, isEditable: $isEditable)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

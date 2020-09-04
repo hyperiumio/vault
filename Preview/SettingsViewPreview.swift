@@ -6,7 +6,14 @@ struct SettingsViewPreview: PreviewProvider {
     static let model = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, biometricAvailablity: .faceID, isBiometricUnlockEnabled: true)
     
     static var previews: some View {
-        Text("foo")
+        Group {
+            SettingsView(model)
+                .preferredColorScheme(.light)
+            
+            SettingsView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

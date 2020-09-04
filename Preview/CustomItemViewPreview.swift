@@ -3,15 +3,16 @@ import SwiftUI
 
 struct CustomItemViewPreview: PreviewProvider {
     
-    static let editModel = CustomItemModelStub(name: "", value: "")
-    
-    static let displayModel = CustomItemModelStub(name: "Name", value: "Value")
+    static let model = CustomItemModelStub(name: "", value: "")
+    @State static var isEditable = true
     
     static var previews: some View {
         Group {
-            CustomItemView(editModel, isEditable: .constant(true))
+            CustomItemView(model, isEditable: $isEditable)
+                .preferredColorScheme(.light)
             
-            CustomItemView(displayModel, isEditable: .constant(false))
+            CustomItemView(model, isEditable: $isEditable)
+                .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
     }

@@ -6,11 +6,12 @@ struct BiometricIconPreview: PreviewProvider {
     static var previews: some View {
         Group {
             BiometricIcon(.touchID)
+                .preferredColorScheme(.light)
             
-            BiometricIcon(.faceID)
+            BiometricIcon(.touchID)
+                .preferredColorScheme(.dark)
         }
         .frame(width: 64, height: 64)
-        .padding()
         .previewLayout(.sizeThatFits)
     }
     

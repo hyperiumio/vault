@@ -6,14 +6,11 @@ struct SecureItemBankCardVendorFieldPreview: PreviewProvider {
     static var previews: some View {
         Group {
             SecureItemBankCardVendorField(.masterCard)
+                .preferredColorScheme(.light)
             
-            SecureItemBankCardVendorField(.visa)
-            
-            SecureItemBankCardVendorField(.americanExpress)
-            
-            SecureItemBankCardVendorField(.other)
+            SecureItemBankCardVendorField(.masterCard)
+                .preferredColorScheme(.dark)
         }
-        .padding()
         .previewLayout(.sizeThatFits)
     }
     

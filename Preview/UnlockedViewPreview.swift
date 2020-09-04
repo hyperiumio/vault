@@ -5,14 +5,7 @@ import Sort
 
 struct UnlockViewPreview: PreviewProvider {
     
-    static let emptyVaultModel: UnlockedModelStub = {
-        let itemCollation = AlphabeticCollation<VaultItemReferenceModelStub>(from: [])
-        let settingsModel = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, biometricAvailablity: .notAvailable, isBiometricUnlockEnabled: false)
-        let model = UnlockedModelStub(itemCollation: itemCollation, settingsModel: settingsModel, creationModel: nil, failure: nil)
-        return model
-    }()
-    
-    static let everyItemModel: UnlockedModelStub = {
+    static let model: UnlockedModelStub = {
         let items = [
             VaultItemInfo(id: UUID(), name: "Foo", description: "Bar", primaryTypeIdentifier: .login, secondaryTypeIdentifiers: [], created: Date(), modified: Date())
         ]
@@ -27,9 +20,11 @@ struct UnlockViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            UnlockedView(emptyVaultModel)
+            UnlockedView(model)
+                .preferredColorScheme(.light)
             
-            UnlockedView(everyItemModel)
+            UnlockedView(model)
+                .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
     }

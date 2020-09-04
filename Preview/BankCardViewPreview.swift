@@ -4,10 +4,17 @@ import SwiftUI
 struct BankCardViewPreview: PreviewProvider {
     
     static let model = BankCardModelStub(name: "", vendor: nil, number: "", expirationDate: .distantFuture, pin: "")
-    @State static var isEditable = false
+    @State static var isEditable = true
     
     static var previews: some View {
-        BankCardView(model, isEditable: $isEditable)
+        Group {
+            BankCardView(model, isEditable: $isEditable)
+                .preferredColorScheme(.light)
+            
+            BankCardView(model, isEditable: $isEditable)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

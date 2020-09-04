@@ -4,9 +4,14 @@ import SwiftUI
 struct VaultItemInfoViewPreview: PreviewProvider {
     
     static var previews: some View {
-        VaultItemInfoView("Title", description: "Description", itemType: .login)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            VaultItemInfoView("Title", description: "Description", itemType: .login)
+                .preferredColorScheme(.light)
+            
+            VaultItemInfoView("Title", description: "Description", itemType: .login)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

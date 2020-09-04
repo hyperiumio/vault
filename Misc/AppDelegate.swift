@@ -7,13 +7,12 @@ import AppKit
 
 class AppDelegate: NSObject {
     
-    let appModel: AppModel<AppModelProductionDependency>
+    let appModel: AppModel<AppLockedDependency>
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelDependency = AppModelProductionDependency(preferencesManager: .shared, biometricKeychain: .shared)
+        let appModelDependency = AppLockedDependency(preferencesManager: .shared, biometricKeychain: .shared)
         self.appModel = AppModel(appModelDependency)
-        self.appModel = AppModel(preferencesManager: .shared, biometricKeychain: .shared)
         
         super.init()
     }

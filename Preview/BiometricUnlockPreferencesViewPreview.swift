@@ -6,8 +6,14 @@ struct BiometricUnlockPreferencesPreview: PreviewProvider {
     static let model = BiometricUnlockPreferencesModelStub(password: "", status: .none, biometricType: .faceID)
     
     static var previews: some View {
-        BiometricUnlockPreferencesView(model)
-            .previewLayout(.sizeThatFits)
+        Group {
+            BiometricUnlockPreferencesView(model)
+                .preferredColorScheme(.light)
+            
+            BiometricUnlockPreferencesView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

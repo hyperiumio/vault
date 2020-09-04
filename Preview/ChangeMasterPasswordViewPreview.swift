@@ -6,8 +6,14 @@ struct ChangeMasterPasswordViewPreview: PreviewProvider {
     static var model = ChangeMasterPasswordModelStub(currentPassword: "", newPassword: "", repeatedNewPassword: "", status: .none)
     
     static var previews: some View {
-        ChangeMasterPasswordView(model)
-            .previewLayout(.sizeThatFits)
+        Group {
+            ChangeMasterPasswordView(model)
+                .preferredColorScheme(.light)
+            
+            ChangeMasterPasswordView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

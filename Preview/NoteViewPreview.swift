@@ -4,10 +4,17 @@ import SwiftUI
 struct NoteViewPreview: PreviewProvider {
     
     static let model = NoteModelStub(text: "")
-    @State static var isEditable = false
+    @State static var isEditable = true
     
     static var previews: some View {
-        NoteView(model, isEditable: $isEditable)
+        Group {
+            NoteView(model, isEditable: $isEditable)
+                .preferredColorScheme(.light)
+            
+            NoteView(model, isEditable: $isEditable)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

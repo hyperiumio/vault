@@ -8,15 +8,16 @@ struct SecureItemFieldPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            SecureItemField("Title") {
+            SecureItemField("Title", text: $text, isEditable: $isEditable) {
                 Text("Field")
             }
+            .preferredColorScheme(.light)
             
             SecureItemField("Title", text: $text, isEditable: $isEditable) {
                 Text("Field")
             }
+            .preferredColorScheme(.dark)
         }
-        .padding()
         .previewLayout(.sizeThatFits)
         
     }

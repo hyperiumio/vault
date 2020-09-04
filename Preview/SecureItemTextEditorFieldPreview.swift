@@ -7,9 +7,14 @@ struct SecureItemTextEditorFieldPreview: PreviewProvider {
     @State static var isEditable = false
     
     static var previews: some View {
-        SecureItemTextEditorField("Title", text: $text, isEditable: $isEditable)
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            SecureItemTextEditorField("Title", text: $text, isEditable: $isEditable)
+                .preferredColorScheme(.light)
+            
+            SecureItemTextEditorField("Title", text: $text, isEditable: $isEditable)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }
