@@ -8,6 +8,10 @@ struct LockedViewPreview: PreviewProvider {
     static var previews: some View {
         Group {
             LockedView(model)
+                .preferredColorScheme(.light)
+            
+            LockedView(model)
+                .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
             

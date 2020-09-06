@@ -18,6 +18,7 @@ struct AppUnlockedDependency {
 
 extension AppUnlockedDependency: UnlockedModelDependency {
     
+    
     func settingsModel() -> SettingsModel<Self> {
         SettingsModel(store: store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, dependency: self)
     }
@@ -26,8 +27,8 @@ extension AppUnlockedDependency: UnlockedModelDependency {
         VaultItemReferenceModel(store: store, info: vaultItemInfo, dependency: self)
     }
     
-    func vaultItemCreationModel() -> VaultItemCreationModel<Self> {
-        VaultItemCreationModel(dependency: self)
+    func vaultItemModel(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel<Self> {
+        VaultItemModel(store: store, typeIdentifier: typeIdentifier, dependency: self)
     }
     
 }
@@ -46,7 +47,7 @@ extension AppUnlockedDependency: SettingsModelDependency {
 
 extension AppUnlockedDependency: VaultItemCreationModelDependency {
     
-    func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel<Self> {
+    func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel {
         VaultItemModel(store: store, typeIdentifier: typeIdentifier, dependency: self)
     }
     

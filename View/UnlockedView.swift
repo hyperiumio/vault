@@ -1,84 +1,42 @@
 import Localization
 import SwiftUI
 
-#if os(macOS)
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject var model: Model
-    @State private var settingsPresented = false
+    @State private var selectionPresented = false
     
+    #if os(iOS)
+    @State private var settingsPresented = false
+    #endif
+    
+    #if os(macOS)
     var body: some View {
         NavigationView {
-            Group {
-                switch model.itemCollation.sections.isEmpty {
-                case true:
-                    Empty(createItem: model.createVaultItem)
-                case false:
-                    VaultItemList(itemCollation: model.itemCollation)
-                        .navigationTitle(LocalizedString.vault)
-                }
-            }
-            .toolbar {
-                /*
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button {
-                        settingsPresented = true
-                    } label: {
-                        Image.settings
-                    }
+            VaultItemList(model.itemCollation)
+                .toolbar {
+                    Spacer()
                     
-                    Button(action:  model.lockApp) {
-                        Image.lock
-                    }
-                }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: model.createVaultItem) {
+                    CreateVaultItemButton(action: model.createVaultItem) {
                         Image.plus
-                            .imageScale(.large)
                     }
                 }
- */
-            }
-            .sheet(item: $model.creationModel) { model in
-                VaultItemCreationView(model)
-            }
+            
+            EmptySelection()
         }
-        .sheet(isPresented: $settingsPresented) {
-            SettingsView(model.settingsModel)
-        }
-        .alert(item: $model.failure) { failure in
-            switch failure {
-            case .loadOperationFailed:
-                let name = Text(LocalizedString.loadFailed)
-                return Alert(title: name)
-            case .deleteOperationFailed:
-                let name = Text(LocalizedString.deleteFailed)
-                return Alert(title: name)
-            }
-        }
+        .sheet(item: $model.creationModel, content: VaultItemSheet.init)
+        .alert(item: $model.failure, content: Self.alert)
         .onAppear(perform: model.reload)
     }
+    #endif
     
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-}
-#endif
-
-#if os(iOS)
-struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
-    
-    @ObservedObject var model: Model
-    @State private var settingsPresented = false
-    
+    #if os(iOS)
     var body: some View {
         NavigationView {
             Group {
                 switch model.itemCollation.sections.isEmpty {
                 case true:
-                    Empty(createItem: model.createVaultItem)
+                    Empty()
                 case false:
                     VaultItemList(itemCollation: model.itemCollation)
                         .navigationTitle(LocalizedString.vault)
@@ -98,14 +56,27 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: model.createVaultItem) {
+                    Button {
+                        selectionPresented = true
+                    } label: {
                         Image.plus
                             .imageScale(.large)
+                    }
+                    .popover(isPresented: $selectionPresented) {
+                        ForEach(SecureItemTypeIdentifier.allCases) { typeIdentifier in
+                            Button {
+                                model.createVaultItem(with: typeIdentifier)
+                            } label: {
+                                Image(typeIdentifier)
+                                
+                                Text(typeIdentifier.name)
+                            }
+                        }
                     }
                 }
             }
             .sheet(item: $model.creationModel) { model in
-                VaultItemCreationView(model)
+                VaultItemView(model, mode: .creation)
             }
         }
         .sheet(isPresented: $settingsPresented) {
@@ -123,57 +94,103 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         }
         .onAppear(perform: model.reload)
     }
+    #endif
     
     init(_ model: Model) {
         self.model = model
     }
     
 }
-#endif
 
 private extension UnlockedView {
     
-    struct Empty: View {
-        
-        let createItem: () -> Void
-        
-        var body: some View {
-            VStack {
-                Text(LocalizedString.emptyVault)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                
-                Button(LocalizedString.createItem, action: createItem)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 10)
-                    .background(Color.accentColor)
-                    .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                    .padding()
-            }
-            
+    static func alert(for failure: UnlockedFailure) -> Alert {
+        switch failure {
+        case .loadOperationFailed:
+            let name = Text(LocalizedString.loadFailed)
+            return Alert(title: name)
+        case .deleteOperationFailed:
+            let name = Text(LocalizedString.deleteFailed)
+            return Alert(title: name)
         }
-        
     }
+    
+}
+
+private extension UnlockedView {
     
     struct VaultItemList: View {
         
         let itemCollation: Model.Collation
         
         var body: some View {
-            List {
-                ForEach(itemCollation.sections) { section in
-                    Section(header: Text(section.key)) {
-                        ForEach(section.elements) { model in
-                            NavigationLink(destination: VaultItemReferenceView(model)) {
-                                    VaultItemInfoView(model.info.name, description: model.info.description, itemType: model.info.primaryTypeIdentifier)
+            switch itemCollation.sections.isEmpty {
+            case true:
+                Text(LocalizedString.emptyVault)
+                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+            case false:
+                List {
+                    ForEach(itemCollation.sections) { section in
+                        Section(header: Text(section.key)) {
+                            ForEach(section.elements) { model in
+                                NavigationLink(destination: VaultItemReferenceView(model)) {
+                                        VaultItemInfoView(model.info.name, description: model.info.description, itemType: model.info.primaryTypeIdentifier)
                                 }
+                            }
                         }
                     }
                 }
+                .listStyle(PlainListStyle())
+                .navigationTitle(LocalizedString.vault)
             }
-            .listStyle(PlainListStyle())
+        }
+     
+        init(_ itemCollation: Model.Collation) {
+            self.itemCollation = itemCollation
         }
         
     }
+    
+    struct EmptySelection: View {
+        
+        var body: some View {
+            Text("Nothing Selected")
+        }
+        
+    }
+    
+    #if os(macOS)
+    struct VaultItemSheet: View {
+        
+        private let model: Model.VaultItemModel
+        
+        @Environment(\.presentationMode) private var presentationMode
+        
+        var body: some View {
+            ScrollView {
+                VStack {
+                    VaultItemView(model, mode: .creation)
+                    
+                    HStack {
+                        Spacer()
+                        
+                        Button(LocalizedString.cancel) {
+                            presentationMode.wrappedValue.dismiss()
+                        }
+                        
+                        Button(LocalizedString.save, action: model.save)
+                    }
+                }
+                .padding()
+            }
+            .frame(minWidth: 300)
+        }
+        
+        init(_ model: Model.VaultItemModel) {
+            self.model = model
+        }
+        
+    }
+    #endif
     
 }

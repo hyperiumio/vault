@@ -5,11 +5,11 @@ import Foundation
 class UnlockedModelStub: UnlockedModelRepresentable {
     
     typealias SettingsModel = SettingsModelStub
-    typealias VaultItemCreationModel = VaultItemCreationModelStub
+    typealias VaultItemModel = VaultItemModelStub
     typealias VaultItemReferenceModel = VaultItemReferenceModelStub
     
     @Published var searchText = ""
-    @Published var creationModel: VaultItemCreationModelStub?
+    @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
     let itemCollation: Collation
@@ -20,10 +20,10 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     }
     
     func reload() {}
-    func createVaultItem() {}
+    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {}
     func lockApp() {}
     
-    init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemCreationModelStub?, failure: UnlockedFailure?) {
+    init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemModel?, failure: UnlockedFailure?) {
         self.itemCollation = itemCollation
         self.settingsModel = settingsModel
         self.creationModel = creationModel

@@ -66,6 +66,8 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
         self.store = store
         self.info = info
         self.dependency = dependency
+        
+        load() // hack
     }
     
     func load() {

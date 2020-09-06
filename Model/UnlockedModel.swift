@@ -9,7 +9,7 @@ import Sort
 protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
     associatedtype SettingsModel: SettingsModelRepresentable
-    associatedtype VaultItemCreationModel: VaultItemCreationModelRepresentable
+    associatedtype VaultItemModel: VaultItemModelRepresentable
     associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
     
     typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
@@ -17,12 +17,12 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var searchText: String { get set }
     var itemCollation: Collation { get }
     var settingsModel: SettingsModel { get }
-    var creationModel: VaultItemCreationModel? { get set }
+    var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
     var lock: AnyPublisher<URL, Never> { get }
     
     func reload()
-    func createVaultItem()
+    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier)
     func lockApp()
     
 }
@@ -30,13 +30,12 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
 protocol UnlockedModelDependency {
     
     associatedtype SettingsModel: SettingsModelRepresentable
-    associatedtype VaultItemCreationModel: VaultItemCreationModelRepresentable
+    associatedtype VaultItemModel: VaultItemModelRepresentable
     associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
     
     func settingsModel() -> SettingsModel
-    func vaultItemCreationModel() -> VaultItemCreationModel
+    func vaultItemModel(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel
     func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel
-    
     
 }
 
@@ -56,12 +55,12 @@ extension UnlockedFailure: Identifiable {
 class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresentable {
     
     typealias SettingsModel = Dependency.SettingsModel
-    typealias VaultItemCreationModel = Dependency.VaultItemCreationModel
+    typealias VaultItemModel = Dependency.VaultItemModel
     typealias VaultItemReferenceModel = Dependency.VaultItemReferenceModel
     
     @Published var searchText: String = ""
     @Published private(set) var itemCollation = AlphabeticCollation<VaultItemReferenceModel>()
-    @Published var creationModel: VaultItemCreationModel?
+    @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
     var lock: AnyPublisher<URL, Never> {
@@ -115,8 +114,8 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         store.didChangeSubject.send()
     }
     
-    func createVaultItem() {
-        let model = dependency.vaultItemCreationModel()
+    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {
+        let model = dependency.vaultItemModel(with: typeIdentifier)
         model.done
             .map { nil }
             .assign(to: &$creationModel)

@@ -83,92 +83,43 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject var model: Model
     @State private var isEditable = true
-    @State private var isAddItemViewVisible = false
     
     private let mode: Mode
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .trailing, spacing: 0) {
-                VaultItemTitleField(text: $model.name, isEditable: $isEditable)
-                
+        VStack(alignment: .trailing, spacing: 0) {
+            VaultItemTitleField(text: $model.name, isEditable: $isEditable)
+            
+            Divider()
+            
+            ElementView(element: model.primaryItemModel, isEditable: $isEditable)
+            
+            ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
                 Divider()
                 
-                ElementView(element: model.primaryItemModel, isEditable: $isEditable)
-                
-                ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                    Divider()
+                HStack(alignment: .top) {
+                    ElementView(element: secureItemModel, isEditable: $isEditable)
                     
-                    HStack(alignment: .top) {
-                        ElementView(element: secureItemModel, isEditable: $isEditable)
-                        
-                        Button {
-                            model.deleteSecondaryItem(at: index)
-                        } label: {
-                            Image.trashCircle
-                                .renderingMode(.original)
-                                .imageScale(.large)
-                        }
-                        .padding(.vertical)
-                    }
-                }
-                
-                Divider()
-                
-                switch mode {
-                case .creation, .edit:
                     Button {
-                        isAddItemViewVisible = true
+                        model.deleteSecondaryItem(at: index)
                     } label: {
-                        Image.plusCircle
+                        Image.trashCircle
                             .renderingMode(.original)
                             .imageScale(.large)
                     }
-                    .padding(.vertical)
-                    .sheet(isPresented: $isAddItemViewVisible) {
-                        NavigationView {
-                            List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
-                                Button {
-                                    model.addSecondaryItem(with: typeIdentifier)
-                                    isAddItemViewVisible = false
-                                } label: {
-                                    Label {
-                                        Text(typeIdentifier.name)
-                                            .foregroundColor(.label)
-                                    } icon: {
-                                        Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
-                                    }
-                                }
-                            }
-                            .listStyle(PlainListStyle())
-                            //.navigationBarTitleDisplayMode(.inline)
-                            .navigationTitle(LocalizedString.addItem)
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button(LocalizedString.cancel) {
-                                        isAddItemViewVisible = false
-                                    }
-                                }
-                            }
-                        }
-                    }
-                case .display:
-                    EmptyView()
+                    .buttonStyle(PlainButtonStyle())
                 }
-            }
-            .padding(.horizontal)
-        }
-        //.navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                ElementToolbarItem(type: model.primaryItemModel.secureItem.typeIdentifier)
             }
             
-            ToolbarItem(placement: .confirmationAction) {
-                Button(LocalizedString.save) {
-                    model.save()
+            switch mode {
+            case .creation, .edit:
+                CreateVaultItemButton(action: model.addSecondaryItem) {
+                    Image.plusCircle
+                        .renderingMode(.original)
+                        .imageScale(.large)
                 }
-                //.disabled(model.status != .saving && !model.name.isEmpty)
+            case .display:
+                EmptyView()
             }
         }
     }

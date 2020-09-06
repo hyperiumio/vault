@@ -11,8 +11,11 @@ struct VaultApp: App {
         WindowGroup {
             AppView(appDelegate.appModel)
         }
-        .windowStyle(windowStyle)
+        .windowStyle(HiddenTitleBarWindowStyle())
+        .windowToolbarStyle(UnifiedCompactWindowToolbarStyle())
         .commands {
+            SidebarCommands()
+            
             CommandGroup(before: .appTermination) {
                 Button(LocalizedString.lockVault) {
                     
@@ -24,8 +27,6 @@ struct VaultApp: App {
             
         }
     }
-    
-    var windowStyle: some WindowStyle { HiddenTitleBarWindowStyle() }
     
 }
 #endif

@@ -4,10 +4,8 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
     
     @ObservedObject var model: Model
     
-    
     var body: some View {
-        print(model.state)
-        return Group {
+        Group {
             switch model.state {
             case .none:
                 EmptyView()
@@ -16,10 +14,11 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
             case .loadingError:
                 EmptyView()
             case .loaded(let model):
-                VaultItemView(model, mode: .display)
+                ScrollView {
+                    VaultItemView(model, mode: .display)
+                }
             }
         }
-        .onAppear(perform: model.load)
     }
     
     init(_ model: Model) {
