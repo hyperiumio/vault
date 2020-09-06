@@ -13,7 +13,7 @@ struct BankAccountView<Model>: View where Model: BankAccountModelRepresentable {
             
             SecureItemTextField(LocalizedString.bankAccountIban, text: $model.iban, isEditable: isEditable)
             
-            SecureItemSecureField(LocalizedString.bankAccountBic, text: $model.bic, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.bankAccountBic, text: $model.bic, isEditable: isEditable)
         }
     }
     

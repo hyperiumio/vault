@@ -5,6 +5,8 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
     @ObservedObject var model: Model
     
+    private let useBiometricsOnAppear: Bool
+    
     var body: some View {
         VStack(spacing: 20) {
             UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
@@ -30,10 +32,16 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
         }
         .padding()
+        .onAppear {
+            if useBiometricsOnAppear {
+                model.loginWithBiometrics()
+            }
+        }
     }
     
-    init(_ model: Model) {
+    init(_ model: Model, useBiometricsOnAppear: Bool) {
         self.model = model
+        self.useBiometricsOnAppear = useBiometricsOnAppear
     }
     
 }

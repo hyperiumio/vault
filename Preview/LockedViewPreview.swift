@@ -7,10 +7,10 @@ struct LockedViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            LockedView(model)
+            LockedView(model, useBiometricsOnAppear: false)
                 .preferredColorScheme(.light)
             
-            LockedView(model)
+            LockedView(model, useBiometricsOnAppear: false)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

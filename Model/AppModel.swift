@@ -37,6 +37,7 @@ enum AppState<BootstrapModel, SetupModel, LockedModel, UnlockedModel> {
     case bootstrap(BootstrapModel)
     case setup(SetupModel)
     case locked(LockedModel)
+    case relocked(LockedModel)
     case unlocked(UnlockedModel)
     
 }
@@ -70,7 +71,7 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                     .map(dependency.unlockedModel)
                     .map(State.unlocked)
                     .eraseToAnyPublisher()
-            case .locked(let model):
+            case .locked(let model), .relocked(let model):
                 return model.done
                     .map(dependency.unlockedModel)
                     .map(State.unlocked)
@@ -78,7 +79,7 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
             case .unlocked(let model):
                 return model.lock
                     .map(dependency.lockedModel)
-                    .map(State.locked)
+                    .map(State.relocked)
                     .eraseToAnyPublisher()
             }
         }

@@ -37,7 +37,9 @@ private extension AppView {
             case .setup(let model):
                 SetupView(model)
             case .locked(let model):
-                LockedView(model)
+                LockedView(model, useBiometricsOnAppear: true)
+            case .relocked(let model):
+                LockedView(model, useBiometricsOnAppear: false)
             case .unlocked(let model):
                 UnlockedView(model)
             }
