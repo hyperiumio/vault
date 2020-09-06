@@ -24,7 +24,7 @@ protocol SettingsModelDependency {
     associatedtype BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable
     associatedtype ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable
     
-    func biometricUnlockPreferencesModel() -> BiometricUnlockPreferencesModel
+    func biometricUnlockPreferencesModel(biometricType: BiometricType) -> BiometricUnlockPreferencesModel
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel
     
 }
@@ -68,7 +68,9 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
             return
         }
         
-        let model = dependency.biometricUnlockPreferencesModel()
+        let biometricType = biometricAvailablity == .faceID ? BiometricType.faceID : .touchID // hacky
+        let model = dependency.biometricUnlockPreferencesModel(biometricType: biometricType)
+        
         model.done
             .map { nil }
             .receive(on: DispatchQueue.main)

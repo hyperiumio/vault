@@ -33,65 +33,77 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     #if os(iOS)
     var body: some View {
         NavigationView {
-            Group {
-                switch model.itemCollation.sections.isEmpty {
-                case true:
-                    Empty()
-                case false:
-                    VaultItemList(itemCollation: model.itemCollation)
-                        .navigationTitle(LocalizedString.vault)
-                }
-            }
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button {
-                        settingsPresented = true
-                    } label: {
-                        Image.settings
+            VaultItemList(model.itemCollation)
+                .toolbar {
+                    ToolbarItemGroup(placement: .navigationBarLeading) {
+                        Button {
+                            settingsPresented = true
+                        } label: {
+                            Image.settings
+                        }
+                        .sheet(isPresented: $settingsPresented) {
+                            SettingsView(model.settingsModel)
+                        }
+                        
+                        Button(action: model.lockApp) {
+                            Image.lock
+                        }
                     }
                     
-                    Button(action:  model.lockApp) {
-                        Image.lock
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button {
+                            selectionPresented = true
+                        } label: {
+                            Image.plus
+                        }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
-                
-                ToolbarItem(placement: .navigationBarTrailing) {
+            
+            EmptySelection()
+        }
+        .sheet(isPresented: $selectionPresented) {
+            NavigationView {
+                List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
                     Button {
-                        selectionPresented = true
+                        model.createVaultItem(with: typeIdentifier)
                     } label: {
-                        Image.plus
-                            .imageScale(.large)
+                        Label {
+                            Text(typeIdentifier.name)
+                        } icon: {
+                            Image(typeIdentifier)
+                                .foregroundColor(Color(typeIdentifier))
+                        }
                     }
-                    .popover(isPresented: $selectionPresented) {
-                        ForEach(SecureItemTypeIdentifier.allCases) { typeIdentifier in
-                            Button {
-                                model.createVaultItem(with: typeIdentifier)
-                            } label: {
-                                Image(typeIdentifier)
-                                
-                                Text(typeIdentifier.name)
-                            }
+                }
+                .toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button(LocalizedString.cancel) {
+                            selectionPresented = false
                         }
                     }
                 }
             }
-            .sheet(item: $model.creationModel) { model in
-                VaultItemView(model, mode: .creation)
+            .sheet(item: $model.creationModel) { vaultItemModel in
+                NavigationView {
+                    VaultItemView(vaultItemModel, mode: .creation)
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button(LocalizedString.cancel) {
+                                    model.creationModel = nil
+                                }
+                            }
+                            
+                            ToolbarItem(placement: .confirmationAction) {
+                                Button(LocalizedString.save) {
+                                    vaultItemModel.save()
+                                }
+                            }
+                        }
+                }
             }
         }
-        .sheet(isPresented: $settingsPresented) {
-            SettingsView(model.settingsModel)
-        }
-        .alert(item: $model.failure) { failure in
-            switch failure {
-            case .loadOperationFailed:
-                let name = Text(LocalizedString.loadFailed)
-                return Alert(title: name)
-            case .deleteOperationFailed:
-                let name = Text(LocalizedString.deleteFailed)
-                return Alert(title: name)
-            }
-        }
+        .alert(item: $model.failure, content: Self.alert)
         .onAppear(perform: model.reload)
     }
     #endif

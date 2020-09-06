@@ -18,7 +18,9 @@ struct CreateVaultItemButton<Label>: View where Label: View {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(SecureItemTypeIdentifier.allCases) { typeIdentifier in
                     Button {
+                        
                         action(typeIdentifier)
+                        selectionPresented = false
                     } label: {
                         SwiftUI.Label {
                             Text(typeIdentifier.name)

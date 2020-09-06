@@ -220,18 +220,6 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
             .padding(.horizontal)
         }
         .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                ElementToolbarItem(type: model.primaryItemModel.secureItem.typeIdentifier)
-            }
-            
-            ToolbarItem(placement: .confirmationAction) {
-                Button(LocalizedString.save) {
-                    model.save()
-                }
-                //.disabled(model.status != .saving && !model.name.isEmpty)
-            }
-        }
     }
     
     init(_ model: Model, mode: Mode) {
