@@ -11,12 +11,10 @@ struct BiometricIcon: View {
             Image.touchID
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.accentColor)
         case .faceID:
             Image.faceID
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.accentColor)
         }
     }
     

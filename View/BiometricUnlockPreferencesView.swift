@@ -79,6 +79,7 @@ private extension BiometricUnlockPreferencesView {
                 Spacer()
                 
                 BiometricIcon(biometricType)
+                    .foregroundColor(.secondaryLabel)
                     .frame(width: 60, height: 60)
                     .padding(.top, 40)
                     .padding(.bottom, 20)

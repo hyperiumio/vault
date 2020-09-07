@@ -16,8 +16,10 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             switch model.biometricKeychainAvailability {
             case .touchID:
                 BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
+                    .foregroundColor(.accentColor)
             case .faceID:
                 BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
+                    .foregroundColor(.accentColor)
             case .notAvailable, .notEnrolled:
                 EmptyView()
             }

@@ -88,6 +88,7 @@ private extension ChangeMasterPasswordView {
                 Image.masterPassword
                     .resizable()
                     .aspectRatio(contentMode: .fit)
+                    .foregroundColor(.secondaryLabel)
                     .frame(width: 60, height: 60)
                     .padding(.top, 40)
                     .padding(.bottom, 20)
