@@ -19,34 +19,38 @@ struct VaultItemTitleField: View {
 
 struct VaultItemFooter: View {
     
-    let created: Date
-    let modified: Date
+    let created: Date?
+    let modified: Date?
     
     var body: some View {
         HStack {
             Spacer()
             
             VStack(alignment: .custom, spacing: 4) {
-                HStack(alignment: .center) {
-                    Text(LocalizedString.created)
-                        .fontWeight(.semibold)
-                        .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                        .alignmentGuide(.custom) { dimension in
-                            dimension[HorizontalAlignment.trailing]
-                        }
-                        
-                    Text(created, formatter: dateFormatter)
+                if let created = created {
+                    HStack(alignment: .center) {
+                        Text(LocalizedString.created)
+                            .fontWeight(.semibold)
+                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
+                            .alignmentGuide(.custom) { dimension in
+                                dimension[HorizontalAlignment.trailing]
+                            }
+                            
+                        Text(created, formatter: dateFormatter)
+                    }
                 }
-                
-                HStack {
-                    Text(LocalizedString.modified)
-                        .fontWeight(.semibold)
-                        .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                        .alignmentGuide(.custom) { dimension in
-                            dimension[HorizontalAlignment.trailing]
-                        }
-                    
-                    Text(created, formatter: dateFormatter)
+
+                if let modified = modified {
+                    HStack {
+                        Text(LocalizedString.modified)
+                            .fontWeight(.semibold)
+                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
+                            .alignmentGuide(.custom) { dimension in
+                                dimension[HorizontalAlignment.trailing]
+                            }
+                        
+                        Text(modified, formatter: dateFormatter)
+                    }
                 }
             }
             .font(.caption)
@@ -214,7 +218,8 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         }
                     }
                 case .display:
-                    EmptyView()
+                    VaultItemFooter(created: model.created, modified: model.modified)
+                        .padding(.top)
                 }
             }
             .padding(.horizontal)
