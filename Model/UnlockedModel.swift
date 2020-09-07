@@ -19,7 +19,8 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var settingsModel: SettingsModel { get }
     var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
-    var lock: AnyPublisher<URL, Never> { get }
+    var lock: AnyPublisher<Void, Never> { get }
+    var storeDirectory: URL { get }
     
     func reload()
     func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier)
@@ -63,7 +64,9 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
-    var lock: AnyPublisher<URL, Never> {
+    var storeDirectory: URL { store.vaultDirectory }
+    
+    var lock: AnyPublisher<Void, Never> {
         lockSubject.eraseToAnyPublisher()
     }
     
@@ -72,7 +75,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     private let dependency: Dependency
     private let store: VaultItemStore
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
-    private let lockSubject = PassthroughSubject<URL, Never>()
+    private let lockSubject = PassthroughSubject<Void, Never>()
     private var infoItemsSubscription: AnyCancellable?
     
     init(store: VaultItemStore, dependency: Dependency) {
@@ -124,7 +127,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     }
     
     func lockApp() {
-        lockSubject.send(store.vaultDirectory)
+        lockSubject.send()
     }
     
 }

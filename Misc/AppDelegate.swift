@@ -58,23 +58,14 @@ class AppDelegate: NSObject {
 extension AppDelegate: UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        application.ignoreSnapshotOnNextApplicationLaunch()
         application.registerForRemoteNotifications()
-        
-        NotificationCenter.default.addObserver(forName: UIApplication.willResignActiveNotification, object: nil, queue: nil) { [appModel] _ in
-            guard case .unlocked(let model) = appModel.state else { return }
-            
-            model.lockApp()
-        }
         
         return true
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         BiometricKeychain.shared.invalidateAvailability()
-        
-        guard case .unlocked(let model) = appModel.state else { return }
-        
-        model.lockApp()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {

@@ -15,8 +15,12 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     let itemCollation: Collation
     let settingsModel: SettingsModelStub
     
-    var lock: AnyPublisher<URL, Never> {
+    var lock: AnyPublisher<Void, Never> {
         lockSubject.eraseToAnyPublisher()
+    }
+    
+    var storeDirectory: URL {
+        URL(fileURLWithPath: "")
     }
     
     func reload() {}
@@ -30,7 +34,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
         self.failure = failure
     }
     
-    let lockSubject = PassthroughSubject<URL, Never>()
+    let lockSubject = PassthroughSubject<Void, Never>()
     
 }
 #endif

@@ -16,6 +16,8 @@ protocol AppModelRepresentable: ObservableObject, Identifiable {
     
     var state: State { get }
     
+    func lock()
+    
 }
 
 protocol AppModelDependency {
@@ -51,6 +53,8 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
     
     @Published private(set) var state: State
     
+    private let dependency: Dependency
+    
     init(_ dependency: Dependency) {
         
         func stateEvent(from state: State) -> AnyPublisher<State, Never> {
@@ -78,7 +82,9 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                     .eraseToAnyPublisher()
             case .unlocked(let model):
                 return model.lock
-                    .map(dependency.lockedModel)
+                    .map {
+                        dependency.lockedModel(url: model.storeDirectory)
+                    }
                     .map(State.relocked)
                     .eraseToAnyPublisher()
             }
@@ -86,6 +92,7 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
         
         let model = dependency.bootstrapModel()
         self.state = .bootstrap(model)
+        self.dependency = dependency
         
         stateEvent(from: state)
             .receive(on: DispatchQueue.main)
@@ -97,6 +104,12 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
             .assign(to: &$state)
         
         model.load()
+    }
+    
+    func lock() {
+        guard case .unlocked(let unlockedModel) = state else { return }
+        
+        state = .relocked(dependency.lockedModel(url: unlockedModel.storeDirectory))
     }
     
 }

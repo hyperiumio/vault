@@ -12,5 +12,7 @@ class AppModelStub: AppModelRepresentable {
         self.state = state
     }
     
+    func lock() {}
+    
 }
 #endif

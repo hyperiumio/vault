@@ -4,6 +4,7 @@ import SwiftUI
 struct AppView<Model>: View where Model: AppModelRepresentable {
     
     @ObservedObject var model: Model
+    @Environment(\.scenePhase) private var scenePhase
     
     #if os(macOS)
     var body: some View {
@@ -15,6 +16,11 @@ struct AppView<Model>: View where Model: AppModelRepresentable {
     #if os(iOS)
     var body: some View {
         Content(state: model.state)
+            .onChange(of: scenePhase) { newScenePhase in
+                if newScenePhase == .background {
+                    model.lock()
+                }
+            }
     }
     #endif
     
