@@ -63,15 +63,6 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
             status = .invalidPassword
             return
         }
-        
-        /*
-        guard let bundleID = Bundle.main.bundleIdentifier else {
-            status = .masterPasswordChangeDidFail
-            return
-        }
-        
-        // change password
- */
     }
     
 }

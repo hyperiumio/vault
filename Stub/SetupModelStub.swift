@@ -3,24 +3,33 @@ import Combine
 import Store
 
 class SetupModelStub: SetupModelRepresentable {
-    
+
     @Published var password: String
     @Published var repeatedPassword: String
-    @Published var status: SetupStatus
+    @Published var biometricUnlockEnabled: Bool
+    @Published var passwordStatus: PasswordStatus
+    @Published var biometricAvailability: BiometricKeychainAvailablity
     
     var done: AnyPublisher<VaultItemStore, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, repeatedPassword: String, status: SetupStatus) {
-        self.password = password
-        self.repeatedPassword = repeatedPassword
-        self.status = status
+    var setupFailed: AnyPublisher<Void, Never> {
+        setupFailedSubject.eraseToAnyPublisher()
     }
     
-    func createMasterKey() {}
+    init(password: String, repeatedPassword: String, biometricUnlockEnabled: Bool, passwordStatus: PasswordStatus, biometricAvailability: BiometricKeychainAvailablity) {
+        self.password = password
+        self.repeatedPassword = repeatedPassword
+        self.biometricUnlockEnabled = biometricUnlockEnabled
+        self.passwordStatus = passwordStatus
+        self.biometricAvailability = biometricAvailability
+    }
+    
+    func completeSetup() {}
     
     let doneSubject = PassthroughSubject<VaultItemStore, Never>()
+    let setupFailedSubject = PassthroughSubject<Void, Never>()
     
 }
 #endif

@@ -22,6 +22,8 @@ extension Image {
     static let lock = Image(systemName: "lock.fill")
     static let settings = Image(systemName: "slider.horizontal.3")
     static let trashCircle = Image(systemName: "trash.circle.fill")
+    static let back = Image(systemName: "chevron.left.circle")
+    static let done = Image(systemName: "checkmark.circle")
     
 }
 

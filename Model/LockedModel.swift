@@ -78,12 +78,7 @@ class LockedModel: LockedModelRepresentable {
     func loginWithBiometrics() {
         status = .unlocking
         
-        guard let bundleID = Bundle.main.bundleIdentifier else {
-            status = .unlockDidFail
-            return
-        }
-        
-        openVaultSubscription = biometricKeychain.loadPassword(identifier: bundleID)
+        openVaultSubscription = biometricKeychain.loadPassword()
             .flatMap { [vaultDirectory] password in
                 VaultItemStore.open(at: vaultDirectory, with: password, using: Cryptor.self)
             }

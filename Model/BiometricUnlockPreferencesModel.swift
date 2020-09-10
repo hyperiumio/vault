@@ -58,17 +58,12 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     }
     
     func enabledBiometricUnlock() {
-        guard let bundleId = Bundle.main.bundleIdentifier else {
-            status = .biometricActivationFailed
-            return
-        }
-        
         status = .loading
         keychainStoreSubscription = store.validatePassword(password)
             .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
             .flatMap { [biometricKeychain, password] passwordIsValid in
                 passwordIsValid ?
-                    biometricKeychain.storePassword(password, identifier: bundleId)
+                    biometricKeychain.store(password)
                         .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
                         .eraseToAnyPublisher() :
                     Fail(error: EnableBiometricUnlockError.invalidPassword)

@@ -18,20 +18,22 @@ public class BiometricKeychain {
     
     public var availability: Availablity { availabilityDidChangeSubject.value }
     
+    private let identifier: String
     private let operationQueue = DispatchQueue(label: "BiometricKeychainOperationQueue")
     private let context: LAContext
     private let availabilityDidChangeSubject: CurrentValueSubject<Availablity, Never>
     
-    private init() {
+    public init(identifier: String) {
         let context = LAContext()
         let availability = Availablity(from: context)
         let availabilityDidChangeSubject = CurrentValueSubject<Availablity, Never>(availability)
         
+        self.identifier = identifier
         self.context = context
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
-    public func storePassword(_ password: String, identifier: String) -> Future<Void, Error> {
+    public func store(_ password: String) -> Future<Void, Error> {
         let deleteQuery = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: identifier
@@ -63,7 +65,7 @@ public class BiometricKeychain {
         }
     }
     
-    public func loadPassword(identifier: String) -> Future<String, Error> {
+    public func loadPassword() -> Future<String, Error> {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: identifier,
@@ -93,7 +95,7 @@ public class BiometricKeychain {
         }
     }
     
-    public func deletePassword(identifier: String) -> Future<Void, Error> {
+    public func deletePassword() -> Future<Void, Error> {
         let query = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: identifier
@@ -115,12 +117,6 @@ public class BiometricKeychain {
     public func invalidateAvailability() {
         availabilityDidChangeSubject.value = Availablity(from: context)
     }
-    
-}
-
-extension BiometricKeychain {
-    
-    public static let shared = BiometricKeychain()
     
 }
 

@@ -3,6 +3,7 @@
 "AdditionalItems" = "Additional items";
 "AmericanExpress" = "American Express";
 "AppLaunchError" = "The application failed to launch.";
+"Back" = "Back";
 "BankCard" = "Bank Card";
 "BankCardName" = "Name";
 "BankCardNumber" = "Number";
@@ -17,9 +18,11 @@
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangeMasterPasswordDescription" = "If you think your master password is too weak or has been compromised you can change it here.";
+"ChooseMasterPassword" = "Choose a password for your vault.";
 "Created" = "Created";
 "CreateItem" = "Create item";
 "CreateVault" = "Create Vault";
+"Continue" = "Continue";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomItem" = "Custom Item";
 "CustomItemName" = "Name";
@@ -30,7 +33,9 @@
 "Done" = "Done";
 "Edit" = "Edit";
 "Enable" = "Enable";
+"EnableFaceIDUnlock" = "Enable Face ID";
 "EnableFaceIDUnlockDescription" = "Please enter your master password to activate unlock with Face ID.";
+"EnableTouchIDUnlock" = "Enable Touch ID";
 "EnableTouchIDUnlockDescription" = "Please enter your master password to activate unlock with Touch ID.";
 "EmptyVault" = "Your vault is empty.";
 "FaceID" = "Face ID";
@@ -63,6 +68,7 @@
 "Search" = "Search";
 "Select" = "Select";
 "Settings" = "Settings";
+"SetupComplete" = "Setup Complete";
 "SetUpTouchID" = "Set Up Touch ID";
 "SetUpFaceID" = "Set Up Face ID";
 "Title" = "Title";

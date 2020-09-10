@@ -22,7 +22,7 @@ extension AppLockedDependency: AppModelDependency {
     }
     
     func setupModel(url: URL) -> SetupModel {
-        SetupModel(vaultContainerDirectory: url, preferencesManager: preferencesManager)
+        SetupModel(vaultContainerDirectory: url, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
     func lockedModel(url: URL) -> LockedModel {
