@@ -1,4 +1,4 @@
-                import Combine
+import Combine
 import Crypto
 import Foundation
 import Preferences
@@ -15,8 +15,8 @@ protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
 
 enum BootstrapInitialState {
     
-    case setup(URL)
-    case locked(URL)
+    case setup(in: URL)
+    case locked(container: VaultContainer)
     
 }
 
@@ -56,17 +56,17 @@ class BootstrapModel: BootstrapModelRepresentable {
             return
         }
         
-        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let vaultsDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
-            let setup = BootstrapInitialState.setup(vaultContainerDirectory)
+            let setup = BootstrapInitialState.setup(in: vaultsDirectory)
             didBootstrapSubject.send(setup)
             return
         }
         
-        vaultLocationSubscription = VaultItemStore.vaultDirectory(in: vaultContainerDirectory, with: activeVaultIdentifier)
-            .map { vaultDirectory in
-                vaultDirectory.map(BootstrapInitialState.locked) ?? BootstrapInitialState.setup(vaultContainerDirectory)
+        vaultLocationSubscription = VaultContainer.container(in: vaultsDirectory, with: activeVaultIdentifier)
+            .map { container in
+                container.map(BootstrapInitialState.locked) ?? BootstrapInitialState.setup(in: vaultsDirectory)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in

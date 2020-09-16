@@ -55,52 +55,52 @@ public extension SecureItem {
 
 extension SecureItem {
     
-    static func encoded(_ secureItem: Self) throws -> Data {
+    public static func encoded(_ secureItem: Self) throws -> Data {
         switch secureItem {
         case .password(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .login(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .file(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .note(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .bankCard(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .wifi(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .bankAccount(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         case .custom(let value):
-            return try value.binaryEncoded()
+            return try value.jsonEncoded()
         }
     }
     
-    static func decoded(_ encodedSecureItem: Data, asTypeMatching typeIdentifier: TypeIdentifier) throws -> Self {
+    public static func decoded(_ encodedSecureItem: Data, asTypeMatching typeIdentifier: TypeIdentifier) throws -> Self {
         switch typeIdentifier {
         case .password:
-            let value = try PasswordItem(binaryEncoded: encodedSecureItem)
+            let value = try PasswordItem(jsonEncoded: encodedSecureItem)
             return .password(value)
         case .login:
-            let value = try LoginItem(binaryEncoded: encodedSecureItem)
+            let value = try LoginItem(jsonEncoded: encodedSecureItem)
             return .login(value)
         case .file:
-            let value = try FileItem(binaryEncoded: encodedSecureItem)
+            let value = try FileItem(jsonEncoded: encodedSecureItem)
             return .file(value)
         case .note:
-            let value = try NoteItem(binaryEncoded: encodedSecureItem)
+            let value = try NoteItem(jsonEncoded: encodedSecureItem)
             return .note(value)
         case .bankCard:
-            let value = try BankCardItem(binaryEncoded: encodedSecureItem)
+            let value = try BankCardItem(jsonEncoded: encodedSecureItem)
             return .bankCard(value)
         case .wifi:
-            let value = try WifiItem(binaryEncoded: encodedSecureItem)
+            let value = try WifiItem(jsonEncoded: encodedSecureItem)
             return .wifi(value)
         case .bankAccount:
-            let value = try BankAccountItem(binaryEncoded: encodedSecureItem)
+            let value = try BankAccountItem(jsonEncoded: encodedSecureItem)
             return .bankAccount(value)
         case .custom:
-            let value = try CustomItem(binaryEncoded: encodedSecureItem)
+            let value = try CustomItem(jsonEncoded: encodedSecureItem)
             return .custom(value)
         }
     }

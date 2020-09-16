@@ -1,4 +1,4 @@
-public struct NoteItem: BinaryCodable {
+public struct NoteItem: JSONCodable {
     
     public let text: String
     

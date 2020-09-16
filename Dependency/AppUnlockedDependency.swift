@@ -4,12 +4,12 @@ import Store
 
 struct AppUnlockedDependency {
     
-    private let store: VaultItemStore
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     
-    init(store: VaultItemStore, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.store = store
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vault = vault
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
     }
@@ -20,15 +20,15 @@ extension AppUnlockedDependency: UnlockedModelDependency {
     
     
     func settingsModel() -> SettingsModel<Self> {
-        SettingsModel(store: store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, dependency: self)
+        SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, dependency: self)
     }
     
     func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel<Self> {
-        VaultItemReferenceModel(store: store, info: vaultItemInfo, dependency: self)
+        VaultItemReferenceModel(vault: vault, info: vaultItemInfo, dependency: self)
     }
     
     func vaultItemModel(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel<Self> {
-        VaultItemModel(store: store, typeIdentifier: typeIdentifier, dependency: self)
+        VaultItemModel(vault: vault, typeIdentifier: typeIdentifier, dependency: self)
     }
     
 }
@@ -36,11 +36,11 @@ extension AppUnlockedDependency: UnlockedModelDependency {
 extension AppUnlockedDependency: SettingsModelDependency {
     
     func biometricUnlockPreferencesModel(biometricType: BiometricType) -> BiometricUnlockPreferencesModel {
-        BiometricUnlockPreferencesModel(store: store, biometricType: biometricType, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        BiometricUnlockPreferencesModel(vault: vault, biometricType: biometricType, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel {
-        ChangeMasterPasswordModel(store: store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        ChangeMasterPasswordModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
 }
@@ -48,7 +48,7 @@ extension AppUnlockedDependency: SettingsModelDependency {
 extension AppUnlockedDependency: VaultItemCreationModelDependency {
     
     func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel {
-        VaultItemModel(store: store, typeIdentifier: typeIdentifier, dependency: self)
+        VaultItemModel(vault: vault, typeIdentifier: typeIdentifier, dependency: self)
     }
     
 }
@@ -56,7 +56,7 @@ extension AppUnlockedDependency: VaultItemCreationModelDependency {
 extension AppUnlockedDependency: VaultItemReferenceModelDependency {
     
     func vaultItemModel(vaultItem: VaultItem) -> VaultItemModel {
-        VaultItemModel(store: store, vaultItem: vaultItem, dependency: self)
+        VaultItemModel(vault: vault, vaultItem: vaultItem, dependency: self)
     }
     
 }

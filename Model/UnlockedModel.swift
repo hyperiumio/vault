@@ -20,9 +20,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
     var lock: AnyPublisher<Void, Never> { get }
-    var storeDirectory: URL { get }
     
-    func reload()
     func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier)
     func lockApp()
     
@@ -59,12 +57,10 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     typealias VaultItemModel = Dependency.VaultItemModel
     typealias VaultItemReferenceModel = Dependency.VaultItemReferenceModel
     
+    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>
     @Published var searchText: String = ""
-    @Published private(set) var itemCollation = AlphabeticCollation<VaultItemReferenceModel>()
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
-    
-    var storeDirectory: URL { store.vaultDirectory }
     
     var lock: AnyPublisher<Void, Never> {
         lockSubject.eraseToAnyPublisher()
@@ -73,32 +69,31 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     let settingsModel: SettingsModel
     
     private let dependency: Dependency
-    private let store: VaultItemStore
+    private let vault: Vault
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private let lockSubject = PassthroughSubject<Void, Never>()
     private var infoItemsSubscription: AnyCancellable?
     
-    init(store: VaultItemStore, dependency: Dependency) {
-        self.store = store
+    init(vault: Vault, dependency: Dependency) {
+        let referenceModels = vault.vaultItemInfos.map(dependency.vaultItemReferenceModel)
+        
+        self.vault = vault
         self.settingsModel = dependency.settingsModel()
         self.dependency = dependency
-        
-        let vaultItemInfosPublisher = store.didChange.flatMap {
-            store.loadVaultItemInfos()
-        }
+        self.itemCollation = AlphabeticCollation(from: referenceModels)
         
         let searchTextPublisher = $searchText.setFailureType(to: Error.self)
         
-        infoItemsSubscription = Publishers.CombineLatest(vaultItemInfosPublisher, searchTextPublisher)
+        infoItemsSubscription = Publishers.CombineLatest(vault.vaultItemInfosDidChange, searchTextPublisher)
             .receive(on: operationQueue)
-            .map { vaultItemInfos, searchText -> AlphabeticCollation<VaultItemReferenceModel> in
-                let items = vaultItemInfos
+            .map { vaultItemInfos, searchText in
+                vaultItemInfos
                     .filter { itemDescription in
                         FuzzyMatch(searchText, in: itemDescription.name)
                     }
                     .map(dependency.vaultItemReferenceModel)
-                return AlphabeticCollation(from: items)
             }
+            .map(AlphabeticCollation.init)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -111,10 +106,6 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
                 
                 self.itemCollation = itemCollation
             }
-    }
-    
-    func reload() {
-        store.didChangeSubject.send()
     }
     
     func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {

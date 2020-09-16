@@ -12,7 +12,7 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     var biometricUnlockEnabled: Bool { get set }
     var biometricAvailability: BiometricKeychainAvailablity { get }
     var passwordStatus: PasswordStatus { get }
-    var done: AnyPublisher<VaultItemStore, Never> { get }
+    var done: AnyPublisher<Vault, Never> { get }
     var setupFailed: AnyPublisher<Void, Never> { get }
     
     func completeSetup()
@@ -46,7 +46,7 @@ class SetupModel: SetupModelRepresentable {
     
     var biometricAvailability: BiometricKeychainAvailablity { biometricKeychain.availability }
     
-    var done: AnyPublisher<VaultItemStore, Never> {
+    var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -54,39 +54,32 @@ class SetupModel: SetupModelRepresentable {
         setupFailedSubject.eraseToAnyPublisher()
     }
     
-    private let doneSubject = PassthroughSubject<VaultItemStore, Never>()
+    private let doneSubject = PassthroughSubject<Vault, Never>()
     private var setupFailedSubject = PassthroughSubject<Void, Never>()
-    private let vaultContainerDirectory: URL
+    private let vaultsDirectory: URL
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vaultContainerDirectory = vaultContainerDirectory
+    init(vaultsDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vaultsDirectory = vaultsDirectory
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
     }
     
     func completeSetup() {
-        do {
-            try FileManager.default.createDirectory(at: vaultContainerDirectory, withIntermediateDirectories: true, attributes: nil)
-        } catch {
-            setupFailedSubject.send()
-            return
-        }
-        
         let completeSetupPublisher = {
             if biometricUnlockEnabled {
-                let createVaultItemStore = VaultItemStore.create(in: vaultContainerDirectory, with: password, using: Cryptor.self)
+                let createVault = VaultContainer(in: vaultsDirectory).createVault(with: password)
                 let storePassword = biometricKeychain.store(password)
-                return Publishers.Zip(createVaultItemStore, storePassword)
+                return Publishers.Zip(createVault, storePassword)
                     .map(\.0)
                     .eraseToAnyPublisher()
             } else {
-                return VaultItemStore.create(in: vaultContainerDirectory, with: password, using: Cryptor.self)
+                return VaultContainer(in: vaultsDirectory).createVault(with: password)
                     .eraseToAnyPublisher()
             }
-        }() as AnyPublisher<VaultItemStore, Error>
+        }() as AnyPublisher<Vault, Error>
         
         createVaultSubscription = completeSetupPublisher
             .receive(on: DispatchQueue.main)
@@ -96,10 +89,10 @@ class SetupModel: SetupModelRepresentable {
                 if case .failure = completion {
                     self.setupFailedSubject.send()
                 }
-            } receiveValue: { [preferencesManager, doneSubject, biometricUnlockEnabled] store in
-                preferencesManager.set(activeVaultIdentifier: store.id)
+            } receiveValue: { [preferencesManager, doneSubject, biometricUnlockEnabled] vault in
+                preferencesManager.set(activeVaultIdentifier: vault.id)
                 preferencesManager.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
-                doneSubject.send(store)
+                doneSubject.send(vault)
             }
     }
     

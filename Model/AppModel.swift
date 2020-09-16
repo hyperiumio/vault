@@ -28,9 +28,9 @@ protocol AppModelDependency {
     associatedtype UnlockedModel: UnlockedModelRepresentable
     
     func bootstrapModel() -> BootstrapModel
-    func setupModel(url: URL) -> SetupModel
-    func lockedModel(url: URL) -> LockedModel
-    func unlockedModel(store: VaultItemStore) -> UnlockedModel
+    func setupModel(in vaultsDirectory: URL) -> SetupModel
+    func lockedModel(container: VaultContainer) -> LockedModel
+    func unlockedModel(vault: Vault) -> UnlockedModel
     
 }
 
@@ -64,9 +64,9 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                     .map { appState in
                         switch appState {
                         case .setup(let url):
-                            return .setup(dependency.setupModel(url: url))
-                        case .locked(let url):
-                            return .locked(dependency.lockedModel(url: url))
+                            return .setup(dependency.setupModel(in: url))
+                        case .locked(let container):
+                            return .locked(dependency.lockedModel(container: container))
                         }
                     }
                     .eraseToAnyPublisher()
@@ -81,12 +81,14 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                     .map(State.unlocked)
                     .eraseToAnyPublisher()
             case .unlocked(let model):
+                fatalError()
+                /* !!!
                 return model.lock
                     .map {
-                        dependency.lockedModel(url: model.storeDirectory)
+                        dependency.lockedModel(container: model.cont)
                     }
                     .map(State.relocked)
-                    .eraseToAnyPublisher()
+                    .eraseToAnyPublisher() */
             }
         }
         
@@ -109,7 +111,7 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
     func lock() {
         guard case .unlocked(let unlockedModel) = state else { return }
         
-        state = .relocked(dependency.lockedModel(url: unlockedModel.storeDirectory))
+       // state = .relocked(dependency.lockedModel(container: unlockedModel.container))
     }
     
 }

@@ -1,4 +1,4 @@
-public struct PasswordItem: BinaryCodable {
+public struct PasswordItem: JSONCodable {
     
     public let password: String
     

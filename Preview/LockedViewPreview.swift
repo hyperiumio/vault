@@ -3,7 +3,10 @@ import SwiftUI
 
 struct LockedViewPreview: PreviewProvider {
     
-    static let model = LockedModelStub(password: "", biometricKeychainAvailability: .faceID, status: .none)
+    static let model: LockedModelStub = {
+        let container = VaultContainer(in: URL(fileURLWithPath: ""))
+        return LockedModelStub(container: container, password: "", biometricKeychainAvailability: .touchID, status: .none)
+    }()
     
     static var previews: some View {
         Group {

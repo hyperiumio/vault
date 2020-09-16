@@ -52,12 +52,12 @@ public class BiometricKeychain {
                 let result = Result {
                     let deleteStatus = BiometricKeychainDelete(deleteQuery)
                     guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
-                        throw BiometricKeychainError.deleteDidFail
+                        throw CryptoError.keychainDeleteDidFail
                     }
                     
                     let writeStatus = BiometricKeychainWrite(writeQuery, nil)
                     guard writeStatus == errSecSuccess else {
-                        throw BiometricKeychainError.storeDidFail
+                        throw CryptoError.keychainStoreDidFail
                     }
                 }
                 promise(result)
@@ -79,13 +79,13 @@ public class BiometricKeychain {
                     
                     let status = BiometricKeychainLoad(query, &item)
                     guard status == errSecSuccess else {
-                        throw BiometricKeychainError.loadDidFail
+                        throw CryptoError.keychainLoadDidFail
                     }
                     guard let data = item as? Data else {
-                        throw BiometricKeychainError.loadDidFail
+                        throw CryptoError.keychainLoadDidFail
                     }
                     guard let password = String(data: data, encoding: .utf8) else {
-                        throw BiometricKeychainError.loadDidFail
+                        throw CryptoError.keychainLoadDidFail
                     }
                     
                     return password
@@ -106,7 +106,7 @@ public class BiometricKeychain {
                 let result = Result {
                     let status = BiometricKeychainDelete(query)
                     guard status == errSecSuccess || status == errSecItemNotFound else {
-                        throw BiometricKeychainError.deleteDidFail
+                        throw CryptoError.keychainDeleteDidFail
                     }
                 }
                 promise(result)
@@ -147,13 +147,5 @@ extension BiometricKeychain {
         }
         
     }
-    
-}
-
-public enum BiometricKeychainError: Error {
-    
-    case storeDidFail
-    case loadDidFail
-    case deleteDidFail
     
 }

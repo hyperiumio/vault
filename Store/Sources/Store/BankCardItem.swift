@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BankCardItem: BinaryCodable {
+public struct BankCardItem: JSONCodable {
     
     public let name: String
     public let number: String

@@ -21,17 +21,17 @@ extension AppLockedDependency: AppModelDependency {
         BootstrapModel(preferencesManager: preferencesManager)
     }
     
-    func setupModel(url: URL) -> SetupModel {
-        SetupModel(vaultContainerDirectory: url, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func setupModel(in vaultsDirectory: URL) -> SetupModel {
+        SetupModel(vaultsDirectory: vaultsDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func lockedModel(url: URL) -> LockedModel {
-        LockedModel(vaultDirectory: url, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func lockedModel(container: VaultContainer) -> LockedModel {
+        LockedModel(container: container, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func unlockedModel(store: VaultItemStore) -> UnlockedModel<AppUnlockedDependency> {
-        let dependency = AppUnlockedDependency(store: store, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
-        return UnlockedModel(store: store, dependency: dependency)
+    func unlockedModel(vault: Vault) -> UnlockedModel<AppUnlockedDependency> {
+        let dependency = AppUnlockedDependency(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        return UnlockedModel(vault: vault, dependency: dependency)
     }
     
 }

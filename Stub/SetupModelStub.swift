@@ -10,7 +10,7 @@ class SetupModelStub: SetupModelRepresentable {
     @Published var passwordStatus: PasswordStatus
     @Published var biometricAvailability: BiometricKeychainAvailablity
     
-    var done: AnyPublisher<VaultItemStore, Never> {
+    var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -28,7 +28,7 @@ class SetupModelStub: SetupModelRepresentable {
     
     func completeSetup() {}
     
-    let doneSubject = PassthroughSubject<VaultItemStore, Never>()
+    let doneSubject = PassthroughSubject<Vault, Never>()
     let setupFailedSubject = PassthroughSubject<Void, Never>()
     
 }

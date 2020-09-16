@@ -37,14 +37,14 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     var createMasterKeyButtonDisabled: Bool { currentPassword.isEmpty || newPassword.isEmpty || repeatedNewPassword.isEmpty || newPassword.count != repeatedNewPassword.count || status == .loading }
     var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
-    private let store: VaultItemStore
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(store: VaultItemStore, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.store = store
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vault = vault
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
         

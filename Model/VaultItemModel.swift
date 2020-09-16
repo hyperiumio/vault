@@ -147,16 +147,15 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         doneSubject.eraseToAnyPublisher()
     }
     
-    private let store: VaultItemStore
+    private let vault: Vault
     private let dependency: Dependency
     private let originalVaultItem: VaultItem?
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var addItemSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     
-    init(store: VaultItemStore, vaultItem: VaultItem, dependency: Dependency) {
-        
-        self.store = store
+    init(vault: Vault, vaultItem: VaultItem, dependency: Dependency) {
+        self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = vaultItem
         self.name = vaultItem.name
@@ -164,8 +163,8 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
     
-    init(store: VaultItemStore, typeIdentifier: SecureItemTypeIdentifier, dependency: Dependency) {
-        self.store = store
+    init(vault: Vault, typeIdentifier: SecureItemTypeIdentifier, dependency: Dependency) {
+        self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = nil
         self.primaryItemModel = dependency.vaultItemElement(with: typeIdentifier)
@@ -191,7 +190,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         let vaultItem = VaultItem(id: id, name: name, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
         
         status = .saving
-        saveSubscription = store.saveVaultItem(vaultItem)
+        saveSubscription = vault.save(vaultItem)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -199,7 +198,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
                 if case .failure = completion {
                     self.status = .saveOperationFailed
                 }
-            } receiveValue: { [doneSubject] _ in
+            } receiveValue: { [doneSubject] in
                 doneSubject.send()
             }
     }

@@ -7,10 +7,11 @@ import Sort
 
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
+    var container: VaultContainer { get }
     var password: String { get set }
     var biometricKeychainAvailability: BiometricKeychainAvailablity { get }
     var status: LockedStatus { get }
-    var done: AnyPublisher<VaultItemStore, Never> { get }
+    var done: AnyPublisher<Vault, Never> { get }
     
     func loginWithMasterPassword()
     func loginWithBiometrics()
@@ -32,17 +33,20 @@ class LockedModel: LockedModelRepresentable {
     @Published private(set) var biometricKeychainAvailability: BiometricKeychainAvailablity
     @Published private(set) var status = LockedStatus.none
     
-    var done: AnyPublisher<VaultItemStore, Never> {
+    var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    private let vaultDirectory: URL
-    private let doneSubject = PassthroughSubject<VaultItemStore, Never>()
+    let container: VaultContainer
+    
+    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let passwordSubject = PassthroughSubject<String, Never>()
     private let biometricKeychain: BiometricKeychain
     private var openVaultSubscription: AnyCancellable?
+    private var keychainLoadSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vaultDirectory = vaultDirectory
+    init(container: VaultContainer, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.container = container
         self.biometricKeychain = biometricKeychain
         self.biometricKeychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
         
@@ -54,47 +58,36 @@ class LockedModel: LockedModelRepresentable {
         $password
             .map { _ in .none }
             .assign(to: &$status)
+        
+        openVaultSubscription = container.unlockVault(passwordFrom: passwordSubject)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                guard let self = self else { return }
+                
+                switch result {
+                case .success(let vault):
+                    self.status = .none
+                    self.doneSubject.send(vault)
+                case .failure(_):
+                    self.status = .invalidPassword
+                }
+            }
     }
     
     func loginWithMasterPassword() {
         status = .unlocking
         
-        openVaultSubscription = VaultItemStore.open(at: vaultDirectory, with: password, using: Cryptor.self)
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                switch completion {
-                case .finished:
-                    self.status = .none
-                case .failure:
-                    self.status = .invalidPassword
-                }
-            } receiveValue: { [doneSubject] store in
-                doneSubject.send(store)
-            }
+        passwordSubject.send(password)
     }
     
     func loginWithBiometrics() {
         status = .unlocking
         
-        openVaultSubscription = biometricKeychain.loadPassword()
-            .flatMap { [vaultDirectory] password in
-                VaultItemStore.open(at: vaultDirectory, with: password, using: Cryptor.self)
+        keychainLoadSubscription = biometricKeychain.loadPassword()
+            .catch { error in
+                Empty(completeImmediately: false, outputType: String.self, failureType: Never.self)
             }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                switch completion {
-                case .finished:
-                    self.status = .none
-                case .failure:
-                    self.status = .invalidPassword
-                }
-            } receiveValue: { [doneSubject] store in
-                doneSubject.send(store)
-            }
+            .subscribe(passwordSubject)
     }
     
 }

@@ -8,11 +8,14 @@ class LockedModelStub: LockedModelRepresentable {
     @Published var biometricKeychainAvailability: BiometricKeychainAvailablity
     @Published var status: LockedStatus
     
-    var done: AnyPublisher<VaultItemStore, Never> {
+    var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
+    let container: VaultContainer
+    
+    init(container: VaultContainer, password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
+        self.container = container
         self.password = password
         self.biometricKeychainAvailability = biometricKeychainAvailability
         self.status = status
@@ -21,7 +24,7 @@ class LockedModelStub: LockedModelRepresentable {
     func loginWithMasterPassword() {}
     func loginWithBiometrics() {}
     
-    let doneSubject = PassthroughSubject<VaultItemStore, Never>()
+    let doneSubject = PassthroughSubject<Vault, Never>()
     
 }
 #endif

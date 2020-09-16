@@ -10,15 +10,8 @@ func RandomBytes(count: Int) throws -> Data {
         return RandomBytesRNG(buffer.baseAddress, buffer.count)
     }
     guard status == kCCSuccess else {
-        throw RandomBytesError.rngFailure
+        throw CryptoError.rngFailure
     }
    
     return data
 }
-
-enum RandomBytesError: Error {
-    
-    case rngFailure
-    
-}
-

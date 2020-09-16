@@ -59,21 +59,19 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     let info: VaultItem.Info
     
-    private let store: VaultItemStore
+    private let vault: Vault
     private let dependency: Dependency
     
-    init(store: VaultItemStore, info: VaultItem.Info, dependency: Dependency) {
-        self.store = store
+    init(vault: Vault, info: VaultItem.Info, dependency: Dependency) {
+        self.vault = vault
         self.info = info
         self.dependency = dependency
-        
-        load() // hack
     }
     
     func load() {
         state = .loading
         
-        store.loadVaultItem(with: info.id)
+        vault.loadVaultItem(with: info.id)
             .map(dependency.vaultItemModel)
             .map(VaultItemReferenceState.loaded)
             .replaceError(with: .loadingError)

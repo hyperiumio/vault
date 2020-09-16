@@ -39,13 +39,13 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
     @Published private(set) var isBiometricUnlockEnabled: Bool = true
     
-    private let store: VaultItemStore
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private let dependency: Dependency
     
-    init(store: VaultItemStore, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, dependency: Dependency) {
-        self.store = store
+    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, dependency: Dependency) {
+        self.vault = vault
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
         self.dependency = dependency

@@ -104,7 +104,6 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
         .alert(item: $model.failure, content: Self.alert)
-        .onAppear(perform: model.reload)
     }
     #endif
     

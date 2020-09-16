@@ -41,13 +41,13 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     let biometricType: BiometricType
     
     private let doneSubject = PassthroughSubject<Void, Never>()
-    private let store: VaultItemStore
+    private let vault: Vault
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(store: VaultItemStore, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.store = store
+    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
@@ -58,8 +58,9 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     }
     
     func enabledBiometricUnlock() {
+        /* !!!
         status = .loading
-        keychainStoreSubscription = store.validatePassword(password)
+        keychainStoreSubscription = vault.validate(password)
             .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
             .flatMap { [biometricKeychain, password] passwordIsValid in
                 passwordIsValid ?
@@ -85,6 +86,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
                 preferencesManager.set(isBiometricUnlockEnabled: true)
                 doneSubject.send()
             }
+ */
     }
     
 }
