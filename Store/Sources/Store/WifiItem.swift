@@ -1,4 +1,4 @@
-public struct WifiItem: JSONCodable {
+public struct WifiItem: Codable {
     
     public let networkName: String
     public let networkPassword: String

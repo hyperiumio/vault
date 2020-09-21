@@ -186,7 +186,6 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         isAddItemViewVisible = true
                     } label: {
                         Image.plusCircle
-                            .renderingMode(.original)
                             .imageScale(.large)
                     }
                     .padding(.vertical)

@@ -1,6 +1,6 @@
 #if DEBUG
 import Combine
-import Store
+import Foundation
 
 class SetupModelStub: SetupModelRepresentable {
 
@@ -10,7 +10,7 @@ class SetupModelStub: SetupModelRepresentable {
     @Published var passwordStatus: PasswordStatus
     @Published var biometricAvailability: BiometricKeychainAvailablity
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<(URL, Vault), Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -28,7 +28,7 @@ class SetupModelStub: SetupModelRepresentable {
     
     func completeSetup() {}
     
-    let doneSubject = PassthroughSubject<Vault, Never>()
+    let doneSubject = PassthroughSubject<(URL, Vault), Never>()
     let setupFailedSubject = PassthroughSubject<Void, Never>()
     
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BankCardItem: JSONCodable {
+public struct BankCardItem: Codable {
     
     public let name: String
     public let number: String

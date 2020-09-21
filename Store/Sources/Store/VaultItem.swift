@@ -48,7 +48,7 @@ public struct VaultItem {
 
 extension VaultItem {
     
-    public struct Info: JSONCodable, Hashable {
+    public struct Info: Codable, Hashable {
         
         public let id: UUID
         public let name: String
@@ -58,6 +58,12 @@ extension VaultItem {
         public let created: Date
         public let modified: Date
         
+        public func encoded() throws -> Data {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
+            return try encoder.encode(self)
+        }
+        
         public init(id: UUID, name: String, description: String, primaryTypeIdentifier: SecureItem.TypeIdentifier, secondaryTypeIdentifiers: [SecureItem.TypeIdentifier], created: Date, modified: Date) {
             self.id = id
             self.name = name
@@ -66,6 +72,12 @@ extension VaultItem {
             self.secondaryTypeIdentifiers = secondaryTypeIdentifiers
             self.created = created
             self.modified = modified
+        }
+        
+        public init(from data: Data) throws {
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            self = try decoder.decode(Self.self, from: data)
         }
         
     }

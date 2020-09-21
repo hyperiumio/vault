@@ -1,6 +1,6 @@
 #if DEBUG
 import Combine
-import Store
+import Foundation
 
 class LockedModelStub: LockedModelRepresentable {
     
@@ -12,10 +12,10 @@ class LockedModelStub: LockedModelRepresentable {
         doneSubject.eraseToAnyPublisher()
     }
     
-    let container: VaultContainer
+    let vaultDirectory: URL
     
-    init(container: VaultContainer, password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
-        self.container = container
+    init(vaultDirectory: URL, password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
+        self.vaultDirectory = vaultDirectory
         self.password = password
         self.biometricKeychainAvailability = biometricKeychainAvailability
         self.status = status

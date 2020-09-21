@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "F4FCC5DE-5A65-44E8-918F-B5ECC2AA2A81",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "StoreTests",
+        "name" : "StoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

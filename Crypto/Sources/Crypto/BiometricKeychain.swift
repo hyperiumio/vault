@@ -33,85 +33,73 @@ public class BiometricKeychain {
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
-    public func store(_ password: String) -> Future<Void, Error> {
-        let deleteQuery = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: identifier
-        ] as CFDictionary
-        
-        let writeQuery = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: identifier,
-            kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
-            kSecUseAuthenticationContext: context,
-            kSecValueData: Data(password.utf8)
-        ] as CFDictionary
-        
-        return Future { [operationQueue] promise in
-            operationQueue.async {
-                let result = Result {
-                    let deleteStatus = BiometricKeychainDelete(deleteQuery)
-                    guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
-                        throw CryptoError.keychainDeleteDidFail
-                    }
-                    
-                    let writeStatus = BiometricKeychainWrite(writeQuery, nil)
-                    guard writeStatus == errSecSuccess else {
-                        throw CryptoError.keychainStoreDidFail
-                    }
-                }
-                promise(result)
+    public func store(_ password: String) -> AnyPublisher<Void, Error> {
+        operationQueue.future { [identifier, context] in
+            let deleteQuery = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: identifier
+            ] as CFDictionary
+            
+            let writeQuery = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: identifier,
+                kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
+                kSecUseAuthenticationContext: context,
+                kSecValueData: Data(password.utf8)
+            ] as CFDictionary
+            
+            let deleteStatus = BiometricKeychainDelete(deleteQuery)
+            guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
+                throw CryptoError.keychainDeleteDidFail
+            }
+            
+            let writeStatus = BiometricKeychainWrite(writeQuery, nil)
+            guard writeStatus == errSecSuccess else {
+                throw CryptoError.keychainStoreDidFail
             }
         }
+        .eraseToAnyPublisher()
     }
     
-    public func loadPassword() -> Future<String, Error> {
-        let query = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: identifier,
-            kSecReturnData: true
-        ] as CFDictionary
-        
-        return Future { [operationQueue] promise in
-            operationQueue.async {
-                let result = Result<String, Error> {
-                    var item: CFTypeRef?
-                    
-                    let status = BiometricKeychainLoad(query, &item)
-                    guard status == errSecSuccess else {
-                        throw CryptoError.keychainLoadDidFail
-                    }
-                    guard let data = item as? Data else {
-                        throw CryptoError.keychainLoadDidFail
-                    }
-                    guard let password = String(data: data, encoding: .utf8) else {
-                        throw CryptoError.keychainLoadDidFail
-                    }
-                    
-                    return password
-                }
-                promise(result)
+    public func loadPassword() -> AnyPublisher<String, Error> {
+        operationQueue.future { [identifier] in
+            let query = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: identifier,
+                kSecReturnData: true
+            ] as CFDictionary
+            
+            var item: CFTypeRef?
+            
+            let status = BiometricKeychainLoad(query, &item)
+            guard status == errSecSuccess else {
+                throw CryptoError.keychainLoadDidFail
             }
+            guard let data = item as? Data else {
+                throw CryptoError.keychainLoadDidFail
+            }
+            guard let password = String(data: data, encoding: .utf8) else {
+                throw CryptoError.keychainLoadDidFail
+            }
+            
+            return password
         }
+        .eraseToAnyPublisher()
     }
     
-    public func deletePassword() -> Future<Void, Error> {
-        let query = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrService: identifier
-        ] as CFDictionary
-        
-        return Future { [operationQueue] promise in
-            operationQueue.async {
-                let result = Result {
-                    let status = BiometricKeychainDelete(query)
-                    guard status == errSecSuccess || status == errSecItemNotFound else {
-                        throw CryptoError.keychainDeleteDidFail
-                    }
-                }
-                promise(result)
+    public func deletePassword() -> AnyPublisher<Void, Error> {
+        operationQueue.future { [identifier] in
+            let query = [
+                kSecClass: kSecClassGenericPassword,
+                kSecAttrService: identifier
+            ] as CFDictionary
+            
+            let status = BiometricKeychainDelete(query)
+            guard status == errSecSuccess || status == errSecItemNotFound else {
+                throw CryptoError.keychainDeleteDidFail
             }
         }
+        .eraseToAnyPublisher()
     }
     
     public func invalidateAvailability() {

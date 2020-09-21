@@ -3,7 +3,8 @@ import SwiftUI
 
 struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
+    @Environment(\.scenePhase) private var scenePhase
     
     private let useBiometricsOnAppear: Bool
     
@@ -34,8 +35,8 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
         }
         .padding()
-        .onAppear {
-            if useBiometricsOnAppear {
+        .onChange(of: scenePhase) { newScenePhase in
+            if newScenePhase == .active, useBiometricsOnAppear {
                 model.loginWithBiometrics()
             }
         }

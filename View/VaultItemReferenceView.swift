@@ -19,6 +19,9 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                 }
             }
         }
+        .onAppear {
+            model.load()
+        }
     }
     
     init(_ model: Model) {

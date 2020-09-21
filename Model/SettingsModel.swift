@@ -2,7 +2,6 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Store
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     

@@ -7,7 +7,11 @@ typealias BiometricKeychainAvailablity = BiometricKeychain.Availablity
 typealias FileItemFormat = FileItem.Format
 typealias SecureItemTypeIdentifier = SecureItem.TypeIdentifier
 typealias VaultItemInfo = VaultItem.Info
+typealias Vault = Store.Vault<CryptoKey, SecureDataHeader, SecureDataMessage>
 
+extension CryptoKey: KeyRepresentable {}
+extension SecureDataHeader: HeaderRepresentable {}
+extension SecureDataMessage: MessageRepresentable {}
 
 extension SecureItemTypeIdentifier {
     

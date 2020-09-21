@@ -3,7 +3,7 @@ class AppModelStub: AppModelRepresentable {
     
     typealias BootstrapModel = BootstrapModelStub
     typealias SetupModel = SetupModelStub
-    typealias LockedModel = LockedModelStub
+    typealias MainModel = MainModelStub
     typealias UnlockedModel = UnlockedModelStub
     
     let state: State

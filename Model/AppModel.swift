@@ -1,7 +1,6 @@
 import Combine
 import Crypto
 import Foundation
-import Store
 import Preferences
 import Sort
 
@@ -9,14 +8,11 @@ protocol AppModelRepresentable: ObservableObject, Identifiable {
     
     associatedtype BootstrapModel: BootstrapModelRepresentable
     associatedtype SetupModel: SetupModelRepresentable
-    associatedtype LockedModel: LockedModelRepresentable
-    associatedtype UnlockedModel: UnlockedModelRepresentable
+    associatedtype MainModel: MainModelRepresentable
     
-    typealias State = AppState<BootstrapModel, SetupModel, LockedModel, UnlockedModel>
+    typealias State = AppState<BootstrapModel, SetupModel, MainModel>
     
     var state: State { get }
-    
-    func lock()
     
 }
 
@@ -24,23 +20,20 @@ protocol AppModelDependency {
     
     associatedtype BootstrapModel: BootstrapModelRepresentable
     associatedtype SetupModel: SetupModelRepresentable
-    associatedtype LockedModel: LockedModelRepresentable
-    associatedtype UnlockedModel: UnlockedModelRepresentable
+    associatedtype MainModel: MainModelRepresentable
     
     func bootstrapModel() -> BootstrapModel
-    func setupModel(in vaultsDirectory: URL) -> SetupModel
-    func lockedModel(container: VaultContainer) -> LockedModel
-    func unlockedModel(vault: Vault) -> UnlockedModel
+    func setupModel(in vaultContainerDirectory: URL) -> SetupModel
+    func mainModel(vaultDirectory: URL) -> MainModel
+    func mainModel(vaultDirectory: URL, vault: Vault) -> MainModel
     
 }
 
-enum AppState<BootstrapModel, SetupModel, LockedModel, UnlockedModel> {
+enum AppState<BootstrapModel, SetupModel, MainModel> {
     
     case bootstrap(BootstrapModel)
     case setup(SetupModel)
-    case locked(LockedModel)
-    case relocked(LockedModel)
-    case unlocked(UnlockedModel)
+    case main(MainModel)
     
 }
 
@@ -48,70 +41,52 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
     
     typealias BootstrapModel = Dependency.BootstrapModel
     typealias SetupModel = Dependency.SetupModel
-    typealias LockedModel = Dependency.LockedModel
-    typealias UnlockedModel = Dependency.UnlockedModel
+    typealias MainModel = Dependency.MainModel
     
     @Published private(set) var state: State
     
-    private let dependency: Dependency
-    
     init(_ dependency: Dependency) {
         
-        func stateEvent(from state: State) -> AnyPublisher<State, Never> {
+        func statePublisher(from state: State) -> AnyPublisher<State, Never> {
             switch state {
             case .bootstrap(let model):
                 return model.didBootstrap
                     .map { appState in
                         switch appState {
-                        case .setup(let url):
-                            return .setup(dependency.setupModel(in: url))
-                        case .locked(let container):
-                            return .locked(dependency.lockedModel(container: container))
+                        case .setup(let vaultContainerDirectory):
+                            let model = dependency.setupModel(in: vaultContainerDirectory)
+                            return .setup(model)
+                        case .locked(let vaultDirectory):
+                            let model = dependency.mainModel(vaultDirectory: vaultDirectory)
+                            return .main(model)
                         }
                     }
                     .eraseToAnyPublisher()
             case .setup(let model):
                 return model.done
-                    .map(dependency.unlockedModel)
-                    .map(State.unlocked)
+                    .map(dependency.mainModel)
+                    .map(State.main)
                     .eraseToAnyPublisher()
-            case .locked(let model), .relocked(let model):
-                return model.done
-                    .map(dependency.unlockedModel)
-                    .map(State.unlocked)
+            case .main:
+                return Empty(completeImmediately: true)
                     .eraseToAnyPublisher()
-            case .unlocked(let model):
-                fatalError()
-                /* !!!
-                return model.lock
-                    .map {
-                        dependency.lockedModel(container: model.cont)
-                    }
-                    .map(State.relocked)
-                    .eraseToAnyPublisher() */
             }
         }
         
-        let model = dependency.bootstrapModel()
-        self.state = .bootstrap(model)
-        self.dependency = dependency
+        let bootstrapModel = dependency.bootstrapModel()
         
-        stateEvent(from: state)
+        self.state = .bootstrap(bootstrapModel)
+        
+        statePublisher(from: state)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
         
         $state
-            .flatMap(stateEvent)
+            .flatMap(statePublisher)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
         
-        model.load()
-    }
-    
-    func lock() {
-        guard case .unlocked(let unlockedModel) = state else { return }
-        
-       // state = .relocked(dependency.lockedModel(container: unlockedModel.container))
+        bootstrapModel.load()
     }
     
 }

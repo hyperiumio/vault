@@ -1,7 +1,6 @@
 import Crypto
 import Foundation
 import Preferences
-import Store
 
 struct AppLockedDependency {
     
@@ -21,12 +20,24 @@ extension AppLockedDependency: AppModelDependency {
         BootstrapModel(preferencesManager: preferencesManager)
     }
     
-    func setupModel(in vaultsDirectory: URL) -> SetupModel {
-        SetupModel(vaultsDirectory: vaultsDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func setupModel(in vaultContainerDirectory: URL) -> SetupModel {
+        SetupModel(vaultContainerDirectory: vaultContainerDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
-    func lockedModel(container: VaultContainer) -> LockedModel {
-        LockedModel(container: container, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+    func mainModel(vaultDirectory: URL) -> MainModel<Self> {
+        MainModel(dependency: self, vaultDirectory: vaultDirectory)
+    }
+    
+    func mainModel(vaultDirectory: URL, vault: Vault) -> MainModel<Self> {
+        MainModel(dependency: self, vaultDirectory: vaultDirectory, vault: vault)
+    }
+    
+}
+
+extension AppLockedDependency: MainModelDependency {
+    
+    func lockedModel(vaultDirectory: URL) -> LockedModel {
+        LockedModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
     }
     
     func unlockedModel(vault: Vault) -> UnlockedModel<AppUnlockedDependency> {

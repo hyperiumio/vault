@@ -4,8 +4,8 @@ import SwiftUI
 struct LockedViewPreview: PreviewProvider {
     
     static let model: LockedModelStub = {
-        let container = VaultContainer(in: URL(fileURLWithPath: ""))
-        return LockedModelStub(container: container, password: "", biometricKeychainAvailability: .touchID, status: .none)
+        let vaultDirectory = URL(fileURLWithPath: "")
+        return LockedModelStub(vaultDirectory: vaultDirectory, password: "", biometricKeychainAvailability: .touchID, status: .none)
     }()
     
     static var previews: some View {

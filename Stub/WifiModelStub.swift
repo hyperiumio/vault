@@ -2,6 +2,7 @@
 import Combine
 import Store
 
+
 class WifiModelStub: WifiModelRepresentable {
     
     @Published var networkName = ""

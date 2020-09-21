@@ -1,5 +1,4 @@
 import SwiftUI
-import Store
 
 extension Color {
     
@@ -16,7 +15,7 @@ extension Color {
 
 extension Color {
     
-    init(_ secureItemType: SecureItem.TypeIdentifier) {
+    init(_ secureItemType: SecureItemTypeIdentifier) {
         switch secureItemType {
         case .password:
             self = .appGray

@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SecureItem: Equatable {
+public enum SecureItem {
     
     case password(PasswordItem)
     case login(LoginItem)
@@ -32,6 +32,62 @@ public enum SecureItem: Equatable {
         }
     }
     
+    public func encoded() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        
+        switch self {
+        case .password(let value):
+            return try encoder.encode(value)
+        case .login(let value):
+            return try encoder.encode(value)
+        case .file(let value):
+            return try encoder.encode(value)
+        case .note(let value):
+            return try encoder.encode(value)
+        case .bankCard(let value):
+            return try encoder.encode(value)
+        case .wifi(let value):
+            return try encoder.encode(value)
+        case .bankAccount(let value):
+            return try encoder.encode(value)
+        case .custom(let value):
+            return try encoder.encode(value)
+        }
+    }
+    
+    public init(from data: Data, asTypeMatching typeIdentifier: TypeIdentifier) throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        
+        switch typeIdentifier {
+        case .password:
+            let value = try decoder.decode(PasswordItem.self, from: data)
+            self = .password(value)
+        case .login:
+            let value = try decoder.decode(LoginItem.self, from: data)
+            self = .login(value)
+        case .file:
+            let value = try decoder.decode(FileItem.self, from: data)
+            self = .file(value)
+        case .note:
+            let value = try decoder.decode(NoteItem.self, from: data)
+            self = .note(value)
+        case .bankCard:
+            let value = try decoder.decode(BankCardItem.self, from: data)
+            self = .bankCard(value)
+        case .wifi:
+            let value = try decoder.decode(WifiItem.self, from: data)
+            self = .wifi(value)
+        case .bankAccount:
+            let value = try decoder.decode(BankAccountItem.self, from: data)
+            self = .bankAccount(value)
+        case .custom:
+            let value = try decoder.decode(CustomItem.self, from: data)
+            self = .custom(value)
+        }
+    }
+    
 }
 
 public extension SecureItem {
@@ -49,60 +105,6 @@ public extension SecureItem {
      
         public var id: TypeIdentifier { self }
         
-    }
-    
-}
-
-extension SecureItem {
-    
-    public static func encoded(_ secureItem: Self) throws -> Data {
-        switch secureItem {
-        case .password(let value):
-            return try value.jsonEncoded()
-        case .login(let value):
-            return try value.jsonEncoded()
-        case .file(let value):
-            return try value.jsonEncoded()
-        case .note(let value):
-            return try value.jsonEncoded()
-        case .bankCard(let value):
-            return try value.jsonEncoded()
-        case .wifi(let value):
-            return try value.jsonEncoded()
-        case .bankAccount(let value):
-            return try value.jsonEncoded()
-        case .custom(let value):
-            return try value.jsonEncoded()
-        }
-    }
-    
-    public static func decoded(_ encodedSecureItem: Data, asTypeMatching typeIdentifier: TypeIdentifier) throws -> Self {
-        switch typeIdentifier {
-        case .password:
-            let value = try PasswordItem(jsonEncoded: encodedSecureItem)
-            return .password(value)
-        case .login:
-            let value = try LoginItem(jsonEncoded: encodedSecureItem)
-            return .login(value)
-        case .file:
-            let value = try FileItem(jsonEncoded: encodedSecureItem)
-            return .file(value)
-        case .note:
-            let value = try NoteItem(jsonEncoded: encodedSecureItem)
-            return .note(value)
-        case .bankCard:
-            let value = try BankCardItem(jsonEncoded: encodedSecureItem)
-            return .bankCard(value)
-        case .wifi:
-            let value = try WifiItem(jsonEncoded: encodedSecureItem)
-            return .wifi(value)
-        case .bankAccount:
-            let value = try BankAccountItem(jsonEncoded: encodedSecureItem)
-            return .bankAccount(value)
-        case .custom:
-            let value = try CustomItem(jsonEncoded: encodedSecureItem)
-            return .custom(value)
-        }
     }
     
 }

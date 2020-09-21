@@ -104,8 +104,16 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
         .alert(item: $model.failure, content: Self.alert)
+        .onDisappear {
+            print("foo")
+        }
     }
     #endif
+    
+    func dismissSheets() {
+        selectionPresented = false
+        settingsPresented = false
+    }
     
     init(_ model: Model) {
         self.model = model

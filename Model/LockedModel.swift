@@ -7,7 +7,7 @@ import Sort
 
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
-    var container: VaultContainer { get }
+    var vaultDirectory: URL { get }
     var password: String { get set }
     var biometricKeychainAvailability: BiometricKeychainAvailablity { get }
     var status: LockedStatus { get }
@@ -37,7 +37,7 @@ class LockedModel: LockedModelRepresentable {
         doneSubject.eraseToAnyPublisher()
     }
     
-    let container: VaultContainer
+    let vaultDirectory: URL
     
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let passwordSubject = PassthroughSubject<String, Never>()
@@ -45,8 +45,8 @@ class LockedModel: LockedModelRepresentable {
     private var openVaultSubscription: AnyCancellable?
     private var keychainLoadSubscription: AnyCancellable?
     
-    init(container: VaultContainer, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.container = container
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vaultDirectory = vaultDirectory
         self.biometricKeychain = biometricKeychain
         self.biometricKeychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
         
@@ -59,7 +59,15 @@ class LockedModel: LockedModelRepresentable {
             .map { _ in .none }
             .assign(to: &$status)
         
-        openVaultSubscription = container.unlockVault(passwordFrom: passwordSubject)
+        let lockedVault = Vault.load(from: vaultDirectory)
+            .assertNoFailure()
+        
+        openVaultSubscription = Publishers.CombineLatest(lockedVault, passwordSubject)
+            .map { lockedVault, password in
+                Result {
+                    try lockedVault.unlock(with: password)
+                }
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self = self else { return }

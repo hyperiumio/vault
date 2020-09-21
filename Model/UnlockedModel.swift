@@ -112,6 +112,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         let model = dependency.vaultItemModel(with: typeIdentifier)
         model.done
             .map { nil }
+            .receive(on: DispatchQueue.main)
             .assign(to: &$creationModel)
         
         creationModel = model

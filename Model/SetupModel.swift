@@ -12,7 +12,7 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     var biometricUnlockEnabled: Bool { get set }
     var biometricAvailability: BiometricKeychainAvailablity { get }
     var passwordStatus: PasswordStatus { get }
-    var done: AnyPublisher<Vault, Never> { get }
+    var done: AnyPublisher<(URL, Vault), Never> { get }
     var setupFailed: AnyPublisher<Void, Never> { get }
     
     func completeSetup()
@@ -46,7 +46,7 @@ class SetupModel: SetupModelRepresentable {
     
     var biometricAvailability: BiometricKeychainAvailablity { biometricKeychain.availability }
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<(URL, Vault), Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -54,34 +54,47 @@ class SetupModel: SetupModelRepresentable {
         setupFailedSubject.eraseToAnyPublisher()
     }
     
-    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let doneSubject = PassthroughSubject<(URL, Vault), Never>()
     private var setupFailedSubject = PassthroughSubject<Void, Never>()
-    private let vaultsDirectory: URL
+    private let vaultContainerDirectory: URL
     private let preferencesManager: PreferencesManager
     private let biometricKeychain: BiometricKeychain
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultsDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
-        self.vaultsDirectory = vaultsDirectory
+    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+        self.vaultContainerDirectory = vaultContainerDirectory
         self.preferencesManager = preferencesManager
         self.biometricKeychain = biometricKeychain
     }
     
     func completeSetup() {
-        let completeSetupPublisher = {
+        let masterKey = CryptoKey()
+        guard let keyContainer = try? CryptoKey.encodeContainer(masterKey, using: password) else {
+            setupFailedSubject.send()
+            return
+        }
+        
+        let createVaultPublisher = {
             if biometricUnlockEnabled {
-                let createVault = VaultContainer(in: vaultsDirectory).createVault(with: password)
+                let createVault = Vault.create(in: vaultContainerDirectory, keyContainer: keyContainer)
                 let storePassword = biometricKeychain.store(password)
                 return Publishers.Zip(createVault, storePassword)
                     .map(\.0)
                     .eraseToAnyPublisher()
             } else {
-                return VaultContainer(in: vaultsDirectory).createVault(with: password)
+                return Vault.create(in: vaultContainerDirectory, keyContainer: keyContainer)
                     .eraseToAnyPublisher()
             }
-        }() as AnyPublisher<Vault, Error>
+        }() as AnyPublisher<URL, Error>
         
-        createVaultSubscription = completeSetupPublisher
+        let vaultPublisher = createVaultPublisher
+            .flatMap(Vault.load)
+            .tryMap { [password] lockedVault in
+                try lockedVault.unlock(with: password)
+            }
+            
+            
+        createVaultSubscription = Publishers.Zip(createVaultPublisher, vaultPublisher)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -89,10 +102,11 @@ class SetupModel: SetupModelRepresentable {
                 if case .failure = completion {
                     self.setupFailedSubject.send()
                 }
-            } receiveValue: { [preferencesManager, doneSubject, biometricUnlockEnabled] vault in
-                preferencesManager.set(activeVaultIdentifier: vault.id)
+            } receiveValue: { [preferencesManager, doneSubject, biometricUnlockEnabled] message in
+                preferencesManager.set(activeVaultIdentifier: message.1.id)
                 preferencesManager.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
-                doneSubject.send(vault)
+                
+                doneSubject.send(message)
             }
     }
     

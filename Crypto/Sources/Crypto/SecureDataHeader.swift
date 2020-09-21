@@ -9,15 +9,23 @@ public struct SecureDataHeader {
     
     private let itemKey: Data
     
-    public init(data: (Range<Int>) throws -> Data) throws {
+    public init(data: Data) throws {
+        try self.init { range in
+            let lowerBound = data.startIndex + range.startIndex
+            let range = Range(lowerBound: lowerBound, count: range.count)
+            return data[range]
+        }
+    }
+    
+    public init(from dataProvider: (Range<Int>) throws -> Data) throws {
         let messageCountRange = Range(lowerBound: 0, count: UnsignedInteger32BitEncodingSize)
-        let messageCountData = try data(messageCountRange)
+        let messageCountData = try dataProvider(messageCountRange)
         precondition(messageCountData.count == UnsignedInteger32BitEncodingSize)
         let messageCount = UnsignedInteger32BitDecode(messageCountData) as Int
         
         let headerEncodingSize = UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
         let headerRange = Range(lowerBound: messageCountRange.upperBound, count: headerEncodingSize)
-        let headerData = try data(headerRange)
+        let headerData = try dataProvider(headerRange)
         precondition(headerData.count == headerEncodingSize)
         
         let ciphertextSizes = (0 ..< messageCount).map { index in

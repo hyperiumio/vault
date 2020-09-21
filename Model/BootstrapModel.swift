@@ -15,8 +15,8 @@ protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
 
 enum BootstrapInitialState {
     
-    case setup(in: URL)
-    case locked(container: VaultContainer)
+    case setup(vaultContainerDirectory: URL)
+    case locked(vaultDirectory: URL)
     
 }
 
@@ -56,17 +56,19 @@ class BootstrapModel: BootstrapModelRepresentable {
             return
         }
         
-        let vaultsDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
-            let setup = BootstrapInitialState.setup(in: vaultsDirectory)
+            let setup = BootstrapInitialState.setup(vaultContainerDirectory: vaultContainerDirectory)
             didBootstrapSubject.send(setup)
             return
         }
         
-        vaultLocationSubscription = VaultContainer.container(in: vaultsDirectory, with: activeVaultIdentifier)
-            .map { container in
-                container.map(BootstrapInitialState.locked) ?? BootstrapInitialState.setup(in: vaultsDirectory)
+        vaultLocationSubscription = Vault.directory(in: vaultContainerDirectory, with: activeVaultIdentifier)
+            .map { vaultDirectory in
+                vaultDirectory.map { vaultDirectory in
+                    .locked(vaultDirectory: vaultDirectory)
+                } ?? .setup(vaultContainerDirectory: vaultContainerDirectory)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
