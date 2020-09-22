@@ -7,7 +7,11 @@ struct VaultItemInfoView: View {
     let itemType: SecureItemTypeIdentifier
     
     var body: some View {
-        Label {
+        HStack {
+            Image(itemType)
+                .imageScale(.large)
+                .foregroundColor(Color(itemType))
+            
             VStack(alignment: .leading) {
                 Text(name)
                 
@@ -17,12 +21,7 @@ struct VaultItemInfoView: View {
                         .foregroundColor(.secondaryLabel)
                 }
             }
-        } icon: {
-            Image(itemType)
-                .imageScale(.large)
-                .foregroundColor(Color(itemType))
         }
-        .padding(.vertical, 2)
     }
     
     init(_ name: String, description: String, itemType: SecureItemTypeIdentifier) {
