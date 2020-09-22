@@ -4,9 +4,9 @@ import SwiftUI
 
 struct FileView<Model>: View where Model: FileModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
-    let isEditable: Binding<Bool>
+    private let isEditable: Binding<Bool>
     
     var body: some View {
         SecureItemContainer {
@@ -25,6 +25,10 @@ struct FileView<Model>: View where Model: FileModelRepresentable {
         }
     }
     
+    init(_ model: Model, isEditable: Binding<Bool>) {
+        self.model = model
+        self.isEditable = isEditable
+    }
 }
 
 private struct FileGenericView: View {

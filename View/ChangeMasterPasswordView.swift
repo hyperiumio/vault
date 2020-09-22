@@ -3,8 +3,8 @@ import SwiftUI
 
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
-    @ObservedObject var model: Model
-    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var model: Model
+    @Environment(\.presentationMode) private var presentationMode
     
     #if os(macOS)
     var body: some View {

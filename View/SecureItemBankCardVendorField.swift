@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SecureItemBankCardVendorField: View {
     
-    let vendor: BankCardItemVendor
+    private let vendor: BankCardItemVendor
     
     var body: some View {
         SecureItemField(LocalizedString.bankCardVendor) {

@@ -2,9 +2,9 @@ import SwiftUI
 
 struct UnlockField: View {
     
-    let title: String
-    let text: Binding<String>
-    let action: () -> Void
+    private let title: String
+    private let text: Binding<String>
+    private let action: () -> Void
     
     var body: some View {
         HStack(spacing: 0) {

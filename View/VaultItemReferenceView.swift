@@ -2,7 +2,7 @@ import SwiftUI
 
 struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
     var body: some View {
         Group {

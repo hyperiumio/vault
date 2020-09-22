@@ -3,7 +3,7 @@ import SwiftUI
 
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     @State private var selectionPresented = false
     
     #if os(iOS)

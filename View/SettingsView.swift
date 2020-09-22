@@ -16,8 +16,8 @@ struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
 #if os(iOS)
 struct SettingsView<Model: SettingsModelRepresentable>: View {
     
-    @ObservedObject var model: Model
-    @Environment(\.presentationMode) var presentationMode
+    @ObservedObject private var model: Model
+    @Environment(\.presentationMode) private var presentationMode
     
     var isBiometricsEnabledBinding: Binding<Bool> {
         Binding {

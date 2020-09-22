@@ -2,9 +2,9 @@ import SwiftUI
 
 struct VaultItemInfoView: View {
     
-    let name: String
-    let description: String
-    let itemType: SecureItemTypeIdentifier
+    private let name: String
+    private let description: String
+    private let itemType: SecureItemTypeIdentifier
     
     var body: some View {
         HStack {

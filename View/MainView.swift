@@ -2,7 +2,8 @@ import SwiftUI
 
 struct MainView<Model>: View where Model: MainModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
+    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         Group {
@@ -11,6 +12,11 @@ struct MainView<Model>: View where Model: MainModelRepresentable {
                 LockedView(model, useBiometricsOnAppear: useBiometricUnlock)
             case .unlocked(let model):
                 UnlockedView(model)
+            }
+        }
+        .onChange(of: scenePhase) { scenePhase in
+            if scenePhase == .background {
+                model.lock()
             }
         }
     }

@@ -2,9 +2,9 @@ import SwiftUI
 
 struct SecureItemDateField: View {
     
-    let title: String
-    let date: Binding<Date>
-    let isEditable: Binding<Bool>
+    private let title: String
+    private let date: Binding<Date>
+    private let isEditable: Binding<Bool>
     
     var body: some View {
         SecureItemField(title) {

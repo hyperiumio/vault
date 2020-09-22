@@ -6,7 +6,7 @@ import Quartz
 
 struct PDF: NSViewRepresentable {
     
-    let document: PDFDocument
+    private let document: PDFDocument
     
     init(_ document: PDFDocument) {
         self.document = document
@@ -29,7 +29,7 @@ import UIKit
 
 struct PDF: UIViewRepresentable {
     
-    let document: PDFDocument
+    private let document: PDFDocument
     
     init(_ document: PDFDocument) {
         self.document = document

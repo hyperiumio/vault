@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ErrorBadge: View {
     
-    let message: String
+    private let message: String
     
     var body: some View {
         Text(message)

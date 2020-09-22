@@ -267,7 +267,7 @@ private extension VaultItemView {
             case .password(let model):
                 PasswordView(model, isEditable: isEditable)
             case .file(let model):
-                FileView(model: model, isEditable: isEditable)
+                FileView(model, isEditable: isEditable)
             case .note(let model):
                 NoteView(model, isEditable: isEditable)
             case .bankCard(let model):

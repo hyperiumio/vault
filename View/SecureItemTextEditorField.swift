@@ -2,9 +2,9 @@ import SwiftUI
 
 struct SecureItemTextEditorField: View {
     
-    let title: String
-    let text: Binding<String>
-    let isEditable: Binding<Bool>
+    private let title: String
+    private let text: Binding<String>
+    private let isEditable: Binding<Bool>
     
     var body: some View {
         SecureItemField(title) {

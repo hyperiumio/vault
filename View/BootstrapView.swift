@@ -3,7 +3,7 @@ import SwiftUI
 
 struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
     var body: some View {
         switch model.status {

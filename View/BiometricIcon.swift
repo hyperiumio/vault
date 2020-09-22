@@ -2,8 +2,7 @@ import SwiftUI
 
 struct BiometricIcon: View {
     
-    let biometricType: BiometricType
-
+    private let biometricType: BiometricType
     
     var body: some View {
         switch biometricType {

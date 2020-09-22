@@ -3,9 +3,9 @@ import SwiftUI
 
 struct WifiView<Model>: View where Model: WifiModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
-    let isEditable: Binding<Bool>
+    private let isEditable: Binding<Bool>
     
     var body: some View {
         SecureItemContainer {

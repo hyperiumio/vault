@@ -8,10 +8,10 @@ struct FileViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            FileView(model: model, isEditable: $isEditable)
+            FileView(model, isEditable: $isEditable)
                 .preferredColorScheme(.light)
             
-            FileView(model: model, isEditable: $isEditable)
+            FileView(model, isEditable: $isEditable)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

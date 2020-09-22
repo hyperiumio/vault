@@ -2,8 +2,8 @@ import SwiftUI
 
 struct BiometricUnlockButton: View {
     
-    let biometricType: BiometricType
-    let action: () -> Void
+    private let biometricType: BiometricType
+    private let action: () -> Void
     
     var body: some View {
         Button(action: action) {

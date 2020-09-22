@@ -35,8 +35,8 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
         }
         .padding()
-        .onChange(of: scenePhase) { newScenePhase in
-            if newScenePhase == .active, useBiometricsOnAppear {
+        .onChange(of: scenePhase) { scenePhase in
+            if scenePhase == .active, useBiometricsOnAppear {
                 model.loginWithBiometrics()
             }
         }

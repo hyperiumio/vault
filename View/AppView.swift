@@ -3,7 +3,7 @@ import SwiftUI
 
 struct AppView<Model>: View where Model: AppModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
     #if os(macOS)
     var body: some View {

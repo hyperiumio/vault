@@ -3,9 +3,9 @@ import SwiftUI
 
 struct BankAccountView<Model>: View where Model: BankAccountModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
     
-    let isEditable: Binding<Bool>
+    private let isEditable: Binding<Bool>
     
     var body: some View {
         SecureItemContainer {
