@@ -57,9 +57,8 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     }
     
     func enabledBiometricUnlock() {
-        /* !!!
         status = .loading
-        keychainStoreSubscription = vault.validate(password)
+        keychainStoreSubscription = vault.validatePassword(password)
             .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
             .flatMap { [biometricKeychain, password] passwordIsValid in
                 passwordIsValid ?
@@ -85,7 +84,6 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
                 preferencesManager.set(isBiometricUnlockEnabled: true)
                 doneSubject.send()
             }
- */
     }
     
 }

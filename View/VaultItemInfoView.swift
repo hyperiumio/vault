@@ -11,6 +11,7 @@ struct VaultItemInfoView: View {
             Image(itemType)
                 .imageScale(.large)
                 .foregroundColor(Color(itemType))
+                .frame(width: 20)
             
             VStack(alignment: .leading) {
                 Text(name)

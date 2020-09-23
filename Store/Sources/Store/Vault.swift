@@ -77,6 +77,15 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
         .eraseToAnyPublisher()
     }
     
+    public func validatePassword(_ password: String) -> AnyPublisher<Bool, Error> {
+        operationQueue.future { [resourceLocator, masterKey] in
+            let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
+            let loadedKey = try Key(from: keyContainer, using: password)
+            return masterKey == loadedKey
+        }
+        .eraseToAnyPublisher()
+    }
+    
 }
 
 extension Vault {

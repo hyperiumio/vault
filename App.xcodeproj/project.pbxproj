@@ -297,8 +297,6 @@
 
 /* Begin PBXFileReference section */
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
-		952D105D251B2C4600B95C4B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		952D105E251B2C4600B95C4B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
 		952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModel.swift; sourceTree = "<group>"; };
 		952D106D251B2D6400B95C4B /* CompleteSetupModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModelStub.swift; sourceTree = "<group>"; };
@@ -443,6 +441,8 @@
 		95E2E01624FC33DF00A53DD7 /* WifiViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewPreview.swift; sourceTree = "<group>"; };
 		95E2E01724FC33E000A53DD7 /* SecureItemDateFieldPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemDateFieldPreview.swift; sourceTree = "<group>"; };
 		95E3260F24D2F22300F35FAB /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
+		95F53245251B35BE00F6283A /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F53246251B35BE00F6283A /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F72FF124EFDF52000E6E83 /* VaultItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -634,6 +634,8 @@
 				95C1E51D24F177D0005F954F /* Stub */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
+				95F53245251B35BE00F6283A /* Vault.app */,
+				95F53246251B35BE00F6283A /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -757,7 +759,7 @@
 				9584E4C92518C60E00C6D772 /* Store */,
 			);
 			productName = iOS;
-			productReference = 952D105D251B2C4600B95C4B /* Vault.app */;
+			productReference = 95F53245251B35BE00F6283A /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -784,7 +786,7 @@
 				9584E4D22518CC5500C6D772 /* Store */,
 			);
 			productName = macOS;
-			productReference = 952D105E251B2C4600B95C4B /* Vault.app */;
+			productReference = 95F53246251B35BE00F6283A /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
