@@ -18,10 +18,11 @@
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangeMasterPasswordDescription" = "If you think your master password is too weak or has been compromised you can change it here.";
-"ChooseMasterPassword" = "Choose a password for your vault.";
+"ChooseMasterPassword" = "Choose master password";
 "Created" = "Created";
 "CreateItem" = "Create item";
 "CreateVault" = "Create Vault";
+"ConfirmPassword" = "Confirm password";
 "Continue" = "Continue";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomItem" = "Custom Item";
@@ -60,8 +61,6 @@
 "Other" = "Other";
 "Password" = "Password";
 "PasswordMismatch" = "Master password don’t match.";
-"RepeatPassword" = "Repeat Master Password";
-"RepeatNewPassword" = "Repeat new Master Password";
 "Retry" = "Retry";
 "Save" = "Save";
 "SaveFailed" = "Vault could not save item";

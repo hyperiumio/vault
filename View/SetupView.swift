@@ -184,7 +184,7 @@ private struct MasterPasswordContent: View {
                 
                 Divider()
                 
-                SecureField(LocalizedString.repeatPassword, text: repeatedPassword)
+                SecureField(LocalizedString.confirmPassword, text: repeatedPassword)
                     .padding(.horizontal, 20)
             }
             .font(.title3)

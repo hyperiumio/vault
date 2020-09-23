@@ -43,7 +43,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
                     
                     SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
                     
-                    SecureField(LocalizedString.repeatNewPassword, text: $model.repeatedNewPassword)
+                    SecureField(LocalizedString.confirmPassword, text: $model.repeatedNewPassword)
                 }
                 
                 Section(footer: ErrorMessage(status: model.status)) {
