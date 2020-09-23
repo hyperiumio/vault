@@ -9,32 +9,36 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
     private let useBiometricsOnAppear: Bool
     
     var body: some View {
-        VStack(spacing: 20) {
-            UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
-                .frame(maxWidth: 300)
-                .disabled(model.textInputDisabled)
+        ZStack {
+            Color.systemBackground.edgesIgnoringSafeArea(.all)
             
-            switch model.biometricKeychainAvailability {
-            case .touchID:
-                BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
-                    .foregroundColor(.accentColor)
-            case .faceID:
-                BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
-                    .foregroundColor(.accentColor)
-            case .notAvailable, .notEnrolled:
-                EmptyView()
+            VStack(spacing: 20) {
+                UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                    .frame(maxWidth: 300)
+                    .disabled(model.textInputDisabled)
+                
+                switch model.biometricKeychainAvailability {
+                case .touchID:
+                    BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
+                        .foregroundColor(.accentColor)
+                case .faceID:
+                    BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
+                        .foregroundColor(.accentColor)
+                case .notAvailable, .notEnrolled:
+                    EmptyView()
+                }
+                
+                switch model.status {
+                case .none, .unlocking, .unlocked:
+                    EmptyView()
+                case .invalidPassword:
+                    ErrorBadge(LocalizedString.wrongPassword)
+                case .unlockDidFail:
+                    ErrorBadge(LocalizedString.unlockFailed)
+                }
             }
-            
-            switch model.status {
-            case .none, .unlocking:
-                EmptyView()
-            case .invalidPassword:
-                ErrorBadge(LocalizedString.wrongPassword)
-            case .unlockDidFail:
-                ErrorBadge(LocalizedString.unlockFailed)
-            }
+            .padding()
         }
-        .padding()
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .active, useBiometricsOnAppear {
                 model.loginWithBiometrics()

@@ -43,6 +43,7 @@ import AppKit
 
 extension Color {
     
+    static let systemBackground = Self(.systemBackground)
     static let textFieldBackground = Self(.textBackgroundColor)
     static let label = Self(.labelColor)
     static let secondaryLabel = Self(.secondaryLabelColor)
@@ -58,6 +59,7 @@ import UIKit
 
 extension Color {
     
+    static let systemBackground = Self(.systemBackground)
     static let textFieldBackground = Self(.secondarySystemBackground)
     static let label = Self(.label)
     static let secondaryLabel = Self(.secondaryLabel)

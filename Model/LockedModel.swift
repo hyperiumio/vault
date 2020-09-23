@@ -24,6 +24,7 @@ enum LockedStatus {
     case unlocking
     case unlockDidFail
     case invalidPassword
+    case unlocked
     
 }
 
@@ -74,7 +75,7 @@ class LockedModel: LockedModelRepresentable {
                 
                 switch result {
                 case .success(let vault):
-                    self.status = .none
+                    self.status = .unlocked
                     self.doneSubject.send(vault)
                 case .failure(_):
                     self.status = .invalidPassword
@@ -89,8 +90,11 @@ class LockedModel: LockedModelRepresentable {
     }
     
     func loginWithBiometrics() {
-        status = .unlocking
+        guard status != .unlocking && status != .unlocked else {
+            return
+        }
         
+        status = .unlocking
         keychainLoadSubscription = biometricKeychain.loadPassword()
             .catch { error in
                 Empty(completeImmediately: false, outputType: String.self, failureType: Never.self)
