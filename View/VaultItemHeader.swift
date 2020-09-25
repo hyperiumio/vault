@@ -1,5 +1,5 @@
 //
-//  BankCardView.swift
+//  VaultItemHeader.swift
 //  App
 //
 //  Created by Johannes Auer on 25.09.20.

@@ -5,17 +5,14 @@ struct PasswordView<Model>: View where Model: PasswordModelRepresentable {
     
     @ObservedObject private var model: Model
     
-    private let isEditable: Binding<Bool>
+    init(_ model: Model) {
+        self.model = model
+    }
     
     var body: some View {
         SecureItemContainer {
-            SecureItemSecureField(LocalizedString.password, text: $model.password, isEditable: isEditable)
+            SecureItemSecureTextField(LocalizedString.password, text: model.password)
         }
     }
-    
-    init(_ model: Model, isEditable: Binding<Bool>) {
-        self.model = model
-        self.isEditable = isEditable
-    }
-    
+
 }

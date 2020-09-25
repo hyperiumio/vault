@@ -1,27 +1,38 @@
 import SwiftUI
 
-struct SecureItemDateField: View {
+struct SecureItemDateDisplayField: View {
     
     private let title: String
-    private let date: Binding<Date>
-    private let isEditable: Binding<Bool>
+    private let date: Date
+    
+    init(_ title: String, date: Date) {
+        self.title = title
+        self.date = date
+    }
     
     var body: some View {
         SecureItemField(title) {
-            if isEditable.wrappedValue {
-                DatePicker(title, selection: date, displayedComponents: .date)
-                    .labelsHidden()
-                    .frame(height: 40)
-            } else {
-                Text(date.wrappedValue, style: .date)
-            }
+            Text(date, style: .date)
         }
     }
     
-    init(_ title: String, date: Binding<Date>, isEditable: Binding<Bool>) {
+}
+
+struct SecureItemDateEditField: View {
+    
+    private let title: String
+    private let date: Binding<Date>
+    
+    init(_ title: String, date: Binding<Date>) {
         self.title = title
         self.date = date
-        self.isEditable = isEditable
+    }
+    
+    var body: some View {
+        SecureItemField(title) {
+            DatePicker(title, selection: date)
+                .labelsHidden()
+        }
     }
     
 }

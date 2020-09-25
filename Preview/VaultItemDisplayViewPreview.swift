@@ -11,10 +11,10 @@ struct VaultItemViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            VaultItemView(model, mode: .display)
+            VaultItemDisplayView(model)
                 .preferredColorScheme(.light)
             
-            VaultItemView(model, mode: .display)
+            VaultItemDisplayView(model)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

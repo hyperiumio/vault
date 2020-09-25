@@ -1,16 +1,17 @@
 import Localization
-import PDFKit
 import SwiftUI
 
 struct FileView<Model>: View where Model: FileModelRepresentable {
     
     @ObservedObject private var model: Model
     
-    private let isEditable: Binding<Bool>
+    init(_ model: Model) {
+        self.model = model
+    }
     
     var body: some View {
         SecureItemContainer {
-            SecureItemField(LocalizedString.filename, text: $model.name, isEditable: isEditable) {
+            SecureItemDisplayField(LocalizedString.filename) {
                 switch (model.data, model.format) {
                 case (nil, _):
                     Text("Select File")
@@ -25,64 +26,4 @@ struct FileView<Model>: View where Model: FileModelRepresentable {
         }
     }
     
-    init(_ model: Model, isEditable: Binding<Bool>) {
-        self.model = model
-        self.isEditable = isEditable
-    }
 }
-
-private struct FileGenericView: View {
-    
-    var body: some View {
-        Image(systemName: "doc.fill")
-    }
-    
-}
-
-private struct FilePDFView: View {
-    
-    let data: Data
-    
-    var body: some View {
-        if let document = PDFDocument(data: data) {
-            PDF(document)
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-
-#if canImport(AppKit)
-private struct FileImageView: View {
-    
-    let data: Data
-    
-    var body: some View {
-        if let nativeImage = NSImage(data: data) {
-            Image(nsImage: nativeImage)
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-#endif
-
-#if os(iOS)
-private struct FileImageView: View {
-    
-    let data: Data
-
-    var body: some View {
-        if let nativeImage = UIImage(data: data) {
-            Image(uiImage: nativeImage)
-                .resizable()
-                .scaledToFit()
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-#endif

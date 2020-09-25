@@ -1,22 +1,19 @@
 import SwiftUI
 
-struct SecureItemTextField: View {
+struct SecureItemTextDisplayField: View {
     
     private let title: String
-    private let text: Binding<String>
-    private let isEditable: Binding<Bool>
+    private let text: String
     
-    var body: some View {
-        SecureItemField(title) {
-            TextField(title, text: text)
-                .disabled(!isEditable.wrappedValue)
-        }
-    }
-    
-    init(_ title: String, text: Binding<String>, isEditable: Binding<Bool>) {
+    init(_ title: String, text: String) {
         self.title = title
         self.text = text
-        self.isEditable = isEditable
+    }
+    
+    var body: some View {
+        SecureItemDisplayField(title) {
+            Text(text)
+        }
     }
     
 }

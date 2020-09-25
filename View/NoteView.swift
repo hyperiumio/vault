@@ -1,21 +1,18 @@
 import Localization
 import SwiftUI
 
-struct NoteView<Model>: View where Model: NoteModelRepresentable {
+struct NoteDisplayView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject private var model: Model
     
-    private let isEditable: Binding<Bool>
+    init(_ model: Model) {
+        self.model = model
+    }
     
     var body: some View {
         SecureItemContainer {
-            SecureItemTextEditorField(LocalizedString.note, text: $model.text, isEditable: isEditable)
+            SecureItemTextField(LocalizedString.note, text: model.text)
         }
-    }
-    
-    init(_ model: Model, isEditable: Binding<Bool>) {
-        self.model = model
-        self.isEditable = isEditable
     }
     
 }

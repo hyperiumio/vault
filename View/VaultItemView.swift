@@ -1,87 +1,6 @@
 import Localization
 import SwiftUI
 
-struct VaultItemTitleField: View {
-    
-    let text: Binding<String>
-    
-    @Binding var isEditable: Bool
-    
-    var body: some View {
-        TextField(LocalizedString.title, text: text)
-            .font(.title3)
-            .padding(.vertical)
-            .disabled(!isEditable)
-            
-    }
-    
-}
-
-struct VaultItemFooter: View {
-    
-    let created: Date?
-    let modified: Date?
-    
-    var body: some View {
-        HStack {
-            Spacer()
-            
-            VStack(alignment: .custom, spacing: 4) {
-                if let created = created {
-                    HStack(alignment: .center) {
-                        Text(LocalizedString.created)
-                            .fontWeight(.semibold)
-                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                            .alignmentGuide(.custom) { dimension in
-                                dimension[HorizontalAlignment.trailing]
-                            }
-                            
-                        Text(created, formatter: dateFormatter)
-                    }
-                }
-
-                if let modified = modified {
-                    HStack {
-                        Text(LocalizedString.modified)
-                            .fontWeight(.semibold)
-                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                            .alignmentGuide(.custom) { dimension in
-                                dimension[HorizontalAlignment.trailing]
-                            }
-                        
-                        Text(modified, formatter: dateFormatter)
-                    }
-                }
-            }
-            .font(.caption)
-            
-            Spacer()
-        }
-    }
-    
-    private var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        return formatter
-    }
-    
-}
-
-private extension HorizontalAlignment {
-    
-    struct CustomAlignment: AlignmentID {
-        
-        static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            context[HorizontalAlignment.center]
-        }
-        
-    }
-
-    static let custom = HorizontalAlignment(CustomAlignment.self)
-}
-
-
 #if os(macOS)
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
@@ -144,28 +63,26 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
 #endif
 
 #if os(iOS)
-struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
+struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject var model: Model
-    @State private var isEditable = true
-    @State private var isAddItemViewVisible = false
     
-    private let mode: Mode
+    init(_ model: Model) {
+        self.model = model
+    }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .trailing, spacing: 0) {
-                VaultItemTitleField(text: $model.name, isEditable: $isEditable)
-                
-                Divider()
-                
-                ElementView(element: model.primaryItemModel, isEditable: $isEditable)
+        List {
+            VaultItemHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+            
+            Section(footer: VaultItemFooter(created: model.created, modified: model.modified).padding(.top)) {
+                ElementView(model.primaryItemModel)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
                     Divider()
                     
                     HStack(alignment: .top) {
-                        ElementView(element: secureItemModel, isEditable: $isEditable)
+                        ElementView(secureItemModel)
                         
                         Button {
                             model.deleteSecondaryItem(at: index)
@@ -177,125 +94,45 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         .padding(.vertical)
                     }
                 }
-                
-                Divider()
-                
-                switch mode {
-                case .creation, .edit:
-                    Button {
-                        isAddItemViewVisible = true
-                    } label: {
-                        Image.plusCircle
-                            .imageScale(.large)
-                    }
-                    .padding(.vertical)
-                    .sheet(isPresented: $isAddItemViewVisible) {
-                        NavigationView {
-                            List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
-                                Button {
-                                    model.addSecondaryItem(with: typeIdentifier)
-                                    isAddItemViewVisible = false
-                                } label: {
-                                    Label {
-                                        Text(typeIdentifier.name)
-                                            .foregroundColor(.label)
-                                    } icon: {
-                                        Image(typeIdentifier).foregroundColor(Color(typeIdentifier))
-                                    }
-                                }
-                            }
-                            .listStyle(PlainListStyle())
-                            .navigationBarTitleDisplayMode(.inline)
-                            .navigationTitle(LocalizedString.addItem)
-                            .toolbar {
-                                ToolbarItem(placement: .cancellationAction) {
-                                    Button(LocalizedString.cancel) {
-                                        isAddItemViewVisible = false
-                                    }
-                                }
-                            }
-                        }
-                    }
-                case .display:
-                    VaultItemFooter(created: model.created, modified: model.modified)
-                        .padding(.top)
-                }
             }
-            .padding(.horizontal)
         }
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-    init(_ model: Model, mode: Mode) {
-        self.model = model
-        self.mode = mode
-        
-        switch mode {
-        case .creation, .edit:
-            _isEditable = State(initialValue: true)
-        case .display:
-            _isEditable = State(initialValue: false)            
-        }
     }
     
 }
 #endif
 
-extension VaultItemView {
-    
-    enum Mode {
-        
-        case creation
-        case display
-        case edit
-        
-    }
-    
-}
+private extension VaultItemDisplayView {
 
-private extension VaultItemView {
-    
     struct ElementView: View {
         
-        let element: Model.Element
-        let isEditable: Binding<Bool>
+        private let element: Model.Element
+        
+        init(_ element: Model.Element) {
+            self.element = element
+        }
         
         var body: some View {
             switch element {
             case .login(let model):
-                LoginView(model, isEditable: isEditable)
+                LoginDisplayView(model)
             case .password(let model):
-                PasswordView(model, isEditable: isEditable)
+                PasswordDisplayView(model)
             case .file(let model):
-                FileView(model, isEditable: isEditable)
+                FileView(model)
             case .note(let model):
-                NoteView(model, isEditable: isEditable)
+                NoteDisplayView(model)
             case .bankCard(let model):
-                BankCardView(model, isEditable: isEditable)
+                BankCardDisplayView(model)
             case .wifi(let model):
-                WifiView(model, isEditable: isEditable)
+                WifiView(model)
             case .bankAccount(let model):
-                BankAccountView(model, isEditable: isEditable)
+                BankAccountDisplayView(model)
             case .custom(let model):
-                CustomItemView(model, isEditable: isEditable)
+                CustomItemDisplayView(model)
             }
         }
         
     }
-    
-    struct ElementToolbarItem: View {
-        
-        let type: SecureItemTypeIdentifier
-        
-        var body: some View {
-            HStack {
-                Image(type)
-                    .foregroundColor(Color(type))
-                
-                Text(type.name)
-            }
-        }
-        
-    }
-    
+
 }
