@@ -37,7 +37,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     #if os(iOS)
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section(header: Header()) {
                     SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
                     
@@ -57,7 +57,6 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
                 }
             }
             .disabled(model.status == .loading)
-            .listStyle(GroupedListStyle())
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(LocalizedString.masterPassword)
             .toolbar {

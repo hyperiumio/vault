@@ -1,8 +1,38 @@
-//
-//  WifiView.swift
-//  App
-//
-//  Created by Johannes Auer on 25.09.20.
-//
+import Localization
+import SwiftUI
 
-import Foundation
+struct WifiDisplayView<Model>: View where Model: WifiModelRepresentable {
+    
+    @ObservedObject private var model: Model
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+    var body: some View {
+        Group {
+            SecureItemTextDisplayField(LocalizedString.wifiNetworkName, text: model.networkName)
+            
+            SecureItemSecureTextDisplayField(LocalizedString.wifiNetworkPassword, text: model.networkPassword)
+        }
+    }
+    
+}
+
+struct WifiEditView<Model>: View where Model: WifiModelRepresentable {
+    
+    @ObservedObject private var model: Model
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+    var body: some View {
+        Group {
+            SecureItemTextEditField(LocalizedString.wifiNetworkName, text: $model.networkName)
+            
+            SecureItemSecureTextEditField(LocalizedString.wifiNetworkPassword, text: $model.networkPassword)
+        }
+    }
+    
+}

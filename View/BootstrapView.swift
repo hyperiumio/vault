@@ -5,6 +5,10 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
     @ObservedObject private var model: Model
     
+    init(_ model: Model) {
+        self.model = model
+    }
+    
     var body: some View {
         switch model.status {
         case .none, .loading:
@@ -25,10 +29,6 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
                     .padding(.top)
             }
         }
-    }
-    
-    init(_ model: Model) {
-        self.model = model
     }
     
 }

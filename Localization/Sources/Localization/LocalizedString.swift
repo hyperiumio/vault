@@ -28,6 +28,7 @@ public enum LocalizedString {
     public static let createVault = Bundle.module.localizedString(forKey: "CreateVault")
     public static let confirmPassword = Bundle.module.localizedString(forKey: "ConfirmPassword")
     public static let `continue` = Bundle.module.localizedString(forKey: "Continue")
+    public static let copied = Bundle.module.localizedString(forKey: "Copied")
     public static let currentMasterPassword = Bundle.module.localizedString(forKey: "CurrentMasterPassword")
     public static let customItem = Bundle.module.localizedString(forKey: "CustomItem")
     public static let customItemName = Bundle.module.localizedString(forKey: "CustomItemName")

@@ -4,14 +4,20 @@ struct VaultItemInfoView: View {
     
     private let name: String
     private let description: String
-    private let itemType: SecureItemTypeIdentifier
+    private let typeIdentifier: SecureItemTypeIdentifier
+    
+    init(_ name: String, description: String, typeIdentifier: SecureItemTypeIdentifier) {
+        self.name = name
+        self.description = description
+        self.typeIdentifier = typeIdentifier
+    }
     
     var body: some View {
         HStack {
-            Image(itemType)
+            typeIdentifier.image
                 .imageScale(.large)
-                .foregroundColor(Color(itemType))
-                .frame(width: 20)
+                .foregroundColor(typeIdentifier.color)
+                .frame(width: 30)
             
             VStack(alignment: .leading) {
                 Text(name)
@@ -23,12 +29,6 @@ struct VaultItemInfoView: View {
                 }
             }
         }
-    }
-    
-    init(_ name: String, description: String, itemType: SecureItemTypeIdentifier) {
-        self.name = name
-        self.description = description
-        self.itemType = itemType
     }
     
 }

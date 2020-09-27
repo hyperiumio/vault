@@ -1,9 +1,16 @@
 import SwiftUI
+import Pasteboard
 
 struct SecureItemDateDisplayField: View {
     
     private let title: String
     private let date: Date
+    
+    private var formattedDate: String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        return formatter.string(from: date)
+    }
     
     init(_ title: String, date: Date) {
         self.title = title
@@ -11,8 +18,12 @@ struct SecureItemDateDisplayField: View {
     }
     
     var body: some View {
-        SecureItemField(title) {
-            Text(date, style: .date)
+        SecureItemButton {
+            Pasteboard.general.string = formattedDate
+        } content: {
+            SecureItemDisplayField(title) {
+                Text(formattedDate)
+            }
         }
     }
     
@@ -29,8 +40,8 @@ struct SecureItemDateEditField: View {
     }
     
     var body: some View {
-        SecureItemField(title) {
-            DatePicker(title, selection: date)
+        SecureItemDisplayField(title) {
+            DatePicker(title, selection: date, displayedComponents: .date)
                 .labelsHidden()
         }
     }

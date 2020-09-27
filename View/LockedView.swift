@@ -20,10 +20,8 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                 switch model.biometricKeychainAvailability {
                 case .touchID:
                     BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
-                        .foregroundColor(.accentColor)
                 case .faceID:
                     BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
-                        .foregroundColor(.accentColor)
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 }
@@ -53,7 +51,34 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
 }
 
-extension LockedModelRepresentable {
+private extension LockedView {
+    
+    struct BiometricUnlockButton: View {
+        
+        private let biometricType: BiometricType
+        private let action: () -> Void
+        
+        init(_ biometricType: BiometricType, action: @escaping () -> Void) {
+            self.biometricType = biometricType
+            self.action = action
+        }
+        
+        var body: some View {
+            Button(action: action) {
+                biometricType.image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.accentColor)
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+        
+    }
+    
+}
+
+private extension LockedModelRepresentable {
     
     var textInputDisabled: Bool {
         status == .unlocking

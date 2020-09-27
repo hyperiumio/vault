@@ -5,6 +5,10 @@ struct AppView<Model>: View where Model: AppModelRepresentable {
     
     @ObservedObject private var model: Model
     
+    init(_ model: Model) {
+        self.model = model
+    }
+    
     #if os(macOS)
     var body: some View {
         Content(state: model.state)
@@ -17,10 +21,6 @@ struct AppView<Model>: View where Model: AppModelRepresentable {
         Content(state: model.state)
     }
     #endif
-    
-    init(_ model: Model) {
-        self.model = model
-    }
     
 }
 

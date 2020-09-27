@@ -1,7 +1,7 @@
 import Localization
 import SwiftUI
 
-struct PasswordView<Model>: View where Model: PasswordModelRepresentable {
+struct PasswordDisplayView<Model>: View where Model: PasswordModelRepresentable {
     
     @ObservedObject private var model: Model
     
@@ -10,9 +10,21 @@ struct PasswordView<Model>: View where Model: PasswordModelRepresentable {
     }
     
     var body: some View {
-        SecureItemContainer {
-            SecureItemSecureTextField(LocalizedString.password, text: model.password)
-        }
+        SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
+    }
+
+}
+
+struct PasswordEditView<Model>: View where Model: PasswordModelRepresentable {
+    
+    @ObservedObject private var model: Model
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+    var body: some View {
+        SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
     }
 
 }

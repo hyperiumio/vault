@@ -33,7 +33,7 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
     #if os(iOS)
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section(header: Header(biometricType: model.biometricType), footer: Text(model.enterMasterPasswordDescription)) {
                     SecureField(LocalizedString.masterPassword, text: $model.password)
                 }
@@ -49,7 +49,6 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
                 }
             }
             .disabled(model.userInputDisabled)
-            .listStyle(GroupedListStyle())
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(model.navigationTitle)
             .toolbar {
@@ -78,11 +77,13 @@ private extension BiometricUnlockPreferencesView {
             HStack {
                 Spacer()
                 
-                BiometricIcon(biometricType)
-                    .foregroundColor(.secondaryLabel)
+                biometricType.image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
                     .frame(width: 60, height: 60)
                     .padding(.top, 40)
                     .padding(.bottom, 20)
+                    .foregroundColor(.secondaryLabel)
                 
                 Spacer()
             }

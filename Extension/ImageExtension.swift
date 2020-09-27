@@ -25,28 +25,3 @@ extension Image {
     static let done = Image(systemName: "checkmark.circle")
     
 }
-
-extension Image {
-    
-    init(_ secureItemType: SecureItemTypeIdentifier) {
-        switch secureItemType {
-        case .password:
-            self = .password
-        case .login:
-            self = .login
-        case .file:
-            self = .file
-        case .note:
-            self = .note
-        case .bankCard:
-            self = .bankCard
-        case .wifi:
-            self = .wifi
-        case .bankAccount:
-            self = .bankAccount
-        case .custom:
-            self = .custom
-        }
-    }
-    
-}

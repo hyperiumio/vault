@@ -1,8 +1,20 @@
-//
-//  SecureItemContainer.swift
-//  App
-//
-//  Created by Johannes Auer on 25.09.20.
-//
+import SwiftUI
 
-import Foundation
+/*
+struct SecureItemContainer<Content>: View where Content: View {
+    
+    private let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 20) {
+            content
+        }
+        .padding(.vertical)
+    }
+    
+}
+*/

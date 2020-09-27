@@ -25,8 +25,8 @@ struct CreateVaultItemButton<Label>: View where Label: View {
                         SwiftUI.Label {
                             Text(typeIdentifier.name)
                         } icon: {
-                            Image(typeIdentifier)
-                                .foregroundColor(Color(typeIdentifier))
+                            typeIdentifier.image
+                                .foregroundColor(typeIdentifier.color)
                         }
                     }
                     .buttonStyle(PlainButtonStyle())

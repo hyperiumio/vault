@@ -71,8 +71,8 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         Label {
                             Text(typeIdentifier.name)
                         } icon: {
-                            Image(typeIdentifier)
-                                .foregroundColor(Color(typeIdentifier))
+                            typeIdentifier.image
+                                .foregroundColor(typeIdentifier.color)
                         }
                     }
                 }
@@ -86,7 +86,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
             .sheet(item: $model.creationModel) { vaultItemModel in
                 NavigationView {
-                    VaultItemView(vaultItemModel, mode: .creation)
+                    VaultItemEditView(vaultItemModel)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button(LocalizedString.cancel) {
@@ -150,7 +150,7 @@ private extension UnlockedView {
                         Section(header: Text(section.key)) {
                             ForEach(section.elements) { model in
                                 NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, itemType: model.info.primaryTypeIdentifier)
+                                        VaultItemInfoView(model.info.name, description: model.info.description, typeIdentifier: model.info.primaryTypeIdentifier)
                                 }
                             }
                         }

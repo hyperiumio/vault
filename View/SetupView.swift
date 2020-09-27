@@ -204,9 +204,11 @@ private struct BiometricUnlockContent: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            BiometricIcon(biometricType)
-                .foregroundColor(enabled.wrappedValue ? .label : .secondaryLabel)
+            biometricType.image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
                 .frame(width: 120, height: 120)
+                .foregroundColor(enabled.wrappedValue ? .label : .secondaryLabel)
             
             switch biometricType {
             case .touchID:

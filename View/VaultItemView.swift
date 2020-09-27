@@ -73,9 +73,49 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
     
     var body: some View {
         List {
-            VaultItemHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+            VaultItemDisplayHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
             
             Section(footer: VaultItemFooter(created: model.created, modified: model.modified).padding(.top)) {
+                ElementView(model.primaryItemModel)
+                
+                ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
+                    Divider()
+                    
+                    HStack(alignment: .top) {
+                        ElementView(secureItemModel)
+                        
+                        Button {
+                            model.deleteSecondaryItem(at: index)
+                        } label: {
+                            Image.trashCircle
+                                .renderingMode(.original)
+                                .imageScale(.large)
+                        }
+                        .padding(.vertical)
+                    }
+                }
+            }
+        }
+        .listStyle(InsetGroupedListStyle())
+    }
+    
+}
+
+struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
+    
+    @ObservedObject var model: Model
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+    var body: some View {
+        Form {
+            Section {
+                VaultItemEditHeader(LocalizedString.title, text: $model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+            }
+            
+            Section {
                 ElementView(model.primaryItemModel)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
@@ -119,17 +159,52 @@ private extension VaultItemDisplayView {
             case .password(let model):
                 PasswordDisplayView(model)
             case .file(let model):
-                FileView(model)
+                FileDisplayView(model)
             case .note(let model):
                 NoteDisplayView(model)
             case .bankCard(let model):
                 BankCardDisplayView(model)
             case .wifi(let model):
-                WifiView(model)
+                WifiDisplayView(model)
             case .bankAccount(let model):
                 BankAccountDisplayView(model)
             case .custom(let model):
                 CustomItemDisplayView(model)
+            }
+        }
+        
+    }
+
+}
+
+private extension VaultItemEditView {
+
+    struct ElementView: View {
+        
+        private let element: Model.Element
+        
+        init(_ element: Model.Element) {
+            self.element = element
+        }
+        
+        var body: some View {
+            switch element {
+            case .login(let model):
+                LoginEditView(model)
+            case .password(let model):
+                PasswordEditView(model)
+            case .file(let model):
+                FileEditView(model)
+            case .note(let model):
+                NoteEditView(model)
+            case .bankCard(let model):
+                BankCardEditView(model)
+            case .wifi(let model):
+                WifiEditView(model)
+            case .bankAccount(let model):
+                BankAccountEditView(model)
+            case .custom(let model):
+                CustomItemEditView(model)
             }
         }
         

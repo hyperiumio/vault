@@ -6,6 +6,12 @@ struct UnlockField: View {
     private let text: Binding<String>
     private let action: () -> Void
     
+    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
+        self.title = title
+        self.text = text
+        self.action = action
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             NativeTextField(title: title, text: text, action: action)
@@ -26,12 +32,6 @@ struct UnlockField: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         
-    }
-    
-    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
-        self.title = title
-        self.text = text
-        self.action = action
     }
     
 }

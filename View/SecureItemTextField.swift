@@ -1,4 +1,5 @@
 import SwiftUI
+import Pasteboard
 
 struct SecureItemTextDisplayField: View {
     
@@ -11,8 +12,30 @@ struct SecureItemTextDisplayField: View {
     }
     
     var body: some View {
+        SecureItemButton {
+            Pasteboard.general.string = text
+        } content: {
+            SecureItemDisplayField(title) {
+                Text(text)
+            }
+        }
+    }
+    
+}
+
+struct SecureItemTextEditField: View {
+    
+    private let title: String
+    private let text: Binding<String>
+    
+    init(_ title: String, text: Binding<String>) {
+        self.title = title
+        self.text = text
+    }
+    
+    var body: some View {
         SecureItemDisplayField(title) {
-            Text(text)
+            TextField(title, text: text)
         }
     }
     

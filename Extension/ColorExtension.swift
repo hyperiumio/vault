@@ -13,31 +13,6 @@ extension Color {
     
 }
 
-extension Color {
-    
-    init(_ secureItemType: SecureItemTypeIdentifier) {
-        switch secureItemType {
-        case .password:
-            self = .appGray
-        case .login:
-            self = .appBlue
-        case .file:
-            self = .appPink
-        case .note:
-            self = .appYellow
-        case .bankCard:
-            self = .appPurple
-        case .wifi:
-            self = .appTeal
-        case .bankAccount:
-            self = .appGreen
-        case .custom:
-            self = .appRed
-        }
-    }
-    
-}
-
 #if canImport(AppKit)
 import AppKit
 
