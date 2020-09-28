@@ -63,6 +63,57 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
 #endif
 
 #if os(iOS)
+struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
+    
+    @ObservedObject private var model: Model
+    @State private var mode = Mode.display
+    
+    init(_ model: Model) {
+        self.model = model
+    }
+    
+    var body: some View {
+        Group {
+            switch mode {
+            case .display:
+                VaultItemDisplayView(model)
+            case .edit:
+                VaultItemEditView(model)
+            }
+        }
+        .transition(AnyTransition.opacity.animation(.easeInOut))
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                switch mode {
+                case .display:
+                    EmptyView()
+                case .edit:
+                    Button(LocalizedString.cancel) {
+                        mode = .display
+                    }
+                }
+            }
+            
+            ToolbarItem(placement: .primaryAction) {
+                switch mode {
+                case .display:
+                    Button(LocalizedString.edit) {
+                        mode = .edit
+                    }
+                case .edit:
+                    Button(LocalizedString.save) {
+                        mode = .display
+                        model.save()
+                    }
+                }
+                
+            }
+        }
+        .navigationBarBackButtonHidden(mode == .edit)
+    }
+    
+}
+
 struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject var model: Model
@@ -103,7 +154,8 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
 
 struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject private var model: Model
+    @Environment(\.presentationMode) private var presentationMode
     
     init(_ model: Model) {
         self.model = model
@@ -135,12 +187,30 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
                     }
                 }
             }
+            
+            Section {
+                Button(LocalizedString.delete) {
+                    model.delete()
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
     }
     
 }
 #endif
+
+private extension VaultItemView {
+    
+    enum Mode {
+        
+        case display
+        case edit
+        
+    }
+    
+}
 
 private extension VaultItemDisplayView {
 

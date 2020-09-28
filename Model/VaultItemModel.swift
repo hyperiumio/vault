@@ -27,6 +27,7 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
     func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier)
     func deleteSecondaryItem(at index: Int)
     func save()
+    func delete()
     
 }
 
@@ -153,6 +154,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var addItemSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
+    private var deleteSubscription: AnyCancellable?
     
     init(vault: Vault, vaultItem: VaultItem, dependency: Dependency) {
         self.vault = vault
@@ -200,6 +202,19 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
                 }
             } receiveValue: { [doneSubject] in
                 doneSubject.send()
+            }
+    }
+    
+    func delete() {
+        guard let itemID = originalVaultItem?.id else {
+            return
+        }
+        
+        deleteSubscription = vault.deleteVaultItem(with: itemID)
+            .sink { completion in
+                
+            } receiveValue: {
+                
             }
     }
     

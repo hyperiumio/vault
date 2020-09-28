@@ -27,6 +27,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier) {}
     func deleteSecondaryItem(at index: Int) {}
     func save() {}
+    func delete() {}
     
     init(name: String, status: VaultItemStatus, primaryItemModel: Element, secondaryItemModels: [Element], created: Date?, modified: Date?) {
         self.name = name

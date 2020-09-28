@@ -18,7 +18,7 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
             case .loadingError:
                 EmptyView()
             case .loaded(let model):
-                VaultItemDisplayView(model)
+                VaultItemView(model)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
