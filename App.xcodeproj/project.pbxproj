@@ -88,6 +88,8 @@
 		9577121524F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
 		9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
 		9577121824F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
+		957975EE2521DEBD00B742B3 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957975ED2521DEBD00B742B3 /* SearchBar.swift */; };
+		957975EF2521DEBD00B742B3 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957975ED2521DEBD00B742B3 /* SearchBar.swift */; };
 		9583624524D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
 		9583624624D15EAF00C10BBB /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583624424D15EAF00C10BBB /* PDFView.swift */; };
 		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
@@ -310,9 +312,10 @@
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
 		9577121324F815B30095AF33 /* AppLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockedDependency.swift; sourceTree = "<group>"; };
 		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
+		957975EC2521DE2500B742B3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		957975ED2521DEBD00B742B3 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
-		958648F4251E0DD20081DF08 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		958648F5251E0E150081DF08 /* SecureItemContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemContainer.swift; sourceTree = "<group>"; };
 		958648FA251E11130081DF08 /* SecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemField.swift; sourceTree = "<group>"; };
 		958648FF251E11520081DF08 /* SecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTextField.swift; sourceTree = "<group>"; };
@@ -506,6 +509,7 @@
 				9586491D251E12D00081DF08 /* NoteView.swift */,
 				95864913251E126E0081DF08 /* PasswordView.swift */,
 				9583624424D15EAF00C10BBB /* PDFView.swift */,
+				957975ED2521DEBD00B742B3 /* SearchBar.swift */,
 				95C90C2D2520B13C00860CAE /* SecureItemButton.swift */,
 				958648F5251E0E150081DF08 /* SecureItemContainer.swift */,
 				95864909251E11C60081DF08 /* SecureItemDateField.swift */,
@@ -577,6 +581,7 @@
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
 				959D18932520F704007F5D15 /* Vault.app */,
+				957975EC2521DE2500B742B3 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -709,7 +714,7 @@
 				9584E4D22518CC5500C6D772 /* Store */,
 			);
 			productName = macOS;
-			productReference = 958648F4251E0DD20081DF08 /* Vault.app */;
+			productReference = 957975EC2521DE2500B742B3 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -829,6 +834,7 @@
 				95C1E53D24F179A3005F954F /* NoteModelStub.swift in Sources */,
 				952D1069251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */,
 				95DFA2D924FC367100BD50D4 /* VaultItemInfoViewPreview.swift in Sources */,
+				957975EE2521DEBD00B742B3 /* SearchBar.swift in Sources */,
 				95DFA2E024FC367100BD50D4 /* PDFViewPreview.swift in Sources */,
 				95C1E52524F178AB005F954F /* BankCardModelStub.swift in Sources */,
 				9574328824AA081B0062B05A /* BiometricUnlockPreferencesModel.swift in Sources */,
@@ -949,6 +955,7 @@
 				95C1E53E24F179A3005F954F /* NoteModelStub.swift in Sources */,
 				95DFA2FA24FC367200BD50D4 /* VaultItemInfoViewPreview.swift in Sources */,
 				952D106A251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */,
+				957975EF2521DEBD00B742B3 /* SearchBar.swift in Sources */,
 				95DFA30124FC367200BD50D4 /* PDFViewPreview.swift in Sources */,
 				9530C51624B6FA90008F1D2C /* AppDelegate.swift in Sources */,
 				95C1E52624F178AB005F954F /* BankCardModelStub.swift in Sources */,

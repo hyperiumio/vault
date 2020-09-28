@@ -12,7 +12,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
-    let itemCollation: Collation
+    let itemCollation: Collation?
     let settingsModel: SettingsModelStub
     
     var lock: AnyPublisher<Void, Never> {

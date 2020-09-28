@@ -33,7 +33,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     #if os(iOS)
     var body: some View {
         NavigationView {
-            VaultItemList(model.itemCollation)
+            VaultItemList(model.itemCollation, searchText: $model.searchText)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         Button {
@@ -137,16 +137,15 @@ private extension UnlockedView {
     
     struct VaultItemList: View {
         
-        let itemCollation: Model.Collation
+        let itemCollation: Model.Collation?
+        let searchText: Binding<String>
         
         var body: some View {
-            switch itemCollation.sections.isEmpty {
-            case true:
-                Text(LocalizedString.emptyVault)
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-            case false:
+            if let collation = itemCollation {
                 List {
-                    ForEach(itemCollation.sections) { section in
+                    SearchBar(text: searchText)
+                    
+                    ForEach(collation.sections) { section in
                         Section(header: Text(section.key)) {
                             ForEach(section.elements) { model in
                                 NavigationLink(destination: VaultItemReferenceView(model)) {
@@ -158,11 +157,15 @@ private extension UnlockedView {
                 }
                 .listStyle(PlainListStyle())
                 .navigationTitle(LocalizedString.vault)
+            } else {
+                Text(LocalizedString.emptyVault)
+                    .font(.title)
             }
         }
      
-        init(_ itemCollation: Model.Collation) {
+        init(_ itemCollation: Model.Collation?, searchText: Binding<String>) {
             self.itemCollation = itemCollation
+            self.searchText = searchText
         }
         
     }

@@ -15,7 +15,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
     
     var searchText: String { get set }
-    var itemCollation: Collation { get }
+    var itemCollation: Collation? { get }
     var settingsModel: SettingsModel { get }
     var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
@@ -57,7 +57,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     typealias VaultItemModel = Dependency.VaultItemModel
     typealias VaultItemReferenceModel = Dependency.VaultItemReferenceModel
     
-    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>
+    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>?
     @Published var searchText: String = ""
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
@@ -80,20 +80,30 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         self.vault = vault
         self.settingsModel = dependency.settingsModel()
         self.dependency = dependency
-        self.itemCollation = AlphabeticCollation(from: referenceModels)
+        self.itemCollation = referenceModels.isEmpty ? nil : AlphabeticCollation(from: referenceModels)
         
         let searchTextPublisher = $searchText.setFailureType(to: Error.self)
         
         infoItemsSubscription = Publishers.CombineLatest(vault.vaultItemInfosDidChange, searchTextPublisher)
             .receive(on: operationQueue)
-            .map { vaultItemInfos, searchText in
-                vaultItemInfos
-                    .filter { itemDescription in
-                        FuzzyMatch(searchText, in: itemDescription.name)
-                    }
-                    .map(dependency.vaultItemReferenceModel)
+            .map { vaultItemInfos, searchText -> [VaultItemReferenceModel]? in
+                if vaultItemInfos.isEmpty {
+                    return nil
+                } else {
+                    return vaultItemInfos
+                        .filter { itemDescription in
+                            FuzzyMatch(searchText, in: itemDescription.name)
+                        }
+                        .map(dependency.vaultItemReferenceModel)
+                }
             }
-            .map(AlphabeticCollation.init)
+            .map { referenceModels -> AlphabeticCollation<VaultItemReferenceModel>? in
+                if let referenceModels = referenceModels {
+                    return AlphabeticCollation(from: referenceModels)
+                } else {
+                    return nil
+                }
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
