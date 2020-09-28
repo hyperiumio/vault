@@ -28,7 +28,7 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     
     public func save(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         operationQueue.future { [resourceLocator, indexSubject, masterKey] in
-            let itemURL = resourceLocator.itemFile(for: vaultItem.id)
+            let itemURL = resourceLocator.itemFile()
             let encodedVaultItemInfo = try vaultItem.info.encoded()
             let encodedPrimarySecureItem = try vaultItem.primarySecureItem.encoded()
             let encodedSecondarySecureItems = try vaultItem.secondarySecureItems.map { secureItem in
@@ -37,7 +37,7 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             let messages = [encodedVaultItemInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
             let secureDataContainer = try Message.encryptContainer(from: messages, using: masterKey)
             let header = try Header(data: secureDataContainer)
-            let indexElement = VaultIndex.Element(header: header, info: vaultItem.info)
+            let indexElement = VaultIndex.Element(url: itemURL, header: header, info: vaultItem.info)
             
             try secureDataContainer.write(to: itemURL)
             
@@ -47,29 +47,27 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     }
     
     public func loadVaultItem(with itemID: UUID) -> AnyPublisher<VaultItem, Error> {
-        operationQueue.future { [resourceLocator, indexSubject, masterKey] in
-            let itemURL = resourceLocator.itemFile(for: itemID)
-            let data = try Data(contentsOf: itemURL)
-            let header = try indexSubject.value.header(for: itemID)
-            let info = try indexSubject.value.info(for: itemID)
-            let itemKey = try header.unwrapKey(with: masterKey)
-            let primaryNonceRange = header.nonceRanges[.primarySecureItemIndex]
-            let primaryCiphertextRange = header.ciphertextRange[.primarySecureItemIndex]
+        operationQueue.future { [indexSubject, masterKey] in
+            let element = try indexSubject.value.element(for: itemID)
+            let itemKey = try element.header.unwrapKey(with: masterKey)
+            let primaryNonceRange = element.header.nonceRanges[.primarySecureItemIndex]
+            let primaryCiphertextRange = element.header.ciphertextRange[.primarySecureItemIndex]
+            let data = try Data(contentsOf: element.url)
             
             let primaryNonce = data[primaryNonceRange]
             let primaryCiphertext = data[primaryCiphertextRange]
-            let primaryTag = header.tags[.primarySecureItemIndex]
+            let primaryTag = element.header.tags[.primarySecureItemIndex]
             let primaryItemData = try Message(nonce: primaryNonce, ciphertext: primaryCiphertext, tag: primaryTag).decrypt(using: itemKey)
-            let primaryItem = try SecureItem(from: primaryItemData, asTypeMatching: info.primaryTypeIdentifier)
+            let primaryItem = try SecureItem(from: primaryItemData, asTypeMatching: element.info.primaryTypeIdentifier)
             
-            return VaultItem(id: info.id, name: info.name, primarySecureItem: primaryItem, secondarySecureItems: [], created: info.created, modified: info.modified)
+            return VaultItem(id: element.info.id, name: element.info.name, primarySecureItem: primaryItem, secondarySecureItems: [], created: element.info.created, modified: element.info.modified)
         }
         .eraseToAnyPublisher()
     }
     
     public func deleteVaultItem(with itemID: UUID) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [resourceLocator, indexSubject] in
-            let itemURL = resourceLocator.itemFile(for: itemID)
+        operationQueue.future { [indexSubject] in
+            let itemURL = try indexSubject.value.element(for: itemID).url
             try FileManager.default.removeItem(at: itemURL)
             
             indexSubject.value = indexSubject.value.delete(itemID)
@@ -146,7 +144,7 @@ extension Vault {
                     let ciphertext = try fileReader.bytes(in: ciphertextRange)
                     let tag = header.tags[.infoIndex]
                     let message = Message(nonce: nonce, ciphertext: ciphertext, tag: tag)
-                    return LockedVault.Element(header: header, message: message)
+                    return LockedVault.Element(url: itemURL, header: header, message: message)
                 }
             } as [LockedVault.Element]
             

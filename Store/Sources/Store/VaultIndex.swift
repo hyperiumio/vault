@@ -22,24 +22,16 @@ struct VaultIndex<Header> {
         self.values = values
     }
     
-    func header(for id: UUID) throws -> Header {
-        guard let value = values[id] else {
-            throw NSError()
-        }
-        
-        return value.header
-    }
-    
-    func info(for id: UUID) throws -> VaultItem.Info {
-        guard let value = values[id] else {
-            throw NSError()
-        }
-        
-        return value.info
-    }
-    
     var infos: [VaultItem.Info] {
         values.values.map(\.info)
+    }
+    
+    func element(for id: UUID) throws -> Element {
+        guard let value = values[id] else {
+            throw NSError()
+        }
+        
+        return value
     }
     
     func add(_ element: Element) -> Self {
@@ -62,6 +54,7 @@ extension VaultIndex {
     
     struct Element {
         
+        let url: URL
         let header: Header
         let info: VaultItem.Info
         

@@ -20,8 +20,9 @@ struct VaultResourceLocator {
         rootDirectory.appendingPathComponent("items", isDirectory: true)
     }
     
-    func itemFile(for itemID: UUID) -> URL {
-        itemsDirectory.appendingPathComponent(itemID.uuidString, isDirectory: false)
+    func itemFile() -> URL {
+        let fileName = UUID().uuidString
+        return itemsDirectory.appendingPathComponent(fileName, isDirectory: false)
     }
     
 }

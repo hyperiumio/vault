@@ -14,7 +14,7 @@ public struct LockedVault<Key, Header, Message> where Key: KeyRepresentable, Hea
             let itemKey = try element.header.unwrapKey(with: masterKey)
             let vaultItemInfoData = try element.message.decrypt(using: itemKey)
             let vaultItemInfo = try VaultItem.Info(from: vaultItemInfoData)
-            return VaultIndex.Element(header: element.header, info: vaultItemInfo)
+            return VaultIndex.Element(url: element.url, header: element.header, info: vaultItemInfo)
         } as [VaultIndex.Element]
         
         let index = VaultIndex(indexElements)
@@ -31,6 +31,7 @@ extension LockedVault {
     
     struct Element {
         
+        let url: URL
         let header: Header
         let message: Message
         
