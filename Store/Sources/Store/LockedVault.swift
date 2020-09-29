@@ -10,11 +10,15 @@ public struct LockedVault<Key, Header, Message> where Key: KeyRepresentable, Hea
     public func unlock(with password: String) throws -> Vault {
         let masterKey = try Key(from: keyContainer, using: password)
         
-        let indexElements = try elements.map { element in
-            let itemKey = try element.header.unwrapKey(with: masterKey)
-            let vaultItemInfoData = try element.message.decrypt(using: itemKey)
-            let vaultItemInfo = try VaultItem.Info(from: vaultItemInfoData)
-            return VaultIndex.Element(url: element.url, header: element.header, info: vaultItemInfo)
+        let indexElements = elements.compactMap { element in
+            do {
+                let itemKey = try element.header.unwrapKey(with: masterKey)
+                let vaultItemInfoData = try element.message.decrypt(using: itemKey)
+                let vaultItemInfo = try VaultItem.Info(from: vaultItemInfoData)
+                return VaultIndex.Element(url: element.url, header: element.header, info: vaultItemInfo)
+            } catch {
+                return nil
+            }
         } as [VaultIndex.Element]
         
         let index = VaultIndex(indexElements)
