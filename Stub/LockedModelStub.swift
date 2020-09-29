@@ -5,7 +5,7 @@ import Foundation
 class LockedModelStub: LockedModelRepresentable {
     
     @Published var password: String
-    @Published var biometricKeychainAvailability: BiometricKeychainAvailablity
+    @Published var keychainAvailability: KeychainAvailability
     @Published var status: LockedStatus
     
     var done: AnyPublisher<Vault, Never> {
@@ -14,10 +14,10 @@ class LockedModelStub: LockedModelRepresentable {
     
     let vaultDirectory: URL
     
-    init(vaultDirectory: URL, password: String, biometricKeychainAvailability: BiometricKeychainAvailablity, status: LockedStatus) {
+    init(vaultDirectory: URL, password: String, keychainAvailability: KeychainAvailability, status: LockedStatus) {
         self.vaultDirectory = vaultDirectory
         self.password = password
-        self.biometricKeychainAvailability = biometricKeychainAvailability
+        self.keychainAvailability = keychainAvailability
         self.status = status
     }
     

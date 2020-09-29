@@ -6,12 +6,12 @@ struct AppUnlockedDependency {
     
     private let vault: Vault
     private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault, preferencesManager: PreferencesManager, keychain: Keychain) {
         self.vault = vault
         self.preferencesManager = preferencesManager
-        self.biometricKeychain = biometricKeychain
+        self.keychain = keychain
     }
     
 }
@@ -20,7 +20,7 @@ extension AppUnlockedDependency: UnlockedModelDependency {
     
     
     func settingsModel() -> SettingsModel<Self> {
-        SettingsModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain, dependency: self)
+        SettingsModel(vault: vault, preferencesManager: preferencesManager, keychain: keychain, dependency: self)
     }
     
     func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel<Self> {
@@ -36,11 +36,11 @@ extension AppUnlockedDependency: UnlockedModelDependency {
 extension AppUnlockedDependency: SettingsModelDependency {
     
     func biometricUnlockPreferencesModel(biometricType: BiometricType) -> BiometricUnlockPreferencesModel {
-        BiometricUnlockPreferencesModel(vault: vault, biometricType: biometricType, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        BiometricUnlockPreferencesModel(vault: vault, biometricType: biometricType, preferencesManager: preferencesManager, keychain: keychain)
     }
     
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel {
-        ChangeMasterPasswordModel(vault: vault, preferencesManager: preferencesManager, biometricKeychain: biometricKeychain)
+        ChangeMasterPasswordModel(vault: vault, preferencesManager: preferencesManager, keychain: keychain)
     }
     
 }

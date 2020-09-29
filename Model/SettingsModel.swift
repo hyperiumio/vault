@@ -10,7 +10,7 @@ protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     
     var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel? { get set }
     var changeMasterPasswordModel: ChangeMasterPasswordModel? { get set }
-    var biometricAvailablity: BiometricKeychainAvailablity { get }
+    var keychainAvailability: KeychainAvailability { get }
     var isBiometricUnlockEnabled: Bool { get }
     
     func setBiometricUnlock(isEnabled: Bool)
@@ -34,26 +34,26 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     typealias ChangeMasterPasswordModel = Dependency.ChangeMasterPasswordModel
     
     @Published var changeMasterPasswordModel: ChangeMasterPasswordModel?
-    @Published var biometricAvailablity: BiometricKeychain.Availablity
+    @Published var keychainAvailability: Keychain.Availability
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
     @Published private(set) var isBiometricUnlockEnabled: Bool = true
     
     private let vault: Vault
     private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     private let dependency: Dependency
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain, dependency: Dependency) {
+    init(vault: Vault, preferencesManager: PreferencesManager, keychain: Keychain, dependency: Dependency) {
         self.vault = vault
         self.preferencesManager = preferencesManager
-        self.biometricKeychain = biometricKeychain
+        self.keychain = keychain
         self.dependency = dependency
-        self.biometricAvailablity = biometricKeychain.availability
+        self.keychainAvailability = keychain.availability
         self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled
         
-        biometricKeychain.availabilityDidChange
+        keychain.availabilityDidChange
             .receive(on: DispatchQueue.main)
-            .assign(to: &$biometricAvailablity)
+            .assign(to: &$keychainAvailability)
         
         preferencesManager.didChange
             .map { preferences in preferences.isBiometricUnlockEnabled }
@@ -67,7 +67,7 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
             return
         }
         
-        let biometricType = biometricAvailablity == .faceID ? BiometricType.faceID : .touchID // hacky
+        let biometricType = keychainAvailability == .faceID ? BiometricType.faceID : .touchID // hacky
         let model = dependency.biometricUnlockPreferencesModel(biometricType: biometricType)
         
         model.done

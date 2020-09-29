@@ -4,29 +4,29 @@ import Foundation
 import LocalAuthentication
 import Security
 
-var BiometricKeychainWrite = SecItemAdd
-var BiometricKeychainLoad = SecItemCopyMatching
-var BiometricKeychainDelete = SecItemDelete
+var KeychainWrite = SecItemAdd
+var KeychainLoad = SecItemCopyMatching
+var KeychainDelete = SecItemDelete
 
-public class BiometricKeychain {
+public class Keychain {
     
-    public var availabilityDidChange: AnyPublisher<Availablity, Never> {
+    public var availabilityDidChange: AnyPublisher<Availability, Never> {
         return availabilityDidChangeSubject
             .removeDuplicates()
             .eraseToAnyPublisher()
     }
     
-    public var availability: Availablity { availabilityDidChangeSubject.value }
+    public var availability: Availability { availabilityDidChangeSubject.value }
     
     private let identifier: String
     private let operationQueue = DispatchQueue(label: "BiometricKeychainOperationQueue")
     private let context: LAContext
-    private let availabilityDidChangeSubject: CurrentValueSubject<Availablity, Never>
+    private let availabilityDidChangeSubject: CurrentValueSubject<Availability, Never>
     
     public init(identifier: String) {
         let context = LAContext()
-        let availability = Availablity(from: context)
-        let availabilityDidChangeSubject = CurrentValueSubject<Availablity, Never>(availability)
+        let availability = Availability(from: context)
+        let availabilityDidChangeSubject = CurrentValueSubject<Availability, Never>(availability)
         
         self.identifier = identifier
         self.context = context
@@ -48,12 +48,12 @@ public class BiometricKeychain {
                 kSecValueData: Data(password.utf8)
             ] as CFDictionary
             
-            let deleteStatus = BiometricKeychainDelete(deleteQuery)
+            let deleteStatus = KeychainDelete(deleteQuery)
             guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
                 throw CryptoError.keychainDeleteDidFail
             }
             
-            let writeStatus = BiometricKeychainWrite(writeQuery, nil)
+            let writeStatus = KeychainWrite(writeQuery, nil)
             guard writeStatus == errSecSuccess else {
                 throw CryptoError.keychainStoreDidFail
             }
@@ -71,7 +71,7 @@ public class BiometricKeychain {
             
             var item: CFTypeRef?
             
-            let status = BiometricKeychainLoad(query, &item)
+            let status = KeychainLoad(query, &item)
             guard status == errSecSuccess else {
                 throw CryptoError.keychainLoadDidFail
             }
@@ -94,7 +94,7 @@ public class BiometricKeychain {
                 kSecAttrService: identifier
             ] as CFDictionary
             
-            let status = BiometricKeychainDelete(query)
+            let status = KeychainDelete(query)
             guard status == errSecSuccess || status == errSecItemNotFound else {
                 throw CryptoError.keychainDeleteDidFail
             }
@@ -103,14 +103,14 @@ public class BiometricKeychain {
     }
     
     public func invalidateAvailability() {
-        availabilityDidChangeSubject.value = Availablity(from: context)
+        availabilityDidChangeSubject.value = Availability(from: context)
     }
     
 }
 
-extension BiometricKeychain {
+extension Keychain {
     
-    public enum Availablity {
+    public enum Availability {
         
         case notAvailable
         case notEnrolled

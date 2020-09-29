@@ -8,7 +8,7 @@ class SetupModelStub: SetupModelRepresentable {
     @Published var repeatedPassword: String
     @Published var biometricUnlockEnabled: Bool
     @Published var passwordStatus: PasswordStatus
-    @Published var biometricAvailability: BiometricKeychainAvailablity
+    @Published var keychainAvailability: KeychainAvailability
     
     var done: AnyPublisher<(URL, Vault), Never> {
         doneSubject.eraseToAnyPublisher()
@@ -18,12 +18,12 @@ class SetupModelStub: SetupModelRepresentable {
         setupFailedSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, repeatedPassword: String, biometricUnlockEnabled: Bool, passwordStatus: PasswordStatus, biometricAvailability: BiometricKeychainAvailablity) {
+    init(password: String, repeatedPassword: String, biometricUnlockEnabled: Bool, passwordStatus: PasswordStatus, keychainAvailability: KeychainAvailability) {
         self.password = password
         self.repeatedPassword = repeatedPassword
         self.biometricUnlockEnabled = biometricUnlockEnabled
         self.passwordStatus = passwordStatus
-        self.biometricAvailability = biometricAvailability
+        self.keychainAvailability = keychainAvailability
     }
     
     func completeSetup() {}

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SetupViewPreview: PreviewProvider {
     
-    static let model = SetupModelStub(password: "", repeatedPassword: "", biometricUnlockEnabled: false, passwordStatus: .insecure, biometricAvailability: .faceID)
+    static let model = SetupModelStub(password: "", repeatedPassword: "", biometricUnlockEnabled: false, passwordStatus: .insecure, keychainAvailability: .faceID)
     
     static var previews: some View {
         Group {

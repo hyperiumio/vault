@@ -38,14 +38,14 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     
     private let vault: Vault
     private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(vault: Vault, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault, preferencesManager: PreferencesManager, keychain: Keychain) {
         self.vault = vault
         self.preferencesManager = preferencesManager
-        self.biometricKeychain = biometricKeychain
+        self.keychain = keychain
         
         Publishers.Merge3($currentPassword, $newPassword, $repeatedNewPassword)
             .map { _ in .none }

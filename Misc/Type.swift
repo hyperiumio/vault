@@ -4,7 +4,7 @@ import Store
 import SwiftUI
 
 typealias BankCardItemVendor = BankCardItem.Vendor
-typealias BiometricKeychainAvailablity = BiometricKeychain.Availablity
+typealias KeychainAvailability = Keychain.Availability
 typealias FileItemFormat = FileItem.Format
 typealias SecureItemTypeIdentifier = SecureItem.TypeIdentifier
 typealias VaultItemInfo = VaultItem.Info

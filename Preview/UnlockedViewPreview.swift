@@ -13,7 +13,7 @@ struct UnlockViewPreview: PreviewProvider {
             VaultItemReferenceModelStub(state: .none, info: itemInfo)
         }
         let itemCollation = AlphabeticCollation<VaultItemReferenceModelStub>(from: items)
-        let settingsModel = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, biometricAvailablity: .notAvailable, isBiometricUnlockEnabled: false)
+        let settingsModel = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, keychainAvailability: .notAvailable, isBiometricUnlockEnabled: false)
         let model = UnlockedModelStub(itemCollation: itemCollation, settingsModel: settingsModel, creationModel: nil, failure: nil)
         return model
     }()

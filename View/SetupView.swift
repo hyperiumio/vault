@@ -35,7 +35,7 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
                         case .insecure:
                             passwordHint = .insecure
                         case .complete:
-                            switch model.biometricAvailability {
+                            switch model.keychainAvailability {
                             case .notAvailable, .notEnrolled:
                                 state = .complete(.forward)
                             case .touchID:
@@ -71,7 +71,7 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
             case .complete:
                 VStack {
                     BackButton {
-                        switch model.biometricAvailability {
+                        switch model.keychainAvailability {
                         case .notAvailable, .notEnrolled:
                             state = .masterPassword(.backward)
                         case .touchID:

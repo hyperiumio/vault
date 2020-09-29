@@ -17,7 +17,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                     .frame(maxWidth: 300)
                     .disabled(model.textInputDisabled)
                 
-                switch model.biometricKeychainAvailability {
+                switch model.keychainAvailability {
                 case .touchID:
                     BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
                 case .faceID:

@@ -9,7 +9,7 @@ protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
     var vaultDirectory: URL { get }
     var password: String { get set }
-    var biometricKeychainAvailability: BiometricKeychainAvailablity { get }
+    var keychainAvailability: KeychainAvailability { get }
     var status: LockedStatus { get }
     var done: AnyPublisher<Vault, Never> { get }
     
@@ -31,7 +31,7 @@ enum LockedStatus {
 class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
-    @Published private(set) var biometricKeychainAvailability: BiometricKeychainAvailablity
+    @Published private(set) var keychainAvailability: KeychainAvailability
     @Published private(set) var status = LockedStatus.none
     
     var done: AnyPublisher<Vault, Never> {
@@ -42,19 +42,19 @@ class LockedModel: LockedModelRepresentable {
     
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let passwordSubject = PassthroughSubject<String, Never>()
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     private var openVaultSubscription: AnyCancellable?
     private var keychainLoadSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vaultDirectory: URL, preferencesManager: PreferencesManager, keychain: Keychain) {
         self.vaultDirectory = vaultDirectory
-        self.biometricKeychain = biometricKeychain
-        self.biometricKeychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? biometricKeychain.availability : .notAvailable
+        self.keychain = keychain
+        self.keychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
         
-        Publishers.CombineLatest(preferencesManager.didChange, biometricKeychain.availabilityDidChange)
-            .map { preferences, biometricAvailability in preferences.isBiometricUnlockEnabled ? biometricAvailability : .notAvailable }
+        Publishers.CombineLatest(preferencesManager.didChange, keychain.availabilityDidChange)
+            .map { preferences, keychainAvailability in preferences.isBiometricUnlockEnabled ? keychainAvailability : .notAvailable }
             .receive(on: DispatchQueue.main)
-            .assign(to: &$biometricKeychainAvailability)
+            .assign(to: &$keychainAvailability)
         
         $password
             .map { _ in .none }
@@ -95,7 +95,7 @@ class LockedModel: LockedModelRepresentable {
         }
         
         status = .unlocking
-        keychainLoadSubscription = biometricKeychain.loadPassword()
+        keychainLoadSubscription = keychain.loadPassword()
             .catch { error in
                 Empty(completeImmediately: false, outputType: String.self, failureType: Never.self)
             }

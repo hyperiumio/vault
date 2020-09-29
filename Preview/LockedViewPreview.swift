@@ -5,7 +5,7 @@ struct LockedViewPreview: PreviewProvider {
     
     static let model: LockedModelStub = {
         let vaultDirectory = URL(fileURLWithPath: "")
-        return LockedModelStub(vaultDirectory: vaultDirectory, password: "", biometricKeychainAvailability: .touchID, status: .none)
+        return LockedModelStub(vaultDirectory: vaultDirectory, password: "", keychainAvailability: .touchID, status: .none)
     }()
     
     static var previews: some View {

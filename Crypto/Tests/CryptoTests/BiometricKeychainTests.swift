@@ -11,28 +11,28 @@ class BiometricKeychainTests: XCTestCase {
         super.setUp()
         
         subscriptions.removeAll()
-        BiometricKeychainWrite = { _, _ in fatalError() }
-        BiometricKeychainLoad = { _, _ in fatalError() }
-        BiometricKeychainDelete = { _ in fatalError() }
+        KeychainWrite = { _, _ in fatalError() }
+        KeychainLoad = { _, _ in fatalError() }
+        KeychainDelete = { _ in fatalError() }
     }
     
     override func tearDown() {
         subscriptions.removeAll()
-        BiometricKeychainWrite = SecItemAdd
-        BiometricKeychainLoad = SecItemCopyMatching
-        BiometricKeychainDelete = SecItemDelete
+        KeychainWrite = SecItemAdd
+        KeychainLoad = SecItemCopyMatching
+        KeychainDelete = SecItemDelete
         
         super.tearDown()
     }
     
     func testStorePasswordSuccess() {
-        BiometricKeychainDelete = { _ in errSecSuccess }
-        BiometricKeychainWrite = { _, _ in errSecSuccess }
+        KeychainDelete = { _ in errSecSuccess }
+        KeychainWrite = { _, _ in errSecSuccess }
         
         let successExpectation = XCTestExpectation()
         let expectations = [successExpectation]
         
-        BiometricKeychain.shared.storePassword("foo", identifier: "bar")
+        Keychain.shared.storePassword("foo", identifier: "bar")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -55,9 +55,9 @@ class BiometricKeychainTests: XCTestCase {
         let expectedPasswordData = Data(expectedPassword.utf8)
         let expectedAccessControlTypeId = SecAccessControlGetTypeID()
         
-        BiometricKeychainDelete = { _ in errSecSuccess }
+        KeychainDelete = { _ in errSecSuccess }
         
-        BiometricKeychainWrite = { attributes, result in
+        KeychainWrite = { attributes, result in
             let attributes = attributes as? [CFString: AnyObject]
             let secClass = attributes?[kSecClass] as? String
             let secAttrService = attributes?[kSecAttrService] as? String
@@ -79,7 +79,7 @@ class BiometricKeychainTests: XCTestCase {
         let doneExpectation = XCTestExpectation()
         let expectations = [doneExpectation]
         
-        BiometricKeychain.shared.storePassword(expectedPassword, identifier: expectedIdentifier)
+        Keychain.shared.storePassword(expectedPassword, identifier: expectedIdentifier)
             .sink(
                 receiveCompletion: { completion in
                     doneExpectation.fulfill()
@@ -95,12 +95,12 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testStorePasswordDeleteDidFail() {
-        BiometricKeychainDelete = { query in -1 }
+        KeychainDelete = { query in -1 }
         
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.storePassword("", identifier: "")
+        Keychain.shared.storePassword("", identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -118,13 +118,13 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testStorePasswordWriteDidFail() {
-        BiometricKeychainDelete = { _ in errSecSuccess }
-        BiometricKeychainWrite = { attribtes, result in -1 }
+        KeychainDelete = { _ in errSecSuccess }
+        KeychainWrite = { attribtes, result in -1 }
         
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.storePassword("", identifier: "")
+        Keychain.shared.storePassword("", identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -144,7 +144,7 @@ class BiometricKeychainTests: XCTestCase {
     func testLoadPasswordSuccess() {
         let expectedPassword = "foo"
         
-        BiometricKeychainLoad = { query, result in
+        KeychainLoad = { query, result in
             result?.pointee = Data(expectedPassword.utf8) as CFData
             return errSecSuccess
         }
@@ -152,7 +152,7 @@ class BiometricKeychainTests: XCTestCase {
         let successExpectation = XCTestExpectation()
         let expectations = [successExpectation]
         
-        BiometricKeychain.shared.loadPassword(identifier: "")
+        Keychain.shared.loadPassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -173,7 +173,7 @@ class BiometricKeychainTests: XCTestCase {
     func testLoadPasswordLoadArguments() {
         let expectedIdentifier = "foo"
         
-        BiometricKeychainLoad = { query, result in
+        KeychainLoad = { query, result in
             let query = query as? [CFString: AnyObject]
             let secClass = query?[kSecClass] as? String
             let secAttrService = query?[kSecAttrService] as? String
@@ -191,7 +191,7 @@ class BiometricKeychainTests: XCTestCase {
         let doneExpectation = XCTestExpectation()
         let expectations = [doneExpectation]
         
-        BiometricKeychain.shared.loadPassword(identifier: expectedIdentifier)
+        Keychain.shared.loadPassword(identifier: expectedIdentifier)
             .sink(
                 receiveCompletion: { completion in
                     doneExpectation.fulfill()
@@ -207,14 +207,14 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testLoadPasswordLoadDidFail() {
-        BiometricKeychainLoad = { query, result in
+        KeychainLoad = { query, result in
             return -1
         }
         
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.loadPassword(identifier: "")
+        Keychain.shared.loadPassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -232,7 +232,7 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testLoadPasswordInvalidResultType() {
-        BiometricKeychainLoad = { query, result in
+        KeychainLoad = { query, result in
             result?.pointee = "" as CFString
             return errSecSuccess
         }
@@ -240,7 +240,7 @@ class BiometricKeychainTests: XCTestCase {
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.loadPassword(identifier: "")
+        Keychain.shared.loadPassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -258,7 +258,7 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testLoadPasswordInvalidResultData() {
-        BiometricKeychainLoad = { query, result in
+        KeychainLoad = { query, result in
             result?.pointee = Data("FF") as CFData
             return errSecSuccess
         }
@@ -266,7 +266,7 @@ class BiometricKeychainTests: XCTestCase {
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.loadPassword(identifier: "")
+        Keychain.shared.loadPassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -284,12 +284,12 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testDeletePasswordSuccess() {
-        BiometricKeychainDelete = { _ in errSecSuccess }
+        KeychainDelete = { _ in errSecSuccess }
         
         let successExpectation = XCTestExpectation()
         let expectations = [successExpectation]
         
-        BiometricKeychain.shared.deletePassword(identifier: "")
+        Keychain.shared.deletePassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -309,7 +309,7 @@ class BiometricKeychainTests: XCTestCase {
     func testDeletePasswordDeleteArguments() throws {
         let expectedIdentifier = "foo"
         
-        BiometricKeychainDelete = { query in
+        KeychainDelete = { query in
             let query = query as? [CFString: AnyObject]
             let secClass = query?[kSecClass] as? String
             let secAttrService = query?[kSecAttrService] as? String
@@ -323,7 +323,7 @@ class BiometricKeychainTests: XCTestCase {
         let successExpectation = XCTestExpectation()
         let expectations = [successExpectation]
         
-        BiometricKeychain.shared.deletePassword(identifier: expectedIdentifier)
+        Keychain.shared.deletePassword(identifier: expectedIdentifier)
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {
@@ -341,12 +341,12 @@ class BiometricKeychainTests: XCTestCase {
     }
     
     func testDeletePasswordDeleteDidFail() {
-        BiometricKeychainDelete = { query in -1 }
+        KeychainDelete = { query in -1 }
         
         let failureExpectation = XCTestExpectation()
         let expectations = [failureExpectation]
         
-        BiometricKeychain.shared.deletePassword(identifier: "")
+        Keychain.shared.deletePassword(identifier: "")
             .sink(
                 receiveCompletion: { completion in
                     if case .failure = completion {

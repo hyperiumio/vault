@@ -42,14 +42,14 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     private let doneSubject = PassthroughSubject<Void, Never>()
     private let vault: Vault
     private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, keychain: Keychain) {
         self.vault = vault
         self.biometricType = biometricType
         self.preferencesManager = preferencesManager
-        self.biometricKeychain = biometricKeychain
+        self.keychain = keychain
         
         $password
             .map { _ in .none }
@@ -60,9 +60,9 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
         status = .loading
         keychainStoreSubscription = vault.validatePassword(password)
             .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
-            .flatMap { [biometricKeychain, password] passwordIsValid in
+            .flatMap { [keychain, password] passwordIsValid in
                 passwordIsValid ?
-                    biometricKeychain.store(password)
+                    keychain.store(password)
                         .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
                         .eraseToAnyPublisher() :
                     Fail(error: EnableBiometricUnlockError.invalidPassword)

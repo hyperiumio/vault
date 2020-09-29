@@ -10,7 +10,7 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var repeatedPassword: String { get set }
     var biometricUnlockEnabled: Bool { get set }
-    var biometricAvailability: BiometricKeychainAvailablity { get }
+    var keychainAvailability: KeychainAvailability { get }
     var passwordStatus: PasswordStatus { get }
     var done: AnyPublisher<(URL, Vault), Never> { get }
     var setupFailed: AnyPublisher<Void, Never> { get }
@@ -44,7 +44,7 @@ class SetupModel: SetupModelRepresentable {
         return .complete
     }
     
-    var biometricAvailability: BiometricKeychainAvailablity { biometricKeychain.availability }
+    var keychainAvailability: KeychainAvailability { keychain.availability }
     
     var done: AnyPublisher<(URL, Vault), Never> {
         doneSubject.eraseToAnyPublisher()
@@ -58,13 +58,13 @@ class SetupModel: SetupModelRepresentable {
     private var setupFailedSubject = PassthroughSubject<Void, Never>()
     private let vaultContainerDirectory: URL
     private let preferencesManager: PreferencesManager
-    private let biometricKeychain: BiometricKeychain
+    private let keychain: Keychain
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager, biometricKeychain: BiometricKeychain) {
+    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager, keychain: Keychain) {
         self.vaultContainerDirectory = vaultContainerDirectory
         self.preferencesManager = preferencesManager
-        self.biometricKeychain = biometricKeychain
+        self.keychain = keychain
     }
     
     func completeSetup() {
@@ -77,7 +77,7 @@ class SetupModel: SetupModelRepresentable {
         let createVaultPublisher = {
             if biometricUnlockEnabled {
                 let createVault = Vault.create(in: vaultContainerDirectory, keyContainer: keyContainer)
-                let storePassword = biometricKeychain.store(password)
+                let storePassword = keychain.store(password)
                 return Publishers.Zip(createVault, storePassword)
                     .map(\.0)
                     .eraseToAnyPublisher()

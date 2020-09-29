@@ -30,7 +30,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     var body: some View {
         NavigationView {
             Form {
-                switch model.biometricAvailablity {
+                switch model.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .touchID:

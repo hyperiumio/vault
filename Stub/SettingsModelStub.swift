@@ -5,13 +5,13 @@ class SettingsModelStub: SettingsModelRepresentable {
     
     @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
     @Published var changeMasterPasswordModel: ChangeMasterPasswordModel?
-    @Published var biometricAvailablity: BiometricKeychainAvailablity
+    @Published var keychainAvailability: KeychainAvailability
     @Published var isBiometricUnlockEnabled: Bool
     
-    init(biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?, changeMasterPasswordModel: ChangeMasterPasswordModel?, biometricAvailablity: BiometricKeychainAvailablity, isBiometricUnlockEnabled: Bool) {
+    init(biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?, changeMasterPasswordModel: ChangeMasterPasswordModel?, keychainAvailability: KeychainAvailability, isBiometricUnlockEnabled: Bool) {
         self.biometricUnlockPreferencesModel = biometricUnlockPreferencesModel
         self.changeMasterPasswordModel = changeMasterPasswordModel
-        self.biometricAvailablity = biometricAvailablity
+        self.keychainAvailability = keychainAvailability
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
     }
     

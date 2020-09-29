@@ -5,11 +5,11 @@ import Sync
 class AppDelegate: NSObject {
     
     let appModel: AppModel<AppLockedDependency>
-    let biometricKeychain = BiometricKeychain(identifier: "io.hyperium.vault")
+    let keychain = Keychain(identifier: "io.hyperium.vault")
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelDependency = AppLockedDependency(preferencesManager: .shared, biometricKeychain: biometricKeychain)
+        let appModelDependency = AppLockedDependency(preferencesManager: .shared, keychain: keychain)
         self.appModel = AppModel(appModelDependency)
         
         super.init()
@@ -28,7 +28,7 @@ extension AppDelegate: NSApplicationDelegate {
     }
     
     func applicationDidBecomeActive(_ notification: Notification) {
-        biometricKeychain.invalidateAvailability()
+        keychain.invalidateAvailability()
     }
     
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
@@ -51,7 +51,7 @@ extension AppDelegate: UIApplicationDelegate {
     }
     
     func applicationWillEnterForeground(_ application: UIApplication) {
-        biometricKeychain.invalidateAvailability()
+        keychain.invalidateAvailability()
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
