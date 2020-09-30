@@ -8,8 +8,6 @@ protocol CustomItemModelRepresentable: ObservableObject, Identifiable {
     var value: String { get set }
     var customItem: CustomItem { get }
     
-    func copyValueToPasteboard()
-    
 }
 
 class CustomItemModel: CustomItemModelRepresentable {
@@ -29,10 +27,6 @@ class CustomItemModel: CustomItemModelRepresentable {
     init() {
         self.name = ""
         self.value = ""
-    }
-    
-    func copyValueToPasteboard() {
-        Pasteboard.general.string = value
     }
     
 }

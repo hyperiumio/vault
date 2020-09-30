@@ -7,8 +7,6 @@ protocol NoteModelRepresentable: ObservableObject, Identifiable {
     var text: String { get set }
     var noteItem: NoteItem { get }
     
-    func copyTextToPasteboard()
-    
 }
 
 class NoteModel: NoteModelRepresentable {
@@ -25,10 +23,6 @@ class NoteModel: NoteModelRepresentable {
     
     init() {
         self.text = ""
-    }
-    
-    func copyTextToPasteboard() {
-        Pasteboard.general.string = text
     }
     
 }

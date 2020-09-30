@@ -23,5 +23,6 @@ extension Image {
     static let trashCircle = Image(systemName: "trash.circle.fill")
     static let back = Image(systemName: "chevron.left.circle")
     static let done = Image(systemName: "checkmark.circle")
+    static let random = Image(systemName: "die.face.3.fill")
     
 }

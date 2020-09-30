@@ -16,7 +16,5 @@ class CustomItemModelStub: CustomItemModelRepresentable {
         self.value = value
     }
     
-    func copyValueToPasteboard() {}
-    
 }
 #endif

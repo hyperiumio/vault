@@ -14,7 +14,5 @@ class NoteModelStub: NoteModelRepresentable {
         self.text = text
     }
     
-    func copyTextToPasteboard() {}
-    
 }
 #endif

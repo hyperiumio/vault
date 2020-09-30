@@ -1,4 +1,6 @@
 import Combine
+import Crypto
+import Foundation
 import Pasteboard
 import Store
 
@@ -8,8 +10,7 @@ protocol WifiModelRepresentable: ObservableObject, Identifiable {
     var networkName: String { get set }
     var wifiItem: WifiItem { get }
     
-    func copyNetworkNameToPasteboard()
-    func copyNetworkPasswordToPasteboard()
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
     
 }
 
@@ -17,6 +18,8 @@ class WifiModel: WifiModelRepresentable {
     
     @Published var networkPassword: String
     @Published var networkName: String
+    
+    private let operationQueue = DispatchQueue(label: "WifiModelOperationQueue")
     
     var wifiItem: WifiItem {
         WifiItem(networkName: networkName, networkPassword: networkPassword)
@@ -32,12 +35,13 @@ class WifiModel: WifiModelRepresentable {
         self.networkPassword = ""
     }
     
-    func copyNetworkNameToPasteboard() {
-        Pasteboard.general.string = networkName
-    }
-    
-    func copyNetworkPasswordToPasteboard() {
-        Pasteboard.general.string = networkPassword
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
+        operationQueue.future {
+            try Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+        }
+        .replaceError(with: "")
+        .receive(on: DispatchQueue.main)
+        .assign(to: &$networkPassword)
     }
     
 }

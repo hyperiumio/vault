@@ -43,6 +43,7 @@ struct SecureItemSecureTextEditField: View {
     
     private let title: String
     private let text: Binding<String>
+    @State private var secureDisplay = true
     
     init(_ title: String, text: Binding<String>) {
         self.title = title
@@ -51,7 +52,26 @@ struct SecureItemSecureTextEditField: View {
     
     var body: some View {
         SecureItemDisplayField(title) {
-            SecureField(title, text: text)
+            HStack {
+                if secureDisplay {
+                    SecureField(title, text: text)
+                } else {
+                    TextField(title, text: text)
+                }
+                
+                Spacer()
+                
+                Button {
+                    secureDisplay.toggle()
+                } label: {
+                    if secureDisplay {
+                        Image.hideSecret
+                    } else {
+                        Image.showSecret
+                    }
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
         }
     }
     

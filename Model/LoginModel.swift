@@ -1,4 +1,6 @@
 import Combine
+import Crypto
+import Foundation
 import Pasteboard
 import Store
 
@@ -9,9 +11,7 @@ protocol LoginModelRepresentable: ObservableObject, Identifiable {
     var url: String { get set}
     var loginItem: LoginItem { get }
     
-    func copyUsernameToPasteboard()
-    func copyPasswordToPasteboard()
-    func copyURLToPasteboard()
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
     
 }
 
@@ -20,6 +20,8 @@ class LoginModel: LoginModelRepresentable {
     @Published var username: String
     @Published var password: String
     @Published var url: String
+    
+    private let operationQueue = DispatchQueue(label: "LoginModelOperationQueue")
     
     var loginItem: LoginItem {
         LoginItem(username: username, password: password, url: url)
@@ -37,16 +39,13 @@ class LoginModel: LoginModelRepresentable {
         self.url = ""
     }
     
-    func copyUsernameToPasteboard() {
-        Pasteboard.general.string = username
-    }
-    
-    func copyPasswordToPasteboard() {
-        Pasteboard.general.string = password
-    }
-    
-    func copyURLToPasteboard() {
-        Pasteboard.general.string = url
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
+        operationQueue.future {
+            try Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+        }
+        .replaceError(with: "")
+        .receive(on: DispatchQueue.main)
+        .assign(to: &$password)
     }
     
 }

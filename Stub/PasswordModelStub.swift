@@ -14,7 +14,7 @@ class PasswordModelStub: PasswordModelRepresentable {
         self.password = password
     }
     
-    func copyPasswordToPasteboard() {}
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     
 }
 #endif

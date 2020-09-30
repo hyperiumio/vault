@@ -18,9 +18,7 @@ class LoginModelStub: LoginModelRepresentable {
         self.url = url
     }
     
-    func copyUsernameToPasteboard() {}
-    func copyPasswordToPasteboard() {}
-    func copyURLToPasteboard() {}
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     
 }
 #endif

@@ -15,3 +15,19 @@ func RandomBytes(count: Int) throws -> Data {
    
     return data
 }
+
+func RandomNumber(upperBound: Int) throws -> Int {
+    var randomValue = UInt8(0)
+    repeat {
+        let status = RandomBytesRNG(&randomValue, 1)
+        guard status == kCCSuccess else {
+            throw CryptoError.rngFailure
+        }
+    } while randomValue >= upperBound
+
+    guard let result = Int(exactly: randomValue) else {
+        throw CryptoError.rngFailure
+    }
+    
+    return result
+}

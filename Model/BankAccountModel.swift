@@ -9,10 +9,6 @@ protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
     var bic: String { get set }
     var bankAccountItem: BankAccountItem { get }
     
-    func copyAccountHolderToPasteboard()
-    func copyIbanToPasteboard()
-    func copyBicToPasteboard()
-    
 }
 
 class BankAccountModel: BankAccountModelRepresentable {
@@ -35,18 +31,6 @@ class BankAccountModel: BankAccountModelRepresentable {
         self.accountHolder = ""
         self.iban = ""
         self.bic = ""
-    }
-    
-    func copyAccountHolderToPasteboard() {
-        Pasteboard.general.string = accountHolder
-    }
-    
-    func copyIbanToPasteboard() {
-        Pasteboard.general.string = iban
-    }
-    
-    func copyBicToPasteboard() {
-        Pasteboard.general.string = bic
     }
     
 }

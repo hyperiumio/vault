@@ -8,6 +8,8 @@ class WifiModelStub: WifiModelRepresentable {
     @Published var networkName = ""
     @Published var networkPassword = ""
     
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
+    
     var wifiItem: WifiItem {
         WifiItem(networkName: networkName, networkPassword: networkPassword)
     }
@@ -16,9 +18,6 @@ class WifiModelStub: WifiModelRepresentable {
         self.networkName = networkName
         self.networkPassword = networkPassword
     }
-    
-    func copyNetworkNameToPasteboard() {}
-    func copyNetworkPasswordToPasteboard() {}
     
 }
 #endif

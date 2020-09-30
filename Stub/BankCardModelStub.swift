@@ -22,10 +22,5 @@ class BankCardModelStub: BankCardModelRepresentable {
         self.pin = pin
     }
     
-    func copyNameToPasteboard() {}
-    func copyNumberToPasteboard() {}
-    func copyExpirationDateToPasteboard() {}
-    func copyPinToPasteboard() {}
-    
 }
 #endif

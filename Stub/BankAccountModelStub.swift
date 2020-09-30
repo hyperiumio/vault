@@ -18,9 +18,5 @@ class BankAccountModelStub: BankAccountModelRepresentable {
         self.bic = bic
     }
     
-    func copyAccountHolderToPasteboard() {}
-    func copyIbanToPasteboard() {}
-    func copyBicToPasteboard() {}
-    
 }
 #endif

@@ -12,11 +12,6 @@ protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     var vendor: BankCardItemVendor? { get }
     var bankCardItem: BankCardItem { get }
     
-    func copyNameToPasteboard()
-    func copyNumberToPasteboard()
-    func copyExpirationDateToPasteboard()
-    func copyPinToPasteboard()
-    
 }
 
 class BankCardModel: BankCardModelRepresentable {
@@ -46,24 +41,6 @@ class BankCardModel: BankCardModelRepresentable {
         self.number = ""
         self.expirationDate = Date()
         self.pin = ""
-    }
-    
-    func copyNameToPasteboard() {
-        Pasteboard.general.string = name
-    }
-    
-    func copyNumberToPasteboard() {
-        Pasteboard.general.string = number
-    }
-    
-    func copyExpirationDateToPasteboard() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-yy"
-        Pasteboard.general.string = formatter.string(from: expirationDate)
-    }
-    
-    func copyPinToPasteboard() {
-        Pasteboard.general.string = pin
     }
     
 }

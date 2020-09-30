@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9510DE0925246243008785EC /* PasswordGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510DE0825246243008785EC /* PasswordGeneratorView.swift */; };
+		9510DE0A25246243008785EC /* PasswordGeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510DE0825246243008785EC /* PasswordGeneratorView.swift */; };
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
+		9517216125238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
+		9517216225238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
 		952D1062251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1063251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1069251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */; };
@@ -260,7 +264,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9510DE0825246243008785EC /* PasswordGeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorView.swift; sourceTree = "<group>"; };
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
+		9517216025238084004803E1 /* PasswordViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewPreview.swift; sourceTree = "<group>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
 		952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModel.swift; sourceTree = "<group>"; };
 		952D106D251B2D6400B95C4B /* CompleteSetupModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModelStub.swift; sourceTree = "<group>"; };
@@ -507,6 +513,7 @@
 				9586490E251E12060081DF08 /* LoginView.swift */,
 				959143FD2513C12300897086 /* MainView.swift */,
 				9586491D251E12D00081DF08 /* NoteView.swift */,
+				9510DE0825246243008785EC /* PasswordGeneratorView.swift */,
 				95864913251E126E0081DF08 /* PasswordView.swift */,
 				9583624424D15EAF00C10BBB /* PDFView.swift */,
 				957975ED2521DEBD00B742B3 /* SearchBar.swift */,
@@ -648,6 +655,7 @@
 				95955853251A39AA00F7715F /* ConfirmPasswordViewPreview.swift */,
 				95E2E01124FC33DF00A53DD7 /* ErrorBadgePreview.swift */,
 				95E2E00C24FC33DF00A53DD7 /* LockedViewPreview.swift */,
+				9517216025238084004803E1 /* PasswordViewPreview.swift */,
 				95E2E01224FC33DF00A53DD7 /* PDFViewPreview.swift */,
 				95E2DFFE24FC33DE00A53DD7 /* SettingsViewPreview.swift */,
 				95E2E00824FC33DF00A53DD7 /* SetupViewPreview.swift */,
@@ -872,6 +880,7 @@
 				95955845251A35CC00F7715F /* ConfirmPasswordView.swift in Sources */,
 				9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */,
 				95864928251E137C0081DF08 /* WifiView.swift in Sources */,
+				9517216125238084004803E1 /* PasswordViewPreview.swift in Sources */,
 				95C1E54F24F17A69005F954F /* VaultItemModelStub.swift in Sources */,
 				95864905251E11930081DF08 /* SecureItemSecureTextField.swift in Sources */,
 				952D1062251B2CB200B95C4B /* CompleteSetupView.swift in Sources */,
@@ -891,6 +900,7 @@
 				95DFA2D524FC367100BD50D4 /* ErrorBadgePreview.swift in Sources */,
 				9586495B251E24A60081DF08 /* BankAccountView.swift in Sources */,
 				95864914251E126E0081DF08 /* PasswordView.swift in Sources */,
+				9510DE0925246243008785EC /* PasswordGeneratorView.swift in Sources */,
 				9574329224AA081B0062B05A /* BankAccountModel.swift in Sources */,
 				9574327824AA081B0062B05A /* LoginModel.swift in Sources */,
 				95D46EBA251A1D7C00EF500A /* ChoosePasswordView.swift in Sources */,
@@ -993,6 +1003,7 @@
 				9577121824F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */,
 				95955846251A35CC00F7715F /* ConfirmPasswordView.swift in Sources */,
 				95864929251E137C0081DF08 /* WifiView.swift in Sources */,
+				9517216225238084004803E1 /* PasswordViewPreview.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardModel.swift in Sources */,
 				95864906251E11930081DF08 /* SecureItemSecureTextField.swift in Sources */,
 				95C1E53824F17962005F954F /* LockedModelStub.swift in Sources */,
@@ -1012,6 +1023,7 @@
 				95955863251A3D4500F7715F /* BiometricUnlockSetupModel.swift in Sources */,
 				9586495C251E24A60081DF08 /* BankAccountView.swift in Sources */,
 				95864915251E126E0081DF08 /* PasswordView.swift in Sources */,
+				9510DE0A25246243008785EC /* PasswordGeneratorView.swift in Sources */,
 				95DFA2F624FC367200BD50D4 /* ErrorBadgePreview.swift in Sources */,
 				95C1E54D24F17A58005F954F /* VaultItemCreationModelStub.swift in Sources */,
 				95D46EBB251A1D7C00EF500A /* ChoosePasswordView.swift in Sources */,

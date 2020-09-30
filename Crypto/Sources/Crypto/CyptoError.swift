@@ -7,5 +7,6 @@ public enum CryptoError: Error {
     case invalidDataSize
     case encryptionFailed
     case rngFailure
+    case passwordGenerationFailure
     
 }

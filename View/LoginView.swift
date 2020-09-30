@@ -34,7 +34,11 @@ struct LoginEditView<Model>: View where Model: LoginModelRepresentable {
         Group {
             SecureItemTextEditField(LocalizedString.user, text: $model.username)
             
-            SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
+            VStack(spacing: 20) {
+                SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
+                
+                PasswordGeneratorView(action: model.generatePassword)
+            }
             
             SecureItemTextEditField(LocalizedString.url, text: $model.url)
         }
