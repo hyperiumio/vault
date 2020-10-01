@@ -41,8 +41,13 @@ struct SecureItemDateEditField: View {
     
     var body: some View {
         SecureItemDisplayField(title) {
-            DatePicker(title, selection: date, displayedComponents: .date)
-                .labelsHidden()
+            HStack {
+                DatePicker(title, selection: date, displayedComponents: .date)
+                    .labelsHidden()
+                
+                Spacer()
+            }
+            
         }
     }
     

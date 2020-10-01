@@ -30,7 +30,6 @@ struct SecureItemButton<Content>: View where Content: View {
         } label: {
             ZStack {
                 content
-                    .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .opacity(isMessageShow ? 0 : 1)
@@ -40,7 +39,7 @@ struct SecureItemButton<Content>: View where Content: View {
                         .font(.subheadline)
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.accentColor)
+                        .background(Color.appTeal)
                 }
             }
         }

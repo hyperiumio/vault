@@ -14,6 +14,8 @@ struct BankCardDisplayView<Model>: View where Model: BankCardModelRepresentable 
             SecureItemTextDisplayField(LocalizedString.bankCardName, text: model.name)
             
             if let vendor = model.vendor {
+                SecureItemDivider()
+                
                 SecureItemDisplayField(LocalizedString.bankCardVendor) {
                     switch vendor {
                     case .masterCard:
@@ -28,9 +30,15 @@ struct BankCardDisplayView<Model>: View where Model: BankCardModelRepresentable 
                 }
             }
             
+            SecureItemDivider()
+            
             SecureItemTextDisplayField(LocalizedString.bankCardNumber, text: model.number)
             
+            SecureItemDivider()
+            
             SecureItemDateDisplayField(LocalizedString.bankCardExpirationDate, date: model.expirationDate)
+            
+            SecureItemDivider()
             
             SecureItemSecureTextDisplayField(LocalizedString.bankCardPin, text: model.pin)
         }
@@ -49,9 +57,15 @@ struct BankCardEditView<Model>: View where Model: BankCardModelRepresentable {
         Group {
             SecureItemTextEditField(LocalizedString.bankCardName, text: $model.name)
             
+            SecureItemDivider()
+            
             SecureItemTextEditField(LocalizedString.bankCardNumber, text: $model.number)
             
+            SecureItemDivider()
+            
             SecureItemDateEditField(LocalizedString.bankCardExpirationDate, date: $model.expirationDate)
+            
+            SecureItemDivider()
             
             SecureItemSecureTextEditField(LocalizedString.bankCardPin, text: $model.pin)
         }

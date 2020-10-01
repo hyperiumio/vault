@@ -29,7 +29,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     var body: some View {
         NavigationView {
-            Form {
+            List {
                 switch model.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
@@ -59,6 +59,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                         }
                 }
             }
+            .listStyle(GroupedListStyle())
             .navigationTitle(LocalizedString.settings)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

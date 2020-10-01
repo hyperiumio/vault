@@ -44,11 +44,14 @@ struct PasswordGeneratorView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 30, height: 30)
+                            .foregroundColor(.accentColor)
                     }
                 }
                 .buttonStyle(PlainButtonStyle())
             }
         }
+        .font(.subheadline)
+        .foregroundColor(.secondaryLabel)
         .onChange(of: configuration) { configuration in
             action(length, configuration.digitsEnabled, configuration.symbolsEnabled)
         }

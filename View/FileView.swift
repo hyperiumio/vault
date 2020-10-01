@@ -11,20 +11,7 @@ struct FileDisplayView<Model>: View where Model: FileModelRepresentable {
     }
     
     var body: some View {
-        Group {
-            SecureItemDisplayField(LocalizedString.filename) {
-                switch (model.data, model.format) {
-                case (nil, _):
-                    Text("Select File")
-                case (let data?, .pdf):
-                    FilePDFView(data: data)
-                case (let data?, .image):
-                    FileImageView(data: data)
-                case (.some, .unrepresentable):
-                    FileGenericView()
-                }
-            }
-        }
+        Text("Show File")
     }
     
 }
@@ -32,13 +19,38 @@ struct FileDisplayView<Model>: View where Model: FileModelRepresentable {
 struct FileEditView<Model>: View where Model: FileModelRepresentable {
     
     @ObservedObject private var model: Model
+    @State private var isImporting = false
     
     init(_ model: Model) {
         self.model = model
     }
     
     var body: some View {
-        Text("foo")
+        Group {
+            switch model.fileStatus {
+            case .empty:
+                Button {
+                    isImporting = true
+                } label: {
+                    Text("Select file")
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .contentShape(Rectangle())
+                }
+            case .loading:
+                ProgressView()
+            case .loaded:
+                Text("data")
+            }
+        }
+        .fileImporter(isPresented: $isImporting, allowedContentTypes: [.item]) { result in
+            switch result {
+            case .success(let url):
+                model.loadFile(at: url)
+            case .failure:
+                return // present error
+            }
+        }
     }
     
 }

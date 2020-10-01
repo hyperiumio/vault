@@ -15,14 +15,9 @@ struct VaultItemDisplayHeader: View {
         SecureItemButton {
             Pasteboard.general.string = text
         } content: {
-            Label {
-                Text(text)
-                    .font(.title3)
-            } icon: {
-                typeIdentifier.image
-                    .imageScale(.large)
-                    .foregroundColor(typeIdentifier.color)
-            }
+            Text(text)
+                .font(Font.largeTitle.bold())
+                .padding()
         }
     }
     
@@ -41,14 +36,9 @@ struct VaultItemEditHeader: View {
     }
     
     var body: some View {
-        Label {
-            TextField(title, text: text)
-                .font(.title3)
-        } icon: {
-            typeIdentifier.image
-                .imageScale(.large)
-                .foregroundColor(typeIdentifier.color)
-        }
+        TextField(title, text: text)
+            .font(Font.largeTitle.bold())
+            .padding()
     }
     
 }

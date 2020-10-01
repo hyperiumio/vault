@@ -13,6 +13,8 @@ struct WifiDisplayView<Model>: View where Model: WifiModelRepresentable {
         Group {
             SecureItemTextDisplayField(LocalizedString.wifiNetworkName, text: model.networkName)
             
+            SecureItemDivider()
+            
             SecureItemSecureTextDisplayField(LocalizedString.wifiNetworkPassword, text: model.networkPassword)
         }
     }
@@ -31,10 +33,13 @@ struct WifiEditView<Model>: View where Model: WifiModelRepresentable {
         Group {
             SecureItemTextEditField(LocalizedString.wifiNetworkName, text: $model.networkName)
             
-            VStack(spacing: 20) {
-                SecureItemSecureTextEditField(LocalizedString.wifiNetworkPassword, text: $model.networkPassword)
+            SecureItemDivider()
+            
+            VStack(spacing: 0) {
+                SecureItemSecureTextEditField(LocalizedString.password, text: $model.networkPassword)
                 
                 PasswordGeneratorView(action: model.generatePassword)
+                    .padding()
             }
         }
     }

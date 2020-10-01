@@ -38,6 +38,7 @@ struct VaultItemFooter: View {
                 }
             }
             .font(.caption)
+            .foregroundColor(.secondaryLabel)
             
             Spacer()
         }

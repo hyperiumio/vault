@@ -33,6 +33,7 @@ struct SecureItemSecureTextDisplayField: View {
                     }
                 }
                 .buttonStyle(BorderlessButtonStyle())
+                .padding(.trailing)
             }
         }
     }

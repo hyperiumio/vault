@@ -27,6 +27,7 @@ struct NoteEditView<Model>: View where Model: NoteModelRepresentable {
     var body: some View {
         SecureItemDisplayField(LocalizedString.note) {
             TextEditor(text: $model.text)
+                .frame(minHeight: 40)
         }
     }
     

@@ -123,15 +123,13 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
     }
     
     var body: some View {
-        List {
-            VaultItemDisplayHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
-            
-            Section(footer: VaultItemFooter(created: model.created, modified: model.modified).padding(.top)) {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+                VaultItemDisplayHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                
                 ElementView(model.primaryItemModel)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                    Divider()
-                    
                     HStack(alignment: .top) {
                         ElementView(secureItemModel)
                         
@@ -145,9 +143,11 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
                         .padding(.vertical)
                     }
                 }
+                
+                VaultItemFooter(created: model.created, modified: model.modified)
+                    .padding(.top)
             }
         }
-        .listStyle(InsetGroupedListStyle())
     }
     
 }
@@ -162,17 +162,13 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
     }
     
     var body: some View {
-        Form {
-            Section {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
                 VaultItemEditHeader(LocalizedString.title, text: $model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
-            }
-            
-            Section {
+                
                 ElementView(model.primaryItemModel)
                 
                 ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                    Divider()
-                    
                     HStack(alignment: .top) {
                         ElementView(secureItemModel)
                         
@@ -187,15 +183,7 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
                     }
                 }
             }
-            
-            Section {
-                Button(LocalizedString.delete) {
-                    model.delete()
-                    presentationMode.wrappedValue.dismiss()
-                }
-            }
         }
-        .navigationBarTitleDisplayMode(.inline)
     }
     
 }
@@ -223,23 +211,30 @@ private extension VaultItemDisplayView {
         }
         
         var body: some View {
-            switch element {
-            case .login(let model):
-                LoginDisplayView(model)
-            case .password(let model):
-                PasswordDisplayView(model)
-            case .file(let model):
-                FileDisplayView(model)
-            case .note(let model):
-                NoteDisplayView(model)
-            case .bankCard(let model):
-                BankCardDisplayView(model)
-            case .wifi(let model):
-                WifiDisplayView(model)
-            case .bankAccount(let model):
-                BankAccountDisplayView(model)
-            case .custom(let model):
-                CustomItemDisplayView(model)
+            VStack(alignment: .leading, spacing: 0) {
+                ElementHeader(element.secureItem.typeIdentifier)
+                
+                VStack(spacing: 0) {
+                    switch element {
+                    case .login(let model):
+                        LoginDisplayView(model)
+                    case .password(let model):
+                        PasswordDisplayView(model)
+                    case .file(let model):
+                        FileDisplayView(model)
+                    case .note(let model):
+                        NoteDisplayView(model)
+                    case .bankCard(let model):
+                        BankCardDisplayView(model)
+                    case .wifi(let model):
+                        WifiDisplayView(model)
+                    case .bankAccount(let model):
+                        BankAccountDisplayView(model)
+                    case .custom(let model):
+                        CustomItemDisplayView(model)
+                    }
+                }
+                .background(Color.textFieldBackground)
             }
         }
         
@@ -258,26 +253,56 @@ private extension VaultItemEditView {
         }
         
         var body: some View {
-            switch element {
-            case .login(let model):
-                LoginEditView(model)
-            case .password(let model):
-                PasswordEditView(model)
-            case .file(let model):
-                FileEditView(model)
-            case .note(let model):
-                NoteEditView(model)
-            case .bankCard(let model):
-                BankCardEditView(model)
-            case .wifi(let model):
-                WifiEditView(model)
-            case .bankAccount(let model):
-                BankAccountEditView(model)
-            case .custom(let model):
-                CustomItemEditView(model)
+            VStack(alignment: .leading, spacing: 0) {
+                ElementHeader(element.secureItem.typeIdentifier)
+                
+                VStack(spacing: 0) {
+                    switch element {
+                    case .login(let model):
+                        LoginEditView(model)
+                    case .password(let model):
+                        PasswordEditView(model)
+                    case .file(let model):
+                        FileEditView(model)
+                    case .note(let model):
+                        NoteEditView(model)
+                    case .bankCard(let model):
+                        BankCardEditView(model)
+                    case .wifi(let model):
+                        WifiEditView(model)
+                    case .bankAccount(let model):
+                        BankAccountEditView(model)
+                    case .custom(let model):
+                        CustomItemEditView(model)
+                    }
+                }
+                .background(Color.textFieldBackground)
             }
         }
         
     }
 
+}
+
+private struct ElementHeader: View {
+    
+    let itemIdentifier: SecureItemTypeIdentifier
+    
+    init(_ itemIdentifier: SecureItemTypeIdentifier) {
+        self.itemIdentifier = itemIdentifier
+    }
+    
+    var body: some View {
+        Label {
+            Text(itemIdentifier.name)
+                .foregroundColor(.secondaryLabel)
+        } icon: {
+            itemIdentifier.image
+                .foregroundColor(itemIdentifier.color)
+        }
+        .font(.footnote)
+        .padding(.horizontal)
+        .padding(.vertical, 2)
+    }
+    
 }

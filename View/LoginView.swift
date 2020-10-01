@@ -14,7 +14,11 @@ struct LoginDisplayView<Model>: View where Model: LoginModelRepresentable {
         Group {
             SecureItemTextDisplayField(LocalizedString.user, text: model.username)
             
+            SecureItemDivider()
+            
             SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
+            
+            SecureItemDivider()
             
             SecureItemTextDisplayField(LocalizedString.url, text: model.url)
         }
@@ -34,11 +38,16 @@ struct LoginEditView<Model>: View where Model: LoginModelRepresentable {
         Group {
             SecureItemTextEditField(LocalizedString.user, text: $model.username)
             
-            VStack(spacing: 20) {
+            SecureItemDivider()
+            
+            VStack(spacing: 0) {
                 SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
                 
                 PasswordGeneratorView(action: model.generatePassword)
+                    .padding()
             }
+            
+            SecureItemDivider()
             
             SecureItemTextEditField(LocalizedString.url, text: $model.url)
         }
