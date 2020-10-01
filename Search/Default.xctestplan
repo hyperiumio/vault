@@ -1,18 +1,22 @@
 {
   "configurations" : [
     {
-      "id" : "DA9972A9-C5E7-4C58-B57C-73A9E9830648",
-      "name" : "Configuration 1",
+      "id" : "82BC5C1F-A1F3-4855-9FA9-C14524D4707B",
+      "name" : "Default",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+    "mainThreadCheckerEnabled" : false,
+    "testExecutionOrdering" : "random",
+    "uiTestingScreenshotsLifetime" : "keepNever",
+    "userAttachmentLifetime" : "keepNever"
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
         "identifier" : "SearchTests",

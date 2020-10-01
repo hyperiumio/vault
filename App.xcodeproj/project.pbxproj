@@ -320,7 +320,7 @@
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
 		9577121324F815B30095AF33 /* AppLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockedDependency.swift; sourceTree = "<group>"; };
 		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
-		957975EC2521DE2500B742B3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		957975EC2521DE2500B742B3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		957975ED2521DEBD00B742B3 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		9583624424D15EAF00C10BBB /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
@@ -353,7 +353,7 @@
 		95955861251A3D4500F7715F /* BiometricUnlockSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockSetupModel.swift; sourceTree = "<group>"; };
 		95955866251A3DFF00F7715F /* BiometricUnlockSetupModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockSetupModelStub.swift; sourceTree = "<group>"; };
 		9595586B251A3E9C00F7715F /* BiometricUnlockSetupViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockSetupViewPreview.swift; sourceTree = "<group>"; };
-		959D18932520F704007F5D15 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		959D18932520F704007F5D15 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		95C1E51E24F17805005F954F /* AppModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelStub.swift; sourceTree = "<group>"; };
 		95C1E52124F17895005F954F /* BankAccountModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountModelStub.swift; sourceTree = "<group>"; };
@@ -591,8 +591,6 @@
 				95C1E51D24F177D0005F954F /* Stub */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
-				959D18932520F704007F5D15 /* Vault.app */,
-				957975EC2521DE2500B742B3 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};

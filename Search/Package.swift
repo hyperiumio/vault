@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "Search", targets: ["Search"])
     ],
     targets: [
-        .target(name: "Search"),
-        .testTarget(name: "SearchTests", dependencies: ["Search"])
+        .target(name: "Search", path: "Sources"),
+        .testTarget(name: "SearchTests", dependencies: ["Search"], path: "Tests")
     ]
 )
