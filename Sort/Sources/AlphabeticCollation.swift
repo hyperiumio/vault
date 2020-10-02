@@ -10,7 +10,7 @@ public struct AlphabeticCollation<Element> where Element: AlphabeticCollationEle
     
     public init<S>(from elements: S) where S: Sequence, Element == S.Element  {
         let sortedElements = Dictionary(grouping: elements) { element in
-            element.sectionKey
+            element.sectionKey.uppercased()
         }
         
         self.sections = sortedElements.keys.sorted().map { key in

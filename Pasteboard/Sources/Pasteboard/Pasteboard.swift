@@ -7,7 +7,7 @@ public class Pasteboard {
     
     public var string: String? {
         get {
-            return systemPasteboard.string(forType: .string)
+            systemPasteboard.string(forType: .string)
         }
         set(string) {
             systemPasteboard.clearContents()
@@ -35,7 +35,7 @@ public class Pasteboard {
     
     public var string: String? {
         get {
-            return systemPasteboard.string
+            systemPasteboard.string
         }
         set(string) {
             systemPasteboard.string = string
