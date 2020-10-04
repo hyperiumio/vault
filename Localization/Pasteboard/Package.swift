@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "Pasteboard", targets: ["Pasteboard"])
     ],
     targets: [
-        .target(name: "Pasteboard"),
-        .testTarget(name: "PasteboardTests", dependencies: ["Pasteboard"])
+        .target(name: "Pasteboard", path: "Sources"),
+        .testTarget(name: "PasteboardTests", dependencies: ["Pasteboard"], path: "Tests")
     ]
 )

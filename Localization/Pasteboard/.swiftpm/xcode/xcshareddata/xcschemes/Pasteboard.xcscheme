@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:Tests/Pasteboard.xctestplan"
+            reference = "container:Pasteboard.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>

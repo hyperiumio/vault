@@ -2,17 +2,20 @@
   "configurations" : [
     {
       "id" : "201CE130-63CD-47F7-B0D1-F546531C336B",
-      "name" : "Configuration 1",
+      "name" : "Default",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+    "testExecutionOrdering" : "random",
+    "uiTestingScreenshotsLifetime" : "keepNever",
+    "userAttachmentLifetime" : "keepNever"
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
         "identifier" : "PasteboardTests",
