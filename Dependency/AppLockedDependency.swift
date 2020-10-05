@@ -4,11 +4,11 @@ import Preferences
 
 struct AppLockedDependency {
     
-    private let preferencesManager: PreferencesManager
+    private let preferences: Preferences
     private let keychain: Keychain
     
-    init(preferencesManager: PreferencesManager, keychain: Keychain) {
-        self.preferencesManager = preferencesManager
+    init(preferences: Preferences, keychain: Keychain) {
+        self.preferences = preferences
         self.keychain = keychain
     }
     
@@ -17,11 +17,11 @@ struct AppLockedDependency {
 extension AppLockedDependency: AppModelDependency {
     
     func bootstrapModel() -> BootstrapModel {
-        BootstrapModel(preferencesManager: preferencesManager)
+        BootstrapModel(preferences: preferences)
     }
     
     func setupModel(in vaultContainerDirectory: URL) -> SetupModel {
-        SetupModel(vaultContainerDirectory: vaultContainerDirectory, preferencesManager: preferencesManager, keychain: keychain)
+        SetupModel(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
     }
     
     func mainModel(vaultDirectory: URL) -> MainModel<Self> {
@@ -37,11 +37,11 @@ extension AppLockedDependency: AppModelDependency {
 extension AppLockedDependency: MainModelDependency {
     
     func lockedModel(vaultDirectory: URL) -> LockedModel {
-        LockedModel(vaultDirectory: vaultDirectory, preferencesManager: preferencesManager, keychain: keychain)
+        LockedModel(vaultDirectory: vaultDirectory, preferences: preferences, keychain: keychain)
     }
     
     func unlockedModel(vault: Vault) -> UnlockedModel<AppUnlockedDependency> {
-        let dependency = AppUnlockedDependency(vault: vault, preferencesManager: preferencesManager, keychain: keychain)
+        let dependency = AppUnlockedDependency(vault: vault, preferences: preferences, keychain: keychain)
         return UnlockedModel(vault: vault, dependency: dependency)
     }
     

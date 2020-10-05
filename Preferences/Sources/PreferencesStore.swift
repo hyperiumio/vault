@@ -1,10 +1,17 @@
 import Foundation
 
-class PreferencesStore {
+protocol PreferencesStoreRepresentable: class {
     
-    private let userDefaults: UserDefaults
+    var isBiometricUnlockEnabled: Bool { get set }
+    var activeVaultIdentifier: UUID? { get set }
     
-    init(userDefaults: UserDefaults) {
+}
+
+class PreferencesStore: PreferencesStoreRepresentable {
+    
+    private let userDefaults: UserDefaultsRepresentable
+    
+    init(userDefaults: UserDefaultsRepresentable) {
         let defaults = [
             String.isBiometricUnlockEnabledKey: false
         ]
@@ -15,7 +22,7 @@ class PreferencesStore {
     
     var isBiometricUnlockEnabled: Bool {
         get {
-            return userDefaults.bool(forKey: .isBiometricUnlockEnabledKey)
+            userDefaults.bool(forKey: .isBiometricUnlockEnabledKey)
         }
         set(isBiometricUnlockEnabled) {
             userDefaults.set(isBiometricUnlockEnabled, forKey: .isBiometricUnlockEnabledKey)
@@ -35,6 +42,18 @@ class PreferencesStore {
     }
     
 }
+
+protocol UserDefaultsRepresentable {
+    
+    func set(_ value: Bool, forKey defaultName: String)
+    func set(_ value: Any?, forKey defaultName: String)
+    func bool(forKey defaultName: String) -> Bool
+    func string(forKey defaultName: String) -> String?
+    func register(defaults registrationDictionary: [String : Any])
+    
+}
+
+extension UserDefaults: UserDefaultsRepresentable {}
 
 private extension String {
     

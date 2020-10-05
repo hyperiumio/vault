@@ -9,7 +9,7 @@ class AppDelegate: NSObject {
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelDependency = AppLockedDependency(preferencesManager: .shared, keychain: keychain)
+        let appModelDependency = AppLockedDependency(preferences: .shared, keychain: keychain)
         self.appModel = AppModel(appModelDependency)
         
         super.init()

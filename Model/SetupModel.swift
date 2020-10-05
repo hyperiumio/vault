@@ -57,13 +57,13 @@ class SetupModel: SetupModelRepresentable {
     private let doneSubject = PassthroughSubject<(URL, Vault), Never>()
     private var setupFailedSubject = PassthroughSubject<Void, Never>()
     private let vaultContainerDirectory: URL
-    private let preferencesManager: PreferencesManager
+    private let preferences: Preferences
     private let keychain: Keychain
     private var createVaultSubscription: AnyCancellable?
     
-    init(vaultContainerDirectory: URL, preferencesManager: PreferencesManager, keychain: Keychain) {
+    init(vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.vaultContainerDirectory = vaultContainerDirectory
-        self.preferencesManager = preferencesManager
+        self.preferences = preferences
         self.keychain = keychain
     }
     
@@ -102,9 +102,9 @@ class SetupModel: SetupModelRepresentable {
                 if case .failure = completion {
                     self.setupFailedSubject.send()
                 }
-            } receiveValue: { [preferencesManager, doneSubject, biometricUnlockEnabled] message in
-                preferencesManager.set(activeVaultIdentifier: message.1.id)
-                preferencesManager.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
+            } receiveValue: { [preferences, doneSubject, biometricUnlockEnabled] message in
+                preferences.set(activeVaultIdentifier: message.1.id)
+                preferences.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
                 
                 doneSubject.send(message)
             }

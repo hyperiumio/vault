@@ -37,14 +37,14 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
     var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
     private let vault: Vault
-    private let preferencesManager: PreferencesManager
+    private let preferences: Preferences
     private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(vault: Vault, preferencesManager: PreferencesManager, keychain: Keychain) {
+    init(vault: Vault, preferences: Preferences, keychain: Keychain) {
         self.vault = vault
-        self.preferencesManager = preferencesManager
+        self.preferences = preferences
         self.keychain = keychain
         
         Publishers.Merge3($currentPassword, $newPassword, $repeatedNewPassword)

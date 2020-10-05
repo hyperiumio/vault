@@ -41,14 +41,14 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     
     private let doneSubject = PassthroughSubject<Void, Never>()
     private let vault: Vault
-    private let preferencesManager: PreferencesManager
+    private let preferences: Preferences
     private let keychain: Keychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault, biometricType: BiometricType, preferencesManager: PreferencesManager, keychain: Keychain) {
+    init(vault: Vault, biometricType: BiometricType, preferences: Preferences, keychain: Keychain) {
         self.vault = vault
         self.biometricType = biometricType
-        self.preferencesManager = preferencesManager
+        self.preferences = preferences
         self.keychain = keychain
         
         $password
@@ -80,8 +80,8 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
                 case .failure(.biometricActivationFailed):
                     self.status = .biometricActivationFailed
                 }
-            } receiveValue: { [preferencesManager, doneSubject] _ in
-                preferencesManager.set(isBiometricUnlockEnabled: true)
+            } receiveValue: { [preferences, doneSubject] _ in
+                preferences.set(isBiometricUnlockEnabled: true)
                 doneSubject.send()
             }
     }

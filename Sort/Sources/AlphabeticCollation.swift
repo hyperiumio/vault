@@ -9,13 +9,15 @@ public struct AlphabeticCollation<Element> where Element: AlphabeticCollationEle
     public let sections: [Section]
     
     public init<S>(from elements: S) where S: Sequence, Element == S.Element  {
-        let sortedElements = Dictionary(grouping: elements) { element in
+        let groupedElements = Dictionary(grouping: elements) { element in
             element.sectionKey.uppercased()
         }
         
-        self.sections = sortedElements.keys.sorted().map { key in
+        self.sections = groupedElements.sorted { lhs, rhs in
+            lhs.key < rhs.key
+        }.map { key, value in
             let key = key.uppercased()
-            let elements = sortedElements[key]?.sorted() ?? []
+            let elements = groupedElements[key]!.sorted()
             return Section(key: key, elements: elements)
         }
     }

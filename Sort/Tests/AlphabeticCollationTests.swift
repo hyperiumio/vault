@@ -71,6 +71,19 @@ final class AlphabeticCollationTests: XCTestCase {
         XCTAssertEqual(sectionElements, expectedElements)
     }
     
+    func testSectionEqualElementsOrder() {
+        let elements = [
+            AlphabeticCollationElementStub(value: "aa"),
+            AlphabeticCollationElementStub(value: "aa")
+        ]
+        let sectionElements = AlphabeticCollation(from: elements).sections.flatMap { section in
+            section.elements.map(\.value)
+        }
+        let expectedElements = ["aa", "aa"]
+        
+        XCTAssertEqual(sectionElements, expectedElements)
+    }
+    
 }
 
 private struct AlphabeticCollationElementStub: AlphabeticCollationElement {
@@ -84,10 +97,6 @@ private struct AlphabeticCollationElementStub: AlphabeticCollationElement {
     
     static func < (lhs: Self, rhs: Self) -> Bool {
         lhs.value < rhs.value
-    }
-    
-    static func == (lhs: Self, rhs: Self) -> Bool {
-        lhs.value == rhs.value
     }
     
 }

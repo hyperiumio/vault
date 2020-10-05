@@ -46,12 +46,12 @@ class LockedModel: LockedModelRepresentable {
     private var openVaultSubscription: AnyCancellable?
     private var keychainLoadSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferencesManager: PreferencesManager, keychain: Keychain) {
+    init(vaultDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.vaultDirectory = vaultDirectory
         self.keychain = keychain
-        self.keychainAvailability = preferencesManager.preferences.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
+        self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
         
-        Publishers.CombineLatest(preferencesManager.didChange, keychain.availabilityDidChange)
+        Publishers.CombineLatest(preferences.didChange, keychain.availabilityDidChange)
             .map { preferences, keychainAvailability in preferences.isBiometricUnlockEnabled ? keychainAvailability : .notAvailable }
             .receive(on: DispatchQueue.main)
             .assign(to: &$keychainAvailability)

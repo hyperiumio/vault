@@ -39,23 +39,23 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     @Published private(set) var isBiometricUnlockEnabled: Bool = true
     
     private let vault: Vault
-    private let preferencesManager: PreferencesManager
+    private let preferences: Preferences
     private let keychain: Keychain
     private let dependency: Dependency
     
-    init(vault: Vault, preferencesManager: PreferencesManager, keychain: Keychain, dependency: Dependency) {
+    init(vault: Vault, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
         self.vault = vault
-        self.preferencesManager = preferencesManager
+        self.preferences = preferences
         self.keychain = keychain
         self.dependency = dependency
         self.keychainAvailability = keychain.availability
-        self.isBiometricUnlockEnabled = preferencesManager.preferences.isBiometricUnlockEnabled
+        self.isBiometricUnlockEnabled = preferences.value.isBiometricUnlockEnabled
         
         keychain.availabilityDidChange
             .receive(on: DispatchQueue.main)
             .assign(to: &$keychainAvailability)
         
-        preferencesManager.didChange
+        preferences.didChange
             .map { preferences in preferences.isBiometricUnlockEnabled }
             .receive(on: DispatchQueue.main)
             .assign(to: &$isBiometricUnlockEnabled)
@@ -63,7 +63,7 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     
     func setBiometricUnlock(isEnabled: Bool) {
         if !isEnabled {
-            preferencesManager.set(isBiometricUnlockEnabled: false)
+            preferences.set(isBiometricUnlockEnabled: false)
             return
         }
         

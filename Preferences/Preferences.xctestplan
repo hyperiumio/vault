@@ -1,15 +1,17 @@
 {
   "configurations" : [
     {
-      "id" : "8CFC3F0B-A992-40CC-A472-5C30F937A81F",
-      "name" : "Configuration 1",
+      "id" : "7776B2DC-0958-4C13-A469-A00BA1B856AE",
+      "name" : "Default",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false
+    "testExecutionOrdering" : "random",
+    "uiTestingScreenshotsLifetime" : "keepNever",
+    "userAttachmentLifetime" : "keepNever"
   },
   "testTargets" : [
     {

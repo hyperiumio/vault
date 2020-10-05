@@ -32,15 +32,15 @@ class BootstrapModel: BootstrapModelRepresentable {
     
     @Published private(set) var status = BootstrapStatus.none
     
-    let preferencesManager: PreferencesManager
+    let preferences: Preferences
     
     var didBootstrap: AnyPublisher<BootstrapInitialState, Never> { didBootstrapSubject.eraseToAnyPublisher() }
     
     private let didBootstrapSubject = PassthroughSubject<BootstrapInitialState, Never>()
     private var vaultLocationSubscription: AnyCancellable?
     
-    init(preferencesManager: PreferencesManager) {
-        self.preferencesManager = preferencesManager
+    init(preferences: Preferences) {
+        self.preferences = preferences
     }
     
     func load() {
@@ -58,7 +58,7 @@ class BootstrapModel: BootstrapModelRepresentable {
         
         let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
-        guard let activeVaultIdentifier = preferencesManager.preferences.activeVaultIdentifier else {
+        guard let activeVaultIdentifier = preferences.value.activeVaultIdentifier else {
             let setup = BootstrapInitialState.setup(vaultContainerDirectory: vaultContainerDirectory)
             didBootstrapSubject.send(setup)
             return
