@@ -29,7 +29,7 @@
 "CustomItem" = "Custom Item";
 "CustomItemName" = "Name";
 "CustomItemValue" = "Value";
-"Delete" = "Delete";
+"DeleteItem" = "Delete item";
 "DeleteConfirmation" = "Are you sure you want to delete this item?";
 "DeleteFailed" = "Vault could not delete item";
 "Done" = "Done";

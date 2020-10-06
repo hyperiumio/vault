@@ -10,17 +10,11 @@ struct BankAccountDisplayView<Model>: View where Model: BankAccountModelRepresen
     }
     
     var body: some View {
-        Group {
-            SecureItemTextDisplayField(LocalizedString.bankAccountHolder, text: model.accountHolder)
-            
-            SecureItemDivider()
-            
-            SecureItemTextDisplayField(LocalizedString.bankAccountIban, text: model.iban)
-            
-            SecureItemDivider()
-            
-            SecureItemTextDisplayField(LocalizedString.bankAccountBic, text: model.bic)
-        }
+        SecureItemTextDisplayField(LocalizedString.bankAccountHolder, text: model.accountHolder)
+        
+        SecureItemTextDisplayField(LocalizedString.bankAccountIban, text: model.iban)
+        
+        SecureItemTextDisplayField(LocalizedString.bankAccountBic, text: model.bic)
     }
     
 }
@@ -35,17 +29,11 @@ struct BankAccountEditView<Model>: View where Model: BankAccountModelRepresentab
     }
     
     var body: some View {
-        Group {
-            SecureItemTextEditField(LocalizedString.bankAccountHolder, text: $model.accountHolder)
-            
-            SecureItemDivider()
-            
-            SecureItemTextEditField(LocalizedString.bankAccountIban, text: $model.iban)
-            
-            SecureItemDivider()
-            
-            SecureItemTextEditField(LocalizedString.bankAccountBic, text: $model.bic)
-        }
+        SecureItemTextEditField(LocalizedString.bankAccountHolder, text: $model.accountHolder)
+        
+        SecureItemTextEditField(LocalizedString.bankAccountIban, text: $model.iban)
+        
+        SecureItemTextEditField(LocalizedString.bankAccountBic, text: $model.bic)
     }
     
 }

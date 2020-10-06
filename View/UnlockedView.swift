@@ -146,12 +146,14 @@ private extension UnlockedView {
                     SearchBar(text: searchText)
                     
                     ForEach(collation.sections) { section in
-                        Section(header: Text(section.key)) {
+                        Section {
                             ForEach(section.elements) { model in
                                 NavigationLink(destination: VaultItemReferenceView(model)) {
                                         VaultItemInfoView(model.info.name, description: model.info.description, typeIdentifier: model.info.primaryTypeIdentifier)
                                 }
                             }
+                        } header: {
+                            Text(section.key)
                         }
                     }
                 }

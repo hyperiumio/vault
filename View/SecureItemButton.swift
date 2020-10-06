@@ -44,7 +44,6 @@ struct SecureItemButton<Content>: View where Content: View {
             }
         }
         .buttonStyle(BareButtonStyle())
-        .listRowInsets(EdgeInsets())
     }
     
 }

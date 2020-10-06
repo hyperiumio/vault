@@ -34,29 +34,35 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .touchID:
-                    Section(footer: Text(LocalizedString.touchIDDescription)) {
+                    Section {
                         Toggle(LocalizedString.useTouchID, isOn: isBiometricsEnabledBinding)
                             .animation(.default)
                             .sheet(item: $model.biometricUnlockPreferencesModel) { model in
                                 BiometricUnlockPreferencesView(model)
                             }
+                    } footer: {
+                        Text(LocalizedString.touchIDDescription)
                     }
                 case .faceID:
-                    Section(footer: Text(LocalizedString.faceIDDescription)) {
+                    Section {
                         Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
                             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                             .animation(.default)
                             .sheet(item: $model.biometricUnlockPreferencesModel) { model in
                                 BiometricUnlockPreferencesView(model)
                             }
+                    } footer: {
+                        Text(LocalizedString.faceIDDescription)
                     }
                 }
                 
-                Section(footer: Text(LocalizedString.changeMasterPasswordDescription)) {
+                Section {
                     Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
                         .sheet(item: $model.changeMasterPasswordModel) { model in
                             ChangeMasterPasswordView(model)
                         }
+                } footer: {
+                    Text(LocalizedString.changeMasterPasswordDescription)
                 }
             }
             .listStyle(GroupedListStyle())

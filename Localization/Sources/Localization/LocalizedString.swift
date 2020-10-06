@@ -33,7 +33,7 @@ public enum LocalizedString {
     public static let customItem = Bundle.module.localizedString(forKey: "CustomItem")
     public static let customItemName = Bundle.module.localizedString(forKey: "CustomItemName")
     public static let customItemValue = Bundle.module.localizedString(forKey: "CustomItemValue")
-    public static let delete = Bundle.module.localizedString(forKey: "Delete")
+    public static let deleteItem = Bundle.module.localizedString(forKey: "DeleteItem")
     public static let deleteConfirmation = Bundle.module.localizedString(forKey: "DeleteConfirmation")
     public static let deleteFailed = Bundle.module.localizedString(forKey: "DeleteFailed")
     public static let done = Bundle.module.localizedString(forKey: "Done")

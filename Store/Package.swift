@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "Store", targets: ["Store"])
     ],
     targets: [
-        .target(name: "Store"),
-        .testTarget(name: "StoreTests", dependencies: ["Store"])
+        .target(name: "Store", path: "Sources"),
+        .testTarget(name: "StoreTests", dependencies: ["Store"], path: "Tests")
     ]
 )

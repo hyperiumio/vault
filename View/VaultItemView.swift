@@ -77,39 +77,34 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
             switch mode {
             case .display:
                 VaultItemDisplayView(model)
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(LocalizedString.edit) {
+                                mode = .edit
+                            }
+                        }
+                    }
             case .edit:
                 VaultItemEditView(model)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(LocalizedString.cancel) {
+                                model.discardChanges()
+                                mode = .display
+                            }
+                        }
+                        
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(LocalizedString.save) {
+                                model.save()
+                                mode = .display
+                            }
+                        }
+                    }
+                    .navigationBarBackButtonHidden(mode == .edit)
             }
         }
         .transition(AnyTransition.opacity.animation(.easeInOut))
-        .toolbar {
-            ToolbarItem(placement: .cancellationAction) {
-                switch mode {
-                case .display:
-                    EmptyView()
-                case .edit:
-                    Button(LocalizedString.cancel) {
-                        mode = .display
-                    }
-                }
-            }
-            
-            ToolbarItem(placement: .primaryAction) {
-                switch mode {
-                case .display:
-                    Button(LocalizedString.edit) {
-                        mode = .edit
-                    }
-                case .edit:
-                    Button(LocalizedString.save) {
-                        mode = .display
-                        model.save()
-                    }
-                }
-                
-            }
-        }
-        .navigationBarBackButtonHidden(mode == .edit)
     }
     
 }
@@ -123,31 +118,19 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                VaultItemDisplayHeader(model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
-                
-                ElementView(model.primaryItemModel)
-                
-                ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                    HStack(alignment: .top) {
-                        ElementView(secureItemModel)
-                        
-                        Button {
-                            model.deleteSecondaryItem(at: index)
-                        } label: {
-                            Image.trashCircle
-                                .renderingMode(.original)
-                                .imageScale(.large)
-                        }
-                        .padding(.vertical)
-                    }
+        List {
+            Group {
+                Section {
+                    ElementView(model.primaryItemModel)
+                } header: {
+                    ElementHeader(title: model.name,itemIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                } footer: {
+                    VaultItemFooter(created: model.created, modified: model.modified)
                 }
-                
-                VaultItemFooter(created: model.created, modified: model.modified)
-                    .padding(.top)
             }
+            .listRowInsets(EdgeInsets(.zero))
         }
+        .listStyle(GroupedListStyle())
     }
     
 }
@@ -162,28 +145,31 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
     }
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                VaultItemEditHeader(LocalizedString.title, text: $model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+        List {
+            Group {
+                Section {
+                    VaultItemEditHeader(LocalizedString.title, text: $model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                }
                 
-                ElementView(model.primaryItemModel)
+                Section {
+                    ElementView(model.primaryItemModel)
+                } header: {
+                    ElementHeader(itemIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                }
                 
-                ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                    HStack(alignment: .top) {
-                        ElementView(secureItemModel)
-                        
-                        Button {
-                            model.deleteSecondaryItem(at: index)
-                        } label: {
-                            Image.trashCircle
-                                .renderingMode(.original)
-                                .imageScale(.large)
-                        }
-                        .padding(.vertical)
+                Section {
+                    Button(LocalizedString.deleteItem) {
+                        model.delete()
+                        presentationMode.wrappedValue.dismiss()
                     }
+                    .foregroundColor(.appRed)
+                    .padding()
                 }
             }
+            .listRowInsets(EdgeInsets(.zero))
+
         }
+        .listStyle(GroupedListStyle())
     }
     
 }
@@ -211,30 +197,23 @@ private extension VaultItemDisplayView {
         }
         
         var body: some View {
-            VStack(alignment: .leading, spacing: 0) {
-                ElementHeader(element.secureItem.typeIdentifier)
-                
-                VStack(spacing: 0) {
-                    switch element {
-                    case .login(let model):
-                        LoginDisplayView(model)
-                    case .password(let model):
-                        PasswordDisplayView(model)
-                    case .file(let model):
-                        FileDisplayView(model)
-                    case .note(let model):
-                        NoteDisplayView(model)
-                    case .bankCard(let model):
-                        BankCardDisplayView(model)
-                    case .wifi(let model):
-                        WifiDisplayView(model)
-                    case .bankAccount(let model):
-                        BankAccountDisplayView(model)
-                    case .custom(let model):
-                        CustomItemDisplayView(model)
-                    }
-                }
-                .background(Color.textFieldBackground)
+            switch element {
+            case .login(let model):
+                LoginDisplayView(model)
+            case .password(let model):
+                PasswordDisplayView(model)
+            case .file(let model):
+                FileDisplayView(model)
+            case .note(let model):
+                NoteDisplayView(model)
+            case .bankCard(let model):
+                BankCardDisplayView(model)
+            case .wifi(let model):
+                WifiDisplayView(model)
+            case .bankAccount(let model):
+                BankAccountDisplayView(model)
+            case .custom(let model):
+                CustomItemDisplayView(model)
             }
         }
         
@@ -253,30 +232,23 @@ private extension VaultItemEditView {
         }
         
         var body: some View {
-            VStack(alignment: .leading, spacing: 0) {
-                ElementHeader(element.secureItem.typeIdentifier)
-                
-                VStack(spacing: 0) {
-                    switch element {
-                    case .login(let model):
-                        LoginEditView(model)
-                    case .password(let model):
-                        PasswordEditView(model)
-                    case .file(let model):
-                        FileEditView(model)
-                    case .note(let model):
-                        NoteEditView(model)
-                    case .bankCard(let model):
-                        BankCardEditView(model)
-                    case .wifi(let model):
-                        WifiEditView(model)
-                    case .bankAccount(let model):
-                        BankAccountEditView(model)
-                    case .custom(let model):
-                        CustomItemEditView(model)
-                    }
-                }
-                .background(Color.textFieldBackground)
+            switch element {
+            case .login(let model):
+                LoginEditView(model)
+            case .password(let model):
+                PasswordEditView(model)
+            case .file(let model):
+                FileEditView(model)
+            case .note(let model):
+                NoteEditView(model)
+            case .bankCard(let model):
+                BankCardEditView(model)
+            case .wifi(let model):
+                WifiEditView(model)
+            case .bankAccount(let model):
+                BankAccountEditView(model)
+            case .custom(let model):
+                CustomItemEditView(model)
             }
         }
         
@@ -286,23 +258,37 @@ private extension VaultItemEditView {
 
 private struct ElementHeader: View {
     
+    let title: String?
     let itemIdentifier: SecureItemTypeIdentifier
     
-    init(_ itemIdentifier: SecureItemTypeIdentifier) {
+    init(title: String? = nil, itemIdentifier: SecureItemTypeIdentifier) {
+        self.title = title
         self.itemIdentifier = itemIdentifier
     }
     
     var body: some View {
-        Label {
-            Text(itemIdentifier.name)
-                .foregroundColor(.secondaryLabel)
-        } icon: {
-            itemIdentifier.image
-                .foregroundColor(itemIdentifier.color)
+        VStack(alignment: .leading, spacing: 0) {
+            if let title = title {
+                Text(title)
+                    .textCase(.none)
+                    .font(Font.largeTitle.bold())
+                    .foregroundColor(.label)
+                    .padding(.vertical)
+            } else {
+                Spacer()
+            }
+            
+            Label {
+                Text(itemIdentifier.name)
+                    .foregroundColor(.secondaryLabel)
+            } icon: {
+                itemIdentifier.image
+                    .foregroundColor(itemIdentifier.color)
+            }
+            .labelStyle(HeaderLabelStyle())
         }
-        .font(.footnote)
         .padding(.horizontal)
-        .padding(.vertical, 2)
+        .padding(.bottom, 4)
     }
     
 }

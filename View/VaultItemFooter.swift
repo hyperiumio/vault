@@ -42,11 +42,12 @@ struct VaultItemFooter: View {
             
             Spacer()
         }
+        .padding(.vertical)
     }
     
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateStyle = .medium
+        formatter.dateStyle = .short
         formatter.timeStyle = .short
         return formatter
     }

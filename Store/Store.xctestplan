@@ -2,19 +2,22 @@
   "configurations" : [
     {
       "id" : "F4FCC5DE-5A65-44E8-918F-B5ECC2AA2A81",
-      "name" : "Configuration 1",
+      "name" : "Default",
       "options" : {
 
       }
     }
   ],
   "defaultOptions" : {
-
+    "testExecutionOrdering" : "random",
+    "uiTestingScreenshotsLifetime" : "keepNever",
+    "userAttachmentLifetime" : "keepNever"
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:Store",
         "identifier" : "StoreTests",
         "name" : "StoreTests"
       }

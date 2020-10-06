@@ -26,6 +26,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     
     func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier) {}
     func deleteSecondaryItem(at index: Int) {}
+    func discardChanges() {}
     func save() {}
     func delete() {}
     

@@ -13,6 +13,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Sync"),
-        .testTarget(name: "SyncTests", dependencies: ["Sync"])
+   //     .testTarget(name: "SyncTests", dependencies: ["Sync"])
     ]
 )

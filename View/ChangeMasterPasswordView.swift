@@ -37,16 +37,18 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     #if os(iOS)
     var body: some View {
         NavigationView {
-            Form {
-                Section(header: Header()) {
+            List {
+                Section {
                     SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
                     
                     SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
                     
                     SecureField(LocalizedString.confirmPassword, text: $model.repeatedNewPassword)
+                } header: {
+                    Header()
                 }
                 
-                Section(footer: ErrorMessage(status: model.status)) {
+                Section {
                     HStack {
                         Spacer()
                         
@@ -54,11 +56,14 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
                         
                         Spacer()
                     }
+                } footer: {
+                    ErrorMessage(status: model.status)
                 }
             }
             .disabled(model.status == .loading)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle(LocalizedString.masterPassword)
+            .listStyle(GroupedListStyle())
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(LocalizedString.cancel) {

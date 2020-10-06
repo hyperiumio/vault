@@ -26,6 +26,7 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
     
     func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier)
     func deleteSecondaryItem(at index: Int)
+    func discardChanges()
     func save()
     func delete()
     
@@ -180,6 +181,14 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     
     func deleteSecondaryItem(at index: Int) {
         secondaryItemModels.remove(at: index)
+    }
+    
+    func discardChanges() {
+        guard let originalVaultItem = originalVaultItem else { return }
+        
+        name = originalVaultItem.name
+        primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primarySecureItem)
+        secondaryItemModels = originalVaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
     
     func save() {

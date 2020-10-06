@@ -11,17 +11,11 @@ struct LoginDisplayView<Model>: View where Model: LoginModelRepresentable {
     }
     
     var body: some View {
-        Group {
-            SecureItemTextDisplayField(LocalizedString.user, text: model.username)
-            
-            SecureItemDivider()
-            
-            SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
-            
-            SecureItemDivider()
-            
-            SecureItemTextDisplayField(LocalizedString.url, text: model.url)
-        }
+        SecureItemTextDisplayField(LocalizedString.user, text: model.username)
+        
+        SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
+        
+        SecureItemTextDisplayField(LocalizedString.url, text: model.url)
     }
     
 }
@@ -35,22 +29,16 @@ struct LoginEditView<Model>: View where Model: LoginModelRepresentable {
     }
     
     var body: some View {
-        Group {
-            SecureItemTextEditField(LocalizedString.user, text: $model.username)
+        SecureItemTextEditField(LocalizedString.user, text: $model.username)
+        
+        VStack(spacing: 0) {
+            SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
             
-            SecureItemDivider()
-            
-            VStack(spacing: 0) {
-                SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
-                
-                PasswordGeneratorView(action: model.generatePassword)
-                    .padding()
-            }
-            
-            SecureItemDivider()
-            
-            SecureItemTextEditField(LocalizedString.url, text: $model.url)
+            PasswordGeneratorView(action: model.generatePassword)
+                .padding()
         }
+        
+        SecureItemTextEditField(LocalizedString.url, text: $model.url)
     }
     
 }
