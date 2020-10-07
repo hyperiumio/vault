@@ -28,7 +28,7 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     
     public func save(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         operationQueue.future { [resourceLocator, indexSubject, masterKey] in
-            let itemURL = resourceLocator.itemFile()
+            let newItemURL = resourceLocator.itemFile()
             let encodedVaultItemInfo = try vaultItem.info.encoded()
             let encodedPrimarySecureItem = try vaultItem.primarySecureItem.encoded()
             let encodedSecondarySecureItems = try vaultItem.secondarySecureItems.map { secureItem in
@@ -37,11 +37,21 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             let messages = [encodedVaultItemInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
             let secureDataContainer = try Message.encryptContainer(from: messages, using: masterKey)
             let header = try Header(data: secureDataContainer)
-            let indexElement = VaultIndex.Element(url: itemURL, header: header, info: vaultItem.info)
+            let indexElement = VaultIndex.Element(url: newItemURL, header: header, info: vaultItem.info)
             
-            try secureDataContainer.write(to: itemURL)
+            try secureDataContainer.write(to: newItemURL)
+            
+            if let oldItemURL = try? indexSubject.value.element(for: vaultItem.id).url {
+                try FileManager.default.removeItem(at: oldItemURL)
+            }
             
             indexSubject.value = indexSubject.value.add(indexElement)
+            
+            for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
+                print(url)
+            }
+            
+            print("***")
         }
         .eraseToAnyPublisher()
     }
@@ -71,6 +81,10 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             try FileManager.default.removeItem(at: itemURL)
             
             indexSubject.value = indexSubject.value.delete(itemID)
+            
+            for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
+                print(url)
+            }
         }
         .eraseToAnyPublisher()
     }

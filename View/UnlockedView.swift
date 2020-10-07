@@ -158,7 +158,7 @@ private extension UnlockedView {
                     }
                 }
                 .listStyle(PlainListStyle())
-                .navigationTitle(LocalizedString.vault)
+                .navigationBarTitle(LocalizedString.vault, displayMode: .inline)
             } else {
                 Text(LocalizedString.emptyVault)
                     .font(.title)
