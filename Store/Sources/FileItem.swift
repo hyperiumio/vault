@@ -15,11 +15,6 @@ public struct FileItem: Codable {
         self.data = data
     }
     
-    public init() {
-        self.name = ""
-        self.data = nil
-    }
-    
 }
 
 public extension FileItem {
