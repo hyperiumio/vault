@@ -30,10 +30,14 @@ struct BankAccountEditView<Model>: View where Model: BankAccountModelRepresentab
     
     var body: some View {
         SecureItemTextEditField(LocalizedString.bankAccountHolder, text: $model.accountHolder)
+            .keyboardType(.namePhonePad)
+            .textContentType(.name)
         
         SecureItemTextEditField(LocalizedString.bankAccountIban, text: $model.iban)
+            .keyboardType(.asciiCapable)
         
         SecureItemTextEditField(LocalizedString.bankAccountBic, text: $model.bic)
+            .keyboardType(.asciiCapable)
     }
     
 }

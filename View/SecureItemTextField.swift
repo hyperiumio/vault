@@ -36,6 +36,8 @@ struct SecureItemTextEditField: View {
     var body: some View {
         SecureItemDisplayField(title) {
             TextField(title, text: text)
+                .autocapitalization(.none)
+                .disableAutocorrection(true)
         }
     }
     

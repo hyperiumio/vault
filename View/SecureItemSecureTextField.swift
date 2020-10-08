@@ -73,6 +73,8 @@ struct SecureItemSecureTextEditField: View {
                 }
                 .buttonStyle(BorderlessButtonStyle())
             }
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
         }
     }
     

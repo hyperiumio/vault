@@ -27,9 +27,12 @@ struct WifiEditView<Model>: View where Model: WifiModelRepresentable {
     
     var body: some View {
         SecureItemTextEditField(LocalizedString.wifiNetworkName, text: $model.networkName)
+            .keyboardType(.asciiCapable)
         
         VStack(spacing: 0) {
             SecureItemSecureTextEditField(LocalizedString.password, text: $model.networkPassword)
+                .keyboardType(.asciiCapable)
+                .textContentType(.newPassword)
             
             PasswordGeneratorView(action: model.generatePassword)
                 .padding()
