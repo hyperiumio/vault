@@ -13,8 +13,7 @@ let package = Package(
         .library(name: "Localization", targets: ["Localization"])
     ],
     targets: [
-        .target(name: "Localization", resources: [.copy("en.lproj")]),
-        .testTarget(name: "LocalizationTests", dependencies: ["Localization"])
+        .target(name: "Localization", path: "Sources", resources: [.copy("en.lproj")]),
     ]
 )
  

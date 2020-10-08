@@ -23,8 +23,8 @@ struct ParallaxView<Content>: View where Content: View {
                 Gyroscope.shared.stop()
             }
             .onReceive(Gyroscope.shared.tiltDidChange) { tilt in
-                offsetX = CGFloat(tilt.x) * 20
-                offsetY = CGFloat(tilt.y) * 20
+                offsetX = CGFloat(tilt.x) * amplitude
+                offsetY = CGFloat(tilt.y) * amplitude
             }
     }
     

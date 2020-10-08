@@ -12,7 +12,6 @@ let package = Package(
         .library(name: "Sync", targets: ["Sync"])
     ],
     targets: [
-        .target(name: "Sync"),
-   //     .testTarget(name: "SyncTests", dependencies: ["Sync"])
+        .target(name: "Sync", path: "Sources"),
     ]
 )

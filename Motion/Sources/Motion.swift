@@ -50,7 +50,7 @@ public class Gyroscope {
             }
             x /= radiantUpperBound
             
-            let y = attitude.pitch / (Double.pi / 2)
+            let y = attitude.pitch / radiantUpperBound
             let tilt = Tilt(x: x, y: y)
             
             self.tiltDidChangeSubject.send(tilt)

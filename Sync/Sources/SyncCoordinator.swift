@@ -4,9 +4,7 @@ public class SyncCoordinator {
     
     private var initializeSubscription: AnyCancellable?
     
-    public init() {
-        
-    }
+    public init() {}
     
     public func initialize() {
         initializeSubscription = Server.initialize()
@@ -17,8 +15,6 @@ public class SyncCoordinator {
             }
     }
     
-    public func startSync() {
-        
-    }
+    public func startSync() {}
     
 }
