@@ -1,15 +1,22 @@
 import Foundation
 
-public final class FileReader {
+protocol FileHandleRepresentable {
     
-    private let fileHandle: FileHandle
+    func seek(toOffset offset: UInt64) throws
+    func read(upToCount count: Int) throws -> Data?
+    
+}
+
+class FileReader {
+    
+    private let fileHandle: FileHandleRepresentable
     private var isValid = true
     
-    private init(fileHandle: FileHandle) {
+    private init(fileHandle: FileHandleRepresentable) {
         self.fileHandle = fileHandle
     }
     
-    public func bytes(in range: Range<Int>) throws -> Data {
+    func bytes(in range: Range<Int>) throws -> Data {
         guard isValid else {
             throw FileReaderError.invalidFileReader
         }
@@ -26,19 +33,14 @@ public final class FileReader {
         return data
     }
     
-    func invalidate() {
-        isValid = false
-    }
-    
 }
 
 extension FileReader {
     
-    public static func read<T>(url: URL, body: (FileReader) throws -> T) throws -> T {
-        let fileHandle = try FileHandle(forReadingFrom: url)
+    static func read<T>(from fileHandle: FileHandleRepresentable, body: (FileReader) throws -> T) throws -> T {
         let fileReader = FileReader(fileHandle: fileHandle)
         defer {
-            fileReader.invalidate()
+            fileReader.isValid = false
         }
         
         return try body(fileReader)

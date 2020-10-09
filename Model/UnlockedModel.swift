@@ -19,11 +19,10 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var settingsModel: SettingsModel { get }
     var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
-    var lock: AnyPublisher<Void, Never> { get }
+    var lockRequest: AnyPublisher<Bool, Never> { get }
     
     func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier)
-    func lockApp()
-    
+    func lockApp(enableBiometricUnlock: Bool)
 }
 
 protocol UnlockedModelDependency {
@@ -62,8 +61,8 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
-    var lock: AnyPublisher<Void, Never> {
-        lockSubject.eraseToAnyPublisher()
+    var lockRequest: AnyPublisher<Bool, Never> {
+        lockRequestSubject.eraseToAnyPublisher()
     }
     
     let settingsModel: SettingsModel
@@ -71,7 +70,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     private let dependency: Dependency
     private let vault: Vault
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
-    private let lockSubject = PassthroughSubject<Void, Never>()
+    private let lockRequestSubject = PassthroughSubject<Bool, Never>()
     private var infoItemsSubscription: AnyCancellable?
     
     init(vault: Vault, dependency: Dependency) {
@@ -128,8 +127,8 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         creationModel = model
     }
     
-    func lockApp() {
-        lockSubject.send()
+    func lockApp(enableBiometricUnlock: Bool) {
+        lockRequestSubject.send(enableBiometricUnlock)
     }
     
 }

@@ -15,8 +15,8 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     let itemCollation: Collation?
     let settingsModel: SettingsModelStub
     
-    var lock: AnyPublisher<Void, Never> {
-        lockSubject.eraseToAnyPublisher()
+    var lockRequest: AnyPublisher<Bool, Never> {
+        lockRequestSubject.eraseToAnyPublisher()
     }
     
     var storeDirectory: URL {
@@ -25,7 +25,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     
     func reload() {}
     func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {}
-    func lockApp() {}
+    func lockApp(enableBiometricUnlock: Bool) {}
     
     init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemModel?, failure: UnlockedFailure?) {
         self.itemCollation = itemCollation
@@ -34,7 +34,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
         self.failure = failure
     }
     
-    let lockSubject = PassthroughSubject<Void, Never>()
+    let lockRequestSubject = PassthroughSubject<Bool, Never>()
     
 }
 #endif

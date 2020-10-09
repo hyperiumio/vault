@@ -50,7 +50,7 @@ private class SystemPasteboardMock: SystemPasteboardRepresentable {
     private let output: Output
     private var recorded = [Event]()
     
-    init(expectation: [Event], output: Output = Output()) {
+    init(expectation: [Event] = [], output: Output = Output()) {
         self.expectation = expectation
         self.output = output
     }

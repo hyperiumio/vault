@@ -150,7 +150,8 @@ extension Vault {
             let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
             
             let elements = try FileManager.default.urls(in: resourceLocator.itemsDirectory).map { itemURL in
-                try FileReader.read(url: itemURL) { fileReader in
+                let fileHandle = try FileHandle(forReadingFrom: itemURL)
+                return try FileReader.read(from: fileHandle) { fileReader in
                     let header = try Header(from: fileReader.bytes)
                     let nonceDataRange = header.nonceRanges[.infoIndex]
                     let ciphertextRange = header.ciphertextRange[.infoIndex]
@@ -189,3 +190,5 @@ private extension FileManager {
     }
     
 }
+
+extension FileHandle: FileHandleRepresentable {}

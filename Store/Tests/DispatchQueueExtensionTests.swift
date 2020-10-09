@@ -59,14 +59,13 @@ class DispatchQueueExtensionTests: XCTestCase {
         let expectations = [didComplete]
         
         queue.future {
-            throw ErrorMock.foo
+            throw NSError()
         }
         .sink { completion in
             switch completion {
             case .finished:
                 XCTFail()
-            case .failure(let error):
-                XCTAssertEqual(error as? ErrorMock, .foo)
+            case .failure:
                 didComplete.fulfill()
             }
         } receiveValue: {
@@ -77,11 +76,5 @@ class DispatchQueueExtensionTests: XCTestCase {
         let result = XCTWaiter.wait(for: expectations, timeout: .infinity)
         XCTAssertEqual(result, .completed)
     }
-    
-}
-
-private enum ErrorMock: Error {
-    
-    case foo
     
 }

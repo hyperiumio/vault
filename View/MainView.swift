@@ -3,7 +3,6 @@ import SwiftUI
 struct MainView<Model>: View where Model: MainModelRepresentable {
     
     @ObservedObject private var model: Model
-    @Environment(\.scenePhase) private var scenePhase
     
     var body: some View {
         Group {
@@ -15,11 +14,6 @@ struct MainView<Model>: View where Model: MainModelRepresentable {
             case .unlocked(let model):
                 UnlockedView(model)
                     .zIndex(0)
-            }
-        }
-        .onChange(of: scenePhase) { scenePhase in
-            if scenePhase == .background {
-                model.lock()
             }
         }
     }

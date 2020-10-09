@@ -10,8 +10,6 @@ protocol MainModelRepresentable: ObservableObject, Identifiable {
     
     var state: State { get }
     
-    func lock()
-    
 }
 
 protocol MainModelDependency {
@@ -51,12 +49,10 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
                     .map(MainModelState.unlocked)
                     .eraseToAnyPublisher()
             case .unlocked(let model):
-                return model.lock
-                    .map {
-                        dependency.lockedModel(vaultDirectory: vaultDirectory)
-                    }
-                    .map { model in
-                        .locked(model: model, userBiometricUnlock: false)
+                return model.lockRequest
+                    .map { enableBiometricUnlock in
+                        let model = dependency.lockedModel(vaultDirectory: vaultDirectory)
+                        return .locked(model: model, userBiometricUnlock: enableBiometricUnlock)
                     }
                     .eraseToAnyPublisher()
             }
@@ -81,16 +77,6 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
             .flatMap(statePublisher)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
-    }
-    
-    func lock() {
-        switch state {
-        case .locked:
-            return
-        case .unlocked:
-            let model = dependency.lockedModel(vaultDirectory: vaultDirectory)
-            state = .locked(model: model, userBiometricUnlock: true)
-        }
     }
     
 }

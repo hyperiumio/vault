@@ -5,6 +5,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
     @State private var selectionPresented = false
+    @Environment(\.scenePhase) private var scenePhase
     
     #if os(iOS)
     @State private var settingsPresented = false
@@ -45,7 +46,9 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                             SettingsView(model.settingsModel)
                         }
                         
-                        Button(action: model.lockApp) {
+                        Button {
+                            model.lockApp(enableBiometricUnlock: false)
+                        } label: {
                             Image.lock
                         }
                     }
@@ -104,6 +107,12 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
         .alert(item: $model.failure, content: Self.alert)
+        .onChange(of: scenePhase) { scenePhase in
+            if scenePhase == .background {
+                model.lockApp(enableBiometricUnlock: true)
+            }
+        }
+
     }
     #endif
     
