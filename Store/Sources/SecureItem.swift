@@ -11,100 +11,62 @@ public enum SecureItem {
     case bankAccount(BankAccountItem)
     case custom(CustomItem)
     
-    public var typeIdentifier: TypeIdentifier {
-        switch self {
-        case .password:
-            return .password
-        case .login:
-            return .login
-        case .file:
-            return .file
-        case .note:
-            return .note
-        case .bankCard:
-            return .bankCard
-        case .wifi:
-            return .wifi
-        case .bankAccount:
-            return .bankAccount
-        case .custom:
-            return .custom
-        }
-    }
-    
-    public func encoded() throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        
+    var value: SecureItemValue {
         switch self {
         case .password(let value):
-            return try encoder.encode(value)
+            return value
         case .login(let value):
-            return try encoder.encode(value)
+            return value
         case .file(let value):
-            return try encoder.encode(value)
+            return value
         case .note(let value):
-            return try encoder.encode(value)
+            return value
         case .bankCard(let value):
-            return try encoder.encode(value)
+            return value
         case .wifi(let value):
-            return try encoder.encode(value)
+            return value
         case .bankAccount(let value):
-            return try encoder.encode(value)
+            return value
         case .custom(let value):
-            return try encoder.encode(value)
+            return value
         }
     }
     
-    public init(from data: Data, asTypeMatching typeIdentifier: TypeIdentifier) throws {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        
-        switch typeIdentifier {
+    public init(from data: Data, as type: SecureItemType) throws {
+        switch type {
         case .password:
-            let value = try decoder.decode(PasswordItem.self, from: data)
+            let value = try PasswordItem(from: data)
             self = .password(value)
         case .login:
-            let value = try decoder.decode(LoginItem.self, from: data)
+            let value = try LoginItem(from: data)
             self = .login(value)
         case .file:
-            let value = try decoder.decode(FileItem.self, from: data)
+            let value = try FileItem(from: data)
             self = .file(value)
         case .note:
-            let value = try decoder.decode(NoteItem.self, from: data)
+            let value = try NoteItem(from: data)
             self = .note(value)
         case .bankCard:
-            let value = try decoder.decode(BankCardItem.self, from: data)
+            let value = try BankCardItem(from: data)
             self = .bankCard(value)
         case .wifi:
-            let value = try decoder.decode(WifiItem.self, from: data)
+            let value = try WifiItem(from: data)
             self = .wifi(value)
         case .bankAccount:
-            let value = try decoder.decode(BankAccountItem.self, from: data)
+            let value = try BankAccountItem(from: data)
             self = .bankAccount(value)
         case .custom:
-            let value = try decoder.decode(CustomItem.self, from: data)
+            let value = try CustomItem(from: data)
             self = .custom(value)
         }
     }
     
 }
 
-public extension SecureItem {
+protocol SecureItemValue {
     
-    enum TypeIdentifier: String, Codable, CaseIterable, Identifiable {
-        
-        case login
-        case password
-        case wifi
-        case note
-        case bankCard
-        case bankAccount
-        case custom
-        case file
-     
-        public var id: TypeIdentifier { self }
-        
-    }
+    var type: SecureItemType { get }
+
+    func encoded() throws -> Data
     
 }

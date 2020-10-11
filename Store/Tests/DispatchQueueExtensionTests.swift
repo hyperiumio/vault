@@ -39,11 +39,8 @@ class DispatchQueueExtensionTests: XCTestCase {
         
         queue.future { "foo" }
             .sink { completion in
-                switch completion {
-                case .finished:
+                if case .finished = completion {
                     didComplete.fulfill()
-                case .failure:
-                    XCTFail()
                 }
             } receiveValue: { value in
                 XCTAssertEqual(value, "foo")
@@ -61,15 +58,15 @@ class DispatchQueueExtensionTests: XCTestCase {
         queue.future {
             throw NSError()
         }
+        .catch { error in
+            return Just("foo")
+        }
         .sink { completion in
-            switch completion {
-            case .finished:
-                XCTFail()
-            case .failure:
+            if case .finished = completion {
                 didComplete.fulfill()
             }
-        } receiveValue: {
-            XCTFail()
+        } receiveValue: { value in
+            XCTAssertEqual(value, "foo")
         }
         .store(in: &subscriptions)
         

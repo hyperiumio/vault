@@ -12,16 +12,16 @@ class VaultInfoTests: XCTestCase {
     }
     
     func testInitFromData() throws {
-        let json = """
+        let data = """
         {
-          "keyVersion":1,
-          "itemVersion":1,
-          "id":"145E33F1-6CE9-4BFF-B261-3D5E71F8C50A",
-          "createdAt":"2020-10-07T14:35:50Z"
+          "keyVersion": 1,
+          "itemVersion": 1,
+          "id": "145E33F1-6CE9-4BFF-B261-3D5E71F8C50A",
+          "createdAt": "2020-10-07T14:35:50Z"
         }
         """.data(using: .utf8)!
         
-        let info = try VaultInfo(from: json)
+        let info = try VaultInfo(from: data)
         
         XCTAssertEqual(info.keyVersion, 1)
         XCTAssertEqual(info.itemVersion, 1)

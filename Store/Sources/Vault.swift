@@ -30,9 +30,9 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
         operationQueue.future { [resourceLocator, indexSubject, masterKey] in
             let newItemURL = resourceLocator.itemFile()
             let encodedVaultItemInfo = try vaultItem.info.encoded()
-            let encodedPrimarySecureItem = try vaultItem.primarySecureItem.encoded()
+            let encodedPrimarySecureItem = try vaultItem.primarySecureItem.value.encoded()
             let encodedSecondarySecureItems = try vaultItem.secondarySecureItems.map { secureItem in
-                try secureItem.encoded()
+                try secureItem.value.encoded()
             }
             let messages = [encodedVaultItemInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
             let secureDataContainer = try Message.encryptContainer(from: messages, using: masterKey)
@@ -68,7 +68,7 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             let primaryCiphertext = data[primaryCiphertextRange]
             let primaryTag = element.header.tags[.primarySecureItemIndex]
             let primaryItemData = try Message(nonce: primaryNonce, ciphertext: primaryCiphertext, tag: primaryTag).decrypt(using: itemKey)
-            let primaryItem = try SecureItem(from: primaryItemData, asTypeMatching: element.info.primaryTypeIdentifier)
+            let primaryItem = try SecureItem(from: primaryItemData, as: element.info.primaryType)
             
             return VaultItem(id: element.info.id, name: element.info.name, primarySecureItem: primaryItem, secondarySecureItems: [], created: element.info.created, modified: element.info.modified)
         }

@@ -31,8 +31,8 @@ public struct VaultItem {
             description = item.name
         }
         
-        let secondaryTypeIdentifiers = secondarySecureItems.map(\.typeIdentifier)
-        return Info(id: id, name: name, description: description, primaryTypeIdentifier: primarySecureItem.typeIdentifier, secondaryTypeIdentifiers: secondaryTypeIdentifiers, created: created, modified: modified)
+        let secondaryTypes = secondarySecureItems.map(\.value.type)
+        return Info(id: id, name: name, description: description, primaryType: primarySecureItem.value.type, secondaryTypes: secondaryTypes, created: created, modified: modified)
     }
     
     public init(id: UUID, name: String, primarySecureItem: SecureItem, secondarySecureItems: [SecureItem], created: Date, modified: Date) {
@@ -53,8 +53,8 @@ extension VaultItem {
         public let id: UUID
         public let name: String
         public let description: String
-        public let primaryTypeIdentifier: SecureItem.TypeIdentifier
-        public let secondaryTypeIdentifiers: [SecureItem.TypeIdentifier]
+        public let primaryType: SecureItemType
+        public let secondaryTypes: [SecureItemType]
         public let created: Date
         public let modified: Date
         
@@ -64,12 +64,12 @@ extension VaultItem {
             return try encoder.encode(self)
         }
         
-        public init(id: UUID, name: String, description: String, primaryTypeIdentifier: SecureItem.TypeIdentifier, secondaryTypeIdentifiers: [SecureItem.TypeIdentifier], created: Date, modified: Date) {
+        public init(id: UUID, name: String, description: String, primaryType: SecureItemType, secondaryTypes: [SecureItemType], created: Date, modified: Date) {
             self.id = id
             self.name = name
             self.description = description
-            self.primaryTypeIdentifier = primaryTypeIdentifier
-            self.secondaryTypeIdentifiers = secondaryTypeIdentifiers
+            self.primaryType = primaryType
+            self.secondaryTypes = secondaryTypes
             self.created = created
             self.modified = modified
         }

@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BankCardItem: Codable {
+public struct BankCardItem: SecureItemValue, Codable {
     
     public let name: String
     public let number: String
@@ -11,11 +11,25 @@ public struct BankCardItem: Codable {
         Vendor(number)
     }
     
+    var type: SecureItemType { .bankCard }
+    
     public init(name: String, number: String, expirationDate: Date, pin: String) {
         self.name = name
         self.number = number
         self.expirationDate = expirationDate
         self.pin = pin
+    }
+    
+    init(from data: Data) throws {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        self = try decoder.decode(Self.self, from: data)
+    }
+    
+    func encoded() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(self)
     }
     
 }
