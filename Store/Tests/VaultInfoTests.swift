@@ -29,6 +29,12 @@ class VaultInfoTests: XCTestCase {
         XCTAssertEqual(info.createdAt, ISO8601DateFormatter().date(from: "2020-10-07T14:35:50Z"))
     }
     
+    func testInitFromInvalidData() {
+        let data = "".data(using: .utf8)!
+        
+        XCTAssertThrowsError(try VaultInfo(from: data))
+    }
+    
     func testEncoded() throws {
         let info = try VaultInfo().encoded()
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: info) as? [String: Any])

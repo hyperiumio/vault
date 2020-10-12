@@ -1,7 +1,7 @@
 import XCTest
 @testable import Store
 
-class BankAccountTests: XCTestCase {
+class BankAccountItemTests: XCTestCase {
     
     func testInitFromValues() {
         let item = BankAccountItem(accountHolder: "foo", iban: "bar", bic: "baz")

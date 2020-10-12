@@ -1,6 +1,6 @@
 import Foundation
 
-public struct WifiItem: SecureItemValue, Codable {
+public struct WifiItem: SecureItemValue, Codable, Equatable  {
     
     public let networkName: String
     public let networkPassword: String

@@ -14,7 +14,7 @@ public struct LockedVault<Key, Header, Message> where Key: KeyRepresentable, Hea
             do {
                 let itemKey = try element.header.unwrapKey(with: masterKey)
                 let vaultItemInfoData = try element.message.decrypt(using: itemKey)
-                let vaultItemInfo = try VaultItem.Info(from: vaultItemInfoData)
+                let vaultItemInfo = try VaultItemInfo(from: vaultItemInfoData)
                 return VaultIndex.Element(url: element.url, header: element.header, info: vaultItemInfo)
             } catch {
                 return nil

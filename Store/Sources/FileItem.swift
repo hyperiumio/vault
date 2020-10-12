@@ -1,6 +1,6 @@
 import Foundation
 
-public struct FileItem: SecureItemValue {
+public struct FileItem: SecureItemValue, Equatable  {
     
     public let name: String
     public let data: Data?

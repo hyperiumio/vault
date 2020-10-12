@@ -1,7 +1,7 @@
 import XCTest
 @testable import Store
 
-class LoginTests: XCTestCase {
+class LoginItemTests: XCTestCase {
     
     func testInit() {
         let item = LoginItem(username: "foo", password: "bar", url: "baz")

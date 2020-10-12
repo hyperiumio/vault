@@ -1,7 +1,7 @@
 import XCTest
 @testable import Store
 
-class BankCardTests: XCTestCase {
+class BankCardItemTests: XCTestCase {
 
     func testInitFromValues() {
         let item = BankCardItem(name: "foo", number: "bar", expirationDate: .distantPast, pin: "baz")

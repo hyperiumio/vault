@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BankCardItem: SecureItemValue, Codable {
+public struct BankCardItem: SecureItemValue, Codable, Equatable  {
     
     public let name: String
     public let number: String

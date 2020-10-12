@@ -1,6 +1,6 @@
 import Foundation
 
-public enum SecureItem {
+public enum SecureItem: Equatable {
     
     case password(PasswordItem)
     case login(LoginItem)

@@ -18,9 +18,9 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
         self.indexSubject = CurrentValueSubject(initialIndex)
     }
     
-    public var vaultItemInfos: [VaultItem.Info] { indexSubject.value.infos }
+    public var vaultItemInfos: [VaultItemInfo] { indexSubject.value.infos }
     
-    public var vaultItemInfosDidChange: AnyPublisher<[VaultItem.Info], Error> {
+    public var vaultItemInfosDidChange: AnyPublisher<[VaultItemInfo], Error> {
         indexSubject
             .map(\.infos)
             .eraseToAnyPublisher()
@@ -29,15 +29,17 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     public func save(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         operationQueue.future { [resourceLocator, indexSubject, masterKey] in
             let newItemURL = resourceLocator.itemFile()
-            let encodedVaultItemInfo = try vaultItem.info.encoded()
+            let secondaryTypes = vaultItem.secondarySecureItems.map(\.value.type)
+            let info = VaultItemInfo(id: vaultItem.id, name: vaultItem.name, description: vaultItem.description, primaryType: vaultItem.primarySecureItem.value.type, secondaryTypes: secondaryTypes, created: vaultItem.created, modified: vaultItem.modified)
+            let encodedInfo = try info.encoded()
             let encodedPrimarySecureItem = try vaultItem.primarySecureItem.value.encoded()
             let encodedSecondarySecureItems = try vaultItem.secondarySecureItems.map { secureItem in
                 try secureItem.value.encoded()
             }
-            let messages = [encodedVaultItemInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
+            let messages = [encodedInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
             let secureDataContainer = try Message.encryptContainer(from: messages, using: masterKey)
             let header = try Header(data: secureDataContainer)
-            let indexElement = VaultIndex.Element(url: newItemURL, header: header, info: vaultItem.info)
+            let indexElement = VaultIndex.Element(url: newItemURL, header: header, info: info)
             
             try secureDataContainer.write(to: newItemURL)
             

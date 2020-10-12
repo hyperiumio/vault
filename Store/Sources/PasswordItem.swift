@@ -1,6 +1,6 @@
 import Foundation
 
-public struct PasswordItem: SecureItemValue, Codable {
+public struct PasswordItem: SecureItemValue, Codable, Equatable {
     
     public let password: String
     

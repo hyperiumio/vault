@@ -1,7 +1,7 @@
 import XCTest
 @testable import Store
 
-class CustomFieldTests: XCTestCase {
+class CustomItemTests: XCTestCase {
     
     func testInitFromValues() {
         let item = CustomItem(name: "foo", value: "bar")

@@ -1,46 +1,46 @@
 import XCTest
 @testable import Store
 
-class NoteTests: XCTestCase {
+class PasswordItemTests: XCTestCase {
     
     func testInitFromValues() {
-        let item = NoteItem(text: "foo")
+        let item = PasswordItem(password: "foo")
         
-        XCTAssertEqual(item.text, "foo")
+        XCTAssertEqual(item.password, "foo")
     }
     
     func testInitFromData() throws {
         let data = """
         {
-          "text": "foo"
+          "password": "foo"
         }
         """.data(using: .utf8)!
         
-        let item = try NoteItem(from: data)
+        let item = try PasswordItem(from: data)
         
-        XCTAssertEqual(item.text, "foo")
+        XCTAssertEqual(item.password, "foo")
     }
     
     func testInitFromInvalidData() {
         let data = "".data(using: .utf8)!
         
-        XCTAssertThrowsError(try NoteItem(from: data))
+        XCTAssertThrowsError(try PasswordItem(from: data))
     }
     
     func testType() {
-        let item = NoteItem(text: "")
+        let item = PasswordItem(password: "")
         
-        XCTAssertEqual(item.type, .note)
+        XCTAssertEqual(item.type, .password)
     }
     
     func testEncoded() throws {
-        let item = try NoteItem(text: "foo").encoded()
+        let item = try PasswordItem(password: "foo").encoded()
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: item) as? [String: Any])
         
-        let text = try XCTUnwrap(json["text"] as? String)
+        let password = try XCTUnwrap(json["password"] as? String)
         
         XCTAssertEqual(json.count, 1)
-        XCTAssertEqual(text, "foo")
+        XCTAssertEqual(password, "foo")
     }
     
 }

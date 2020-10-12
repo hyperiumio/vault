@@ -1,6 +1,6 @@
 import Foundation
 
-public struct LoginItem: SecureItemValue, Codable {
+public struct LoginItem: SecureItemValue, Codable, Equatable  {
     
     public let username: String
     public let password: String

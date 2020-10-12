@@ -22,7 +22,7 @@ struct VaultIndex<Header> {
         self.values = values
     }
     
-    var infos: [VaultItem.Info] {
+    var infos: [VaultItemInfo] {
         values.values.map(\.info)
     }
     
@@ -56,7 +56,7 @@ extension VaultIndex {
         
         let url: URL
         let header: Header
-        let info: VaultItem.Info
+        let info: VaultItemInfo
         
     }
     

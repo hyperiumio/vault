@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BankAccountItem: SecureItemValue, Codable {
+public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
     
     public let accountHolder: String
     public let iban: String

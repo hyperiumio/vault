@@ -1,6 +1,6 @@
 import Foundation
 
-public struct NoteItem: SecureItemValue, Codable {
+public struct NoteItem: SecureItemValue, Codable, Equatable  {
     
     public let text: String
     
