@@ -98,9 +98,10 @@ class LockedModel: LockedModelRepresentable {
         
         status = .unlocking
         keychainLoadSubscription = keychain.loadPassword()
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure = completion {
-                    self?.status = .invalidPassword
+                    self?.status = .none
                 }
             } receiveValue: { [passwordSubject] password in
                 passwordSubject.send(password)
