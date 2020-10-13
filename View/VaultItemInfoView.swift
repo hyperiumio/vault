@@ -3,26 +3,26 @@ import SwiftUI
 struct VaultItemInfoView: View {
     
     private let name: String
-    private let description: String
-    private let typeIdentifier: SecureItemTypeIdentifier
+    private let description: String?
+    private let type: SecureItemType
     
-    init(_ name: String, description: String, typeIdentifier: SecureItemTypeIdentifier) {
+    init(_ name: String, description: String?, type: SecureItemType) {
         self.name = name
         self.description = description
-        self.typeIdentifier = typeIdentifier
+        self.type = type
     }
     
     var body: some View {
         HStack {
-            typeIdentifier.image
+            type.image
                 .imageScale(.large)
-                .foregroundColor(typeIdentifier.color)
+                .foregroundColor(type.color)
                 .frame(width: 30)
             
             VStack(alignment: .leading) {
                 Text(name)
                 
-                if !description.isEmpty {
+                if let description = description {
                     Text(description)
                         .font(.footnote)
                         .foregroundColor(.secondaryLabel)

@@ -67,7 +67,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         }
         .sheet(isPresented: $selectionPresented) {
             NavigationView {
-                List(SecureItemTypeIdentifier.allCases) { typeIdentifier in
+                List(SecureItemType.allCases) { typeIdentifier in
                     Button {
                         model.createVaultItem(with: typeIdentifier)
                     } label: {
@@ -158,7 +158,7 @@ private extension UnlockedView {
                         Section {
                             ForEach(section.elements) { model in
                                 NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, typeIdentifier: model.info.primaryTypeIdentifier)
+                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
                                 }
                             }
                         } header: {

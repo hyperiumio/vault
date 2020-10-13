@@ -24,7 +24,7 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
     var modified: Date? { get }
     var done: AnyPublisher<Void, Never> { get }
     
-    func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier)
+    func addSecondaryItem(with type: SecureItemType)
     func deleteSecondaryItem(at index: Int)
     func discardChanges()
     func save()
@@ -166,16 +166,16 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
     
-    init(vault: Vault, typeIdentifier: SecureItemTypeIdentifier, dependency: Dependency) {
+    init(vault: Vault, type: SecureItemType, dependency: Dependency) {
         self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = nil
-        self.primaryItemModel = dependency.vaultItemElement(with: typeIdentifier)
+        self.primaryItemModel = dependency.vaultItemElement(with: type)
         self.secondaryItemModels = []
     }
     
-    func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier) {
-        let model = dependency.vaultItemElement(with: typeIdentifier)
+    func addSecondaryItem(with type: SecureItemType) {
+        let model = dependency.vaultItemElement(with: type)
         secondaryItemModels.append(model)
     }
     
@@ -260,7 +260,7 @@ private extension VaultItemModelDependency {
         }
     }
     
-    func vaultItemElement(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomItemModel> {
+    func vaultItemElement(with typeIdentifier: SecureItemType) -> VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomItemModel> {
         switch typeIdentifier {
         case .login:
             let model = loginModel()

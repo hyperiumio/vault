@@ -6,7 +6,7 @@ public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
     public let iban: String
     public let bic: String
     
-    var type: SecureItemType { .bankAccount }
+    public var type: SecureItemType { .bankAccount }
     
     public init(accountHolder: String, iban: String, bic: String) {
         self.accountHolder = accountHolder
@@ -18,7 +18,7 @@ public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     
-    func encoded() throws -> Data {
+    public func encoded() throws -> Data {
         try JSONEncoder().encode(self)
     }
     

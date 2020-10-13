@@ -5,7 +5,7 @@ public struct WifiItem: SecureItemValue, Codable, Equatable  {
     public let networkName: String
     public let networkPassword: String
     
-    var type: SecureItemType { .wifi }
+    public var type: SecureItemType { .wifi }
     
     public init(networkName: String, networkPassword: String) {
         self.networkName = networkName
@@ -16,7 +16,7 @@ public struct WifiItem: SecureItemValue, Codable, Equatable  {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     
-    func encoded() throws -> Data {
+    public func encoded() throws -> Data {
         try JSONEncoder().encode(self)
     }
     

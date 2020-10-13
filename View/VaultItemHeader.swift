@@ -4,11 +4,11 @@ import SwiftUI
 struct VaultItemDisplayHeader: View {
     
     private let text: String
-    private let typeIdentifier: SecureItemTypeIdentifier
+    private let type: SecureItemType
     
-    init(_ text: String, typeIdentifier: SecureItemTypeIdentifier) {
+    init(_ text: String, type: SecureItemType) {
         self.text = text
-        self.typeIdentifier = typeIdentifier
+        self.type = type
     }
     
     var body: some View {
@@ -27,12 +27,12 @@ struct VaultItemEditHeader: View {
     
     private let title: String
     private let text: Binding<String>
-    private let typeIdentifier: SecureItemTypeIdentifier
+    private let itemType: SecureItemType
     
-    init(_ title: String, text: Binding<String>, typeIdentifier: SecureItemTypeIdentifier) {
+    init(_ title: String, text: Binding<String>, itemType: SecureItemType) {
         self.title = title
         self.text = text
-        self.typeIdentifier = typeIdentifier
+        self.itemType = itemType
     }
     
     var body: some View {

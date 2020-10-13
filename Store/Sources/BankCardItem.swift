@@ -11,7 +11,7 @@ public struct BankCardItem: SecureItemValue, Codable, Equatable  {
         Vendor(number)
     }
     
-    var type: SecureItemType { .bankCard }
+    public var type: SecureItemType { .bankCard }
     
     public init(name: String, number: String, expirationDate: Date, pin: String) {
         self.name = name
@@ -26,7 +26,7 @@ public struct BankCardItem: SecureItemValue, Codable, Equatable  {
         self = try decoder.decode(Self.self, from: data)
     }
     
-    func encoded() throws -> Data {
+    public func encoded() throws -> Data {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         return try encoder.encode(self)

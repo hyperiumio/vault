@@ -57,12 +57,12 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     @Published private(set) var state = State.none
     
-    let info: VaultItem.Info
+    let info: VaultItemInfo
     
     private let vault: Vault
     private let dependency: Dependency
     
-    init(vault: Vault, info: VaultItem.Info, dependency: Dependency) {
+    init(vault: Vault, info: VaultItemInfo, dependency: Dependency) {
         self.vault = vault
         self.info = info
         self.dependency = dependency

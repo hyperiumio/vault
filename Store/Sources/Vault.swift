@@ -11,18 +11,26 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     private let resourceLocator: VaultResourceLocator
     private let indexSubject: CurrentValueSubject<VaultIndex, Error>
     
-    init(id: UUID, masterKey: Key, resourceLocator: VaultResourceLocator, initialIndex: VaultIndex) {
+    init(id: UUID, masterKey: Key, resourceLocator: VaultResourceLocator, initialElements: [Vault.Element]) {
+        let ids = initialElements.map(\.info.id)
+        let keysWithValues = zip(ids, initialElements)
+        let index = Dictionary(uniqueKeysWithValues: keysWithValues)
+        
         self.id = id
         self.masterKey = masterKey
         self.resourceLocator = resourceLocator
-        self.indexSubject = CurrentValueSubject(initialIndex)
+        self.indexSubject = CurrentValueSubject(index)
     }
     
-    public var vaultItemInfos: [VaultItemInfo] { indexSubject.value.infos }
+    public var vaultItemInfos: [VaultItemInfo] {
+        indexSubject.value.values.map(\.info)
+    }
     
     public var vaultItemInfosDidChange: AnyPublisher<[VaultItemInfo], Error> {
         indexSubject
-            .map(\.infos)
+            .map { index in
+                index.values.map(\.info)
+            }
             .eraseToAnyPublisher()
     }
     
@@ -39,15 +47,15 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             let messages = [encodedInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
             let secureDataContainer = try Message.encryptContainer(from: messages, using: masterKey)
             let header = try Header(data: secureDataContainer)
-            let indexElement = VaultIndex.Element(url: newItemURL, header: header, info: info)
+            let indexElement = Vault.Element(url: newItemURL, header: header, info: info)
             
             try secureDataContainer.write(to: newItemURL)
             
-            if let oldItemURL = try? indexSubject.value.element(for: vaultItem.id).url {
+            if let oldItemURL = indexSubject.value[vaultItem.id]?.url {
                 try FileManager.default.removeItem(at: oldItemURL)
             }
             
-            indexSubject.value = indexSubject.value.add(indexElement)
+            indexSubject.value[indexElement.info.id] = indexElement
             
             for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
                 print(url)
@@ -60,7 +68,9 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     
     public func loadVaultItem(with itemID: UUID) -> AnyPublisher<VaultItem, Error> {
         operationQueue.future { [indexSubject, masterKey] in
-            let element = try indexSubject.value.element(for: itemID)
+            guard let element = indexSubject.value[itemID] else {
+                throw NSError()
+            }
             let itemKey = try element.header.unwrapKey(with: masterKey)
             let primaryNonceRange = element.header.nonceRanges[.primarySecureItemIndex]
             let primaryCiphertextRange = element.header.ciphertextRange[.primarySecureItemIndex]
@@ -79,10 +89,12 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     
     public func deleteVaultItem(with itemID: UUID) -> AnyPublisher<Void, Error> {
         operationQueue.future { [indexSubject] in
-            let itemURL = try indexSubject.value.element(for: itemID).url
+            guard let itemURL = indexSubject.value[itemID]?.url else {
+                throw NSError()
+            }
             try FileManager.default.removeItem(at: itemURL)
             
-            indexSubject.value = indexSubject.value.delete(itemID)
+            indexSubject.value[itemID] = nil
             
             for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
                 print(url)
@@ -104,8 +116,17 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
 
 extension Vault {
     
-    typealias VaultIndex = Store.VaultIndex<Header>
-    public typealias LockedVault = Store.LockedVault<Key, Header, Message>
+    typealias VaultIndex = [UUID: Element]
+    
+    public typealias VaultContainer = Store.VaultContainer<Key, Header, Message>
+    
+    struct Element {
+        
+        let url: URL
+        let header: Header
+        let info: VaultItemInfo
+        
+    }
     
 }
 
@@ -144,7 +165,7 @@ extension Vault {
         .eraseToAnyPublisher()
     }
     
-    public static func load(from vaultDirectory: URL) -> AnyPublisher<LockedVault, Error> {
+    public static func load(from vaultDirectory: URL) -> AnyPublisher<VaultContainer, Error> {
         operationQueue.future {
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let infoData = try Data(contentsOf: resourceLocator.infoFile)
@@ -161,11 +182,11 @@ extension Vault {
                     let ciphertext = try fileReader.bytes(in: ciphertextRange)
                     let tag = header.tags[.infoIndex]
                     let message = Message(nonce: nonce, ciphertext: ciphertext, tag: tag)
-                    return LockedVault.Element(url: itemURL, header: header, message: message)
+                    return VaultContainer.Element(url: itemURL, header: header, message: message)
                 }
-            } as [LockedVault.Element]
+            } as [VaultContainer.Element]
             
-            return LockedVault(vaultID: info.id, resourceLocator: resourceLocator, keyContainer: keyContainer, elements: elements)
+            return VaultContainer(vaultID: info.id, resourceLocator: resourceLocator, keyContainer: keyContainer, elements: elements)
         }
         .eraseToAnyPublisher()
     }

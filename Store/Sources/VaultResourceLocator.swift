@@ -1,6 +1,6 @@
 import Foundation
 
-struct VaultResourceLocator {
+public struct VaultResourceLocator {
     
     let rootDirectory: URL
     

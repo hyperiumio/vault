@@ -24,7 +24,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     }
     
     func reload() {}
-    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {}
+    func createVaultItem(with type: SecureItemType) {}
     func lockApp(enableBiometricUnlock: Bool) {}
     
     init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemModel?, failure: UnlockedFailure?) {

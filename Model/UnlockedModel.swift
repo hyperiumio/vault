@@ -21,7 +21,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var failure: UnlockedFailure? { get set }
     var lockRequest: AnyPublisher<Bool, Never> { get }
     
-    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier)
+    func createVaultItem(with type: SecureItemType)
     func lockApp(enableBiometricUnlock: Bool)
 }
 
@@ -32,7 +32,7 @@ protocol UnlockedModelDependency {
     associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
     
     func settingsModel() -> SettingsModel
-    func vaultItemModel(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel
+    func vaultItemModel(with type: SecureItemType) -> VaultItemModel
     func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel
     
 }
@@ -117,8 +117,8 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
             }
     }
     
-    func createVaultItem(with typeIdentifier: SecureItemTypeIdentifier) {
-        let model = dependency.vaultItemModel(with: typeIdentifier)
+    func createVaultItem(with type: SecureItemType) {
+        let model = dependency.vaultItemModel(with: type)
         model.done
             .map { nil }
             .receive(on: DispatchQueue.main)

@@ -5,7 +5,7 @@ public struct CustomItem: SecureItemValue, Codable, Equatable  {
     public let name: String
     public let value: String
     
-    var type: SecureItemType { .custom }
+    public var type: SecureItemType { .custom }
     
     public init(name: String, value: String) {
         self.name = name
@@ -16,7 +16,7 @@ public struct CustomItem: SecureItemValue, Codable, Equatable  {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     
-    func encoded() throws -> Data {
+    public func encoded() throws -> Data {
         try JSONEncoder().encode(self)
     }
     

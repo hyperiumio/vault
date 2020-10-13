@@ -25,8 +25,8 @@ class FileItemTests: XCTestCase {
         }
         """.data(using: .utf8)!
         let dataSegment = Data(0 ... UInt8.max)
-        let infoSize = UnsignedInteger32BitEncode(infoSegment.count)
-        let dataSize = UnsignedInteger32BitEncode(dataSegment.count)
+        let infoSize = UInt32Encode(infoSegment.count)
+        let dataSize = UInt32Encode(dataSegment.count)
         let data = infoSize + infoSegment + dataSize + dataSegment
         
         let item = try FileItem(from: data)
@@ -41,8 +41,8 @@ class FileItemTests: XCTestCase {
           "name": "foo"
         }
         """.data(using: .utf8)!
-        let infoSize = UnsignedInteger32BitEncode(infoSegment.count)
-        let dataSize = UnsignedInteger32BitEncode(0)
+        let infoSize = UInt32Encode(infoSegment.count)
+        let dataSize = UInt32Encode(0)
         let data = infoSize + infoSegment + dataSize
         
         let item = try FileItem(from: data)
@@ -58,7 +58,7 @@ class FileItemTests: XCTestCase {
     }
     
     func testInitFromDataWithInfoSegmentTooShort() {
-        let data = UnsignedInteger32BitEncode(1)
+        let data = UInt32Encode(1)
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -69,7 +69,7 @@ class FileItemTests: XCTestCase {
           "name": "foo"
         }
         """.data(using: .utf8)!
-        let data = UnsignedInteger32BitEncode(infoSegment.count) + infoSegment
+        let data = UInt32Encode(infoSegment.count) + infoSegment
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -80,7 +80,7 @@ class FileItemTests: XCTestCase {
           "name": "foo"
         }
         """.data(using: .utf8)!
-        let data = UnsignedInteger32BitEncode(infoSegment.count) + infoSegment + UnsignedInteger32BitEncode(1)
+        let data = UInt32Encode(infoSegment.count) + infoSegment + UInt32Encode(1)
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -91,7 +91,7 @@ class FileItemTests: XCTestCase {
           "name": "foo"
         }
         """.data(using: .utf8)!
-        let data = UnsignedInteger32BitEncode(infoSegment.count) + infoSegment + UnsignedInteger32BitEncode(0) + Data(repeating: 0, count: 1)
+        let data = UInt32Encode(infoSegment.count) + infoSegment + UInt32Encode(0) + Data(repeating: 0, count: 1)
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -152,24 +152,24 @@ class FileItemTests: XCTestCase {
         let expectedData = Data(0 ... UInt8.max)
         let item = try FileItem(name: "foo", data: expectedData).encoded()
         
-        XCTAssertGreaterThanOrEqual(item.count, UnsignedInteger32BitEncodingSize)
+        XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize)
         
-        let infoSizeDataRange = Range(item.startIndex, count: UnsignedInteger32BitEncodingSize)
+        let infoSizeDataRange = Range(item.startIndex, count: UInt32CodingSize)
         let infoSizeData = item[infoSizeDataRange]
-        let infoSize = UnsignedInteger32BitDecode(infoSizeData) as Int
+        let infoSize = UInt32Decode(infoSizeData) as Int
         
-        XCTAssertGreaterThanOrEqual(item.count, UnsignedInteger32BitEncodingSize + infoSize)
+        XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize)
         
         let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = item[infoSegmentRange]
         
-        XCTAssertGreaterThanOrEqual(item.count, UnsignedInteger32BitEncodingSize + infoSize + UnsignedInteger32BitEncodingSize)
+        XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize)
         
-        let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UnsignedInteger32BitEncodingSize)
+        let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
         let dataSizeData = item[dataSizeDataRange]
-        let dataSize = UnsignedInteger32BitDecode(dataSizeData) as Int
+        let dataSize = UInt32Decode(dataSizeData) as Int
         
-        XCTAssertEqual(item.count, UnsignedInteger32BitEncodingSize + infoSize + UnsignedInteger32BitEncodingSize + dataSize)
+        XCTAssertEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize + dataSize)
         
         let dataSegmentRange = Range(dataSizeDataRange.upperBound, count: dataSize)
         let dataSegment = item[dataSegmentRange]
@@ -186,17 +186,17 @@ class FileItemTests: XCTestCase {
         
         let item = try FileItem(name: "foo", data: nil).encoded()
         
-        XCTAssertGreaterThanOrEqual(item.count, UnsignedInteger32BitEncodingSize)
+        XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize)
         
-        let infoSizeDataRange = Range(item.startIndex, count: UnsignedInteger32BitEncodingSize)
+        let infoSizeDataRange = Range(item.startIndex, count: UInt32CodingSize)
         let infoSizeData = item[infoSizeDataRange]
-        let infoSize = UnsignedInteger32BitDecode(infoSizeData) as Int
+        let infoSize = UInt32Decode(infoSizeData) as Int
         
-        XCTAssertEqual(item.count, UnsignedInteger32BitEncodingSize + infoSize + UnsignedInteger32BitEncodingSize)
+        XCTAssertEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize)
         
-        let dataSizeDataRange = Range(infoSizeDataRange.upperBound + infoSize, count: UnsignedInteger32BitEncodingSize)
+        let dataSizeDataRange = Range(infoSizeDataRange.upperBound + infoSize, count: UInt32CodingSize)
         let dataSizeData = item[dataSizeDataRange]
-        let dataSize = UnsignedInteger32BitDecode(dataSizeData) as Int
+        let dataSize = UInt32Decode(dataSizeData) as Int
         
         XCTAssertEqual(dataSize, 0)
     }

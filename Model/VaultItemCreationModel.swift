@@ -16,7 +16,7 @@ protocol VaultItemCreationModelDependency {
     
     associatedtype VaultItemModel: VaultItemModelRepresentable
     
-    func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel
+    func vaultItemModel(type: SecureItemType) -> VaultItemModel
     
 }
 
@@ -34,7 +34,7 @@ class VaultItemCreationModel<Dependency: VaultItemCreationModelDependency>: Vaul
     private var detailModelEventsSubscription: AnyCancellable?
     
     init(dependency: Dependency) {
-        self.detailModels = SecureItem.TypeIdentifier.allCases.map(dependency.vaultItemModel)
+        self.detailModels = SecureItemType.allCases.map(dependency.vaultItemModel)
         
         let donePublishers = detailModels.map(\.done)
         detailModelEventsSubscription = Publishers.MergeMany(donePublishers)

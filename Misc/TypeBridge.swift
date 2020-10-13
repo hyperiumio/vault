@@ -3,18 +3,18 @@ import Localization
 import Store
 import SwiftUI
 
-typealias BankCardItemVendor = BankCardItem.Vendor
-typealias KeychainAvailability = Keychain.Availability
-typealias FileItemFormat = FileItem.Format
-typealias SecureItemTypeIdentifier = SecureItem.TypeIdentifier
-typealias VaultItemInfo = VaultItem.Info
+typealias BankCardItemVendor = Store.BankCardItem.Vendor
+typealias KeychainAvailability = Crypto.Keychain.Availability
+typealias FileItemFormat = Store.FileItem.Format
+typealias SecureItemType = Store.SecureItemType
+typealias VaultItemInfo = Store.VaultItemInfo
 typealias Vault = Store.Vault<CryptoKey, SecureDataHeader, SecureDataMessage>
 
 extension CryptoKey: KeyRepresentable {}
 extension SecureDataHeader: HeaderRepresentable {}
 extension SecureDataMessage: MessageRepresentable {}
 
-extension SecureItemTypeIdentifier {
+extension SecureItemType {
     
     var name: String {
         switch self {

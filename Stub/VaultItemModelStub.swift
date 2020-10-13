@@ -24,7 +24,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
         doneSubject.eraseToAnyPublisher()
     }
     
-    func addSecondaryItem(with typeIdentifier: SecureItemTypeIdentifier) {}
+    func addSecondaryItem(with type: SecureItemType) {}
     func deleteSecondaryItem(at index: Int) {}
     func discardChanges() {}
     func save() {}

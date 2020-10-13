@@ -11,7 +11,7 @@ public enum SecureItem: Equatable {
     case bankAccount(BankAccountItem)
     case custom(CustomItem)
     
-    var value: SecureItemValue {
+    public var value: SecureItemValue {
         switch self {
         case .password(let value):
             return value
@@ -63,7 +63,7 @@ public enum SecureItem: Equatable {
     
 }
 
-protocol SecureItemValue {
+public protocol SecureItemValue {
     
     var type: SecureItemType { get }
 

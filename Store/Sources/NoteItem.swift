@@ -4,7 +4,7 @@ public struct NoteItem: SecureItemValue, Codable, Equatable  {
     
     public let text: String
     
-    var type: SecureItemType { .note }
+    public var type: SecureItemType { .note }
     
     public init(text: String) {
         self.text = text
@@ -14,7 +14,7 @@ public struct NoteItem: SecureItemValue, Codable, Equatable  {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     
-    func encoded() throws -> Data {
+    public func encoded() throws -> Data {
         try JSONEncoder().encode(self)
     }
     

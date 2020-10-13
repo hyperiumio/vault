@@ -123,7 +123,7 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    ElementHeader(title: model.name,itemIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                    ElementHeader(title: model.name, itemType: model.primaryItemModel.secureItem.value.type)
                 } footer: {
                     VaultItemFooter(created: model.created, modified: model.modified)
                 }
@@ -148,13 +148,13 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
         List {
             Group {
                 Section {
-                    VaultItemEditHeader(LocalizedString.title, text: $model.name, typeIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                    VaultItemEditHeader(LocalizedString.title, text: $model.name, itemType: model.primaryItemModel.secureItem.value.type)
                 }
                 
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    ElementHeader(itemIdentifier: model.primaryItemModel.secureItem.typeIdentifier)
+                    ElementHeader(itemType: model.primaryItemModel.secureItem.value.type)
                 }
                 
                 Section {
@@ -259,11 +259,11 @@ private extension VaultItemEditView {
 private struct ElementHeader: View {
     
     let title: String?
-    let itemIdentifier: SecureItemTypeIdentifier
+    let itemType: SecureItemType
     
-    init(title: String? = nil, itemIdentifier: SecureItemTypeIdentifier) {
+    init(title: String? = nil, itemType: SecureItemType) {
         self.title = title
-        self.itemIdentifier = itemIdentifier
+        self.itemType = itemType
     }
     
     var body: some View {
@@ -279,11 +279,11 @@ private struct ElementHeader: View {
             }
             
             Label {
-                Text(itemIdentifier.name)
+                Text(itemType.name)
                     .foregroundColor(.secondaryLabel)
             } icon: {
-                itemIdentifier.image
-                    .foregroundColor(itemIdentifier.color)
+                itemType.image
+                    .foregroundColor(itemType.color)
             }
             .labelStyle(HeaderLabelStyle())
         }

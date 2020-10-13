@@ -6,8 +6,8 @@ struct UnlockViewPreview: PreviewProvider {
     
     static let model: UnlockedModelStub = {
         let items = [
-            VaultItemInfo(id: UUID(), name: "Foo", description: "Bar", primaryTypeIdentifier: .note, secondaryTypeIdentifiers: [], created: Date(), modified: Date()),
-            VaultItemInfo(id: UUID(), name: "Foo", description: "", primaryTypeIdentifier: .password, secondaryTypeIdentifiers: [], created: Date(), modified: Date())
+            VaultItemInfo(id: UUID(), name: "Foo", description: "Bar", primaryType: .note, secondaryTypes: [], created: Date(), modified: Date()),
+            VaultItemInfo(id: UUID(), name: "Foo", description: "", primaryType: .password, secondaryTypes: [], created: Date(), modified: Date())
         ]
         .map { itemInfo in
             VaultItemReferenceModelStub(state: .none, info: itemInfo)

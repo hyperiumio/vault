@@ -27,8 +27,8 @@ extension AppUnlockedDependency: UnlockedModelDependency {
         VaultItemReferenceModel(vault: vault, info: vaultItemInfo, dependency: self)
     }
     
-    func vaultItemModel(with typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel<Self> {
-        VaultItemModel(vault: vault, typeIdentifier: typeIdentifier, dependency: self)
+    func vaultItemModel(with type: SecureItemType) -> VaultItemModel<Self> {
+        VaultItemModel(vault: vault, type: type, dependency: self)
     }
     
 }
@@ -47,8 +47,8 @@ extension AppUnlockedDependency: SettingsModelDependency {
 
 extension AppUnlockedDependency: VaultItemCreationModelDependency {
     
-    func vaultItemModel(typeIdentifier: SecureItemTypeIdentifier) -> VaultItemModel {
-        VaultItemModel(vault: vault, typeIdentifier: typeIdentifier, dependency: self)
+    func vaultItemModel(type: SecureItemType) -> VaultItemModel {
+        VaultItemModel(vault: vault, type: type, dependency: self)
     }
     
 }

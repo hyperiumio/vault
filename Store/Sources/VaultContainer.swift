@@ -1,6 +1,6 @@
 import Foundation
 
-public struct LockedVault<Key, Header, Message> where Key: KeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Key == Header.Key, Key == Message.Key {
+public struct VaultContainer<Key, Header, Message> where Key: KeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Key == Header.Key, Key == Message.Key {
     
     let vaultID: UUID
     let resourceLocator: VaultResourceLocator
@@ -15,23 +15,20 @@ public struct LockedVault<Key, Header, Message> where Key: KeyRepresentable, Hea
                 let itemKey = try element.header.unwrapKey(with: masterKey)
                 let vaultItemInfoData = try element.message.decrypt(using: itemKey)
                 let vaultItemInfo = try VaultItemInfo(from: vaultItemInfoData)
-                return VaultIndex.Element(url: element.url, header: element.header, info: vaultItemInfo)
+                return Vault.Element(url: element.url, header: element.header, info: vaultItemInfo)
             } catch {
                 return nil
             }
-        } as [VaultIndex.Element]
+        } as [Vault.Element]
         
-        let index = VaultIndex(indexElements)
-        
-        return Vault(id: vaultID, masterKey: masterKey, resourceLocator: resourceLocator, initialIndex: index)
+        return Vault(id: vaultID, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: indexElements)
     }
     
 }
 
-extension LockedVault {
+extension VaultContainer {
     
     public typealias Vault = Store.Vault<Key, Header, Message>
-    typealias  VaultIndex = Store.VaultIndex<Header>
     
     struct Element {
         
