@@ -26,16 +26,18 @@ struct SecureItemTextDisplayField: View {
 struct SecureItemTextEditField: View {
     
     private let title: String
+    private let placeholder: String
     private let text: Binding<String>
     
-    init(_ title: String, text: Binding<String>) {
+    init(_ title: String, placeholder: String, text: Binding<String>) {
         self.title = title
+        self.placeholder = placeholder
         self.text = text
     }
     
     var body: some View {
         SecureItemDisplayField(title) {
-            TextField(title, text: text)
+            TextField(placeholder, text: text)
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
         }

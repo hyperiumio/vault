@@ -26,15 +26,15 @@ struct WifiEditView<Model>: View where Model: WifiModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.wifiNetworkName, text: $model.networkName)
+        SecureItemTextEditField(LocalizedString.wifiNetworkName, placeholder: LocalizedString.enterUsername, text: $model.networkName)
             .keyboardType(.asciiCapable)
         
         VStack(spacing: 0) {
-            SecureItemSecureTextEditField(LocalizedString.password, text: $model.networkPassword)
+            SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.enterPassword, text: $model.networkPassword)
                 .keyboardType(.asciiCapable)
                 .textContentType(.newPassword)
             
-            PasswordGeneratorView(action: model.generatePassword)
+            GeneratePasswordView(action: model.generatePassword)
                 .padding()
         }
     }

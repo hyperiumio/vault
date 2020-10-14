@@ -4,46 +4,23 @@ import SwiftUI
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
-    @State private var selectionPresented = false
+    @State private var presentedSheet: Sheet?
     @Environment(\.scenePhase) private var scenePhase
+
     
-    #if os(iOS)
-    @State private var settingsPresented = false
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        NavigationView {
-            VaultItemList(model.itemCollation)
-                .toolbar {
-                    Spacer()
-                    
-                    CreateVaultItemButton(action: model.createVaultItem) {
-                        Image.plus
-                    }
-                }
-            
-            EmptySelection()
-        }
-        .sheet(item: $model.creationModel, content: VaultItemSheet.init)
-        .alert(item: $model.failure, content: Self.alert)
-        .onAppear(perform: model.reload)
+    init(_ model: Model) {
+        self.model = model
     }
-    #endif
     
-    #if os(iOS)
     var body: some View {
         NavigationView {
             VaultItemList(model.itemCollation, searchText: $model.searchText)
                 .toolbar {
                     ToolbarItemGroup(placement: .navigationBarLeading) {
                         Button {
-                            settingsPresented = true
+                            presentedSheet = .settings
                         } label: {
                             Image.settings
-                        }
-                        .sheet(isPresented: $settingsPresented) {
-                            SettingsView(model.settingsModel)
                         }
                         
                         Button {
@@ -55,7 +32,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button {
-                            selectionPresented = true
+                            presentedSheet = .selectCategory
                         } label: {
                             Image.plus
                         }
@@ -65,79 +42,39 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             
             EmptySelection()
         }
-        .sheet(isPresented: $selectionPresented) {
-            NavigationView {
-                List(SecureItemType.allCases) { typeIdentifier in
-                    Button {
-                        model.createVaultItem(with: typeIdentifier)
-                    } label: {
-                        Label {
-                            Text(typeIdentifier.name)
-                        } icon: {
-                            typeIdentifier.image
-                                .foregroundColor(typeIdentifier.color)
-                        }
-                    }
-                }
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button(LocalizedString.cancel) {
-                            selectionPresented = false
-                        }
-                    }
-                }
-            }
-            .sheet(item: $model.creationModel) { vaultItemModel in
-                NavigationView {
-                    VaultItemEditView(vaultItemModel)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button(LocalizedString.cancel) {
-                                    model.creationModel = nil
-                                }
-                            }
-                            
-                            ToolbarItem(placement: .confirmationAction) {
-                                Button(LocalizedString.save) {
-                                    vaultItemModel.save()
-                                }
-                            }
-                        }
-                }
+        .sheet(item: $presentedSheet) { sheet in
+            switch sheet {
+            case .settings:
+                SettingsView(model.settingsModel)
+            case .selectCategory:
+                SelectCategoryView(action: model.createVaultItem)
+            case .createVaultItem(let model):
+                CreateVaultItemView(model)
             }
         }
-        .alert(item: $model.failure, content: Self.alert)
+        .alert(item: $model.failure) { failure in
+            switch failure {
+            case .loadOperationFailed:
+                let name = Text(LocalizedString.loadFailed)
+                return Alert(title: name)
+            case .deleteOperationFailed:
+                let name = Text(LocalizedString.deleteFailed)
+                return Alert(title: name)
+            }
+        }
+        .onChange(of: model.creationModel) { model in
+            if let model = model {
+                presentedSheet = .createVaultItem(model)
+            } else {
+                presentedSheet = nil
+            }
+        }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .background {
                 model.lockApp(enableBiometricUnlock: true)
             }
         }
 
-    }
-    #endif
-    
-    func dismissSheets() {
-        selectionPresented = false
-        settingsPresented = false
-    }
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-}
-
-private extension UnlockedView {
-    
-    static func alert(for failure: UnlockedFailure) -> Alert {
-        switch failure {
-        case .loadOperationFailed:
-            let name = Text(LocalizedString.loadFailed)
-            return Alert(title: name)
-        case .deleteOperationFailed:
-            let name = Text(LocalizedString.deleteFailed)
-            return Alert(title: name)
-        }
     }
     
 }
@@ -189,38 +126,23 @@ private extension UnlockedView {
         
     }
     
-    #if os(macOS)
-    struct VaultItemSheet: View {
+    enum Sheet: Identifiable {
         
-        private let model: Model.VaultItemModel
+        case settings
+        case selectCategory
+        case createVaultItem(Model.VaultItemModel)
         
-        @Environment(\.presentationMode) private var presentationMode
-        
-        var body: some View {
-            ScrollView {
-                VStack {
-                    VaultItemView(model, mode: .creation)
-                    
-                    HStack {
-                        Spacer()
-                        
-                        Button(LocalizedString.cancel) {
-                            presentationMode.wrappedValue.dismiss()
-                        }
-                        
-                        Button(LocalizedString.save, action: model.save)
-                    }
-                }
-                .padding()
+        var id: String {
+            switch self {
+            case .settings:
+                return "settings"
+            case .selectCategory:
+                return "selectCategory"
+            case .createVaultItem(_):
+                return "createVaultItem"
             }
-            .frame(minWidth: 300)
-        }
-        
-        init(_ model: Model.VaultItemModel) {
-            self.model = model
         }
         
     }
-    #endif
     
 }

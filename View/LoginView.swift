@@ -2,7 +2,7 @@ import Localization
 import Pasteboard
 import SwiftUI
 
-struct LoginDisplayView<Model>: View where Model: LoginModelRepresentable {
+struct LoginView<Model>: View where Model: LoginModelRepresentable {
     
     @ObservedObject private var model: Model
     
@@ -11,7 +11,7 @@ struct LoginDisplayView<Model>: View where Model: LoginModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextDisplayField(LocalizedString.user, text: model.username)
+        SecureItemTextDisplayField(LocalizedString.username, text: model.username)
         
         SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
         
@@ -20,7 +20,7 @@ struct LoginDisplayView<Model>: View where Model: LoginModelRepresentable {
     
 }
 
-struct LoginEditView<Model>: View where Model: LoginModelRepresentable {
+struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
     
     @ObservedObject private var model: Model
     
@@ -29,20 +29,19 @@ struct LoginEditView<Model>: View where Model: LoginModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.user, text: $model.username)
+        SecureItemTextEditField(LocalizedString.username, placeholder: LocalizedString.enterUsername, text: $model.username)
             .keyboardType(.emailAddress)
             .textContentType(.username)
         
-        VStack(spacing: 0) {
-            SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
+        VStack(spacing: 20) {
+            SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.enterPassword, text: $model.password)
                 .keyboardType(.asciiCapable)
                 .textContentType(.newPassword)
             
-            PasswordGeneratorView(action: model.generatePassword)
-                .padding()
+            GeneratePasswordView(action: model.generatePassword)
         }
         
-        SecureItemTextEditField(LocalizedString.url, text: $model.url)
+        SecureItemTextEditField(LocalizedString.url, placeholder: LocalizedString.enterURL, text: $model.url)
             .keyboardType(.URL)
             .textContentType(.URL)
     }

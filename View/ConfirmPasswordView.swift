@@ -15,7 +15,7 @@ struct ConfirmPasswordView<Model>: View where Model: ConfirmPasswordModelReprese
                 .font(.title)
                 .multilineTextAlignment(.center)
             Button(LocalizedString.continue, action: model.confirmPassword)
-                .buttonStyle(ColoredButtonStyle(.accentColor))
+                .buttonStyle(ColoredButtonStyle(.accentColor, size: .large))
         }
     }
     

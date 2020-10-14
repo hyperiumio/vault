@@ -25,11 +25,11 @@ struct PasswordEditView<Model>: View where Model: PasswordModelRepresentable {
     
     var body: some View {
         VStack(spacing: 0) {
-            SecureItemSecureTextEditField(LocalizedString.password, text: $model.password)
+            SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.enterPassword, text: $model.password)
                 .keyboardType(.asciiCapable)
                 .textContentType(.newPassword)
             
-            PasswordGeneratorView(action: model.generatePassword)
+            GeneratePasswordView(action: model.generatePassword)
                 .padding()
         }
     }

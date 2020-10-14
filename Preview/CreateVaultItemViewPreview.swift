@@ -1,21 +1,20 @@
 #if DEBUG
 import SwiftUI
 
-struct VaultItemReferenceViewPreview: PreviewProvider {
+struct CreateVaultItemViewPreview: PreviewProvider {
     
-    static let model: VaultItemReferenceModelStub = {
+    static let model: VaultItemModelStub = {
         let info = VaultItemInfo(id: UUID(), name: "", description: "", primaryType: .login, secondaryTypes: [], created: Date(), modified: Date())
         let loginModel = LoginModelStub(username: "", password: "", url: "")
-        let vaultItemModel = VaultItemModelStub(title: "", status: .none, primaryItemModel: .login(loginModel), secondaryItemModels: [], created: nil, modified: nil)
-        return VaultItemReferenceModelStub(state: .loaded(vaultItemModel), info: info)
+        return VaultItemModelStub(title: "", status: .none, primaryItemModel: .login(loginModel), secondaryItemModels: [], created: Date(), modified: Date())
     }()
     
     static var previews: some View {
         Group {
-            VaultItemReferenceView(model)
+            CreateVaultItemView(model)
                 .preferredColorScheme(.light)
             
-            VaultItemReferenceView(model)
+            CreateVaultItemView(model)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

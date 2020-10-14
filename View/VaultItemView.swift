@@ -123,7 +123,7 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    ElementHeader(title: model.name, itemType: model.primaryItemModel.secureItem.value.type)
+                    ElementHeader(title: model.title, itemType: model.primaryItemModel.secureItem.value.type)
                 } footer: {
                     VaultItemFooter(created: model.created, modified: model.modified)
                 }
@@ -148,7 +148,7 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
         List {
             Group {
                 Section {
-                    VaultItemEditHeader(LocalizedString.title, text: $model.name, itemType: model.primaryItemModel.secureItem.value.type)
+                    VaultItemEditHeader(LocalizedString.title, text: $model.title, itemType: model.primaryItemModel.secureItem.value.type)
                 }
                 
                 Section {
@@ -199,7 +199,7 @@ private extension VaultItemDisplayView {
         var body: some View {
             switch element {
             case .login(let model):
-                LoginDisplayView(model)
+                LoginView(model)
             case .password(let model):
                 PasswordDisplayView(model)
             case .file(let model):
@@ -234,7 +234,7 @@ private extension VaultItemEditView {
         var body: some View {
             switch element {
             case .login(let model):
-                LoginEditView(model)
+                EditLoginView(model)
             case .password(let model):
                 PasswordEditView(model)
             case .file(let model):

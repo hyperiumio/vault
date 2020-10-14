@@ -18,7 +18,6 @@ struct SecureItemDisplayField<Content>: View where Content: View {
             
             content
         }
-        .padding()
     }
     
 }
@@ -43,7 +42,6 @@ struct SecureItemEditField<Content>: View where Content: View {
             
             content
         }
-        .padding()
     }
     
 }

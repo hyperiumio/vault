@@ -15,7 +15,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 .font(.title)
                 .multilineTextAlignment(.center)
             Button(LocalizedString.continue, action: model.done)
-                .buttonStyle(ColoredButtonStyle(.accentColor))
+                .buttonStyle(ColoredButtonStyle(.accentColor, size: .large))
                 .disabled(!model.passwordIsValid)
         }
     }

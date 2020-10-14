@@ -3,7 +3,7 @@ import Crypto
 import Foundation
 import Store
 
-protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
+protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable {
     
     associatedtype LoginModel: LoginModelRepresentable
     associatedtype PasswordModel: PasswordModelRepresentable
@@ -16,7 +16,7 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable {
     
     typealias Element = VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomItemModel>
     
-    var name: String { get set }
+    var title: String { get set }
     var status: VaultItemStatus { get }
     var primaryItemModel: Element { get }
     var secondaryItemModels: [Element] { get }
@@ -137,7 +137,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     typealias BankAccountModel = Dependency.BankAccountModel
     typealias CustomItemModel = Dependency.CustomItemModel
     
-    @Published var name = ""
+    @Published var title = ""
     @Published var status = VaultItemStatus.none
     @Published var primaryItemModel: Element
     @Published var secondaryItemModels: [Element]
@@ -161,7 +161,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = vaultItem
-        self.name = vaultItem.name
+        self.title = vaultItem.name
         self.primaryItemModel = dependency.vaultItemElement(from: vaultItem.primarySecureItem)
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
@@ -186,7 +186,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     func discardChanges() {
         guard let originalVaultItem = originalVaultItem else { return }
         
-        name = originalVaultItem.name
+        title = originalVaultItem.name
         primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primarySecureItem)
         secondaryItemModels = originalVaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
@@ -198,7 +198,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         let secondarySecureItems = secondaryItemModels.map(\.secureItem)
         let created = originalVaultItem?.created ?? now
         let modified = now
-        let vaultItem = VaultItem(id: id, name: name, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
+        let vaultItem = VaultItem(id: id, name: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
         
         status = .saving
         saveSubscription = vault.save(vaultItem)
@@ -225,6 +225,10 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
             } receiveValue: {
                 
             }
+    }
+    
+    static func == (lhs: VaultItemModel<Dependency>, rhs: VaultItemModel<Dependency>) -> Bool {
+        lhs === rhs
     }
     
 }

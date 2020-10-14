@@ -43,11 +43,13 @@ struct SecureItemSecureTextDisplayField: View {
 struct SecureItemSecureTextEditField: View {
     
     private let title: String
+    private let placeholder: String
     private let text: Binding<String>
-    @State private var secureDisplay = true
+    @State private var secureDisplay = false
     
-    init(_ title: String, text: Binding<String>) {
+    init(_ title: String, placeholder: String, text: Binding<String>) {
         self.title = title
+        self.placeholder = placeholder
         self.text = text
     }
     
@@ -55,9 +57,10 @@ struct SecureItemSecureTextEditField: View {
         SecureItemDisplayField(title) {
             HStack {
                 if secureDisplay {
-                    SecureField(title, text: text)
+                    SecureField(placeholder, text: text)
                 } else {
-                    TextField(title, text: text)
+                    TextField(placeholder, text: text)
+                        .font(text.wrappedValue.isEmpty ? Font.system(.body) : Font.system(.body, design: .monospaced))
                 }
                 
                 Spacer()

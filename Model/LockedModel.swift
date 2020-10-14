@@ -65,16 +65,14 @@ class LockedModel: LockedModelRepresentable {
         
         openVaultSubscription = Publishers.CombineLatest(lockedVault, passwordSubject)
             .map { lockedVault, password in
-                Result<Vault, Error> {
-                    print(password)
-                    return try lockedVault.unlock(with: password)
+                Result {
+                    try lockedVault.unlock(with: password)
                 }
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] result in
                 guard let self = self else { return }
                 
-                print(result)
                 switch result {
                 case .success(let vault):
                     self.status = .unlocked

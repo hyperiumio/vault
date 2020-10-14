@@ -10,7 +10,7 @@
 "BankCardExpirationDate" = "Expiration date";
 "BankCardPin" = "PIN";
 "BankCardVendor" = "Vendor";
-"BankAccount" = "BankAccount";
+"BankAccount" = "Bank Account";
 "BankAccountHolder" = "Account Holder";
 "BankAccountIban" = "IBAN";
 "BankAccountBic" = "BIC";
@@ -39,6 +39,9 @@
 "EnableFaceIDUnlockDescription" = "Please enter your master password to activate unlock with Face ID.";
 "EnableTouchIDUnlock" = "Enable Touch ID";
 "EnableTouchIDUnlockDescription" = "Please enter your master password to activate unlock with Touch ID.";
+"EnterPassword" = "Enter password";
+"EnterUsername" = "Enter username or email address";
+"EnterURL" = "Enter a web address";
 "EmptyVault" = "Your vault is empty.";
 "FaceID" = "Face ID";
 "FaceIDActivationFailed" = "Enabling Face ID unlock did fail.";
@@ -46,6 +49,7 @@
 "FaceIDNotEnrolled" = "Face ID is not enrolled.";
 "File" = "File";
 "Filename" = "Filename";
+"GeneratePassword" = "Generate password";
 "InsecurePassword" = "Master Password is not secure, please choose another one.";
 "InvalidCurrentPassword" = "Your current master password is invalid";
 "LoadFailed" = "Vault could not be loaded";
@@ -59,6 +63,7 @@
 "NewMasterPassword" = "New Master Password";
 "Note" = "Note";
 "NotePlaceholder" = "Enter note here";
+"Numbers" = "Numbers";
 "Other" = "Other";
 "Password" = "Password";
 "PasswordMismatch" = "Master password don’t match.";
@@ -66,11 +71,12 @@
 "Save" = "Save";
 "SaveFailed" = "Vault could not save item";
 "Search" = "Search";
-"Select" = "Select";
+"SelectCategory" = "Select Category";
 "Settings" = "Settings";
 "SetupComplete" = "Setup Complete";
 "SetUpTouchID" = "Set Up Touch ID";
 "SetUpFaceID" = "Set Up Face ID";
+"Symbols" = "Symbols";
 "Title" = "Title";
 "TouchID" = "Touch ID";
 "TouchIDActivationFailed" = "Enabling Touch ID unlock did fail.";
@@ -81,7 +87,7 @@
 "URL" = "URL";
 "UseFaceID" = "Use Face ID";
 "UseTouchID" = "Use Touch ID";
-"User" = "User";
+"Username" = "Username";
 "Vault" = "Vault";
 "VaultCreationFailed" = "There was an issue, please try again.";
 "Visa" = "Visa";
@@ -89,3 +95,5 @@
 "WifiNetworkName" = "Name";
 "WifiNetworkPassword" = "Password";
 "WrongPassword" = "Wrong password, please try again.";
+
+"COUNT characters" = "%d characters";

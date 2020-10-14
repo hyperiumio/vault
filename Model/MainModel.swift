@@ -70,12 +70,10 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
         self.vaultDirectory = vaultDirectory
         
         statePublisher(from: state)
-            .receive(on: DispatchQueue.main)
             .assign(to: &$state)
         
         $state
             .flatMap(statePublisher)
-            .receive(on: DispatchQueue.main)
             .assign(to: &$state)
     }
     

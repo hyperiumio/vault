@@ -56,12 +56,6 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             }
             
             indexSubject.value[indexElement.info.id] = indexElement
-            
-            for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
-                print(url)
-            }
-            
-            print("***")
         }
         .eraseToAnyPublisher()
     }
@@ -95,10 +89,6 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
             try FileManager.default.removeItem(at: itemURL)
             
             indexSubject.value[itemID] = nil
-            
-            for url in try! FileManager.default.urls(in: self.resourceLocator.itemsDirectory) {
-                print(url)
-            }
         }
         .eraseToAnyPublisher()
     }

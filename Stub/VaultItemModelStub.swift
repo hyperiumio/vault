@@ -13,7 +13,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     typealias BankAccountModel = BankAccountModelStub
     typealias CustomItemModel = CustomItemModelStub
     
-    @Published var name: String
+    @Published var title: String
     @Published var status: VaultItemStatus
     @Published var primaryItemModel: Element
     @Published var secondaryItemModels: [Element]
@@ -30,8 +30,8 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     func save() {}
     func delete() {}
     
-    init(name: String, status: VaultItemStatus, primaryItemModel: Element, secondaryItemModels: [Element], created: Date?, modified: Date?) {
-        self.name = name
+    init(title: String, status: VaultItemStatus, primaryItemModel: Element, secondaryItemModels: [Element], created: Date?, modified: Date?) {
+        self.title = title
         self.status = status
         self.primaryItemModel = primaryItemModel
         self.secondaryItemModels = secondaryItemModels
@@ -40,6 +40,10 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     }
     
     let doneSubject = PassthroughSubject<Void, Never>()
+    
+    static func == (lhs: VaultItemModelStub, rhs: VaultItemModelStub) -> Bool {
+        lhs === rhs
+    }
     
 }
 #endif
