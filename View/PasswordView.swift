@@ -24,14 +24,7 @@ struct PasswordEditView<Model>: View where Model: PasswordModelRepresentable {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.enterPassword, text: $model.password)
-                .keyboardType(.asciiCapable)
-                .textContentType(.newPassword)
-            
-            GeneratePasswordView(action: model.generatePassword)
-                .padding()
-        }
+        SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
     }
 
 }

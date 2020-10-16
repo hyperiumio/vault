@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9510DE0925246243008785EC /* GeneratePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510DE0825246243008785EC /* GeneratePasswordView.swift */; };
-		9510DE0A25246243008785EC /* GeneratePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9510DE0825246243008785EC /* GeneratePasswordView.swift */; };
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
 		9517216125238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
 		9517216225238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
@@ -42,8 +40,6 @@
 		956307522535DC8D0076022A /* SecureItemTypeViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307502535DC8D0076022A /* SecureItemTypeViewPreview.swift */; };
 		956307582535E80F0076022A /* EdgeInsetsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307572535E80F0076022A /* EdgeInsetsExtension.swift */; };
 		956307592535E80F0076022A /* EdgeInsetsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307572535E80F0076022A /* EdgeInsetsExtension.swift */; };
-		956307612536076E0076022A /* GeneratePasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307602536076E0076022A /* GeneratePasswordViewPreview.swift */; };
-		956307622536076E0076022A /* GeneratePasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307602536076E0076022A /* GeneratePasswordViewPreview.swift */; };
 		9564A4B0251347BC00AC4EFF /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9564A4AF251347BC00AC4EFF /* RangeExtension.swift */; };
 		9564A4B1251347BC00AC4EFF /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9564A4AF251347BC00AC4EFF /* RangeExtension.swift */; };
 		956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
@@ -144,6 +140,12 @@
 		9586493F251E14AD0081DF08 /* VaultItemFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586493D251E14AD0081DF08 /* VaultItemFooter.swift */; };
 		9586495B251E24A60081DF08 /* BankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586495A251E24A60081DF08 /* BankAccountView.swift */; };
 		9586495C251E24A60081DF08 /* BankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586495A251E24A60081DF08 /* BankAccountView.swift */; };
+		9588438925397F3100732E35 /* GeneratePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588438825397F3100732E35 /* GeneratePasswordView.swift */; };
+		9588438A25397F3100732E35 /* GeneratePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588438825397F3100732E35 /* GeneratePasswordView.swift */; };
+		9588438E25397F3A00732E35 /* GeneratePasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588438D25397F3A00732E35 /* GeneratePasswordViewPreview.swift */; };
+		9588438F25397F3A00732E35 /* GeneratePasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588438D25397F3A00732E35 /* GeneratePasswordViewPreview.swift */; };
+		9588439525397F7600732E35 /* GeneratePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588439425397F7600732E35 /* GeneratePasswordModel.swift */; };
+		9588439625397F7600732E35 /* GeneratePasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9588439425397F7600732E35 /* GeneratePasswordModel.swift */; };
 		958A852024E94730002CABEB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A851F24E94730002CABEB /* FileModel.swift */; };
 		958A852124E94730002CABEB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958A851F24E94730002CABEB /* FileModel.swift */; };
 		958C7CEE252CA765002B8061 /* Motion in Frameworks */ = {isa = PBXBuildFile; productRef = 958C7CED252CA765002B8061 /* Motion */; };
@@ -285,7 +287,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9510DE0825246243008785EC /* GeneratePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordView.swift; sourceTree = "<group>"; };
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
 		9517216025238084004803E1 /* PasswordViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewPreview.swift; sourceTree = "<group>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
@@ -305,7 +306,6 @@
 		9563074B2535DC600076022A /* SecureItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeView.swift; sourceTree = "<group>"; };
 		956307502535DC8D0076022A /* SecureItemTypeViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeViewPreview.swift; sourceTree = "<group>"; };
 		956307572535E80F0076022A /* EdgeInsetsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsExtension.swift; sourceTree = "<group>"; };
-		956307602536076E0076022A /* GeneratePasswordViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordViewPreview.swift; sourceTree = "<group>"; };
 		9564A4AF251347BC00AC4EFF /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		9565F5E525189A1600134BD1 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
@@ -365,6 +365,9 @@
 		95864936251E146E0081DF08 /* VaultItemHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemHeader.swift; sourceTree = "<group>"; };
 		9586493D251E14AD0081DF08 /* VaultItemFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemFooter.swift; sourceTree = "<group>"; };
 		9586495A251E24A60081DF08 /* BankAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountView.swift; sourceTree = "<group>"; };
+		9588438825397F3100732E35 /* GeneratePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratePasswordView.swift; sourceTree = "<group>"; };
+		9588438D25397F3A00732E35 /* GeneratePasswordViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratePasswordViewPreview.swift; sourceTree = "<group>"; };
+		9588439425397F7600732E35 /* GeneratePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordModel.swift; sourceTree = "<group>"; };
 		958A851F24E94730002CABEB /* FileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		958C7CE5252CA122002B8061 /* Motion */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Motion; sourceTree = "<group>"; };
 		958C7CEF252CA8E7002B8061 /* ParallaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParallaxView.swift; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 				95955849251A382C00F7715F /* ConfirmPasswordModel.swift */,
 				9574326224AA081A0062B05A /* CustomItemModel.swift */,
 				958A851F24E94730002CABEB /* FileModel.swift */,
+				9588439425397F7600732E35 /* GeneratePasswordModel.swift */,
 				9574325B24AA081A0062B05A /* LockedModel.swift */,
 				9574324924AA081A0062B05A /* LoginModel.swift */,
 				959143F72513BD2700897086 /* MainModel.swift */,
@@ -543,12 +547,12 @@
 				95864931251E13EE0081DF08 /* CustomItemView.swift */,
 				95D206E424C6D7A700C1DC9D /* ErrorBadge.swift */,
 				95864918251E12AA0081DF08 /* FileView.swift */,
+				9588438825397F3100732E35 /* GeneratePasswordView.swift */,
 				9574331024AA135E0062B05A /* LockedView.swift */,
 				9586490E251E12060081DF08 /* LoginView.swift */,
 				959143FD2513C12300897086 /* MainView.swift */,
 				9586491D251E12D00081DF08 /* NoteView.swift */,
 				958C7CEF252CA8E7002B8061 /* ParallaxView.swift */,
-				9510DE0825246243008785EC /* GeneratePasswordView.swift */,
 				95864913251E126E0081DF08 /* PasswordView.swift */,
 				9583624424D15EAF00C10BBB /* PDFView.swift */,
 				957975ED2521DEBD00B742B3 /* SearchBar.swift */,
@@ -627,7 +631,6 @@
 				9574323224AA05710062B05A /* View */,
 				9563070825344A1E0076022A /* Vault.app */,
 				9563070925344A1E0076022A /* Vault.app */,
-				95E2D4A02536EF36003D7469 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -683,13 +686,6 @@
 			path = Stub;
 			sourceTree = "<group>";
 		};
-		95E2D4A02536EF36003D7469 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		95E2DFF624FC33A200A53DD7 /* Preview */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,7 +699,7 @@
 				95955853251A39AA00F7715F /* ConfirmPasswordViewPreview.swift */,
 				9563073D2535CEF20076022A /* CreateVaultItemViewPreview.swift */,
 				95E2E01124FC33DF00A53DD7 /* ErrorBadgePreview.swift */,
-				956307602536076E0076022A /* GeneratePasswordViewPreview.swift */,
+				9588438D25397F3A00732E35 /* GeneratePasswordViewPreview.swift */,
 				95E2E00C24FC33DF00A53DD7 /* LockedViewPreview.swift */,
 				9517216025238084004803E1 /* PasswordViewPreview.swift */,
 				95E2E01224FC33DF00A53DD7 /* PDFViewPreview.swift */,
@@ -852,6 +848,7 @@
 				95E3261024D2F22300F35FAB /* ImageExtension.swift in Sources */,
 				957432AC24AA081B0062B05A /* SetupModel.swift in Sources */,
 				95C1E52E24F17915005F954F /* ChangeMasterPasswordModelStub.swift in Sources */,
+				9588439525397F7600732E35 /* GeneratePasswordModel.swift in Sources */,
 				956307352535CC1B0076022A /* CreateVaultItemView.swift in Sources */,
 				95864932251E13EE0081DF08 /* CustomItemView.swift in Sources */,
 				95F72FF224EFDF52000E6E83 /* VaultItemInfoView.swift in Sources */,
@@ -951,7 +948,7 @@
 				959143FE2513C12300897086 /* MainView.swift in Sources */,
 				9595584A251A382C00F7715F /* ConfirmPasswordModel.swift in Sources */,
 				95DFA2DB24FC367100BD50D4 /* ChangeMasterPasswordViewPreview.swift in Sources */,
-				956307612536076E0076022A /* GeneratePasswordViewPreview.swift in Sources */,
+				9588438E25397F3A00732E35 /* GeneratePasswordViewPreview.swift in Sources */,
 				95D46EBF251A1DC600EF500A /* ChoosePasswordModel.swift in Sources */,
 				9583624524D15EAF00C10BBB /* PDFView.swift in Sources */,
 				95864937251E146E0081DF08 /* VaultItemHeader.swift in Sources */,
@@ -959,11 +956,11 @@
 				95864919251E12AA0081DF08 /* FileView.swift in Sources */,
 				958E17EB24ABD4DB00487EA4 /* VaultApp.swift in Sources */,
 				95C1E54C24F17A58005F954F /* VaultItemCreationModelStub.swift in Sources */,
+				9588438925397F3100732E35 /* GeneratePasswordView.swift in Sources */,
 				95955862251A3D4500F7715F /* BiometricUnlockSetupModel.swift in Sources */,
 				95DFA2D524FC367100BD50D4 /* ErrorBadgePreview.swift in Sources */,
 				9586495B251E24A60081DF08 /* BankAccountView.swift in Sources */,
 				95864914251E126E0081DF08 /* PasswordView.swift in Sources */,
-				9510DE0925246243008785EC /* GeneratePasswordView.swift in Sources */,
 				9574329224AA081B0062B05A /* BankAccountModel.swift in Sources */,
 				9574327824AA081B0062B05A /* LoginModel.swift in Sources */,
 				95D46EBA251A1D7C00EF500A /* ChoosePasswordView.swift in Sources */,
@@ -985,6 +982,7 @@
 				95C1E54724F17A2F005F954F /* SetupModelStub.swift in Sources */,
 				9574334024AA135E0062B05A /* ChangeMasterPasswordView.swift in Sources */,
 				95E3261124D2F22300F35FAB /* ImageExtension.swift in Sources */,
+				9588439625397F7600732E35 /* GeneratePasswordModel.swift in Sources */,
 				956307362535CC1B0076022A /* CreateVaultItemView.swift in Sources */,
 				95864933251E13EE0081DF08 /* CustomItemView.swift in Sources */,
 				95C1E52F24F17915005F954F /* ChangeMasterPasswordModelStub.swift in Sources */,
@@ -1084,7 +1082,7 @@
 				95C1E55024F17A69005F954F /* VaultItemModelStub.swift in Sources */,
 				9595584B251A382C00F7715F /* ConfirmPasswordModel.swift in Sources */,
 				959143FF2513C12300897086 /* MainView.swift in Sources */,
-				956307622536076E0076022A /* GeneratePasswordViewPreview.swift in Sources */,
+				9588438F25397F3A00732E35 /* GeneratePasswordViewPreview.swift in Sources */,
 				95C1E52024F17805005F954F /* AppModelStub.swift in Sources */,
 				957432A524AA081B0062B05A /* UnlockedModel.swift in Sources */,
 				95864938251E146E0081DF08 /* VaultItemHeader.swift in Sources */,
@@ -1092,11 +1090,11 @@
 				9586491A251E12AA0081DF08 /* FileView.swift in Sources */,
 				95DFA2FC24FC367200BD50D4 /* ChangeMasterPasswordViewPreview.swift in Sources */,
 				9574328924AA081B0062B05A /* BiometricUnlockPreferencesModel.swift in Sources */,
+				9588438A25397F3100732E35 /* GeneratePasswordView.swift in Sources */,
 				9583624624D15EAF00C10BBB /* PDFView.swift in Sources */,
 				95955863251A3D4500F7715F /* BiometricUnlockSetupModel.swift in Sources */,
 				9586495C251E24A60081DF08 /* BankAccountView.swift in Sources */,
 				95864915251E126E0081DF08 /* PasswordView.swift in Sources */,
-				9510DE0A25246243008785EC /* GeneratePasswordView.swift in Sources */,
 				95DFA2F624FC367200BD50D4 /* ErrorBadgePreview.swift in Sources */,
 				95C1E54D24F17A58005F954F /* VaultItemCreationModelStub.swift in Sources */,
 				95D46EBB251A1D7C00EF500A /* ChoosePasswordView.swift in Sources */,

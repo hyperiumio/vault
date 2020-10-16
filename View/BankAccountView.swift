@@ -29,14 +29,14 @@ struct BankAccountEditView<Model>: View where Model: BankAccountModelRepresentab
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.bankAccountHolder, placeholder: LocalizedString.enterUsername, text: $model.accountHolder)
+        SecureItemTextEditField(LocalizedString.bankAccountHolder, placeholder: LocalizedString.bankAccountHolder, text: $model.accountHolder)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        SecureItemTextEditField(LocalizedString.bankAccountIban, placeholder: LocalizedString.enterUsername, text: $model.iban)
+        SecureItemTextEditField(LocalizedString.bankAccountIban, placeholder: LocalizedString.bankAccountIban, text: $model.iban)
             .keyboardType(.asciiCapable)
         
-        SecureItemTextEditField(LocalizedString.bankAccountBic, placeholder: LocalizedString.enterUsername, text: $model.bic)
+        SecureItemTextEditField(LocalizedString.bankAccountBic, placeholder: LocalizedString.bankAccountBic, text: $model.bic)
             .keyboardType(.asciiCapable)
     }
     

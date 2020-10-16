@@ -27,7 +27,7 @@
 "Copied" = "Copied";
 "CurrentMasterPassword" = "Current Master Password";
 "CustomItem" = "Custom Item";
-"CustomItemName" = "Name";
+"CustomItemDescription" = "Description";
 "CustomItemValue" = "Value";
 "DeleteItem" = "Delete item";
 "DeleteConfirmation" = "Are you sure you want to delete this item?";
@@ -39,10 +39,11 @@
 "EnableFaceIDUnlockDescription" = "Please enter your master password to activate unlock with Face ID.";
 "EnableTouchIDUnlock" = "Enable Touch ID";
 "EnableTouchIDUnlockDescription" = "Please enter your master password to activate unlock with Touch ID.";
-"EnterPassword" = "Enter password";
-"EnterUsername" = "Enter username or email address";
 "EnterURL" = "Enter a web address";
+"EnterWifiName" = "Enter network name";
+"EnterWifiPassword" = "Enter network password";
 "EmptyVault" = "Your vault is empty.";
+"ExampleURL" = "www.example.com";
 "FaceID" = "Face ID";
 "FaceIDActivationFailed" = "Enabling Face ID unlock did fail.";
 "FaceIDDescription" = "If you want to use Face ID to unlock your vault, enable it here.";
@@ -86,8 +87,10 @@
 "UnlockVault" = "Unlock vault";
 "URL" = "URL";
 "UseFaceID" = "Use Face ID";
+"UsePassword" = "Use password";
 "UseTouchID" = "Use Touch ID";
 "Username" = "Username";
+"UsernameOrEmail" = "Username or email";
 "Vault" = "Vault";
 "VaultCreationFailed" = "There was an issue, please try again.";
 "Visa" = "Visa";

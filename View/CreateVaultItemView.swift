@@ -37,9 +37,8 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 } header: {
                     TitleField(LocalizedString.title, text: $model.title)
                 }
-                .listRowInsets(.zero)
                 .padding()
-                
+                .listRowInsets(.zero)
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -78,12 +77,13 @@ private struct TitleField: UIViewRepresentable {
         let textField = UITextField()
         textField.placeholder = title
         textField.font = UIFont.preferredFont(forTextStyle: .title1)
-        textField.delegate = context.coordinator
+        textField.addTarget(context.coordinator, action: #selector(TitleFieldCoordinator.textFieldDidChange), for: .editingChanged)
+        
         return textField
     }
 
-    func makeCoordinator() -> TitleField.Coordinator {
-        return Coordinator(text)
+    func makeCoordinator() -> TitleFieldCoordinator {
+        return TitleFieldCoordinator(text)
     }
 
     func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<TitleField>) {
@@ -96,21 +96,17 @@ private struct TitleField: UIViewRepresentable {
     }
 }
 
-private extension TitleField {
+private class TitleFieldCoordinator: NSObject, UITextFieldDelegate {
     
-    class Coordinator: NSObject, UITextFieldDelegate {
+    let text: Binding<String>
+    var didBecomeFirstResponder = false
 
-        let text: Binding<String>
-        var didBecomeFirstResponder = false
-
-        init(_ text: Binding<String>) {
-            self.text = text
-        }
-        
-        func textFieldDidChangeSelection(_ textField: UITextField) {
-            text.wrappedValue = textField.text ?? ""
-        }
-
+    init(_ text: Binding<String>) {
+        self.text = text
     }
     
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        text.wrappedValue = textField.text ?? ""
+    }
+
 }

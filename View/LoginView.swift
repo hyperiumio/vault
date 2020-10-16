@@ -29,19 +29,13 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.username, placeholder: LocalizedString.enterUsername, text: $model.username)
+        SecureItemTextEditField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
             .keyboardType(.emailAddress)
             .textContentType(.username)
         
-        VStack(spacing: 20) {
-            SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.enterPassword, text: $model.password)
-                .keyboardType(.asciiCapable)
-                .textContentType(.newPassword)
-            
-            GeneratePasswordView(action: model.generatePassword)
-        }
+        SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
         
-        SecureItemTextEditField(LocalizedString.url, placeholder: LocalizedString.enterURL, text: $model.url)
+        SecureItemTextEditField(LocalizedString.url, placeholder: LocalizedString.exampleURL, text: $model.url)
             .keyboardType(.URL)
             .textContentType(.URL)
     }

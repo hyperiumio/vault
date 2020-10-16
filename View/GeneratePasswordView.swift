@@ -3,67 +3,47 @@ import SwiftUI
 
 struct GeneratePasswordView: View {
     
-    @State private var showControls = false
-    @State private var configuration = Configuration()
-    private let action: Action
+    let event: (String?) -> Void
     
-    var length: Int {
-        Int(configuration.length)
+    @StateObject private var model = GeneratePasswordModel()
+    
+    private var length: Binding<Double> {
+        Binding<Double> {
+            Double(model.length)
+        } set: { length in
+            let length = Int(length)
+            guard model.length != length else { return }
+            
+            model.length = length
+        }
     }
     
-    init(action: @escaping Action) {
-        self.action = action
+    init(event: @escaping (String?) -> Void) {
+        self.event = event
     }
     
     var body: some View {
-        VStack {
-            Group {
-                if showControls {
-                    HStack() {
-                        Text(LocalizedString.characters(length))
-                        
-                        Slider(value: $configuration.length, in: 8 ... 32, step: 1)
-                    }
-                    
-                    Toggle(LocalizedString.numbers, isOn: $configuration.digitsEnabled)
-                    
-                    Toggle(LocalizedString.symbols, isOn: $configuration.symbolsEnabled)
-                } else {
-                    Button(LocalizedString.generatePassword) {
-                        showControls = true
-                    }
-                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
-                }
-                
-            }
-            .font(Font.body.monospacedDigit())
-            .foregroundColor(.secondaryLabel)
-            .transition(AnyTransition.opacity.animation(.easeInOut(duration: 0.2)))
-        }
-        
-        .onChange(of: configuration) { configuration in
-            action(length, configuration.digitsEnabled, configuration.symbolsEnabled)
-        }
-        .onChange(of: showControls) { showControls in
-            guard showControls else { return }
+        VStack(alignment: .leading) {
+            Text(model.password ?? " ") // hack
+                .font(Font.system(.body, design: .monospaced))
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .frame(minHeight: 22)
             
-            action(length, configuration.digitsEnabled, configuration.symbolsEnabled)
+            HStack() {
+                Text(LocalizedString.characters(model.length))
+                
+                Slider(value: length, in: 16 ... 64, step: 1)
+            }
+            
+            Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
+            
+            Toggle(LocalizedString.symbols, isOn: $model.symbolsEnabled)
         }
-
-    }
-    
-}
-
-extension GeneratePasswordView {
-    
-    typealias Action = (_ length: Int, _ digitsEnabled: Bool, _ symbolsEnabled: Bool) -> Void
-    
-    private struct Configuration: Equatable {
-        
-        var length = 16 as Double
-        var digitsEnabled = true
-        var symbolsEnabled = true
-        
+        .font(Font.body.monospacedDigit())
+        .foregroundColor(.secondaryLabel)
+        .onChange(of: model.password, perform: event)
+        .onAppear(perform: model.createPassword)
     }
     
 }

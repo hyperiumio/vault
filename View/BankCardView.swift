@@ -45,18 +45,16 @@ struct BankCardEditView<Model>: View where Model: BankCardModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.bankCardName, placeholder: LocalizedString.enterUsername, text: $model.name)
+        SecureItemTextEditField(LocalizedString.bankCardName, placeholder: LocalizedString.bankCardName, text: $model.name)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        SecureItemTextEditField(LocalizedString.bankCardNumber, placeholder: LocalizedString.enterUsername, text: $model.number)
+        SecureItemTextEditField(LocalizedString.bankCardNumber, placeholder: LocalizedString.bankCardNumber, text: $model.number)
             .keyboardType(.numberPad)
             .textContentType(.creditCardNumber)
         
         SecureItemDateEditField(LocalizedString.bankCardExpirationDate, date: $model.expirationDate)
         
-        SecureItemSecureTextEditField(LocalizedString.bankCardPin, placeholder: LocalizedString.enterPassword, text: $model.pin)
-            .keyboardType(.numberPad)
-            .textContentType(.newPassword)
+        SecureItemSecureTextEditField(LocalizedString.bankCardPin, placeholder: LocalizedString.bankCardPin, text: $model.pin, generatorAvailable: false)
     }
 }

@@ -1,3 +1,4 @@
+import Localization
 import Pasteboard
 import SwiftUI
 
@@ -45,39 +46,43 @@ struct SecureItemSecureTextEditField: View {
     private let title: String
     private let placeholder: String
     private let text: Binding<String>
-    @State private var secureDisplay = false
+    private let generatorAvailable: Bool
     
-    init(_ title: String, placeholder: String, text: Binding<String>) {
+    @State private var showGeneratorControls = false
+    
+    init(_ title: String, placeholder: String, text: Binding<String>, generatorAvailable: Bool) {
         self.title = title
         self.placeholder = placeholder
         self.text = text
+        self.generatorAvailable = generatorAvailable
     }
     
     var body: some View {
         SecureItemDisplayField(title) {
-            HStack {
-                if secureDisplay {
+            VStack(spacing: 20) {
+                switch (generatorAvailable, showGeneratorControls) {
+                case (false, _):
                     SecureField(placeholder, text: text)
-                } else {
-                    TextField(placeholder, text: text)
-                        .font(text.wrappedValue.isEmpty ? Font.system(.body) : Font.system(.body, design: .monospaced))
-                }
-                
-                Spacer()
-                
-                Button {
-                    secureDisplay.toggle()
-                } label: {
-                    if secureDisplay {
-                        Image.hideSecret
-                    } else {
-                        Image.showSecret
+                case (true, true):
+                    GeneratePasswordView { password in
+                        guard let password = password else { return }
+                        
+                        text.wrappedValue = password
                     }
+                    
+                    Button(LocalizedString.usePassword) {
+                        showGeneratorControls = false
+                    }
+                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
+                case (true, false):
+                    SecureField(placeholder, text: text)
+                    
+                    Button(LocalizedString.generatePassword) {
+                        showGeneratorControls = true
+                    }
+                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
                 }
-                .buttonStyle(BorderlessButtonStyle())
             }
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
         }
     }
     

@@ -34,7 +34,6 @@ struct FileEditView<Model>: View where Model: FileModelRepresentable {
                 } label: {
                     Text("Select file")
                         .frame(maxWidth: .infinity)
-                        .padding()
                         .contentShape(Rectangle())
                 }
             case .loading:
