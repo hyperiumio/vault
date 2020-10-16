@@ -24,5 +24,6 @@ extension Image {
     static let back = Image(systemName: "chevron.left.circle")
     static let done = Image(systemName: "checkmark.circle")
     static let random = Image(systemName: "die.face.3.fill")
+    static let search = Image(systemName: "magnifyingglass")
     
 }

@@ -30,7 +30,14 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         }
                     }
                     
-                    ToolbarItem(placement: .navigationBarTrailing) {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+                        Button {
+                            
+                        } label: {
+                            Image.search
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
                         Button {
                             presentedSheet = .selectCategory
                         } label: {
@@ -89,8 +96,6 @@ private extension UnlockedView {
         var body: some View {
             if let collation = itemCollation {
                 List {
-                    SearchBar(text: searchText)
-                    
                     ForEach(collation.sections) { section in
                         Section {
                             ForEach(section.elements) { model in
