@@ -13,7 +13,6 @@ struct BankCardDisplayView<Model>: View where Model: BankCardModelRepresentable 
         SecureItemTextDisplayField(LocalizedString.bankCardName, text: model.name)
         
         if let vendor = model.vendor {
-            
             SecureItemDisplayField(LocalizedString.bankCardVendor) {
                 switch vendor {
                 case .masterCard:

@@ -100,7 +100,7 @@ private extension UnlockedView {
                         Section {
                             ForEach(section.elements) { model in
                                 NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                                    VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
                                 }
                             }
                         } header: {

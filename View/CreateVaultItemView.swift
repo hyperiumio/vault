@@ -35,10 +35,10 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         }
                     }
                 } header: {
-                    TitleField(LocalizedString.title, text: $model.title)
+                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                        .padding()
+                        .listRowInsets(.zero)
                 }
-                .padding()
-                .listRowInsets(.zero)
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -61,52 +61,4 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
         }
     }
     
-}
-
-private struct TitleField: UIViewRepresentable {
-    
-    private let title: String
-    private let text: Binding<String>
-
-    init(_ title: String, text: Binding<String>) {
-        self.title = title
-        self.text = text
-    }
-    
-    func makeUIView(context: UIViewRepresentableContext<TitleField>) -> UITextField {
-        let textField = UITextField()
-        textField.placeholder = title
-        textField.font = UIFont.preferredFont(forTextStyle: .title1)
-        textField.addTarget(context.coordinator, action: #selector(TitleFieldCoordinator.textFieldDidChange), for: .editingChanged)
-        
-        return textField
-    }
-
-    func makeCoordinator() -> TitleFieldCoordinator {
-        return TitleFieldCoordinator(text)
-    }
-
-    func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<TitleField>) {
-        uiView.text = text.wrappedValue
-        
-        if !context.coordinator.didBecomeFirstResponder  {
-            uiView.becomeFirstResponder()
-            context.coordinator.didBecomeFirstResponder = true
-        }
-    }
-}
-
-private class TitleFieldCoordinator: NSObject, UITextFieldDelegate {
-    
-    let text: Binding<String>
-    var didBecomeFirstResponder = false
-
-    init(_ text: Binding<String>) {
-        self.text = text
-    }
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        text.wrappedValue = textField.text ?? ""
-    }
-
 }

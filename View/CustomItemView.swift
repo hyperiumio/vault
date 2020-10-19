@@ -24,8 +24,10 @@ struct CustomItemEditView<Model>: View where Model: CustomItemModelRepresentable
     }
     
     var body: some View {
-        SecureItemEditField(LocalizedString.customItemName, text: $model.name) {
-            TextField(LocalizedString.customItemValue, text: $model.value)
+        SecureItemView {
+            SecureItemEditField(LocalizedString.customItemName, text: $model.name) {
+                TextField(LocalizedString.customItemValue, text: $model.value)
+            }
         }
     }
     

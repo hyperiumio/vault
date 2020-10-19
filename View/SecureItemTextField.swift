@@ -36,10 +36,12 @@ struct SecureItemTextEditField: View {
     }
     
     var body: some View {
-        SecureItemDisplayField(title) {
-            TextField(placeholder, text: text)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
+        SecureItemView {
+            SecureItemDisplayField(title) {
+                TextField(placeholder, text: text)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+            }
         }
     }
     

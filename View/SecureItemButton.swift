@@ -21,7 +21,7 @@ struct SecureItemButton<Content>: View where Content: View {
             
             timer?.invalidate()
             timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                withAnimation(Animation.easeInOut(duration: 0.2)) {
+                withAnimation(Animation.easeInOut(duration: 0.1)) {
                     isMessageShow = false
                 }
             }
@@ -31,6 +31,7 @@ struct SecureItemButton<Content>: View where Content: View {
             ZStack {
                 content
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+                    .padding()
                     .contentShape(Rectangle())
                     .opacity(isMessageShow ? 0 : 1)
                 
@@ -43,7 +44,24 @@ struct SecureItemButton<Content>: View where Content: View {
                 }
             }
         }
+        .listRowInsets(.zero)
         .buttonStyle(BareButtonStyle())
+    }
+    
+}
+
+struct SecureItemView<Content>: View where Content: View {
+    
+    private let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        content
+            .listRowInsets(.zero)
+            .padding()
     }
     
 }

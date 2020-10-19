@@ -40,14 +40,15 @@ struct SecureItemDateEditField: View {
     }
     
     var body: some View {
-        SecureItemDisplayField(title) {
-            HStack {
-                DatePicker(title, selection: date, displayedComponents: .date)
-                    .labelsHidden()
-                
-                Spacer()
+        SecureItemView {
+            SecureItemDisplayField(title) {
+                HStack {
+                    DatePicker(title, selection: date, displayedComponents: .date)
+                        .labelsHidden()
+                    
+                    Spacer()
+                }
             }
-            
         }
     }
     

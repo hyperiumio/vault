@@ -20,6 +20,10 @@ struct SecureItemSecureTextDisplayField: View {
             HStack {
                 SecureItemDisplayField(title) {
                     Text(secureDisplay ? "••••••••" : text)
+                        .font(Font.system(.body, design: .monospaced))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.5)
+                        .frame(minHeight: 22)
                 }
                 
                 Spacer()
@@ -58,31 +62,34 @@ struct SecureItemSecureTextEditField: View {
     }
     
     var body: some View {
-        SecureItemDisplayField(title) {
-            VStack(spacing: 20) {
-                switch (generatorAvailable, showGeneratorControls) {
-                case (false, _):
-                    SecureField(placeholder, text: text)
-                case (true, true):
-                    GeneratePasswordView { password in
-                        guard let password = password else { return }
+        SecureItemView {
+            SecureItemDisplayField(title) {
+                VStack(spacing: 20) {
+                    switch (generatorAvailable, showGeneratorControls) {
+                    case (false, _):
+                        SecureField(placeholder, text: text)
+                    case (true, true):
+                        GeneratePasswordView { password in
+                            guard let password = password else { return }
+                            
+                            text.wrappedValue = password
+                        }
                         
-                        text.wrappedValue = password
+                        Button(LocalizedString.usePassword) {
+                            showGeneratorControls = false
+                        }
+                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
+                    case (true, false):
+                        SecureField(placeholder, text: text)
+                        
+                        Button(LocalizedString.generatePassword) {
+                            showGeneratorControls = true
+                        }
+                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
                     }
-                    
-                    Button(LocalizedString.usePassword) {
-                        showGeneratorControls = false
-                    }
-                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
-                case (true, false):
-                    SecureField(placeholder, text: text)
-                    
-                    Button(LocalizedString.generatePassword) {
-                        showGeneratorControls = true
-                    }
-                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
                 }
             }
+            .animation(nil)
         }
     }
     

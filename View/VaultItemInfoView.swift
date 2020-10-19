@@ -13,13 +13,13 @@ struct VaultItemInfoView: View {
     }
     
     var body: some View {
-        HStack {
+        HStack(spacing: 10) {
             type.image
                 .imageScale(.large)
+                .frame(width: 25, height: 25)
                 .foregroundColor(type.color)
-                .frame(width: 30)
             
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(name)
                 
                 if let description = description {
@@ -29,6 +29,9 @@ struct VaultItemInfoView: View {
                 }
             }
         }
+        .padding(.leading, -5)
+        .padding(.vertical, 2)
+
     }
     
 }

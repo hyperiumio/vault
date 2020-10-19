@@ -1,67 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(macOS)
-struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
-    
-    @ObservedObject var model: Model
-    @State private var isEditable = true
-    
-    private let mode: Mode
-    
-    var body: some View {
-        VStack(alignment: .trailing, spacing: 0) {
-            VaultItemTitleField(text: $model.name, isEditable: $isEditable)
-            
-            Divider()
-            
-            ElementView(element: model.primaryItemModel, isEditable: $isEditable)
-            
-            ForEach(Array(model.secondaryItemModels.enumerated()), id: \.offset) { index, secureItemModel in
-                Divider()
-                
-                HStack(alignment: .top) {
-                    ElementView(element: secureItemModel, isEditable: $isEditable)
-                    
-                    Button {
-                        model.deleteSecondaryItem(at: index)
-                    } label: {
-                        Image.trashCircle
-                            .renderingMode(.original)
-                            .imageScale(.large)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            
-            switch mode {
-            case .creation, .edit:
-                CreateVaultItemButton(action: model.addSecondaryItem) {
-                    Image.plusCircle
-                        .renderingMode(.original)
-                        .imageScale(.large)
-                }
-            case .display:
-                EmptyView()
-            }
-        }
-    }
-    
-    init(_ model: Model, mode: Mode) {
-        self.model = model
-        self.mode = mode
-        
-        switch mode {
-        case .creation, .edit:
-            _isEditable = State(initialValue: true)
-        case .display:
-            _isEditable = State(initialValue: false)
-        }
-    }
-    
-}
-#endif
-
 #if os(iOS)
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
@@ -78,6 +17,10 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
             case .display:
                 VaultItemDisplayView(model)
                     .toolbar {
+                        ToolbarItem(placement: .principal) {
+                            SecureItemTypeView(model.primaryItemModel.secureItem.value.type)
+                        }
+                        
                         ToolbarItem(placement: .primaryAction) {
                             Button(LocalizedString.edit) {
                                 mode = .edit
@@ -119,16 +62,18 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
     
     var body: some View {
         List {
-            Group {
-                Section {
-                    ElementView(model.primaryItemModel)
-                } header: {
-                    ElementHeader(title: model.title, itemType: model.primaryItemModel.secureItem.value.type)
-                } footer: {
-                    VaultItemFooter(created: model.created, modified: model.modified)
-                }
+            Section {
+                ElementView(model.primaryItemModel)
+            } header: {
+                Text(model.title)
+                    .font(.title)
+                    .textCase(.none)
+                    .foregroundColor(.label)
+                    .listRowInsets(.zero)
+                    .padding()
+            } footer: {
+                VaultItemFooter(created: model.created, modified: model.modified)
             }
-            .listRowInsets(EdgeInsets(.zero))
         }
         .listStyle(GroupedListStyle())
     }
@@ -148,13 +93,11 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
         List {
             Group {
                 Section {
-                    VaultItemEditHeader(LocalizedString.title, text: $model.title, itemType: model.primaryItemModel.secureItem.value.type)
-                }
-                
-                Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    ElementHeader(itemType: model.primaryItemModel.secureItem.value.type)
+                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                        .padding()
+                        .listRowInsets(.zero)
                 }
                 
                 Section {
@@ -166,8 +109,6 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
                     .padding()
                 }
             }
-            .listRowInsets(EdgeInsets(.zero))
-
         }
         .listStyle(GroupedListStyle())
     }
@@ -254,41 +195,4 @@ private extension VaultItemEditView {
         
     }
 
-}
-
-private struct ElementHeader: View {
-    
-    let title: String?
-    let itemType: SecureItemType
-    
-    init(title: String? = nil, itemType: SecureItemType) {
-        self.title = title
-        self.itemType = itemType
-    }
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if let title = title {
-                Text(title)
-                    .textCase(.none)
-                    .font(Font.largeTitle.bold())
-                    .foregroundColor(.label)
-                    .padding(.vertical)
-            } else {
-                Spacer()
-            }
-            
-            Label {
-                Text(itemType.name)
-                    .foregroundColor(.secondaryLabel)
-            } icon: {
-                itemType.image
-                    .foregroundColor(itemType.color)
-            }
-            .labelStyle(HeaderLabelStyle())
-        }
-        .padding(.horizontal)
-        .padding(.bottom, 4)
-    }
-    
 }
