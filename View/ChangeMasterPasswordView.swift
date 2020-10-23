@@ -89,7 +89,7 @@ private extension ChangeMasterPasswordView {
             HStack {
                 Spacer()
                 
-                Image.masterPassword
+                Image.password
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(.secondaryLabel)

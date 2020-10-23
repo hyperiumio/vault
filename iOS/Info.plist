@@ -22,6 +22,8 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Vault needs access to the camera</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Show your face, bitch</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

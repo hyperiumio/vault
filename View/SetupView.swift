@@ -204,9 +204,7 @@ private struct BiometricUnlockContent: View {
     
     var body: some View {
         VStack(spacing: 40) {
-            biometricType.image
-                .resizable()
-                .aspectRatio(contentMode: .fit)
+            BiometricIcon(biometricType)
                 .frame(width: 120, height: 120)
                 .foregroundColor(enabled.wrappedValue ? .label : .secondaryLabel)
             

@@ -1,6 +1,7 @@
 import Crypto
 import Preferences
 import Store
+import UniformTypeIdentifiers
 
 struct AppUnlockedDependency {
     
@@ -27,8 +28,8 @@ extension AppUnlockedDependency: UnlockedModelDependency {
         VaultItemReferenceModel(vault: vault, info: vaultItemInfo, dependency: self)
     }
     
-    func vaultItemModel(with type: SecureItemType) -> VaultItemModel<Self> {
-        VaultItemModel(vault: vault, type: type, dependency: self)
+    func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel<Self> {
+        VaultItemModel(vault: vault, secureItem: secureItem, dependency: self)
     }
     
 }
@@ -41,14 +42,6 @@ extension AppUnlockedDependency: SettingsModelDependency {
     
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel {
         ChangeMasterPasswordModel(vault: vault, preferences: preferences, keychain: keychain)
-    }
-    
-}
-
-extension AppUnlockedDependency: VaultItemCreationModelDependency {
-    
-    func vaultItemModel(type: SecureItemType) -> VaultItemModel {
-        VaultItemModel(vault: vault, type: type, dependency: self)
     }
     
 }
@@ -93,38 +86,6 @@ extension AppUnlockedDependency: VaultItemModelDependency {
     
     func customItemModel(item: CustomItem) -> CustomItemModel {
         CustomItemModel(item)
-    }
-    
-    func loginModel() -> LoginModel {
-        LoginModel()
-    }
-    
-    func passwordModel() -> PasswordModel {
-        PasswordModel()
-    }
-    
-    func fileModel() -> FileModel {
-        FileModel()
-    }
-    
-    func noteModel() -> NoteModel {
-        NoteModel()
-    }
-    
-    func bankCardModel() -> BankCardModel {
-        BankCardModel()
-    }
-    
-    func wifiModel() -> WifiModel {
-        WifiModel()
-    }
-    
-    func bankAccountModel() -> BankAccountModel {
-        BankAccountModel()
-    }
-    
-    func customItemModel() -> CustomItemModel {
-        CustomItemModel()
     }
     
 }

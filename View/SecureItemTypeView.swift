@@ -3,7 +3,7 @@ import SwiftUI
 
 struct SecureItemTypeView: View {
     
-    let type: SecureItemType
+    private let type: SecureItemType
     
     init(_ type: SecureItemType) {
         self.type = type
@@ -13,21 +13,21 @@ struct SecureItemTypeView: View {
         HStack {
             switch type {
             case .password:
-                Image.password.foregroundColor(Color.appGray)
+                Image.password
             case .login:
-                Image.login.foregroundColor(Color.appBlue)
+                Image.login
             case .file:
-                Image.file.foregroundColor(Color.appPink)
+                Image.file
             case .note:
-                Image.note.foregroundColor(Color.appYellow)
+                Image.note
             case .bankCard:
-                Image.bankCard.foregroundColor(Color.appPurple)
+                Image.bankCard
             case .wifi:
-                Image.wifi.foregroundColor(Color.appTeal)
+                Image.wifi
             case .bankAccount:
-                Image.bankAccount.foregroundColor(Color.appGreen)
+                Image.bankAccount
             case .custom:
-                Image.custom.foregroundColor(Color.appRed)
+                Image.custom
             }
             
             switch type {

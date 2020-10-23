@@ -1,6 +1,7 @@
 #if DEBUG
 import Combine
 import Foundation
+import UniformTypeIdentifiers
 
 class UnlockedModelStub: UnlockedModelRepresentable {
     
@@ -24,7 +25,14 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     }
     
     func reload() {}
-    func createVaultItem(with type: SecureItemType) {}
+    func createLoginItem() {}
+    func createPasswordItem() {}
+    func createWifiItem() {}
+    func createNoteItem() {}
+    func createBankCardItem() {}
+    func createBankAccountItem() {}
+    func createCustomItem() {}
+    func createFileItem(data: Data, type: UTType) {}
     func lockApp(enableBiometricUnlock: Bool) {}
     
     init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemModel?, failure: UnlockedFailure?) {

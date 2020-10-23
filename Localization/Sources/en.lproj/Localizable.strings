@@ -26,12 +26,13 @@
 "Continue" = "Continue";
 "Copied" = "Copied";
 "CurrentMasterPassword" = "Current Master Password";
-"CustomItem" = "Custom Item";
+"CustomItem" = "Custom";
 "CustomItemDescription" = "Description";
 "CustomItemValue" = "Value";
 "DeleteItem" = "Delete item";
 "DeleteConfirmation" = "Are you sure you want to delete this item?";
 "DeleteFailed" = "Vault could not delete item";
+"Document" = "Document";
 "Done" = "Done";
 "Edit" = "Edit";
 "Enable" = "Enable";
@@ -51,6 +52,9 @@
 "File" = "File";
 "Filename" = "Filename";
 "GeneratePassword" = "Generate password";
+"Image" = "Image";
+"ImportFile" = "Import file";
+"ImportFileDescription" = "What type of file do you want to import?";
 "InsecurePassword" = "Master Password is not secure, please choose another one.";
 "InvalidCurrentPassword" = "Your current master password is invalid";
 "LoadFailed" = "Vault could not be loaded";
@@ -68,6 +72,7 @@
 "Other" = "Other";
 "Password" = "Password";
 "PasswordMismatch" = "Master password don’t match.";
+"Photo" = "Photo";
 "Retry" = "Retry";
 "Save" = "Save";
 "SaveFailed" = "Vault could not save item";

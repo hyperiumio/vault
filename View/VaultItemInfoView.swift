@@ -4,20 +4,37 @@ struct VaultItemInfoView: View {
     
     private let name: String
     private let description: String?
-    private let type: SecureItemType
+    private let image: Image
     
     init(_ name: String, description: String?, type: SecureItemType) {
         self.name = name
         self.description = description
-        self.type = type
+        
+        switch type {
+        case .password:
+            self.image = .password
+        case .login:
+            self.image = .login
+        case .file:
+            self.image = .file
+        case .note:
+            self.image = .note
+        case .bankCard:
+            self.image = .bankCard
+        case .wifi:
+            self.image = .wifi
+        case .bankAccount:
+            self.image = .bankAccount
+        case .custom:
+            self.image = .custom
+        }
     }
     
     var body: some View {
-        HStack(spacing: 10) {
-            type.image
-                .imageScale(.large)
+        HStack(spacing: 8) {
+            image
                 .frame(width: 25, height: 25)
-                .foregroundColor(type.color)
+                .foregroundColor(.accentColor)
             
             VStack(alignment: .leading, spacing: 2) {
                 Text(name)

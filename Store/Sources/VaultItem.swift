@@ -18,9 +18,7 @@ public struct VaultItem {
         case .login(let item):
             return item.username
         case .file(let item):
-            return item.data.map { data in
-                ByteCountFormatter.string(fromByteCount: Int64(data.count), countStyle: .binary)
-            }
+            return ByteCountFormatter.string(fromByteCount: Int64(item.data.count), countStyle: .binary)
         case .note(let item):
             return item.text.isEmpty ? nil : item.text.components(separatedBy: .newlines).first
         case .bankCard(let item):

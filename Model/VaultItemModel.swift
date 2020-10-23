@@ -52,15 +52,6 @@ protocol VaultItemModelDependency {
     func bankAccountModel(item: BankAccountItem) -> BankAccountModel
     func customItemModel(item: CustomItem) -> CustomItemModel
     
-    func loginModel() -> LoginModel
-    func passwordModel() -> PasswordModel
-    func fileModel() -> FileModel
-    func noteModel() -> NoteModel
-    func bankCardModel() -> BankCardModel
-    func wifiModel() -> WifiModel
-    func bankAccountModel() -> BankAccountModel
-    func customItemModel() -> CustomItemModel
-    
 }
 
 enum VaultItemStatus {
@@ -166,17 +157,16 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         self.secondaryItemModels = vaultItem.secondarySecureItems.map(dependency.vaultItemElement)
     }
     
-    init(vault: Vault, type: SecureItemType, dependency: Dependency) {
+    init(vault: Vault, secureItem: SecureItem, dependency: Dependency) {
         self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = nil
-        self.primaryItemModel = dependency.vaultItemElement(with: type)
+        self.primaryItemModel = dependency.vaultItemElement(from: secureItem)
         self.secondaryItemModels = []
     }
     
     func addSecondaryItem(with type: SecureItemType) {
-        let model = dependency.vaultItemElement(with: type)
-        secondaryItemModels.append(model)
+        
     }
     
     func deleteSecondaryItem(at index: Int) {
@@ -260,35 +250,6 @@ private extension VaultItemModelDependency {
             return .bankAccount(model)
         case .custom(let item):
             let model = customItemModel(item: item)
-            return .custom(model)
-        }
-    }
-    
-    func vaultItemElement(with typeIdentifier: SecureItemType) -> VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomItemModel> {
-        switch typeIdentifier {
-        case .login:
-            let model = loginModel()
-            return .login(model)
-        case .password:
-            let model = passwordModel()
-            return .password(model)
-        case .file:
-            let model = fileModel()
-            return .file(model)
-        case .note:
-            let model = noteModel()
-            return .note(model)
-        case .bankCard:
-            let model = bankCardModel()
-            return .bankCard(model)
-        case .wifi:
-            let model = wifiModel()
-            return .wifi(model)
-        case .bankAccount:
-            let model = bankAccountModel()
-            return .bankAccount(model)
-        case .custom:
-            let model = customItemModel()
             return .custom(model)
         }
     }

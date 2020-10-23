@@ -1,111 +1,44 @@
-import Localization
 import PDFKit
+import UniformTypeIdentifiers
 import SwiftUI
 
-struct FileDisplayView<Model>: View where Model: FileModelRepresentable {
+struct FileView: View {
     
-    @ObservedObject private var model: Model
+    private let data: Data
+    private let type: UTType
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ data: Data, type: UTType) {
+        self.data = data
+        self.type = type
     }
     
     var body: some View {
-        Text("Show File")
-    }
-    
-}
-
-struct FileEditView<Model>: View where Model: FileModelRepresentable {
-    
-    @ObservedObject private var model: Model
-    @State private var isImporting = false
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-    var body: some View {
-        Group {
-            switch model.fileStatus {
-            case .empty:
-                Button {
-                    isImporting = true
-                } label: {
-                    Text("Select file")
-                        .frame(maxWidth: .infinity)
-                        .contentShape(Rectangle())
-                }
-            case .loading:
-                ProgressView()
-            case .loaded:
-                Text("data")
+        switch type {
+        case let type where type.conforms(to: .image):
+            if let image = UIImage(data: data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                UnrepresentableFileView()
             }
-        }
-        .fileImporter(isPresented: $isImporting, allowedContentTypes: [.item]) { result in
-            switch result {
-            case .success(let url):
-                model.loadFile(at: url)
-            case .failure:
-                return // present error
+        case let type where type.conforms(to: .pdf):
+            if let document = PDFDocument(data: data) {
+                PDFView(document)
+            } else {
+                UnrepresentableFileView()
             }
+        default:
+            UnrepresentableFileView()
         }
     }
     
 }
 
-struct FileGenericView: View {
+private struct UnrepresentableFileView: View {
     
     var body: some View {
-        Image(systemName: "doc.fill")
+        Text("?")
     }
     
 }
-
-struct FilePDFView: View {
-    
-    let data: Data
-    
-    var body: some View {
-        if let document = PDFDocument(data: data) {
-            PDF(document)
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-
-#if canImport(AppKit)
-struct FileImageView: View {
-    
-    let data: Data
-    
-    var body: some View {
-        if let nativeImage = NSImage(data: data) {
-            Image(nsImage: nativeImage)
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-#endif
-
-#if os(iOS)
-struct FileImageView: View {
-    
-    let data: Data
-
-    var body: some View {
-        if let nativeImage = UIImage(data: data) {
-            Image(uiImage: nativeImage)
-                .resizable()
-                .scaledToFit()
-        } else {
-            FileGenericView()
-        }
-    }
-    
-}
-#endif

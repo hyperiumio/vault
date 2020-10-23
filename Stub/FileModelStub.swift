@@ -1,22 +1,22 @@
 #if DEBUG
 import Foundation
+import UniformTypeIdentifiers
 import Store
 
 class FileModelStub: FileModelRepresentable {
     
-    @Published var name: String
-    @Published var format: FileItemFormat
-    @Published var fileStatus: FileStatus
-    @Published var fileItem: FileItem
+    @Published var status: FileStatus
     
-    init(name: String, format: FileItemFormat, fileStatus: FileStatus, fileItem: FileItem) {
-        self.name = name
-        self.format = format
-        self.fileStatus = fileStatus
-        self.fileItem = fileItem
+    var fileItem: FileItem {
+        FileItem(data: Data(), typeIdentifier: .item)
+    }
+    
+    init(status: FileStatus) {
+        self.status = status
     }
     
     func loadFile(at url: URL) {}
+    func loadData(_ data: Data, type: UTType) {}
     
 }
 #endif

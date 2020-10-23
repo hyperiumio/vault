@@ -5,6 +5,7 @@ import Preferences
 import Search
 import Store
 import Sort
+import UniformTypeIdentifiers
 
 protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
@@ -21,7 +22,14 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var failure: UnlockedFailure? { get set }
     var lockRequest: AnyPublisher<Bool, Never> { get }
     
-    func createVaultItem(with type: SecureItemType)
+    func createLoginItem()
+    func createPasswordItem()
+    func createWifiItem()
+    func createNoteItem()
+    func createBankCardItem()
+    func createBankAccountItem()
+    func createCustomItem()
+    func createFileItem(data: Data, type: UTType)
     func lockApp(enableBiometricUnlock: Bool)
 }
 
@@ -32,7 +40,7 @@ protocol UnlockedModelDependency {
     associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
     
     func settingsModel() -> SettingsModel
-    func vaultItemModel(with type: SecureItemType) -> VaultItemModel
+    func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel
     func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel
     
 }
@@ -115,16 +123,66 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
                 
                 self.itemCollation = itemCollation
             }
-    }
-    
-    func createVaultItem(with type: SecureItemType) {
-        let model = dependency.vaultItemModel(with: type)
-        model.done
+          
+        $creationModel
+            .compactMap { model in
+                model
+            }
+            .flatMap { model in
+                model.done
+            }
             .map { nil }
             .receive(on: DispatchQueue.main)
             .assign(to: &$creationModel)
-        
-        creationModel = model
+    }
+    
+    func createLoginItem() {
+        let loginItem = LoginItem(username: "", password: "", url: "")
+        let secureItem = SecureItem.login(loginItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createPasswordItem() {
+        let passwordItem = PasswordItem(password: "")
+        let secureItem = SecureItem.password(passwordItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createWifiItem() {
+        let wifiItem = WifiItem(networkName: "", networkPassword: "")
+        let secureItem = SecureItem.wifi(wifiItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createNoteItem() {
+        let noteItem = NoteItem(text: "")
+        let secureItem = SecureItem.note(noteItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createBankCardItem()  {
+        let now = Date()
+        let bankCardItem = BankCardItem(name: "", number: "", expirationDate: now, pin: "")
+        let secureItem = SecureItem.bankCard(bankCardItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createBankAccountItem() {
+        let bankAccountItem = BankAccountItem(accountHolder: "", iban: "", bic: "")
+        let secureItem = SecureItem.bankAccount(bankAccountItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createCustomItem() {
+        let customItem = CustomItem(name: "", value: "")
+        let secureItem = SecureItem.custom(customItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
+    }
+    
+    func createFileItem(data: Data, type: UTType) {
+        let fileItem = FileItem(data: data, typeIdentifier: type)
+        let secureItem = SecureItem.file(fileItem)
+        creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func lockApp(enableBiometricUnlock: Bool) {

@@ -84,9 +84,7 @@ private extension BiometricUnlockPreferencesView {
             HStack {
                 Spacer()
                 
-                biometricType.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                BiometricIcon(biometricType)
                     .frame(width: 60, height: 60)
                     .padding(.top, 40)
                     .padding(.bottom, 20)

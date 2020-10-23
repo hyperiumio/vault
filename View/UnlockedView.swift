@@ -54,7 +54,26 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             case .settings:
                 SettingsView(model.settingsModel)
             case .selectCategory:
-                SelectCategoryView(action: model.createVaultItem)
+                SelectCategoryView { selection in
+                    switch selection {
+                    case .login:
+                        model.createLoginItem()
+                    case .password:
+                        model.createPasswordItem()
+                    case .wifi:
+                        model.createWifiItem()
+                    case .note:
+                        model.createNoteItem()
+                    case .bankCard:
+                        model.createBankCardItem()
+                    case .bankAccount:
+                        model.createBankAccountItem()
+                    case .custom:
+                        model.createCustomItem()
+                    case .file(data: let data, type: let type):
+                        model.createFileItem(data: data, type: type)
+                    }
+                }
             case .createVaultItem(let model):
                 CreateVaultItemView(model)
             }

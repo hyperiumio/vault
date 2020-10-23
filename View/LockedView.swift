@@ -65,9 +65,7 @@ private extension LockedView {
         
         var body: some View {
             Button(action: action) {
-                biometricType.image
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
+                BiometricIcon(biometricType)
                     .frame(width: 40, height: 40)
                     .foregroundColor(.accentColor)
             }

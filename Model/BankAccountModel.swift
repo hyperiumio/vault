@@ -27,10 +27,4 @@ class BankAccountModel: BankAccountModelRepresentable {
         self.bic = bankAccountItem.bic
     }
     
-    init() {
-        self.accountHolder = ""
-        self.iban = ""
-        self.bic = ""
-    }
-    
 }

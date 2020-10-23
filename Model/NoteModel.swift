@@ -21,8 +21,4 @@ class NoteModel: NoteModelRepresentable {
         self.text = noteItem.text
     }
     
-    init() {
-        self.text = ""
-    }
-    
 }

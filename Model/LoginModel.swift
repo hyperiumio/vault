@@ -33,12 +33,6 @@ class LoginModel: LoginModelRepresentable {
         self.url = loginItem.url
     }
     
-    init() {
-        self.username = ""
-        self.password = ""
-        self.url = ""
-    }
-    
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
         operationQueue.future {
             try Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)

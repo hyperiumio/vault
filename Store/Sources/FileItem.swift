@@ -1,20 +1,16 @@
 import Foundation
+import UniformTypeIdentifiers
 
 public struct FileItem: SecureItemValue, Equatable  {
     
-    public let name: String
-    public let data: Data?
-    
-    public var format: Format {
-        let fileExtension = (name as NSString).pathExtension
-        return Format(fileExtension)
-    }
+    public let data: Data
+    public let typeIdentifier: UTType
     
     public var type: SecureItemType { .file }
     
-    public init(name: String, data: Data?) {
-        self.name = name
+    public init(data: Data, typeIdentifier: UTType) {
         self.data = data
+        self.typeIdentifier = typeIdentifier
     }
     
     init(from fileItemData: Data) throws {
@@ -49,47 +45,23 @@ public struct FileItem: SecureItemValue, Equatable  {
         let dataSegmentRange = Range(dataSizeDataRange.upperBound, count: dataSize)
         let dataSegment = fileItemData[dataSegmentRange]
         
-        self.name = info.name
-        self.data = dataSegment.isEmpty ? nil : dataSegment
+        self.data = dataSegment
+        self.typeIdentifier = info.typeIdentifier
     }
     
     public func encoded() throws -> Data {
-        let encodableItem = CodableFileItem(name: name)
+        let encodableItem = CodableFileItem(typeIdentifier: typeIdentifier)
         let encodedItem = try JSONEncoder().encode(encodableItem)
         let encodedItemSize = UInt32Encode(encodedItem.count)
-        let encodedDataSize = UInt32Encode(data?.count ?? 0)
-        let encodedData = data ?? Data()
+        let encodedDataSize = UInt32Encode(data.count)
         
-        return encodedItemSize + encodedItem + encodedDataSize + encodedData
-    }
-    
-}
-
-public extension FileItem {
-    
-    enum Format {
-        
-        case pdf
-        case image
-        case unrepresentable
-        
-        init(_ fileExtension: String) {
-            switch fileExtension.lowercased() {
-            case "pdf":
-                self = .pdf
-            case "png", "jpg", "jpeg", "gif", "tif", "tiff", "bmp":
-                self = .image
-            default:
-                self = .unrepresentable
-            }
-        }
-        
+        return encodedItemSize + encodedItem + encodedDataSize + data
     }
     
 }
 
 private struct CodableFileItem: Codable {
     
-    let name: String
+    let typeIdentifier: UTType
     
 }

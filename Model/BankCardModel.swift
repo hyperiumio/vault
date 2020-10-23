@@ -36,11 +36,4 @@ class BankCardModel: BankCardModelRepresentable {
         self.pin = bankCardItem.pin
     }
     
-    init() {
-        self.name = ""
-        self.number = ""
-        self.expirationDate = Date()
-        self.pin = ""
-    }
-    
 }

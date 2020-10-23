@@ -144,7 +144,7 @@ private extension VaultItemDisplayView {
             case .password(let model):
                 PasswordDisplayView(model)
             case .file(let model):
-                FileDisplayView(model)
+                FileItemDisplayView(model)
             case .note(let model):
                 NoteDisplayView(model)
             case .bankCard(let model):
@@ -179,7 +179,7 @@ private extension VaultItemEditView {
             case .password(let model):
                 PasswordEditView(model)
             case .file(let model):
-                FileEditView(model)
+                FileItemEditView(model)
             case .note(let model):
                 NoteEditView(model)
             case .bankCard(let model):

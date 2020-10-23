@@ -1,14 +1,13 @@
 import Foundation
+import UniformTypeIdentifiers
 import Store
 
 protocol FileModelRepresentable: ObservableObject, Identifiable {
     
-    var name: String { get set }
-    var format: FileItemFormat { get }
-    var fileStatus: FileStatus { get }
+    var status: FileStatus { get }
     var fileItem: FileItem { get }
     
-    func loadFile(at url: URL)
+    func loadData(_ data: Data, type: UTType)
     
 }
 
@@ -16,48 +15,35 @@ enum FileStatus {
     
     case empty
     case loading
-    case loaded(Data)
+    case loaded(Data, UTType)
     
 }
 
 class FileModel: FileModelRepresentable {
     
-    @Published var name = ""
-    @Published var fileStatus: FileStatus
-    
-    var format: FileItem.Format { fileItem.format }
+    @Published var status: FileStatus
     
     var fileItem: FileItem {
-        FileItem(name: name, data: Data())
+        switch status {
+        case .empty, .loading:
+            return FileItem(data: Data(), typeIdentifier: .item) // hack
+        case .loaded(let data, let type):
+            return FileItem(data: data, typeIdentifier: type)
+        }
     }
     
     private let operationQueue = DispatchQueue(label: "FileModelOperationQueue")
     
     init(_ fileItem: FileItem) {
-        self.name = fileItem.name
-        
-        if let fileData = fileItem.data {
-            self.fileStatus = FileStatus.loaded(fileData)
-        } else {
-            self.fileStatus = .empty
-        }
+        self.status = FileStatus.loaded(fileItem.data, fileItem.typeIdentifier)
     }
     
     init() {
-        self.name = ""
-        self.fileStatus = .empty
+        self.status = .empty
     }
     
-    func loadFile(at url: URL) {
-        fileStatus = .loading
-        
-        operationQueue.future {
-            try Data(contentsOf: url)
-        }
-        .map(FileStatus.loaded)
-        .replaceError(with: FileStatus.empty)
-        .receive(on: DispatchQueue.main)
-        .assign(to: &$fileStatus)
+    func loadData(_ data: Data, type: UTType) {
+        status = .loaded(data, type)
     }
     
 }

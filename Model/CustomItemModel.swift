@@ -24,9 +24,4 @@ class CustomItemModel: CustomItemModelRepresentable {
         self.value = customItem.value
     }
     
-    init() {
-        self.name = ""
-        self.value = ""
-    }
-    
 }

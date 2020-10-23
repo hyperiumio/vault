@@ -21,7 +21,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         case .password(let model):
                             PasswordEditView(model)
                         case .file(let model):
-                            FileEditView(model)
+                            FileItemEditView(model)
                         case .note(let model):
                             NoteEditView(model)
                         case .bankCard(let model):
