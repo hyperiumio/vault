@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - name: Print
+        run: ls /Applications
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_12.2_beta.app
       - name: Test Pasteboard package
