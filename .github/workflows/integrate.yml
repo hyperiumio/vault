@@ -24,4 +24,4 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_12.2.app
       - name: Running tests
-        run: xcodebuild test -scheme '${{ matrix.scheme }}' -destination '${{ matrix.destination }}'
+        run: xcodebuild test -quiet -scheme '${{ matrix.scheme }}' -destination '${{ matrix.destination }}'
