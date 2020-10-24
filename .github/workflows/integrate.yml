@@ -13,10 +13,14 @@ jobs:
         destination:
           - "'platform=iOS Simulator,name=iPhone 12'"
           - "'platform=macOS'"
+        scheme:
+          - Pasteboard
+          - Preferences
+          - Search
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_12.2.app
-      - name: Test Pasteboard package
-        run: xcodebuild test -scheme 'Pasteboard' -destination ${{ matrix.destination }}
+      - name: Running tests
+        run: xcodebuild test -scheme ${{ matrix.scheme }} -destination ${{ matrix.destination }}
