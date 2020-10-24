@@ -10,7 +10,7 @@ jobs:
     runs-on: macos-11.0
     strategy:
       matrix:
-        distination: ['platform=iOS Simulator,name=iPhone 12']
+        distination: [test]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
