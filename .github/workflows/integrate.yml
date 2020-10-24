@@ -10,7 +10,9 @@ jobs:
     runs-on: macos-11.0
     strategy:
       matrix:
-        destination: ["'platform=iOS Simulator,name=iPhone 12'"]
+        destination:
+          - "'platform=iOS Simulator,name=iPhone 12'"
+          - "'platform=macOS'"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
