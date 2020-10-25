@@ -1,0 +1,31 @@
+name: Integrate
+on: 
+  - workflow_dispatch
+  - pull_request
+  - push
+  
+jobs:
+  test:
+    name: Run tests
+    runs-on: macos-11.0
+    strategy:
+      matrix:
+        destination:
+          - platform=iOS Simulator,name=iPhone 12
+          - platform=macOS
+        scheme:
+          - Crypto
+          - Localization
+          - Pasteboard
+          - Preferences
+          - Search
+          - Sort
+          - Store
+          - Sync
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_12.2.app
+      - name: Running tests
+        run: xcodebuild test -quiet -scheme '${{ matrix.scheme }}' -destination '${{ matrix.destination }}'
