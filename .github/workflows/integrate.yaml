@@ -14,14 +14,11 @@ jobs:
           - platform=iOS Simulator,name=iPhone 12
           - platform=macOS
         scheme:
-          - Crypto
           - Localization
           - Pasteboard
           - Preferences
           - Search
           - Sort
-          - Store
-          - Sync
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
