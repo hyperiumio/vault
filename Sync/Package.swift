@@ -13,5 +13,6 @@ let package = Package(
     ],
     targets: [
         .target(name: "Sync", path: "Sources"),
+        .testTarget(name: "SyncTests", dependencies: ["Sync"], path: "Tests"),
     ]
 )

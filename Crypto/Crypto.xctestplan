@@ -13,12 +13,10 @@
   },
   "testTargets" : [
     {
-      "enabled" : false,
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
-        "identifier" : "CryptoTests",
-        "name" : "CryptoTests"
+        "identifier" : "SyncTests",
+        "name" : "SyncTests"
       }
     }
   ],

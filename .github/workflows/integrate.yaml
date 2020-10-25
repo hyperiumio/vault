@@ -19,6 +19,7 @@ jobs:
           - Preferences
           - Search
           - Sort
+          - Sync
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
