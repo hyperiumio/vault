@@ -7,7 +7,6 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     @State private var presentedSheet: Sheet?
     @Environment(\.scenePhase) private var scenePhase
 
-    
     init(_ model: Model) {
         self.model = model
     }
@@ -100,7 +99,6 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 model.lockApp(enableBiometricUnlock: true)
             }
         }
-
     }
     
 }
