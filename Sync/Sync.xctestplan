@@ -15,6 +15,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:",
         "identifier" : "SyncTests",
