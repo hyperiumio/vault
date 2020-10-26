@@ -10,6 +10,9 @@ jobs:
     runs-on: macos-11.0
     strategy:
       matrix:
+        destination:
+          - platform=iOS Simulator,name=iPhone 12
+          - platform=macOS
         scheme:
           - Localization
           - Pasteboard
@@ -23,4 +26,4 @@ jobs:
       - name: Select Xcode version
         run: sudo xcode-select -s /Applications/Xcode_12.2.app
       - name: Running tests
-        run: xcodebuild test -scheme '${{ matrix.scheme }}' -destination 'platform=iOS Simulator,name=iPhone 11' -destination 'platform=iOS Simulator,name=iPhone 12'
+        run: xcodebuild test -scheme '${{ matrix.scheme }}' -destination '${{ matrix.destination }}'
