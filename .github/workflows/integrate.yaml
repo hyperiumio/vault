@@ -1,8 +1,6 @@
 name: Integrate
-on: 
-  - workflow_dispatch
+on:
   - pull_request
-  - push
   
 jobs:
   test:
