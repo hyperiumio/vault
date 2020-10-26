@@ -12,6 +12,8 @@ jobs:
       matrix:
         destination:
           - platform=iOS Simulator,name=iPhone 12
+          - platform=iOS Simulator,name=iPhone 11
+          - platform=iOS Simulator,name=iPhone 8
           - platform=macOS
         scheme:
           - Localization
