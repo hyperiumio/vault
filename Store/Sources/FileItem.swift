@@ -29,6 +29,9 @@ public struct FileItem: SecureItemValue, Equatable  {
         let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = fileItemData[infoSegmentRange]
         let info = try JSONDecoder().decode(CodableFileItem.self, from: infoSegment)
+        guard let typeIdentifier = UTType(info.typeIdentifier) else {
+            throw StoreError.decodingFailed
+        }
         
         guard fileItemData.count >= UInt32CodingSize + infoSize + UInt32CodingSize else {
             throw StoreError.decodingFailed
@@ -46,11 +49,11 @@ public struct FileItem: SecureItemValue, Equatable  {
         let dataSegment = fileItemData[dataSegmentRange]
         
         self.data = dataSegment
-        self.typeIdentifier = info.typeIdentifier
+        self.typeIdentifier = typeIdentifier
     }
     
     public func encoded() throws -> Data {
-        let encodableItem = CodableFileItem(typeIdentifier: typeIdentifier)
+        let encodableItem = CodableFileItem(typeIdentifier: typeIdentifier.identifier)
         let encodedItem = try JSONEncoder().encode(encodableItem)
         let encodedItemSize = UInt32Encode(encodedItem.count)
         let encodedDataSize = UInt32Encode(data.count)
@@ -62,6 +65,6 @@ public struct FileItem: SecureItemValue, Equatable  {
 
 private struct CodableFileItem: Codable {
     
-    let typeIdentifier: UTType
+    let typeIdentifier: String
     
 }

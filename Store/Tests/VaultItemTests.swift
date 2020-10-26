@@ -44,19 +44,11 @@ class VaultItemTests: XCTestCase {
     
     func testFileInfo() throws {
         let referenceData = Data(0 ... UInt8.max)
-        let file = try FileItem(name: "", data: referenceData).encoded()
+        let file = try FileItem(data: referenceData, typeIdentifier: .item).encoded()
         let secureItem = try SecureItem(from: file, as: .file)
         let vaultItem = VaultItem(id: UUID(), name: "", primarySecureItem: secureItem, secondarySecureItems: [], created: .distantPast, modified: .distantPast)
         
         XCTAssertEqual(vaultItem.description, "256 bytes")
-    }
-    
-    func testFileInfoNoData() throws {
-        let file = try FileItem(name: "", data: nil).encoded()
-        let secureItem = try SecureItem(from: file, as: .file)
-        let vaultItem = VaultItem(id: UUID(), name: "", primarySecureItem: secureItem, secondarySecureItems: [], created: .distantPast, modified: .distantPast)
-        
-        XCTAssertNil(vaultItem.description)
     }
     
     func testNoteInfo() throws {

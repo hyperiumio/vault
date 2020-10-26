@@ -6,7 +6,7 @@ class SecureItemTests: XCTestCase {
     func testValue() {
         let password = PasswordItem(password: "")
         let login = LoginItem(username: "", password: "", url: "")
-        let file = FileItem(name: "", data: nil)
+        let file = FileItem(data: Data(), typeIdentifier: .item)
         let note = NoteItem(text: "")
         let bankCard = BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "")
         let wifi = WifiItem(networkName: "", networkPassword: "")
@@ -35,7 +35,7 @@ class SecureItemTests: XCTestCase {
     func testInitFromData() throws {
         let password = try PasswordItem(password: "").encoded()
         let login = try LoginItem(username: "", password: "", url: "").encoded()
-        let file = try FileItem(name: "", data: nil).encoded()
+        let file = try FileItem(data: Data(), typeIdentifier: .item).encoded()
         let note = try NoteItem(text: "").encoded()
         let bankCard = try BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "").encoded()
         let wifi = try WifiItem(networkName: "", networkPassword: "").encoded()
