@@ -19,6 +19,7 @@ jobs:
           - Preferences
           - Search
           - Sort
+          - Store 
           - Sync
     steps:
       - name: Checkout repository
