@@ -185,11 +185,9 @@
 		95A2800C253DD16500E2A3A3 /* FileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A2800A253DD16500E2A3A3 /* FileView.swift */; };
 		95A28028253F0C6900E2A3A3 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */; };
 		95A28029253F0C6900E2A3A3 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */; };
-		95ABC95D24A9D5AA009D87A4 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC95C24A9D5AA009D87A4 /* Crypto */; };
 		95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96024A9D5AA009D87A4 /* Pasteboard */; };
 		95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96224A9D5AA009D87A4 /* Preferences */; };
 		95ABC96524A9D5AA009D87A4 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96424A9D5AA009D87A4 /* Search */; };
-		95ABC96924A9D5B8009D87A4 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96824A9D5B8009D87A4 /* Crypto */; };
 		95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96C24A9D5B8009D87A4 /* Pasteboard */; };
 		95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96E24A9D5B8009D87A4 /* Preferences */; };
 		95ABC97124A9D5B8009D87A4 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC97024A9D5B8009D87A4 /* Search */; };
@@ -296,6 +294,7 @@
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
 		9517216025238084004803E1 /* PasswordViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewPreview.swift; sourceTree = "<group>"; };
 		951F238B2547257700949362 /* Localization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Localization; sourceTree = "<group>"; };
+		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
 		952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModel.swift; sourceTree = "<group>"; };
 		952D106D251B2D6400B95C4B /* CompleteSetupModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModelStub.swift; sourceTree = "<group>"; };
@@ -344,7 +343,6 @@
 		9574330A24AA135D0062B05A /* SettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		9574331024AA135E0062B05A /* LockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedView.swift; sourceTree = "<group>"; };
 		9574331124AA135E0062B05A /* VaultItemReferenceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemReferenceView.swift; sourceTree = "<group>"; };
-		9574336524AA13C20062B05A /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		9574336624AA13C20062B05A /* Preferences */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Preferences; sourceTree = "<group>"; };
 		9574336824AA13C30062B05A /* Search */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Search; sourceTree = "<group>"; };
 		9574337024AA23D30062B05A /* VaultItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemView.swift; sourceTree = "<group>"; };
@@ -449,7 +447,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				95ABC96524A9D5AA009D87A4 /* Search in Frameworks */,
-				95ABC95D24A9D5AA009D87A4 /* Crypto in Frameworks */,
 				9584E4CA2518C60E00C6D772 /* Store in Frameworks */,
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
@@ -466,7 +463,6 @@
 				9512F7F924B46733008A4DB8 /* Sync in Frameworks */,
 				95ABC97124A9D5B8009D87A4 /* Search in Frameworks */,
 				9584E4D32518CC5500C6D772 /* Store in Frameworks */,
-				95ABC96924A9D5B8009D87A4 /* Crypto in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
@@ -619,7 +615,7 @@
 		95ABC92E24A9D38E009D87A4 = {
 			isa = PBXGroup;
 			children = (
-				9574336524AA13C20062B05A /* Crypto */,
+				951F23922547321500949362 /* Crypto */,
 				951F238B2547257700949362 /* Localization */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
 				9574336624AA13C20062B05A /* Preferences */,
@@ -741,7 +737,6 @@
 			);
 			name = iOS;
 			packageProductDependencies = (
-				95ABC95C24A9D5AA009D87A4 /* Crypto */,
 				95ABC96024A9D5AA009D87A4 /* Pasteboard */,
 				95ABC96224A9D5AA009D87A4 /* Preferences */,
 				95ABC96424A9D5AA009D87A4 /* Search */,
@@ -768,7 +763,6 @@
 			);
 			name = macOS;
 			packageProductDependencies = (
-				95ABC96824A9D5B8009D87A4 /* Crypto */,
 				95ABC96C24A9D5B8009D87A4 /* Pasteboard */,
 				95ABC96E24A9D5B8009D87A4 /* Preferences */,
 				95ABC97024A9D5B8009D87A4 /* Search */,
@@ -1394,10 +1388,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Store;
 		};
-		95ABC95C24A9D5AA009D87A4 /* Crypto */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Crypto;
-		};
 		95ABC96024A9D5AA009D87A4 /* Pasteboard */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Pasteboard;
@@ -1409,10 +1399,6 @@
 		95ABC96424A9D5AA009D87A4 /* Search */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Search;
-		};
-		95ABC96824A9D5B8009D87A4 /* Crypto */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Crypto;
 		};
 		95ABC96C24A9D5B8009D87A4 /* Pasteboard */ = {
 			isa = XCSwiftPackageProductDependency;
