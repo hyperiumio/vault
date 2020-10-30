@@ -2,18 +2,22 @@ import Foundation
 
 public struct BankCardItem: SecureItemValue, Codable, Equatable  {
     
-    public let name: String
-    public let number: String
-    public let expirationDate: Date
-    public let pin: String
+    public let name: String?
+    public let number: String?
+    public let expirationDate: Date?
+    public let pin: String?
     
-    public var vendor: Vendor {
-        Vendor(number)
+    public var vendor: Vendor? {
+        guard let number = number else {
+            return nil
+        }
+        
+        return Vendor(number)
     }
     
     public var type: SecureItemType { .bankCard }
     
-    public init(name: String, number: String, expirationDate: Date, pin: String) {
+    public init(name: String? = nil, number: String? = nil, expirationDate: Date? = nil, pin: String? = nil) {
         self.name = name
         self.number = number
         self.expirationDate = expirationDate
@@ -41,9 +45,8 @@ extension BankCardItem {
         case masterCard
         case visa
         case americanExpress
-        case other
         
-        public init(_ number : String) {
+        public init?(_ number : String) {
             switch number.prefix(1) {
             case "5":
                 self = .masterCard
@@ -52,7 +55,7 @@ extension BankCardItem {
             case "3" where number.prefix(2) == "38":
                 self = .americanExpress
             default:
-                self = .other
+                return nil
             }
         }
         

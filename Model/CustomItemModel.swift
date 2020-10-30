@@ -16,12 +16,15 @@ class CustomItemModel: CustomItemModelRepresentable {
     @Published var value: String
     
     var customItem: CustomItem {
-        CustomItem(name: name, value: value)
+        let name = self.name.isEmpty ? nil : self.name
+        let value = self.value.isEmpty ? nil : self.value
+        
+        return CustomItem(name: name, value: value)
     }
     
     init(_ customItem: CustomItem) {
-        self.name = customItem.name
-        self.value = customItem.value
+        self.name = customItem.name ?? ""
+        self.value = customItem.value ?? ""
     }
     
 }

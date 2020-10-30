@@ -26,14 +26,18 @@ class BankCardModel: BankCardModelRepresentable {
     }
     
     var bankCardItem: BankCardItem {
-        BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
+        let name = self.name.isEmpty ? nil : self.name
+        let number = self.number.isEmpty ? nil : self.name
+        let pin = self.pin.isEmpty ? nil: self.pin
+        
+        return BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
     }
     
     init(_ bankCardItem: BankCardItem) {
-        self.name = bankCardItem.name
-        self.number = bankCardItem.number
-        self.expirationDate = bankCardItem.expirationDate
-        self.pin = bankCardItem.pin
+        self.name = bankCardItem.name ?? ""
+        self.number = bankCardItem.number ?? ""
+        self.expirationDate = bankCardItem.expirationDate ?? Date()
+        self.pin = bankCardItem.pin ?? ""
     }
     
 }

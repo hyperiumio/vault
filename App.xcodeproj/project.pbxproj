@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		950C70392548205A001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C70382548205A001BB318 /* Crypto */; };
+		950C703D2548206C001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C703C2548206C001BB318 /* Crypto */; };
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
 		9517216125238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
 		9517216225238084004803E1 /* PasswordViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9517216025238084004803E1 /* PasswordViewPreview.swift */; };
@@ -389,8 +391,8 @@
 		95A2800A253DD16500E2A3A3 /* FileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileView.swift; sourceTree = "<group>"; };
 		95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
-		95B894402541B39B00E5D401 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		95B894412541B39B00E5D401 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		95B6D864254B2C010031C5AE /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95B6D865254B2C010031C5AE /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95B894422541C6DD00E5D401 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		95B8944B2541F18B00E5D401 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
 		95C1E51E24F17805005F954F /* AppModelStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModelStub.swift; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 				951F23842547253000949362 /* Localization in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
+				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +468,7 @@
 				9584E4D32518CC5500C6D772 /* Store in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
+				950C70392548205A001BB318 /* Crypto in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +476,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		950C70372548205A001BB318 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		9574321C24AA05340062B05A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -635,6 +646,9 @@
 				95C1E51D24F177D0005F954F /* Stub */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
+				950C70372548205A001BB318 /* Frameworks */,
+				95B6D864254B2C010031C5AE /* Vault.app */,
+				95B6D865254B2C010031C5AE /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -744,9 +758,10 @@
 				95F8BBC824CEC936001FC495 /* Sort */,
 				9584E4C92518C60E00C6D772 /* Store */,
 				951F23832547253000949362 /* Localization */,
+				950C703C2548206C001BB318 /* Crypto */,
 			);
 			productName = iOS;
-			productReference = 95B894402541B39B00E5D401 /* Vault.app */;
+			productReference = 95B6D864254B2C010031C5AE /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -769,9 +784,10 @@
 				9512F7F824B46733008A4DB8 /* Sync */,
 				95F8BBCA24CEC949001FC495 /* Sort */,
 				9584E4D22518CC5500C6D772 /* Store */,
+				950C70382548205A001BB318 /* Crypto */,
 			);
 			productName = macOS;
-			productReference = 95B894412541B39B00E5D401 /* Vault.app */;
+			productReference = 95B6D865254B2C010031C5AE /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1372,6 +1388,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		950C70382548205A001BB318 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Crypto;
+		};
+		950C703C2548206C001BB318 /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Crypto;
+		};
 		9512F7F824B46733008A4DB8 /* Sync */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Sync;

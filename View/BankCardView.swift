@@ -21,8 +21,6 @@ struct BankCardDisplayView<Model>: View where Model: BankCardModelRepresentable 
                     Text(LocalizedString.visa)
                 case .americanExpress:
                     Text(LocalizedString.americanExpress)
-                case .other:
-                    Text(LocalizedString.other)
                 }
             }
         }

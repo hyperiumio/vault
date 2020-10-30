@@ -137,44 +137,43 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     }
     
     func createLoginItem() {
-        let loginItem = LoginItem(username: "", password: "", url: "")
+        let loginItem = LoginItem()
         let secureItem = SecureItem.login(loginItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createPasswordItem() {
-        let passwordItem = PasswordItem(password: "")
+        let passwordItem = PasswordItem()
         let secureItem = SecureItem.password(passwordItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createWifiItem() {
-        let wifiItem = WifiItem(networkName: "", networkPassword: "")
+        let wifiItem = WifiItem()
         let secureItem = SecureItem.wifi(wifiItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createNoteItem() {
-        let noteItem = NoteItem(text: "")
+        let noteItem = NoteItem()
         let secureItem = SecureItem.note(noteItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createBankCardItem()  {
-        let now = Date()
-        let bankCardItem = BankCardItem(name: "", number: "", expirationDate: now, pin: "")
+        let bankCardItem = BankCardItem()
         let secureItem = SecureItem.bankCard(bankCardItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createBankAccountItem() {
-        let bankAccountItem = BankAccountItem(accountHolder: "", iban: "", bic: "")
+        let bankAccountItem = BankAccountItem()
         let secureItem = SecureItem.bankAccount(bankAccountItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }
     
     func createCustomItem() {
-        let customItem = CustomItem(name: "", value: "")
+        let customItem = CustomItem()
         let secureItem = SecureItem.custom(customItem)
         creationModel = dependency.vaultItemModel(from: secureItem)
     }

@@ -22,12 +22,15 @@ class WifiModel: WifiModelRepresentable {
     private let operationQueue = DispatchQueue(label: "WifiModelOperationQueue")
     
     var wifiItem: WifiItem {
-        WifiItem(networkName: networkName, networkPassword: networkPassword)
+        let networkName = self.networkName.isEmpty ? nil : self.networkName
+        let networkPassword = self.networkPassword.isEmpty ? nil : self.networkPassword
+        
+        return WifiItem(networkName: networkName, networkPassword: networkPassword)
     }
     
     init(_ wifiItem: WifiItem) {
-        self.networkName = wifiItem.networkName
-        self.networkPassword = wifiItem.networkPassword
+        self.networkName = wifiItem.networkName ?? ""
+        self.networkPassword = wifiItem.networkPassword ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {

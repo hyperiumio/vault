@@ -2,12 +2,12 @@ import Foundation
 
 public struct CustomItem: SecureItemValue, Codable, Equatable  {
     
-    public let name: String
-    public let value: String
+    public let name: String?
+    public let value: String?
     
     public var type: SecureItemType { .custom }
     
-    public init(name: String, value: String) {
+    public init(name: String? = nil, value: String? = nil) {
         self.name = name
         self.value = value
     }

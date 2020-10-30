@@ -14,11 +14,13 @@ class NoteModel: NoteModelRepresentable {
     @Published var text: String
     
     var noteItem: NoteItem {
-        NoteItem(text: text)
+        let text = self.text.isEmpty ? nil : self.text
+        
+        return NoteItem(text: text)
     }
     
     init(_ noteItem: NoteItem) {
-        self.text = noteItem.text
+        self.text = noteItem.text ?? ""
     }
     
 }
