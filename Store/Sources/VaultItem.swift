@@ -20,7 +20,10 @@ public struct VaultItem {
         case .file(let item):
             return ByteCountFormatter.string(fromByteCount: Int64(item.data.count), countStyle: .binary)
         case .note(let item):
-            return item.text.isEmpty ? nil : item.text.components(separatedBy: .newlines).first
+            let firstLine = item.text.map { text in
+                text.components(separatedBy: .newlines)
+            }?.first
+            return firstLine?.isEmpty == true ? nil : firstLine
         case .bankCard(let item):
             return item.name
         case .wifi(let item):

@@ -20,11 +20,13 @@ class PasswordModel: PasswordModelRepresentable {
     private let operationQueue = DispatchQueue(label: "PasswordModelOperationQueue")
     
     var passwordItem: PasswordItem {
-        PasswordItem(password: password)
+        let password = self.password.isEmpty ? nil : self.password
+        
+        return PasswordItem(password: password)
     }
     
     init(_ passwordItem: PasswordItem) {
-        self.password = passwordItem.password
+        self.password = passwordItem.password ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {

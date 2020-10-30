@@ -2,11 +2,11 @@ import Foundation
 
 public struct NoteItem: SecureItemValue, Codable, Equatable  {
     
-    public let text: String
+    public let text: String?
     
     public var type: SecureItemType { .note }
     
-    public init(text: String) {
+    public init(text: String? = nil) {
         self.text = text
     }
     

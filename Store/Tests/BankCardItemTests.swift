@@ -45,7 +45,7 @@ class BankCardItemTests: XCTestCase {
         XCTAssertEqual(mastercard, .masterCard)
         XCTAssertEqual(visa, .visa)
         XCTAssertEqual(americanExpress, .americanExpress)
-        XCTAssertEqual(other, .other)
+        XCTAssertNil(other)
     }
     
     func testType() {

@@ -2,11 +2,11 @@ import Foundation
 
 public struct PasswordItem: SecureItemValue, Codable, Equatable {
     
-    public let password: String
+    public let password: String?
     
     public var type: SecureItemType { .password }
     
-    public init(password: String) {
+    public init(password: String? = nil) {
         self.password = password
     }
     

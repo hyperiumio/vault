@@ -2,13 +2,13 @@ import Foundation
 
 public struct LoginItem: SecureItemValue, Codable, Equatable  {
     
-    public let username: String
-    public let password: String
-    public let url: String
+    public let username: String?
+    public let password: String?
+    public let url: String?
     
     public var type: SecureItemType { .login }
     
-    public init(username: String, password: String, url: String) {
+    public init(username: String? = nil, password: String? = nil, url: String? = nil) {
         self.username = username
         self.password = password
         self.url = url

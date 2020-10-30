@@ -2,13 +2,13 @@ import Foundation
 
 public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
     
-    public let accountHolder: String
-    public let iban: String
-    public let bic: String
+    public let accountHolder: String?
+    public let iban: String?
+    public let bic: String?
     
     public var type: SecureItemType { .bankAccount }
     
-    public init(accountHolder: String, iban: String, bic: String) {
+    public init(accountHolder: String? = nil, iban: String? = nil, bic: String? = nil) {
         self.accountHolder = accountHolder
         self.iban = iban
         self.bic = bic

@@ -24,13 +24,17 @@ class LoginModel: LoginModelRepresentable {
     private let operationQueue = DispatchQueue(label: "LoginModelOperationQueue")
     
     var loginItem: LoginItem {
-        LoginItem(username: username, password: password, url: url)
+        let username = self.username.isEmpty ? nil : self.username
+        let password = self.password.isEmpty ? nil : self.password
+        let url = self.url.isEmpty ? nil : self.url
+        
+        return LoginItem(username: username, password: password, url: url)
     }
     
     init(_ loginItem: LoginItem) {
-        self.username = loginItem.username
-        self.password = loginItem.password
-        self.url = loginItem.url
+        self.username = loginItem.username ?? ""
+        self.password = loginItem.password ?? ""
+        self.url = loginItem.url ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
