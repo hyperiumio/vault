@@ -476,13 +476,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		950C70372548205A001BB318 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		9574321C24AA05340062B05A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -646,7 +639,6 @@
 				95C1E51D24F177D0005F954F /* Stub */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
-				950C70372548205A001BB318 /* Frameworks */,
 				95B6D864254B2C010031C5AE /* Vault.app */,
 				95B6D865254B2C010031C5AE /* Vault.app */,
 			);
