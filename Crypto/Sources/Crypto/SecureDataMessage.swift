@@ -59,5 +59,15 @@ extension SecureDataMessage {
         return messageCount + ciphertextSizes + wrappedItemKey + tags + ciphertextContainers
     }
     
+    public static func decryptMessages(from container: Data, using masterKey: CryptoKey) throws -> [Data] {
+        let header = try SecureDataHeader(data: container)
+        let itemKey = try header.unwrapKey(with: masterKey)
+        
+        return try header.elements.map { element in
+            let nonce = container[element.nonceRange]
+            let ciphertext = container[element.ciphertextRange]
+            return try SecureDataMessage(nonce: nonce, ciphertext: ciphertext, tag: element.tag).decrypt(using: itemKey)
+        }
+    }
+    
 }
-

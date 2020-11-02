@@ -9,5 +9,6 @@ public protocol MessageRepresentable {
     func decrypt(using itemKey: Key) throws -> Data
     
     static func encryptContainer(from messages: [Data], using masterKey: Key) throws -> Data
+    static func decryptMessages(from container: Data, using masterKey: Key) throws -> [Data]
     
 }

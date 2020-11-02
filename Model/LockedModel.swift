@@ -7,7 +7,6 @@ import Sort
 
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
-    var vaultDirectory: URL { get }
     var password: String { get set }
     var keychainAvailability: KeychainAvailability { get }
     var status: LockedStatus { get }
@@ -38,8 +37,6 @@ class LockedModel: LockedModelRepresentable {
         doneSubject.eraseToAnyPublisher()
     }
     
-    let vaultDirectory: URL
-    
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let passwordSubject = PassthroughSubject<String, Never>()
     private let keychain: Keychain
@@ -47,7 +44,6 @@ class LockedModel: LockedModelRepresentable {
     private var keychainLoadSubscription: AnyCancellable?
     
     init(vaultDirectory: URL, preferences: Preferences, keychain: Keychain) {
-        self.vaultDirectory = vaultDirectory
         self.keychain = keychain
         self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
         

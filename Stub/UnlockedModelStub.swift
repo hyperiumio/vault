@@ -20,7 +20,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
         lockRequestSubject.eraseToAnyPublisher()
     }
     
-    var storeDirectory: URL {
+    var vaultDirectory: URL {
         URL(fileURLWithPath: "")
     }
     

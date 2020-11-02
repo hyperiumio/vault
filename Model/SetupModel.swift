@@ -68,21 +68,15 @@ class SetupModel: SetupModelRepresentable {
     }
     
     func completeSetup() {
-        let masterKey = CryptoKey()
-        guard let keyContainer = try? CryptoKey.encodeContainer(masterKey, using: password) else {
-            setupFailedSubject.send()
-            return
-        }
-        
         let createVaultPublisher = {
             if biometricUnlockEnabled {
-                let createVault = Vault.create(in: vaultContainerDirectory, keyContainer: keyContainer)
+                let createVault = Vault.create(in: vaultContainerDirectory, using: password)
                 let storePassword = keychain.store(password)
                 return Publishers.Zip(createVault, storePassword)
                     .map(\.0)
                     .eraseToAnyPublisher()
             } else {
-                return Vault.create(in: vaultContainerDirectory, keyContainer: keyContainer)
+                return Vault.create(in: vaultContainerDirectory, using: password)
                     .eraseToAnyPublisher()
             }
         }() as AnyPublisher<URL, Error>

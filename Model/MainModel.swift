@@ -37,7 +37,6 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     @Published var state: State
     
     private let dependency: Dependency
-    private let vaultDirectory: URL
     
     init(dependency: Dependency, vaultDirectory: URL, vault: Vault? = nil) {
         
@@ -51,7 +50,7 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
             case .unlocked(let model):
                 return model.lockRequest
                     .map { enableBiometricUnlock in
-                        let model = dependency.lockedModel(vaultDirectory: vaultDirectory)
+                        let model = dependency.lockedModel(vaultDirectory: model.vaultDirectory)
                         return .locked(model: model, userBiometricUnlock: enableBiometricUnlock)
                     }
                     .eraseToAnyPublisher()
@@ -67,7 +66,6 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
         }
         
         self.dependency = dependency
-        self.vaultDirectory = vaultDirectory
         
         statePublisher(from: state)
             .assign(to: &$state)

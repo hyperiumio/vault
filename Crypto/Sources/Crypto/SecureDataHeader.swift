@@ -3,10 +3,7 @@ import Foundation
 
 public struct SecureDataHeader {
     
-    public let tags: [Data]
-    public let nonceRanges: [Range<Int>]
-    public let ciphertextRange: [Range<Int>]
-    
+    public let elements: [Element]
     private let itemKey: Data
     
     public init(data: Data) throws {
@@ -61,20 +58,32 @@ public struct SecureDataHeader {
             return Range(lowerBound: ciphertextRangeLowerBound, count: ciphertextSize)
         } as [Range<Int>]
         
+        let elements = (0 ..< messageCount).map { index in
+            let nonceRange = nonceRanges[index]
+            let ciphertextRange = ciphertextRanges[index]
+            let tag = tags[index]
+            
+            return (nonceRange, ciphertextRange, tag)
+        } as [Element]
+        
         self.itemKey = itemKey
-        self.tags = tags
-        self.nonceRanges = nonceRanges
-        self.ciphertextRange = ciphertextRanges
+        self.elements = elements
     }
     
     public func unwrapKey(with masterKey: CryptoKey) throws -> CryptoKey {
-        let tagSegment = tags.reduce(.empty, +)
+        let tagSegment = elements.map(\.tag).reduce(.empty, +)
         let wrappedItemKey = try AES.GCM.SealedBox(combined: itemKey)
         
         return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes { itemKey in
             CryptoKey(data: itemKey)
         }
     }
+    
+}
+
+extension SecureDataHeader {
+    
+    public typealias Element = (nonceRange: Range<Int>, ciphertextRange: Range<Int>, tag: Data)
     
 }
 

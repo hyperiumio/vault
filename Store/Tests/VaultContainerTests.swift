@@ -5,7 +5,12 @@ class VaultContainerTests: XCTestCase {}
 
 private class KeyStub: KeyRepresentable {
     
-    init() {}
+    func encryptedContainer(using password: String) throws -> Data {
+        Data()
+    }
+    
+    
+    required init() {}
     
     required init(from container: Data, using password: String) throws {}
     
@@ -16,6 +21,7 @@ private class KeyStub: KeyRepresentable {
 }
 
 private class HeaderStub: HeaderRepresentable {
+    var elements = [Element]()
     
     var tags = [Data]()
     var nonceRanges = [Range<Int>]()
@@ -31,6 +37,10 @@ private class HeaderStub: HeaderRepresentable {
 }
 
 private class MessageStub: MessageRepresentable {
+    static func decryptMessages(from container: Data, using masterKey: KeyStub) throws -> [Data] {
+        []
+    }
+    
     
     required init(nonce: Data, ciphertext: Data, tag: Data) {}
     
