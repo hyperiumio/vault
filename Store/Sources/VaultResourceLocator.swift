@@ -8,6 +8,10 @@ public struct VaultResourceLocator {
         self.rootDirectory = rootDirectory
     }
     
+    var container: URL {
+        rootDirectory.deletingLastPathComponent()
+    }
+    
     var keyFile: URL {
         rootDirectory.appendingPathComponent("key", isDirectory: false)
     }

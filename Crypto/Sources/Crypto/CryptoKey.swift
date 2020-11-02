@@ -57,23 +57,6 @@ public struct CryptoKey: Equatable {
     
 }
 
-extension CryptoKey {
-    
-    public static func encodeContainer(_ masterKey: CryptoKey, using password: String) throws -> Data {
-        let salt = try MasterKeyContainerRandomBytes(.saltSize)
-        let rounds = UnsignedInteger32BitEncode(.keyDerivationRounds)
-        let derivedKey = try MasterKeyContainerDerivedKey(salt, .keyDerivationRounds, .keySize, password)
-        
-        let wrappedCryptoKey = try masterKey.value.withUnsafeBytes { cryptoKey in
-            let seal = try MasterKeyContainerSeal(cryptoKey, derivedKey, nil)
-            return seal.nonce + seal.ciphertext + seal.tag
-        } as Data
-        
-        return salt + rounds + wrappedCryptoKey
-    }
-    
-}
-
 private extension Int {
 
     static let saltSize = 32

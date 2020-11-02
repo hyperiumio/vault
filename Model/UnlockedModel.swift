@@ -15,6 +15,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
     typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
     
+    var vaultDirectory: URL { get }
     var searchText: String { get set }
     var itemCollation: Collation? { get }
     var settingsModel: SettingsModel { get }
@@ -73,10 +74,12 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         lockRequestSubject.eraseToAnyPublisher()
     }
     
+    var vaultDirectory: URL { vault.directory }
+    
     let settingsModel: SettingsModel
     
-    private let dependency: Dependency
     private let vault: Vault
+    private let dependency: Dependency
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private let lockRequestSubject = PassthroughSubject<Bool, Never>()
     private var infoItemsSubscription: AnyCancellable?

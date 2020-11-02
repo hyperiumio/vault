@@ -58,10 +58,21 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
             return
         }
         
-        guard newPassword.count >= 8 else {
-            status = .invalidPassword
-            return
-        }
+        let changePasswordPublisher = vault.changeMasterPassword(from: currentPassword, to: newPassword)
+        let storePasswordPublisher = keychain.store(newPassword)
+        
+        changeMasterPasswordSubscription = Publishers.Zip(changePasswordPublisher, storePasswordPublisher)
+            .map(\.0)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                
+                if case .failure = completion {
+                    self.status = .masterPasswordChangeDidFail
+                }
+            } receiveValue: { [preferences, doneSubject] vaultID in
+                preferences.set(activeVaultIdentifier: vaultID)
+                doneSubject.send()
+            }
     }
     
 }
