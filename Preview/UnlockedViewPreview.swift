@@ -10,7 +10,7 @@ struct UnlockViewPreview: PreviewProvider {
             VaultItemInfo(id: UUID(), name: "Foo", description: "", primaryType: .password, secondaryTypes: [], created: Date(), modified: Date())
         ]
         .map { itemInfo in
-            VaultItemReferenceModelStub(state: .none, info: itemInfo)
+            VaultItemReferenceModelStub(state: .loading, info: itemInfo)
         }
         let itemCollation = AlphabeticCollation<VaultItemReferenceModelStub>(from: items)
         let settingsModel = SettingsModelStub(biometricUnlockPreferencesModel: nil, changeMasterPasswordModel: nil, keychainAvailability: .notAvailable, isBiometricUnlockEnabled: false)

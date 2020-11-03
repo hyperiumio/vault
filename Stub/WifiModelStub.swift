@@ -5,18 +5,18 @@ import Store
 
 class WifiModelStub: WifiModelRepresentable {
     
-    @Published var networkName = ""
-    @Published var networkPassword = ""
+    @Published var name = ""
+    @Published var password = ""
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     
-    var wifiItem: WifiItem {
-        WifiItem(networkName: networkName, networkPassword: networkPassword)
+    var item: WifiItem {
+        WifiItem(name: name, password: password)
     }
     
-    init(networkName: String, networkPassword: String) {
-        self.networkName = networkName
-        self.networkPassword = networkPassword
+    init(name: String, password: String) {
+        self.name = name
+        self.password = password
     }
     
 }

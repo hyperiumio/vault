@@ -27,7 +27,7 @@ public struct VaultItem {
         case .bankCard(let item):
             return item.name
         case .wifi(let item):
-            return item.networkName
+            return item.name
         case .bankAccount(let item):
             return item.accountHolder
         case .custom(let item):

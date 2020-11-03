@@ -1,30 +1,18 @@
 import Localization
 import SwiftUI
 
-struct PasswordDisplayView<Model>: View where Model: PasswordModelRepresentable {
+struct PasswordDisplayView: View {
     
-    @ObservedObject private var model: Model
+    private let item: PasswordItem
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ item: PasswordItem) {
+        self.item = item
     }
     
     var body: some View {
-        SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
-    }
-
-}
-
-struct PasswordEditView<Model>: View where Model: PasswordModelRepresentable {
-    
-    @ObservedObject private var model: Model
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-    var body: some View {
-        SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        if let password = item.password {
+            SecureItemSecureTextDisplayField(LocalizedString.password, text: password)
+        }
     }
 
 }

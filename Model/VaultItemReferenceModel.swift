@@ -44,9 +44,9 @@ protocol VaultItemReferenceModelDependency {
 
 enum VaultItemReferenceState<VaultItemModel> {
     
-    case none
+    case idle
     case loading
-    case loadingError
+    case loadingFailure
     case loaded(VaultItemModel)
     
 }
@@ -55,7 +55,7 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     typealias VaultItemModel = Dependency.VaultItemModel
     
-    @Published private(set) var state = State.none
+    @Published private(set) var state = State.idle
     
     let info: VaultItemInfo
     
@@ -74,7 +74,7 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
         vault.loadVaultItem(with: info.id)
             .map(dependency.vaultItemModel)
             .map(VaultItemReferenceState.loaded)
-            .replaceError(with: .loadingError)
+            .replaceError(with: .loadingFailure)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
     }

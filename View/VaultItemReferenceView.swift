@@ -11,14 +11,19 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
     var body: some View {
         Group {
             switch model.state {
-            case .none:
+            case .idle:
                 EmptyView()
             case .loading:
-                EmptyView()
-            case .loadingError:
-                EmptyView()
+                ProgressView()
+            case .loadingFailure:
+                Text("Loading did fail")
             case .loaded(let model):
                 VaultItemView(model)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                SecureItemTypeView(model.info.primaryType)
             }
         }
         .navigationBarTitleDisplayMode(.inline)

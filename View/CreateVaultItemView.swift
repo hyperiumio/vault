@@ -19,19 +19,19 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         case .login(let model):
                             EditLoginView(model)
                         case .password(let model):
-                            PasswordEditView(model)
+                            EditPasswordView(model)
                         case .file(let model):
-                            FileItemEditView(model)
+                            EditFileView(model)
                         case .note(let model):
-                            NoteEditView(model)
+                            EditNoteView(model)
                         case .bankCard(let model):
-                            BankCardEditView(model)
+                            EditBankCardView(model)
                         case .wifi(let model):
-                            WifiEditView(model)
+                            EditWifiView(model)
                         case .bankAccount(let model):
-                            BankAccountEditView(model)
+                            EditBankAccountView(model)
                         case .custom(let model):
-                            CustomItemEditView(model)
+                            EditCustomView(model)
                         }
                     }
                 } header: {

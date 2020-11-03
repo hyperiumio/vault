@@ -9,7 +9,7 @@ protocol LoginModelRepresentable: ObservableObject, Identifiable {
     var username: String { get set }
     var password: String { get set }
     var url: String { get set}
-    var loginItem: LoginItem { get }
+    var item: LoginItem { get }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
     
@@ -23,7 +23,7 @@ class LoginModel: LoginModelRepresentable {
     
     private let operationQueue = DispatchQueue(label: "LoginModelOperationQueue")
     
-    var loginItem: LoginItem {
+    var item: LoginItem {
         let username = self.username.isEmpty ? nil : self.username
         let password = self.password.isEmpty ? nil : self.password
         let url = self.url.isEmpty ? nil : self.url
@@ -31,10 +31,10 @@ class LoginModel: LoginModelRepresentable {
         return LoginItem(username: username, password: password, url: url)
     }
     
-    init(_ loginItem: LoginItem) {
-        self.username = loginItem.username ?? ""
-        self.password = loginItem.password ?? ""
-        self.url = loginItem.url ?? ""
+    init(_ item: LoginItem) {
+        self.username = item.username ?? ""
+        self.password = item.password ?? ""
+        self.url = item.url ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {

@@ -12,9 +12,9 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable 
     associatedtype BankCardModel: BankCardModelRepresentable
     associatedtype WifiModel: WifiModelRepresentable
     associatedtype BankAccountModel: BankAccountModelRepresentable
-    associatedtype CustomItemModel: CustomItemModelRepresentable
+    associatedtype CustomModel: CustomModelRepresentable
     
-    typealias Element = VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomItemModel>
+    typealias Element = VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomModel>
     
     var title: String { get set }
     var status: VaultItemStatus { get }
@@ -41,7 +41,7 @@ protocol VaultItemModelDependency {
     associatedtype BankCardModel: BankCardModelRepresentable
     associatedtype WifiModel: WifiModelRepresentable
     associatedtype BankAccountModel: BankAccountModelRepresentable
-    associatedtype CustomItemModel: CustomItemModelRepresentable
+    associatedtype CustomItemModel: CustomModelRepresentable
     
     func loginModel(item: LoginItem) -> LoginModel
     func passwordModel(item: PasswordItem) -> PasswordModel
@@ -62,7 +62,7 @@ enum VaultItemStatus {
     
 }
 
-enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: PasswordModelRepresentable, FileModel: FileModelRepresentable, NoteModel: NoteModelRepresentable, BankCardModel: BankCardModelRepresentable, WifiModel: WifiModelRepresentable, BankAccountModel: BankAccountModelRepresentable, CustomItemModel: CustomItemModelRepresentable>: Identifiable {
+enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: PasswordModelRepresentable, FileModel: FileModelRepresentable, NoteModel: NoteModelRepresentable, BankCardModel: BankCardModelRepresentable, WifiModel: WifiModelRepresentable, BankAccountModel: BankAccountModelRepresentable, CustomItemModel: CustomModelRepresentable>: Identifiable {
     
     case login(LoginModel)
     case password(PasswordModel)
@@ -97,21 +97,21 @@ enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: Passwo
     var secureItem: SecureItem {
         switch self {
         case .login(let model):
-            return SecureItem.login(model.loginItem)
+            return SecureItem.login(model.item)
         case .password(let model):
-            return SecureItem.password(model.passwordItem)
+            return SecureItem.password(model.item)
         case .file(let model):
-            return SecureItem.file(model.fileItem)
+            return SecureItem.file(model.item)
         case .note(let model):
-            return SecureItem.note(model.noteItem)
+            return SecureItem.note(model.item)
         case .bankCard(let model):
-            return SecureItem.bankCard(model.bankCardItem)
+            return SecureItem.bankCard(model.item)
         case .wifi(let model):
-            return SecureItem.wifi(model.wifiItem)
+            return SecureItem.wifi(model.item)
         case .bankAccount(let model):
-            return SecureItem.bankAccount(model.bankAccountItem)
+            return SecureItem.bankAccount(model.item)
         case .custom(let model):
-            return SecureItem.custom(model.customItem)
+            return SecureItem.custom(model.item)
         }
     }
     
@@ -126,7 +126,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     typealias BankCardModel = Dependency.BankCardModel
     typealias WifiModel = Dependency.WifiModel
     typealias BankAccountModel = Dependency.BankAccountModel
-    typealias CustomItemModel = Dependency.CustomItemModel
+    typealias CustomModel = Dependency.CustomItemModel
     
     @Published var title = ""
     @Published var status = VaultItemStatus.none

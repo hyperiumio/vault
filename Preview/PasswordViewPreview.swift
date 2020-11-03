@@ -7,10 +7,10 @@ struct PasswordViewPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            PasswordEditView(model)
+            EditPasswordView(model)
                 .preferredColorScheme(.light)
             
-            PasswordEditView(model)
+            EditPasswordView(model)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
