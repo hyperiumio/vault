@@ -2,12 +2,12 @@
 import Combine
 import Store
 
-class CustomItemModelStub: CustomItemModelRepresentable {
+class CustomItemModelStub: CustomModelRepresentable {
 
     @Published var name: String
     @Published var value: String
     
-    var customItem: CustomItem {
+    var item: CustomItem {
         CustomItem(name: name, value: value)
     }
     

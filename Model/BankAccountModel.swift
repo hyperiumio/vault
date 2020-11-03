@@ -7,7 +7,7 @@ protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
     var accountHolder: String { get set }
     var iban: String { get set }
     var bic: String { get set }
-    var bankAccountItem: BankAccountItem { get }
+    var item: BankAccountItem { get }
     
 }
 
@@ -17,7 +17,7 @@ class BankAccountModel: BankAccountModelRepresentable {
     @Published var iban: String
     @Published var bic: String
     
-    var bankAccountItem: BankAccountItem {
+    var item: BankAccountItem {
         let accountHolder = self.accountHolder.isEmpty ? nil : self.accountHolder
         let iban = self.iban.isEmpty ? nil : self.iban
         let bic = self.bic.isEmpty ? nil : self.bic
@@ -25,10 +25,10 @@ class BankAccountModel: BankAccountModelRepresentable {
         return BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
     }
     
-    init(_ bankAccountItem: BankAccountItem) {
-        self.accountHolder = bankAccountItem.accountHolder ?? ""
-        self.iban = bankAccountItem.iban ?? ""
-        self.bic = bankAccountItem.bic ?? ""
+    init(_ item: BankAccountItem) {
+        self.accountHolder = item.accountHolder ?? ""
+        self.iban = item.iban ?? ""
+        self.bic = item.bic ?? ""
     }
     
 }

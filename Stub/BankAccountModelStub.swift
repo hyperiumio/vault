@@ -8,7 +8,7 @@ class BankAccountModelStub: BankAccountModelRepresentable {
     @Published var iban: String
     @Published var bic: String
     
-    var bankAccountItem: BankAccountItem {
+    var item: BankAccountItem {
         BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
     }
     

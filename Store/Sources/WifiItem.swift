@@ -2,14 +2,14 @@ import Foundation
 
 public struct WifiItem: SecureItemValue, Codable, Equatable  {
     
-    public let networkName: String?
-    public let networkPassword: String?
+    public let name: String?
+    public let password: String?
     
     public var type: SecureItemType { .wifi }
     
-    public init(networkName: String? = nil, networkPassword: String? = nil) {
-        self.networkName = networkName
-        self.networkPassword = networkPassword
+    public init(name: String? = nil, password: String? = nil) {
+        self.name = name
+        self.password = password
     }
     
     init(from data: Data) throws {

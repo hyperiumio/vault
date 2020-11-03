@@ -1,35 +1,22 @@
 import Localization
 import SwiftUI
 
-struct WifiDisplayView<Model>: View where Model: WifiModelRepresentable {
+struct WifiDisplayView: View {
     
-    @ObservedObject private var model: Model
+    private let item: WifiItem
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ item: WifiItem) {
+        self.item = item
     }
     
     var body: some View {
-        SecureItemTextDisplayField(LocalizedString.wifiNetworkName, text: model.networkName)
+        if let name = item.name {
+            SecureItemTextDisplayField(LocalizedString.wifiNetworkName, text: name)
+        }
         
-        SecureItemSecureTextDisplayField(LocalizedString.wifiNetworkPassword, text: model.networkPassword)
-    }
-    
-}
-
-struct WifiEditView<Model>: View where Model: WifiModelRepresentable {
-    
-    @ObservedObject private var model: Model
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-    var body: some View {
-        SecureItemTextEditField(LocalizedString.wifiNetworkName, placeholder: LocalizedString.wifiNetworkName, text: $model.networkName)
-            .keyboardType(.asciiCapable)
-        
-        SecureItemSecureTextEditField(LocalizedString.wifiNetworkPassword, placeholder: LocalizedString.wifiNetworkPassword, text: $model.networkPassword, generatorAvailable: true)
+        if let password = item.password {
+            SecureItemSecureTextDisplayField(LocalizedString.wifiNetworkPassword, text: password)
+        }
     }
     
 }

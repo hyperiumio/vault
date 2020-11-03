@@ -6,7 +6,7 @@ class PasswordModelStub: PasswordModelRepresentable {
     
     @Published var password: String
     
-    var passwordItem: PasswordItem {
+    var item: PasswordItem {
         PasswordItem(password: password)
     }
     

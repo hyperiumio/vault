@@ -17,10 +17,6 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
             case .display:
                 VaultItemDisplayView(model)
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            SecureItemTypeView(model.primaryItemModel.secureItem.value.type)
-                        }
-                        
                         ToolbarItem(placement: .primaryAction) {
                             Button(LocalizedString.edit) {
                                 mode = .edit
@@ -140,21 +136,21 @@ private extension VaultItemDisplayView {
         var body: some View {
             switch element {
             case .login(let model):
-                LoginView(model)
+                LoginView(model.item)
             case .password(let model):
-                PasswordDisplayView(model)
+                PasswordDisplayView(model.item)
             case .file(let model):
-                FileItemDisplayView(model)
+                FileView(model.item)
             case .note(let model):
-                NoteDisplayView(model)
+                NoteDisplayView(model.item)
             case .bankCard(let model):
-                BankCardDisplayView(model)
+                BankCardView(model.item)
             case .wifi(let model):
-                WifiDisplayView(model)
+                WifiDisplayView(model.item)
             case .bankAccount(let model):
-                BankAccountDisplayView(model)
+                BankAccountView(model.item)
             case .custom(let model):
-                CustomItemDisplayView(model)
+                CustomView(model.item)
             }
         }
         
@@ -177,19 +173,19 @@ private extension VaultItemEditView {
             case .login(let model):
                 EditLoginView(model)
             case .password(let model):
-                PasswordEditView(model)
+                EditPasswordView(model)
             case .file(let model):
-                FileItemEditView(model)
+                EditFileView(model)
             case .note(let model):
-                NoteEditView(model)
+                EditNoteView(model)
             case .bankCard(let model):
-                BankCardEditView(model)
+                EditBankCardView(model)
             case .wifi(let model):
-                WifiEditView(model)
+                EditWifiView(model)
             case .bankAccount(let model):
-                BankAccountEditView(model)
+                EditBankAccountView(model)
             case .custom(let model):
-                CustomItemEditView(model)
+                EditCustomView(model)
             }
         }
         

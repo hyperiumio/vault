@@ -10,7 +10,7 @@ protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     var expirationDate: Date { get set }
     var pin: String { get set }
     var vendor: BankCardItemVendor? { get }
-    var bankCardItem: BankCardItem { get }
+    var item: BankCardItem { get }
     
 }
 
@@ -25,7 +25,7 @@ class BankCardModel: BankCardModelRepresentable {
         number.count > 16 ? BankCardItem.Vendor(number) : nil
     }
     
-    var bankCardItem: BankCardItem {
+    var item: BankCardItem {
         let name = self.name.isEmpty ? nil : self.name
         let number = self.number.isEmpty ? nil : self.name
         let pin = self.pin.isEmpty ? nil: self.pin
@@ -33,11 +33,11 @@ class BankCardModel: BankCardModelRepresentable {
         return BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
     }
     
-    init(_ bankCardItem: BankCardItem) {
-        self.name = bankCardItem.name ?? ""
-        self.number = bankCardItem.number ?? ""
-        self.expirationDate = bankCardItem.expirationDate ?? Date()
-        self.pin = bankCardItem.pin ?? ""
+    init(_ item: BankCardItem) {
+        self.name = item.name ?? ""
+        self.number = item.number ?? ""
+        self.expirationDate = item.expirationDate ?? Date()
+        self.pin = item.pin ?? ""
     }
     
 }

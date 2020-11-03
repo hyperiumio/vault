@@ -4,46 +4,24 @@ import Store
 
 protocol FileModelRepresentable: ObservableObject, Identifiable {
     
-    var status: FileStatus { get }
-    var fileItem: FileItem { get }
-    
-    func loadData(_ data: Data, type: UTType)
-    
-}
-
-enum FileStatus {
-    
-    case empty
-    case loading
-    case loaded(Data, UTType)
+    var typeIdentifier: UTType { get }
+    var data: Data { get }
+    var item: FileItem { get }
     
 }
 
 class FileModel: FileModelRepresentable {
     
-    @Published var status: FileStatus
+    @Published var typeIdentifier: UTType
+    @Published var data: Data
     
-    var fileItem: FileItem {
-        switch status {
-        case .empty, .loading:
-            return FileItem(data: Data(), typeIdentifier: .item) // hack
-        case .loaded(let data, let type):
-            return FileItem(data: data, typeIdentifier: type)
-        }
+    var item: FileItem {
+        FileItem(data: data, typeIdentifier: typeIdentifier)
     }
     
-    private let operationQueue = DispatchQueue(label: "FileModelOperationQueue")
-    
-    init(_ fileItem: FileItem) {
-        self.status = FileStatus.loaded(fileItem.data, fileItem.typeIdentifier)
-    }
-    
-    init() {
-        self.status = .empty
-    }
-    
-    func loadData(_ data: Data, type: UTType) {
-        status = .loaded(data, type)
+    init(_ item: FileItem) {
+        self.typeIdentifier = item.typeIdentifier
+        self.data = item.data
     }
     
 }

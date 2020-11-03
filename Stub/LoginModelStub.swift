@@ -8,7 +8,7 @@ class LoginModelStub: LoginModelRepresentable {
     @Published var password: String
     @Published var url: String
     
-    var loginItem: LoginItem {
+    var item: LoginItem {
         LoginItem(username: username, password: password, url: url)
     }
     

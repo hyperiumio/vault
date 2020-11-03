@@ -11,7 +11,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
     typealias BankCardModel = BankCardModelStub
     typealias WifiModel = WifiModelStub
     typealias BankAccountModel = BankAccountModelStub
-    typealias CustomItemModel = CustomItemModelStub
+    typealias CustomModel = CustomItemModelStub
     
     @Published var title: String
     @Published var status: VaultItemStatus

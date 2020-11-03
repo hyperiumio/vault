@@ -1,5 +1,6 @@
 #if DEBUG
 import SwiftUI
+/*
 
 struct FileItemEditViewPreview: PreviewProvider {
     
@@ -21,4 +22,5 @@ struct FileItemEditViewPreview: PreviewProvider {
     }
     
 }
+ */
 #endif

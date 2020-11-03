@@ -5,18 +5,17 @@ import Store
 
 class FileModelStub: FileModelRepresentable {
     
-    @Published var status: FileStatus
+    @Published var typeIdentifier: UTType
+    @Published var data: Data
     
-    var fileItem: FileItem {
-        FileItem(data: Data(), typeIdentifier: .item)
+    var item: FileItem {
+        FileItem(data: data, typeIdentifier: typeIdentifier)
     }
     
-    init(status: FileStatus) {
-        self.status = status
+    init(typeIdentifier: UTType, data: Data) {
+        self.typeIdentifier = typeIdentifier
+        self.data = data
     }
-    
-    func loadFile(at url: URL) {}
-    func loadData(_ data: Data, type: UTType) {}
     
 }
 #endif

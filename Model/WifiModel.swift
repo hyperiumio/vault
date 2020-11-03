@@ -6,9 +6,9 @@ import Store
 
 protocol WifiModelRepresentable: ObservableObject, Identifiable {
     
-    var networkPassword: String { get set }
-    var networkName: String { get set }
-    var wifiItem: WifiItem { get }
+    var name: String { get set }
+    var password: String { get set }
+    var item: WifiItem { get }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
     
@@ -16,21 +16,21 @@ protocol WifiModelRepresentable: ObservableObject, Identifiable {
 
 class WifiModel: WifiModelRepresentable {
     
-    @Published var networkPassword: String
-    @Published var networkName: String
+    @Published var name: String
+    @Published var password: String
     
     private let operationQueue = DispatchQueue(label: "WifiModelOperationQueue")
     
-    var wifiItem: WifiItem {
-        let networkName = self.networkName.isEmpty ? nil : self.networkName
-        let networkPassword = self.networkPassword.isEmpty ? nil : self.networkPassword
+    var item: WifiItem {
+        let networkName = self.name.isEmpty ? nil : self.name
+        let networkPassword = self.password.isEmpty ? nil : self.password
         
-        return WifiItem(networkName: networkName, networkPassword: networkPassword)
+        return WifiItem(name: networkName, password: networkPassword)
     }
     
-    init(_ wifiItem: WifiItem) {
-        self.networkName = wifiItem.networkName ?? ""
-        self.networkPassword = wifiItem.networkPassword ?? ""
+    init(_ item: WifiItem) {
+        self.name = item.name ?? ""
+        self.password = item.password ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
@@ -39,7 +39,7 @@ class WifiModel: WifiModelRepresentable {
         }
         .replaceError(with: "")
         .receive(on: DispatchQueue.main)
-        .assign(to: &$networkPassword)
+        .assign(to: &$password)
     }
     
 }

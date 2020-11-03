@@ -84,7 +84,7 @@ extension AppUnlockedDependency: VaultItemModelDependency {
         BankAccountModel(item)
     }
     
-    func customItemModel(item: CustomItem) -> CustomItemModel {
+    func customItemModel(item: CustomItem) -> CustomModel {
         CustomItemModel(item)
     }
     

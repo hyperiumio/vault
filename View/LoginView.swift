@@ -1,43 +1,26 @@
 import Localization
-import Pasteboard
 import SwiftUI
 
-struct LoginView<Model>: View where Model: LoginModelRepresentable {
+struct LoginView: View {
     
-    @ObservedObject private var model: Model
+    private let item: LoginItem
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ item: LoginItem) {
+        self.item = item
     }
     
     var body: some View {
-        SecureItemTextDisplayField(LocalizedString.username, text: model.username)
+        if let username = item.username {
+            SecureItemTextDisplayField(LocalizedString.username, text: username)
+        }
         
-        SecureItemSecureTextDisplayField(LocalizedString.password, text: model.password)
+        if let password = item.password {
+            SecureItemSecureTextDisplayField(LocalizedString.password, text: password)
+        }
         
-        SecureItemTextDisplayField(LocalizedString.url, text: model.url)
-    }
-    
-}
-
-struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
-    
-    @ObservedObject private var model: Model
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-    var body: some View {
-        SecureItemTextEditField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
-            .keyboardType(.emailAddress)
-            .textContentType(.username)
-        
-        SecureItemSecureTextEditField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
-        
-        SecureItemTextEditField(LocalizedString.url, placeholder: LocalizedString.exampleURL, text: $model.url)
-            .keyboardType(.URL)
-            .textContentType(.URL)
+        if let url = item.url {
+            SecureItemTextDisplayField(LocalizedString.url, text: url)
+        }
     }
     
 }

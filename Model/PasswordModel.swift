@@ -7,7 +7,7 @@ import Store
 protocol PasswordModelRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
-    var passwordItem: PasswordItem { get }
+    var item: PasswordItem { get }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
     
@@ -19,14 +19,14 @@ class PasswordModel: PasswordModelRepresentable {
     
     private let operationQueue = DispatchQueue(label: "PasswordModelOperationQueue")
     
-    var passwordItem: PasswordItem {
+    var item: PasswordItem {
         let password = self.password.isEmpty ? nil : self.password
         
         return PasswordItem(password: password)
     }
     
-    init(_ passwordItem: PasswordItem) {
-        self.password = passwordItem.password ?? ""
+    init(_ item: PasswordItem) {
+        self.password = item.password ?? ""
     }
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {

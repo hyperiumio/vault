@@ -1,43 +1,26 @@
 import Localization
 import SwiftUI
 
-struct BankAccountDisplayView<Model>: View where Model: BankAccountModelRepresentable {
+struct BankAccountView: View {
     
-    @ObservedObject private var model: Model
+    private let item: BankAccountItem
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ item: BankAccountItem) {
+        self.item = item
     }
     
     var body: some View {
-        SecureItemTextDisplayField(LocalizedString.bankAccountHolder, text: model.accountHolder)
+        if let accountHolder = item.accountHolder {
+            SecureItemTextDisplayField(LocalizedString.bankAccountHolder, text: accountHolder)
+        }
         
-        SecureItemTextDisplayField(LocalizedString.bankAccountIban, text: model.iban)
+        if let iban = item.iban {
+            SecureItemTextDisplayField(LocalizedString.bankAccountIban, text: iban)
+        }
         
-        SecureItemTextDisplayField(LocalizedString.bankAccountBic, text: model.bic)
-    }
-    
-}
-
-
-struct BankAccountEditView<Model>: View where Model: BankAccountModelRepresentable {
-    
-    @ObservedObject private var model: Model
-    
-    init(_ model: Model) {
-        self.model = model
-    }
-    
-    var body: some View {
-        SecureItemTextEditField(LocalizedString.bankAccountHolder, placeholder: LocalizedString.bankAccountHolder, text: $model.accountHolder)
-            .keyboardType(.namePhonePad)
-            .textContentType(.name)
-        
-        SecureItemTextEditField(LocalizedString.bankAccountIban, placeholder: LocalizedString.bankAccountIban, text: $model.iban)
-            .keyboardType(.asciiCapable)
-        
-        SecureItemTextEditField(LocalizedString.bankAccountBic, placeholder: LocalizedString.bankAccountBic, text: $model.bic)
-            .keyboardType(.asciiCapable)
+        if let bic = item.bic {
+            SecureItemTextDisplayField(LocalizedString.bankAccountBic, text: bic)
+        }
     }
     
 }

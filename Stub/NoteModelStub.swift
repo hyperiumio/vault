@@ -6,7 +6,7 @@ class NoteModelStub: NoteModelRepresentable {
     
     @Published var text: String
     
-    var noteItem: NoteItem {
+    var item: NoteItem {
         NoteItem(text: text)
     }
     

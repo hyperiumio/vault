@@ -1,29 +1,28 @@
+import Localization
 import PDFKit
-import UniformTypeIdentifiers
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct FileView: View {
     
-    private let data: Data
-    private let type: UTType
+    private let item: FileItem
     
-    init(_ data: Data, type: UTType) {
-        self.data = data
-        self.type = type
+    init(_ item: FileItem) {
+        self.item = item
     }
     
     var body: some View {
-        switch type {
-        case let type where type.conforms(to: .image):
-            if let image = UIImage(data: data) {
+        switch item.typeIdentifier {
+        case let typeIdentifier where typeIdentifier.conforms(to: .image):
+            if let image = UIImage(data: item.data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
             } else {
                 UnrepresentableFileView()
             }
-        case let type where type.conforms(to: .pdf):
-            if let document = PDFDocument(data: data) {
+        case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
+            if let document = PDFDocument(data: item.data) {
                 PDFView(document)
             } else {
                 UnrepresentableFileView()
@@ -42,3 +41,4 @@ private struct UnrepresentableFileView: View {
     }
     
 }
+

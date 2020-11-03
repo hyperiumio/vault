@@ -10,7 +10,7 @@ class BankCardModelStub: BankCardModelRepresentable {
     @Published var expirationDate: Date
     @Published var pin: String
     
-    var bankCardItem: BankCardItem {
+    var item: BankCardItem {
         BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
     }
     
