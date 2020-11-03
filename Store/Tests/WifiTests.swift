@@ -4,24 +4,24 @@ import XCTest
 class WifiTests: XCTestCase {
     
     func testInitFromValues() {
-        let item = WifiItem(networkName: "foo", networkPassword: "bar")
+        let item = WifiItem(name: "foo", password: "bar")
         
-        XCTAssertEqual(item.networkName, "foo")
-        XCTAssertEqual(item.networkPassword, "bar")
+        XCTAssertEqual(item.name, "foo")
+        XCTAssertEqual(item.password, "bar")
     }
     
     func testInitFromData() throws {
         let data = """
         {
-          "networkName": "foo",
-          "networkPassword": "bar"
+          "name": "foo",
+          "password": "bar"
         }
         """.data(using: .utf8)!
         
         let item = try WifiItem(from: data)
         
-        XCTAssertEqual(item.networkName, "foo")
-        XCTAssertEqual(item.networkPassword, "bar")
+        XCTAssertEqual(item.name, "foo")
+        XCTAssertEqual(item.password, "bar")
     }
     
     func testInitFromInvalidData() {
@@ -31,17 +31,17 @@ class WifiTests: XCTestCase {
     }
     
     func testType() {
-        let item = WifiItem(networkName: "", networkPassword: "")
+        let item = WifiItem(name: "", password: "")
         
         XCTAssertEqual(item.type, .wifi)
     }
     
     func testEncoded() throws {
-        let item = try WifiItem(networkName: "foo", networkPassword: "bar").encoded()
+        let item = try WifiItem(name: "foo", password: "bar").encoded()
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: item) as? [String: Any])
         
-        let networkName = try XCTUnwrap(json["networkName"] as? String)
-        let networkPassword = try XCTUnwrap(json["networkPassword"] as? String)
+        let networkName = try XCTUnwrap(json["name"] as? String)
+        let networkPassword = try XCTUnwrap(json["password"] as? String)
         
         XCTAssertEqual(json.count, 2)
         XCTAssertEqual(networkName, "foo")

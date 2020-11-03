@@ -76,7 +76,7 @@ class VaultItemTests: XCTestCase {
     }
     
     func testWifiInfo() throws {
-        let wifi = try WifiItem(networkName: "foo", networkPassword: "").encoded()
+        let wifi = try WifiItem(name: "foo", password: "").encoded()
         let secureItem = try SecureItem(from: wifi, as: .wifi)
         let vaultItem = VaultItem(id: UUID(), name: "", primarySecureItem: secureItem, secondarySecureItems: [], created: .distantPast, modified: .distantPast)
         
