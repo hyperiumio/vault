@@ -9,7 +9,7 @@ class SecureItemTests: XCTestCase {
         let file = FileItem(data: Data(), typeIdentifier: .item)
         let note = NoteItem(text: "")
         let bankCard = BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "")
-        let wifi = WifiItem(networkName: "", networkPassword: "")
+        let wifi = WifiItem(name: "", password: "")
         let bankAccount = BankAccountItem(accountHolder: "", iban: "", bic: "")
         let custom = CustomItem(name: "", value: "")
         
@@ -38,7 +38,7 @@ class SecureItemTests: XCTestCase {
         let file = try FileItem(data: Data(), typeIdentifier: .item).encoded()
         let note = try NoteItem(text: "").encoded()
         let bankCard = try BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "").encoded()
-        let wifi = try WifiItem(networkName: "", networkPassword: "").encoded()
+        let wifi = try WifiItem(name: "", password: "").encoded()
         let bankAccount = try BankAccountItem(accountHolder: "", iban: "", bic: "").encoded()
         let custom = try CustomItem(name: "", value: "").encoded()
         
