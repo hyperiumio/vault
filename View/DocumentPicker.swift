@@ -1,13 +1,18 @@
+#if os(iOS)
 import Combine
 import PDFKit
 import SwiftUI
-import VisionKit
 import UniformTypeIdentifiers
+import VisionKit
 
 struct DocumentPicker: UIViewControllerRepresentable {
     
+    private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
-    let picked: (Output?) -> Void
+    
+    init(picked: @escaping (Output?) -> Void) {
+        self.picked = picked
+    }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(presentationMode: presentationMode, picked: picked)
@@ -29,15 +34,14 @@ extension DocumentPicker {
     
     class Coordinator: NSObject {
         
+        private let presentationMode: Binding<PresentationMode>
         private let picked: (Output?) -> Void
         private let operationQueue = DispatchQueue(label: "DocumentPickerCoordinatorOperationQueue")
         private var didPickSubscription: AnyCancellable?
         
         init(presentationMode: Binding<PresentationMode>, picked: @escaping (Output?) -> Void) {
-            self.picked = { output in
-                picked(output)
-                presentationMode.wrappedValue.dismiss()
-            }
+            self.presentationMode = presentationMode
+            self.picked = picked
         }
 
     }
@@ -48,13 +52,17 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
         picked(nil)
+        presentationMode.wrappedValue.dismiss()
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) {
         picked(nil)
+        presentationMode.wrappedValue.dismiss()
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        presentationMode.wrappedValue.dismiss()
+        
         didPickSubscription = operationQueue.future {
             let document = PDFDocument()
             for index in 0 ..< scan.pageCount {
@@ -68,12 +76,27 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
             
             return (data: data, type: UTType.pdf)
         }
-        .replaceError(with: nil)
         .receive(on: DispatchQueue.main)
-        .sink { output in
-            self.picked(output)
-        }
+        .sink(receiveValue: picked)
 
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct DocumentPickerPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            DocumentPicker { _ in }
+                .preferredColorScheme(.light)
+            
+            DocumentPicker { _ in }
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

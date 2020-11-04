@@ -15,7 +15,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
     typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
     
-    var vaultDirectory: URL { get }
+    var vaultID: UUID { get }
     var searchText: String { get set }
     var itemCollation: Collation? { get }
     var settingsModel: SettingsModel { get }
@@ -74,7 +74,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         lockRequestSubject.eraseToAnyPublisher()
     }
     
-    var vaultDirectory: URL { vault.directory }
+    var vaultID: UUID { vault.id }
     
     let settingsModel: SettingsModel
     
@@ -192,3 +192,44 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     }
     
 }
+
+#if DEBUG
+class UnlockedModelStub: UnlockedModelRepresentable {
+    
+    typealias SettingsModel = SettingsModelStub
+    typealias VaultItemModel = VaultItemModelStub
+    typealias VaultItemReferenceModel = VaultItemReferenceModelStub
+    
+    @Published var searchText = ""
+    @Published var creationModel: VaultItemModel?
+    @Published var failure: UnlockedFailure?
+    
+    let itemCollation: Collation?
+    let settingsModel: SettingsModelStub
+    
+    var lockRequest: AnyPublisher<Bool, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    let vaultID = UUID()
+    
+    func reload() {}
+    func createLoginItem() {}
+    func createPasswordItem() {}
+    func createWifiItem() {}
+    func createNoteItem() {}
+    func createBankCardItem() {}
+    func createBankAccountItem() {}
+    func createCustomItem() {}
+    func createFileItem(data: Data, type: UTType) {}
+    func lockApp(enableBiometricUnlock: Bool) {}
+    
+    init(itemCollation: Collation, settingsModel: SettingsModelStub, creationModel: VaultItemModel?, failure: UnlockedFailure?) {
+        self.itemCollation = itemCollation
+        self.settingsModel = settingsModel
+        self.creationModel = creationModel
+        self.failure = failure
+    }
+    
+}
+#endif

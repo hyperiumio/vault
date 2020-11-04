@@ -7,101 +7,163 @@ import Sort
 
 protocol SetupModelRepresentable: ObservableObject, Identifiable {
     
-    var password: String { get set }
-    var repeatedPassword: String { get set }
-    var biometricUnlockEnabled: Bool { get set }
-    var keychainAvailability: KeychainAvailability { get }
-    var passwordStatus: PasswordStatus { get }
-    var done: AnyPublisher<(URL, Vault), Never> { get }
-    var setupFailed: AnyPublisher<Void, Never> { get }
+    associatedtype ChoosePasswordModel: ChoosePasswordModelRepresentable
+    associatedtype RepeatPasswordModel: RepeatPasswordModelRepresentable
+    associatedtype EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable
+    associatedtype CompleteSetupModel: CompleteSetupModelRepresentable
     
-    func completeSetup()
+    typealias State = SetupState<ChoosePasswordModel, RepeatPasswordModel, EnableBiometricUnlockModel, CompleteSetupModel>
     
-}
-
-enum PasswordStatus {
+    var done: AnyPublisher<Vault, Never> { get }
+    var state: State { get }
     
-    case mismatch
-    case insecure
-    case complete
+    func previous()
     
 }
 
-class SetupModel: SetupModelRepresentable {
+enum SetupState<ChoosePassword, RepeatPassword, EnableBiometricUnlock, CompleteSetup>: Equatable {
     
-    @Published var password = ""
-    @Published var repeatedPassword = ""
-    @Published var biometricUnlockEnabled = false
+    case choosePassword(ChoosePassword)
+    case repeatPassword(ChoosePassword, RepeatPassword)
+    case enableBiometricUnlock(ChoosePassword, RepeatPassword, EnableBiometricUnlock)
+    case completeSetup(ChoosePassword, RepeatPassword, EnableBiometricUnlock?, CompleteSetup)
     
-    var passwordStatus: PasswordStatus {
-        guard password == repeatedPassword else {
-            return .mismatch
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.choosePassword, .choosePassword):
+            return true
+        case (.repeatPassword, .repeatPassword):
+            return true
+        case (.enableBiometricUnlock, .enableBiometricUnlock):
+            return true
+        case (.completeSetup, .completeSetup):
+            return true
+        default:
+            return false
         }
-        guard password.count >= 8 else {
-            return .insecure
-        }
-        
-        return .complete
     }
     
-    var keychainAvailability: KeychainAvailability { keychain.availability }
+}
+
+protocol SetupModelDependency {
     
-    var done: AnyPublisher<(URL, Vault), Never> {
+    associatedtype ChoosePasswordModel: ChoosePasswordModelRepresentable
+    associatedtype RepeatPasswordModel: RepeatPasswordModelRepresentable
+    associatedtype EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable
+    associatedtype CompleteSetupModel: CompleteSetupModelRepresentable
+    
+    func choosePasswordModel() -> ChoosePasswordModel
+    func repeatPasswordModel(password: String) -> RepeatPasswordModel
+    func enabledBiometricUnlockModel(password: String, biometryType: BiometryType) -> EnableBiometricUnlockModel
+    func completeSetupModel(password: String) -> CompleteSetupModel
+    
+}
+
+class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupModelDependency {
+    
+    typealias ChoosePasswordModel = Dependency.ChoosePasswordModel
+    typealias RepeatPasswordModel = Dependency.RepeatPasswordModel
+    typealias EnableBiometricUnlockModel = Dependency.EnableBiometricUnlockModel
+    typealias CompleteSetupModel = Dependency.CompleteSetupModel
+
+    @Published var state: State
+    
+    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private var setupCompleteSubscription: AnyCancellable?
+    
+    var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    var setupFailed: AnyPublisher<Void, Never> {
-        setupFailedSubject.eraseToAnyPublisher()
-    }
-    
-    private let doneSubject = PassthroughSubject<(URL, Vault), Never>()
-    private var setupFailedSubject = PassthroughSubject<Void, Never>()
-    private let vaultContainerDirectory: URL
-    private let preferences: Preferences
-    private let keychain: Keychain
-    private var createVaultSubscription: AnyCancellable?
-    
-    init(vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
-        self.vaultContainerDirectory = vaultContainerDirectory
-        self.preferences = preferences
-        self.keychain = keychain
-    }
-    
-    func completeSetup() {
-        let createVaultPublisher = {
-            if biometricUnlockEnabled {
-                let createVault = Vault.create(in: vaultContainerDirectory, using: password)
-                let storePassword = keychain.store(password)
-                return Publishers.Zip(createVault, storePassword)
-                    .map(\.0)
-                    .eraseToAnyPublisher()
-            } else {
-                return Vault.create(in: vaultContainerDirectory, using: password)
-                    .eraseToAnyPublisher()
-            }
-        }() as AnyPublisher<URL, Error>
+    init(dependency: Dependency, keychain: Keychain) {
         
-        let vaultPublisher = createVaultPublisher
-            .flatMap(Vault.load)
-            .tryMap { [password] lockedVault in
-                try lockedVault.unlock(with: password)
+        func statePublisher(from state: State) -> AnyPublisher<State, Never> {
+            switch state {
+            case .choosePassword(let choosePasswordModel):
+                return choosePasswordModel.done
+                    .map {
+                        let repeatPasswordModel = dependency.repeatPasswordModel(password: choosePasswordModel.password)
+                        return .repeatPassword(choosePasswordModel, repeatPasswordModel)
+                    }
+                    .eraseToAnyPublisher()
+            case .repeatPassword(let choosePasswordModel, let repeatPasswordModel):
+                return repeatPasswordModel.done
+                    .map {
+                        switch keychain.availability {
+                        case .notAvailable, .notEnrolled:
+                            let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password)
+                            return .completeSetup(choosePasswordModel, repeatPasswordModel, nil, completeSetupModel)
+                        case .enrolled(let biometryType):
+                            let enableBiometricUnlockModel = dependency.enabledBiometricUnlockModel(password: choosePasswordModel.password, biometryType: biometryType)
+                            return .enableBiometricUnlock(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel)
+                        }
+                    }
+                    .eraseToAnyPublisher()
+            case .enableBiometricUnlock(let choosePasswordModel, let repeatPasswordModel, let enableBiometricUnlockModel):
+                return enableBiometricUnlockModel.done
+                    .map {
+                        let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password)
+                        return .completeSetup(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel, completeSetupModel)
+                    }
+                    .eraseToAnyPublisher()
+            case .completeSetup(_, _, _, let completeSetupModel):
+                setupCompleteSubscription = completeSetupModel.done
+                    .subscribe(doneSubject)
+                
+                return Empty<State, Never>()
+                    .eraseToAnyPublisher()
             }
-            
-            
-        createVaultSubscription = Publishers.Zip(createVaultPublisher, vaultPublisher)
+        }
+        
+        let choosePasswordModel = dependency.choosePasswordModel()
+        self.state = .choosePassword(choosePasswordModel)
+        
+        statePublisher(from: state)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                if case .failure = completion {
-                    self.setupFailedSubject.send()
-                }
-            } receiveValue: { [preferences, doneSubject, biometricUnlockEnabled] message in
-                preferences.set(activeVaultIdentifier: message.1.id)
-                preferences.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
-                
-                doneSubject.send(message)
-            }
+            .assign(to: &$state)
+        
+        $state
+            .flatMap(statePublisher)
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$state)
+    }
+    
+    func previous() {
+        switch state {
+        case .choosePassword:
+            return
+        case .repeatPassword(let choosePasswordModel, _):
+            state = .choosePassword(choosePasswordModel)
+        case .enableBiometricUnlock(let choosePasswordModel, let repeatPasswordModel, _):
+            state = .repeatPassword(choosePasswordModel, repeatPasswordModel)
+        case .completeSetup(let choosePasswordModel, let repeatPasswordModel, let enableBiometricUnlockModel?, _):
+            state = .enableBiometricUnlock(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel)
+        case .completeSetup(let choosePasswordModel, let repeatPasswordModel, nil, _):
+            state = .repeatPassword(choosePasswordModel, repeatPasswordModel)
+        }
     }
     
 }
+
+#if DEBUG
+class SetupModelStub: SetupModelRepresentable {
+    
+    typealias ChoosePasswordModel = ChoosePasswordModelStub
+    typealias RepeatPasswordModel = RepeatPasswordModelStub
+    typealias EnableBiometricUnlockModel = EnableBiometricUnlockModelStub
+    typealias CompleteSetupModel = CompleteSetupModelStub
+    
+    let state: State
+    
+    var done: AnyPublisher<Vault, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    init(state: State) {
+        self.state = state
+    }
+    
+    func previous() {}
+    
+}
+#endif

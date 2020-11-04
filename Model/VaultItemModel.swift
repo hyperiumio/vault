@@ -17,7 +17,6 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable 
     typealias Element = VaultItemElement<LoginModel, PasswordModel, FileModel, NoteModel, BankCardModel, WifiModel, BankAccountModel, CustomModel>
     
     var title: String { get set }
-    var status: VaultItemStatus { get }
     var primaryItemModel: Element { get }
     var secondaryItemModels: [Element] { get }
     var created: Date? { get }
@@ -51,14 +50,6 @@ protocol VaultItemModelDependency {
     func wifiModel(item: WifiItem) -> WifiModel
     func bankAccountModel(item: BankAccountItem) -> BankAccountModel
     func customItemModel(item: CustomItem) -> CustomItemModel
-    
-}
-
-enum VaultItemStatus {
-    
-    case none
-    case saving
-    case saveOperationFailed
     
 }
 
@@ -129,7 +120,6 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     typealias CustomModel = Dependency.CustomItemModel
     
     @Published var title = ""
-    @Published var status = VaultItemStatus.none
     @Published var primaryItemModel: Element
     @Published var secondaryItemModels: [Element]
     
@@ -190,14 +180,11 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         let modified = now
         let vaultItem = VaultItem(id: id, name: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
         
-        status = .saving
         saveSubscription = vault.save(vaultItem)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
+            .sink { completion in
                 if case .failure = completion {
-                    self.status = .saveOperationFailed
+                    // should show error
                 }
             } receiveValue: { [doneSubject] in
                 doneSubject.send()
@@ -255,3 +242,43 @@ private extension VaultItemModelDependency {
     }
     
 }
+
+#if DEBUG
+class VaultItemModelStub: VaultItemModelRepresentable {
+    
+    typealias LoginModel = LoginModelStub
+    typealias PasswordModel = PasswordModelStub
+    typealias FileModel = FileModelStub
+    typealias NoteModel = NoteModelStub
+    typealias BankCardModel = BankCardModelStub
+    typealias WifiModel = WifiModelStub
+    typealias BankAccountModel = BankAccountModelStub
+    typealias CustomModel = CustomModelStub
+    
+    @Published var title = ""
+    @Published var created = Date() as Date?
+    @Published var modified = Date() as Date?
+    @Published var primaryItemModel: Element
+    @Published var secondaryItemModels: [Element]
+    
+    var done: AnyPublisher<Void, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    func addSecondaryItem(with type: SecureItemType) {}
+    func deleteSecondaryItem(at index: Int) {}
+    func discardChanges() {}
+    func save() {}
+    func delete() {}
+    
+    init(primaryItemModel: Element, secondaryItemModels: [Element]) {
+        self.primaryItemModel = primaryItemModel
+        self.secondaryItemModels = secondaryItemModels
+    }
+    
+    static func == (lhs: VaultItemModelStub, rhs: VaultItemModelStub) -> Bool {
+        lhs === rhs
+    }
+    
+}
+#endif

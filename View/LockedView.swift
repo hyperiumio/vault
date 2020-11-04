@@ -1,12 +1,19 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
     @ObservedObject private var model: Model
+    @State private var error: LockedError?
     @Environment(\.scenePhase) private var scenePhase
     
     private let useBiometricsOnAppear: Bool
+    
+    init(_ model: Model, useBiometricsOnAppear: Bool) {
+        self.model = model
+        self.useBiometricsOnAppear = useBiometricsOnAppear
+    }
     
     var body: some View {
         ZStack {
@@ -14,25 +21,16 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             
             VStack(spacing: 20) {
                 UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                    .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
-                    .disabled(model.textInputDisabled)
                 
                 switch model.keychainAvailability {
-                case .touchID:
+                case .enrolled(.touchID):
                     BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
-                case .faceID:
+                case .enrolled(.faceID):
                     BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
                 case .notAvailable, .notEnrolled:
                     EmptyView()
-                }
-                
-                switch model.status {
-                case .none, .unlocking, .unlocked:
-                    EmptyView()
-                case .invalidPassword:
-                    ErrorBadge(LocalizedString.wrongPassword)
-                case .unlockDidFail:
-                    ErrorBadge(LocalizedString.unlockFailed)
                 }
             }
             .padding()
@@ -42,44 +40,47 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                 model.loginWithBiometrics()
             }
         }
-    }
-    
-    init(_ model: Model, useBiometricsOnAppear: Bool) {
-        self.model = model
-        self.useBiometricsOnAppear = useBiometricsOnAppear
+        .onReceive(model.error) { error in
+            self.error = error
+        }
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
     }
     
 }
 
 private extension LockedView {
     
-    struct BiometricUnlockButton: View {
-        
-        private let biometricType: BiometricType
-        private let action: () -> Void
-        
-        init(_ biometricType: BiometricType, action: @escaping () -> Void) {
-            self.biometricType = biometricType
-            self.action = action
+    static func title(for error: LockedError) -> Text {
+        switch error {
+        case .wrongPassword:
+            return Text(LocalizedString.invalidPassword)
+        case .unlockFailed:
+            return Text(LocalizedString.unlockFailed)
         }
-        
-        var body: some View {
-            Button(action: action) {
-                BiometricIcon(biometricType)
-                    .frame(width: 40, height: 40)
-                    .foregroundColor(.accentColor)
-            }
-            .buttonStyle(PlainButtonStyle())
-        }
-        
     }
     
 }
+#endif
 
-private extension LockedModelRepresentable {
+#if os(iOS) && DEBUG
+struct LockedViewPreview: PreviewProvider {
     
-    var textInputDisabled: Bool {
-        status == .unlocking
+    static let model = LockedModelStub()
+    
+    static var previews: some View {
+        Group {
+            LockedView(model, useBiometricsOnAppear: false)
+                .preferredColorScheme(.light)
+            
+            LockedView(model, useBiometricsOnAppear: false)
+                .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

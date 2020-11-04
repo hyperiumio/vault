@@ -1,43 +1,21 @@
 import Localization
 import SwiftUI
 
+// TODO: cleanup
+
+#if os(iOS)
 struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockPreferencesModelRepresentable {
     
     @ObservedObject private var model: Model
     @Environment(\.presentationMode) private var presentationMode
     
-    #if os(macOS)
-    var body: some View {
-        VStack {
-            Header(biometricType: model.biometricType)
-            
-            SecureField(LocalizedString.masterPassword, text: $model.password)
-                .frame(maxWidth: 300)
-            
-            Text(model.enterMasterPasswordDescription)
-            
-            HStack {
-                Spacer()
-                
-                Button(LocalizedString.cancel) {
-                    presentationMode.wrappedValue.dismiss()
-                }
-                
-                Button(LocalizedString.enable, action: model.enabledBiometricUnlock)
-            }
-        }
-        .disabled(model.userInputDisabled)
-    }
-    #endif
-    
-    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
                 Section {
                     SecureField(LocalizedString.masterPassword, text: $model.password)
                 } header: {
-                    Header(biometricType: model.biometricType)
+                    Header(biometryType: model.biometryType)
                 } footer: {
                     Text(model.enterMasterPasswordDescription)
                 }
@@ -51,7 +29,7 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
                         Spacer()
                     }
                 } footer: {
-                    ErrorMessage(status: model.status, biometricType: model.biometricType)
+                    ErrorMessage(status: model.status, biometryType: model.biometryType)
                 }
             }
             .disabled(model.userInputDisabled)
@@ -67,7 +45,6 @@ struct BiometricUnlockPreferencesView<Model>: View where Model: BiometricUnlockP
             }
         }
     }
-    #endif
     
     init(_ model: Model) {
         self.model = model
@@ -78,13 +55,13 @@ private extension BiometricUnlockPreferencesView {
     
     struct Header: View {
         
-        let biometricType: BiometricType
+        let biometryType: BiometryType
         
         var body: some View {
             HStack {
                 Spacer()
                 
-                BiometricIcon(biometricType)
+                Image.faceID
                     .frame(width: 60, height: 60)
                     .padding(.top, 40)
                     .padding(.bottom, 20)
@@ -99,7 +76,7 @@ private extension BiometricUnlockPreferencesView {
     struct ErrorMessage: View {
         
         let status: BiometricUnlockPreferencesStatus
-        let biometricType: BiometricType
+        let biometryType: BiometryType
         
         var body: some View {
             HStack {
@@ -109,19 +86,19 @@ private extension BiometricUnlockPreferencesView {
                 case .none, .loading:
                     EmptyView()
                 case .biometricActivationFailed:
-                    switch biometricType {
+                    switch biometryType {
                     case .touchID:
-                        ErrorBadge(LocalizedString.touchIDActivationFailed)
+                        Text(LocalizedString.touchIDActivationFailed)
                     case .faceID:
-                        ErrorBadge(LocalizedString.faceIDActivationFailed)
+                        Text(LocalizedString.faceIDActivationFailed)
                     }
                 case .invalidPassword:
-                    ErrorBadge(LocalizedString.wrongPassword)
+                    Text(LocalizedString.invalidPassword)
                 }
                 
                 Spacer()
             }
-            .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
+            .padding(.all, 10)
         }
         
     }
@@ -133,7 +110,7 @@ private extension BiometricUnlockPreferencesModelRepresentable {
     var userInputDisabled: Bool { status == .loading }
     
     var navigationTitle: String {
-        switch self.biometricType {
+        switch self.biometryType {
         case .touchID:
             return LocalizedString.touchID
         case .faceID:
@@ -142,7 +119,7 @@ private extension BiometricUnlockPreferencesModelRepresentable {
     }
     
     var enterMasterPasswordDescription: String {
-        switch self.biometricType {
+        switch self.biometryType {
         case .touchID:
             return LocalizedString.enableTouchIDUnlockDescription
         case .faceID:
@@ -151,3 +128,4 @@ private extension BiometricUnlockPreferencesModelRepresentable {
     }
     
 }
+#endif

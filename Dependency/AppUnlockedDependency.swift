@@ -36,8 +36,8 @@ extension AppUnlockedDependency: UnlockedModelDependency {
 
 extension AppUnlockedDependency: SettingsModelDependency {
     
-    func biometricUnlockPreferencesModel(biometricType: BiometricType) -> BiometricUnlockPreferencesModel {
-        BiometricUnlockPreferencesModel(vault: vault, biometricType: biometricType, preferences: preferences, keychain: keychain)
+    func biometricUnlockPreferencesModel(biometryType: BiometryType) -> BiometricUnlockPreferencesModel {
+        BiometricUnlockPreferencesModel(vault: vault, biometryType: biometryType, preferences: preferences, keychain: keychain)
     }
     
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel {

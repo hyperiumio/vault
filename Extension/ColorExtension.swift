@@ -18,7 +18,7 @@ import AppKit
 
 extension Color {
     
-    static let systemBackground = Self(.systemBackground)
+    static let systemBackground = Self(.textBackgroundColor)
     static let textFieldBackground = Self(.textBackgroundColor)
     static let label = Self(.labelColor)
     static let secondaryLabel = Self(.secondaryLabelColor)
@@ -42,5 +42,4 @@ extension Color {
     static let quaternaryLabel = Self(.quaternaryLabel)
     
 }
-
 #endif

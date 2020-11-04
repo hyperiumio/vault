@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,15 +11,40 @@ struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentab
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.bankAccountHolder, placeholder: LocalizedString.bankAccountHolder, text: $model.accountHolder)
+        EditSecureItemTextField(LocalizedString.accountHolder, placeholder: LocalizedString.accountHolder, text: $model.accountHolder)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        SecureItemTextEditField(LocalizedString.bankAccountIban, placeholder: LocalizedString.bankAccountIban, text: $model.iban)
+        EditSecureItemTextField(LocalizedString.iban, placeholder: LocalizedString.iban, text: $model.iban)
             .keyboardType(.asciiCapable)
         
-        SecureItemTextEditField(LocalizedString.bankAccountBic, placeholder: LocalizedString.bankAccountBic, text: $model.bic)
+        EditSecureItemTextField(LocalizedString.bic, placeholder: LocalizedString.bic, text: $model.bic)
             .keyboardType(.asciiCapable)
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct EditBankAccountViewPreview: PreviewProvider {
+    
+    static let model = BankAccountModelStub()
+    
+    static var previews: some View {
+        Group {
+            List {
+                EditBankAccountView(model)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                EditBankAccountView(model)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

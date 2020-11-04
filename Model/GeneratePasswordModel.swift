@@ -22,3 +22,6 @@ class GeneratePasswordModel: ObservableObject {
     }
     
 }
+
+#if DEBUG
+#endif

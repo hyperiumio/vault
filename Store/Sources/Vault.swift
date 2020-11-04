@@ -105,14 +105,8 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
         .eraseToAnyPublisher()
     }
     
-    public func changeMasterPassword(from currentPassword: String, to newPassword: String) -> AnyPublisher<UUID, Error> {
+    public func changeMasterPassword(to newPassword: String) -> AnyPublisher<UUID, Error> {
         operationQueue.future { [self, configuration] in
-            let keyContainer = try Data(contentsOf: configuration.resourceLocator.keyFile)
-            let loadedKey = try Key(from: keyContainer, using: currentPassword)
-            guard configuration.masterKey == loadedKey else {
-                throw StoreError.invalidPassword
-            }
-            
             let vaultName = UUID().uuidString
             let vaultDirectory = configuration.resourceLocator.container.appendingPathComponent(vaultName, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
@@ -129,8 +123,6 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
                 let newItemURL = resourceLocator.itemFile()
                 try Message.encryptContainer(from: messages, using: masterKey).write(to: newItemURL)
             }
-            
-            
             
             self.configuration = Configuration(id: vaultInfo.id, masterKey: masterKey, resourceLocator: resourceLocator)
             
@@ -169,7 +161,7 @@ extension Vault {
 
 extension Vault {
     
-    public static func directory(in vaultContainerDirectory: URL, with vaultID: UUID) -> AnyPublisher<URL?, Error> {
+    public static func vaultExists(with vaultID: UUID, in vaultContainerDirectory: URL) -> AnyPublisher<Bool, Error> {
         operationQueue.future {
             for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
                 let resourceLocator = VaultResourceLocator(vaultDirectory)
@@ -177,53 +169,65 @@ extension Vault {
                 let info = try VaultInfo(from: infoData)
                 
                 if info.id == vaultID {
-                    return vaultDirectory
+                    return true
                 }
             }
             
-            return nil
+            return false
         }
         .eraseToAnyPublisher()
     }
     
-    public static func create(in vaultContainerDirectory: URL, using password: String) -> AnyPublisher<URL, Error> {
+    public static func create(in vaultContainerDirectory: URL, using password: String) -> AnyPublisher<Vault, Error> {
         operationQueue.future {
-            let vaultID = UUID().uuidString
-            let vaultDirectory = vaultContainerDirectory.appendingPathComponent(vaultID, isDirectory: true)
+            let vaultDirectoryID = UUID()
+            let vaultDirectory = vaultContainerDirectory.appendingPathComponent(vaultDirectoryID.uuidString, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
+            let vaultInfo = VaultInfo()
+            let masterKey = Key()
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
             try FileManager.default.createDirectory(at: resourceLocator.itemsDirectory, withIntermediateDirectories: false)
-            try VaultInfo().encoded().write(to: resourceLocator.infoFile)
-            try Key().encryptedContainer(using: password).write(to: resourceLocator.keyFile)
+            try vaultInfo.encoded().write(to: resourceLocator.infoFile)
+            try masterKey.encryptedContainer(using: password).write(to: resourceLocator.keyFile)
             
-            return vaultDirectory
+            return Vault(id: vaultInfo.id, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: [])
         }
         .eraseToAnyPublisher()
     }
     
-    public static func load(from vaultDirectory: URL) -> AnyPublisher<VaultContainer, Error> {
+    public static func load(vaultID: UUID, in vaultContainerDirectory: URL) -> AnyPublisher<VaultContainer, Error> {
         operationQueue.future {
-            let resourceLocator = VaultResourceLocator(vaultDirectory)
-            let infoData = try Data(contentsOf: resourceLocator.infoFile)
-            let info = try VaultInfo(from: infoData)
-            let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
-            
-            let elements = try FileManager.default.urls(in: resourceLocator.itemsDirectory).map { itemURL in
-                let fileHandle = try FileHandle(forReadingFrom: itemURL)
-                return try FileReader.read(from: fileHandle) { fileReader in
-                    let header = try Header(from: fileReader.bytes)
-                    let nonceDataRange = header.elements[.infoIndex].nonceRange
-                    let ciphertextRange = header.elements[.infoIndex].ciphertextRange
-                    let nonce = try fileReader.bytes(in: nonceDataRange)
-                    let ciphertext = try fileReader.bytes(in: ciphertextRange)
-                    let tag = header.elements[.infoIndex].tag
-                    let message = Message(nonce: nonce, ciphertext: ciphertext, tag: tag)
-                    return VaultContainer.Element(url: itemURL, header: header, message: message)
+            for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
+                let resourceLocator = VaultResourceLocator(vaultDirectory)
+                let infoData = try Data(contentsOf: resourceLocator.infoFile)
+                let info = try VaultInfo(from: infoData)
+                
+                if info.id == vaultID {
+                    let resourceLocator = VaultResourceLocator(vaultDirectory)
+                    let infoData = try Data(contentsOf: resourceLocator.infoFile)
+                    let info = try VaultInfo(from: infoData)
+                    let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
+                    
+                    let elements = try FileManager.default.urls(in: resourceLocator.itemsDirectory).map { itemURL in
+                        let fileHandle = try FileHandle(forReadingFrom: itemURL)
+                        return try FileReader.read(from: fileHandle) { fileReader in
+                            let header = try Header(from: fileReader.bytes)
+                            let nonceDataRange = header.elements[.infoIndex].nonceRange
+                            let ciphertextRange = header.elements[.infoIndex].ciphertextRange
+                            let nonce = try fileReader.bytes(in: nonceDataRange)
+                            let ciphertext = try fileReader.bytes(in: ciphertextRange)
+                            let tag = header.elements[.infoIndex].tag
+                            let message = Message(nonce: nonce, ciphertext: ciphertext, tag: tag)
+                            return VaultContainer.Element(url: itemURL, header: header, message: message)
+                        }
+                    } as [VaultContainer.Element]
+                    
+                    return VaultContainer(vaultID: info.id, resourceLocator: resourceLocator, keyContainer: keyContainer, elements: elements)
                 }
-            } as [VaultContainer.Element]
+            }
             
-            return VaultContainer(vaultID: info.id, resourceLocator: resourceLocator, keyContainer: keyContainer, elements: elements)
+            throw NSError()
         }
         .eraseToAnyPublisher()
     }

@@ -1,266 +1,131 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct SetupView<Model>: View where Model: SetupModelRepresentable {
     
     @ObservedObject private var model: Model
-    @State private var state = SetupState.masterPassword(.forward)
-    @State private var passwordHint = PasswordHint.none
-    @State private var setupFailedErrorPresented = false
-    
-    var body: some View {
-        Group {
-            switch state {
-            case .masterPassword:
-                VStack {
-                    Spacer()
-                    
-                    MasterPasswordContent(password: $model.password, repeatedPassword: $model.repeatedPassword)
-                    
-                    switch passwordHint {
-                    case .none:
-                        EmptyView()
-                    case .insecure:
-                        ErrorBadge(LocalizedString.insecurePassword)
-                    case .mismatch:
-                        ErrorBadge(LocalizedString.passwordMismatch)
-                    }
-                    
-                    Spacer()
-                    
-                    ContinueButton(LocalizedString.continue) {
-                        switch model.passwordStatus {
-                        case .mismatch:
-                            passwordHint = .mismatch
-                        case .insecure:
-                            passwordHint = .insecure
-                        case .complete:
-                            switch model.keychainAvailability {
-                            case .notAvailable, .notEnrolled:
-                                state = .complete(.forward)
-                            case .touchID:
-                                state = .biometricKeychain(.forward, .touchID)
-                            case .faceID:
-                                state = .biometricKeychain(.forward, .faceID)
-                            }
-                        }
-                    }
-                }
-                .onChange(of: model.password) { _ in
-                    passwordHint = .none
-                }
-                .onChange(of: model.repeatedPassword) { _ in
-                    passwordHint = .none
-                }
-            case .biometricKeychain(_ , let biometricType):
-                VStack {
-                    BackButton {
-                        state = .masterPassword(.backward)
-                    }
-                    
-                    Spacer()
-                    
-                    BiometricUnlockContent(biometricType: biometricType, enabled: $model.biometricUnlockEnabled)
-                    
-                    Spacer()
-                    
-                    ContinueButton(LocalizedString.continue) {
-                        state = .complete(.forward)
-                    }
-                }
-            case .complete:
-                VStack {
-                    BackButton {
-                        switch model.keychainAvailability {
-                        case .notAvailable, .notEnrolled:
-                            state = .masterPassword(.backward)
-                        case .touchID:
-                            state = .biometricKeychain(.backward, .touchID)
-                        case .faceID:
-                            state = .biometricKeychain(.backward, .faceID)
-                        }
-                    }
-                    
-                    Spacer()
-                    
-                    CompleteContent()
-                    
-                    Spacer()
-                    
-                    ContinueButton(LocalizedString.createVault, action: model.completeSetup)
-                }
-                .onReceive(model.setupFailed) {
-                    setupFailedErrorPresented = true
-                }
-                .alert(isPresented: $setupFailedErrorPresented) {
-                    Alert(title: Text(LocalizedString.vaultCreationFailed))
-                }
-            }
-        }
-        .padding()
-        .transition(state.direction.transition)
-    }
+    @State private var viewState: ViewState
+    @State private var direction: Direction? = Direction.forward
     
     init(_ model: Model) {
         self.model = model
+        self._viewState = State(initialValue: ViewState(from: model.state))
+    }
+    
+    var body: some View {
+        Group {
+            switch viewState {
+            case .choosePassword(let choosePasswordModel):
+                Screen {
+                    ChoosePasswordView(choosePasswordModel)
+                }
+            case .repeatPassword(let repeatPasswordModel):
+                Screen(action: model.previous) {
+                    RepeatPasswordView(repeatPasswordModel)
+                }
+            case .enableBiometricUnlock(let enableBiometricUnlockModel):
+                Screen(action: model.previous) {
+                    EnableBiometricUnlockView(enableBiometricUnlockModel)
+                }
+            case .completeSetup(let completeSetupModel):
+                Screen(action: model.previous) {
+                    CompleteSetupView(completeSetupModel)
+                }
+            }
+        }
+        .onChange(of: model.state) { state in
+            let newViewState = ViewState(from: state)
+            
+            if viewState.presentationIndex < newViewState.presentationIndex {
+                direction = .forward
+            }
+            if viewState.presentationIndex == newViewState.presentationIndex {
+                direction = nil
+            }
+            if viewState.presentationIndex > newViewState.presentationIndex {
+                direction = .backward
+            }
+            
+            withAnimation {
+                self.viewState = newViewState
+            }
+        }
+        .transition(direction?.transition ?? AnyTransition.identity)
     }
     
 }
 
-private struct BackButton: View {
     
-    let action: () -> Void
+private extension SetupView where Model: SetupModelRepresentable {
+    
+    enum ViewState {
+        
+        case choosePassword(Model.ChoosePasswordModel)
+        case repeatPassword(Model.RepeatPasswordModel)
+        case enableBiometricUnlock(Model.EnableBiometricUnlockModel)
+        case completeSetup(Model.CompleteSetupModel)
+        
+        var presentationIndex: Int {
+            switch self {
+            case .choosePassword:
+                return 0
+            case .repeatPassword:
+                return 1
+            case .enableBiometricUnlock:
+                return 2
+            case .completeSetup:
+                return 3
+            }
+        }
+        
+        init(from state: Model.State) {
+            switch state {
+            case .choosePassword(let model):
+                self = .choosePassword(model)
+            case .repeatPassword(_, let model):
+                self = .repeatPassword(model)
+            case .enableBiometricUnlock(_, _, let model):
+                self = .enableBiometricUnlock(model)
+            case .completeSetup(_, _, _, let model):
+                self = .completeSetup(model)
+            }
+        }
+        
+    }
+    
+}
+
+private struct Screen<Content>: View where Content: View {
+    
+    private let action: (() -> Void)?
+    private let content: Content
+    
+    init(action: (() -> Void)? = nil, @ViewBuilder content: () -> Content) {
+        self.action = action
+        self.content = content()
+    }
     
     var body: some View {
-        HStack {
-            Button {
-                withAnimation {
-                    action()
-                }
-            } label: {
-                HStack {
-                    Label {
-                        Text(LocalizedString.back)
-                    } icon: {
+        VStack {
+            if let action = action {
+                Button {
+                    withAnimation {
+                        action()
+                    }
+                } label: {
+                    HStack {
                         Image.back
                             .imageScale(.large)
+                        
+                        Spacer()
                     }
-                    
-                    Spacer()
                 }
             }
-        }
-    }
-    
-}
-
-private struct ContinueButton: View {
-    
-    private let title: String
-    private let action: () -> Void
-    
-    var body: some View {
-        Button {
-            withAnimation {
-                action()
-            }
-        } label: {
-            Text(title)
-                .font(.title3)
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 15)
-                .foregroundColor(.white)
-                .background(Color.accentColor)
-                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-        }
-    }
-    
-    init(_ title: String, action: @escaping () -> Void) {
-        self.title = title
-        self.action = action
-    }
-    
-}
-
-private struct MasterPasswordContent: View {
-    
-    let password: Binding<String>
-    let repeatedPassword: Binding<String>
-    
-    var body: some View {
-        VStack(spacing: 40) {
-            Image.password
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.secondaryLabel)
-                .frame(width: 120, height: 120)
             
-            Text(LocalizedString.chooseMasterPassword)
-                .font(.title3)
-            
-            VStack {
-                SecureField(LocalizedString.masterPassword, text: password)
-                    .padding(.horizontal, 20)
-                
-                Divider()
-                
-                SecureField(LocalizedString.confirmPassword, text: repeatedPassword)
-                    .padding(.horizontal, 20)
-            }
-            .font(.title3)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 15)
-            .background(Color.textFieldBackground)
-            .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+            content
         }
-    }
-    
-}
-
-private struct BiometricUnlockContent: View {
-    
-    let biometricType: BiometricType
-    let enabled: Binding<Bool>
-    
-    var body: some View {
-        VStack(spacing: 40) {
-            BiometricIcon(biometricType)
-                .frame(width: 120, height: 120)
-                .foregroundColor(enabled.wrappedValue ? .label : .secondaryLabel)
-            
-            switch biometricType {
-            case .touchID:
-                Toggle(LocalizedString.enableTouchIDUnlock, isOn: enabled)
-
-            case .faceID:
-                Toggle(LocalizedString.enableFaceIDUnlock, isOn: enabled)
-            }
-        }
-        .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-    }
-    
-}
-
-private struct CompleteContent: View {
-    
-    var body: some View {
-        VStack(spacing: 40) {
-            Image.done
-                .resizable()
-                .scaledToFit()
-                .foregroundColor(.appGreen)
-                .frame(width: 120, height: 120)
-            
-            Text(LocalizedString.setupComplete)
-                .font(.title)
-        }
-    }
-    
-}
-
-private enum PasswordHint {
-    
-    case none
-    case insecure
-    case mismatch
-    
-}
-
-private enum SetupState {
-    
-    case masterPassword(Direction)
-    case biometricKeychain(Direction, BiometricType)
-    case complete(Direction)
-    
-    var direction: Direction {
-        switch self {
-        case .masterPassword(let direction):
-            return direction
-        case .biometricKeychain(let direction, _):
-            return direction
-        case .complete(let direction):
-            return direction
-        }
+        .padding()
     }
     
 }
@@ -284,3 +149,4 @@ private enum Direction {
     }
     
 }
+#endif

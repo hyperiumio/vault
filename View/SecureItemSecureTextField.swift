@@ -1,8 +1,8 @@
-import Localization
 import Pasteboard
 import SwiftUI
 
-struct SecureItemSecureTextDisplayField: View {
+#if os(iOS)
+struct SecureItemSecureTextField: View {
     
     private let title: String
     private let text: String
@@ -13,17 +13,22 @@ struct SecureItemSecureTextDisplayField: View {
         self.text = text
     }
     
+    private var passwordTextMinHeight: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .body)
+        return ceil(font.lineHeight)
+    }
+    
     var body: some View {
         SecureItemButton {
             Pasteboard.general.string = text
         } content: {
             HStack {
-                SecureItemDisplayField(title) {
+                SecureItemField(title) {
                     Text(secureDisplay ? "••••••••" : text)
-                        .font(Font.system(.body, design: .monospaced))
+                        .font(.password)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(minHeight: 22)
+                        .frame(minHeight: passwordTextMinHeight)
                 }
                 
                 Spacer()
@@ -45,52 +50,33 @@ struct SecureItemSecureTextDisplayField: View {
     
 }
 
-struct SecureItemSecureTextEditField: View {
+private extension Font {
     
-    private let title: String
-    private let placeholder: String
-    private let text: Binding<String>
-    private let generatorAvailable: Bool
-    
-    @State private var showGeneratorControls = false
-    
-    init(_ title: String, placeholder: String, text: Binding<String>, generatorAvailable: Bool) {
-        self.title = title
-        self.placeholder = placeholder
-        self.text = text
-        self.generatorAvailable = generatorAvailable
-    }
-    
-    var body: some View {
-        SecureItemView {
-            SecureItemDisplayField(title) {
-                VStack(spacing: 20) {
-                    switch (generatorAvailable, showGeneratorControls) {
-                    case (false, _):
-                        SecureField(placeholder, text: text)
-                    case (true, true):
-                        GeneratePasswordView { password in
-                            guard let password = password else { return }
-                            
-                            text.wrappedValue = password
-                        }
-                        
-                        Button(LocalizedString.usePassword) {
-                            showGeneratorControls = false
-                        }
-                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
-                    case (true, false):
-                        SecureField(placeholder, text: text)
-                        
-                        Button(LocalizedString.generatePassword) {
-                            showGeneratorControls = true
-                        }
-                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .small))
-                    }
-                }
-            }
-            .animation(nil)
-        }
+    static var password: Self {
+        .system(.body, design: .monospaced)
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct SecureItemSecureTextFieldPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            List {
+                SecureItemSecureTextField("foo", text: "bar")
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                SecureItemSecureTextField("foo", text: "bar")
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

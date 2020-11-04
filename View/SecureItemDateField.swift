@@ -1,7 +1,7 @@
 import SwiftUI
 import Pasteboard
 
-struct SecureItemDateDisplayField: View {
+struct SecureItemDateField: View {
     
     private let title: String
     private let date: Date
@@ -21,7 +21,7 @@ struct SecureItemDateDisplayField: View {
         SecureItemButton {
             Pasteboard.general.string = formattedDate
         } content: {
-            SecureItemDisplayField(title) {
+            SecureItemField(title) {
                 Text(formattedDate)
             }
         }
@@ -29,27 +29,24 @@ struct SecureItemDateDisplayField: View {
     
 }
 
-struct SecureItemDateEditField: View {
+#if os(iOS) && DEBUG
+struct SecureItemDateFieldPreview: PreviewProvider {
     
-    private let title: String
-    private let date: Binding<Date>
-    
-    init(_ title: String, date: Binding<Date>) {
-        self.title = title
-        self.date = date
-    }
-    
-    var body: some View {
-        SecureItemView {
-            SecureItemDisplayField(title) {
-                HStack {
-                    DatePicker(title, selection: date, displayedComponents: .date)
-                        .labelsHidden()
-                    
-                    Spacer()
-                }
+    static var previews: some View {
+        Group {
+            List {
+                SecureItemDateField("foo", date: .distantPast)
             }
+            .preferredColorScheme(.light)
+            
+            List {
+                SecureItemDateField("foo", date: .distantPast)
+            }
+            .preferredColorScheme(.dark)
         }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

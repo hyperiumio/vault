@@ -1,21 +1,21 @@
 import Localization
 import SwiftUI
 
-
+#if os(iOS)
 struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject private var model: Model
     @State private var textViewHeight: CGFloat?
-    
-    private let minimumHeight = ceil(UIFont.preferredFont(forTextStyle: .body).lineHeight)
     
     init(_ model: Model) {
         self.model = model
     }
     
     var body: some View {
-        SecureItemDisplayField(LocalizedString.note) {
+        SecureItemField(LocalizedString.note) {
             NativeTextView($model.text) { height in
+                let font = UIFont.preferredFont(forTextStyle: .body)
+                let minimumHeight = ceil(font.lineHeight)
                 textViewHeight = max(height, minimumHeight)
             }
             .frame(height: textViewHeight)
@@ -61,23 +61,48 @@ private struct NativeTextView: UIViewRepresentable {
 }
 
 
-extension NativeTextView {
+private extension NativeTextView {
     
     class Coordinator: NSObject, UITextViewDelegate {
         
-        @Binding var text: String
+       let text: Binding<String>
         let textDidChange: (CGFloat) -> Void
 
         init(text: Binding<String>, textDidChange: @escaping (CGFloat) -> Void) {
-            self._text = text
+            self.text = text
             self.textDidChange = textDidChange
         }
 
         func textViewDidChange(_ textView: UITextView) {
-            self.text = textView.text
+            self.text.wrappedValue = textView.text
             self.textDidChange(textView.contentSize.height)
         }
         
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct EditNoteViewPreview: PreviewProvider {
+    
+    static let model = NoteModelStub()
+    
+    static var previews: some View {
+        Group {
+            List {
+                EditNoteView(model)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                EditNoteView(model)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

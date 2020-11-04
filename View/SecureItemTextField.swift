@@ -1,7 +1,8 @@
 import SwiftUI
 import Pasteboard
 
-struct SecureItemTextDisplayField: View {
+#if os(iOS)
+struct SecureItemTextField: View {
     
     private let title: String
     private let text: String
@@ -15,34 +16,33 @@ struct SecureItemTextDisplayField: View {
         SecureItemButton {
             Pasteboard.general.string = text
         } content: {
-            SecureItemDisplayField(title) {
+            SecureItemField(title) {
                 Text(text)
             }
         }
     }
     
 }
+#endif
 
-struct SecureItemTextEditField: View {
+#if os(iOS) && DEBUG
+struct SecureItemTextFieldPreview: PreviewProvider {
     
-    private let title: String
-    private let placeholder: String
-    private let text: Binding<String>
-    
-    init(_ title: String, placeholder: String, text: Binding<String>) {
-        self.title = title
-        self.placeholder = placeholder
-        self.text = text
-    }
-    
-    var body: some View {
-        SecureItemView {
-            SecureItemDisplayField(title) {
-                TextField(placeholder, text: text)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
+    static var previews: some View {
+        Group {
+            List {
+                SecureItemTextField("foo", text: "bar")
             }
+            .preferredColorScheme(.light)
+            
+            List {
+                SecureItemTextField("foo", text: "bar")
+            }
+            .preferredColorScheme(.dark)
         }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

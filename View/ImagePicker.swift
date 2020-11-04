@@ -1,10 +1,16 @@
-import SwiftUI
+import Combine
 import PhotosUI
+import SwiftUI
 
+#if os(iOS)
 struct ImagePicker: UIViewControllerRepresentable {
     
+    private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
-    let picked: (Output?) -> Void
+    
+    init(picked: @escaping (Output?) -> Void) {
+        self.picked = picked
+    }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(presentationMode: presentationMode, picked: picked)
@@ -14,6 +20,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         let configuration = PHPickerConfiguration()
         let controller = PHPickerViewController(configuration: configuration)
         controller.delegate = context.coordinator
+        
         return controller
     }
     
@@ -27,14 +34,13 @@ extension ImagePicker {
     
     class Coordinator: NSObject {
         
+        private let presentationMode: Binding<PresentationMode>
         private let picked: (Output?) -> Void
-        private let operationQueue = DispatchQueue(label: "ImagePickerCoordinatorOperationQueue")
+        private var didPickSubscription: AnyCancellable?
         
         init(presentationMode: Binding<PresentationMode>, picked: @escaping (Output?) -> Void) {
-            self.picked = { output in
-                picked(output)
-                presentationMode.wrappedValue.dismiss()
-            }
+            self.presentationMode = presentationMode
+            self.picked = picked
         }
 
     }
@@ -44,24 +50,44 @@ extension ImagePicker {
 extension ImagePicker.Coordinator: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        guard let itemProvider = results.first?.itemProvider else {
-            picked(nil)
-            return
-        }
+        presentationMode.wrappedValue.dismiss()
         
-        itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { [picked] url, error  in
-            guard let url = url, let data = try? Data(contentsOf: url) else {
-                DispatchQueue.main.async {
-                    picked(nil)
+        didPickSubscription = Future<Data, Error> { promise in
+            results.first?.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
+                let result = Result<Data, Error> {
+                    guard let url = url else {
+                        throw NSError()
+                    }
+                    
+                    return try Data(contentsOf: url)
                 }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                let output = (data: data, type: UTType.image)
-                picked(output)
+                promise(result)
             }
         }
+        .map { data in
+            (data: data, type: UTType.image)
+        }
+        .replaceError(with: nil)
+        .receive(on: DispatchQueue.main)
+        .sink(receiveValue: picked)
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct ImagePickerPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            ImagePicker { _ in }
+                .preferredColorScheme(.light)
+            
+            ImagePicker { _ in }
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

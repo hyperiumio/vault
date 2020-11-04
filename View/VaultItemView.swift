@@ -48,7 +48,18 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
 }
 
-struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentable {
+private extension VaultItemView {
+    
+    enum Mode {
+        
+        case display
+        case edit
+        
+    }
+    
+}
+
+private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject var model: Model
     
@@ -76,7 +87,7 @@ struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentabl
     
 }
 
-struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
+private struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
     @Environment(\.presentationMode) private var presentationMode
@@ -92,8 +103,8 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
                     ElementView(model.primaryItemModel)
                 } header: {
                     VaultItemTitleView(LocalizedString.title, text: $model.title)
-                        .padding()
                         .listRowInsets(.zero)
+                        .padding()
                 }
                 
                 Section {
@@ -102,23 +113,10 @@ struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
                         presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(.appRed)
-                    .padding()
                 }
             }
         }
         .listStyle(GroupedListStyle())
-    }
-    
-}
-#endif
-
-private extension VaultItemView {
-    
-    enum Mode {
-        
-        case display
-        case edit
-        
     }
     
 }
@@ -138,15 +136,15 @@ private extension VaultItemDisplayView {
             case .login(let model):
                 LoginView(model.item)
             case .password(let model):
-                PasswordDisplayView(model.item)
+                PasswordView(model.item)
             case .file(let model):
                 FileView(model.item)
             case .note(let model):
-                NoteDisplayView(model.item)
+                NoteView(model.item)
             case .bankCard(let model):
                 BankCardView(model.item)
             case .wifi(let model):
-                WifiDisplayView(model.item)
+                WifiView(model.item)
             case .bankAccount(let model):
                 BankAccountView(model.item)
             case .custom(let model):
@@ -192,3 +190,4 @@ private extension VaultItemEditView {
     }
 
 }
+#endif

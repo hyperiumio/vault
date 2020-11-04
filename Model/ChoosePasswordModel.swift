@@ -3,9 +3,9 @@ import Combine
 protocol ChoosePasswordModelRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
-    var passwordIsValid: Bool { get }
+    var done: AnyPublisher<Void, Never> { get }
     
-    func done()
+    func choosePassword()
     
 }
 
@@ -13,16 +13,28 @@ class ChoosePasswordModel: ChoosePasswordModelRepresentable {
     
     @Published var password = ""
     
-    var passwordIsValid: Bool { password.count >= 8 }
-    
-    var passwordChosen: AnyPublisher<String, Never> {
-        passwordChosenSubject.eraseToAnyPublisher()
+    var done: AnyPublisher<Void, Never> {
+        doneSubject.eraseToAnyPublisher()
     }
     
-    private let passwordChosenSubject = PassthroughSubject<String, Never>()
+    private let doneSubject = PassthroughSubject<Void, Never>()
     
-    func done() {
-        passwordChosenSubject.send(password)
+    func choosePassword() {
+        doneSubject.send()
     }
     
 }
+
+#if DEBUG
+class ChoosePasswordModelStub: ChoosePasswordModelRepresentable {
+    
+    @Published var password = ""
+    
+    var done: AnyPublisher<Void, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    func choosePassword() {}
+    
+}
+#endif

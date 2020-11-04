@@ -23,9 +23,9 @@ protocol AppModelDependency {
     associatedtype MainModel: MainModelRepresentable
     
     func bootstrapModel() -> BootstrapModel
-    func setupModel(in vaultContainerDirectory: URL) -> SetupModel
-    func mainModel(vaultDirectory: URL) -> MainModel
-    func mainModel(vaultDirectory: URL, vault: Vault) -> MainModel
+    func setupModel() -> SetupModel
+    func mainModel(vaultID: UUID) -> MainModel
+    func mainModel(vault: Vault) -> MainModel
     
 }
 
@@ -53,11 +53,11 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                 return model.didBootstrap
                     .map { appState in
                         switch appState {
-                        case .setup(let vaultContainerDirectory):
-                            let model = dependency.setupModel(in: vaultContainerDirectory)
+                        case .setup:
+                            let model = dependency.setupModel()
                             return .setup(model)
-                        case .locked(let vaultDirectory):
-                            let model = dependency.mainModel(vaultDirectory: vaultDirectory)
+                        case .locked(let vaultID):
+                            let model = dependency.mainModel(vaultID: vaultID)
                             return .main(model)
                         }
                     }
@@ -74,7 +74,6 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
         }
         
         let bootstrapModel = dependency.bootstrapModel()
-        
         self.state = .bootstrap(bootstrapModel)
         
         statePublisher(from: state)
@@ -90,3 +89,22 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class AppModelStub: AppModelRepresentable {
+    
+    typealias BootstrapModel = BootstrapModelStub
+    typealias SetupModel = SetupModelStub
+    typealias MainModel = MainModelStub
+    typealias UnlockedModel = UnlockedModelStub
+    
+    let state: State
+    
+    init(state: State) {
+        self.state = state
+    }
+    
+    func lock() {}
+    
+}
+#endif

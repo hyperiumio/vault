@@ -2,14 +2,15 @@ import Localization
 import SwiftUI
 import UniformTypeIdentifiers
 
+#if os(iOS)
 struct SelectCategoryView: View {
     
     private let action: (Selection) -> Void
-    @Environment(\.presentationMode) private var presentationMode
     @State private var isShowingCameraView = false
     @State private var isShowingImagePicker = false
     @State private var isShowingScannerView = false
     @State private var isShowingFilePicker = false
+    @Environment(\.presentationMode) private var presentationMode
     
     init(action: @escaping (Selection) -> Void) {
         self.action = action
@@ -43,7 +44,7 @@ struct SelectCategoryView: View {
                         action(.bankAccount)
                     }
                     
-                    ItemButton(LocalizedString.customItem, image: .custom) {
+                    ItemButton(LocalizedString.custom, image: .custom) {
                         action(.custom)
                     }
                 }
@@ -114,7 +115,20 @@ struct SelectCategoryView: View {
 
 extension SelectCategoryView {
     
-    struct ItemButton: View {
+    enum Selection {
+        
+        case login
+        case password
+        case wifi
+        case note
+        case bankCard
+        case bankAccount
+        case custom
+        case file(data: Data, type: UTType)
+        
+    }
+    
+    private struct ItemButton: View {
         
         private let text: String
         private let image: Image
@@ -139,17 +153,22 @@ extension SelectCategoryView {
         
     }
     
-    enum Selection {
-        
-        case login
-        case password
-        case wifi
-        case note
-        case bankCard
-        case bankAccount
-        case custom
-        case file(data: Data, type: UTType)
-        
+}
+#endif
+
+#if os(iOS) && DEBUG
+struct SelectCategoryViewPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            SelectCategoryView { _ in }
+                .preferredColorScheme(.light)
+            
+            SelectCategoryView { _ in }
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

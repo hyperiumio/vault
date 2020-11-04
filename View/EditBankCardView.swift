@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct EditBankCardView<Model>: View where Model: BankCardModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,17 +11,42 @@ struct EditBankCardView<Model>: View where Model: BankCardModelRepresentable {
     }
     
     var body: some View {
-        SecureItemTextEditField(LocalizedString.bankCardName, placeholder: LocalizedString.bankCardName, text: $model.name)
+        EditSecureItemTextField(LocalizedString.name, placeholder: LocalizedString.name, text: $model.name)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        SecureItemTextEditField(LocalizedString.bankCardNumber, placeholder: LocalizedString.bankCardNumber, text: $model.number)
+        EditSecureItemTextField(LocalizedString.number, placeholder: LocalizedString.number, text: $model.number)
             .keyboardType(.numberPad)
             .textContentType(.creditCardNumber)
         
-        SecureItemDateEditField(LocalizedString.bankCardExpirationDate, date: $model.expirationDate)
+        EditSecureItemDateField(LocalizedString.expirationDate, date: $model.expirationDate)
         
-        SecureItemSecureTextEditField(LocalizedString.bankCardPin, placeholder: LocalizedString.bankCardPin, text: $model.pin, generatorAvailable: false)
+        EditSecureItemSecureTextField(LocalizedString.pin, placeholder: LocalizedString.pin, text: $model.pin, generatorAvailable: false)
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct EditBankCardViewPreview: PreviewProvider {
+    
+    static let model = BankCardModelStub()
+    
+    static var previews: some View {
+        Group {
+            List {
+                EditBankCardView(model)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                EditBankCardView(model)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

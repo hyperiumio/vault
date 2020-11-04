@@ -15,22 +15,23 @@ protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
 
 enum BootstrapInitialState {
     
-    case setup(vaultContainerDirectory: URL)
-    case locked(vaultDirectory: URL)
+    case setup
+    case locked(vaultID: UUID)
     
 }
 
 enum BootstrapStatus {
     
-    case none
+    case initialized
     case loading
-    case loadingDidFail
+    case loadingFailed
+    case loaded
     
 }
 
 class BootstrapModel: BootstrapModelRepresentable {
     
-    @Published private(set) var status = BootstrapStatus.none
+    @Published private(set) var status = BootstrapStatus.initialized
     
     let preferences: Preferences
     
@@ -47,28 +48,25 @@ class BootstrapModel: BootstrapModelRepresentable {
         status = .loading
         
         guard let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
-            status = .loadingDidFail
+            status = .loadingFailed
             return
         }
         
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            status = .loadingDidFail
+            status = .loadingFailed
             return
         }
         
         let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferences.value.activeVaultIdentifier else {
-            let setup = BootstrapInitialState.setup(vaultContainerDirectory: vaultContainerDirectory)
-            didBootstrapSubject.send(setup)
+            didBootstrapSubject.send(.setup)
             return
         }
         
-        vaultLocationSubscription = Vault.directory(in: vaultContainerDirectory, with: activeVaultIdentifier)
-            .map { vaultDirectory in
-                vaultDirectory.map { vaultDirectory in
-                    .locked(vaultDirectory: vaultDirectory)
-                } ?? .setup(vaultContainerDirectory: vaultContainerDirectory)
+        vaultLocationSubscription = Vault.vaultExists(with: activeVaultIdentifier, in: vaultContainerDirectory)
+            .map { vaultExists in
+                vaultExists ? .locked(vaultID: activeVaultIdentifier) : .setup
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -76,9 +74,9 @@ class BootstrapModel: BootstrapModelRepresentable {
                 
                 switch completion {
                 case .finished:
-                    self.status = .none
+                    self.status = .loaded
                 case .failure:
-                    self.status = .loadingDidFail
+                    self.status = .loadingFailed
                 }
             } receiveValue: { [didBootstrapSubject] initialAppState in
                 didBootstrapSubject.send(initialAppState)
@@ -86,3 +84,21 @@ class BootstrapModel: BootstrapModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class BootstrapModelStub: BootstrapModelRepresentable {
+    
+    @Published var status: BootstrapStatus
+    
+    var didBootstrap: AnyPublisher<BootstrapInitialState, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    init(status: BootstrapStatus) {
+        self.status = status
+    }
+    
+    func load() {}
+    
+}
+#endif

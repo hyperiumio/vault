@@ -11,7 +11,7 @@ class SecureItemTests: XCTestCase {
         let bankCard = BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "")
         let wifi = WifiItem(name: "", password: "")
         let bankAccount = BankAccountItem(accountHolder: "", iban: "", bic: "")
-        let custom = CustomItem(name: "", value: "")
+        let custom = CustomItem(description: "", value: "")
         
         let passwordSecureItem = SecureItem.password(password)
         let loginSecureItem = SecureItem.login(login)
@@ -40,7 +40,7 @@ class SecureItemTests: XCTestCase {
         let bankCard = try BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "").encoded()
         let wifi = try WifiItem(name: "", password: "").encoded()
         let bankAccount = try BankAccountItem(accountHolder: "", iban: "", bic: "").encoded()
-        let custom = try CustomItem(name: "", value: "").encoded()
+        let custom = try CustomItem(description: "", value: "").encoded()
         
         let passwordSecureItem = try SecureItem(from: password, as: .password)
         let loginSecureItem = try SecureItem(from: login, as: .login)

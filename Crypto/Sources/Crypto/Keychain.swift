@@ -110,12 +110,18 @@ public class Keychain {
 
 extension Keychain {
     
-    public enum Availability {
+    public enum BiometryType: Equatable {
+        
+        case touchID
+        case faceID
+        
+    }
+    
+    public enum Availability: Equatable {
         
         case notAvailable
         case notEnrolled
-        case touchID
-        case faceID
+        case enrolled(BiometryType)
         
         init(from context: LAContext) {
             var error: NSError?
@@ -124,9 +130,9 @@ extension Keychain {
             
             switch (canEvaluate, biometryType, error?.code) {
             case (true, .touchID, _):
-                self = .touchID
+                self = .enrolled(.touchID)
             case (true, .faceID, _):
-                self = .faceID
+                self = .enrolled(.faceID)
             case (false, _, LAError.biometryNotEnrolled.rawValue):
                 self = .notEnrolled
             default:

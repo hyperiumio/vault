@@ -2,10 +2,15 @@ import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 
+#if os(iOS)
 struct PhotoPicker: UIViewControllerRepresentable {
     
+    private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
-    let picked: (Output?) -> Void
+    
+    init(picked: @escaping (Output?) -> Void) {
+        self.picked = picked
+    }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(presentationMode: presentationMode, picked: picked)
@@ -15,6 +20,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
         let controller = UIImagePickerController()
         controller.sourceType = .camera
         controller.delegate = context.coordinator
+        
         return controller
     }
     
@@ -28,16 +34,16 @@ extension PhotoPicker {
     
     class Coordinator: NSObject {
         
+        private let presentationMode: Binding<PresentationMode>
         private let picked: (Output?) -> Void
         private let operationQueue = DispatchQueue(label: "PhotoPickerCoordinatorOperationQueue")
         private var didPickSubscription: AnyCancellable?
         
         init(presentationMode: Binding<PresentationMode>, picked: @escaping (Output?) -> Void) {
-            self.picked = { output in
-                picked(output)
-                presentationMode.wrappedValue.dismiss()
-            }
+            self.presentationMode = presentationMode
+            self.picked = picked
         }
+        
     }
     
 }
@@ -45,6 +51,8 @@ extension PhotoPicker {
 extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        presentationMode.wrappedValue.dismiss()
+        
         didPickSubscription = operationQueue.future {
             guard let identifier = info[.mediaType] as? String else {
                 return nil
@@ -61,11 +69,26 @@ extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigation
             
             return (data: data, type: type)
         }
-        .replaceError(with: nil)
         .receive(on: DispatchQueue.main)
-        .sink { output in
-            self.picked(output)
-        }
+        .sink(receiveValue: picked)
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct PhotoPickerPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            PhotoPicker { _ in }
+                .preferredColorScheme(.light)
+            
+            PhotoPicker { _ in }
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif
