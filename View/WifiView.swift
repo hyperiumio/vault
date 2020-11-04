@@ -1,7 +1,8 @@
 import Localization
 import SwiftUI
 
-struct WifiDisplayView: View {
+#if os(iOS)
+struct WifiView: View {
     
     private let item: WifiItem
     
@@ -11,12 +12,37 @@ struct WifiDisplayView: View {
     
     var body: some View {
         if let name = item.name {
-            SecureItemTextDisplayField(LocalizedString.wifiNetworkName, text: name)
+            SecureItemTextField(LocalizedString.name, text: name)
         }
         
         if let password = item.password {
-            SecureItemSecureTextDisplayField(LocalizedString.wifiNetworkPassword, text: password)
+            SecureItemSecureTextField(LocalizedString.password, text: password)
         }
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct WifiViewPreview: PreviewProvider {
+    
+    static let item = WifiItem(name: "foo", password: "bar")
+    
+    static var previews: some View {
+        Group {
+            List {
+                WifiView(item)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                WifiView(item)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct VaultItemTitleView: UIViewRepresentable {
     
     private let title: String
@@ -12,26 +13,28 @@ struct VaultItemTitleView: UIViewRepresentable {
     }
     
     func makeUIView(context: UIViewRepresentableContext<VaultItemTitleView>) -> UITextField {
+        let action = #selector(Coordinator.textFieldDidChange)
         let textField = UITextField()
         textField.placeholder = title
         textField.font = UIFont.preferredFont(forTextStyle: .title1)
-        textField.addTarget(context.coordinator, action: #selector(Coordinator.textFieldDidChange), for: .editingChanged)
+        textField.addTarget(context.coordinator, action:action, for: .editingChanged)
         
         return textField
     }
 
     func makeCoordinator() -> Coordinator {
-        return Coordinator(text)
+        Coordinator(text)
     }
 
     func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<VaultItemTitleView>) {
         uiView.text = text.wrappedValue
         
-        if !context.coordinator.didBecomeFirstResponder  {
+        if !context.coordinator.didBecomeFirstResponder {
             uiView.becomeFirstResponder()
             context.coordinator.didBecomeFirstResponder = true
         }
     }
+    
 }
 
 extension VaultItemTitleView {
@@ -52,3 +55,23 @@ extension VaultItemTitleView {
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct VaultItemTitleViewPreview: PreviewProvider {
+    
+    @State static var text = ""
+    
+    static var previews: some View {
+        Group {
+            VaultItemTitleView("foo", text: $text)
+                .preferredColorScheme(.light)
+            
+            VaultItemTitleView("foo", text: $text)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

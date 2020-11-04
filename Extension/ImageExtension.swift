@@ -17,7 +17,7 @@ extension Image {
     static let plus = Image(systemName: "plus")
     static let lock = Image(systemName: "lock.fill")
     static let settings = Image(systemName: "slider.horizontal.3")
-    static let back = Image(systemName: "chevron.left.circle")
+    static let back = Image(systemName: "chevron.left")
     static let done = Image(systemName: "checkmark.circle")
     static let search = Image(systemName: "magnifyingglass")
     static let file = Image(systemName: "paperclip")

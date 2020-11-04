@@ -3,8 +3,13 @@ import SwiftUI
 
 struct VaultItemFooter: View {
     
-    let created: Date?
-    let modified: Date?
+    private let created: Date?
+    private let modified: Date?
+    
+    init(created: Date?, modified: Date?) {
+        self.created = created
+        self.modified = modified
+    }
     
     var body: some View {
         HStack {
@@ -12,29 +17,11 @@ struct VaultItemFooter: View {
             
             VStack(alignment: .custom, spacing: 4) {
                 if let created = created {
-                    HStack(alignment: .center) {
-                        Text(LocalizedString.created)
-                            .fontWeight(.semibold)
-                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                            .alignmentGuide(.custom) { dimension in
-                                dimension[HorizontalAlignment.trailing]
-                            }
-                            
-                        Text(created, formatter: dateFormatter)
-                    }
+                    DateLabel(LocalizedString.created, date: created)
                 }
 
                 if let modified = modified {
-                    HStack {
-                        Text(LocalizedString.modified)
-                            .fontWeight(.semibold)
-                            .textCase(/*@START_MENU_TOKEN@*/.uppercase/*@END_MENU_TOKEN@*/)
-                            .alignmentGuide(.custom) { dimension in
-                                dimension[HorizontalAlignment.trailing]
-                            }
-                        
-                        Text(modified, formatter: dateFormatter)
-                    }
+                    DateLabel(LocalizedString.modified, date: modified)
                 }
             }
             .font(.footnote)
@@ -45,10 +32,36 @@ struct VaultItemFooter: View {
         .padding(.vertical)
     }
     
+}
+
+private struct DateLabel: View {
+    
+    private let text: String
+    private let date: Date
+    
+    init(_ text: String, date: Date) {
+        self.text = text
+        self.date = date
+    }
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Text(text)
+                .fontWeight(.semibold)
+                .textCase(.uppercase)
+                .alignmentGuide(.custom) { dimension in
+                    dimension[HorizontalAlignment.trailing]
+                }
+                
+            Text(date, formatter: dateFormatter)
+        }
+    }
+    
     private var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        
         return formatter
     }
     
@@ -66,3 +79,21 @@ private extension HorizontalAlignment {
 
     static let custom = HorizontalAlignment(CustomAlignment.self)
 }
+
+#if os(iOS) && DEBUG
+struct VaultItemFooterPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            VaultItemFooter(created: .distantPast, modified: .distantFuture)
+                .preferredColorScheme(.light)
+            
+            VaultItemFooter(created: .distantPast, modified: .distantFuture)
+                .preferredColorScheme(.dark)
+
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

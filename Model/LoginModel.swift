@@ -47,3 +47,20 @@ class LoginModel: LoginModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class LoginModelStub: LoginModelRepresentable {
+    
+    @Published var username = ""
+    @Published var password = ""
+    @Published var url = ""
+    
+    var item: LoginItem {
+        LoginItem(username: username, password: password, url: url)
+    }
+
+    
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
+    
+}
+#endif

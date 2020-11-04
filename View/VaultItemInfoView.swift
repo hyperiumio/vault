@@ -1,54 +1,107 @@
 import SwiftUI
 
+#if os(iOS)
 struct VaultItemInfoView: View {
     
-    private let name: String
+    private let title: String
     private let description: String?
-    private let image: Image
+    private let type: SecureItemType
     
-    init(_ name: String, description: String?, type: SecureItemType) {
-        self.name = name
+    init(_ title: String, description: String?, type: SecureItemType) {
+        self.title = title
         self.description = description
-        
-        switch type {
-        case .password:
-            self.image = .password
-        case .login:
-            self.image = .login
-        case .file:
-            self.image = .file
-        case .note:
-            self.image = .note
-        case .bankCard:
-            self.image = .bankCard
-        case .wifi:
-            self.image = .wifi
-        case .bankAccount:
-            self.image = .bankAccount
-        case .custom:
-            self.image = .custom
-        }
+        self.type = type
     }
     
     var body: some View {
-        HStack(spacing: 8) {
-            image
-                .frame(width: 25, height: 25)
-                .foregroundColor(.accentColor)
-            
+        Label {
             VStack(alignment: .leading, spacing: 2) {
-                Text(name)
+                NativeLabel(title, textStyle: .body, color: .label)
                 
                 if let description = description {
-                    Text(description)
-                        .font(.footnote)
-                        .foregroundColor(.secondaryLabel)
+                    NativeLabel(description, textStyle: .footnote, color: .secondaryLabel)
                 }
             }
+            
+        } icon: {
+            Self.image(for: type)
+                .foregroundColor(.accentColor)
         }
-        .padding(.leading, -5)
-        .padding(.vertical, 2)
-
+        .padding(.vertical, 4)
     }
     
 }
+#endif
+
+private extension VaultItemInfoView {
+    
+    static func image(for type: SecureItemType) -> Image {
+        switch type {
+        case .password:
+            return .password
+        case .login:
+            return .login
+        case .file:
+            return .file
+        case .note:
+            return .note
+        case .bankCard:
+            return .bankCard
+        case .wifi:
+            return .wifi
+        case .bankAccount:
+            return .bankAccount
+        case .custom:
+            return .custom
+        }
+    }
+    
+}
+
+#if os(iOS)
+private struct NativeLabel: UIViewRepresentable {
+    
+    private let text: String
+    private let textStyle: UIFont.TextStyle
+    private let color: UIColor
+    
+    init(_ text: String, textStyle: UIFont.TextStyle, color: UIColor) {
+        self.text = text
+        self.textStyle = textStyle
+        self.color = color
+    }
+    
+    func makeUIView(context: Context) -> UIView {
+        let label = UILabel()
+        label.text = text
+        label.font = .preferredFont(forTextStyle: textStyle)
+        label.textColor = color
+        
+        return label
+    }
+    
+    func updateUIView(_ uiView: UIView, context: Context) {}
+    
+}
+#endif
+
+#if os(iOS) && DEBUG
+struct VaultItemInfoViewPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            List {
+                VaultItemInfoView("foo", description: "bar", type: .login)
+                    .preferredColorScheme(.light)
+            }
+            
+            List {
+                VaultItemInfoView("foo", description: "bar", type: .login)
+                    .preferredColorScheme(.dark)
+            }
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

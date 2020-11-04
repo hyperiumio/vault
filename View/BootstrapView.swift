@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,24 +12,37 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
     var body: some View {
         switch model.status {
-        case .none, .loading:
+        case .initialized, .loading, .loaded:
             EmptyView()
-        case .loadingDidFail:
+        case .loadingFailed:
             VStack {
-                Image.warning
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .foregroundColor(.appRed)
-                    .padding()
-                
-                Text(LocalizedString.appLaunchError)
+                Text(LocalizedString.appLaunchFailure)
                     .font(.title3)
                 
                 Button(LocalizedString.retry, action: model.load)
-                    .padding(.top)
+                    .padding()
             }
         }
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct BootStrapViewPreview: PreviewProvider {
+    
+    static let model = BootstrapModelStub(status: .loadingFailed)
+    
+    static var previews: some View {
+        Group {
+            BootstrapView(model)
+                .preferredColorScheme(.light)
+            
+            BootstrapView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

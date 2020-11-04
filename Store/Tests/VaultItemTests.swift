@@ -92,7 +92,7 @@ class VaultItemTests: XCTestCase {
     }
     
     func testCustomInfo() throws {
-        let custom = try CustomItem(name: "foo", value: "").encoded()
+        let custom = try CustomItem(description: "foo", value: "").encoded()
         let secureItem = try SecureItem(from: custom, as: .custom)
         let vaultItem = VaultItem(id: UUID(), name: "", primarySecureItem: secureItem, secondarySecureItems: [], created: .distantPast, modified: .distantPast)
         

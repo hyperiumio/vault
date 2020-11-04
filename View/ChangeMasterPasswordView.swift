@@ -1,134 +1,85 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
+    @State private var error: ChangeMasterPasswordError?
     @Environment(\.presentationMode) private var presentationMode
     
-    #if os(macOS)
-    var body: some View {
-        VStack {
-            Header()
-            
-            Group {
-                SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
-                
-                SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
-                
-                SecureField(LocalizedString.repeatNewPassword, text: $model.repeatedNewPassword)
-            }
-            .frame(maxWidth: 300)
-            
-            HStack {
-                Spacer()
-                
-                Button(LocalizedString.cancel) {
-                    presentationMode.wrappedValue.dismiss()
-                }
-                
-                Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
-            }
-        }
-        .disabled(model.status == .loading)
-    }
-    #endif
-    
-    #if os(iOS)
-    var body: some View {
-        NavigationView {
-            List {
-                Section {
-                    SecureField(LocalizedString.currentMasterPassword, text: $model.currentPassword)
-                    
-                    SecureField(LocalizedString.newMasterPassword, text: $model.newPassword)
-                    
-                    SecureField(LocalizedString.confirmPassword, text: $model.repeatedNewPassword)
-                } header: {
-                    Header()
-                }
-                
-                Section {
-                    HStack {
-                        Spacer()
-                        
-                        Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
-                        
-                        Spacer()
-                    }
-                } footer: {
-                    ErrorMessage(status: model.status)
-                }
-            }
-            .disabled(model.status == .loading)
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(LocalizedString.masterPassword)
-            .listStyle(GroupedListStyle())
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-            }
-        }
-    }
-    #endif
     
     init(_ model: Model) {
         self.model = model
+    }
+    
+    var body: some View {
+        List {
+            Section {
+                SecureField(LocalizedString.newMasterPassword, text: $model.password)
+                
+                SecureField(LocalizedString.repeatMasterPassword, text: $model.repeatedPassword)
+            }
+            
+            Section {
+                HStack {
+                    Spacer()
+                    
+                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
+                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
+                    
+                    Spacer()
+                }
+            }
+        }
+        .disabled(model.isLoading)
+        .navigationBarTitle(LocalizedString.masterPassword, displayMode: .inline)
+        .listStyle(GroupedListStyle())
+        .onReceive(model.error) { error in
+            self.error = error
+        }
+        .onReceive(model.done) {
+            presentationMode.wrappedValue.dismiss()
+        }
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
+        .onAppear(perform: model.reset)
     }
     
 }
 
 private extension ChangeMasterPasswordView {
     
-    struct Header: View {
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                
-                Image.password
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .foregroundColor(.secondaryLabel)
-                    .frame(width: 60, height: 60)
-                    .padding(.top, 40)
-                    .padding(.bottom, 20)
-                
-                Spacer()
-            }
+    static func title(for error: ChangeMasterPasswordError) -> Text {
+        switch error {
+        case .passwordMismatch:
+            return Text(LocalizedString.passwordMismatch)
+        case .masterPasswordChangeDidFail:
+            return Text(LocalizedString.masterPasswordChangeDidFail)
         }
-        
-    }
-    
-    struct ErrorMessage: View {
-        
-        let status: ChangeMasterPasswordStatus
-        
-        var body: some View {
-            HStack {
-                Spacer()
-                
-                switch status {
-                case .none, .loading:
-                    EmptyView()
-                case .invalidPassword:
-                    ErrorBadge(LocalizedString.invalidCurrentPassword)
-                case .newPasswordMismatch:
-                    ErrorBadge(LocalizedString.passwordMismatch)
-                case .insecureNewPassword:
-                    ErrorBadge(LocalizedString.insecurePassword)
-                case .masterPasswordChangeDidFail:
-                    ErrorBadge(LocalizedString.masterPasswordChangeDidFail)
-                }
-                
-                Spacer()
-            }
-            .padding(.all, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
-        }
-        
     }
     
 }
+
+#endif
+
+#if os(iOS) && DEBUG
+struct ChangeMasterPasswordViewPreview: PreviewProvider {
+    
+    static let model = ChangeMasterPasswordModelStub()
+    
+    static var previews: some View {
+        Group {
+            ChangeMasterPasswordView(model)
+                .preferredColorScheme(.light)
+            
+            ChangeMasterPasswordView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

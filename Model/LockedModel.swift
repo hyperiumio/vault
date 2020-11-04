@@ -11,6 +11,7 @@ protocol LockedModelRepresentable: ObservableObject, Identifiable {
     var keychainAvailability: KeychainAvailability { get }
     var status: LockedStatus { get }
     var done: AnyPublisher<Vault, Never> { get }
+    var error: AnyPublisher<LockedError, Never> { get }
     
     func loginWithMasterPassword()
     func loginWithBiometrics()
@@ -19,11 +20,18 @@ protocol LockedModelRepresentable: ObservableObject, Identifiable {
 
 enum LockedStatus {
     
-    case none
+    case locked
     case unlocking
-    case unlockDidFail
-    case invalidPassword
     case unlocked
+    
+}
+
+enum LockedError: Error, Identifiable {
+    
+    case wrongPassword
+    case unlockFailed
+    
+    var id: Self { self }
     
 }
 
@@ -31,19 +39,24 @@ class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
     @Published private(set) var keychainAvailability: KeychainAvailability
-    @Published private(set) var status = LockedStatus.none
+    @Published private(set) var status = LockedStatus.locked
     
     var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
+    var error: AnyPublisher<LockedError, Never> {
+        errorSubject.eraseToAnyPublisher()
+    }
+    
     private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let errorSubject = PassthroughSubject<LockedError, Never>()
     private let passwordSubject = PassthroughSubject<String, Never>()
     private let keychain: Keychain
     private var openVaultSubscription: AnyCancellable?
     private var keychainLoadSubscription: AnyCancellable?
     
-    init(vaultDirectory: URL, preferences: Preferences, keychain: Keychain) {
+    init(vaultID: UUID, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.keychain = keychain
         self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
         
@@ -52,11 +65,7 @@ class LockedModel: LockedModelRepresentable {
             .receive(on: DispatchQueue.main)
             .assign(to: &$keychainAvailability)
         
-        $password
-            .map { _ in .none }
-            .assign(to: &$status)
-        
-        let lockedVault = Vault.load(from: vaultDirectory)
+        let lockedVault = Vault.load(vaultID: vaultID, in: vaultContainerDirectory)
             .assertNoFailure()
         
         openVaultSubscription = Publishers.CombineLatest(lockedVault, passwordSubject)
@@ -74,7 +83,8 @@ class LockedModel: LockedModelRepresentable {
                     self.status = .unlocked
                     self.doneSubject.send(vault)
                 case .failure(_):
-                    self.status = .invalidPassword
+                    self.status = .locked
+                    self.errorSubject.send(.wrongPassword)
                 }
             }
     }
@@ -95,7 +105,8 @@ class LockedModel: LockedModelRepresentable {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 if case .failure = completion {
-                    self?.status = .none
+                    self?.status = .locked
+                    self?.errorSubject.send(.unlockFailed)
                 }
             } receiveValue: { [passwordSubject] password in
                 passwordSubject.send(password)
@@ -103,3 +114,26 @@ class LockedModel: LockedModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class LockedModelStub: LockedModelRepresentable {
+    
+    @Published var password = ""
+    @Published var keychainAvailability = KeychainAvailability.enrolled(.faceID)
+    @Published private(set) var status = LockedStatus.locked
+    
+    var done: AnyPublisher<Vault, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    var error: AnyPublisher<LockedError, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    let vaultDirectory = URL(fileURLWithPath: "")
+    
+    func loginWithMasterPassword() {}
+    func loginWithBiometrics() {}
+    
+}
+#endif

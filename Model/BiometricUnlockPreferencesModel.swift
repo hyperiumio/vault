@@ -7,17 +7,10 @@ protocol BiometricUnlockPreferencesModelRepresentable: ObservableObject, Identif
     
     var password: String { get set }
     var status: BiometricUnlockPreferencesStatus { get }
-    var biometricType: BiometricType { get }
+    var biometryType: BiometryType { get }
     var done: AnyPublisher<Void, Never> { get }
     
     func enabledBiometricUnlock()
-    
-}
-
-enum BiometricType {
-    
-    case touchID
-    case faceID
     
 }
 
@@ -37,7 +30,7 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     
     var done: AnyPublisher<Void, Never> { doneSubject.eraseToAnyPublisher() }
     
-    let biometricType: BiometricType
+    let biometryType: BiometryType
     
     private let doneSubject = PassthroughSubject<Void, Never>()
     private let vault: Vault
@@ -45,9 +38,9 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     private let keychain: Keychain
     private var keychainStoreSubscription: AnyCancellable?
     
-    init(vault: Vault, biometricType: BiometricType, preferences: Preferences, keychain: Keychain) {
+    init(vault: Vault, biometryType: BiometryType, preferences: Preferences, keychain: Keychain) {
         self.vault = vault
-        self.biometricType = biometricType
+        self.biometryType = biometryType
         self.preferences = preferences
         self.keychain = keychain
         
@@ -59,13 +52,13 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     func enabledBiometricUnlock() {
         status = .loading
         keychainStoreSubscription = vault.validatePassword(password)
-            .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
+            .mapError { _ in EnableBiometricUnlockError2.biometricActivationFailed }
             .flatMap { [keychain, password] passwordIsValid in
                 passwordIsValid ?
                     keychain.store(password)
-                        .mapError { _ in EnableBiometricUnlockError.biometricActivationFailed }
+                        .mapError { _ in EnableBiometricUnlockError2.biometricActivationFailed }
                         .eraseToAnyPublisher() :
-                    Fail(error: EnableBiometricUnlockError.invalidPassword)
+                    Fail(error: EnableBiometricUnlockError2.invalidPassword)
                         .eraseToAnyPublisher()
             }
             .receive(on: DispatchQueue.main)
@@ -88,9 +81,31 @@ class BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresenta
     
 }
 
-private enum EnableBiometricUnlockError: Error {
+private enum EnableBiometricUnlockError2: Error {
     
     case invalidPassword
     case biometricActivationFailed
     
 }
+
+#if DEBUG
+class BiometricUnlockPreferencesModelStub: BiometricUnlockPreferencesModelRepresentable {
+    
+    @Published var password: String
+    @Published var status: BiometricUnlockPreferencesStatus
+    @Published var biometryType: BiometryType
+    
+    var done: AnyPublisher<Void, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    init(password: String, status: BiometricUnlockPreferencesStatus, biometryType: BiometryType) {
+        self.password = password
+        self.status = status
+        self.biometryType = biometryType
+    }
+    
+    func enabledBiometricUnlock() {}
+    
+}
+#endif

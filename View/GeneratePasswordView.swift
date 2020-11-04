@@ -1,9 +1,10 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct GeneratePasswordView: View {
     
-    let event: (String?) -> Void
+    let passworGenerator: (String?) -> Void
     
     @StateObject private var model = GeneratePasswordModel()
     
@@ -18,32 +19,74 @@ struct GeneratePasswordView: View {
         }
     }
     
-    init(event: @escaping (String?) -> Void) {
-        self.event = event
+    private var passwordLengthText: String {
+        LocalizedString.characters(model.length)
+    }
+    
+    private var passwordTextMinHeight: CGFloat {
+        let font = UIFont.preferredFont(forTextStyle: .body)
+        return ceil(font.lineHeight)
+    }
+    
+    init(passworGenerator: @escaping (String?) -> Void) {
+        self.passworGenerator = passworGenerator
     }
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(model.password ?? " ") // hack
-                .font(Font.system(.body, design: .monospaced))
+            Text(model.password ?? "")
+                .font(.password)
+                .foregroundColor(.label)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .frame(minHeight: 22)
+                .frame(minHeight: passwordTextMinHeight)
             
             HStack() {
-                Text(LocalizedString.characters(model.length))
+                Text(passwordLengthText)
                 
                 Slider(value: length, in: 16 ... 64, step: 1)
             }
             
             Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
+                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             
             Toggle(LocalizedString.symbols, isOn: $model.symbolsEnabled)
+                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
         }
-        .font(Font.body.monospacedDigit())
+        .font(.text)
         .foregroundColor(.secondaryLabel)
-        .onChange(of: model.password, perform: event)
+        .onChange(of: model.password, perform: passworGenerator)
         .onAppear(perform: model.createPassword)
     }
     
 }
+
+private extension Font {
+    
+    static var password: Self {
+        .system(.body, design: .monospaced)
+    }
+    
+    static var text: Self {
+        Font.body.monospacedDigit()
+    }
+    
+}
+#endif
+
+#if os(iOS) && DEBUG
+struct GeneratePasswordViewPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            GeneratePasswordView { _ in }
+                .preferredColorScheme(.light)
+            
+            GeneratePasswordView { _ in }
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

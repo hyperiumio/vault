@@ -1,17 +1,7 @@
 import Localization
 import SwiftUI
 
-#if os(macOS)
-struct SettingsView<Model>: View where Model: SettingsModelRepresentable {
-    
-    var body: some View {
-        Text("Settings")
-    }
-    
-    init(_ model: Model) {}
-    
-}
-#endif
+// TODO: cleanup
 
 #if os(iOS)
 struct SettingsView<Model: SettingsModelRepresentable>: View {
@@ -33,7 +23,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                 switch model.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
-                case .touchID:
+                case .enrolled(let biometryType):
                     Section {
                         Toggle(LocalizedString.useTouchID, isOn: isBiometricsEnabledBinding)
                             .animation(.default)
@@ -43,24 +33,10 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                     } footer: {
                         Text(LocalizedString.touchIDDescription)
                     }
-                case .faceID:
-                    Section {
-                        Toggle(LocalizedString.useFaceID, isOn: isBiometricsEnabledBinding)
-                            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                            .animation(.default)
-                            .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model)
-                            }
-                    } footer: {
-                        Text(LocalizedString.faceIDDescription)
-                    }
                 }
                 
                 Section {
-                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
-                        .sheet(item: $model.changeMasterPasswordModel) { model in
-                            ChangeMasterPasswordView(model)
-                        }
+                    NavigationLink(LocalizedString.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
                 } footer: {
                     Text(LocalizedString.changeMasterPasswordDescription)
                 }

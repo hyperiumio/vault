@@ -5,12 +5,22 @@ import Sync
 class AppDelegate: NSObject {
     
     let appModel: AppModel<AppLockedDependency>
-    let keychain = Keychain(identifier: "io.hyperium.vault")
+    let keychain: Keychain
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        let appModelDependency = AppLockedDependency(preferences: .shared, keychain: keychain)
+        guard let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+            fatalError()
+        }
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            fatalError()
+        }
+        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let keychain = Keychain(identifier: bundleIdentifier)
+        let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: .shared, keychain: keychain)
+        
         self.appModel = AppModel(appModelDependency)
+        self.keychain = keychain
         
         super.init()
     }

@@ -44,9 +44,9 @@ protocol VaultItemReferenceModelDependency {
 
 enum VaultItemReferenceState<VaultItemModel> {
     
-    case idle
+    case initialized
     case loading
-    case loadingFailure
+    case loadingFailed
     case loaded(VaultItemModel)
     
 }
@@ -55,7 +55,7 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     typealias VaultItemModel = Dependency.VaultItemModel
     
-    @Published private(set) var state = State.idle
+    @Published private(set) var state = State.initialized
     
     let info: VaultItemInfo
     
@@ -74,9 +74,27 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
         vault.loadVaultItem(with: info.id)
             .map(dependency.vaultItemModel)
             .map(VaultItemReferenceState.loaded)
-            .replaceError(with: .loadingFailure)
+            .replaceError(with: .loadingFailed)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
     }
     
 }
+
+#if DEBUG
+class VaultItemReferenceModelStub: VaultItemReferenceModelRepresentable {
+    
+    typealias VaultItemModel = VaultItemModelStub
+    
+    let state: State
+    let info: VaultItemInfo
+    
+    func load() {}
+    
+    init(state: State, info: VaultItemInfo) {
+        self.state = state
+        self.info = info
+    }
+    
+}
+#endif

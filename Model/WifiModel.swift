@@ -43,3 +43,18 @@ class WifiModel: WifiModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class WifiModelStub: WifiModelRepresentable {
+    
+    @Published var name = ""
+    @Published var password = ""
+    
+    var item: WifiItem {
+        WifiItem(name: name, password: password)
+    }
+    
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
+    
+}
+#endif

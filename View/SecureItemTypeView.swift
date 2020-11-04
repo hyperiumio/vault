@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct SecureItemTypeView: View {
     
     private let type: SecureItemType
@@ -10,45 +11,75 @@ struct SecureItemTypeView: View {
     }
     
     var body: some View {
-        HStack {
-            switch type {
-            case .password:
-                Image.password
-            case .login:
-                Image.login
-            case .file:
-                Image.file
-            case .note:
-                Image.note
-            case .bankCard:
-                Image.bankCard
-            case .wifi:
-                Image.wifi
-            case .bankAccount:
-                Image.bankAccount
-            case .custom:
-                Image.custom
-            }
+        HStack(spacing: 5) {
+            Self.image(for: type)
             
-            switch type {
-            case .password:
-                Text(LocalizedString.password)
-            case .login:
-                Text(LocalizedString.login)
-            case .file:
-                Text(LocalizedString.file)
-            case .note:
-                Text(LocalizedString.note)
-            case .bankCard:
-                Text(LocalizedString.bankCard)
-            case .wifi:
-                Text(LocalizedString.wifi)
-            case .bankAccount:
-                Text(LocalizedString.bankAccount)
-            case .custom:
-                Text(LocalizedString.customItem)
-            }
+            Self.text(for: type)
         }
     }
     
 }
+
+private extension SecureItemTypeView {
+    
+    static func image(for type: SecureItemType) -> Image {
+        switch type {
+        case .login:
+            return .login
+        case .password:
+            return .password
+        case .wifi:
+            return .wifi
+        case .note:
+            return .note
+        case .bankCard:
+            return .bankCard
+        case .bankAccount:
+            return .bankAccount
+        case .custom:
+            return .custom
+        case .file:
+            return .file
+        }
+    }
+    
+    static func text(for type: SecureItemType) -> Text {
+        switch type {
+        case .login:
+            return Text(LocalizedString.login)
+        case .password:
+            return Text(LocalizedString.password)
+        case .wifi:
+            return Text(LocalizedString.wifi)
+        case .note:
+            return Text(LocalizedString.note)
+        case .bankCard:
+            return Text(LocalizedString.bankCard)
+        case .bankAccount:
+            return Text(LocalizedString.bankAccount)
+        case .custom:
+            return Text(LocalizedString.custom)
+        case .file:
+            return Text(LocalizedString.file)
+        }
+    }
+    
+}
+#endif
+
+#if os(iOS) && DEBUG
+struct SecureItemTypeViewPreview: PreviewProvider {
+    
+    static var previews: some View {
+        Group {
+            SecureItemTypeView(.login)
+                .preferredColorScheme(.light)
+            
+            SecureItemTypeView(.login)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

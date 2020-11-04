@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -13,33 +14,62 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     var body: some View {
         NavigationView {
-            VaultItemList(model.itemCollation, searchText: $model.searchText)
-                .toolbar {
-                    ToolbarItemGroup(placement: .navigationBarLeading) {
-                        Button {
-                            presentedSheet = .settings
-                        } label: {
-                            Image.settings
-                        }
-                        
-                        Button {
-                            model.lockApp(enableBiometricUnlock: false)
-                        } label: {
-                            Image.lock
+            Group {
+                if let collation = model.itemCollation {
+                    List {
+                        ForEach(collation.sections) { section in
+                            Section {
+                                ForEach(section.elements) { model in
+                                    NavigationLink(destination: VaultItemReferenceView(model)) {
+                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                                    }
+                                }
+                            } header: {
+                                Text(section.key)
+                            }
                         }
                     }
-                    
-                    ToolbarItemGroup(placement: .navigationBarTrailing) {
-                        Button {
+                    .searchBar($model.searchText)
+                    .listStyle(PlainListStyle())
+                } else {
+                    VStack(spacing: 30) {
+                        Text(LocalizedString.emptyVault)
+                            .font(.title)
+                        
+                        Button(LocalizedString.createFirstItem) {
                             presentedSheet = .selectCategory
-                        } label: {
-                            Image.plus
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
                     }
                 }
+            }
+            .navigationBarTitle(LocalizedString.vault, displayMode: .inline)
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        presentedSheet = .settings
+                    } label: {
+                        Image.settings
+                    }
+                    
+                    Button {
+                        model.lockApp(enableBiometricUnlock: false)
+                    } label: {
+                        Image.lock
+                    }
+                }
+                
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button {
+                        presentedSheet = .selectCategory
+                    } label: {
+                        Image.plus
+                    }
+                    .buttonStyle(PlainButtonStyle())
+                }
+            }
             
-            EmptySelection()
+            Text(LocalizedString.nothingSelected)
         }
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
@@ -73,7 +103,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         .alert(item: $model.failure) { failure in
             switch failure {
             case .loadOperationFailed:
-                let name = Text(LocalizedString.loadFailed)
+                let name = Text(LocalizedString.loadingVaultFailed)
                 return Alert(title: name)
             case .deleteOperationFailed:
                 let name = Text(LocalizedString.deleteFailed)
@@ -97,50 +127,6 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
 }
 
 private extension UnlockedView {
-    
-    struct VaultItemList: View {
-        
-        let itemCollation: Model.Collation?
-        let searchText: Binding<String>
-        
-        var body: some View {
-            if let collation = itemCollation {
-                List {
-                    ForEach(collation.sections) { section in
-                        Section {
-                            ForEach(section.elements) { model in
-                                NavigationLink(destination: VaultItemReferenceView(model)) {
-                                    VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
-                                }
-                            }
-                        } header: {
-                            Text(section.key)
-                        }
-                    }
-                }
-                .searchBar(searchText)
-                .listStyle(PlainListStyle())
-                .navigationBarTitle(LocalizedString.vault, displayMode: .inline)
-            } else {
-                Text(LocalizedString.emptyVault)
-                    .font(.title)
-            }
-        }
-        
-        init(_ itemCollation: Model.Collation?, searchText: Binding<String>) {
-            self.itemCollation = itemCollation
-            self.searchText = searchText
-        }
-        
-    }
-    
-    struct EmptySelection: View {
-        
-        var body: some View {
-            Text("Nothing Selected")
-        }
-        
-    }
     
     enum Sheet: Identifiable {
         
@@ -169,11 +155,11 @@ private extension List {
         let resolver = SearchBar(searchText)
             .frame(width: 0, height: 0)
         
-        return self.overlay(resolver)
+        return overlay(resolver)
     }
 }
 
-struct SearchBar: UIViewControllerRepresentable {
+private struct SearchBar: UIViewControllerRepresentable {
     
     private let searchText: Binding<String>
     
@@ -188,7 +174,7 @@ struct SearchBar: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: SearchBarViewController, context: Context) {}
 }
 
-class SearchBarViewController: UIViewController {
+private class SearchBarViewController: UIViewController {
     
     private let searchText: Binding<String>
     
@@ -220,3 +206,4 @@ extension SearchBarViewController: UISearchResultsUpdating {
     }
     
 }
+#endif

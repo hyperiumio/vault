@@ -15,13 +15,13 @@ struct SecureItemButton<Content>: View where Content: View {
     
     var body: some View {
         Button {
-            withAnimation(Animation.easeInOut(duration: 0.1)) {
+            withAnimation(.buttonFadeInOut) {
                 isMessageShow = true
             }
             
             timer?.invalidate()
-            timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { timer in
-                withAnimation(Animation.easeInOut(duration: 0.1)) {
+            timer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: false) { timer in
+                withAnimation(.buttonFadeInOut) {
                     isMessageShow = false
                 }
             }
@@ -37,9 +37,9 @@ struct SecureItemButton<Content>: View where Content: View {
                 
                 if isMessageShow {
                     Text(LocalizedString.copied)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .font(.subheadline)
                         .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .background(Color.appTeal)
                 }
             }
@@ -50,18 +50,34 @@ struct SecureItemButton<Content>: View where Content: View {
     
 }
 
-struct SecureItemView<Content>: View where Content: View {
+private extension Animation {
     
-    private let content: Content
+    static var buttonFadeInOut: Self { Animation.easeIn(duration: 0.2) }
     
-    init(@ViewBuilder content: () -> Content) {
-        self.content = content()
-    }
+}
+
+#if os(iOS) && DEBUG
+struct SecureItemButtonPreview: PreviewProvider {
     
-    var body: some View {
-        content
-            .listRowInsets(.zero)
-            .padding()
+    static var previews: some View {
+        Group {
+            List {
+                SecureItemButton {} content: {
+                    Text("foo")
+                }
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                SecureItemButton {} content: {
+                    Text("foo")
+                }
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

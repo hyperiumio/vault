@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct LoginView: View {
     
     private let item: LoginItem
@@ -11,16 +12,41 @@ struct LoginView: View {
     
     var body: some View {
         if let username = item.username {
-            SecureItemTextDisplayField(LocalizedString.username, text: username)
+            SecureItemTextField(LocalizedString.username, text: username)
         }
         
         if let password = item.password {
-            SecureItemSecureTextDisplayField(LocalizedString.password, text: password)
+            SecureItemSecureTextField(LocalizedString.password, text: password)
         }
         
         if let url = item.url {
-            SecureItemTextDisplayField(LocalizedString.url, text: url)
+            SecureItemTextField(LocalizedString.url, text: url)
         }
     }
     
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct LoginViewPreview: PreviewProvider {
+    
+    static let item = LoginItem(username: "foo", password: "bar", url: "baz")
+    
+    static var previews: some View {
+        Group {
+            List {
+                LoginView(item)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                LoginView(item)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

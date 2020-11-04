@@ -31,7 +31,7 @@ public struct VaultItem {
         case .bankAccount(let item):
             return item.accountHolder
         case .custom(let item):
-            return item.name
+            return item.description
         }
     }
     

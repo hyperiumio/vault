@@ -17,7 +17,7 @@ protocol MainModelDependency {
     associatedtype LockedModel: LockedModelRepresentable
     associatedtype UnlockedModel: UnlockedModelRepresentable
     
-    func lockedModel(vaultDirectory: URL) -> LockedModel
+    func lockedModel(vaultID: UUID) -> LockedModel
     func unlockedModel(vault: Vault) -> UnlockedModel
     
 }
@@ -36,9 +36,21 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     
     @Published var state: State
     
-    private let dependency: Dependency
+    convenience init(dependency: Dependency, vault: Vault) {
+        let unlockedModel = dependency.unlockedModel(vault: vault)
+        let state = State.unlocked(model: unlockedModel)
+        
+        self.init(dependency: dependency, state: state)
+    }
     
-    init(dependency: Dependency, vaultDirectory: URL, vault: Vault? = nil) {
+    convenience init(dependency: Dependency, vaultID: UUID) {
+        let lockedModel = dependency.lockedModel(vaultID: vaultID)
+        let state = State.locked(model: lockedModel, userBiometricUnlock: true)
+        
+        self.init(dependency: dependency, state: state)
+    }
+    
+    private init(dependency: Dependency, state: State) {
         
         func statePublisher(from state: State) -> AnyPublisher<State, Never> {
             switch state {
@@ -50,22 +62,14 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
             case .unlocked(let model):
                 return model.lockRequest
                     .map { enableBiometricUnlock in
-                        let model = dependency.lockedModel(vaultDirectory: model.vaultDirectory)
+                        let model = dependency.lockedModel(vaultID: model.vaultID)
                         return .locked(model: model, userBiometricUnlock: enableBiometricUnlock)
                     }
                     .eraseToAnyPublisher()
             }
         }
         
-        if let vault = vault {
-            let model = dependency.unlockedModel(vault: vault)
-            self.state = .unlocked(model: model)
-        } else {
-            let model = dependency.lockedModel(vaultDirectory: vaultDirectory)
-            self.state = .locked(model: model, userBiometricUnlock: true)
-        }
-        
-        self.dependency = dependency
+        self.state = state
         
         statePublisher(from: state)
             .assign(to: &$state)
@@ -76,3 +80,20 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     }
     
 }
+
+#if DEBUG
+class MainModelStub: MainModelRepresentable {
+    
+    typealias LockedModel = LockedModelStub
+    typealias UnlockedModel = UnlockedModelStub
+    
+    let state: State
+    
+    init(state: State) {
+        self.state = state
+    }
+    
+    func lock() {}
+    
+}
+#endif

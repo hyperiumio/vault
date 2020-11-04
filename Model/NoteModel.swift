@@ -24,3 +24,15 @@ class NoteModel: NoteModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class NoteModelStub: NoteModelRepresentable {
+    
+    @Published var text = ""
+    
+    var item: NoteItem {
+        NoteItem(text: text)
+    }
+    
+}
+#endif

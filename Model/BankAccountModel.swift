@@ -32,3 +32,17 @@ class BankAccountModel: BankAccountModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class BankAccountModelStub: BankAccountModelRepresentable {
+    
+    @Published var accountHolder = ""
+    @Published var iban: String = ""
+    @Published var bic: String = ""
+    
+    var item: BankAccountItem {
+        BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
+    }
+    
+}
+#endif

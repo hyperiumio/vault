@@ -4,23 +4,23 @@ import XCTest
 class CustomItemTests: XCTestCase {
     
     func testInitFromValues() {
-        let item = CustomItem(name: "foo", value: "bar")
+        let item = CustomItem(description: "foo", value: "bar")
         
-        XCTAssertEqual(item.name, "foo")
+        XCTAssertEqual(item.description, "foo")
         XCTAssertEqual(item.value, "bar")
     }
     
     func testInitFromData() throws {
         let data = """
         {
-          "name": "foo",
+          "description": "foo",
           "value": "bar"
         }
         """.data(using: .utf8)!
         
         let item = try CustomItem(from: data)
         
-        XCTAssertEqual(item.name, "foo")
+        XCTAssertEqual(item.description, "foo")
         XCTAssertEqual(item.value, "bar")
     }
     
@@ -31,16 +31,16 @@ class CustomItemTests: XCTestCase {
     }
     
     func testType() {
-        let item = CustomItem(name: "", value: "")
+        let item = CustomItem(description: "", value: "")
         
         XCTAssertEqual(item.type, .custom)
     }
     
     func testEncoded() throws {
-        let item = try CustomItem(name: "foo", value: "bar").encoded()
+        let item = try CustomItem(description: "foo", value: "bar").encoded()
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: item) as? [String: Any])
         
-        let name = try XCTUnwrap(json["name"] as? String)
+        let name = try XCTUnwrap(json["description"] as? String)
         let value = try XCTUnwrap(json["value"] as? String)
         
         XCTAssertEqual(json.count, 2)

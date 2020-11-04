@@ -1,7 +1,8 @@
 import Localization
 import SwiftUI
 
-struct PasswordDisplayView: View {
+#if os(iOS)
+struct PasswordView: View {
     
     private let item: PasswordItem
     
@@ -11,8 +12,33 @@ struct PasswordDisplayView: View {
     
     var body: some View {
         if let password = item.password {
-            SecureItemSecureTextDisplayField(LocalizedString.password, text: password)
+            SecureItemSecureTextField(LocalizedString.password, text: password)
         }
     }
 
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct PasswordViewPreview: PreviewProvider {
+    
+    static let item = PasswordItem(password: "foo")
+    
+    static var previews: some View {
+        Group {
+            List {
+                PasswordView(item)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                PasswordView(item)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

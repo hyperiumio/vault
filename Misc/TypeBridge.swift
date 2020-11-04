@@ -6,6 +6,7 @@ import UniformTypeIdentifiers
 
 typealias BankCardItemVendor = Store.BankCardItem.Vendor
 typealias KeychainAvailability = Crypto.Keychain.Availability
+typealias BiometryType = Crypto.Keychain.BiometryType
 typealias SecureItemType = Store.SecureItemType
 typealias VaultItemInfo = Store.VaultItemInfo
 typealias BankAccountItem = Store.BankAccountItem

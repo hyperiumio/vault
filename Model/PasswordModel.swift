@@ -39,3 +39,17 @@ class PasswordModel: PasswordModelRepresentable {
     }
     
 }
+
+#if DEBUG
+class PasswordModelStub: PasswordModelRepresentable {
+    
+    @Published var password = ""
+    
+    var item: PasswordItem {
+        PasswordItem(password: password)
+    }
+    
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
+    
+}
+#endif

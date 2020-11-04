@@ -4,7 +4,7 @@ import Store
 
 protocol CustomModelRepresentable: ObservableObject, Identifiable {
     
-    var name: String { get set }
+    var description: String { get set }
     var value: String { get set }
     var item: CustomItem { get }
     
@@ -12,19 +12,32 @@ protocol CustomModelRepresentable: ObservableObject, Identifiable {
 
 class CustomModel: CustomModelRepresentable {
     
-    @Published var name: String
+    @Published var description: String
     @Published var value: String
     
     var item: CustomItem {
-        let name = self.name.isEmpty ? nil : self.name
+        let description = self.description.isEmpty ? nil : self.description
         let value = self.value.isEmpty ? nil : self.value
         
-        return CustomItem(name: name, value: value)
+        return CustomItem(description: description, value: value)
     }
     
     init(_ item: CustomItem) {
-        self.name = item.name ?? ""
+        self.description = item.description ?? ""
         self.value = item.value ?? ""
     }
     
 }
+
+#if DEBUG
+class CustomModelStub: CustomModelRepresentable {
+
+    @Published var description = ""
+    @Published var value = ""
+    
+    var item: CustomItem {
+        CustomItem(description: description, value: value)
+    }
+    
+}
+#endif

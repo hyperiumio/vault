@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct BankCardView: View {
     
     private let item: BankCardItem
@@ -11,11 +12,11 @@ struct BankCardView: View {
     
     var body: some View {
         if let name = item.name {
-            SecureItemTextDisplayField(LocalizedString.bankCardName, text: name)
+            SecureItemTextField(LocalizedString.name, text: name)
         }
         
         if let vendor = item.vendor {
-            SecureItemDisplayField(LocalizedString.bankCardVendor) {
+            SecureItemField(LocalizedString.vendor) {
                 switch vendor {
                 case .masterCard:
                     Text(LocalizedString.mastercard)
@@ -28,15 +29,40 @@ struct BankCardView: View {
         }
         
         if let number = item.number {
-            SecureItemTextDisplayField(LocalizedString.bankCardNumber, text: number)
+            SecureItemTextField(LocalizedString.number, text: number)
         }
         
         if let expirationDate = item.expirationDate {
-            SecureItemDateDisplayField(LocalizedString.bankCardExpirationDate, date: expirationDate)
+            SecureItemDateField(LocalizedString.expirationDate, date: expirationDate)
         }
         
         if let pin = item.pin {
-            SecureItemSecureTextDisplayField(LocalizedString.bankCardPin, text: pin)
+            SecureItemSecureTextField(LocalizedString.pin, text: pin)
         }
     }
 }
+#endif
+
+#if os(iOS) && DEBUG
+struct BankCardViewPreview: PreviewProvider {
+    
+    static let item = BankCardItem(name: "foo", number: "bar", expirationDate: Date(), pin: "paz")
+    
+    static var previews: some View {
+        Group {
+            List {
+                BankCardView(item)
+            }
+            .preferredColorScheme(.light)
+            
+            List {
+                BankCardView(item)
+            }
+            .preferredColorScheme(.dark)
+        }
+        .listStyle(GroupedListStyle())
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

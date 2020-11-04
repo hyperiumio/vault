@@ -12,4 +12,14 @@ extension DispatchQueue {
         }
     }
     
+    func future<Success>(catching body: @escaping () -> Success) -> Future<Success, Never> {
+        Future { promise in
+            self.async {
+                let success = body()
+                let result = Result<Success, Never>.success(success)
+                promise(result)
+            }
+        }
+    }
+    
 }

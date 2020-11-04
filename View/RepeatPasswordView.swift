@@ -1,9 +1,10 @@
 import Localization
 import SwiftUI
 
-struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresentable {
+struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
+    @State private var error: RepeatPasswordError?
     
     init(_ model: Model) {
         self.model = model
@@ -18,11 +19,11 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
         VStack {
             Spacer()
             
-            Text(LocalizedString.chooseMasterPassword)
+            Text(LocalizedString.repeatMasterPassword)
                 .font(.title)
                 .multilineTextAlignment(.center)
             
-            SecureField(LocalizedString.masterPassword, text: $model.password)
+            SecureField(LocalizedString.masterPassword, text: $model.repeatedPassword)
                 .font(.title2)
                 .minimumScaleFactor(0.5)
                 .multilineTextAlignment(.center)
@@ -30,25 +31,43 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
             
             Spacer()
             
-            Button(LocalizedString.continue, action: model.choosePassword)
+            Button(LocalizedString.continue, action: model.validatePassword)
                 .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
-                .disabled(model.password.isEmpty)
+                .disabled(model.repeatedPassword.isEmpty)
+        }
+        .onReceive(model.error) { error in
+            self.error = error
+        }
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
+    }
+    
+}
+
+private extension RepeatPasswordView {
+    
+    static func title(for error: RepeatPasswordError) -> Text {
+        switch error {
+        case .invalidPassword:
+            return Text(LocalizedString.invalidPassword)
         }
     }
     
 }
 
 #if os(iOS) && DEBUG
-struct ChoosePasswordViewProvider: PreviewProvider {
+struct RepeatPasswordViewProvider: PreviewProvider {
     
-    static let model = ChoosePasswordModelStub()
+    static let model = RepeatPasswordModelStub()
     
     static var previews: some View {
         Group {
-            ChoosePasswordView(model)
+            RepeatPasswordView(model)
                 .preferredColorScheme(.light)
             
-            ChoosePasswordView(model)
+            RepeatPasswordView(model)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
