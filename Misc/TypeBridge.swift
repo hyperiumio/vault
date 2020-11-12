@@ -17,8 +17,10 @@ typealias NoteItem = Store.NoteItem
 typealias PasswordItem = Store.PasswordItem
 typealias WifiItem = Store.WifiItem
 typealias FileItem = Store.FileItem
-typealias Vault = Store.Vault<CryptoKey, SecureDataHeader, SecureDataMessage>
+typealias Vault = Store.Vault<DerivedKey, MasterKey, SecureDataKey, SecureDataHeader, SecureDataMessage>
+typealias VaultContainer = Store.VaultContainer<DerivedKey, MasterKey, SecureDataKey, SecureDataHeader, SecureDataMessage>
 
-extension CryptoKey: KeyRepresentable {}
+extension DerivedKey: DerivedKeyRepresentable {}
+extension MasterKey: MasterKeyRepresentable {}
 extension SecureDataHeader: HeaderRepresentable {}
 extension SecureDataMessage: MessageRepresentable {}

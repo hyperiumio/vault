@@ -49,12 +49,12 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
             return
         }
         
-        let changePasswordPublisher = vault.changeMasterPassword(to: password)
-        let storePasswordPublisher = keychain.store(password)
-        
         isLoading = true
-        changeMasterPasswordSubscription = Publishers.Zip(changePasswordPublisher, storePasswordPublisher)
-            .map(\.0)
+        changeMasterPasswordSubscription = vault.changeMasterPassword(to: password)
+            .flatMap { [keychain, vault] vaultID in
+                keychain.store(vault.derivedKey)
+                    .map { vaultID }
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }

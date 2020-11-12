@@ -5,36 +5,39 @@ import Preferences
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     
-    associatedtype BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable
     associatedtype ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable
     
-    var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel? { get set }
-    var changeMasterPasswordModel: ChangeMasterPasswordModel { get }
     var keychainAvailability: KeychainAvailability { get }
-    var isBiometricUnlockEnabled: Bool { get }
-    
-    func setBiometricUnlock(isEnabled: Bool)
+    var isBiometricUnlockEnabled: Bool { get set }
+    var error: AnyPublisher<SettingModelError, Never> { get }
+    var changeMasterPasswordModel: ChangeMasterPasswordModel { get }
     
 }
 
 protocol SettingsModelDependency {
      
-    associatedtype BiometricUnlockPreferencesModel: BiometricUnlockPreferencesModelRepresentable
     associatedtype ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable
     
-    func biometricUnlockPreferencesModel(biometryType: BiometryType) -> BiometricUnlockPreferencesModel
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel
+    
+}
+
+enum SettingModelError: Error {
+    
+    case keychainAccessDidFail
     
 }
 
 class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresentable {
     
-    typealias BiometricUnlockPreferencesModel = Dependency.BiometricUnlockPreferencesModel
     typealias ChangeMasterPasswordModel = Dependency.ChangeMasterPasswordModel
     
     @Published var keychainAvailability: Keychain.Availability
-    @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
-    @Published private(set) var isBiometricUnlockEnabled: Bool = true
+    @Published var isBiometricUnlockEnabled: Bool = true
+    
+    var error: AnyPublisher<SettingModelError, Never> {
+        errorSubject.eraseToAnyPublisher()
+    }
     
     let changeMasterPasswordModel: ChangeMasterPasswordModel
     
@@ -42,6 +45,8 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     private let preferences: Preferences
     private let keychain: Keychain
     private let dependency: Dependency
+    private let errorSubject = PassthroughSubject<SettingModelError, Never>()
+    private var isBiometricUnlockEnabledSubscription: AnyCancellable?
     
     init(vault: Vault, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
         self.vault = vault
@@ -60,24 +65,26 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
             .map { preferences in preferences.isBiometricUnlockEnabled }
             .receive(on: DispatchQueue.main)
             .assign(to: &$isBiometricUnlockEnabled)
-    }
-    
-    func setBiometricUnlock(isEnabled: Bool) {
-        guard isEnabled else {
-            preferences.set(isBiometricUnlockEnabled: false)
-            return
-        }
-        guard case .enrolled(let biometryType) = keychainAvailability else {
-            return
-        }
         
-        let model = dependency.biometricUnlockPreferencesModel(biometryType: biometryType)
-        model.done
-            .map { nil }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$biometricUnlockPreferencesModel)
-        
-        self.biometricUnlockPreferencesModel = model
+        isBiometricUnlockEnabledSubscription = $isBiometricUnlockEnabled
+            .flatMap { isBiometricUnlockEnabled -> AnyPublisher<Bool, Error> in
+                if isBiometricUnlockEnabled {
+                    return keychain.store(vault.derivedKey)
+                        .map { isBiometricUnlockEnabled }
+                        .eraseToAnyPublisher()
+                } else {
+                    return keychain.delete()
+                        .map { isBiometricUnlockEnabled }
+                        .eraseToAnyPublisher()
+                }
+            }
+            .sink { [errorSubject] completion in
+                if case .failure = completion {
+                    errorSubject.send(.keychainAccessDidFail)
+                }
+            } receiveValue: { isBiometricUnlockEnabled in
+                preferences.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
+            }
     }
     
 }
@@ -85,19 +92,20 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
 #if DEBUG
 class SettingsModelStub: SettingsModelRepresentable {
     
-    @Published var biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?
     @Published var changeMasterPasswordModel: ChangeMasterPasswordModel
     @Published var keychainAvailability: KeychainAvailability
     @Published var isBiometricUnlockEnabled: Bool
     
-    init(biometricUnlockPreferencesModel: BiometricUnlockPreferencesModel?, changeMasterPasswordModel: ChangeMasterPasswordModel, keychainAvailability: KeychainAvailability, isBiometricUnlockEnabled: Bool) {
-        self.biometricUnlockPreferencesModel = biometricUnlockPreferencesModel
+    var error: AnyPublisher<SettingModelError, Never> {
+        PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    init(changeMasterPasswordModel: ChangeMasterPasswordModel, keychainAvailability: KeychainAvailability, isBiometricUnlockEnabled: Bool) {
         self.changeMasterPasswordModel = changeMasterPasswordModel
         self.keychainAvailability = keychainAvailability
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
     }
     
-    func lockVault() {}
     func setBiometricUnlock(isEnabled: Bool) {}
     
 }

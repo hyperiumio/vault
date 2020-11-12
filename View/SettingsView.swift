@@ -1,21 +1,11 @@
 import Localization
 import SwiftUI
 
-// TODO: cleanup
-
 #if os(iOS)
 struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     @ObservedObject private var model: Model
     @Environment(\.presentationMode) private var presentationMode
-    
-    var isBiometricsEnabledBinding: Binding<Bool> {
-        Binding {
-            model.isBiometricUnlockEnabled
-        } set: { isEnabled in
-            model.setBiometricUnlock(isEnabled: isEnabled)
-        }
-    }
     
     var body: some View {
         NavigationView {
@@ -23,15 +13,17 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                 switch model.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
-                case .enrolled(let biometryType):
+                case .enrolled(.touchID):
                     Section {
-                        Toggle(LocalizedString.useTouchID, isOn: isBiometricsEnabledBinding)
-                            .animation(.default)
-                            .sheet(item: $model.biometricUnlockPreferencesModel) { model in
-                                BiometricUnlockPreferencesView(model)
-                            }
+                        Toggle(LocalizedString.useTouchID, isOn: $model.isBiometricUnlockEnabled)
                     } footer: {
                         Text(LocalizedString.touchIDDescription)
+                    }
+                case .enrolled(.faceID):
+                    Section {
+                        Toggle(LocalizedString.useFaceID, isOn: $model.isBiometricUnlockEnabled)
+                    } footer: {
+                        Text(LocalizedString.faceIDDescription)
                     }
                 }
                 
@@ -41,6 +33,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                     Text(LocalizedString.changeMasterPasswordDescription)
                 }
             }
+            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             .listStyle(GroupedListStyle())
             .navigationTitle(LocalizedString.settings)
             .toolbar {

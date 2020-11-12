@@ -1,6 +1,7 @@
 import Combine
+import Crypto
 import Foundation
-import  Preferences
+import Preferences
 
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {
     
@@ -25,8 +26,10 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
     @Published var isLoading = false
     
     private let password: String
+    private let biometricUnlockEnabled: Bool
     private let vaultContainerDirectory: URL
     private let preferences: Preferences
+    private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let errorSubject = PassthroughSubject<CompleteSetupError, Never>()
     private var createVaultSubscription: AnyCancellable?
@@ -39,10 +42,12 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         errorSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, vaultContainerDirectory: URL, preferences: Preferences) {
+    init(password: String, biometricUnlockEnabled: Bool, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.password = password
+        self.biometricUnlockEnabled = biometricUnlockEnabled
         self.vaultContainerDirectory = vaultContainerDirectory
         self.preferences = preferences
+        self.keychain = keychain
     }
     
     func createVault() {
@@ -52,6 +57,17 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         
         isLoading = true
         createVaultSubscription = Vault.create(in: vaultContainerDirectory, using: password)
+            .flatMap { [biometricUnlockEnabled, keychain] vault -> AnyPublisher<Vault, Error> in
+                if biometricUnlockEnabled {
+                    return keychain.store(vault.derivedKey)
+                        .map { vault }
+                        .eraseToAnyPublisher()
+                } else {
+                    return Just(vault)
+                        .setFailureType(to: Error.self)
+                        .eraseToAnyPublisher()
+                }
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -61,8 +77,9 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
                 if case .failure = completion {
                     self.errorSubject.send(.vaultCreationFailed)
                 }
-            } receiveValue: { [preferences, doneSubject] vault in
+            } receiveValue: { [biometricUnlockEnabled, preferences, doneSubject] vault in
                 preferences.set(activeVaultIdentifier: vault.id)
+                preferences.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
                 
                 doneSubject.send(vault)
             }

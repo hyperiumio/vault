@@ -47,11 +47,11 @@ extension AppLockedDependency: SetupModelDependency {
     }
     
     func enabledBiometricUnlockModel(password: String, biometryType: BiometryType) -> EnableBiometricUnlockModel {
-        EnableBiometricUnlockModel(password: password, biometryType: biometryType, preferences: preferences, keychain: keychain)
+        EnableBiometricUnlockModel(password: password, biometryType: biometryType)
     }
     
-    func completeSetupModel(password: String) -> CompleteSetupModel {
-        CompleteSetupModel(password: password, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences)
+    func completeSetupModel(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupModel {
+        CompleteSetupModel(password: password, biometricUnlockEnabled: biometricUnlockEnabled, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
     }
     
 }

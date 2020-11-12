@@ -44,13 +44,6 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
                     .font(.headline)
             }
         }
-        .onReceive(model.error) { error in
-            self.error = error
-        }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error, biometryType: model.biometryType)
-            return Alert(title: title)
-        }
     }
     
 }

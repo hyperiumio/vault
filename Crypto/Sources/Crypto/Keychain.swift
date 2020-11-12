@@ -33,7 +33,7 @@ public class Keychain {
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
-    public func store(_ password: String) -> AnyPublisher<Void, Error> {
+    public func store(_ key: DerivedKey) -> AnyPublisher<Void, Error> {
         operationQueue.future { [identifier, context] in
             let deleteQuery = [
                 kSecClass: kSecClassGenericPassword,
@@ -45,7 +45,9 @@ public class Keychain {
                 kSecAttrService: identifier,
                 kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
                 kSecUseAuthenticationContext: context,
-                kSecValueData: Data(password.utf8)
+                kSecValueData: key.value.withUnsafeBytes { bytes in
+                    Data(bytes)
+                }
             ] as CFDictionary
             
             let deleteStatus = KeychainDelete(deleteQuery)
@@ -61,7 +63,7 @@ public class Keychain {
         .eraseToAnyPublisher()
     }
     
-    public func loadPassword() -> AnyPublisher<String, Error> {
+    public func load() -> AnyPublisher<DerivedKey, Error> {
         operationQueue.future { [identifier] in
             let query = [
                 kSecClass: kSecClassGenericPassword,
@@ -78,16 +80,13 @@ public class Keychain {
             guard let data = item as? Data else {
                 throw CryptoError.keychainLoadDidFail
             }
-            guard let password = String(data: data, encoding: .utf8) else {
-                throw CryptoError.keychainLoadDidFail
-            }
             
-            return password
+            return DerivedKey(data)
         }
         .eraseToAnyPublisher()
     }
     
-    public func deletePassword() -> AnyPublisher<Void, Error> {
+    public func delete() -> AnyPublisher<Void, Error> {
         operationQueue.future { [identifier] in
             let query = [
                 kSecClass: kSecClassGenericPassword,
