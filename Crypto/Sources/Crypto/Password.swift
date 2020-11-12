@@ -1,3 +1,5 @@
+import CommonCrypto
+
 public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool) throws -> String {
     var symbolGroups = Set<SymbolGroup>()
     if uppercase {
@@ -61,4 +63,20 @@ private enum SymbolGroup {
         }
     }
     
+}
+
+private func RandomNumber(upperBound: Int) throws -> Int {
+    var randomValue = UInt8(0)
+    repeat {
+        let status = CCRandomGenerateBytes(&randomValue, 1)
+        guard status == kCCSuccess else {
+            throw CryptoError.rngFailure
+        }
+    } while randomValue >= upperBound
+
+    guard let result = Int(exactly: randomValue) else {
+        throw CryptoError.rngFailure
+    }
+    
+    return result
 }

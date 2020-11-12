@@ -1,22 +1,22 @@
 import Combine
 import Foundation
 
-// is currently not thread save
-
-// items should reload after configuration change
+// TODO: is currently not thread save
+// TODO: items should reload after configuration change
 
 private let operationQueue = DispatchQueue(label: "VaultOperationQueue")
 
-public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Key == Header.Key, Key == Message.Key {
+public class Vault<DerivedKey, MasterKey, MessageKey, Header, Message> where DerivedKey: DerivedKeyRepresentable, MasterKey: MasterKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, MasterKey.DerivedKey == DerivedKey, MasterKey == Message.MasterKey, MasterKey == Header.MasterKey, MessageKey == Message.MessageKey, Header.MessageKey == MessageKey {
     
     public var id: UUID { configuration.id }
     public var directory: URL { configuration.resourceLocator.rootDirectory }
+    public var derivedKey: DerivedKey { configuration.derivedKey }
     
     private var configuration: Configuration
     private let indexSubject: CurrentValueSubject<VaultIndex, Error>
     
-    init(id: UUID, masterKey: Key, resourceLocator: VaultResourceLocator, initialElements: [Vault.Element]) {
-        let configuration = Configuration(id: id, masterKey: masterKey, resourceLocator: resourceLocator)
+    init(id: UUID, derivedKey: DerivedKey, masterKey: MasterKey, resourceLocator: VaultResourceLocator, initialElements: [Vault.Element]) {
+        let configuration = Configuration(id: id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator)
         let ids = initialElements.map(\.info.id)
         let keysWithValues = zip(ids, initialElements)
         let index = Dictionary(uniqueKeysWithValues: keysWithValues)
@@ -39,7 +39,7 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
     
     public func save(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         operationQueue.future { [configuration, indexSubject] in
-            let newItemURL = configuration.resourceLocator.itemFile()
+            let newItemURL = configuration.resourceLocator.item()
             let secondaryTypes = vaultItem.secondarySecureItems.map(\.value.type)
             let info = VaultItemInfo(id: vaultItem.id, name: vaultItem.name, description: vaultItem.description, primaryType: vaultItem.primarySecureItem.value.type, secondaryTypes: secondaryTypes, created: vaultItem.created, modified: vaultItem.modified)
             let encodedInfo = try info.encoded()
@@ -96,35 +96,29 @@ public class Vault<Key, Header, Message> where Key: KeyRepresentable, Header: He
         .eraseToAnyPublisher()
     }
     
-    public func validatePassword(_ password: String) -> AnyPublisher<Bool, Error> {
-        operationQueue.future { [configuration] in
-            let keyContainer = try Data(contentsOf: configuration.resourceLocator.keyFile)
-            let loadedKey = try Key(from: keyContainer, using: password)
-            return configuration.masterKey == loadedKey
-        }
-        .eraseToAnyPublisher()
-    }
-    
     public func changeMasterPassword(to newPassword: String) -> AnyPublisher<UUID, Error> {
         operationQueue.future { [self, configuration] in
             let vaultName = UUID().uuidString
             let vaultDirectory = configuration.resourceLocator.container.appendingPathComponent(vaultName, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let vaultInfo = VaultInfo()
-            let masterKey = Key()
-            try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
-            try FileManager.default.createDirectory(at: resourceLocator.itemsDirectory, withIntermediateDirectories: false)
-            try vaultInfo.encoded().write(to: resourceLocator.infoFile)
-            try masterKey.encryptedContainer(using: newPassword).write(to: resourceLocator.keyFile)
+            let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: newPassword)
+            let masterKey = MasterKey()
             
-            for itemURL in try FileManager.default.urls(in: configuration.resourceLocator.itemsDirectory) {
+            try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
+            try vaultInfo.encoded().write(to: resourceLocator.info)
+            try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainer)
+            try masterKey.encrypted(using: derivedKey).write(to: resourceLocator.masterKeyContainer)
+            
+            for itemURL in try FileManager.default.urls(in: configuration.resourceLocator.items) {
                 let itemData = try Data(contentsOf: itemURL)
                 let messages = try Message.decryptMessages(from: itemData, using: configuration.masterKey)
-                let newItemURL = resourceLocator.itemFile()
+                let newItemURL = resourceLocator.item()
                 try Message.encryptContainer(from: messages, using: masterKey).write(to: newItemURL)
             }
             
-            self.configuration = Configuration(id: vaultInfo.id, masterKey: masterKey, resourceLocator: resourceLocator)
+            self.configuration = Configuration(id: vaultInfo.id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator)
             
             try FileManager.default.removeItem(at: configuration.resourceLocator.rootDirectory)
             
@@ -139,7 +133,7 @@ extension Vault {
     
     typealias VaultIndex = [UUID: Element]
     
-    public typealias VaultContainer = Store.VaultContainer<Key, Header, Message>
+    public typealias VaultContainer = Store.VaultContainer<DerivedKey, MasterKey, MessageKey, Header, Message>
     
     struct Element {
         
@@ -152,7 +146,8 @@ extension Vault {
     struct Configuration {
         
         let id: UUID
-        let masterKey: Key
+        let derivedKey: DerivedKey
+        let masterKey: MasterKey
         let resourceLocator: VaultResourceLocator
         
     }
@@ -165,7 +160,7 @@ extension Vault {
         operationQueue.future {
             for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
                 let resourceLocator = VaultResourceLocator(vaultDirectory)
-                let infoData = try Data(contentsOf: resourceLocator.infoFile)
+                let infoData = try Data(contentsOf: resourceLocator.info)
                 let info = try VaultInfo(from: infoData)
                 
                 if info.id == vaultID {
@@ -184,14 +179,16 @@ extension Vault {
             let vaultDirectory = vaultContainerDirectory.appendingPathComponent(vaultDirectoryID.uuidString, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let vaultInfo = VaultInfo()
-            let masterKey = Key()
+            let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: password)
+            let masterKey = MasterKey()
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
-            try FileManager.default.createDirectory(at: resourceLocator.itemsDirectory, withIntermediateDirectories: false)
-            try vaultInfo.encoded().write(to: resourceLocator.infoFile)
-            try masterKey.encryptedContainer(using: password).write(to: resourceLocator.keyFile)
+            try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
+            try vaultInfo.encoded().write(to: resourceLocator.info)
+            try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainer)
+            try masterKey.encrypted(using: derivedKey).write(to: resourceLocator.masterKeyContainer)
             
-            return Vault(id: vaultInfo.id, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: [])
+            return Vault(id: vaultInfo.id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: [])
         }
         .eraseToAnyPublisher()
     }
@@ -200,16 +197,17 @@ extension Vault {
         operationQueue.future {
             for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
                 let resourceLocator = VaultResourceLocator(vaultDirectory)
-                let infoData = try Data(contentsOf: resourceLocator.infoFile)
+                let infoData = try Data(contentsOf: resourceLocator.info)
                 let info = try VaultInfo(from: infoData)
                 
                 if info.id == vaultID {
                     let resourceLocator = VaultResourceLocator(vaultDirectory)
-                    let infoData = try Data(contentsOf: resourceLocator.infoFile)
+                    let infoData = try Data(contentsOf: resourceLocator.info)
                     let info = try VaultInfo(from: infoData)
-                    let keyContainer = try Data(contentsOf: resourceLocator.keyFile)
+                    let derivedKeyContainer = try Data(contentsOf: resourceLocator.derivedKeyContainer)
+                    let masterKeyContainer = try Data(contentsOf: resourceLocator.masterKeyContainer)
                     
-                    let elements = try FileManager.default.urls(in: resourceLocator.itemsDirectory).map { itemURL in
+                    let elements = try FileManager.default.urls(in: resourceLocator.items).map { itemURL in
                         let fileHandle = try FileHandle(forReadingFrom: itemURL)
                         return try FileReader.read(from: fileHandle) { fileReader in
                             let header = try Header(from: fileReader.bytes)
@@ -223,7 +221,7 @@ extension Vault {
                         }
                     } as [VaultContainer.Element]
                     
-                    return VaultContainer(vaultID: info.id, resourceLocator: resourceLocator, keyContainer: keyContainer, elements: elements)
+                    return VaultContainer(vaultID: info.id, resourceLocator: resourceLocator, derivedKeyContainer: derivedKeyContainer, masterKeyContainer: masterKeyContainer, elements: elements)
                 }
             }
             

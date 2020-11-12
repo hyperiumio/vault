@@ -55,7 +55,7 @@ protocol SetupModelDependency {
     func choosePasswordModel() -> ChoosePasswordModel
     func repeatPasswordModel(password: String) -> RepeatPasswordModel
     func enabledBiometricUnlockModel(password: String, biometryType: BiometryType) -> EnableBiometricUnlockModel
-    func completeSetupModel(password: String) -> CompleteSetupModel
+    func completeSetupModel(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupModel
     
 }
 
@@ -91,7 +91,7 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
                     .map {
                         switch keychain.availability {
                         case .notAvailable, .notEnrolled:
-                            let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password)
+                            let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password, biometricUnlockEnabled: false)
                             return .completeSetup(choosePasswordModel, repeatPasswordModel, nil, completeSetupModel)
                         case .enrolled(let biometryType):
                             let enableBiometricUnlockModel = dependency.enabledBiometricUnlockModel(password: choosePasswordModel.password, biometryType: biometryType)
@@ -102,7 +102,7 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
             case .enableBiometricUnlock(let choosePasswordModel, let repeatPasswordModel, let enableBiometricUnlockModel):
                 return enableBiometricUnlockModel.done
                     .map {
-                        let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password)
+                        let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password, biometricUnlockEnabled: enableBiometricUnlockModel.isEnabled)
                         return .completeSetup(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel, completeSetupModel)
                     }
                     .eraseToAnyPublisher()

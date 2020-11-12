@@ -3,9 +3,9 @@ import XCTest
 
 class VaultContainerTests: XCTestCase {}
 
-private class KeyStub: KeyRepresentable {
+private class KeyStub: MasterKeyRepresentable {
     
-    func encryptedContainer(using password: String) throws -> Data {
+    func encrypted(using password: String) throws -> Data {
         Data()
     }
     

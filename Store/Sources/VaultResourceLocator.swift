@@ -12,21 +12,25 @@ public struct VaultResourceLocator {
         rootDirectory.deletingLastPathComponent()
     }
     
-    var keyFile: URL {
-        rootDirectory.appendingPathComponent("key", isDirectory: false)
+    var derivedKeyContainer: URL {
+        rootDirectory.appendingPathComponent("DerivedKeyContainer", isDirectory: false)
     }
     
-    var infoFile: URL {
-        rootDirectory.appendingPathComponent("info", isDirectory: false)
+    var masterKeyContainer: URL {
+        rootDirectory.appendingPathComponent("MasterKeyContainer", isDirectory: false)
     }
     
-    var itemsDirectory: URL {
-        rootDirectory.appendingPathComponent("items", isDirectory: true)
+    var info: URL {
+        rootDirectory.appendingPathComponent("Info", isDirectory: false)
     }
     
-    func itemFile() -> URL {
+    var items: URL {
+        rootDirectory.appendingPathComponent("Items", isDirectory: true)
+    }
+    
+    func item() -> URL {
         let fileName = UUID().uuidString
-        return itemsDirectory.appendingPathComponent(fileName, isDirectory: false)
+        return items.appendingPathComponent(fileName, isDirectory: false)
     }
     
 }

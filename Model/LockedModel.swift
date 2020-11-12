@@ -51,7 +51,9 @@ class LockedModel: LockedModelRepresentable {
     
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let errorSubject = PassthroughSubject<LockedError, Never>()
-    private let passwordSubject = PassthroughSubject<String, Never>()
+    private let derivedKeySubject = PassthroughSubject<DerivedKey, Never>()
+    
+    private let vaultContainerPublisher: AnyPublisher<VaultContainer, Error>
     private let keychain: Keychain
     private var openVaultSubscription: AnyCancellable?
     private var keychainLoadSubscription: AnyCancellable?
@@ -59,40 +61,39 @@ class LockedModel: LockedModelRepresentable {
     init(vaultID: UUID, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.keychain = keychain
         self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
+        self.vaultContainerPublisher = Vault.load(vaultID: vaultID, in: vaultContainerDirectory)
         
         Publishers.CombineLatest(preferences.didChange, keychain.availabilityDidChange)
             .map { preferences, keychainAvailability in preferences.isBiometricUnlockEnabled ? keychainAvailability : .notAvailable }
             .receive(on: DispatchQueue.main)
             .assign(to: &$keychainAvailability)
-        
-        let lockedVault = Vault.load(vaultID: vaultID, in: vaultContainerDirectory)
-            .assertNoFailure()
-        
-        openVaultSubscription = Publishers.CombineLatest(lockedVault, passwordSubject)
-            .map { lockedVault, password in
-                Result {
-                    try lockedVault.unlock(with: password)
-                }
-            }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let vault):
-                    self.status = .unlocked
-                    self.doneSubject.send(vault)
-                case .failure(_):
-                    self.status = .locked
-                    self.errorSubject.send(.wrongPassword)
-                }
-            }
     }
     
     func loginWithMasterPassword() {
+        guard status != .unlocking && status != .unlocked else {
+            return
+        }
+        
         status = .unlocking
         
-        passwordSubject.send(password)
+        openVaultSubscription = vaultContainerPublisher
+            .tryMap { [password] vaultContainer in
+                try vaultContainer.unlock(with: password)
+            }
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] completion in
+                guard let self = self else { return }
+                
+                switch completion {
+                case .finished:
+                    self.status = .unlocked
+                case .failure:
+                    self.status = .locked
+                    self.errorSubject.send(.wrongPassword)
+                }
+            } receiveValue: { [doneSubject] vault in
+                doneSubject.send(vault)
+            }
     }
     
     func loginWithBiometrics() {
@@ -101,15 +102,25 @@ class LockedModel: LockedModelRepresentable {
         }
         
         status = .unlocking
-        keychainLoadSubscription = keychain.loadPassword()
+        
+        let keyPublisher = keychain.load()
+        openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
+            .tryMap { vaultContainer, derivedKey in
+                try vaultContainer.unlock(with: derivedKey)
+            }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
-                if case .failure = completion {
-                    self?.status = .locked
-                    self?.errorSubject.send(.unlockFailed)
+                guard let self = self else { return }
+                
+                switch completion {
+                case .finished:
+                    self.status = .unlocked
+                case .failure:
+                    self.status = .locked
+                    self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [passwordSubject] password in
-                passwordSubject.send(password)
+            } receiveValue: { [doneSubject] vault in
+                doneSubject.send(vault)
             }
     }
     

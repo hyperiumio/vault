@@ -4,9 +4,9 @@ import Preferences
 
 protocol EnableBiometricUnlockModelRepresentable: ObservableObject, Identifiable {
     
+    var isEnabled: Bool { get }
     var biometryType: BiometryType { get }
     var done: AnyPublisher<Void, Never> { get }
-    var error: AnyPublisher<EnableBiometricUnlockError, Never> { get }
     
     func enabledBiometricUnlock()
     func disableBiometricUnlock()
@@ -24,52 +24,30 @@ enum EnableBiometricUnlockError: Error, Identifiable {
 
 class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
     
+    var isEnabled = false
     let biometryType: BiometryType
     
     private let password: String
-    private let preferences: Preferences
-    private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Void, Never>()
-    private let errorSubject = PassthroughSubject<EnableBiometricUnlockError, Never>()
     private var keychainStoreSubsciption: AnyCancellable?
     
     var done: AnyPublisher<Void, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    var error: AnyPublisher<EnableBiometricUnlockError, Never> {
-        errorSubject.eraseToAnyPublisher()
-    }
-    
-    init(password: String, biometryType: BiometryType, preferences: Preferences, keychain: Keychain) {
+    init(password: String, biometryType: BiometryType) {
         self.password = password
         self.biometryType = biometryType
-        self.preferences = preferences
-        self.keychain = keychain
     }
     
     func enabledBiometricUnlock() {
-        keychainStoreSubsciption = keychain.store(password)
-            .sink { [errorSubject] completion in
-                if case .failure = completion {
-                    errorSubject.send(.didFailEnabling)
-                }
-            } receiveValue: { [preferences, doneSubject] in
-                preferences.set(isBiometricUnlockEnabled: true)
-                doneSubject.send()
-            }
+        isEnabled = true
+        doneSubject.send()
     }
     
     func disableBiometricUnlock() {
-        keychainStoreSubsciption = keychain.deletePassword()
-            .sink { [errorSubject] completion in
-                if case .failure = completion {
-                    errorSubject.send(.didFailDisabling)
-                }
-            } receiveValue: { [preferences, doneSubject] in
-                preferences.set(isBiometricUnlockEnabled: false)
-                doneSubject.send()
-            }
+        isEnabled = false
+        doneSubject.send()
     }
     
 }
@@ -77,13 +55,10 @@ class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
 #if DEBUG
 class EnableBiometricUnlockModelStub: EnableBiometricUnlockModelRepresentable {
     
+    var isEnabled = false
     let biometryType = BiometryType.faceID
     
     var done: AnyPublisher<Void, Never> {
-        PassthroughSubject().eraseToAnyPublisher()
-    }
-    
-    var error: AnyPublisher<EnableBiometricUnlockError, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
