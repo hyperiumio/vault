@@ -12,12 +12,8 @@ public struct VaultResourceLocator {
         rootDirectory.deletingLastPathComponent()
     }
     
-    var derivedKeyContainer: URL {
-        rootDirectory.appendingPathComponent("DerivedKeyContainer", isDirectory: false)
-    }
-    
-    var masterKeyContainer: URL {
-        rootDirectory.appendingPathComponent("MasterKeyContainer", isDirectory: false)
+    var key: URL {
+        rootDirectory.appendingPathComponent("Key", isDirectory: false)
     }
     
     var info: URL {

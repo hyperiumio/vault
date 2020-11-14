@@ -51,9 +51,7 @@ extension PhotoPicker {
 extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        presentationMode.wrappedValue.dismiss()
-        
-        didPickSubscription = operationQueue.future {
+        didPickSubscription = operationQueue.future { () -> PhotoPicker.Output? in
             guard let identifier = info[.mediaType] as? String else {
                 return nil
             }
@@ -70,7 +68,10 @@ extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigation
             return (data: data, type: type)
         }
         .receive(on: DispatchQueue.main)
-        .sink(receiveValue: picked)
+        .sink { [picked, presentationMode] output in
+            picked(output)
+            presentationMode.wrappedValue.dismiss()
+        }
     }
     
 }

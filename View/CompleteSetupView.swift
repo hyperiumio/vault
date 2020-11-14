@@ -5,6 +5,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
     
     @ObservedObject private var model: Model
     @State private var error: CompleteSetupError?
+    @State private var isCheckmarkVisible = false
     
     init(_ model: Model) {
         self.model = model
@@ -14,8 +15,20 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
         VStack {
             Spacer()
             
-            Text(LocalizedString.setupComplete)
-                .font(.title)
+            if isCheckmarkVisible {
+                VStack(spacing: 20) {
+                    Text(LocalizedString.setupComplete)
+                        .font(.title)
+                        .zIndex(0)
+                    
+                    Image.checkmark
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.green)
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                .transition(AnyTransition.scale(scale: 2).combined(with: .opacity).animation(Animation.easeIn(duration: 0.5)))
+            }
             
             Spacer()
             
@@ -29,6 +42,9 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
         .alert(item: $error) { error in
             let title = Self.title(for: error)
             return Alert(title: title)
+        }
+        .onAppear {
+            isCheckmarkVisible = true
         }
 
     }

@@ -56,10 +56,14 @@ class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
 class EnableBiometricUnlockModelStub: EnableBiometricUnlockModelRepresentable {
     
     var isEnabled = false
-    let biometryType = BiometryType.faceID
+    let biometryType: BiometryType
     
     var done: AnyPublisher<Void, Never> {
         PassthroughSubject().eraseToAnyPublisher()
+    }
+    
+    init(biometryType: BiometryType) {
+        self.biometryType = biometryType
     }
     
     func enabledBiometricUnlock() {}

@@ -50,8 +50,6 @@ extension ImagePicker {
 extension ImagePicker.Coordinator: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        presentationMode.wrappedValue.dismiss()
-        
         didPickSubscription = Future<Data, Error> { promise in
             results.first?.itemProvider.loadFileRepresentation(forTypeIdentifier: UTType.image.identifier) { url, error in
                 let result = Result<Data, Error> {
@@ -69,7 +67,10 @@ extension ImagePicker.Coordinator: PHPickerViewControllerDelegate {
         }
         .replaceError(with: nil)
         .receive(on: DispatchQueue.main)
-        .sink(receiveValue: picked)
+        .sink { [picked, presentationMode] output in
+            picked(output)
+            presentationMode.wrappedValue.dismiss()
+        }
     }
     
 }

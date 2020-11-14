@@ -234,8 +234,6 @@
 		954220AC25518A9C002F14AB /* EditWifiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWifiView.swift; sourceTree = "<group>"; };
 		954450BA25554947006B01B9 /* SecureItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemView.swift; sourceTree = "<group>"; };
 		954450C325554EEF006B01B9 /* EditSecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemTextField.swift; sourceTree = "<group>"; };
-		95539103255BE057008D4158 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		95539104255BE057008D4158 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
@@ -294,6 +292,8 @@
 		9586495A251E24A60081DF08 /* BankAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountView.swift; sourceTree = "<group>"; };
 		9588438825397F3100732E35 /* GeneratePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratePasswordView.swift; sourceTree = "<group>"; };
 		9588439425397F7600732E35 /* GeneratePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordModel.swift; sourceTree = "<group>"; };
+		958E3F81255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		958E3F82255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		959143F72513BD2700897086 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		959143FD2513C12300897086 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9595583D251A2FD900F7715F /* ColoredButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredButtonStyle.swift; sourceTree = "<group>"; };
@@ -526,6 +526,8 @@
 				957EB3BC2510F11500D6AE2E /* Scene */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
+				958E3F81255ED24100ACB1D3 /* Vault.app */,
+				958E3F82255ED24100ACB1D3 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -577,7 +579,7 @@
 				950C703C2548206C001BB318 /* Crypto */,
 			);
 			productName = iOS;
-			productReference = 95539103255BE057008D4158 /* Vault.app */;
+			productReference = 958E3F81255ED24100ACB1D3 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -604,7 +606,7 @@
 				9555A5E3255436E300B683EF /* Localization */,
 			);
 			productName = macOS;
-			productReference = 95539104255BE057008D4158 /* Vault.app */;
+			productReference = 958E3F82255ED24100ACB1D3 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -985,7 +987,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/Vault.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
@@ -995,7 +997,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.10.0;
+				MARKETING_VERSION = 0.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1013,7 +1015,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/Vault.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 14;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
@@ -1023,7 +1025,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.10.0;
+				MARKETING_VERSION = 0.11.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";

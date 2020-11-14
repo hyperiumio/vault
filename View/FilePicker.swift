@@ -50,9 +50,7 @@ extension FilePicker {
 extension FilePicker.Coordinator: UIDocumentPickerDelegate {
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        presentationMode.wrappedValue.dismiss()
-        
-        didPickSubscription = operationQueue.future {
+        didPickSubscription = operationQueue.future { () -> FilePicker.Output? in
             let resourceKeys = [URLResourceKey.contentTypeKey] as Set
             guard let fileURL = urls.first else {
                 return nil
@@ -66,7 +64,10 @@ extension FilePicker.Coordinator: UIDocumentPickerDelegate {
         }
         .replaceError(with: nil)
         .receive(on: DispatchQueue.main)
-        .sink(receiveValue: picked)
+        .sink { [picked, presentationMode] output in
+            picked(output)
+            presentationMode.wrappedValue.dismiss()
+        }
     }
     
 }

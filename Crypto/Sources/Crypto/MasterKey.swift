@@ -20,11 +20,17 @@ public struct MasterKey {
         self.value = SymmetricKey(data: data)
     }
     
-    public func encrypted(using derivedKey: DerivedKey) throws -> Data {
+    public func encryptedContainer(using derivedKey: DerivedKey) throws -> Data {
         try value.withUnsafeBytes { cryptoKey in
             let seal = try AES.GCM.seal(cryptoKey, using: derivedKey.value)
             return seal.nonce + seal.ciphertext + seal.tag
         }
     }
+    
+}
+
+extension MasterKey {
+    
+    public static var containerSize: Int { 60 }
     
 }

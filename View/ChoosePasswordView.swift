@@ -15,14 +15,22 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 30) {
             Spacer()
             
-            Text(LocalizedString.chooseMasterPassword)
-                .font(.title)
-                .multilineTextAlignment(.center)
+            VStack(spacing: 10) {
+                Text(LocalizedString.chooseMasterPassword)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                
+                Text(LocalizedString.chooseMasterPasswordDescription)
+                    .font(.body)
+                    .foregroundColor(.secondaryLabel)
+                    .multilineTextAlignment(.center)
+            }
             
-            SecureField(LocalizedString.masterPassword, text: $model.password)
+            SecureField(LocalizedString.enterMasterPassword, text: $model.password)
+                .textContentType(.oneTimeCode)
                 .font(.title2)
                 .minimumScaleFactor(0.5)
                 .multilineTextAlignment(.center)

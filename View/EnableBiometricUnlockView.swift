@@ -14,17 +14,14 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
         VStack {
             Spacer()
             
-            Group {
+            VStack {
                 switch model.biometryType {
                 case .touchID:
-                    Text(LocalizedString.unlockWithTouchID)
-
+                    Content(image: .touchID, title: LocalizedString.unlockWithTouchID, description: LocalizedString.unlockWithTouchIDDescription)
                 case .faceID:
-                    Text(LocalizedString.unlockWithFaceID)
+                    Content(image: .faceID, title: LocalizedString.unlockWithFaceID, description: LocalizedString.unlockWithFaceIDDescription)
                 }
             }
-            .font(.title)
-            .multilineTextAlignment(.center)
             
             Spacer()
             
@@ -43,6 +40,43 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
                 Button(LocalizedString.setUpLater, action: model.disableBiometricUnlock)
                     .font(.headline)
             }
+        }
+    }
+    
+}
+
+private struct Content: View {
+    
+    private let image: Image
+    private let title: String
+    private let description: String
+    
+    init(image: Image, title: String, description: String) {
+        self.image = image
+        self.title = title
+        self.description = description
+    }
+    
+    var body: some View {
+        VStack {
+            image
+                .resizable()
+                .scaledToFit()
+                .foregroundColor(.accentColor)
+                .frame(width: 100, height: 100, alignment: .center)
+            
+            Spacer().frame(height: 40)
+            
+            Text(title)
+                .font(.title)
+                .multilineTextAlignment(.center)
+            
+            Spacer().frame(height: 10)
+            
+            Text(description)
+                .font(.body)
+                .foregroundColor(.secondaryLabel)
+                .multilineTextAlignment(.center)
         }
     }
     
@@ -68,7 +102,7 @@ private extension EnableBiometricUnlockView {
 #if os(iOS) && DEBUG
 struct EnableBiometricUnlockViewPreview: PreviewProvider {
     
-    static let model = EnableBiometricUnlockModelStub()
+    static let model = EnableBiometricUnlockModelStub(biometryType: .touchID)
     
     static var previews: some View {
         Group {
