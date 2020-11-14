@@ -11,16 +11,10 @@ class VaultResourceLocatorTests: XCTestCase {
         XCTAssertEqual(rootDirectory.absoluteString, "file://foo")
     }
     
-    func testDerivedKeyFile() {
-        let keyFile = VaultResourceLocator(rootUrl).derivedKeyContainer
-        
-        XCTAssertEqual(keyFile.absoluteString, "file://foo/DerivedKeyContainer")
-    }
-    
     func testMasterKeyFile() {
-        let keyFile = VaultResourceLocator(rootUrl).masterKeyContainer
+        let keyFile = VaultResourceLocator(rootUrl).key
         
-        XCTAssertEqual(keyFile.absoluteString, "file://foo/MasterKeyContainer")
+        XCTAssertEqual(keyFile.absoluteString, "file://foo/Key")
     }
     
     func testInfoFile() {
