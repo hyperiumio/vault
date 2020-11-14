@@ -5,7 +5,9 @@ class VaultContainerTests: XCTestCase {}
 
 private class KeyStub: MasterKeyRepresentable {
     
-    func encrypted(using password: String) throws -> Data {
+    static var containerSize: Int { 0 }
+    
+    func encryptedContainer(using password: String) throws -> Data {
         Data()
     }
     
