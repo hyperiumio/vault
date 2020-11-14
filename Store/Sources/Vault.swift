@@ -104,12 +104,13 @@ public class Vault<DerivedKey, MasterKey, MessageKey, Header, Message> where Der
             let vaultInfo = VaultInfo()
             let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: newPassword)
             let masterKey = MasterKey()
+            let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
+            let keyContainer = derivedKeyContainer + masterKeyContainer
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
             try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
             try vaultInfo.encoded().write(to: resourceLocator.info)
-            try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainer)
-            try masterKey.encrypted(using: derivedKey).write(to: resourceLocator.masterKeyContainer)
+            try keyContainer.write(to: resourceLocator.key)
             
             for itemURL in try FileManager.default.urls(in: configuration.resourceLocator.items) {
                 let itemData = try Data(contentsOf: itemURL)
@@ -181,12 +182,13 @@ extension Vault {
             let vaultInfo = VaultInfo()
             let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: password)
             let masterKey = MasterKey()
+            let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
+            let keyContainer = derivedKeyContainer + masterKeyContainer
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
             try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
             try vaultInfo.encoded().write(to: resourceLocator.info)
-            try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainer)
-            try masterKey.encrypted(using: derivedKey).write(to: resourceLocator.masterKeyContainer)
+            try keyContainer.write(to: resourceLocator.key)
             
             return Vault(id: vaultInfo.id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: [])
         }
@@ -204,8 +206,13 @@ extension Vault {
                     let resourceLocator = VaultResourceLocator(vaultDirectory)
                     let infoData = try Data(contentsOf: resourceLocator.info)
                     let info = try VaultInfo(from: infoData)
-                    let derivedKeyContainer = try Data(contentsOf: resourceLocator.derivedKeyContainer)
-                    let masterKeyContainer = try Data(contentsOf: resourceLocator.masterKeyContainer)
+                    
+                    let keyContainer = try Data(contentsOf: resourceLocator.key)
+                    guard keyContainer.count == DerivedKey.containerSize + MasterKey.containerSize else {
+                        throw NSError()
+                    }
+                    let derivedKeyContainer = keyContainer[keyContainer.startIndex ..< keyContainer.startIndex + DerivedKey.containerSize]
+                    let masterKeyContainer = keyContainer[keyContainer.startIndex + DerivedKey.containerSize ..< keyContainer.startIndex + DerivedKey.containerSize + MasterKey.containerSize]
                     
                     let elements = try FileManager.default.urls(in: resourceLocator.items).map { itemURL in
                         let fileHandle = try FileHandle(forReadingFrom: itemURL)

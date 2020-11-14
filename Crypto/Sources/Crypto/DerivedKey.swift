@@ -16,7 +16,7 @@ public struct DerivedKey {
     }
     
     public init(container: Data, password: String) throws {
-        guard container.count == .saltSize + UnsignedInteger32BitEncodingSize else {
+        guard container.count == Self.containerSize else {
             throw CryptoError.invalidDataSize
         }
         
@@ -50,45 +50,7 @@ public struct DerivedKey {
 
 public extension DerivedKey {
     
-    struct Container {
-        
-        let salt: Data
-        let rounds: UInt32
-        
-        init() throws {
-            var salt = Data(repeating: 0, count: .saltSize)
-            
-            let status = salt.withUnsafeMutableBytes { buffer in
-                CCRandomGenerateBytes(buffer.baseAddress, buffer.count)
-            }
-            guard status == kCCSuccess else {
-                throw CryptoError.rngFailure
-            }
-            
-            self.salt = salt
-            self.rounds = .keyDerivationRounds
-        }
-        
-        init(from data: Data) throws {
-            guard data.count == .saltSize + UnsignedInteger32BitEncodingSize else {
-                throw CryptoError.invalidDataSize
-            }
-            
-            let saltRange = Range(lowerBound: data.startIndex, count: .saltSize)
-            let roundsRange = Range(lowerBound: saltRange.upperBound, count: UnsignedInteger32BitEncodingSize)
-            
-            let salt = data[saltRange]
-            let roundsData = data[roundsRange]
-            
-            self.salt = salt
-            self.rounds = UnsignedInteger32BitDecode(roundsData)
-        }
-        
-        public func encoded() throws -> Data {
-            salt + UnsignedInteger32BitEncode(rounds)
-        }
-        
-    }
+    static var containerSize: Int { .saltSize + UnsignedInteger32BitEncodingSize }
     
 }
 

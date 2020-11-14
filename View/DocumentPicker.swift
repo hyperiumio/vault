@@ -61,9 +61,7 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        presentationMode.wrappedValue.dismiss()
-        
-        didPickSubscription = operationQueue.future {
+        didPickSubscription = operationQueue.future { () -> DocumentPicker.Output? in
             let document = PDFDocument()
             for index in 0 ..< scan.pageCount {
                 let image = scan.imageOfPage(at: index)
@@ -77,7 +75,10 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
             return (data: data, type: UTType.pdf)
         }
         .receive(on: DispatchQueue.main)
-        .sink(receiveValue: picked)
+        .sink { [picked, presentationMode] output in
+            picked(output)
+            presentationMode.wrappedValue.dismiss()
+        }
 
     }
     

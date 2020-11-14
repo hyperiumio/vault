@@ -19,11 +19,19 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
         VStack {
             Spacer()
             
-            Text(LocalizedString.repeatMasterPassword)
-                .font(.title)
-                .multilineTextAlignment(.center)
+            VStack(spacing: 10) {
+                Text(LocalizedString.repeatMasterPassword)
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                
+                Text(LocalizedString.repeatMasterPasswordDescription)
+                    .font(.body)
+                    .foregroundColor(.secondaryLabel)
+                    .multilineTextAlignment(.center)
+            }
             
-            SecureField(LocalizedString.masterPassword, text: $model.repeatedPassword)
+            SecureField(LocalizedString.enterMasterPassword, text: $model.repeatedPassword)
+                .textContentType(.oneTimeCode)
                 .font(.title2)
                 .minimumScaleFactor(0.5)
                 .multilineTextAlignment(.center)

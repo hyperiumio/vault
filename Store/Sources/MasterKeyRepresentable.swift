@@ -7,7 +7,9 @@ public protocol MasterKeyRepresentable {
     init()
     init(from data: Data, using derivedKey: DerivedKey) throws
     
-    func encrypted(using derivedKey: DerivedKey) throws -> Data
+    static var containerSize: Int { get }
+    
+    func encryptedContainer(using derivedKey: DerivedKey) throws -> Data
     
 }
 
