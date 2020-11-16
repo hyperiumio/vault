@@ -1,0 +1,82 @@
+{
+  "configurations" : [
+    {
+      "id" : "A78A03A0-CA22-421B-B031-4DB474950457",
+      "name" : "Default",
+      "options" : {
+        "addressSanitizer" : {
+          "enabled" : true
+        },
+        "language" : "en",
+        "region" : "US",
+        "testExecutionOrdering" : "random",
+        "threadSanitizerEnabled" : false,
+        "uiTestingScreenshotsLifetime" : "keepNever",
+        "undefinedBehaviorSanitizerEnabled" : true,
+        "userAttachmentLifetime" : "keepNever"
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Localization",
+        "identifier" : "LocalizationTests",
+        "name" : "LocalizationTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Pasteboard",
+        "identifier" : "PasteboardTests",
+        "name" : "PasteboardTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Preferences",
+        "identifier" : "PreferencesTests",
+        "name" : "PreferencesTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Search",
+        "identifier" : "SearchTests",
+        "name" : "SearchTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Sort",
+        "identifier" : "SortTests",
+        "name" : "SortTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Store",
+        "identifier" : "StoreTests",
+        "name" : "StoreTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Sync",
+        "identifier" : "SyncTests",
+        "name" : "SyncTests"
+      }
+    }
+  ],
+  "version" : 1
+}

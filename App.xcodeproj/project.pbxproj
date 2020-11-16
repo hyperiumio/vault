@@ -235,6 +235,7 @@
 		954450BA25554947006B01B9 /* SecureItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemView.swift; sourceTree = "<group>"; };
 		954450C325554EEF006B01B9 /* EditSecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemTextField.swift; sourceTree = "<group>"; };
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
+		955D39EA2562A744002E2CF0 /* iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = iOS.xctestplan; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9563074B2535DC600076022A /* SecureItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeView.swift; sourceTree = "<group>"; };
@@ -361,6 +362,7 @@
 		9574321C24AA05340062B05A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
+				955D39EA2562A744002E2CF0 /* iOS.xctestplan */,
 				9512F7F524B4633E008A4DB8 /* Vault.entitlements */,
 				9574321F24AA05340062B05A /* Info.plist */,
 			);
