@@ -293,8 +293,8 @@
 		9586495A251E24A60081DF08 /* BankAccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountView.swift; sourceTree = "<group>"; };
 		9588438825397F3100732E35 /* GeneratePasswordView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratePasswordView.swift; sourceTree = "<group>"; };
 		9588439425397F7600732E35 /* GeneratePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePasswordModel.swift; sourceTree = "<group>"; };
-		958E3F81255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		958E3F82255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		958E3F81255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		958E3F82255ED24100ACB1D3 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		959143F72513BD2700897086 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		959143FD2513C12300897086 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9595583D251A2FD900F7715F /* ColoredButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColoredButtonStyle.swift; sourceTree = "<group>"; };
@@ -311,6 +311,7 @@
 		95C82B4D250B65A700258EAD /* DispatchQueueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueExtension.swift; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* SecureItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemButton.swift; sourceTree = "<group>"; };
 		95C90C342520ECF600860CAE /* BareButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BareButtonStyle.swift; sourceTree = "<group>"; };
+		95CD3ACA2562BEBC00C36855 /* macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = macOS.xctestplan; sourceTree = "<group>"; };
 		95D46EB9251A1D7C00EF500A /* ChoosePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePasswordView.swift; sourceTree = "<group>"; };
 		95D46EBE251A1DC600EF500A /* ChoosePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePasswordModel.swift; sourceTree = "<group>"; };
 		95D47126255551130053FA13 /* EditSecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemField.swift; sourceTree = "<group>"; };
@@ -372,6 +373,7 @@
 		9574322224AA05430062B05A /* macOS */ = {
 			isa = PBXGroup;
 			children = (
+				95CD3ACA2562BEBC00C36855 /* macOS.xctestplan */,
 				9574322524AA05430062B05A /* Vault.entitlements */,
 				9574322624AA05430062B05A /* Info.plist */,
 			);
@@ -528,8 +530,6 @@
 				957EB3BC2510F11500D6AE2E /* Scene */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
-				958E3F81255ED24100ACB1D3 /* Vault.app */,
-				958E3F82255ED24100ACB1D3 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};

@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "A78A03A0-CA22-421B-B031-4DB474950457",
+      "id" : "A9BD47D2-2D97-4563-A261-8D51ECAE3020",
       "name" : "Default",
       "options" : {
         "addressSanitizer" : {
@@ -11,7 +11,6 @@
         "language" : "en",
         "region" : "US",
         "testExecutionOrdering" : "random",
-        "threadSanitizerEnabled" : false,
         "uiTestingScreenshotsLifetime" : "keepNever",
         "undefinedBehaviorSanitizerEnabled" : true,
         "userAttachmentLifetime" : "keepNever"
