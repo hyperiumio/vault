@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -53,7 +54,9 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     }
     
 }
+#endif
 
+#if os(iOS)
 private extension RepeatPasswordView {
     
     static func title(for error: RepeatPasswordError) -> Text {
@@ -64,6 +67,7 @@ private extension RepeatPasswordView {
     }
     
 }
+#endif
 
 #if os(iOS) && DEBUG
 struct RepeatPasswordViewProvider: PreviewProvider {

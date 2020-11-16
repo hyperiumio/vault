@@ -1,6 +1,7 @@
 import Localization
 import SwiftUI
 
+#if os(iOS)
 struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,8 +11,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     }
     
     private var passwordTextMinHeight: CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .title2)
-        return ceil(font.lineHeight)
+        UIFont.preferredFont(forTextStyle: .title2).lineHeight
     }
     
     var body: some View {
@@ -45,6 +45,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     }
     
 }
+#endif
 
 #if os(iOS) && DEBUG
 struct ChoosePasswordViewProvider: PreviewProvider {
