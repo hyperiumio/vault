@@ -33,6 +33,7 @@ struct VaultItemInfoView: View {
 }
 #endif
 
+#if os(iOS)
 private extension VaultItemInfoView {
     
     static func image(for type: SecureItemType) -> Image {
@@ -57,6 +58,7 @@ private extension VaultItemInfoView {
     }
     
 }
+#endif
 
 #if os(iOS)
 private struct NativeLabel: UIViewRepresentable {
