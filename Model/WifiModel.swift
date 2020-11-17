@@ -22,10 +22,10 @@ class WifiModel: WifiModelRepresentable {
     private let operationQueue = DispatchQueue(label: "WifiModelOperationQueue")
     
     var item: WifiItem {
-        let networkName = self.name.isEmpty ? nil : self.name
-        let networkPassword = self.password.isEmpty ? nil : self.password
+        let name = self.name.isEmpty ? nil : self.name
+        let password = self.password.isEmpty ? nil : self.password
         
-        return WifiItem(name: networkName, password: networkPassword)
+        return WifiItem(name: name, password: password)
     }
     
     init(_ item: WifiItem) {

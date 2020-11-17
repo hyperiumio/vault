@@ -6,10 +6,12 @@ struct SecureItemTextField: View {
     
     private let title: String
     private let text: String
+    private let formatter: Formatter?
     
-    init(_ title: String, text: String) {
+    init(_ title: String, text: String, formatter: Formatter? = nil) {
         self.title = title
         self.text = text
+        self.formatter = formatter
     }
     
     var body: some View {
@@ -17,7 +19,11 @@ struct SecureItemTextField: View {
             Pasteboard.general.string = text
         } content: {
             SecureItemField(title) {
-                Text(text)
+                if let formatter = formatter {
+                    Text(NSString(string: text), formatter: formatter)
+                } else {
+                    Text(text)
+                }
             }
         }
     }

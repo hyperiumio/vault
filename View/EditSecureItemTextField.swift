@@ -6,20 +6,44 @@ struct EditSecureItemTextField: View {
     private let title: String
     private let placeholder: String
     private let text: Binding<String>
+    private let formatter: Formatter?
     
-    init(_ title: String, placeholder: String, text: Binding<String>) {
+    init(_ title: String, placeholder: String, text: Binding<String>, formatter: Formatter? = nil) {
         self.title = title
         self.placeholder = placeholder
         self.text = text
+        self.formatter = formatter
+    }
+    
+    private var textBinding: Binding<String> {
+        if let formatter = formatter {
+            return Binding {
+                formatter.string(for: text.wrappedValue) ?? text.wrappedValue
+            } set: { value in
+                var objectValue = nil as AnyObject?
+                let success = formatter.getObjectValue(&objectValue, for: value, errorDescription: nil)
+                if success, let value = objectValue as? String {
+                    text.wrappedValue = value
+                } else {
+                    text.wrappedValue = value
+                }
+            }
+        } else {
+            return Binding {
+                text.wrappedValue
+            } set: { value in
+                text.wrappedValue = value
+            }
+        }
     }
     
     var body: some View {
         SecureItemView {
             SecureItemField(title) {
-                TextField(placeholder, text: text)
-                    .autocapitalization(.none)
-                    .disableAutocorrection(true)
+                TextField(placeholder, text: textBinding)
             }
+            .autocapitalization(.none)
+            .disableAutocorrection(true)
         }
     }
     

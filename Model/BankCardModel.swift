@@ -22,7 +22,7 @@ class BankCardModel: BankCardModelRepresentable {
     
     var item: BankCardItem {
         let name = self.name.isEmpty ? nil : self.name
-        let number = self.number.isEmpty ? nil : self.name
+        let number = self.number.isEmpty ? nil : self.number
         let pin = self.pin.isEmpty ? nil: self.pin
         
         return BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
