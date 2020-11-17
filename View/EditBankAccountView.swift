@@ -1,3 +1,4 @@
+import Format
 import Localization
 import SwiftUI
 
@@ -15,7 +16,8 @@ struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentab
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        EditSecureItemTextField(LocalizedString.iban, placeholder: LocalizedString.iban, text: $model.iban)
+        EditSecureItemTextField(LocalizedString.iban, placeholder: LocalizedString.iban, text: $model.iban, formatter: BankAccountNumberFormatter())
+            .font(.system(.body, design: .monospaced))
             .keyboardType(.asciiCapable)
         
         EditSecureItemTextField(LocalizedString.bic, placeholder: LocalizedString.bic, text: $model.bic)

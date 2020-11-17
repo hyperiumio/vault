@@ -1,3 +1,4 @@
+import Format
 import Localization
 import SwiftUI
 
@@ -29,7 +30,8 @@ struct BankCardView: View {
         }
         
         if let number = item.number {
-            SecureItemTextField(LocalizedString.number, text: number)
+            SecureItemTextField(LocalizedString.number, text: number, formatter: CreditCardNumberFormatter())
+                .font(.system(.body, design: .monospaced))
         }
         
         if let expirationDate = item.expirationDate {
@@ -38,6 +40,7 @@ struct BankCardView: View {
         
         if let pin = item.pin {
             SecureItemSecureTextField(LocalizedString.pin, text: pin)
+                .font(.system(.body, design: .monospaced))
         }
     }
 }
@@ -46,7 +49,7 @@ struct BankCardView: View {
 #if os(iOS) && DEBUG
 struct BankCardViewPreview: PreviewProvider {
     
-    static let item = BankCardItem(name: "foo", number: "bar", expirationDate: Date(), pin: "paz")
+    static let item = BankCardItem(name: "foo", number: "1234567", expirationDate: Date(), pin: "paz")
     
     static var previews: some View {
         Group {

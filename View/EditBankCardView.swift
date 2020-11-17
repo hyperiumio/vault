@@ -1,3 +1,4 @@
+import Format
 import Localization
 import SwiftUI
 
@@ -15,7 +16,8 @@ struct EditBankCardView<Model>: View where Model: BankCardModelRepresentable {
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        EditSecureItemTextField(LocalizedString.number, placeholder: LocalizedString.number, text: $model.number)
+        EditSecureItemTextField(LocalizedString.number, placeholder: LocalizedString.number, text: $model.number, formatter: CreditCardNumberFormatter())
+            .font(.system(.body, design: .monospaced))
             .keyboardType(.numberPad)
             .textContentType(.creditCardNumber)
         

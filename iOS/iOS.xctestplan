@@ -25,6 +25,14 @@
     {
       "parallelizable" : true,
       "target" : {
+        "containerPath" : "container:Format",
+        "identifier" : "FormatTests",
+        "name" : "FormatTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
         "containerPath" : "container:Localization",
         "identifier" : "LocalizationTests",
         "name" : "LocalizationTests"

@@ -1,3 +1,4 @@
+import Format
 import Localization
 import SwiftUI
 
@@ -16,7 +17,8 @@ struct BankAccountView: View {
         }
         
         if let iban = item.iban {
-            SecureItemTextField(LocalizedString.iban, text: iban)
+            SecureItemTextField(LocalizedString.iban, text: iban, formatter: BankAccountNumberFormatter())
+                .font(.system(.body, design: .monospaced))
         }
         
         if let bic = item.bic {
