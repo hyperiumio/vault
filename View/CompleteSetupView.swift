@@ -1,5 +1,8 @@
+import Haptic
 import Localization
 import SwiftUI
+
+private let successFeedback = SuccessFeedbackGenerator()
 
 struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentable {
     
@@ -44,7 +47,9 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             return Alert(title: title)
         }
         .onAppear {
+            successFeedback.prepare()
             isCheckmarkVisible = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: successFeedback.play)
         }
 
     }

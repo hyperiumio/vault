@@ -171,6 +171,9 @@
 		95A28005253DC57600E2A3A3 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28003253DC57600E2A3A3 /* ImagePicker.swift */; };
 		95A28028253F0C6900E2A3A3 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */; };
 		95A28029253F0C6900E2A3A3 /* DocumentPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */; };
+		95AA68D3256449D200616D56 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68D2256449D200616D56 /* Haptic */; };
+		95AA68DB2565420E00616D56 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68DA2565420E00616D56 /* Format */; };
+		95AA68E52565432000616D56 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68E42565432000616D56 /* Haptic */; };
 		95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96024A9D5AA009D87A4 /* Pasteboard */; };
 		95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96224A9D5AA009D87A4 /* Preferences */; };
 		95ABC96524A9D5AA009D87A4 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96424A9D5AA009D87A4 /* Search */; };
@@ -218,12 +221,12 @@
 		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
 		951F238B2547257700949362 /* Localization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Localization; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
+		952BBE602565442D001CBDA2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		952BBE612565442D001CBDA2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
 		952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModel.swift; sourceTree = "<group>"; };
 		952F3E9424D4596600D55EB9 /* TypeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeBridge.swift; sourceTree = "<group>"; };
 		9530C51424B6FA90008F1D2C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9538510E2563D4C600C305F2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		9538510F2563D4C600C305F2 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		953851102563E73600C305F2 /* Format */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Format; sourceTree = "<group>"; };
 		9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
 		9539B20C2540692000C81A2A /* PDFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFView.swift; sourceTree = "<group>"; };
@@ -307,6 +310,7 @@
 		95998FE4253B0B9500642E3C /* VaultItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemTitleView.swift; sourceTree = "<group>"; };
 		95A28003253DC57600E2A3A3 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPicker.swift; sourceTree = "<group>"; };
+		95AA68C72564412000616D56 /* Haptic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Haptic; path = Format/Haptic; sourceTree = "<group>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		95B894422541C6DD00E5D401 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 		95B8944B2541F18B00E5D401 /* FilePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePicker.swift; sourceTree = "<group>"; };
@@ -338,6 +342,7 @@
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				951F23842547253000949362 /* Localization in Frameworks */,
+				95AA68D3256449D200616D56 /* Haptic in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
@@ -354,6 +359,8 @@
 				9584E4D32518CC5500C6D772 /* Store in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
+				95AA68E52565432000616D56 /* Haptic in Frameworks */,
+				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				9555A5E4255436E300B683EF /* Localization in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
@@ -524,6 +531,7 @@
 			children = (
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
+				95AA68C72564412000616D56 /* Haptic */,
 				951F238B2547257700949362 /* Localization */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
 				9574336624AA13C20062B05A /* Preferences */,
@@ -592,9 +600,10 @@
 				951F23832547253000949362 /* Localization */,
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
+				95AA68D2256449D200616D56 /* Haptic */,
 			);
 			productName = iOS;
-			productReference = 9538510E2563D4C600C305F2 /* Vault.app */;
+			productReference = 952BBE602565442D001CBDA2 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOS */ = {
@@ -619,9 +628,11 @@
 				9584E4D22518CC5500C6D772 /* Store */,
 				950C70382548205A001BB318 /* Crypto */,
 				9555A5E3255436E300B683EF /* Localization */,
+				95AA68DA2565420E00616D56 /* Format */,
+				95AA68E42565432000616D56 /* Haptic */,
 			);
 			productName = macOS;
-			productReference = 9538510F2563D4C600C305F2 /* Vault.app */;
+			productReference = 952BBE612565442D001CBDA2 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1173,6 +1184,18 @@
 		9584E4D22518CC5500C6D772 /* Store */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Store;
+		};
+		95AA68D2256449D200616D56 /* Haptic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Haptic;
+		};
+		95AA68DA2565420E00616D56 /* Format */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Format;
+		};
+		95AA68E42565432000616D56 /* Haptic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Haptic;
 		};
 		95ABC96024A9D5AA009D87A4 /* Pasteboard */ = {
 			isa = XCSwiftPackageProductDependency;
