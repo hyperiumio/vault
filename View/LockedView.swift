@@ -1,5 +1,9 @@
+import Haptic
 import Localization
 import SwiftUI
+
+private let successFeedback = SuccessFeedbackGenerator()
+private let failureFeedback = FailureFeedbackGenerator()
 
 #if os(iOS)
 struct LockedView<Model>: View where Model: LockedModelRepresentable {
@@ -35,17 +39,25 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
             .padding()
         }
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .active, useBiometricsOnAppear {
                 model.loginWithBiometrics()
             }
         }
         .onReceive(model.error) { error in
+            failureFeedback.play()
             self.error = error
         }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error)
-            return Alert(title: title)
+        .onReceive(model.done) { _ in
+            successFeedback.play()
+        }
+        .onAppear {
+            successFeedback.prepare()
+            failureFeedback.prepare()
         }
     }
     
