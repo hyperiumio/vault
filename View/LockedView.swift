@@ -10,6 +10,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
     @ObservedObject private var model: Model
     @State private var error: LockedError?
+    @State private var isKeyboardVisible = false
     @Environment(\.scenePhase) private var scenePhase
     
     private let useBiometricsOnAppear: Bool
@@ -28,14 +29,25 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 
-                switch model.keychainAvailability {
-                case .enrolled(.touchID):
-                    BiometricUnlockButton(.touchID, action: model.loginWithBiometrics)
-                case .enrolled(.faceID):
-                    BiometricUnlockButton(.faceID, action: model.loginWithBiometrics)
-                case .notAvailable, .notEnrolled:
-                    EmptyView()
+                Group {
+                    switch model.keychainAvailability {
+                    case .enrolled(.touchID):
+                        BiometricUnlockButton(.touchID) {
+                            if !isKeyboardVisible {
+                                model.loginWithBiometrics()
+                            }
+                        }
+                    case .enrolled(.faceID):
+                        BiometricUnlockButton(.faceID) {
+                            if !isKeyboardVisible {
+                                model.loginWithBiometrics()
+                            }
+                        }
+                    case .notAvailable, .notEnrolled:
+                        EmptyView()
+                    }
                 }
+                .disabled(isKeyboardVisible)
             }
             .padding()
         }
@@ -54,6 +66,12 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
         }
         .onReceive(model.done) { _ in
             successFeedback.play()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
+            isKeyboardVisible = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidHideNotification)) { _ in
+            isKeyboardVisible = false
         }
         .onAppear {
             successFeedback.prepare()
