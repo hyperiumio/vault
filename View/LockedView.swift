@@ -44,7 +44,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             return Alert(title: title)
         }
         .onChange(of: scenePhase) { scenePhase in
-            if scenePhase == .active, useBiometricsOnAppear {
+            if scenePhase == .active, useBiometricsOnAppear, model.status != .locked(cancelled: true) {
                 model.loginWithBiometrics()
             }
         }

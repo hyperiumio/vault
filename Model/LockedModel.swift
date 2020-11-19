@@ -18,9 +18,9 @@ protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
 }
 
-enum LockedStatus {
+enum LockedStatus: Equatable {
     
-    case locked
+    case locked(cancelled: Bool)
     case unlocking
     case unlocked
     
@@ -39,7 +39,7 @@ class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
     @Published private(set) var keychainAvailability: KeychainAvailability
-    @Published private(set) var status = LockedStatus.locked
+    @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
     var done: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
@@ -70,9 +70,7 @@ class LockedModel: LockedModelRepresentable {
     }
     
     func loginWithMasterPassword() {
-        guard status != .unlocking && status != .unlocked else {
-            return
-        }
+        guard case .locked = status else { return }
         
         status = .unlocking
         
@@ -88,7 +86,7 @@ class LockedModel: LockedModelRepresentable {
                 case .finished:
                     self.status = .unlocked
                 case .failure:
-                    self.status = .locked
+                    self.status = .locked(cancelled: false)
                     self.errorSubject.send(.wrongPassword)
                 }
             } receiveValue: { [doneSubject] vault in
@@ -97,30 +95,36 @@ class LockedModel: LockedModelRepresentable {
     }
     
     func loginWithBiometrics() {
-        guard status != .unlocking && status != .unlocked else {
-            return
-        }
+        guard case .locked = status else { return }
         
         status = .unlocking
         
         let keyPublisher = keychain.load()
         openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKey in
-                try vaultContainer.unlock(with: derivedKey)
+            .tryMap { vaultContainer, derivedKey -> Vault? in
+                if let derivedKey = derivedKey {
+                    return try vaultContainer.unlock(with: derivedKey)
+                } else {
+                    return nil
+                }
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
                 
-                switch completion {
-                case .finished:
-                    self.status = .unlocked
-                case .failure:
-                    self.status = .locked
+                if case .failure = completion {
+                    self.status = .locked(cancelled: false)
                     self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [doneSubject] vault in
-                doneSubject.send(vault)
+            } receiveValue: { [weak self] vault in
+                guard let self = self else { return }
+                guard let vault = vault else {
+                    self.status = .locked(cancelled: true)
+                    return
+                }
+                
+                self.status = .unlocked
+                self.doneSubject.send(vault)
             }
     }
     
@@ -131,7 +135,7 @@ class LockedModelStub: LockedModelRepresentable {
     
     @Published var password = ""
     @Published var keychainAvailability = KeychainAvailability.enrolled(.faceID)
-    @Published private(set) var status = LockedStatus.locked
+    @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
     var done: AnyPublisher<Vault, Never> {
         PassthroughSubject().eraseToAnyPublisher()

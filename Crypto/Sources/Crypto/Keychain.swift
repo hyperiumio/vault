@@ -63,7 +63,7 @@ public class Keychain {
         .eraseToAnyPublisher()
     }
     
-    public func load() -> AnyPublisher<DerivedKey, Error> {
+    public func load() -> AnyPublisher<DerivedKey?, Error> {
         operationQueue.future { [identifier] in
             let query = [
                 kSecClass: kSecClassGenericPassword,
@@ -74,14 +74,18 @@ public class Keychain {
             var item: CFTypeRef?
             
             let status = KeychainLoad(query, &item)
-            guard status == errSecSuccess else {
+            switch status {
+            case errSecSuccess:
+                guard let data = item as? Data else {
+                    throw CryptoError.keychainLoadDidFail
+                }
+                
+                return DerivedKey(data)
+            case errSecUserCanceled:
+                return nil
+            default:
                 throw CryptoError.keychainLoadDidFail
             }
-            guard let data = item as? Data else {
-                throw CryptoError.keychainLoadDidFail
-            }
-            
-            return DerivedKey(data)
         }
         .eraseToAnyPublisher()
     }
