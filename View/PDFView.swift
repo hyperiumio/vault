@@ -2,34 +2,8 @@ import PDFKit
 import SwiftUI
 
 #if os(iOS)
-struct PDFView: View {
-    
-    private let document: PDFDocument
-    
-    private var aspectRatio: CGFloat {
-        guard let size = document.page(at: 0)?.bounds(for: .mediaBox).size else {
-            return 1
-        }
-        
-        return size.height / size.width
-    }
-    
-    init(_ document: PDFDocument) {
-        self.document = document
-        
-    }
-    
-    var body: some View {
-        GeometryReader { geometry in
-            NativePDFView(document)
-                .frame(width: geometry.size.width, height: geometry.size.width * aspectRatio)
-        }
-    }
-    
-}
-#endif
 
-#if os(iOS)
+
 struct NativePDFView: UIViewRepresentable {
     
     private let document: PDFDocument
@@ -45,6 +19,8 @@ struct NativePDFView: UIViewRepresentable {
         pdfView.displayMode = .singlePage
         pdfView.pageBreakMargins = .zero
         pdfView.document = document
+        pdfView.backgroundColor = .clear
+        pdfView.interpolationQuality = .high
         
         return pdfView
     }
@@ -55,7 +31,7 @@ struct NativePDFView: UIViewRepresentable {
 #endif
 
 #if os(iOS) && DEBUG
-struct PDFPreview: PreviewProvider {
+struct PDFViewPreview: PreviewProvider {
     
     static let document: PDFDocument = {
         let data = NSDataAsset(name: "PDFDummy")!.data
@@ -64,10 +40,10 @@ struct PDFPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
-            PDFView(document)
+            NativePDFView(document)
                 .preferredColorScheme(.light)
             
-            PDFView(document)
+            NativePDFView(document)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)
