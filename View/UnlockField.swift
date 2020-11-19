@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(iOS)
 struct UnlockField: View {
     
     private let title: String
@@ -12,9 +13,12 @@ struct UnlockField: View {
         self.action = action
     }
     
+    
     var body: some View {
         HStack(spacing: 0) {
-            NativeTextField(title: title, text: text, action: action)
+            SecureField(title, text: text)
+                .font(.system(size: 20))
+                .disableAutocorrection(true)
                 .frame(height: 44)
                 .padding(.horizontal, 20)
                 .background(Color.textFieldBackground)
@@ -31,38 +35,6 @@ struct UnlockField: View {
             .buttonStyle(PlainButtonStyle())
         }
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-    }
-    
-}
-
-#if canImport(UIKit)
-import UIKit
-
-private struct NativeTextField: UIViewRepresentable {
-    
-    let title: String
-    let text: Binding<String>
-    let action: () -> Void
-    
-    func makeUIView(context: Context) -> UITextField {
-        let textField = UITextField()
-        textField.isSecureTextEntry = true
-        textField.font = .systemFont(ofSize: 20)
-        textField.autocorrectionType = .no
-        textField.returnKeyType = .done
-        textField.placeholder = title
-        textField.addTarget(context.coordinator, action: #selector(Coordinator.textFieldDidChange), for: .editingChanged)
-        textField.addTarget(context.coordinator, action: #selector(Coordinator.doneButtonPressed), for: .editingDidEndOnExit)
-        
-        return textField
-    }
-    
-    func updateUIView(_ textField: UITextField, context: Context) {
-        textField.text = text.wrappedValue
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator(text: text, action: action)
     }
     
 }
@@ -99,7 +71,6 @@ private struct NativeTextField: NSViewRepresentable {
     }
     
 }
-#endif
 
 private extension NativeTextField {
     
@@ -121,17 +92,6 @@ private extension NativeTextField {
     
 }
 
-#if canImport(UIKit)
-extension NativeTextField.Coordinator {
-    
-    @objc func textFieldDidChange(_ textField: UITextField) {
-        text.wrappedValue = textField.text ?? ""
-    }
-    
-}
-#endif
-
-#if canImport(AppKit)
 extension NativeTextField.Coordinator: NSTextFieldDelegate {
     
     func controlTextDidChange(_ notification: Notification) {
