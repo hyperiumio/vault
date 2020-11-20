@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct SetupView<Model>: View where Model: SetupModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -146,6 +145,28 @@ private enum Direction {
             let removal = AnyTransition.move(edge: .trailing).combined(with: .opacity)
             return .asymmetric(insertion: insertion, removal: removal)
         }
+    }
+    
+}
+
+#if DEBUG
+struct SetupViewPreview: PreviewProvider {
+    
+    static let model: SetupModelStub = {
+        let choosePasswordModel = ChoosePasswordModelStub()
+        let state = SetupModelStub.State.choosePassword(choosePasswordModel)
+        return SetupModelStub(state: state)
+    }()
+    
+    static var previews: some View {
+        Group {
+            SetupView(model)
+                .preferredColorScheme(.light)
+            
+            SetupView(model)
+                .preferredColorScheme(.dark)
+        }
+        .previewLayout(.sizeThatFits)
     }
     
 }

@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,6 +10,7 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         SecureItemField(LocalizedString.note) {
             NativeTextView($model.text) { height in
@@ -21,9 +21,19 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
             .frame(height: textViewHeight)
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        SecureItemField(LocalizedString.note) {
+            TextEditor(text: $model.text)
+        }
+    }
+    #endif
     
 }
 
+#if os(iOS)
 private struct NativeTextView: UIViewRepresentable {
 
     private let text:  Binding<String>
@@ -60,7 +70,6 @@ private struct NativeTextView: UIViewRepresentable {
     
 }
 
-
 private extension NativeTextView {
     
     class Coordinator: NSObject, UITextViewDelegate {
@@ -83,7 +92,7 @@ private extension NativeTextView {
 }
 #endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditNoteViewPreview: PreviewProvider {
     
     static let model = NoteModelStub()
@@ -100,7 +109,6 @@ struct EditNoteViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

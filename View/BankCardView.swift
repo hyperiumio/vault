@@ -2,7 +2,6 @@ import Format
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct BankCardView: View {
     
     private let item: BankCardItem
@@ -44,9 +43,8 @@ struct BankCardView: View {
         }
     }
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct BankCardViewPreview: PreviewProvider {
     
     static let item = BankCardItem(name: "foo", number: "1234567", expirationDate: Date(), pin: "paz")
@@ -63,7 +61,6 @@ struct BankCardViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

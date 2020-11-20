@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,6 +9,7 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         EditSecureItemTextField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
             .keyboardType(.emailAddress)
@@ -21,11 +21,21 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
             .keyboardType(.URL)
             .textContentType(.URL)
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        EditSecureItemTextField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
+        
+        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        
+        EditSecureItemTextField(LocalizedString.url, placeholder: LocalizedString.exampleURL, text: $model.url)
+    }
+    #endif
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditLoginViewPreview: PreviewProvider {
     
     static let model = LoginModelStub()
@@ -42,7 +52,6 @@ struct EditLoginViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

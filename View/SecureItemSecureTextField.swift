@@ -1,7 +1,6 @@
 import Pasteboard
 import SwiftUI
 
-#if os(iOS)
 struct SecureItemSecureTextField: View {
     
     private let title: String
@@ -13,10 +12,18 @@ struct SecureItemSecureTextField: View {
         self.text = text
     }
     
+    #if os(macOS)
     private var passwordTextMinHeight: CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .body)
-        return ceil(font.lineHeight)
+        let font = NSFont.preferredFont(forTextStyle: .title2)
+        return NSLayoutManager().defaultLineHeight(for: font)
     }
+    #endif
+    
+    #if os(iOS)
+    private var passwordTextMinHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: .title2).lineHeight
+    }
+    #endif
     
     var body: some View {
         SecureItemButton {
@@ -57,9 +64,8 @@ private extension Font {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemSecureTextFieldPreview: PreviewProvider {
     
     static var previews: some View {
@@ -74,7 +80,6 @@ struct SecureItemSecureTextFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

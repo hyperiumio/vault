@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,6 +10,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
@@ -59,11 +59,59 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
             .navigationBarTitleDisplayMode(.inline)
         }
     }
+    #endif
     
+    #if os(macOS)
+    var body: some View {
+        NavigationView {
+            List {
+                Section {
+                    switch model.primaryItemModel {
+                    case .login(let model):
+                        EditLoginView(model)
+                    case .password(let model):
+                        EditPasswordView(model)
+                    case .file(let model):
+                        EditFileView(model)
+                    case .note(let model):
+                        EditNoteView(model)
+                    case .bankCard(let model):
+                        EditBankCardView(model)
+                    case .wifi(let model):
+                        EditWifiView(model)
+                    case .bankAccount(let model):
+                        EditBankAccountView(model)
+                    case .custom(let model):
+                        EditCustomView(model)
+                    }
+                } header: {
+                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                        .padding()
+                        .listRowInsets(.zero)
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(LocalizedString.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .principal) {
+                    SecureItemTypeView(model.primaryItemModel.secureItem.value.type)
+                }
+                
+                ToolbarItem(placement: .confirmationAction) {
+                    Button(LocalizedString.save, action: model.save)
+                        .disabled(model.title.isEmpty)
+                }
+            }
+        }
+    }
+    #endif
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct CreateVaultItemViewPreview: PreviewProvider {
     
     static let model: VaultItemModelStub = {

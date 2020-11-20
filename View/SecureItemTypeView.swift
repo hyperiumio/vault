@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct SecureItemTypeView: View {
     
     private let type: SecureItemType
@@ -65,9 +64,8 @@ private extension SecureItemTypeView {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemTypeViewPreview: PreviewProvider {
     
     static var previews: some View {

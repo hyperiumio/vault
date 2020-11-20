@@ -99,7 +99,7 @@ private extension EnableBiometricUnlockView {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EnableBiometricUnlockViewPreview: PreviewProvider {
     
     static let model = EnableBiometricUnlockModelStub(biometryType: .touchID)

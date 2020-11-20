@@ -1,7 +1,6 @@
 import SwiftUI
 import Pasteboard
 
-#if os(iOS)
 struct SecureItemTextField: View {
     
     private let title: String
@@ -29,9 +28,8 @@ struct SecureItemTextField: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemTextFieldPreview: PreviewProvider {
     
     static var previews: some View {
@@ -46,7 +44,6 @@ struct SecureItemTextFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

@@ -57,7 +57,25 @@ extension VaultItemTitleView {
 }
 #endif
 
-#if os(iOS) && DEBUG
+#if os(macOS)
+struct VaultItemTitleView: View {
+    
+    private let title: String
+    private let text: Binding<String>
+
+    init(_ title: String, text: Binding<String>) {
+        self.title = title
+        self.text = text
+    }
+    
+    var body: some View {
+        TextField(title, text: text)
+            .font(.title)
+    }
+}
+#endif
+
+#if DEBUG
 struct VaultItemTitleViewPreview: PreviewProvider {
     
     @State static var text = ""

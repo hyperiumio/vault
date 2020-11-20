@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct NoteView: View {
     
     private let item: NoteItem
@@ -17,9 +16,8 @@ struct NoteView: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct NoteViewPreview: PreviewProvider {
     
     static let item = NoteItem(text: "foo\n\nbar")
@@ -36,7 +34,6 @@ struct NoteViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

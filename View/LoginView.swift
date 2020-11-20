@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct LoginView: View {
     
     private let item: LoginItem
@@ -25,9 +24,8 @@ struct LoginView: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct LoginViewPreview: PreviewProvider {
     
     static let item = LoginItem(username: "foo", password: "bar", url: "baz")
@@ -44,7 +42,6 @@ struct LoginViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

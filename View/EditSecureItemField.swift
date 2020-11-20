@@ -24,7 +24,7 @@ struct EditSecureItemField<Content>: View where Content: View {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditSecureItemFieldPreview: PreviewProvider {
     
     @State static var text = ""
@@ -45,7 +45,6 @@ struct EditSecureItemFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

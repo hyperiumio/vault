@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
 struct BiometricUnlockButton: View {
     
     private let biometryType: BiometryType
@@ -36,9 +35,8 @@ private extension BiometricUnlockButton {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct BiometricUnlockButtonPreview: PreviewProvider {
     
     static var previews: some View {

@@ -3,7 +3,6 @@ import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-#if os(iOS)
 struct EditFileView<Model>: View where Model: FileModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -17,9 +16,8 @@ struct EditFileView<Model>: View where Model: FileModelRepresentable {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditFileViewPreview: PreviewProvider {
     
     static let model: FileModelStub = {
@@ -39,7 +37,6 @@ struct EditFileViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

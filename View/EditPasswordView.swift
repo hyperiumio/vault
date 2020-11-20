@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -15,9 +14,8 @@ struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
     }
 
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditPasswordViewPreview: PreviewProvider {
     
     static let model = PasswordModelStub()
@@ -34,7 +32,6 @@ struct EditPasswordViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

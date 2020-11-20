@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
 struct VaultItemInfoView: View {
     
     private let title: String
@@ -31,9 +30,7 @@ struct VaultItemInfoView: View {
     }
     
 }
-#endif
 
-#if os(iOS)
 private extension VaultItemInfoView {
     
     static func image(for type: SecureItemType) -> Image {
@@ -58,6 +55,31 @@ private extension VaultItemInfoView {
     }
     
 }
+
+#if os(macOS)
+private struct NativeLabel: NSViewRepresentable {
+    
+    private let text: String
+    private let textStyle: NSFont.TextStyle
+    private let color: Color
+    
+    init(_ text: String, textStyle: NSFont.TextStyle, color: Color) {
+        self.text = text
+        self.textStyle = textStyle
+        self.color = color
+    }
+    
+    func makeNSView(context: Context) -> NSTextField {
+        let textField = NSTextField(labelWithString: text)
+        textField.font = .preferredFont(forTextStyle: textStyle)
+        textField.textColor = NSColor(color)
+        
+        return textField
+    }
+    
+    func updateNSView(_ nsView: NSTextField, context: Context) {}
+    
+}
 #endif
 
 #if os(iOS)
@@ -65,9 +87,9 @@ private struct NativeLabel: UIViewRepresentable {
     
     private let text: String
     private let textStyle: UIFont.TextStyle
-    private let color: UIColor
+    private let color: Color
     
-    init(_ text: String, textStyle: UIFont.TextStyle, color: UIColor) {
+    init(_ text: String, textStyle: UIFont.TextStyle, color: Color) {
         self.text = text
         self.textStyle = textStyle
         self.color = color
@@ -77,7 +99,7 @@ private struct NativeLabel: UIViewRepresentable {
         let label = UILabel()
         label.text = text
         label.font = .preferredFont(forTextStyle: textStyle)
-        label.textColor = color
+        label.textColor = UIColor(color)
         
         return label
     }
@@ -87,7 +109,7 @@ private struct NativeLabel: UIViewRepresentable {
 }
 #endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct VaultItemInfoViewPreview: PreviewProvider {
     
     static var previews: some View {

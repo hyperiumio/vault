@@ -80,7 +80,7 @@ private extension HorizontalAlignment {
     static let custom = HorizontalAlignment(CustomAlignment.self)
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct VaultItemFooterPreview: PreviewProvider {
     
     static var previews: some View {

@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -13,6 +12,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         List {
             Section {
@@ -47,6 +47,42 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
         }
         .onAppear(perform: model.reset)
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        List {
+            Section {
+                SecureField(LocalizedString.newMasterPassword, text: $model.password)
+                
+                SecureField(LocalizedString.repeatMasterPassword, text: $model.repeatedPassword)
+            }
+            
+            Section {
+                HStack {
+                    Spacer()
+                    
+                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
+                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
+                    
+                    Spacer()
+                }
+            }
+        }
+        .disabled(model.isLoading)
+        .onReceive(model.error) { error in
+            self.error = error
+        }
+        .onReceive(model.done) {
+            presentationMode.wrappedValue.dismiss()
+        }
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
+        .onAppear(perform: model.reset)
+    }
+    #endif
     
 }
 
@@ -63,9 +99,7 @@ private extension ChangeMasterPasswordView {
     
 }
 
-#endif
-
-#if os(iOS) && DEBUG
+#if DEBUG
 struct ChangeMasterPasswordViewPreview: PreviewProvider {
     
     static let model = ChangeMasterPasswordModelStub()

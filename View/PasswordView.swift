@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct PasswordView: View {
     
     private let item: PasswordItem
@@ -17,9 +16,8 @@ struct PasswordView: View {
     }
 
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct PasswordViewPreview: PreviewProvider {
     
     static let item = PasswordItem(password: "foo")
@@ -36,7 +34,6 @@ struct PasswordViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     
