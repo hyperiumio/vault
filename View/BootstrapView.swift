@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -26,9 +25,8 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct BootStrapViewPreview: PreviewProvider {
     
     static let model = BootstrapModelStub(status: .loadingFailed)

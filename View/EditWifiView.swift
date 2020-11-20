@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,17 +9,26 @@ struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         EditSecureItemTextField(LocalizedString.name, placeholder: LocalizedString.name, text: $model.name)
             .keyboardType(.asciiCapable)
         
         EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        EditSecureItemTextField(LocalizedString.name, placeholder: LocalizedString.name, text: $model.name)
+        
+        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+    }
+    #endif
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditWifiViewPreview: PreviewProvider {
     
     static let model = WifiModelStub()
@@ -37,7 +45,6 @@ struct EditWifiViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

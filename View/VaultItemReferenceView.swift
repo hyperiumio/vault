@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,6 +9,7 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         Group {
             switch model.state {
@@ -39,11 +39,42 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
             model.load()
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        Group {
+            switch model.state {
+            case .initialized:
+                EmptyView()
+            case .loading:
+                ProgressView()
+            case .loadingFailed:
+                VStack {
+                    Text(LocalizedString.loadingVaultItemFailed)
+                        .font(.title3)
+                    
+                    Button(LocalizedString.retry, action: model.load)
+                        .padding()
+                }
+            case .loaded(let model):
+                VaultItemView(model)
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                SecureItemTypeView(model.info.primaryType)
+            }
+        }
+        .onAppear {
+            model.load()
+        }
+    }
+    #endif
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct VaultItemReferenceViewPreview: PreviewProvider {
     
     static let model: VaultItemReferenceModelStub = {

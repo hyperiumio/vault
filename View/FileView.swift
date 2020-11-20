@@ -3,7 +3,6 @@ import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-#if os(iOS)
 struct FileView: View {
     
     private let item: FileItem
@@ -12,6 +11,7 @@ struct FileView: View {
         self.item = item
     }
     
+    #if os(iOS)
     var body: some View {
         Group {
             switch item.typeIdentifier {
@@ -36,6 +36,34 @@ struct FileView: View {
         }
         .listRowInsets(.zero)
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        Group {
+            switch item.typeIdentifier {
+            case let typeIdentifier where typeIdentifier.conforms(to: .image):
+                if let image = NSImage(data: item.data) {
+                    Image(nsImage: image)
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    UnrepresentableFileView(typeIdentifier)
+                }
+            case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
+                if let document = PDFDocument(data: item.data) {
+                    NativePDFView(document)
+                        .scaledToFit()
+                } else {
+                    UnrepresentableFileView(typeIdentifier)
+                }
+            default:
+                UnrepresentableFileView(item.typeIdentifier)
+            }
+        }
+        .listRowInsets(.zero)
+    }
+    #endif
     
 }
 
@@ -61,9 +89,8 @@ private struct UnrepresentableFileView: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct FileViewPreview: PreviewProvider {
     
     static let pdf: FileItem = {
@@ -113,7 +140,6 @@ struct FileViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

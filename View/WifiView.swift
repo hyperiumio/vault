@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct WifiView: View {
     
     private let item: WifiItem
@@ -21,9 +20,8 @@ struct WifiView: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct WifiViewPreview: PreviewProvider {
     
     static let item = WifiItem(name: "foo", password: "bar")
@@ -40,9 +38,9 @@ struct WifiViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
+
     
 }
 #endif

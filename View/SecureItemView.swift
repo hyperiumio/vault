@@ -16,7 +16,7 @@ struct SecureItemView<Content>: View where Content: View {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemViewPreview: PreviewProvider {
     
     static var previews: some View {
@@ -35,7 +35,6 @@ struct SecureItemViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

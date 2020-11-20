@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct CustomView: View {
     
     private let item: CustomItem
@@ -17,9 +16,8 @@ struct CustomView: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct CustomViewPreview: PreviewProvider {
     
     static let item = CustomItem(description: "foo", value: "bar")
@@ -36,7 +34,6 @@ struct CustomViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

@@ -67,7 +67,7 @@ private extension CompleteSetupView {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct CompleteSetupViewPreview: PreviewProvider {
     
     static let model = CompleteSetupModelStub()

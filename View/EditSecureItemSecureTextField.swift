@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditSecureItemSecureTextField: View {
     
     private let title: String
@@ -51,9 +50,8 @@ struct EditSecureItemSecureTextField: View {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditSecureItemSecureTextFieldPreview: PreviewProvider {
     
     @State static var text = ""
@@ -70,7 +68,6 @@ struct EditSecureItemSecureTextFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

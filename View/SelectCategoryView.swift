@@ -2,7 +2,6 @@ import Localization
 import SwiftUI
 import UniformTypeIdentifiers
 
-#if os(iOS)
 struct SelectCategoryView: View {
     
     private let action: (Selection) -> Void
@@ -16,6 +15,7 @@ struct SelectCategoryView: View {
         self.action = action
     }
     
+    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
@@ -110,6 +110,41 @@ struct SelectCategoryView: View {
             .navigationBarTitle(LocalizedString.selectCategory, displayMode: .inline)
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        List {
+            ItemButton(LocalizedString.login, image: .login) {
+                action(.login)
+            }
+            
+            ItemButton(LocalizedString.password, image: .password) {
+                action(.password)
+            }
+            
+            ItemButton(LocalizedString.wifi, image: .wifi) {
+                action(.wifi)
+            }
+            
+            ItemButton(LocalizedString.note, image: .note) {
+                action(.note)
+            }
+            
+            ItemButton(LocalizedString.bankCard, image: .bankCard) {
+                action(.bankCard)
+            }
+            
+            ItemButton(LocalizedString.bankAccount, image: .bankAccount) {
+                action(.bankAccount)
+            }
+            
+            ItemButton(LocalizedString.custom, image: .custom) {
+                action(.custom)
+            }
+        }
+    }
+    #endif
     
 }
 
@@ -154,9 +189,8 @@ extension SelectCategoryView {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SelectCategoryViewPreview: PreviewProvider {
     
     static var previews: some View {

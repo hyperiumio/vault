@@ -4,7 +4,6 @@ import SwiftUI
 
 private let changeFeedback = ChangeFeedbackGenerator()
 
-#if os(iOS)
 struct GeneratePasswordView: View {
     
     let passworGenerator: (String?) -> Void
@@ -26,10 +25,18 @@ struct GeneratePasswordView: View {
         LocalizedString.characters(model.length)
     }
     
+    #if os(macOS)
     private var passwordTextMinHeight: CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .body)
-        return ceil(font.lineHeight)
+        let font = NSFont.preferredFont(forTextStyle: .title2)
+        return NSLayoutManager().defaultLineHeight(for: font)
     }
+    #endif
+    
+    #if os(iOS)
+    private var passwordTextMinHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: .title2).lineHeight
+    }
+    #endif
     
     init(passworGenerator: @escaping (String?) -> Void) {
         self.passworGenerator = passworGenerator
@@ -84,9 +91,8 @@ private extension Font {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct GeneratePasswordViewPreview: PreviewProvider {
     
     static var previews: some View {

@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -19,9 +18,8 @@ struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditCustomViewPreview: PreviewProvider {
     
     static let model = CustomModelStub()
@@ -38,7 +36,6 @@ struct EditCustomViewPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

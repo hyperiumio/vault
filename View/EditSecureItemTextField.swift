@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
 struct EditSecureItemTextField: View {
     
     private let title: String
@@ -37,6 +36,7 @@ struct EditSecureItemTextField: View {
         }
     }
     
+    #if os(iOS)
     var body: some View {
         SecureItemView {
             SecureItemField(title) {
@@ -46,11 +46,22 @@ struct EditSecureItemTextField: View {
             .disableAutocorrection(true)
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        SecureItemView {
+            SecureItemField(title) {
+                TextField(placeholder, text: textBinding)
+            }
+            .disableAutocorrection(true)
+        }
+    }
+    #endif
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditSecureItemTextFieldPreview: PreviewProvider {
     
     @State static var text = ""
@@ -67,7 +78,6 @@ struct EditSecureItemTextFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

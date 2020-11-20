@@ -29,7 +29,7 @@ struct SecureItemDateField: View {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemDateFieldPreview: PreviewProvider {
     
     static var previews: some View {
@@ -44,7 +44,6 @@ struct SecureItemDateFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

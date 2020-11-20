@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
 struct MainView<Model>: View where Model: MainModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -32,9 +31,8 @@ private extension AnyTransition {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct MainViewPreview: PreviewProvider {
     
     static var model: MainModelStub {
@@ -51,7 +49,6 @@ struct MainViewPreview: PreviewProvider {
             MainView(model)
                 .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

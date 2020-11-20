@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,10 +10,18 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
         self.model = model
     }
     
+    #if os(macOS)
     private var passwordTextMinHeight: CGFloat {
-        let font = UIFont.preferredFont(forTextStyle: .title2)
-        return ceil(font.lineHeight)
+        let font = NSFont.preferredFont(forTextStyle: .title2)
+        return NSLayoutManager().defaultLineHeight(for: font)
     }
+    #endif
+    
+    #if os(iOS)
+    private var passwordTextMinHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: .title2).lineHeight
+    }
+    #endif
     
     var body: some View {
         VStack {
@@ -54,9 +61,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     }
     
 }
-#endif
 
-#if os(iOS)
 private extension RepeatPasswordView {
     
     static func title(for error: RepeatPasswordError) -> Text {
@@ -67,9 +72,8 @@ private extension RepeatPasswordView {
     }
     
 }
-#endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct RepeatPasswordViewProvider: PreviewProvider {
     
     static let model = RepeatPasswordModelStub()

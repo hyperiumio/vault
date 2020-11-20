@@ -25,7 +25,7 @@ struct EditSecureItemDateField: View {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct EditSecureItemDateFieldPreview: PreviewProvider {
     
     @State static var date = Date.distantPast
@@ -42,7 +42,6 @@ struct EditSecureItemDateFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

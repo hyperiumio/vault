@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if os(iOS)
 struct UnlockField: View {
     
     private let title: String
@@ -12,7 +11,6 @@ struct UnlockField: View {
         self.text = text
         self.action = action
     }
-    
     
     var body: some View {
         HStack(spacing: 0) {
@@ -38,7 +36,6 @@ struct UnlockField: View {
     }
     
 }
-#endif
 
 #if canImport(AppKit)
 import AppKit
@@ -102,7 +99,7 @@ extension NativeTextField.Coordinator: NSTextFieldDelegate {
 }
 #endif
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct UnlockFieldPreview: PreviewProvider {
     
     @State static var text = ""

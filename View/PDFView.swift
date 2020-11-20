@@ -2,8 +2,6 @@ import PDFKit
 import SwiftUI
 
 #if os(iOS)
-
-
 struct NativePDFView: UIViewRepresentable {
     
     private let document: PDFDocument
@@ -30,7 +28,34 @@ struct NativePDFView: UIViewRepresentable {
 }
 #endif
 
-#if os(iOS) && DEBUG
+#if os(macOS)
+struct NativePDFView: NSViewRepresentable {
+    
+    private let document: PDFDocument
+    
+    init(_ document: PDFDocument) {
+        self.document = document
+    }
+    
+    func makeNSView(context: Context) -> PDFView {
+        let pdfView = PDFKit.PDFView()
+        pdfView.pageShadowsEnabled = false
+        pdfView.autoScales = true
+        pdfView.displayMode = .singlePage
+        pdfView.pageBreakMargins = NSEdgeInsetsZero
+        pdfView.document = document
+        pdfView.backgroundColor = .clear
+        pdfView.interpolationQuality = .high
+        
+        return pdfView
+    }
+    
+    func updateNSView(_ nsView: PDFView, context: Context) {}
+    
+}
+#endif
+
+#if DEBUG
 struct PDFViewPreview: PreviewProvider {
     
     static let document: PDFDocument = {

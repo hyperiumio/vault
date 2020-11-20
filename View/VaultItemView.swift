@@ -1,7 +1,6 @@
 import Localization
 import SwiftUI
 
-#if os(iOS)
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,6 +10,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         Group {
             switch mode {
@@ -45,6 +45,43 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         }
         .transition(AnyTransition.opacity.animation(.easeInOut))
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        Group {
+            switch mode {
+            case .display:
+                VaultItemDisplayView(model)
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(LocalizedString.edit) {
+                                mode = .edit
+                            }
+                        }
+                    }
+            case .edit:
+                VaultItemEditView(model)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(LocalizedString.cancel) {
+                                model.discardChanges()
+                                mode = .display
+                            }
+                        }
+                        
+                        ToolbarItem(placement: .primaryAction) {
+                            Button(LocalizedString.save) {
+                                model.save()
+                                mode = .display
+                            }
+                        }
+                    }
+            }
+        }
+        .transition(AnyTransition.opacity.animation(.easeInOut))
+    }
+    #endif
     
 }
 
@@ -67,6 +104,7 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         List {
             Section {
@@ -84,6 +122,26 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
         }
         .listStyle(GroupedListStyle())
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        List {
+            Section {
+                ElementView(model.primaryItemModel)
+            } header: {
+                Text(model.title)
+                    .font(.title)
+                    .textCase(.none)
+                    .foregroundColor(.label)
+                    .listRowInsets(.zero)
+                    .padding()
+            } footer: {
+                VaultItemFooter(created: model.created, modified: model.modified)
+            }
+        }
+    }
+    #endif
     
 }
 
@@ -96,6 +154,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
         self.model = model
     }
     
+    #if os(iOS)
     var body: some View {
         List {
             Group {
@@ -118,6 +177,31 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
         }
         .listStyle(GroupedListStyle())
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        List {
+            Group {
+                Section {
+                    ElementView(model.primaryItemModel)
+                } header: {
+                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                        .listRowInsets(.zero)
+                        .padding()
+                }
+                
+                Section {
+                    Button(LocalizedString.deleteItem) {
+                        model.delete()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .foregroundColor(.appRed)
+                }
+            }
+        }
+    }
+    #endif
     
 }
 
@@ -190,4 +274,3 @@ private extension VaultItemEditView {
     }
 
 }
-#endif

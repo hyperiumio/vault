@@ -22,7 +22,7 @@ struct SecureItemField<Content>: View where Content: View {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemFieldPreview: PreviewProvider {
     
     static var previews: some View {
@@ -41,7 +41,6 @@ struct SecureItemFieldPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     

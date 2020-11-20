@@ -56,7 +56,7 @@ private extension Animation {
     
 }
 
-#if os(iOS) && DEBUG
+#if DEBUG
 struct SecureItemButtonPreview: PreviewProvider {
     
     static var previews: some View {
@@ -75,7 +75,6 @@ struct SecureItemButtonPreview: PreviewProvider {
             }
             .preferredColorScheme(.dark)
         }
-        .listStyle(GroupedListStyle())
         .previewLayout(.sizeThatFits)
     }
     
