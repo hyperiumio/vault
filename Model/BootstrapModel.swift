@@ -57,7 +57,7 @@ class BootstrapModel: BootstrapModelRepresentable {
             return
         }
         
-        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         
         guard let activeVaultIdentifier = preferences.value.activeVaultIdentifier else {
             didBootstrapSubject.send(.setup)

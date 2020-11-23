@@ -3,13 +3,21 @@ import Combine
 protocol RepeatPasswordModelRepresentable: ObservableObject, Identifiable {
     
     var repeatedPassword: String { get set }
-    var done: AnyPublisher<Void, Never> { get }
-    var error: AnyPublisher<RepeatPasswordError, Never> { get }
+    var event: AnyPublisher<RepeatPasswordModelEvent, Never> { get }
+    var error: AnyPublisher<RepeatPasswordModelError, Never> { get }
     
+    func dismiss()
     func validatePassword()
 }
 
-enum RepeatPasswordError: Error, Identifiable {
+enum RepeatPasswordModelEvent {
+    
+    case done
+    case back
+    
+}
+
+enum RepeatPasswordModelError: Error, Identifiable {
     
     case invalidPassword
     
@@ -22,14 +30,14 @@ class RepeatPasswordModel: RepeatPasswordModelRepresentable {
     @Published var repeatedPassword = ""
     
     private let password: String
-    private let doneSubject = PassthroughSubject<Void, Never>()
-    private let errorSubject = PassthroughSubject<RepeatPasswordError, Never>()
+    private let eventSubject = PassthroughSubject<RepeatPasswordModelEvent, Never>()
+    private let errorSubject = PassthroughSubject<RepeatPasswordModelError, Never>()
     
-    var done: AnyPublisher<Void, Never> {
-        doneSubject.eraseToAnyPublisher()
+    var event: AnyPublisher<RepeatPasswordModelEvent, Never> {
+        eventSubject.eraseToAnyPublisher()
     }
     
-    var error: AnyPublisher<RepeatPasswordError, Never> {
+    var error: AnyPublisher<RepeatPasswordModelError, Never> {
         errorSubject.eraseToAnyPublisher()
     }
     
@@ -37,9 +45,13 @@ class RepeatPasswordModel: RepeatPasswordModelRepresentable {
         self.password = password
     }
     
+    func dismiss() {
+        eventSubject.send(.back)
+    }
+    
     func validatePassword() {
         if repeatedPassword == password {
-            doneSubject.send()
+            eventSubject.send(.done)
         } else {
             errorSubject.send(.invalidPassword)
         }
@@ -52,14 +64,15 @@ class RepeatPasswordModelStub: RepeatPasswordModelRepresentable {
 
     @Published var repeatedPassword = ""
     
-    var done: AnyPublisher<Void, Never> {
+    var event: AnyPublisher<RepeatPasswordModelEvent, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
-    var error: AnyPublisher<RepeatPasswordError, Never> {
+    var error: AnyPublisher<RepeatPasswordModelError, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
+    func dismiss() {}
     func validatePassword() {}
     
 }

@@ -25,19 +25,6 @@ struct GeneratePasswordView: View {
         LocalizedString.characters(model.length)
     }
     
-    #if os(macOS)
-    private var passwordTextMinHeight: CGFloat {
-        let font = NSFont.preferredFont(forTextStyle: .title2)
-        return NSLayoutManager().defaultLineHeight(for: font)
-    }
-    #endif
-    
-    #if os(iOS)
-    private var passwordTextMinHeight: CGFloat {
-        UIFont.preferredFont(forTextStyle: .title2).lineHeight
-    }
-    #endif
-    
     init(passworGenerator: @escaping (String?) -> Void) {
         self.passworGenerator = passworGenerator
     }
@@ -49,7 +36,7 @@ struct GeneratePasswordView: View {
                 .foregroundColor(.label)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .frame(minHeight: passwordTextMinHeight)
+                .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
                 Text(passwordLengthText)

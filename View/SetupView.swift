@@ -16,21 +16,13 @@ struct SetupView<Model>: View where Model: SetupModelRepresentable {
         Group {
             switch viewState {
             case .choosePassword(let choosePasswordModel):
-                Screen {
-                    ChoosePasswordView(choosePasswordModel)
-                }
+                ChoosePasswordView(choosePasswordModel)
             case .repeatPassword(let repeatPasswordModel):
-                Screen(action: model.previous) {
-                    RepeatPasswordView(repeatPasswordModel)
-                }
+                RepeatPasswordView(repeatPasswordModel)
             case .enableBiometricUnlock(let enableBiometricUnlockModel):
-                Screen(action: model.previous) {
-                    EnableBiometricUnlockView(enableBiometricUnlockModel)
-                }
+                EnableBiometricUnlockView(enableBiometricUnlockModel)
             case .completeSetup(let completeSetupModel):
-                Screen(action: model.previous) {
-                    CompleteSetupView(completeSetupModel)
-                }
+                CompleteSetupView(completeSetupModel)
             }
         }
         .onChange(of: model.state) { state in
@@ -91,40 +83,6 @@ private extension SetupView where Model: SetupModelRepresentable {
             }
         }
         
-    }
-    
-}
-
-private struct Screen<Content>: View where Content: View {
-    
-    private let action: (() -> Void)?
-    private let content: Content
-    
-    init(action: (() -> Void)? = nil, @ViewBuilder content: () -> Content) {
-        self.action = action
-        self.content = content()
-    }
-    
-    var body: some View {
-        VStack {
-            if let action = action {
-                Button {
-                    withAnimation {
-                        action()
-                    }
-                } label: {
-                    HStack {
-                        Image.back
-                            .imageScale(.large)
-                        
-                        Spacer()
-                    }
-                }
-            }
-            
-            content
-        }
-        .padding()
     }
     
 }

@@ -7,13 +7,65 @@ private let successFeedback = SuccessFeedbackGenerator()
 struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentable {
     
     @ObservedObject private var model: Model
-    @State private var error: CompleteSetupError?
+    @State private var displayError: CompleteSetupModelError?
     @State private var isCheckmarkVisible = false
     
     init(_ model: Model) {
         self.model = model
     }
     
+    var enabledIntensions: Set<PageNavigationIntention> {
+        model.isLoading ? [.backward] : [.backward, .forward]
+    }
+    
+    #if os(macOS)
+    var body: some View {
+        VStack {
+            Spacer()
+            
+            if isCheckmarkVisible {
+                VStack(spacing: 20) {
+                    Text(LocalizedString.setupComplete)
+                        .font(.title)
+                        .zIndex(0)
+                    
+                    Image.checkmark
+                        .resizable()
+                        .scaledToFit()
+                        .foregroundColor(.green)
+                        .frame(width: 100, height: 100, alignment: .center)
+                }
+                .transition(AnyTransition.scale(scale: 2).combined(with: .opacity).animation(Animation.easeIn(duration: 0.5)))
+            }
+            
+            Spacer()
+            
+            Button(LocalizedString.createVault, action: model.createVault)
+                .controlSize(.large)
+                .keyboardShortcut(.defaultAction)
+                .disabled(!enabledIntensions.contains(.forward))
+        }
+        .padding()
+        .onReceive(model.error) { error in
+            displayError = error
+        }
+        .alert(item: $displayError) { error in
+            switch error {
+            case .vaultCreationFailed:
+                let title = Text(LocalizedString.invalidPassword)
+                return Alert(title: title)
+            }
+        }
+        .onAppear {
+            successFeedback.prepare()
+            isCheckmarkVisible = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: successFeedback.play)
+        }
+
+    }
+    #endif
+    
+    #if os(iOS)
     var body: some View {
         VStack {
             Spacer()
@@ -37,14 +89,17 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             
             Button(LocalizedString.createVault, action: model.createVault)
                 .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
-                .disabled(model.isLoading)
+                .disabled(!enabledIntensions.contains(.forward))
         }
         .onReceive(model.error) { error in
-            self.error = error
+            displayError = error
         }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error)
-            return Alert(title: title)
+        .alert(item: $displayError) { error in
+            switch error {
+            case .vaultCreationFailed:
+                let title = Text(LocalizedString.invalidPassword)
+                return Alert(title: title)
+            }
         }
         .onAppear {
             successFeedback.prepare()
@@ -53,17 +108,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
         }
 
     }
-    
-}
-
-private extension CompleteSetupView {
-    
-    static func title(for error: CompleteSetupError) -> Text {
-        switch error {
-        case .vaultCreationFailed:
-            return Text(LocalizedString.vaultCreationFailed)
-        }
-    }
+    #endif
     
 }
 
