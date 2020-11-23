@@ -15,7 +15,7 @@ class AppDelegate: NSObject {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             fatalError()
         }
-        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("vaults", isDirectory: true)
+        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(identifier: bundleIdentifier)
         let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: .shared, keychain: keychain)
         

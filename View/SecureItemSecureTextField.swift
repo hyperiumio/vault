@@ -12,19 +12,6 @@ struct SecureItemSecureTextField: View {
         self.text = text
     }
     
-    #if os(macOS)
-    private var passwordTextMinHeight: CGFloat {
-        let font = NSFont.preferredFont(forTextStyle: .title2)
-        return NSLayoutManager().defaultLineHeight(for: font)
-    }
-    #endif
-    
-    #if os(iOS)
-    private var passwordTextMinHeight: CGFloat {
-        UIFont.preferredFont(forTextStyle: .title2).lineHeight
-    }
-    #endif
-    
     var body: some View {
         SecureItemButton {
             Pasteboard.general.string = text
@@ -35,7 +22,7 @@ struct SecureItemSecureTextField: View {
                         .font(.password)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
-                        .frame(minHeight: passwordTextMinHeight)
+                        .frame(minHeight: TextStyle.title2.lineHeight)
                 }
                 
                 Spacer()

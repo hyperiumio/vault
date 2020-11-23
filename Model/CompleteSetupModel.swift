@@ -6,14 +6,14 @@ import Preferences
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {
     
     var isLoading: Bool { get }
-    var done: AnyPublisher<Vault, Never> { get }
-    var error: AnyPublisher<CompleteSetupError, Never> { get }
+    var event: AnyPublisher<Vault, Never> { get }
+    var error: AnyPublisher<CompleteSetupModelError, Never> { get }
     
     func createVault()
     
 }
 
-enum CompleteSetupError: Error, Identifiable {
+enum CompleteSetupModelError: Error, Identifiable {
     
     case vaultCreationFailed
     
@@ -31,14 +31,14 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
     private let preferences: Preferences
     private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Vault, Never>()
-    private let errorSubject = PassthroughSubject<CompleteSetupError, Never>()
+    private let errorSubject = PassthroughSubject<CompleteSetupModelError, Never>()
     private var createVaultSubscription: AnyCancellable?
     
-    var done: AnyPublisher<Vault, Never> {
+    var event: AnyPublisher<Vault, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    var error: AnyPublisher<CompleteSetupError, Never> {
+    var error: AnyPublisher<CompleteSetupModelError, Never> {
         errorSubject.eraseToAnyPublisher()
     }
     
@@ -92,11 +92,11 @@ class CompleteSetupModelStub: CompleteSetupModelRepresentable {
     
     @Published var isLoading = false
     
-    var done: AnyPublisher<Vault, Never> {
+    var event: AnyPublisher<Vault, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
-    var error: AnyPublisher<CompleteSetupError, Never> {
+    var error: AnyPublisher<CompleteSetupModelError, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

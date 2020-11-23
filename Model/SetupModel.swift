@@ -17,8 +17,6 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     var done: AnyPublisher<Vault, Never> { get }
     var state: State { get }
     
-    func previous()
-    
 }
 
 enum SetupState<ChoosePassword, RepeatPassword, EnableBiometricUnlock, CompleteSetup>: Equatable {
@@ -87,15 +85,17 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
                     }
                     .eraseToAnyPublisher()
             case .repeatPassword(let choosePasswordModel, let repeatPasswordModel):
-                return repeatPasswordModel.done
-                    .map {
-                        switch keychain.availability {
-                        case .notAvailable, .notEnrolled:
+                return repeatPasswordModel.event
+                    .map { event in
+                        switch (event, keychain.availability) {
+                        case (.done, .notAvailable), (.done, .notEnrolled):
                             let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password, biometricUnlockEnabled: false)
                             return .completeSetup(choosePasswordModel, repeatPasswordModel, nil, completeSetupModel)
-                        case .enrolled(let biometryType):
+                        case (.done, .enrolled(let biometryType)):
                             let enableBiometricUnlockModel = dependency.enabledBiometricUnlockModel(password: choosePasswordModel.password, biometryType: biometryType)
                             return .enableBiometricUnlock(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel)
+                        case (.back, _):
+                            return .choosePassword(choosePasswordModel)
                         }
                     }
                     .eraseToAnyPublisher()
@@ -107,7 +107,7 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
                     }
                     .eraseToAnyPublisher()
             case .completeSetup(_, _, _, let completeSetupModel):
-                setupCompleteSubscription = completeSetupModel.done
+                setupCompleteSubscription = completeSetupModel.event
                     .subscribe(doneSubject)
                 
                 return Empty<State, Never>()
@@ -126,21 +126,6 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
             .flatMap(statePublisher)
             .receive(on: DispatchQueue.main)
             .assign(to: &$state)
-    }
-    
-    func previous() {
-        switch state {
-        case .choosePassword:
-            return
-        case .repeatPassword(let choosePasswordModel, _):
-            state = .choosePassword(choosePasswordModel)
-        case .enableBiometricUnlock(let choosePasswordModel, let repeatPasswordModel, _):
-            state = .repeatPassword(choosePasswordModel, repeatPasswordModel)
-        case .completeSetup(let choosePasswordModel, let repeatPasswordModel, let enableBiometricUnlockModel?, _):
-            state = .enableBiometricUnlock(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel)
-        case .completeSetup(let choosePasswordModel, let repeatPasswordModel, nil, _):
-            state = .repeatPassword(choosePasswordModel, repeatPasswordModel)
-        }
     }
     
 }
@@ -162,8 +147,6 @@ class SetupModelStub: SetupModelRepresentable {
     init(state: State) {
         self.state = state
     }
-    
-    func previous() {}
     
 }
 #endif
