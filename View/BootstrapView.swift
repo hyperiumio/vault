@@ -15,10 +15,17 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
             EmptyView()
         case .loadingFailed:
             VStack {
+                Image.exclamationmarkTriangleFill
+                    .renderingMode(.original)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+                
                 Text(LocalizedString.appLaunchFailure)
-                    .font(.title3)
+                    .font(.title2)
                 
                 Button(LocalizedString.retry, action: model.load)
+                    .keyboardShortcut(.defaultAction)
                     .padding()
             }
         }

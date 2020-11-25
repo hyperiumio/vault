@@ -4,12 +4,19 @@ import Preferences
 
 protocol EnableBiometricUnlockModelRepresentable: ObservableObject, Identifiable {
     
-    var isEnabled: Bool { get }
+    var isEnabled: Bool { get set }
     var biometryType: BiometryType { get }
-    var done: AnyPublisher<Void, Never> { get }
+    var event: AnyPublisher<EnableBiometricUnlockModelEvent, Never> { get }
     
-    func enabledBiometricUnlock()
-    func disableBiometricUnlock()
+    func done()
+    func dismiss()
+    
+}
+
+enum EnableBiometricUnlockModelEvent {
+    
+    case done
+    case back
     
 }
 
@@ -24,15 +31,15 @@ enum EnableBiometricUnlockError: Error, Identifiable {
 
 class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
     
-    var isEnabled = false
+    @Published var isEnabled = false
     let biometryType: BiometryType
     
     private let password: String
-    private let doneSubject = PassthroughSubject<Void, Never>()
+    private let eventSubject = PassthroughSubject<EnableBiometricUnlockModelEvent, Never>()
     private var keychainStoreSubsciption: AnyCancellable?
     
-    var done: AnyPublisher<Void, Never> {
-        doneSubject.eraseToAnyPublisher()
+    var event: AnyPublisher<EnableBiometricUnlockModelEvent, Never> {
+        eventSubject.eraseToAnyPublisher()
     }
     
     init(password: String, biometryType: BiometryType) {
@@ -40,14 +47,12 @@ class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
         self.biometryType = biometryType
     }
     
-    func enabledBiometricUnlock() {
-        isEnabled = true
-        doneSubject.send()
+    func done() {
+        eventSubject.send(.done)
     }
     
-    func disableBiometricUnlock() {
-        isEnabled = false
-        doneSubject.send()
+    func dismiss() {
+        eventSubject.send(.back)
     }
     
 }
@@ -58,7 +63,7 @@ class EnableBiometricUnlockModelStub: EnableBiometricUnlockModelRepresentable {
     var isEnabled = false
     let biometryType: BiometryType
     
-    var done: AnyPublisher<Void, Never> {
+    var event: AnyPublisher<EnableBiometricUnlockModelEvent, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
@@ -66,8 +71,7 @@ class EnableBiometricUnlockModelStub: EnableBiometricUnlockModelRepresentable {
         self.biometryType = biometryType
     }
     
-    func enabledBiometricUnlock() {}
-    func disableBiometricUnlock() {}
-    
+    func done() {}
+    func dismiss() {}
 }
 #endif

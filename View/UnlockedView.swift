@@ -130,54 +130,80 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         NavigationView {
             Group {
                 if let collation = model.itemCollation {
-                    List {
-                        ForEach(collation.sections) { section in
-                            Section {
-                                ForEach(section.elements) { model in
-                                    NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                    VStack(spacing: 5) {
+                        SearchBar(text: $model.searchText)
+                            .padding(.horizontal, 10)
+                        
+                        List {
+                            ForEach(collation.sections) { section in
+                                Section {
+                                    ForEach(section.elements) { model in
+                                        NavigationLink(destination: VaultItemReferenceView(model)) {
+                                            VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                                        }
                                     }
+                                } header: {
+                                    Text(section.key)
                                 }
-                            } header: {
-                                Text(section.key)
+                                .collapsible(false)
                             }
                         }
                     }
                 } else {
-                    VStack(spacing: 30) {
-                        Text(LocalizedString.emptyVault)
-                            .font(.title)
-                        
-                        Button(LocalizedString.createFirstItem) {
-                            presentedSheet = .selectCategory
-                        }
-                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
-                    }
+                    Text(LocalizedString.emptyVault)
+                        .font(.title)
                 }
             }
+            .frame(minWidth: 200)
             .toolbar {
-                ToolbarItemGroup {
-                    Button {
-                        presentedSheet = .settings
-                    } label: {
-                        Image.settings
+                Spacer()
+                
+                Menu {
+                    Button(action: model.createLoginItem) {
+                        Image.login
+                        
+                        Text(LocalizedString.login)
                     }
                     
-                    Button {
-                        model.lockApp(enableBiometricUnlock: false)
-                    } label: {
-                        Image.lock
+                    Button(action: model.createPasswordItem) {
+                        Image.password
+                        
+                        Text(LocalizedString.password)
                     }
-                }
-                
-                ToolbarItemGroup {
-                    Button {
-                        presentedSheet = .selectCategory
-                    } label: {
-                        Image.plus
+                    
+                    Button(action: model.createWifiItem) {
+                        Image.wifi
+                        
+                        Text(LocalizedString.wifi)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    
+                    Button(action: model.createNoteItem) {
+                        Image.note
+                        
+                        Text(LocalizedString.note)
+                    }
+                    
+                    Button(action: model.createBankCardItem) {
+                        Image.bankCard
+                        
+                        Text(LocalizedString.bankCard)
+                    }
+                    
+                    Button(action: model.createBankAccountItem) {
+                        Image.bankAccount
+                        
+                        Text(LocalizedString.bankAccount)
+                    }
+                    
+                    Button(action: model.createCustomItem) {
+                        Image.custom
+                        
+                        Text(LocalizedString.custom)
+                    }
+                } label: {
+                    Image.plus
                 }
+                .menuStyle(BorderlessButtonMenuStyle(showsMenuIndicator: false))
             }
             
             Text(LocalizedString.nothingSelected)
@@ -187,26 +213,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             case .settings:
                 SettingsView(model.settingsModel)
             case .selectCategory:
-                SelectCategoryView { selection in
-                    switch selection {
-                    case .login:
-                        model.createLoginItem()
-                    case .password:
-                        model.createPasswordItem()
-                    case .wifi:
-                        model.createWifiItem()
-                    case .note:
-                        model.createNoteItem()
-                    case .bankCard:
-                        model.createBankCardItem()
-                    case .bankAccount:
-                        model.createBankAccountItem()
-                    case .custom:
-                        model.createCustomItem()
-                    case .file(data: let data, type: let type):
-                        model.createFileItem(data: data, type: type)
-                    }
-                }
+                EmptyView()
             case .createVaultItem(let model):
                 CreateVaultItemView(model)
             }
@@ -228,12 +235,8 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 presentedSheet = nil
             }
         }
-        .onChange(of: scenePhase) { scenePhase in
-            if scenePhase == .background {
-                model.lockApp(enableBiometricUnlock: true)
-            }
-        }
     }
+    
     #endif
     
 }
@@ -318,5 +321,25 @@ extension SearchBarViewController: UISearchResultsUpdating {
         searchText.wrappedValue = searchController.searchBar.text ?? ""
     }
     
+}
+#endif
+
+#if os(macOS)
+struct SearchBar: View {
+    
+    let text: Binding<String>
+    @State private var isEditing = false
+ 
+    var body: some View {
+        HStack(spacing: 5) {
+            Image.search.foregroundColor(.secondaryLabel)
+            
+            NativeTextField(title: LocalizedString.search, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
+        }
+        .padding(.vertical, 5)
+        .padding(.horizontal, 5)
+        .background(Color.white.opacity(0.1))
+        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
+    }
 }
 #endif

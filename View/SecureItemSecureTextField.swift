@@ -36,7 +36,8 @@ struct SecureItemSecureTextField: View {
                         Image.showSecret
                     }
                 }
-                .buttonStyle(BorderlessButtonStyle())
+                .buttonStyle(PlainButtonStyle())
+                .foregroundColor(.accentColor)
                 .padding(.trailing)
             }
         }

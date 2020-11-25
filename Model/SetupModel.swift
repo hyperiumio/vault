@@ -100,10 +100,15 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
                     }
                     .eraseToAnyPublisher()
             case .enableBiometricUnlock(let choosePasswordModel, let repeatPasswordModel, let enableBiometricUnlockModel):
-                return enableBiometricUnlockModel.done
-                    .map {
-                        let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password, biometricUnlockEnabled: enableBiometricUnlockModel.isEnabled)
-                        return .completeSetup(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel, completeSetupModel)
+                return enableBiometricUnlockModel.event
+                    .map { event in
+                        switch event {
+                        case .done:
+                            let completeSetupModel = dependency.completeSetupModel(password: choosePasswordModel.password, biometricUnlockEnabled: enableBiometricUnlockModel.isEnabled)
+                            return .completeSetup(choosePasswordModel, repeatPasswordModel, enableBiometricUnlockModel, completeSetupModel)
+                        case .back:
+                            return .repeatPassword(choosePasswordModel, repeatPasswordModel)
+                        }
                     }
                     .eraseToAnyPublisher()
             case .completeSetup(_, _, _, let completeSetupModel):

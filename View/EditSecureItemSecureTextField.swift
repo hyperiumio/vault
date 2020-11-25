@@ -17,6 +17,7 @@ struct EditSecureItemSecureTextField: View {
         self.generatorAvailable = generatorAvailable
     }
     
+    #if os(iOS)
     var body: some View {
         SecureItemView {
             SecureItemField(title) {
@@ -48,6 +49,39 @@ struct EditSecureItemSecureTextField: View {
             .animation(nil)
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        SecureItemView {
+            SecureItemField(title) {
+                VStack(alignment: .leading) {
+                    switch (generatorAvailable, showGeneratorControls) {
+                    case (false, _):
+                        SecureField(placeholder, text: text)
+                    case (true, true):
+                        GeneratePasswordView { password in
+                            guard let password = password else { return }
+                            
+                            text.wrappedValue = password
+                        }
+                        
+                        Button(LocalizedString.usePassword) {
+                            showGeneratorControls = false
+                        }
+                    case (true, false):
+                        SecureField(placeholder, text: text)
+                        
+                        Button(LocalizedString.generatePassword) {
+                            showGeneratorControls = true
+                        }
+                    }
+                }
+            }
+            .animation(nil)
+        }
+    }
+    #endif
     
 }
 

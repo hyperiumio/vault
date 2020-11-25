@@ -16,7 +16,6 @@ struct BiometricUnlockButton: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.accentColor)
-                .frame(width: 40, height: 40)
         }
         .buttonStyle(PlainButtonStyle())
     }

@@ -1,6 +1,8 @@
 import Localization
 import SwiftUI
 
+// TODO
+
 struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model

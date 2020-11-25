@@ -17,7 +17,7 @@ public struct VaultResourceLocator {
     }
     
     var info: URL {
-        rootDirectory.appendingPathComponent("Info", isDirectory: false)
+        rootDirectory.appendingPathComponent("Info", isDirectory: false).appendingPathExtension(for: .json)
     }
     
     var items: URL {

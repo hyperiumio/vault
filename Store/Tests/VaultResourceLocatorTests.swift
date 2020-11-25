@@ -20,7 +20,7 @@ class VaultResourceLocatorTests: XCTestCase {
     func testInfoFile() {
         let infoFile = VaultResourceLocator(rootUrl).info
         
-        XCTAssertEqual(infoFile.absoluteString, "file://foo/Info")
+        XCTAssertEqual(infoFile.absoluteString, "file://foo/Info.json")
     }
     
     func testItemsDirectory() {
