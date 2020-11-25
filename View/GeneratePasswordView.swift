@@ -29,6 +29,7 @@ struct GeneratePasswordView: View {
         self.passworGenerator = passworGenerator
     }
     
+    #if os(iOS)
     var body: some View {
         VStack(alignment: .leading) {
             Text(model.password ?? "")
@@ -41,7 +42,7 @@ struct GeneratePasswordView: View {
             HStack() {
                 Text(passwordLengthText)
                 
-                Slider(value: length, in: 16 ... 64, step: 1)
+                Slider(value: length, in: 16 ... 64)
             }
             
             Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
@@ -64,6 +65,65 @@ struct GeneratePasswordView: View {
             changeFeedback.stop()
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text(model.password ?? "")
+                .font(.password)
+                .foregroundColor(.label)
+                .lineLimit(1)
+                .minimumScaleFactor(0.5)
+                .frame(minHeight: TextStyle.title2.lineHeight)
+            
+            HStack() {
+                Text(passwordLengthText)
+                
+                Slider(value: length, in: 16 ... 64)
+                    .alignmentGuide(.custom) { dimension in
+                        dimension[HorizontalAlignment.leading]
+                    }
+            }
+            
+            HStack {
+                Text(LocalizedString.numbers)
+                
+                Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
+                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                    .labelsHidden()
+                    .alignmentGuide(.custom) { dimension in
+                        dimension[HorizontalAlignment.leading]
+                    }
+            }
+            
+            HStack {
+                Text(LocalizedString.symbols)
+                
+                Toggle(LocalizedString.symbols, isOn: $model.symbolsEnabled)
+                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                    .labelsHidden()
+                    .alignmentGuide(.custom) { dimension in
+                        dimension[HorizontalAlignment.leading]
+                    }
+            }
+        }
+        .frame(maxWidth: 300)
+        .font(.text)
+        .foregroundColor(.secondaryLabel)
+        .onChange(of: model.password, perform: passworGenerator)
+        .onChange(of: model.length) { _ in
+            changeFeedback.play()
+        }
+        .onAppear {
+            changeFeedback.start()
+            model.createPassword()
+        }
+        .onDisappear {
+            changeFeedback.stop()
+        }
+    }
+    #endif
     
 }
 
@@ -77,6 +137,19 @@ private extension Font {
         Font.body.monospacedDigit()
     }
     
+}
+
+private extension HorizontalAlignment {
+    
+    struct CustomAlignment: AlignmentID {
+        
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            context[HorizontalAlignment.center]
+        }
+        
+    }
+
+    static let custom = HorizontalAlignment(CustomAlignment.self)
 }
 
 #if DEBUG

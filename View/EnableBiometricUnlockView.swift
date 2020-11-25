@@ -11,34 +11,27 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
     }
     
     var body: some View {
-        VStack {
-            Spacer()
-            
-            VStack {
-                switch model.biometryType {
-                case .touchID:
-                    Content(image: .touchID, title: LocalizedString.unlockWithTouchID, description: LocalizedString.unlockWithTouchIDDescription)
-                case .faceID:
-                    Content(image: .faceID, title: LocalizedString.unlockWithFaceID, description: LocalizedString.unlockWithFaceIDDescription)
-                }
+        PageNavigationView(LocalizedString.continue, enabledIntensions: [.backward, .forward]) { intension in
+            switch intension {
+            case .forward:
+                model.done()
+            case .backward:
+                model.dismiss()
             }
-            
-            Spacer()
-            
-            VStack(spacing: 20) {
-                Button(action: model.enabledBiometricUnlock) {
+        } content: {
+            VStack {
+                Spacer()
+                
+                VStack {
                     switch model.biometryType {
                     case .touchID:
-                        Text(LocalizedString.enableTouchIDUnlock)
-
+                        Content(image: .touchID, title: LocalizedString.enableTouchIDUnlock, description: LocalizedString.unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
                     case .faceID:
-                        Text(LocalizedString.enableFaceIDUnlock)
+                        Content(image: .faceID, title: LocalizedString.enableFaceIDUnlock, description: LocalizedString.unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
                     }
                 }
-                .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                 
-                Button(LocalizedString.setUpLater, action: model.disableBiometricUnlock)
-                    .font(.headline)
+                Spacer()
             }
         }
     }
@@ -50,11 +43,13 @@ private struct Content: View {
     private let image: Image
     private let title: String
     private let description: String
+    private let isEnabled: Binding<Bool>
     
-    init(image: Image, title: String, description: String) {
+    init(image: Image, title: String, description: String, isEnabled: Binding<Bool>) {
         self.image = image
         self.title = title
         self.description = description
+        self.isEnabled = isEnabled
     }
     
     var body: some View {
@@ -67,9 +62,14 @@ private struct Content: View {
             
             Spacer().frame(height: 40)
             
-            Text(title)
-                .font(.title)
-                .multilineTextAlignment(.center)
+            HStack {
+                Text(LocalizedString.enableTouchIDUnlock)
+                    .font(.title)
+                
+                Toggle(LocalizedString.enableTouchIDUnlock, isOn:isEnabled)
+                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+                    .labelsHidden()
+            }
             
             Spacer().frame(height: 10)
             

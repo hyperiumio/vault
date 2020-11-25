@@ -26,5 +26,6 @@ extension Image {
     static let document = Image(systemName: "doc.text.viewfinder")
     static let image = Image(systemName: "photo.on.rectangle")
     static let checkmark = Image(systemName: "checkmark.circle")
+    static let exclamationmarkTriangleFill = Image(systemName: "exclamationmark.triangle.fill")
     
 }

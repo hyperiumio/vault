@@ -10,6 +10,7 @@ struct EditSecureItemDateField: View {
         self.date = date
     }
     
+    #if os(iOS)
     var body: some View {
         SecureItemView {
             SecureItemField(title) {
@@ -22,6 +23,23 @@ struct EditSecureItemDateField: View {
             }
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        SecureItemView {
+            SecureItemField(title) {
+                HStack {
+                    DatePicker(title, selection: date, displayedComponents: .date)
+                        .datePickerStyle(FieldDatePickerStyle())
+                        .labelsHidden()
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+    #endif
     
 }
 

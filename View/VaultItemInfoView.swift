@@ -26,6 +26,7 @@ struct VaultItemInfoView: View {
             Self.image(for: type)
                 .foregroundColor(.accentColor)
         }
+        .labelStyle(CenteredLabelStyle())
         .padding(.vertical, 4)
     }
     

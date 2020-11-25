@@ -115,6 +115,8 @@
 		9577121524F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
 		9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
 		9577121824F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
+		957AAB5C256D860000245A68 /* CenteredLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */; };
+		957AAB5D256D860000245A68 /* CenteredLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */; };
 		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
 		9583624924D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
 		9584E4CA2518C60E00C6D772 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 9584E4C92518C60E00C6D772 /* Store */; };
@@ -290,6 +292,7 @@
 		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
 		9578F11B2565610C002126E5 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9578F11C2565610C002126E5 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredLabelStyle.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
 		958648FA251E11130081DF08 /* SecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemField.swift; sourceTree = "<group>"; };
 		958648FF251E11520081DF08 /* SecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTextField.swift; sourceTree = "<group>"; };
@@ -531,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				95C90C342520ECF600860CAE /* BareButtonStyle.swift */,
+				957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */,
 				9595583D251A2FD900F7715F /* ColoredButtonStyle.swift */,
 				95F7E84B252C509200D87231 /* HeaderLabelStyle.swift */,
 			);
@@ -735,6 +739,7 @@
 				95D4712E255552AE0053FA13 /* EditSecureItemDateField.swift in Sources */,
 				9574328624AA081B0062B05A /* VaultItemReferenceModel.swift in Sources */,
 				9574338224AA358A0062B05A /* BootstrapView.swift in Sources */,
+				957AAB5C256D860000245A68 /* CenteredLabelStyle.swift in Sources */,
 				95B2C3C5256A816600CAA97A /* FontExtension.swift in Sources */,
 				9564A4B0251347BC00AC4EFF /* RangeExtension.swift in Sources */,
 				9542208D2551873C002F14AB /* EditBankCardView.swift in Sources */,
@@ -836,6 +841,7 @@
 				9586491F251E12D00081DF08 /* NoteView.swift in Sources */,
 				954220A925518A5A002F14AB /* EditPasswordView.swift in Sources */,
 				95D4712F255552AE0053FA13 /* EditSecureItemDateField.swift in Sources */,
+				957AAB5D256D860000245A68 /* CenteredLabelStyle.swift in Sources */,
 				95B2C3C6256A816600CAA97A /* FontExtension.swift in Sources */,
 				95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */,
 				9574327F24AA081B0062B05A /* VaultItemModel.swift in Sources */,

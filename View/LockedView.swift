@@ -47,6 +47,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                         EmptyView()
                     }
                 }
+                .frame(width: 40, height: 40)
                 .disabled(isKeyboardVisible)
             }
             .padding()
@@ -108,6 +109,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                         EmptyView()
                     }
                 }
+                .frame(width: 40, height: 40)
                 .disabled(isKeyboardVisible)
             }
             .padding()
