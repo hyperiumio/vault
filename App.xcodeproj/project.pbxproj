@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,8 @@
 		950C703D2548206C001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C703C2548206C001BB318 /* Crypto */; };
 		9512F7F924B46733008A4DB8 /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 9512F7F824B46733008A4DB8 /* Sync */; };
 		951F23842547253000949362 /* Localization in Frameworks */ = {isa = PBXBuildFile; productRef = 951F23832547253000949362 /* Localization */; };
+		952A9633256FD8EC003E0584 /* iOSCredentialProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		952A964E256FDA0F003E0584 /* macOSCredentialProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		952D1062251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1063251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1069251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */; };
@@ -24,6 +26,9 @@
 		9539B1FF25405D8D00C81A2A /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
 		9539B20D2540692000C81A2A /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFView.swift */; };
 		9539B20E2540692000C81A2A /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFView.swift */; };
+		9540F5A6256FDC8C00D8514C /* Localization in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5A5256FDC8C00D8514C /* Localization */; };
+		9540F5AB256FDCF200D8514C /* CredentialProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* CredentialProviderView.swift */; };
+		9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
 		9542207B255183C1002F14AB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9542207A255183C1002F14AB /* FileModel.swift */; };
 		9542207C255183C1002F14AB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9542207A255183C1002F14AB /* FileModel.swift */; };
 		95422088255186A4002F14AB /* EditBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95422087255186A4002F14AB /* EditBankAccountView.swift */; };
@@ -119,6 +124,9 @@
 		957AAB5D256D860000245A68 /* CenteredLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */; };
 		9583624824D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
 		9583624924D1643700C10BBB /* Preview.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Preview.xcassets */; };
+		95842D49256FAB180080711C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
+		95842D6C256FBE2B0080711C /* CredentialProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* CredentialProviderView.swift */; };
+		95842D74256FBF720080711C /* Localization in Frameworks */ = {isa = PBXBuildFile; productRef = 95842D73256FBF720080711C /* Localization */; };
 		9584E4CA2518C60E00C6D772 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 9584E4C92518C60E00C6D772 /* Store */; };
 		9584E4D32518CC5500C6D772 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 9584E4D22518CC5500C6D772 /* Store */; };
 		958648FB251E11130081DF08 /* SecureItemField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FA251E11130081DF08 /* SecureItemField.swift */; };
@@ -225,10 +233,70 @@
 		95F8BBCB24CEC949001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBCA24CEC949001FC495 /* Sort */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		952A9634256FD8EC003E0584 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95ABC92F24A9D38E009D87A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95842D44256FAB180080711C;
+			remoteInfo = iOSCredentialProvider;
+		};
+		952A964C256FDA0F003E0584 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95ABC92F24A9D38E009D87A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 952A963F256FDA0F003E0584;
+			remoteInfo = macOSCredentialProvider;
+		};
+		957680DB256FC27900E1C62B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95ABC92F24A9D38E009D87A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95842D44256FAB180080711C;
+			remoteInfo = iOCredentialProvider;
+		};
+		95842D4F256FAB180080711C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 95ABC92F24A9D38E009D87A4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 95842D44256FAB180080711C;
+			remoteInfo = "iOS Credential Provider";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		952A9652256FDA0F003E0584 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				952A964E256FDA0F003E0584 /* macOSCredentialProvider.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95842D55256FAB180080711C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				952A9633256FD8EC003E0584 /* iOSCredentialProvider.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		9512F7F524B4633E008A4DB8 /* Vault.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
+		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F238B2547257700949362 /* Localization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Localization; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
+		952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = macOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
+		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
 		952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupModel.swift; sourceTree = "<group>"; };
 		952F3E9424D4596600D55EB9 /* TypeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeBridge.swift; sourceTree = "<group>"; };
@@ -248,7 +316,7 @@
 		954450BA25554947006B01B9 /* SecureItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemView.swift; sourceTree = "<group>"; };
 		954450C325554EEF006B01B9 /* EditSecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemTextField.swift; sourceTree = "<group>"; };
 		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
-		955D39EA2562A744002E2CF0 /* iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = iOS.xctestplan; sourceTree = "<group>"; };
+		955D39EA2562A744002E2CF0 /* App.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = App.xctestplan; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9563074B2535DC600076022A /* SecureItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeView.swift; sourceTree = "<group>"; };
@@ -257,10 +325,10 @@
 		9565F5E525189A1600134BD1 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* UnlockField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockField.swift; sourceTree = "<group>"; };
-		9574321F24AA05340062B05A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9574321F24AA05340062B05A /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		9574322424AA05430062B05A /* VaultApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultApp.swift; sourceTree = "<group>"; };
-		9574322524AA05430062B05A /* Vault.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Vault.entitlements; sourceTree = "<group>"; };
-		9574322624AA05430062B05A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9574322524AA05430062B05A /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		9574322624AA05430062B05A /* AppInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		9574323024AA05710062B05A /* Icon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icon.xcassets; sourceTree = "<group>"; };
 		9574323D24AA075A0062B05A /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		9574324424AA08190062B05A /* NoteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
@@ -288,12 +356,15 @@
 		9574337024AA23D30062B05A /* VaultItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemView.swift; sourceTree = "<group>"; };
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
+		957680D6256FC25F00E1C62B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9577121324F815B30095AF33 /* AppLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockedDependency.swift; sourceTree = "<group>"; };
 		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
-		9578F11B2565610C002126E5 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9578F11C2565610C002126E5 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredLabelStyle.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
+		95842D48256FAB180080711C /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
+		95842D4D256FAB180080711C /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
+		95842D4E256FAB180080711C /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
+		95842D6B256FBE2B0080711C /* CredentialProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderView.swift; sourceTree = "<group>"; };
 		958648FA251E11130081DF08 /* SecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemField.swift; sourceTree = "<group>"; };
 		958648FF251E11520081DF08 /* SecureItemTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTextField.swift; sourceTree = "<group>"; };
 		95864904251E11930081DF08 /* SecureItemSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemSecureTextField.swift; sourceTree = "<group>"; };
@@ -328,7 +399,7 @@
 		95C82B4D250B65A700258EAD /* DispatchQueueExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DispatchQueueExtension.swift; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* SecureItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemButton.swift; sourceTree = "<group>"; };
 		95C90C342520ECF600860CAE /* BareButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BareButtonStyle.swift; sourceTree = "<group>"; };
-		95CD3ACA2562BEBC00C36855 /* macOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = macOS.xctestplan; sourceTree = "<group>"; };
+		95CD3ACA2562BEBC00C36855 /* App.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = App.xctestplan; sourceTree = "<group>"; };
 		95D46EB9251A1D7C00EF500A /* ChoosePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePasswordView.swift; sourceTree = "<group>"; };
 		95D46EBE251A1DC600EF500A /* ChoosePasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePasswordModel.swift; sourceTree = "<group>"; };
 		95D47126255551130053FA13 /* EditSecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemField.swift; sourceTree = "<group>"; };
@@ -336,6 +407,7 @@
 		95D47136255556080053FA13 /* EditSecureItemSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemSecureTextField.swift; sourceTree = "<group>"; };
 		95DA1CF124B363350087D649 /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
+		95E30FE0256FD4FA00A850EE /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		95E3260F24D2F22300F35FAB /* ImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtension.swift; sourceTree = "<group>"; };
 		95EBFD34256BA27100E2F2D2 /* PageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageNavigationView.swift; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* VaultItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemInfoView.swift; sourceTree = "<group>"; };
@@ -345,6 +417,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		952A963D256FDA0F003E0584 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9540F5A6256FDC8C00D8514C /* Localization in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95842D42256FAB180080711C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95842D74256FBF720080711C /* Localization in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		95ABC93824A9D38E009D87A4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -382,19 +470,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		953851132563E82B00C305F2 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		9574321C24AA05340062B05A /* iOS */ = {
 			isa = PBXGroup;
 			children = (
-				955D39EA2562A744002E2CF0 /* iOS.xctestplan */,
-				9512F7F524B4633E008A4DB8 /* Vault.entitlements */,
-				9574321F24AA05340062B05A /* Info.plist */,
+				9512F7F524B4633E008A4DB8 /* App.entitlements */,
+				95842D4E256FAB180080711C /* CredentialProvider.entitlements */,
+				9574321F24AA05340062B05A /* AppInfo.plist */,
+				95842D4D256FAB180080711C /* CredentialProviderInfo.plist */,
+				955D39EA2562A744002E2CF0 /* App.xctestplan */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -402,9 +485,11 @@
 		9574322224AA05430062B05A /* macOS */ = {
 			isa = PBXGroup;
 			children = (
-				95CD3ACA2562BEBC00C36855 /* macOS.xctestplan */,
-				9574322524AA05430062B05A /* Vault.entitlements */,
-				9574322624AA05430062B05A /* Info.plist */,
+				9574322524AA05430062B05A /* App.entitlements */,
+				952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */,
+				9574322624AA05430062B05A /* AppInfo.plist */,
+				952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */,
+				95CD3ACA2562BEBC00C36855 /* App.xctestplan */,
 			);
 			path = macOS;
 			sourceTree = "<group>";
@@ -461,6 +546,7 @@
 				95D46EB9251A1D7C00EF500A /* ChoosePasswordView.swift */,
 				952D1061251B2CB200B95C4B /* CompleteSetupView.swift */,
 				956307342535CC1B0076022A /* CreateVaultItemView.swift */,
+				95842D6B256FBE2B0080711C /* CredentialProviderView.swift */,
 				95864931251E13EE0081DF08 /* CustomView.swift */,
 				95A28027253F0C6900E2A3A3 /* DocumentPicker.swift */,
 				95422087255186A4002F14AB /* EditBankAccountView.swift */,
@@ -530,6 +616,14 @@
 			path = Scene;
 			sourceTree = "<group>";
 		};
+		95842D78256FC0210080711C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				95842D48256FAB180080711C /* CredentialProviderViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		9595583C251A2FA700F7715F /* Style */ = {
 			isa = PBXGroup;
 			children = (
@@ -555,9 +649,9 @@
 				9565F5E525189A1600134BD1 /* Store */,
 				95DA1CF124B363350087D649 /* Sync */,
 				9574322F24AA05710062B05A /* Asset */,
+				95842D78256FC0210080711C /* Controller */,
 				9577120F24F814E30095AF33 /* Dependency */,
 				95AD564924C9AB5A00A62CAE /* Extension */,
-				953851132563E82B00C305F2 /* Frameworks */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
 				95B63C5924ABA23E00152E55 /* Misc */,
@@ -565,8 +659,10 @@
 				957EB3BC2510F11500D6AE2E /* Scene */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
-				9578F11B2565610C002126E5 /* Vault.app */,
-				9578F11C2565610C002126E5 /* Vault.app */,
+				957680D6256FC25F00E1C62B /* Vault.app */,
+				95E30FE0256FD4FA00A850EE /* Vault.app */,
+				952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */,
+				952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */,
 			);
 			sourceTree = "<group>";
 		};
@@ -595,19 +691,63 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		95ABC93A24A9D38E009D87A4 /* iOS */ = {
+		952A963F256FDA0F003E0584 /* macOSCredentialProvider */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95ABC94F24A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "iOS" */;
+			buildConfigurationList = 952A964F256FDA0F003E0584 /* Build configuration list for PBXNativeTarget "macOSCredentialProvider" */;
 			buildPhases = (
-				95ABC93724A9D38E009D87A4 /* Sources */,
-				95ABC93824A9D38E009D87A4 /* Frameworks */,
-				95ABC93924A9D38E009D87A4 /* Resources */,
+				952A963C256FDA0F003E0584 /* Sources */,
+				952A963D256FDA0F003E0584 /* Frameworks */,
+				952A963E256FDA0F003E0584 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = iOS;
+			name = macOSCredentialProvider;
+			packageProductDependencies = (
+				9540F5A5256FDC8C00D8514C /* Localization */,
+			);
+			productName = macOSCredentialProvider;
+			productReference = 952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		95842D44256FAB180080711C /* iOSCredentialProvider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95842D52256FAB180080711C /* Build configuration list for PBXNativeTarget "iOSCredentialProvider" */;
+			buildPhases = (
+				95842D41256FAB180080711C /* Sources */,
+				95842D42256FAB180080711C /* Frameworks */,
+				95842D43256FAB180080711C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iOSCredentialProvider;
+			packageProductDependencies = (
+				95842D73256FBF720080711C /* Localization */,
+			);
+			productName = "iOS Credential Provider";
+			productReference = 952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		95ABC93A24A9D38E009D87A4 /* iOSApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 95ABC94F24A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "iOSApp" */;
+			buildPhases = (
+				95ABC93724A9D38E009D87A4 /* Sources */,
+				95ABC93824A9D38E009D87A4 /* Frameworks */,
+				95ABC93924A9D38E009D87A4 /* Resources */,
+				95842D55256FAB180080711C /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				95842D50256FAB180080711C /* PBXTargetDependency */,
+				957680DC256FC27900E1C62B /* PBXTargetDependency */,
+				952A9635256FD8EC003E0584 /* PBXTargetDependency */,
+			);
+			name = iOSApp;
 			packageProductDependencies = (
 				95ABC96024A9D5AA009D87A4 /* Pasteboard */,
 				95ABC96224A9D5AA009D87A4 /* Preferences */,
@@ -621,22 +761,24 @@
 				95AA68D2256449D200616D56 /* Haptic */,
 			);
 			productName = iOS;
-			productReference = 9578F11B2565610C002126E5 /* Vault.app */;
+			productReference = 957680D6256FC25F00E1C62B /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
-		95ABC94224A9D38E009D87A4 /* macOS */ = {
+		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 95ABC95224A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "macOS" */;
+			buildConfigurationList = 95ABC95224A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "macOSApp" */;
 			buildPhases = (
 				95ABC93F24A9D38E009D87A4 /* Sources */,
 				95ABC94024A9D38E009D87A4 /* Frameworks */,
 				95ABC94124A9D38E009D87A4 /* Resources */,
+				952A9652256FDA0F003E0584 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				952A964D256FDA0F003E0584 /* PBXTargetDependency */,
 			);
-			name = macOS;
+			name = macOSApp;
 			packageProductDependencies = (
 				95ABC96C24A9D5B8009D87A4 /* Pasteboard */,
 				95ABC96E24A9D5B8009D87A4 /* Preferences */,
@@ -650,7 +792,7 @@
 				95AA68E42565432000616D56 /* Haptic */,
 			);
 			productName = macOS;
-			productReference = 9578F11C2565610C002126E5 /* Vault.app */;
+			productReference = 95E30FE0256FD4FA00A850EE /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -659,9 +801,15 @@
 		95ABC92F24A9D38E009D87A4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
+					952A963F256FDA0F003E0584 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					95842D44256FAB180080711C = {
+						CreatedOnToolsVersion = 12.2;
+					};
 					95ABC93A24A9D38E009D87A4 = {
 						CreatedOnToolsVersion = 12.0;
 					};
@@ -671,7 +819,7 @@
 				};
 			};
 			buildConfigurationList = 95ABC93224A9D38E009D87A4 /* Build configuration list for PBXProject "App" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -683,13 +831,29 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				95ABC93A24A9D38E009D87A4 /* iOS */,
-				95ABC94224A9D38E009D87A4 /* macOS */,
+				95ABC93A24A9D38E009D87A4 /* iOSApp */,
+				95ABC94224A9D38E009D87A4 /* macOSApp */,
+				95842D44256FAB180080711C /* iOSCredentialProvider */,
+				952A963F256FDA0F003E0584 /* macOSCredentialProvider */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		952A963E256FDA0F003E0584 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95842D43256FAB180080711C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		95ABC93924A9D38E009D87A4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -713,6 +877,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		952A963C256FDA0F003E0584 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */,
+				9540F5AB256FDCF200D8514C /* CredentialProviderView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		95842D41256FAB180080711C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				95842D6C256FBE2B0080711C /* CredentialProviderView.swift in Sources */,
+				95842D49256FAB180080711C /* CredentialProviderViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		95ABC93724A9D38E009D87A4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -919,7 +1101,131 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		952A9635256FD8EC003E0584 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95842D44256FAB180080711C /* iOSCredentialProvider */;
+			targetProxy = 952A9634256FD8EC003E0584 /* PBXContainerItemProxy */;
+		};
+		952A964D256FDA0F003E0584 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 952A963F256FDA0F003E0584 /* macOSCredentialProvider */;
+			targetProxy = 952A964C256FDA0F003E0584 /* PBXContainerItemProxy */;
+		};
+		957680DC256FC27900E1C62B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95842D44256FAB180080711C /* iOSCredentialProvider */;
+			targetProxy = 957680DB256FC27900E1C62B /* PBXContainerItemProxy */;
+		};
+		95842D50256FAB180080711C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 95842D44256FAB180080711C /* iOSCredentialProvider */;
+			targetProxy = 95842D4F256FAB180080711C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		952A9650256FDA0F003E0584 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = macOS/CredentialProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = HX3QTQLX65;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = macOS/CredentialProviderInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		952A9651256FDA0F003E0584 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = macOS/CredentialProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = HX3QTQLX65;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = macOS/CredentialProviderInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MARKETING_VERSION = 0.12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		95842D53256FAB180080711C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/CredentialProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = HX3QTQLX65;
+				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		95842D54256FAB180080711C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/CredentialProvider.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = HX3QTQLX65;
+				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 0.12.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		95ABC94D24A9D38E009D87A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1034,16 +1340,17 @@
 		95ABC95024A9D38E009D87A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iOS/Vault.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = iOS/AppInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1062,16 +1369,17 @@
 		95ABC95124A9D38E009D87A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = iOS/Vault.entitlements;
+				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = iOS/Info.plist;
+				INFOPLIST_FILE = iOS/AppInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1091,23 +1399,25 @@
 		95ABC95324A9D38E009D87A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/Vault.entitlements;
+				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_FILE = macOS/AppInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Vault;
@@ -1120,23 +1430,25 @@
 		95ABC95424A9D38E009D87A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = macOS/Vault.entitlements;
+				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = macOS/Info.plist;
+				INFOPLIST_FILE = macOS/AppInfo.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.12.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Vault;
@@ -1149,6 +1461,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		952A964F256FDA0F003E0584 /* Build configuration list for PBXNativeTarget "macOSCredentialProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				952A9650256FDA0F003E0584 /* Debug */,
+				952A9651256FDA0F003E0584 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		95842D52256FAB180080711C /* Build configuration list for PBXNativeTarget "iOSCredentialProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				95842D53256FAB180080711C /* Debug */,
+				95842D54256FAB180080711C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		95ABC93224A9D38E009D87A4 /* Build configuration list for PBXProject "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1158,7 +1488,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95ABC94F24A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "iOS" */ = {
+		95ABC94F24A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "iOSApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95ABC95024A9D38E009D87A4 /* Debug */,
@@ -1167,7 +1497,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		95ABC95224A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "macOS" */ = {
+		95ABC95224A9D38E009D87A4 /* Build configuration list for PBXNativeTarget "macOSApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				95ABC95324A9D38E009D87A4 /* Debug */,
@@ -1199,7 +1529,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
 		};
+		9540F5A5256FDC8C00D8514C /* Localization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Localization;
+		};
 		9555A5E3255436E300B683EF /* Localization */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Localization;
+		};
+		95842D73256FBF720080711C /* Localization */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Localization;
 		};

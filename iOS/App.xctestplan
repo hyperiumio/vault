@@ -16,6 +16,13 @@
         "undefinedBehaviorSanitizerEnabled" : true,
         "userAttachmentLifetime" : "keepNever"
       }
+    },
+    {
+      "id" : "7CD4DF6D-A020-47AE-A398-6580040D7301",
+      "name" : "Configuration 2",
+      "options" : {
+
+      }
     }
   ],
   "defaultOptions" : {

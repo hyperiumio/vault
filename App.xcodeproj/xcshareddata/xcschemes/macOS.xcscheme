@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
                BuildableName = "Vault.app"
-               BlueprintName = "macOS"
+               BlueprintName = "macOSApp"
                ReferencedContainer = "container:App.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,7 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:macOS/macOS.xctestplan"
+            reference = "container:macOS/App.xctestplan"
             default = "YES">
          </TestPlanReference>
       </TestPlans>
@@ -50,7 +50,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
             BuildableName = "Vault.app"
-            BlueprintName = "macOS"
+            BlueprintName = "macOSApp"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -67,7 +67,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
             BuildableName = "Vault.app"
-            BlueprintName = "macOS"
+            BlueprintName = "macOSApp"
             ReferencedContainer = "container:App.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
