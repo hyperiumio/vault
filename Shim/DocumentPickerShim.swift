@@ -5,7 +5,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 import VisionKit
 
-struct DocumentPicker: UIViewControllerRepresentable {
+struct DocumentPickerShim: UIViewControllerRepresentable {
     
     private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
@@ -28,7 +28,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
     
 }
 
-extension DocumentPicker {
+extension DocumentPickerShim {
     
     typealias Output = (data: Data, type: UTType)
     
@@ -48,7 +48,7 @@ extension DocumentPicker {
     
 }
 
-extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
+extension DocumentPickerShim.Coordinator: VNDocumentCameraViewControllerDelegate {
     
     func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) {
         picked(nil)
@@ -61,7 +61,7 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
     }
     
     func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
-        didPickSubscription = operationQueue.future { () -> DocumentPicker.Output? in
+        didPickSubscription = operationQueue.future { () -> DocumentPickerShim.Output? in
             let document = PDFDocument()
             for index in 0 ..< scan.pageCount {
                 let image = scan.imageOfPage(at: index)
@@ -80,23 +80,6 @@ extension DocumentPicker.Coordinator: VNDocumentCameraViewControllerDelegate {
             presentationMode.wrappedValue.dismiss()
         }
 
-    }
-    
-}
-#endif
-
-#if os(iOS) && DEBUG
-struct DocumentPickerPreview: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            DocumentPicker { _ in }
-                .preferredColorScheme(.light)
-            
-            DocumentPicker { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
     }
     
 }

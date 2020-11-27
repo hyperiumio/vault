@@ -40,7 +40,7 @@ struct UnlockField: View {
     #if os(macOS)
     var body: some View {
         HStack(spacing: 0) {
-            NativeTextField(title: title, text: text, isSecure: true, textStyle: .headline, alignment: .center, action: action)
+            TextFieldShim(title: title, text: text, isSecure: true, textStyle: .headline, alignment: .center, action: action)
             
             Button(action: action) {
                 Image.lock

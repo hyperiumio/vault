@@ -1,9 +1,9 @@
+#if os(iOS)
 import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 
-#if os(iOS)
-struct FilePicker: UIViewControllerRepresentable {
+struct FilePickerShim: UIViewControllerRepresentable {
     
     private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
@@ -27,7 +27,7 @@ struct FilePicker: UIViewControllerRepresentable {
     
 }
 
-extension FilePicker {
+extension FilePickerShim {
     
     typealias Output = (data: Data, type: UTType)
     
@@ -47,10 +47,10 @@ extension FilePicker {
     
 }
 
-extension FilePicker.Coordinator: UIDocumentPickerDelegate {
+extension FilePickerShim.Coordinator: UIDocumentPickerDelegate {
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-        didPickSubscription = operationQueue.future { () -> FilePicker.Output? in
+        didPickSubscription = operationQueue.future { () -> FilePickerShim.Output? in
             let resourceKeys = [URLResourceKey.contentTypeKey] as Set
             guard let fileURL = urls.first else {
                 return nil
@@ -68,23 +68,6 @@ extension FilePicker.Coordinator: UIDocumentPickerDelegate {
             picked(output)
             presentationMode.wrappedValue.dismiss()
         }
-    }
-    
-}
-#endif
-
-#if os(iOS) && DEBUG
-struct FilePickerPreview: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            FilePicker { _ in }
-                .preferredColorScheme(.light)
-            
-            FilePicker { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
     }
     
 }

@@ -55,7 +55,7 @@ struct SelectCategoryView: View {
                         isShowingCameraView = true
                     }
                     .fullScreenCover(isPresented: $isShowingCameraView) {
-                        PhotoPicker { output in
+                        PhotoPickerShim { output in
                             guard let output = output else { return }
                             
                             let selection = Selection.file(data: output.data, type: output.type)
@@ -67,7 +67,7 @@ struct SelectCategoryView: View {
                         isShowingScannerView = true
                     }
                     .fullScreenCover(isPresented: $isShowingScannerView) {
-                        DocumentPicker { output in
+                        DocumentPickerShim { output in
                             guard let output = output else { return }
                             
                             let selection = Selection.file(data: output.data, type: output.type)
@@ -79,7 +79,7 @@ struct SelectCategoryView: View {
                         isShowingImagePicker = true
                     }
                     .sheet(isPresented: $isShowingImagePicker) {
-                        ImagePicker { output in
+                        ImagePickerShim { output in
                             guard let output = output else { return }
                             
                             let selection = Selection.file(data: output.data, type: output.type)
@@ -92,7 +92,7 @@ struct SelectCategoryView: View {
                         
                     }
                     .sheet(isPresented: $isShowingFilePicker) {
-                        FilePicker { output in
+                        FilePickerShim { output in
                             guard let output = output else { return }
                             
                             let selection = Selection.file(data: output.data, type: output.type)

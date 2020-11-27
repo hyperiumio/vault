@@ -2,7 +2,7 @@ import PDFKit
 import SwiftUI
 
 #if os(iOS)
-struct NativePDFView: UIViewRepresentable {
+struct PDFViewShim: UIViewRepresentable {
     
     private let document: PDFDocument
     
@@ -29,7 +29,7 @@ struct NativePDFView: UIViewRepresentable {
 #endif
 
 #if os(macOS)
-struct NativePDFView: NSViewRepresentable {
+struct PDFViewShim: NSViewRepresentable {
     
     private let document: PDFDocument
     
@@ -51,28 +51,6 @@ struct NativePDFView: NSViewRepresentable {
     }
     
     func updateNSView(_ nsView: PDFView, context: Context) {}
-    
-}
-#endif
-
-#if DEBUG
-struct PDFViewPreview: PreviewProvider {
-    
-    static let document: PDFDocument = {
-        let data = NSDataAsset(name: "PDFDummy")!.data
-        return PDFDocument(data: data)!
-    }()
-    
-    static var previews: some View {
-        Group {
-            NativePDFView(document)
-                .preferredColorScheme(.light)
-            
-            NativePDFView(document)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
-    }
     
 }
 #endif

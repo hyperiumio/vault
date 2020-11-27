@@ -25,7 +25,7 @@ struct FileView: View {
                 }
             case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
                 if let document = PDFDocument(data: item.data) {
-                    NativePDFView(document)
+                    PDFViewShim(document)
                         .scaledToFit()
                 } else {
                     UnrepresentableFileView(typeIdentifier)
@@ -52,7 +52,7 @@ struct FileView: View {
                 }
             case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
                 if let document = PDFDocument(data: item.data) {
-                    NativePDFView(document)
+                    PDFViewShim(document)
                         .scaledToFit()
                 } else {
                     UnrepresentableFileView(typeIdentifier)

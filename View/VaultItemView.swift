@@ -163,7 +163,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                    TextFieldShim(title: LocalizedString.title, text: $model.title, textStyle: .title1, alignment: .left)
                         .listRowInsets(.zero)
                         .padding()
                 }
@@ -188,7 +188,8 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                    TextField(LocalizedString.title, text: $model.title)
+                        .font(.title)
                         .listRowInsets(.zero)
                         .padding()
                 }
