@@ -28,7 +28,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 
                 Spacer()
                 
-                NativeTextField(title: LocalizedString.enterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
+                TextFieldShim(title: LocalizedString.enterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
                     .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()

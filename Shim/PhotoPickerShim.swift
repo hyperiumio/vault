@@ -1,9 +1,9 @@
+#if os(iOS)
 import Combine
 import SwiftUI
 import UniformTypeIdentifiers
 
-#if os(iOS)
-struct PhotoPicker: UIViewControllerRepresentable {
+struct PhotoPickerShim: UIViewControllerRepresentable {
     
     private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
@@ -28,7 +28,7 @@ struct PhotoPicker: UIViewControllerRepresentable {
     
 }
 
-extension PhotoPicker {
+extension PhotoPickerShim {
     
     typealias Output = (data: Data, type: UTType)
     
@@ -48,10 +48,10 @@ extension PhotoPicker {
     
 }
 
-extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension PhotoPickerShim.Coordinator: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        didPickSubscription = operationQueue.future { () -> PhotoPicker.Output? in
+        didPickSubscription = operationQueue.future { () -> PhotoPickerShim.Output? in
             guard let identifier = info[.mediaType] as? String else {
                 return nil
             }
@@ -72,23 +72,6 @@ extension PhotoPicker.Coordinator: UIImagePickerControllerDelegate, UINavigation
             picked(output)
             presentationMode.wrappedValue.dismiss()
         }
-    }
-    
-}
-#endif
-
-#if os(iOS) && DEBUG
-struct PhotoPickerPreview: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            PhotoPicker { _ in }
-                .preferredColorScheme(.light)
-            
-            PhotoPicker { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
     }
     
 }

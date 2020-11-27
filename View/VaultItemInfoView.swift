@@ -15,10 +15,10 @@ struct VaultItemInfoView: View {
     var body: some View {
         Label {
             VStack(alignment: .leading, spacing: 2) {
-                NativeLabel(title, textStyle: .body, color: .label)
+                TextShim(title, textStyle: .body, color: .label)
                 
                 if let description = description {
-                    NativeLabel(description, textStyle: .footnote, color: .secondaryLabel)
+                    TextShim(description, textStyle: .footnote, color: .secondaryLabel)
                 }
             }
             
@@ -56,59 +56,6 @@ private extension VaultItemInfoView {
     }
     
 }
-
-#if os(macOS)
-private struct NativeLabel: NSViewRepresentable {
-    
-    private let text: String
-    private let textStyle: NSFont.TextStyle
-    private let color: Color
-    
-    init(_ text: String, textStyle: NSFont.TextStyle, color: Color) {
-        self.text = text
-        self.textStyle = textStyle
-        self.color = color
-    }
-    
-    func makeNSView(context: Context) -> NSTextField {
-        let textField = NSTextField(labelWithString: text)
-        textField.font = .preferredFont(forTextStyle: textStyle)
-        textField.textColor = NSColor(color)
-        
-        return textField
-    }
-    
-    func updateNSView(_ nsView: NSTextField, context: Context) {}
-    
-}
-#endif
-
-#if os(iOS)
-private struct NativeLabel: UIViewRepresentable {
-    
-    private let text: String
-    private let textStyle: UIFont.TextStyle
-    private let color: Color
-    
-    init(_ text: String, textStyle: UIFont.TextStyle, color: Color) {
-        self.text = text
-        self.textStyle = textStyle
-        self.color = color
-    }
-    
-    func makeUIView(context: Context) -> UIView {
-        let label = UILabel()
-        label.text = text
-        label.font = .preferredFont(forTextStyle: textStyle)
-        label.textColor = UIColor(color)
-        
-        return label
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {}
-    
-}
-#endif
 
 #if DEBUG
 struct VaultItemInfoViewPreview: PreviewProvider {

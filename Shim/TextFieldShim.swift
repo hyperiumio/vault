@@ -1,7 +1,61 @@
 import SwiftUI
 
+#if os(iOS)
+struct TextFieldShim: UIViewRepresentable {
+    
+    let title: String
+    let text: Binding<String>
+    let textStyle: UIFont.TextStyle
+    let alignment: NSTextAlignment
+    
+    func makeUIView(context: UIViewRepresentableContext<TextFieldShim>) -> UITextField {
+        let action = #selector(Coordinator.textFieldDidChange)
+        let textField = UITextField()
+        textField.placeholder = title
+        textField.font = UIFont.preferredFont(forTextStyle: textStyle)
+        textField.textAlignment = alignment
+        textField.addTarget(context.coordinator, action:action, for: .editingChanged)
+        
+        return textField
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(text)
+    }
+
+    func updateUIView(_ uiView: UITextField, context: UIViewRepresentableContext<TextFieldShim>) {
+        uiView.text = text.wrappedValue
+        
+        if !context.coordinator.didBecomeFirstResponder {
+            uiView.becomeFirstResponder()
+            context.coordinator.didBecomeFirstResponder = true
+        }
+    }
+    
+}
+
+extension TextFieldShim {
+    
+    class Coordinator: NSObject, UITextFieldDelegate {
+        
+        let text: Binding<String>
+        var didBecomeFirstResponder = false
+
+        init(_ text: Binding<String>) {
+            self.text = text
+        }
+        
+        @objc func textFieldDidChange(_ textField: UITextField) {
+            text.wrappedValue = textField.text ?? ""
+        }
+
+    }
+    
+}
+#endif
+
 #if os(macOS)
-struct NativeTextField: NSViewRepresentable {
+struct TextFieldShim: NSViewRepresentable {
     
     let title: String
     let text: Binding<String>
@@ -42,7 +96,7 @@ struct NativeTextField: NSViewRepresentable {
     
 }
 
-extension NativeTextField {
+extension TextFieldShim {
     
     class Coordinator: NSObject {
         
@@ -62,7 +116,7 @@ extension NativeTextField {
     
 }
 
-extension NativeTextField.Coordinator: NSTextFieldDelegate {
+extension TextFieldShim.Coordinator: NSTextFieldDelegate {
     
     func controlTextDidChange(_ notification: Notification) {
         let textField = notification.object as! NSTextField

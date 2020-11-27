@@ -36,7 +36,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
-                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                    TextFieldShim(title: LocalizedString.title, text: $model.title, textStyle: .title1, alignment: .left)
                         .padding()
                         .listRowInsets(.zero)
                 }
@@ -87,7 +87,8 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
-                    VaultItemTitleView(LocalizedString.title, text: $model.title)
+                    TextField(LocalizedString.title, text: $model.title)
+                        .font(.title)
                         .padding()
                         .listRowInsets(.zero)
                 }

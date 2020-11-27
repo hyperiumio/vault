@@ -1,9 +1,9 @@
+#if os(iOS)
 import Combine
 import PhotosUI
 import SwiftUI
 
-#if os(iOS)
-struct ImagePicker: UIViewControllerRepresentable {
+struct ImagePickerShim: UIViewControllerRepresentable {
     
     private let picked: (Output?) -> Void
     @Environment(\.presentationMode) private var presentationMode
@@ -28,7 +28,7 @@ struct ImagePicker: UIViewControllerRepresentable {
     
 }
 
-extension ImagePicker {
+extension ImagePickerShim {
     
     typealias Output = (data: Data, type: UTType)
     
@@ -47,7 +47,7 @@ extension ImagePicker {
     
 }
 
-extension ImagePicker.Coordinator: PHPickerViewControllerDelegate {
+extension ImagePickerShim.Coordinator: PHPickerViewControllerDelegate {
     
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         didPickSubscription = Future<Data, Error> { promise in
@@ -71,23 +71,6 @@ extension ImagePicker.Coordinator: PHPickerViewControllerDelegate {
             picked(output)
             presentationMode.wrappedValue.dismiss()
         }
-    }
-    
-}
-#endif
-
-#if os(iOS) && DEBUG
-struct ImagePickerPreview: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            ImagePicker { _ in }
-                .preferredColorScheme(.light)
-            
-            ImagePicker { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
     }
     
 }
