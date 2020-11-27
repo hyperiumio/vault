@@ -4,7 +4,7 @@ import XCTest
 final class PreferencesStoreTests: XCTestCase {
     
     func testInit() {
-        let registrationDictionary = ["isBiometricUnlockEnabled": false]
+        let registrationDictionary = ["BiometricUnlockEnabled": false]
         let expectation = [
             UserDefaultsMock.Event.register(defaults: registrationDictionary)
         ]
@@ -18,7 +18,7 @@ final class PreferencesStoreTests: XCTestCase {
     func testGetBiometricUnlockEnabled() {
         let expectation = [
             UserDefaultsMock.Event.any,
-            UserDefaultsMock.Event.bool(forKey: "isBiometricUnlockEnabled")
+            UserDefaultsMock.Event.bool(forKey: "BiometricUnlockEnabled")
         ]
         let output = UserDefaultsMock.Output(boolForKey: true)
         let mock = UserDefaultsMock(expectation: expectation, output: output)
@@ -32,7 +32,7 @@ final class PreferencesStoreTests: XCTestCase {
     func testSetBiometricUnlockEnabled() {
         let expectation = [
             UserDefaultsMock.Event.any,
-            UserDefaultsMock.Event.setBool(value: true, forKey: "isBiometricUnlockEnabled")
+            UserDefaultsMock.Event.setBool(value: true, forKey: "BiometricUnlockEnabled")
         ]
         let mock = UserDefaultsMock(expectation: expectation)
         
@@ -44,7 +44,7 @@ final class PreferencesStoreTests: XCTestCase {
     func testGetActiveVaultIdentifierValue() {
         let expectation = [
             UserDefaultsMock.Event.any,
-            UserDefaultsMock.Event.string(forKey: "activeVaultIdentifier")
+            UserDefaultsMock.Event.string(forKey: "ActiveVaultIdentifier")
         ]
         let output = UserDefaultsMock.Output(stringForKey: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F")
         let mock = UserDefaultsMock(expectation: expectation, output: output)
@@ -59,7 +59,7 @@ final class PreferencesStoreTests: XCTestCase {
     func testGetActiveVaultIdentifierNil() {
         let expectation = [
             UserDefaultsMock.Event.any,
-            UserDefaultsMock.Event.string(forKey: "activeVaultIdentifier")
+            UserDefaultsMock.Event.string(forKey: "ActiveVaultIdentifier")
         ]
         let output = UserDefaultsMock.Output(stringForKey: nil)
         let mock = UserDefaultsMock(expectation: expectation, output: output)
@@ -73,7 +73,7 @@ final class PreferencesStoreTests: XCTestCase {
     func testSetActiveVaultIdentifier() {
         let expectation = [
             UserDefaultsMock.Event.any,
-            UserDefaultsMock.Event.setString(value: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F", forKey: "activeVaultIdentifier")
+            UserDefaultsMock.Event.setString(value: "E621E1F8-C36C-495A-93FC-0C247A3E6E5F", forKey: "ActiveVaultIdentifier")
         ]
         let mock = UserDefaultsMock(expectation: expectation)
         
