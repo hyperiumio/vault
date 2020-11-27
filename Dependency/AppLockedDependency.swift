@@ -19,7 +19,7 @@ struct AppLockedDependency {
 extension AppLockedDependency: AppModelDependency {
     
     func bootstrapModel() -> BootstrapModel {
-        BootstrapModel(preferences: preferences)
+        BootstrapModel(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences)
     }
     
     func setupModel() -> SetupModel<Self> {

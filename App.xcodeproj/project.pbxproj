@@ -29,6 +29,8 @@
 		9540F5A6256FDC8C00D8514C /* Localization in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5A5256FDC8C00D8514C /* Localization */; };
 		9540F5AB256FDCF200D8514C /* CredentialProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* CredentialProviderView.swift */; };
 		9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
+		9540F5D5256FF72F00D8514C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5D4256FF72F00D8514C /* Crypto */; };
+		9540F5DB256FF8E400D8514C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5DA256FF8E400D8514C /* Crypto */; };
 		9542207B255183C1002F14AB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9542207A255183C1002F14AB /* FileModel.swift */; };
 		9542207C255183C1002F14AB /* FileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9542207A255183C1002F14AB /* FileModel.swift */; };
 		95422088255186A4002F14AB /* EditBankAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95422087255186A4002F14AB /* EditBankAccountView.swift */; };
@@ -64,6 +66,10 @@
 		956307592535E80F0076022A /* EdgeInsetsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307572535E80F0076022A /* EdgeInsetsExtension.swift */; };
 		9564A4B0251347BC00AC4EFF /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9564A4AF251347BC00AC4EFF /* RangeExtension.swift */; };
 		9564A4B1251347BC00AC4EFF /* RangeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9564A4AF251347BC00AC4EFF /* RangeExtension.swift */; };
+		9569CBA8257021DE0065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBA7257021DE0065E860 /* Identifier */; };
+		9569CBAA257021E50065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBA9257021E50065E860 /* Identifier */; };
+		9569CBAC257021EB0065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBAB257021EB0065E860 /* Identifier */; };
+		9569CBAE257021F50065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBAD257021F50065E860 /* Identifier */; };
 		956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		95726C2B24C82B6D005F025A /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
@@ -323,6 +329,15 @@
 		956307572535E80F0076022A /* EdgeInsetsExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeInsetsExtension.swift; sourceTree = "<group>"; };
 		9564A4AF251347BC00AC4EFF /* RangeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RangeExtension.swift; sourceTree = "<group>"; };
 		9565F5E525189A1600134BD1 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
+		9569CB95257020140065E860 /* Identifier */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Identifier; sourceTree = "<group>"; };
+		9569CB9A257021910065E860 /* Vault.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Vault.app; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug-iphoneos/Vault.app"; sourceTree = "<group>"; };
+		9569CB9B257021910065E860 /* iOSCredentialProvider.appex */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app-extension"; name = iOSCredentialProvider.appex; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug-iphoneos/iOSCredentialProvider.appex"; sourceTree = "<group>"; };
+		9569CB9C257021910065E860 /* Vault.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Vault.app; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug/Vault.app"; sourceTree = "<group>"; };
+		9569CB9D257021910065E860 /* macOSCredentialProvider.appex */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app-extension"; name = macOSCredentialProvider.appex; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug/macOSCredentialProvider.appex"; sourceTree = "<group>"; };
+		9569CB9E257021A80065E860 /* iOSCredentialProvider.appex */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app-extension"; name = iOSCredentialProvider.appex; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug-iphoneos/iOSCredentialProvider.appex"; sourceTree = "<group>"; };
+		9569CB9F257021A80065E860 /* Vault.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Vault.app; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug-iphoneos/Vault.app"; sourceTree = "<group>"; };
+		9569CBA0257021A80065E860 /* macOSCredentialProvider.appex */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.app-extension"; name = macOSCredentialProvider.appex; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug/macOSCredentialProvider.appex"; sourceTree = "<group>"; };
+		9569CBA1257021A80065E860 /* Vault.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = Vault.app; path = "../../../Library/Developer/Xcode/DerivedData/App-bahmmijwnhsiyqacfwxhqjnquldy/Build/Products/Debug/Vault.app"; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* UnlockField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockField.swift; sourceTree = "<group>"; };
 		9574321F24AA05340062B05A /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
@@ -421,7 +436,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9569CBAE257021F50065E860 /* Identifier in Frameworks */,
 				9540F5A6256FDC8C00D8514C /* Localization in Frameworks */,
+				9540F5DB256FF8E400D8514C /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,7 +446,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9569CBAC257021EB0065E860 /* Identifier in Frameworks */,
 				95842D74256FBF720080711C /* Localization in Frameworks */,
+				9540F5D5256FF72F00D8514C /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +465,7 @@
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
+				9569CBA8257021DE0065E860 /* Identifier in Frameworks */,
 				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -463,6 +483,7 @@
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				9555A5E4255436E300B683EF /* Localization in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
+				9569CBAA257021E50065E860 /* Identifier in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -537,6 +558,14 @@
 		9574323224AA05710062B05A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9569CBA1257021A80065E860 /* Vault.app */,
+				9569CB9C257021910065E860 /* Vault.app */,
+				9569CB9A257021910065E860 /* Vault.app */,
+				9569CB9F257021A80065E860 /* Vault.app */,
+				9569CB9B257021910065E860 /* iOSCredentialProvider.appex */,
+				9569CB9D257021910065E860 /* macOSCredentialProvider.appex */,
+				9569CB9E257021A80065E860 /* iOSCredentialProvider.appex */,
+				9569CBA0257021A80065E860 /* macOSCredentialProvider.appex */,
 				9574330524AA135D0062B05A /* AppView.swift */,
 				9586495A251E24A60081DF08 /* BankAccountView.swift */,
 				95864922251E13210081DF08 /* BankCardView.swift */,
@@ -641,6 +670,7 @@
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
 				95AA68C72564412000616D56 /* Haptic */,
+				9569CB95257020140065E860 /* Identifier */,
 				951F238B2547257700949362 /* Localization */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
 				9574336624AA13C20062B05A /* Preferences */,
@@ -706,6 +736,8 @@
 			name = macOSCredentialProvider;
 			packageProductDependencies = (
 				9540F5A5256FDC8C00D8514C /* Localization */,
+				9540F5DA256FF8E400D8514C /* Crypto */,
+				9569CBAD257021F50065E860 /* Identifier */,
 			);
 			productName = macOSCredentialProvider;
 			productReference = 952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */;
@@ -726,6 +758,8 @@
 			name = iOSCredentialProvider;
 			packageProductDependencies = (
 				95842D73256FBF720080711C /* Localization */,
+				9540F5D4256FF72F00D8514C /* Crypto */,
+				9569CBAB257021EB0065E860 /* Identifier */,
 			);
 			productName = "iOS Credential Provider";
 			productReference = 952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */;
@@ -759,6 +793,7 @@
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
 				95AA68D2256449D200616D56 /* Haptic */,
+				9569CBA7257021DE0065E860 /* Identifier */,
 			);
 			productName = iOS;
 			productReference = 957680D6256FC25F00E1C62B /* Vault.app */;
@@ -790,6 +825,7 @@
 				9555A5E3255436E300B683EF /* Localization */,
 				95AA68DA2565420E00616D56 /* Format */,
 				95AA68E42565432000616D56 /* Haptic */,
+				9569CBA9257021E50065E860 /* Identifier */,
 			);
 			productName = macOS;
 			productReference = 95E30FE0256FD4FA00A850EE /* Vault.app */;
@@ -1533,9 +1569,33 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Localization;
 		};
+		9540F5D4256FF72F00D8514C /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Crypto;
+		};
+		9540F5DA256FF8E400D8514C /* Crypto */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Crypto;
+		};
 		9555A5E3255436E300B683EF /* Localization */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Localization;
+		};
+		9569CBA7257021DE0065E860 /* Identifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Identifier;
+		};
+		9569CBA9257021E50065E860 /* Identifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Identifier;
+		};
+		9569CBAB257021EB0065E860 /* Identifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Identifier;
+		};
+		9569CBAD257021F50065E860 /* Identifier */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Identifier;
 		};
 		95842D73256FBF720080711C /* Localization */ = {
 			isa = XCSwiftPackageProductDependency;

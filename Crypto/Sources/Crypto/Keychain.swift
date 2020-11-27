@@ -18,29 +18,35 @@ public class Keychain {
     
     public var availability: Availability { availabilityDidChangeSubject.value }
     
+    private let accessGroup: String
     private let identifier: String
     private let operationQueue = DispatchQueue(label: "BiometricKeychainOperationQueue")
     private let context: LAContext
     private let availabilityDidChangeSubject: CurrentValueSubject<Availability, Never>
     
-    public init(identifier: String) {
+    public init(accessGroup: String, identifier: String) {
         let context = LAContext()
         let availability = Availability(from: context)
         let availabilityDidChangeSubject = CurrentValueSubject<Availability, Never>(availability)
         
+        self.accessGroup = accessGroup
         self.identifier = identifier
         self.context = context
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
     public func store(_ key: DerivedKey) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [identifier, context] in
+        operationQueue.future { [accessGroup, identifier, context] in
             let deleteQuery = [
+                kSecUseDataProtectionKeychain: true,
+                kSecAttrAccessGroup: accessGroup,
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrService: identifier
             ] as CFDictionary
             
             let writeQuery = [
+                kSecUseDataProtectionKeychain: true,
+                kSecAttrAccessGroup: accessGroup,
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrService: identifier,
                 kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
@@ -64,8 +70,10 @@ public class Keychain {
     }
     
     public func load() -> AnyPublisher<DerivedKey?, Error> {
-        operationQueue.future { [identifier] in
+        operationQueue.future { [accessGroup, identifier] in
             let query = [
+                kSecUseDataProtectionKeychain: true,
+                kSecAttrAccessGroup: accessGroup,
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrService: identifier,
                 kSecReturnData: true
@@ -91,8 +99,10 @@ public class Keychain {
     }
     
     public func delete() -> AnyPublisher<Void, Error> {
-        operationQueue.future { [identifier] in
+        operationQueue.future { [accessGroup, identifier] in
             let query = [
+                kSecUseDataProtectionKeychain: true,
+                kSecAttrAccessGroup: accessGroup,
                 kSecClass: kSecClassGenericPassword,
                 kSecAttrService: identifier
             ] as CFDictionary
