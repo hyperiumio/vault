@@ -303,6 +303,7 @@
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F238B2547257700949362 /* Localization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Localization; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
+		9522CC5A257156E30055F9CC /* Haptic */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Haptic; sourceTree = "<group>"; };
 		952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = macOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
@@ -403,7 +404,6 @@
 		95955861251A3D4500F7715F /* EnableBiometricUnlockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBiometricUnlockModel.swift; sourceTree = "<group>"; };
 		95A28003253DC57600E2A3A3 /* ImagePickerShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerShim.swift; sourceTree = "<group>"; };
 		95A28027253F0C6900E2A3A3 /* DocumentPickerShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerShim.swift; sourceTree = "<group>"; };
-		95AA68C72564412000616D56 /* Haptic */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Haptic; path = Format/Haptic; sourceTree = "<group>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		95B2C3C4256A816600CAA97A /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
 		95B2C3CB256A92F300CAA97A /* TextFieldShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldShim.swift; sourceTree = "<group>"; };
@@ -668,7 +668,7 @@
 			children = (
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
-				95AA68C72564412000616D56 /* Haptic */,
+				9522CC5A257156E30055F9CC /* Haptic */,
 				9569CB95257020140065E860 /* Identifier */,
 				951F238B2547257700949362 /* Localization */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
