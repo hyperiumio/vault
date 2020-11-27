@@ -13,7 +13,7 @@ class PreferencesStore: PreferencesStoreRepresentable {
     
     init(userDefaults: UserDefaultsRepresentable) {
         let defaults = [
-            String.isBiometricUnlockEnabledKey: false
+            String.biometricUnlockEnabledKey: false
         ]
         userDefaults.register(defaults: defaults)
         
@@ -22,10 +22,10 @@ class PreferencesStore: PreferencesStoreRepresentable {
     
     var isBiometricUnlockEnabled: Bool {
         get {
-            userDefaults.bool(forKey: .isBiometricUnlockEnabledKey)
+            userDefaults.bool(forKey: .biometricUnlockEnabledKey)
         }
         set(isBiometricUnlockEnabled) {
-            userDefaults.set(isBiometricUnlockEnabled, forKey: .isBiometricUnlockEnabledKey)
+            userDefaults.set(isBiometricUnlockEnabled, forKey: .biometricUnlockEnabledKey)
         }
     }
     
@@ -57,7 +57,7 @@ extension UserDefaults: UserDefaultsRepresentable {}
 
 private extension String {
     
-    static var isBiometricUnlockEnabledKey: Self { "isBiometricUnlockEnabled" }
-    static var activeVaultIdentifier: Self { "activeVaultIdentifier" }
+    static var biometricUnlockEnabledKey: Self { "BiometricUnlockEnabled" }
+    static var activeVaultIdentifier: Self { "ActiveVaultIdentifier" }
     
 }

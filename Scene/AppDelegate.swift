@@ -1,4 +1,5 @@
 import Crypto
+import Identifier
 import Preferences
 import Sync
 
@@ -9,14 +10,12 @@ class AppDelegate: NSObject {
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        guard let applicationSupportDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
+        guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
             fatalError()
         }
-        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            fatalError()
-        }
-        let vaultContainerDirectory = applicationSupportDirectory.appendingPathComponent(bundleIdentifier, isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
-        let keychain = Keychain(identifier: bundleIdentifier)
+        
+        let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
+        let keychain = Keychain(accessGroup: Identifier.appGroup, identifier: Identifier.appBundleID)
         let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: .shared, keychain: keychain)
         
         self.appModel = AppModel(appModelDependency)
@@ -26,27 +25,6 @@ class AppDelegate: NSObject {
     }
     
 }
-
-#if os(macOS)
-import AppKit
-
-extension AppDelegate: NSApplicationDelegate {
-    
-    func applicationDidFinishLaunching(_ notification: Notification) {
-        NSApplication.shared.registerForRemoteNotifications()
-        syncCoordinator.initialize()
-    }
-    
-    func applicationDidBecomeActive(_ notification: Notification) {
-        keychain.invalidateAvailability()
-    }
-    
-    func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
-        syncCoordinator.startSync()
-    }
-    
-}
-#endif
 
 #if os(iOS)
 import UIKit
@@ -67,6 +45,27 @@ extension AppDelegate: UIApplicationDelegate {
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         syncCoordinator.startSync()
         completionHandler(.newData)
+    }
+    
+}
+#endif
+
+#if os(macOS)
+import AppKit
+
+extension AppDelegate: NSApplicationDelegate {
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        NSApplication.shared.registerForRemoteNotifications()
+        syncCoordinator.initialize()
+    }
+    
+    func applicationDidBecomeActive(_ notification: Notification) {
+        keychain.invalidateAvailability()
+    }
+    
+    func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
+        syncCoordinator.startSync()
     }
     
 }
