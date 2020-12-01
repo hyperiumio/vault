@@ -13,10 +13,13 @@ class AppDelegate: NSObject {
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
             fatalError()
         }
+        guard let preferences = Preferences(appGroup: Identifier.appGroup) else {
+            fatalError()
+        }
         
         let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(accessGroup: Identifier.appGroup, identifier: Identifier.appBundleID)
-        let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: .shared, keychain: keychain)
+        let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
         
         self.appModel = AppModel(appModelDependency)
         self.keychain = keychain
