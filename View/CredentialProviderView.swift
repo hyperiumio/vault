@@ -1,35 +1,15 @@
-import Localization
 import SwiftUI
 
-struct CredentialProviderView: View {
+struct CredentialProviderView<Model>: View where Model: CredentialProviderModelRepresentable {
     
-    let cancel: () -> Void
+    @ObservedObject private var model: Model
     
-    #if os(iOS)
-    var body: some View {
-        NavigationView {
-            Text("CredentialProviderView")
-                .toolbar {
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button(LocalizedString.cancel) {
-                          cancel()
-                        }
-                    }
-                }
-        }
+    init(_ model: Model) {
+        self.model = model
     }
-    #endif
     
-    #if os(macOS)
     var body: some View {
-        VStack {
-            Text("CredentialProviderView")
-            
-            Button(LocalizedString.cancel) {
-              cancel()
-            }
-        }
+        Text("CredentialProviderView")
     }
-    #endif
     
 }
