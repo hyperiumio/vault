@@ -3,20 +3,24 @@ import CoreCrypto
 import CryptoKit
 import Foundation
 
-public struct DerivedKey {
+public struct CryptoKey {
     
     let value: SymmetricKey
     
-    init(_ data: Data) {
-        self.value = SymmetricKey(data: data)
+    public init() {
+        self.value = SymmetricKey(size: .bits256)
     }
     
     init(_ value: SymmetricKey) {
         self.value = value
     }
     
-    public init(container: Data, password: String) throws {
-        guard container.count == Self.containerSize else {
+    init<D>(_ data: D) where D : ContiguousBytes {
+        self.value = SymmetricKey(data: data)
+    }
+    
+    public init(fromDerivedKeyContainer container: Data, password: String) throws {
+        guard container.count == Self.derivedKeyContainerSize else {
             throw CryptoError.invalidDataSize
         }
         
@@ -30,7 +34,28 @@ public struct DerivedKey {
         self.value = try PBKDF2(salt: salt, rounds: rounds, keySize: .keySize, password: password)
     }
     
-    public static func derive(from password: String) throws -> (container: Data, key: Self) {
+    public init(fromEncryptedKeyContainer container: Data, using derivedKey: Self) throws {
+        let wrappedKey = try AES.GCM.SealedBox(combined: container)
+        let masterKeyData = try AES.GCM.open(wrappedKey, using: derivedKey.value)
+        
+        self.value = SymmetricKey(data: masterKeyData)
+    }
+    
+    public func encryptedKeyContainer(using derivedKey: CryptoKey) throws -> Data {
+        try value.withUnsafeBytes { cryptoKey in
+            let seal = try AES.GCM.seal(cryptoKey, using: derivedKey.value)
+            return seal.nonce + seal.ciphertext + seal.tag
+        }
+    }
+    
+}
+
+public extension CryptoKey {
+    
+    static var derivedKeyContainerSize: Int { .saltSize + UnsignedInteger32BitEncodingSize }
+    static var encryptedKeyContainerSize: Int { 60 }
+    
+    static func derive(from password: String) throws -> (container: Data, key: Self) {
         var salt = Data(repeating: 0, count: .saltSize)
         
         let status = salt.withUnsafeMutableBytes { buffer in
@@ -43,14 +68,8 @@ public struct DerivedKey {
         let container = salt + UnsignedInteger32BitEncode(.keyDerivationRounds)
         let key = try PBKDF2(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
         
-        return (container, DerivedKey(key))
+        return (container, CryptoKey(key))
     }
-    
-}
-
-public extension DerivedKey {
-    
-    static var containerSize: Int { .saltSize + UnsignedInteger32BitEncodingSize }
     
 }
 

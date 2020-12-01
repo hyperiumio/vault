@@ -18,25 +18,31 @@ final class PreferencesTests: XCTestCase {
         super.tearDown()
     }
     
-    func testInitialPreferencesValue() {
-        let expectedActiveVaultIdentifier = UUID()
+    func testInitEmptyStore() {
         let mock = PreferencesStoreMock()
-        mock.isBiometricUnlockEnabled = true
-        mock.activeVaultIdentifier = expectedActiveVaultIdentifier
+        let preferences = Preferences(using: mock)
         
-        let preferences = Preferences(preferencesStore: mock)
+        XCTAssertEqual(preferences.value.isBiometricUnlockEnabled, false)
+        XCTAssertNil(preferences.value.activeVaultIdentifier)
+    }
+    
+    func testInitNonEmptyStore() {
+        let expectedActiveVaultID = UUID()
+        let storeMock = PreferencesStoreMock()
+        storeMock.defaults = [
+            "BiometricUnlockEnabled": true,
+            "ActiveVaultIdentifier": expectedActiveVaultID
+        ]
+        let preferences = Preferences(using: storeMock)
         
         XCTAssertEqual(preferences.value.isBiometricUnlockEnabled, true)
-        XCTAssertEqual(preferences.value.activeVaultIdentifier, expectedActiveVaultIdentifier)
+        XCTAssertNil(preferences.value.activeVaultIdentifier)
     }
     
     func testSetBiometricUnlockEnabled() {
         let didChangeExpectation = XCTestExpectation()
-        let expectations = [didChangeExpectation]
-        
-        let mock = PreferencesStoreMock()
-        mock.isBiometricUnlockEnabled = false
-        let preferences = Preferences(preferencesStore: mock)
+        let storeMock = PreferencesStoreMock()
+        let preferences = Preferences(using: storeMock)
         preferences.didChange
             .dropFirst()
             .sink { value in
@@ -47,40 +53,56 @@ final class PreferencesTests: XCTestCase {
         
         preferences.set(isBiometricUnlockEnabled: true)
         
-        let waitResult = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        let waitResult = XCTWaiter.wait(for: [didChangeExpectation], timeout: .infinity)
         XCTAssertEqual(waitResult, .completed)
-        XCTAssertEqual(mock.isBiometricUnlockEnabled, true)
+        XCTAssertEqual(storeMock.defaults["BiometricUnlockEnabled"] as? Bool, true)
     }
-    
+
     func testActiveVaultIdentifier() {
         let didChangeExpectation = XCTestExpectation()
-        let expectations = [didChangeExpectation]
-        
-        let expectedActiveVaultIdentifier = UUID()
-        let mock = PreferencesStoreMock()
-        mock.activeVaultIdentifier = nil
-        let preferences = Preferences(preferencesStore: mock)
-        
+        let expectedActiveVaultID = UUID()
+        let storeMock = PreferencesStoreMock()
+        let preferences = Preferences(using: storeMock)
         preferences.didChange
             .dropFirst()
             .sink { value in
-                XCTAssertEqual(value.activeVaultIdentifier, expectedActiveVaultIdentifier)
+                XCTAssertEqual(value.activeVaultIdentifier, expectedActiveVaultID)
                 didChangeExpectation.fulfill()
             }
             .store(in: &subscriptions)
         
-        preferences.set(activeVaultIdentifier: expectedActiveVaultIdentifier)
+        preferences.set(activeVaultIdentifier: expectedActiveVaultID)
         
-        let waitResult = XCTWaiter.wait(for: expectations, timeout: .infinity)
+        let waitResult = XCTWaiter.wait(for: [didChangeExpectation], timeout: .infinity)
         XCTAssertEqual(waitResult, .completed)
-        XCTAssertEqual(mock.activeVaultIdentifier, expectedActiveVaultIdentifier)
+        XCTAssertEqual(storeMock.defaults["ActiveVaultIdentifier"] as? String, expectedActiveVaultID.uuidString)
     }
     
 }
 
-private class PreferencesStoreMock: PreferencesStoreRepresentable {
+private class PreferencesStoreMock: PreferencesStore {
     
-    var isBiometricUnlockEnabled = false
-    var activeVaultIdentifier = nil as UUID?
+    var registeredDefaults = [String: Any]()
+    var defaults = [String: Any]()
+    
+    func set(_ value: Bool, forKey defaultName: String) {
+        defaults[defaultName] = value
+    }
+    
+    func set(_ value: Any?, forKey defaultName: String) {
+        defaults[defaultName] = value
+    }
+    
+    func bool(forKey defaultName: String) -> Bool {
+        (defaults[defaultName] ?? registeredDefaults[defaultName]) as! Bool
+    }
+    
+    func string(forKey defaultName: String) -> String? {
+        (defaults[defaultName] ?? registeredDefaults[defaultName]) as? String? ?? nil
+    }
+    
+    func register(defaults registrationDictionary: [String : Any]) {
+        registeredDefaults = registrationDictionary
+    }
     
 }

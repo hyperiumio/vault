@@ -2,6 +2,7 @@ import Combine
 import Foundation
 import Store
 import Sort
+import Crypto
 
 protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable, AlphabeticCollationElement {
     

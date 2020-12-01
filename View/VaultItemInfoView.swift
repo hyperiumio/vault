@@ -1,3 +1,4 @@
+import Store
 import SwiftUI
 
 struct VaultItemInfoView: View {

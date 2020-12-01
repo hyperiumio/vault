@@ -35,7 +35,7 @@ public class Keychain {
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
-    public func store(_ key: DerivedKey) -> AnyPublisher<Void, Error> {
+    public func store(_ key: CryptoKey) -> AnyPublisher<Void, Error> {
         operationQueue.future { [accessGroup, identifier, context] in
             let deleteQuery = [
                 kSecUseDataProtectionKeychain: true,
@@ -69,7 +69,7 @@ public class Keychain {
         .eraseToAnyPublisher()
     }
     
-    public func load() -> AnyPublisher<DerivedKey?, Error> {
+    public func load() -> AnyPublisher<CryptoKey?, Error> {
         operationQueue.future { [accessGroup, identifier] in
             let query = [
                 kSecUseDataProtectionKeychain: true,
@@ -88,7 +88,7 @@ public class Keychain {
                     throw CryptoError.keychainLoadDidFail
                 }
                 
-                return DerivedKey(data)
+                return CryptoKey(data)
             case errSecUserCanceled:
                 return nil
             default:

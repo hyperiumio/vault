@@ -1,6 +1,7 @@
 import AuthenticationServices
 import Combine
 import Crypto
+import Foundation
 import Identifier
 import Preferences
 import SwiftUI
@@ -11,9 +12,10 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
             return nil
         }
-        guard let preferences = Preferences(appGroup: Identifier.appGroup) else {
+        guard let userDefaults = UserDefaults(suiteName: Identifier.appGroup) else {
             return nil
         }
+        let preferences = Preferences(using: userDefaults)
         guard let activeVaultID = preferences.value.activeVaultIdentifier else {
             return nil
         }
@@ -52,9 +54,14 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     
     #if os(macOS)
     override func loadView() {
-        let rootView = CredentialProviderView { [extensionContext] in
-            let error = NSError(domain: ASExtensionError.errorDomain, code: ASExtensionError.Code.userCanceled.rawValue)
-            extensionContext.cancelRequest(withError: error)
+        let rootView = Group {
+            if let model = mainModel {
+                QuickAccessView(model) {
+                    self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
+                }
+            } else {
+                Text("Error")
+            }
         }
         
         view = NSHostingView(rootView: rootView)

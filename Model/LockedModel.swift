@@ -8,7 +8,7 @@ import Sort
 protocol LockedModelRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
-    var keychainAvailability: KeychainAvailability { get }
+    var keychainAvailability: Keychain.Availability { get }
     var status: LockedStatus { get }
     var done: AnyPublisher<Vault, Never> { get }
     var error: AnyPublisher<LockedError, Never> { get }
@@ -38,7 +38,7 @@ enum LockedError: Error, Identifiable {
 class LockedModel: LockedModelRepresentable {
     
     @Published var password = ""
-    @Published private(set) var keychainAvailability: KeychainAvailability
+    @Published private(set) var keychainAvailability: Keychain.Availability
     @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
     var done: AnyPublisher<Vault, Never> {
@@ -51,7 +51,7 @@ class LockedModel: LockedModelRepresentable {
     
     private let doneSubject = PassthroughSubject<Vault, Never>()
     private let errorSubject = PassthroughSubject<LockedError, Never>()
-    private let derivedKeySubject = PassthroughSubject<DerivedKey, Never>()
+    private let derivedKeySubject = PassthroughSubject<CryptoKey, Never>()
     
     private let vaultContainerPublisher: AnyPublisher<VaultContainer, Error>
     private let keychain: Keychain
@@ -134,7 +134,7 @@ class LockedModel: LockedModelRepresentable {
 class LockedModelStub: LockedModelRepresentable {
     
     @Published var password = ""
-    @Published var keychainAvailability = KeychainAvailability.enrolled(.faceID)
+    @Published var keychainAvailability = Keychain.Availability.enrolled(.faceID)
     @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
     var done: AnyPublisher<Vault, Never> {

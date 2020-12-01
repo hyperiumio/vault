@@ -70,11 +70,11 @@ public struct SecureDataHeader {
         self.elements = elements
     }
     
-    public func unwrapKey(with masterKey: MasterKey) throws -> SecureDataKey {
+    public func unwrapKey(with masterKey: CryptoKey) throws -> CryptoKey {
         let tagSegment = elements.map(\.tag).reduce(.empty, +)
         let wrappedItemKey = try AES.GCM.SealedBox(combined: itemKey)
         
-        return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(SecureDataKey.init)
+        return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(CryptoKey.init)
     }
     
 }

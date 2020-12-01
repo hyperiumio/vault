@@ -1,6 +1,7 @@
 import Combine
 import Crypto
 import Foundation
+import Store
 import Preferences
 
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {

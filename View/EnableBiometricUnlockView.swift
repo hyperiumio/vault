@@ -1,3 +1,4 @@
+import Crypto
 import Localization
 import SwiftUI
 
@@ -84,7 +85,7 @@ private struct Content: View {
 
 private extension EnableBiometricUnlockView {
     
-    static func title(for error: EnableBiometricUnlockError, biometryType: BiometryType) -> Text {
+    static func title(for error: EnableBiometricUnlockError, biometryType: Keychain.BiometryType) -> Text {
         switch (error, biometryType) {
         case (.didFailEnabling, .touchID):
             return Text(LocalizedString.touchIDActivationFailed)

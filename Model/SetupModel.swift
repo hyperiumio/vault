@@ -52,7 +52,7 @@ protocol SetupModelDependency {
     
     func choosePasswordModel() -> ChoosePasswordModel
     func repeatPasswordModel(password: String) -> RepeatPasswordModel
-    func enabledBiometricUnlockModel(password: String, biometryType: BiometryType) -> EnableBiometricUnlockModel
+    func enabledBiometricUnlockModel(password: String, biometryType: Keychain.BiometryType) -> EnableBiometricUnlockModel
     func completeSetupModel(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupModel
     
 }

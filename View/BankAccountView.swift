@@ -1,5 +1,6 @@
 import Format
 import Localization
+import Store
 import SwiftUI
 
 struct BankAccountView: View {

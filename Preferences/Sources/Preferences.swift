@@ -1,6 +1,16 @@
 import Combine
 import Foundation
 
+public protocol PreferencesStore: class {
+    
+    func set(_ value: Bool, forKey defaultName: String)
+    func set(_ value: Any?, forKey defaultName: String)
+    func bool(forKey defaultName: String) -> Bool
+    func string(forKey defaultName: String) -> String?
+    func register(defaults registrationDictionary: [String : Any])
+    
+}
+
 public class Preferences {
     
     public var didChange: AnyPublisher<Value, Never> {
@@ -11,30 +21,27 @@ public class Preferences {
     
     public var value: Value { didChangeSubject.value }
     
-    private let userDefaults: UserDefaults
+    private let store: PreferencesStore
     private let didChangeSubject: CurrentValueSubject<Value, Never>
     
-    public init?(appGroup: String) {
-        guard let userDefaults = UserDefaults(suiteName: appGroup) else {
-            return nil
-        }
+    public init(using store: PreferencesStore) {
         let defaults = [String.biometricUnlockEnabledKey: false]
-        userDefaults.register(defaults: defaults)
+        store.register(defaults: defaults)
         
-        let preferences = Value(from: userDefaults)
+        let preferences = Value(from: store)
         
-        self.userDefaults = userDefaults
+        self.store = store
         self.didChangeSubject = CurrentValueSubject<Value, Never>(preferences)
     }
     
     public func set(isBiometricUnlockEnabled: Bool) {
-        userDefaults.isBiometricUnlockEnabled = isBiometricUnlockEnabled
-        didChangeSubject.value = Value(from: userDefaults)
+        store.isBiometricUnlockEnabled = isBiometricUnlockEnabled
+        didChangeSubject.value = Value(from: store)
     }
     
     public func set(activeVaultIdentifier: UUID) {
-        userDefaults.activeVaultIdentifier = activeVaultIdentifier
-        didChangeSubject.value = Value(from: userDefaults)
+        store.activeVaultIdentifier = activeVaultIdentifier
+        didChangeSubject.value = Value(from: store)
     }
     
 }
@@ -46,16 +53,18 @@ extension Preferences {
         public let isBiometricUnlockEnabled: Bool
         public let activeVaultIdentifier: UUID?
         
-        init(from userDefaults: UserDefaults) {
-            self.isBiometricUnlockEnabled = userDefaults.isBiometricUnlockEnabled
-            self.activeVaultIdentifier = userDefaults.activeVaultIdentifier
+        init(from store: PreferencesStore) {
+            self.isBiometricUnlockEnabled = store.isBiometricUnlockEnabled
+            self.activeVaultIdentifier = store.activeVaultIdentifier
         }
         
     }
     
 }
 
-private extension UserDefaults {
+extension UserDefaults: PreferencesStore {}
+
+private extension PreferencesStore {
     
     var isBiometricUnlockEnabled: Bool {
         get {

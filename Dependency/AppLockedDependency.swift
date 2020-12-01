@@ -1,5 +1,6 @@
 import Crypto
 import Foundation
+import Store
 import Preferences
 
 struct AppLockedDependency {
@@ -46,7 +47,7 @@ extension AppLockedDependency: SetupModelDependency {
         RepeatPasswordModel(password: password)
     }
     
-    func enabledBiometricUnlockModel(password: String, biometryType: BiometryType) -> EnableBiometricUnlockModel {
+    func enabledBiometricUnlockModel(password: String, biometryType: Keychain.BiometryType) -> EnableBiometricUnlockModel {
         EnableBiometricUnlockModel(password: password, biometryType: biometryType)
     }
     
