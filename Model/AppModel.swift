@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
+import Store
 import Sort
 
 protocol AppModelRepresentable: ObservableObject, Identifiable {

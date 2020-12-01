@@ -1,6 +1,6 @@
 import Foundation
 
-public struct VaultContainer<DerivedKey, MasterKey, MessageKey, Header, Message> where DerivedKey: DerivedKeyRepresentable, MasterKey: MasterKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, DerivedKey == MasterKey.DerivedKey, MasterKey == Header.MasterKey, MasterKey == Message.MasterKey, MessageKey == Header.MessageKey, MessageKey == Message.MessageKey {
+public struct VaultContainer<CryptoKey, Header, Message> where CryptoKey: CryptoKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Header.CryptoKey == CryptoKey, Message.CryptoKey == CryptoKey {
     
     let vaultID: UUID
     let resourceLocator: VaultResourceLocator
@@ -9,13 +9,13 @@ public struct VaultContainer<DerivedKey, MasterKey, MessageKey, Header, Message>
     let elements: [Element]
     
     public func unlock(with password: String) throws -> Vault {
-        let derivedKey = try DerivedKey(container: derivedKeyContainer, password: password)
+        let derivedKey = try CryptoKey(fromDerivedKeyContainer: derivedKeyContainer, password: password)
         return try unlock(with: derivedKey)
         
     }
     
-    public func unlock(with derivedKey: DerivedKey) throws -> Vault {
-        let masterKey = try MasterKey(from: masterKeyContainer, using: derivedKey)
+    public func unlock(with derivedKey: CryptoKey) throws -> Vault {
+        let masterKey = try CryptoKey(fromEncryptedKeyContainer: masterKeyContainer, using: derivedKey)
         
         let indexElements = elements.compactMap { element in
             do {
@@ -35,7 +35,7 @@ public struct VaultContainer<DerivedKey, MasterKey, MessageKey, Header, Message>
 
 extension VaultContainer {
     
-    public typealias Vault = Store.Vault<DerivedKey, MasterKey, MessageKey, Header, Message>
+    public typealias Vault = Store.Vault<CryptoKey, Header, Message>
     
     struct Element {
         

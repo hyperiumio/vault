@@ -2,12 +2,13 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
+import Store
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     
     associatedtype ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable
     
-    var keychainAvailability: KeychainAvailability { get }
+    var keychainAvailability: Keychain.Availability { get }
     var isBiometricUnlockEnabled: Bool { get set }
     var error: AnyPublisher<SettingModelError, Never> { get }
     var changeMasterPasswordModel: ChangeMasterPasswordModel { get }
@@ -93,14 +94,14 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
 class SettingsModelStub: SettingsModelRepresentable {
     
     @Published var changeMasterPasswordModel: ChangeMasterPasswordModel
-    @Published var keychainAvailability: KeychainAvailability
+    @Published var keychainAvailability: Keychain.Availability
     @Published var isBiometricUnlockEnabled: Bool
     
     var error: AnyPublisher<SettingModelError, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
-    init(changeMasterPasswordModel: ChangeMasterPasswordModel, keychainAvailability: KeychainAvailability, isBiometricUnlockEnabled: Bool) {
+    init(changeMasterPasswordModel: ChangeMasterPasswordModel, keychainAvailability: Keychain.Availability, isBiometricUnlockEnabled: Bool) {
         self.changeMasterPasswordModel = changeMasterPasswordModel
         self.keychainAvailability = keychainAvailability
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled

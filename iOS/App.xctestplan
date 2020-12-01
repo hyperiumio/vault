@@ -92,6 +92,14 @@
         "identifier" : "SyncTests",
         "name" : "SyncTests"
       }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Identifier",
+        "identifier" : "IdentifierTests",
+        "name" : "IdentifierTests"
+      }
     }
   ],
   "version" : 1

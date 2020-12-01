@@ -5,7 +5,7 @@ import Preferences
 protocol EnableBiometricUnlockModelRepresentable: ObservableObject, Identifiable {
     
     var isEnabled: Bool { get set }
-    var biometryType: BiometryType { get }
+    var biometryType: Keychain.BiometryType { get }
     var event: AnyPublisher<EnableBiometricUnlockModelEvent, Never> { get }
     
     func done()
@@ -32,7 +32,7 @@ enum EnableBiometricUnlockError: Error, Identifiable {
 class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
     
     @Published var isEnabled = false
-    let biometryType: BiometryType
+    let biometryType: Keychain.BiometryType
     
     private let password: String
     private let eventSubject = PassthroughSubject<EnableBiometricUnlockModelEvent, Never>()
@@ -42,7 +42,7 @@ class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
         eventSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, biometryType: BiometryType) {
+    init(password: String, biometryType: Keychain.BiometryType) {
         self.password = password
         self.biometryType = biometryType
     }
@@ -61,13 +61,13 @@ class EnableBiometricUnlockModel: EnableBiometricUnlockModelRepresentable {
 class EnableBiometricUnlockModelStub: EnableBiometricUnlockModelRepresentable {
     
     var isEnabled = false
-    let biometryType: BiometryType
+    let biometryType: Keychain.BiometryType
     
     var event: AnyPublisher<EnableBiometricUnlockModelEvent, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
-    init(biometryType: BiometryType) {
+    init(biometryType: Keychain.BiometryType) {
         self.biometryType = biometryType
     }
     

@@ -1,4 +1,5 @@
 import Localization
+import Store
 import SwiftUI
 
 struct SecureItemTypeView: View {

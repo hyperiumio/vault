@@ -6,16 +6,16 @@ import Foundation
 
 private let operationQueue = DispatchQueue(label: "VaultOperationQueue")
 
-public class Vault<DerivedKey, MasterKey, MessageKey, Header, Message> where DerivedKey: DerivedKeyRepresentable, MasterKey: MasterKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, MasterKey.DerivedKey == DerivedKey, MasterKey == Message.MasterKey, MasterKey == Header.MasterKey, MessageKey == Message.MessageKey, Header.MessageKey == MessageKey {
+public class Vault<CryptoKey, Header, Message> where CryptoKey: CryptoKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Header.CryptoKey == CryptoKey, Message.CryptoKey == CryptoKey {
     
     public var id: UUID { configuration.id }
     public var directory: URL { configuration.resourceLocator.rootDirectory }
-    public var derivedKey: DerivedKey { configuration.derivedKey }
+    public var derivedKey: CryptoKey { configuration.derivedKey }
     
     private var configuration: Configuration
     private let indexSubject: CurrentValueSubject<VaultIndex, Error>
     
-    init(id: UUID, derivedKey: DerivedKey, masterKey: MasterKey, resourceLocator: VaultResourceLocator, initialElements: [Vault.Element]) {
+    init(id: UUID, derivedKey: CryptoKey, masterKey: CryptoKey, resourceLocator: VaultResourceLocator, initialElements: [Vault.Element]) {
         let configuration = Configuration(id: id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator)
         let ids = initialElements.map(\.info.id)
         let keysWithValues = zip(ids, initialElements)
@@ -102,9 +102,9 @@ public class Vault<DerivedKey, MasterKey, MessageKey, Header, Message> where Der
             let vaultDirectory = configuration.resourceLocator.container.appendingPathComponent(vaultName, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let vaultInfo = VaultInfo()
-            let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: newPassword)
-            let masterKey = MasterKey()
-            let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
+            let (derivedKeyContainer, derivedKey) = try CryptoKey.derive(from: newPassword)
+            let masterKey = CryptoKey()
+            let masterKeyContainer = try masterKey.encryptedKeyContainer(using: derivedKey)
             let keyContainer = derivedKeyContainer + masterKeyContainer
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
@@ -134,7 +134,7 @@ extension Vault {
     
     typealias VaultIndex = [UUID: Element]
     
-    public typealias VaultContainer = Store.VaultContainer<DerivedKey, MasterKey, MessageKey, Header, Message>
+    public typealias VaultContainer = Store.VaultContainer<CryptoKey, Header, Message>
     
     struct Element {
         
@@ -147,8 +147,8 @@ extension Vault {
     struct Configuration {
         
         let id: UUID
-        let derivedKey: DerivedKey
-        let masterKey: MasterKey
+        let derivedKey: CryptoKey
+        let masterKey: CryptoKey
         let resourceLocator: VaultResourceLocator
         
     }
@@ -180,9 +180,9 @@ extension Vault {
             let vaultDirectory = vaultContainerDirectory.appendingPathComponent(vaultDirectoryID.uuidString, isDirectory: true)
             let resourceLocator = VaultResourceLocator(vaultDirectory)
             let vaultInfo = VaultInfo()
-            let (derivedKeyContainer, derivedKey) = try DerivedKey.derive(from: password)
-            let masterKey = MasterKey()
-            let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
+            let (derivedKeyContainer, derivedKey) = try CryptoKey.derive(from: password)
+            let masterKey = CryptoKey()
+            let masterKeyContainer = try masterKey.encryptedKeyContainer(using: derivedKey)
             let keyContainer = derivedKeyContainer + masterKeyContainer
             
             try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
@@ -208,11 +208,11 @@ extension Vault {
                     let info = try VaultInfo(from: infoData)
                     
                     let keyContainer = try Data(contentsOf: resourceLocator.key)
-                    guard keyContainer.count == DerivedKey.containerSize + MasterKey.containerSize else {
+                    guard keyContainer.count == CryptoKey.derivedKeyContainerSize + CryptoKey.encryptedKeyContainerSize else {
                         throw NSError()
                     }
-                    let derivedKeyContainer = keyContainer[keyContainer.startIndex ..< keyContainer.startIndex + DerivedKey.containerSize]
-                    let masterKeyContainer = keyContainer[keyContainer.startIndex + DerivedKey.containerSize ..< keyContainer.startIndex + DerivedKey.containerSize + MasterKey.containerSize]
+                    let derivedKeyContainer = keyContainer[keyContainer.startIndex ..< keyContainer.startIndex + CryptoKey.derivedKeyContainerSize]
+                    let masterKeyContainer = keyContainer[keyContainer.startIndex + CryptoKey.derivedKeyContainerSize ..< keyContainer.startIndex + CryptoKey.derivedKeyContainerSize +  CryptoKey.encryptedKeyContainerSize]
                     
                     let elements = try FileManager.default.urls(in: resourceLocator.items).map { itemURL in
                         let fileHandle = try FileHandle(forReadingFrom: itemURL)

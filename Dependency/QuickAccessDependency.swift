@@ -1,6 +1,7 @@
 import Crypto
 import Foundation
 import Preferences
+import Store
 
 struct QuickAccessDependency: QuickAccessModelDependency {
     

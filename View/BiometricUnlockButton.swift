@@ -1,11 +1,12 @@
+import Crypto
 import SwiftUI
 
 struct BiometricUnlockButton: View {
     
-    private let biometryType: BiometryType
+    private let biometryType: Keychain.BiometryType
     private let action: () -> Void
     
-    init(_ biometryType: BiometryType, action: @escaping () -> Void) {
+    init(_ biometryType: Keychain.BiometryType, action: @escaping () -> Void) {
         self.biometryType = biometryType
         self.action = action
     }
@@ -24,7 +25,7 @@ struct BiometricUnlockButton: View {
 
 private extension BiometricUnlockButton {
     
-    static func image(for biometryType: BiometryType) -> Image {
+    static func image(for biometryType: Keychain.BiometryType) -> Image {
         switch biometryType {
         case .touchID:
             return .touchID

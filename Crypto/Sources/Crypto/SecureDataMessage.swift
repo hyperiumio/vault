@@ -15,7 +15,7 @@ public struct SecureDataMessage {
         self.tag = tag
     }
     
-    public func decrypt(using itemKey: SecureDataKey) throws -> Data {
+    public func decrypt(using itemKey: CryptoKey) throws -> Data {
         let nonce = try AES.GCM.Nonce(data: self.nonce)
         let seal = try AES.GCM.SealedBox(nonce: nonce, ciphertext: ciphertext, tag: tag)
         
@@ -26,8 +26,8 @@ public struct SecureDataMessage {
 
 extension SecureDataMessage {
     
-    public static func encryptContainer(from messages: [Data], using masterKey: MasterKey) throws -> Data {
-        let itemKey = SecureDataKey()
+    public static func encryptContainer(from messages: [Data], using masterKey: CryptoKey) throws -> Data {
+        let itemKey = CryptoKey()
         
         let seals = try messages.map { message in
             return try SecureDataSeal(message, itemKey.value, nil)
@@ -59,7 +59,7 @@ extension SecureDataMessage {
         return messageCount + ciphertextSizes + wrappedItemKey + tags + ciphertextContainers
     }
     
-    public static func decryptMessages(from container: Data, using masterKey: MasterKey) throws -> [Data] {
+    public static func decryptMessages(from container: Data, using masterKey: CryptoKey) throws -> [Data] {
         let header = try SecureDataHeader(data: container)
         let itemKey = try header.unwrapKey(with: masterKey)
         

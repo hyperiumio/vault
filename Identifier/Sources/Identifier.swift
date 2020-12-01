@@ -1,5 +1,5 @@
 public var appBundleID: String { "io.hyperium.vault" }
-public var cloudContainerIdentifier: String { "group.\(appBundleID).default" }
+public var cloudContainerID: String { "group.\(appBundleID).default" }
 
 #if os(iOS)
 public var appGroup: String { "group.\(appBundleID)" }
