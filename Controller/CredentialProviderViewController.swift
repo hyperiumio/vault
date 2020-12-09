@@ -8,7 +8,7 @@ import SwiftUI
 
 class CredentialProviderViewController: ASCredentialProviderViewController {
 
-    private let mainModel: QuickAccessModel<QuickAccessDependency>? = {
+    private lazy var mainModel: QuickAccessModel<QuickAccessDependency>? = {
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
             return nil
         }
@@ -23,8 +23,18 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(accessGroup: Identifier.appGroup, identifier: Identifier.appBundleID)
         let mainModelDependency = QuickAccessDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
-        return QuickAccessModel(dependency: mainModelDependency, vaultID: activeVaultID)
+        let model = QuickAccessModel(dependency: mainModelDependency, vaultID: activeVaultID)
+        
+        didSelectSubscription = model.done
+            .sink { [extensionContext] item in
+                let passwordCredential = ASPasswordCredential(user: item.username, password: item.password)
+                extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
+            }
+        
+        return model
     }()
+    
+    private var didSelectSubscription: AnyCancellable?
     
     #if os(iOS)
     override func loadView() {
@@ -67,17 +77,5 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         view = NSHostingView(rootView: rootView)
     }
     #endif
-    
-    /*
-     Prepare your UI to list available credentials for the user to choose from. The items in
-     'serviceIdentifiers' describe the service the user is logging in to, so your extension can
-     prioritize the most relevant credentials in the list.
-    */
-    override func prepareCredentialList(for serviceIdentifiers: [ASCredentialServiceIdentifier]) {}
-
-    func passwordSelected(_ sender: AnyObject?) {
-        let passwordCredential = ASPasswordCredential(user: "j_appleseed", password: "apple1234")
-        extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
-    }
     
 }

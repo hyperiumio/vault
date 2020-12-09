@@ -33,7 +33,7 @@ class CustomItemTests: XCTestCase {
     func testType() {
         let item = CustomItem(description: "", value: "")
         
-        XCTAssertEqual(item.type, .custom)
+        XCTAssertEqual(item.secureItemType, .custom)
     }
     
     func testEncoded() throws {

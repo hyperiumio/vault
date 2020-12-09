@@ -40,8 +40,8 @@ public class Vault<CryptoKey, Header, Message> where CryptoKey: CryptoKeyReprese
     public func save(_ vaultItem: VaultItem) -> AnyPublisher<Void, Error> {
         operationQueue.future { [configuration, indexSubject] in
             let newItemURL = configuration.resourceLocator.item()
-            let secondaryTypes = vaultItem.secondarySecureItems.map(\.value.type)
-            let info = VaultItemInfo(id: vaultItem.id, name: vaultItem.name, description: vaultItem.description, primaryType: vaultItem.primarySecureItem.value.type, secondaryTypes: secondaryTypes, created: vaultItem.created, modified: vaultItem.modified)
+            let secondaryTypes = vaultItem.secondarySecureItems.map(\.value.secureItemType)
+            let info = VaultItemInfo(id: vaultItem.id, name: vaultItem.name, description: vaultItem.description, primaryType: vaultItem.primarySecureItem.value.secureItemType, secondaryTypes: secondaryTypes, created: vaultItem.created, modified: vaultItem.modified)
             let encodedInfo = try info.encoded()
             let encodedPrimarySecureItem = try vaultItem.primarySecureItem.value.encoded()
             let encodedSecondarySecureItems = try vaultItem.secondarySecureItems.map { secureItem in

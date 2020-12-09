@@ -19,6 +19,8 @@
 		952D106A251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */; };
 		9530C51524B6FA90008F1D2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530C51424B6FA90008F1D2C /* AppDelegate.swift */; };
 		9530C51624B6FA90008F1D2C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530C51424B6FA90008F1D2C /* AppDelegate.swift */; };
+		95375C35257A938C00624AE6 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95375C34257A938C00624AE6 /* Search */; };
+		95375C37257A939500624AE6 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95375C36257A939500624AE6 /* Search */; };
 		953851152563E82B00C305F2 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 953851142563E82B00C305F2 /* Format */; };
 		9539B1FE25405D8D00C81A2A /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
 		9539B1FF25405D8D00C81A2A /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
@@ -76,6 +78,12 @@
 		9569CBAE257021F50065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBAD257021F50065E860 /* Identifier */; };
 		956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
+		956F4B292577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */; };
+		956F4B2A2577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */; };
+		956F4B342577A2DA00E90BE2 /* QuickAccessLockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956F4B332577A2DA00E90BE2 /* QuickAccessLockedModel.swift */; };
+		956F4B352577A2DA00E90BE2 /* QuickAccessLockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956F4B332577A2DA00E90BE2 /* QuickAccessLockedModel.swift */; };
+		956F4B442577A75D00E90BE2 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 956F4B432577A75D00E90BE2 /* Sort */; };
+		956F4B462577A76400E90BE2 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 956F4B452577A76400E90BE2 /* Sort */; };
 		95726C2B24C82B6D005F025A /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
 		95726C2C24C82B6D005F025A /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
 		9574322A24AA05430062B05A /* VaultApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* VaultApp.swift */; };
@@ -183,6 +191,12 @@
 		9595585E251A3CE000F7715F /* EnableBiometricUnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9595585C251A3CE000F7715F /* EnableBiometricUnlockView.swift */; };
 		95955862251A3D4500F7715F /* EnableBiometricUnlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95955861251A3D4500F7715F /* EnableBiometricUnlockModel.swift */; };
 		95955863251A3D4500F7715F /* EnableBiometricUnlockModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95955861251A3D4500F7715F /* EnableBiometricUnlockModel.swift */; };
+		959E5826257FDFB000E09777 /* LoginCredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialView.swift */; };
+		959E5827257FDFB000E09777 /* LoginCredentialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialView.swift */; };
+		959E5830257FE0FA00E09777 /* SearchBarShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548582A2571373C0048785D /* SearchBarShim.swift */; };
+		959E5835257FE0FB00E09777 /* SearchBarShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548582A2571373C0048785D /* SearchBarShim.swift */; };
+		959E583A257FE1B400E09777 /* SectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F7E842252C48D900D87231 /* SectionExtension.swift */; };
+		959E583F257FE1B500E09777 /* SectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F7E842252C48D900D87231 /* SectionExtension.swift */; };
 		95A28004253DC57600E2A3A3 /* ImagePickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28003253DC57600E2A3A3 /* ImagePickerShim.swift */; };
 		95A28005253DC57600E2A3A3 /* ImagePickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28003253DC57600E2A3A3 /* ImagePickerShim.swift */; };
 		95A28028253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPickerShim.swift */; };
@@ -218,8 +232,8 @@
 		95C994422574E08F00C3A758 /* QuickAccessModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994402574E08F00C3A758 /* QuickAccessModel.swift */; };
 		95C994472574E0B600C3A758 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959143F72513BD2700897086 /* MainModel.swift */; };
 		95C9944C2574E0B600C3A758 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959143F72513BD2700897086 /* MainModel.swift */; };
-		95C994632574E38900C3A758 /* CredentialProviderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994622574E38900C3A758 /* CredentialProviderModel.swift */; };
-		95C994642574E38900C3A758 /* CredentialProviderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994622574E38900C3A758 /* CredentialProviderModel.swift */; };
+		95C994632574E38900C3A758 /* QuickAccessUnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994622574E38900C3A758 /* QuickAccessUnlockedModel.swift */; };
+		95C994642574E38900C3A758 /* QuickAccessUnlockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994622574E38900C3A758 /* QuickAccessUnlockedModel.swift */; };
 		95C9946D2574EC7E00C3A758 /* LockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325B24AA081A0062B05A /* LockedModel.swift */; };
 		95C994722574EC7F00C3A758 /* LockedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325B24AA081A0062B05A /* LockedModel.swift */; };
 		95C994782574ECE100C3A758 /* QuickAccessDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994772574ECE100C3A758 /* QuickAccessDependency.swift */; };
@@ -240,8 +254,8 @@
 		95C994CC2574F63E00C3A758 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CB2574F63E00C3A758 /* Haptic */; };
 		95C994CE2574F64900C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CD2574F64900C3A758 /* Preferences */; };
 		95C994D02574F64E00C3A758 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CF2574F64E00C3A758 /* Store */; };
-		95C994DA2575592E00C3A758 /* CredentialProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* CredentialProviderView.swift */; };
-		95C994DB2575592E00C3A758 /* CredentialProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* CredentialProviderView.swift */; };
+		95C994DA2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
+		95C994DB2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
 		95C994FC25765E3A00C3A758 /* TextFieldShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2C3CB256A92F300CAA97A /* TextFieldShim.swift */; };
 		95C9950E25767D5300C3A758 /* TypeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9950D25767D5300C3A758 /* TypeBridge.swift */; };
 		95C9950F25767D5300C3A758 /* TypeBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C9950D25767D5300C3A758 /* TypeBridge.swift */; };
@@ -367,6 +381,8 @@
 		9565F5E525189A1600134BD1 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
 		9569CB95257020140065E860 /* Identifier */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Identifier; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
+		956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedView.swift; sourceTree = "<group>"; };
+		956F4B332577A2DA00E90BE2 /* QuickAccessLockedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedModel.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* UnlockField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockField.swift; sourceTree = "<group>"; };
 		9574321F24AA05340062B05A /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		9574322424AA05430062B05A /* VaultApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultApp.swift; sourceTree = "<group>"; };
@@ -430,6 +446,7 @@
 		95955849251A382C00F7715F /* RepeatPasswordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatPasswordModel.swift; sourceTree = "<group>"; };
 		9595585C251A3CE000F7715F /* EnableBiometricUnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBiometricUnlockView.swift; sourceTree = "<group>"; };
 		95955861251A3D4500F7715F /* EnableBiometricUnlockModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableBiometricUnlockModel.swift; sourceTree = "<group>"; };
+		959E5825257FDFB000E09777 /* LoginCredentialView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialView.swift; sourceTree = "<group>"; };
 		95A28003253DC57600E2A3A3 /* ImagePickerShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerShim.swift; sourceTree = "<group>"; };
 		95A28027253F0C6900E2A3A3 /* DocumentPickerShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerShim.swift; sourceTree = "<group>"; };
 		95AD564A24C9AB7A00A62CAE /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
@@ -441,9 +458,9 @@
 		95C90C2D2520B13C00860CAE /* SecureItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemButton.swift; sourceTree = "<group>"; };
 		95C90C342520ECF600860CAE /* BareButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BareButtonStyle.swift; sourceTree = "<group>"; };
 		95C994402574E08F00C3A758 /* QuickAccessModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessModel.swift; sourceTree = "<group>"; };
-		95C994622574E38900C3A758 /* CredentialProviderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderModel.swift; sourceTree = "<group>"; };
+		95C994622574E38900C3A758 /* QuickAccessUnlockedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessUnlockedModel.swift; sourceTree = "<group>"; };
 		95C994772574ECE100C3A758 /* QuickAccessDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessDependency.swift; sourceTree = "<group>"; };
-		95C994D92575592E00C3A758 /* CredentialProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderView.swift; sourceTree = "<group>"; };
+		95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessUnlockedView.swift; sourceTree = "<group>"; };
 		95C9950D25767D5300C3A758 /* TypeBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeBridge.swift; sourceTree = "<group>"; };
 		95CD3ACA2562BEBC00C36855 /* App.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = App.xctestplan; sourceTree = "<group>"; };
 		95D46EB9251A1D7C00EF500A /* ChoosePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChoosePasswordView.swift; sourceTree = "<group>"; };
@@ -469,7 +486,9 @@
 			files = (
 				95C994D02574F64E00C3A758 /* Store in Frameworks */,
 				9569CBAE257021F50065E860 /* Identifier in Frameworks */,
+				956F4B462577A76400E90BE2 /* Sort in Frameworks */,
 				95C994CE2574F64900C3A758 /* Preferences in Frameworks */,
+				95375C35257A938C00624AE6 /* Search in Frameworks */,
 				9540F5A6256FDC8C00D8514C /* Localization in Frameworks */,
 				9540F5DB256FF8E400D8514C /* Crypto in Frameworks */,
 				95C994CC2574F63E00C3A758 /* Haptic in Frameworks */,
@@ -482,7 +501,9 @@
 			files = (
 				9569CBAC257021EB0065E860 /* Identifier in Frameworks */,
 				95C994C62574F63000C3A758 /* Haptic in Frameworks */,
+				956F4B442577A75D00E90BE2 /* Sort in Frameworks */,
 				95C994C02574F62400C3A758 /* Preferences in Frameworks */,
+				95375C37257A939500624AE6 /* Search in Frameworks */,
 				95842D74256FBF720080711C /* Localization in Frameworks */,
 				95C994BA2574F61C00C3A758 /* Store in Frameworks */,
 				9540F5D5256FF72F00D8514C /* Crypto in Frameworks */,
@@ -588,7 +609,6 @@
 				9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */,
 				95D46EBE251A1DC600EF500A /* ChoosePasswordModel.swift */,
 				952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */,
-				95C994622574E38900C3A758 /* CredentialProviderModel.swift */,
 				9574326224AA081A0062B05A /* CustomModel.swift */,
 				95955861251A3D4500F7715F /* EnableBiometricUnlockModel.swift */,
 				9542207A255183C1002F14AB /* FileModel.swift */,
@@ -598,7 +618,9 @@
 				959143F72513BD2700897086 /* MainModel.swift */,
 				9574324424AA08190062B05A /* NoteModel.swift */,
 				9574325824AA081A0062B05A /* PasswordModel.swift */,
+				956F4B332577A2DA00E90BE2 /* QuickAccessLockedModel.swift */,
 				95C994402574E08F00C3A758 /* QuickAccessModel.swift */,
+				95C994622574E38900C3A758 /* QuickAccessUnlockedModel.swift */,
 				95955849251A382C00F7715F /* RepeatPasswordModel.swift */,
 				9574324824AA081A0062B05A /* SettingsModel.swift */,
 				9574326324AA081A0062B05A /* SetupModel.swift */,
@@ -622,7 +644,6 @@
 				95D46EB9251A1D7C00EF500A /* ChoosePasswordView.swift */,
 				952D1061251B2CB200B95C4B /* CompleteSetupView.swift */,
 				956307342535CC1B0076022A /* CreateVaultItemView.swift */,
-				95C994D92575592E00C3A758 /* CredentialProviderView.swift */,
 				95864931251E13EE0081DF08 /* CustomView.swift */,
 				95422087255186A4002F14AB /* EditBankAccountView.swift */,
 				9542208C2551873C002F14AB /* EditBankCardView.swift */,
@@ -640,11 +661,14 @@
 				95864918251E12AA0081DF08 /* FileView.swift */,
 				9588438825397F3100732E35 /* GeneratePasswordView.swift */,
 				9574331024AA135E0062B05A /* LockedView.swift */,
+				959E5825257FDFB000E09777 /* LoginCredentialView.swift */,
 				9586490E251E12060081DF08 /* LoginView.swift */,
 				959143FD2513C12300897086 /* MainView.swift */,
 				9586491D251E12D00081DF08 /* NoteView.swift */,
 				95EBFD34256BA27100E2F2D2 /* PageNavigationView.swift */,
 				95864913251E126E0081DF08 /* PasswordView.swift */,
+				956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */,
+				95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */,
 				95842D6B256FBE2B0080711C /* QuickAccessView.swift */,
 				95955844251A35CC00F7715F /* RepeatPasswordView.swift */,
 				95C90C2D2520B13C00860CAE /* SecureItemButton.swift */,
@@ -776,6 +800,8 @@
 				95C994CB2574F63E00C3A758 /* Haptic */,
 				95C994CD2574F64900C3A758 /* Preferences */,
 				95C994CF2574F64E00C3A758 /* Store */,
+				956F4B452577A76400E90BE2 /* Sort */,
+				95375C34257A938C00624AE6 /* Search */,
 			);
 			productName = macOSCredentialProvider;
 			productReference = 952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */;
@@ -801,6 +827,8 @@
 				95C994B92574F61C00C3A758 /* Store */,
 				95C994BF2574F62400C3A758 /* Preferences */,
 				95C994C52574F63000C3A758 /* Haptic */,
+				956F4B432577A75D00E90BE2 /* Sort */,
+				95375C36257A939500624AE6 /* Search */,
 			);
 			productName = "iOS Credential Provider";
 			productReference = 952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */;
@@ -958,19 +986,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95C994DB2575592E00C3A758 /* CredentialProviderView.swift in Sources */,
+				956F4B2A2577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */,
+				95C994DB2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */,
 				95C994B32574F5E000C3A758 /* BiometricUnlockButton.swift in Sources */,
 				95C9951125767D5300C3A758 /* TypeBridge.swift in Sources */,
 				95C9948B2574F57100C3A758 /* LockedView.swift in Sources */,
 				95C994792574ECE100C3A758 /* QuickAccessDependency.swift in Sources */,
+				959E5835257FE0FB00E09777 /* SearchBarShim.swift in Sources */,
 				95C994FC25765E3A00C3A758 /* TextFieldShim.swift in Sources */,
 				9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */,
 				95C994952574F5BD00C3A758 /* ColorExtension.swift in Sources */,
+				956F4B352577A2DA00E90BE2 /* QuickAccessLockedModel.swift in Sources */,
+				959E583F257FE1B500E09777 /* SectionExtension.swift in Sources */,
 				95C9949F2574F5C600C3A758 /* UnlockField.swift in Sources */,
 				9540F5AB256FDCF200D8514C /* QuickAccessView.swift in Sources */,
-				95C994642574E38900C3A758 /* CredentialProviderModel.swift in Sources */,
+				95C994642574E38900C3A758 /* QuickAccessUnlockedModel.swift in Sources */,
 				95C994422574E08F00C3A758 /* QuickAccessModel.swift in Sources */,
 				95C994A92574F5D300C3A758 /* ImageExtension.swift in Sources */,
+				959E5827257FDFB000E09777 /* LoginCredentialView.swift in Sources */,
 				95C994722574EC7F00C3A758 /* LockedModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -979,16 +1012,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95C994DA2575592E00C3A758 /* CredentialProviderView.swift in Sources */,
+				95C994DA2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */,
 				95C994AE2574F5E000C3A758 /* BiometricUnlockButton.swift in Sources */,
 				95C9951025767D5300C3A758 /* TypeBridge.swift in Sources */,
+				959E5826257FDFB000E09777 /* LoginCredentialView.swift in Sources */,
 				95C994862574F57000C3A758 /* LockedView.swift in Sources */,
+				956F4B292577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */,
+				956F4B342577A2DA00E90BE2 /* QuickAccessLockedModel.swift in Sources */,
 				95C994782574ECE100C3A758 /* QuickAccessDependency.swift in Sources */,
+				959E5830257FE0FA00E09777 /* SearchBarShim.swift in Sources */,
+				959E583A257FE1B400E09777 /* SectionExtension.swift in Sources */,
 				95842D6C256FBE2B0080711C /* QuickAccessView.swift in Sources */,
 				95C994902574F5BC00C3A758 /* ColorExtension.swift in Sources */,
 				95C9949A2574F5C500C3A758 /* UnlockField.swift in Sources */,
 				95842D49256FAB180080711C /* CredentialProviderViewController.swift in Sources */,
-				95C994632574E38900C3A758 /* CredentialProviderModel.swift in Sources */,
+				95C994632574E38900C3A758 /* QuickAccessUnlockedModel.swift in Sources */,
 				95C994412574E08F00C3A758 /* QuickAccessModel.swift in Sources */,
 				95C994A42574F5D200C3A758 /* ImageExtension.swift in Sources */,
 				95C9946D2574EC7E00C3A758 /* LockedModel.swift in Sources */,
@@ -1235,7 +1273,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/CredentialProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/CredentialProviderInfo.plist;
@@ -1245,7 +1283,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1260,7 +1298,7 @@
 				CODE_SIGN_ENTITLEMENTS = macOS/CredentialProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = macOS/CredentialProviderInfo.plist;
@@ -1270,7 +1308,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1285,7 +1323,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/CredentialProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1294,7 +1332,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1310,7 +1348,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/CredentialProvider.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
@@ -1319,7 +1357,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
@@ -1450,7 +1488,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
@@ -1460,7 +1498,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1479,7 +1517,7 @@
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
@@ -1489,7 +1527,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_NAME = Vault;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1510,7 +1548,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1521,7 +1559,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Vault;
@@ -1541,7 +1579,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1552,7 +1590,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 0.12.0;
+				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;
 				PRODUCT_NAME = Vault;
@@ -1629,6 +1667,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Localization;
 		};
+		95375C34257A938C00624AE6 /* Search */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Search;
+		};
+		95375C36257A939500624AE6 /* Search */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Search;
+		};
 		953851142563E82B00C305F2 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
@@ -1664,6 +1710,14 @@
 		9569CBAD257021F50065E860 /* Identifier */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Identifier;
+		};
+		956F4B432577A75D00E90BE2 /* Sort */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sort;
+		};
+		956F4B452577A76400E90BE2 /* Sort */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Sort;
 		};
 		95842D73256FBF720080711C /* Localization */ = {
 			isa = XCSwiftPackageProductDependency;

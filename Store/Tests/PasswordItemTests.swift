@@ -30,7 +30,7 @@ class PasswordItemTests: XCTestCase {
     func testType() {
         let item = PasswordItem(password: "")
         
-        XCTAssertEqual(item.type, .password)
+        XCTAssertEqual(item.secureItemType, .password)
     }
     
     func testEncoded() throws {

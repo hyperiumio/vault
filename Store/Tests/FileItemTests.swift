@@ -77,7 +77,7 @@ class FileItemTests: XCTestCase {
     func testType() {
         let item = FileItem(data: Data(), typeIdentifier: .item)
         
-        XCTAssertEqual(item.type, .file)
+        XCTAssertEqual(item.secureItemType, .file)
     }
     
     func testEncoded() throws {

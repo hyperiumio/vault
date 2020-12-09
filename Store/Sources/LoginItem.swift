@@ -6,7 +6,7 @@ public struct LoginItem: SecureItemValue, Codable, Equatable  {
     public let password: String?
     public let url: String?
     
-    public var type: SecureItemType { .login }
+    public static var secureItemType: SecureItemType { .login }
     
     public init(username: String? = nil, password: String? = nil, url: String? = nil) {
         self.username = username
@@ -14,7 +14,7 @@ public struct LoginItem: SecureItemValue, Codable, Equatable  {
         self.url = url
     }
     
-    init(from data: Data) throws {
+    public init(from data: Data) throws {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     

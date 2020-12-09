@@ -6,14 +6,14 @@ public struct FileItem: SecureItemValue, Equatable  {
     public let data: Data
     public let typeIdentifier: UTType
     
-    public var type: SecureItemType { .file }
+    public static var secureItemType: SecureItemType { .file }
     
     public init(data: Data, typeIdentifier: UTType) {
         self.data = data
         self.typeIdentifier = typeIdentifier
     }
     
-    init(from fileItemData: Data) throws {
+    public init(from fileItemData: Data) throws {
         guard fileItemData.count >= UInt32CodingSize else {
             throw StoreError.decodingFailed
         }
