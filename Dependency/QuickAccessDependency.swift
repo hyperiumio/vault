@@ -2,6 +2,7 @@ import Crypto
 import Foundation
 import Preferences
 import Store
+import Sort
 
 struct QuickAccessDependency: QuickAccessModelDependency {
     
@@ -15,12 +16,12 @@ struct QuickAccessDependency: QuickAccessModelDependency {
         self.keychain = keychain
     }
     
-    func lockedModel(vaultID: UUID) -> LockedModel {
-        LockedModel(vaultID: vaultID, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
+    func quickAccessLockedModel(vaultID: UUID) -> QuickAccessLockedModel {
+        QuickAccessLockedModel(vaultID: vaultID, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
     }
     
-    func credentialProviderModel(vault: Vault) -> CredentialProviderModel {
-        CredentialProviderModel()
+    func quickAccessUnlockedModel(vaultItems: [VaultItemInfo: [LoginItem]]) -> QuickAccessUnlockedModel {
+        QuickAccessUnlockedModel(vaultItems: vaultItems)
     }
     
 }

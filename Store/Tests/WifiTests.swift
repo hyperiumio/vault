@@ -33,7 +33,7 @@ class WifiTests: XCTestCase {
     func testType() {
         let item = WifiItem(name: "", password: "")
         
-        XCTAssertEqual(item.type, .wifi)
+        XCTAssertEqual(item.secureItemType, .wifi)
     }
     
     func testEncoded() throws {

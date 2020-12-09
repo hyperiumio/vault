@@ -49,7 +49,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    SecureItemTypeView(model.primaryItemModel.secureItem.value.type)
+                    SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
@@ -101,7 +101,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    SecureItemTypeView(model.primaryItemModel.secureItem.value.type)
+                    SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {

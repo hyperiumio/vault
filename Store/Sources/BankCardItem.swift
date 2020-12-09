@@ -15,7 +15,7 @@ public struct BankCardItem: SecureItemValue, Codable, Equatable  {
         return Vendor(number)
     }
     
-    public var type: SecureItemType { .bankCard }
+    public static var secureItemType: SecureItemType { .bankCard }
     
     public init(name: String? = nil, number: String? = nil, expirationDate: Date? = nil, pin: String? = nil) {
         self.name = name
@@ -24,7 +24,7 @@ public struct BankCardItem: SecureItemValue, Codable, Equatable  {
         self.pin = pin
     }
     
-    init(from data: Data) throws {
+    public init(from data: Data) throws {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         self = try decoder.decode(Self.self, from: data)

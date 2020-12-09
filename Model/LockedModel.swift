@@ -76,7 +76,7 @@ class LockedModel: LockedModelRepresentable {
         
         openVaultSubscription = vaultContainerPublisher
             .tryMap { [password] vaultContainer in
-                try vaultContainer.unlock(with: password)
+                try vaultContainer.unlockVault(with: password)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -103,7 +103,7 @@ class LockedModel: LockedModelRepresentable {
         openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
             .tryMap { vaultContainer, derivedKey -> Vault? in
                 if let derivedKey = derivedKey {
-                    return try vaultContainer.unlock(with: derivedKey)
+                    return try vaultContainer.unlockVault(with: derivedKey)
                 } else {
                     return nil
                 }

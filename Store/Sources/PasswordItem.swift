@@ -4,13 +4,13 @@ public struct PasswordItem: SecureItemValue, Codable, Equatable {
     
     public let password: String?
     
-    public var type: SecureItemType { .password }
+    public static var secureItemType: SecureItemType { .password }
     
     public init(password: String? = nil) {
         self.password = password
     }
     
-    init(from data: Data) throws {
+    public init(from data: Data) throws {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     

@@ -30,7 +30,7 @@ class NoteItemTests: XCTestCase {
     func testType() {
         let item = NoteItem(text: "")
         
-        XCTAssertEqual(item.type, .note)
+        XCTAssertEqual(item.secureItemType, .note)
     }
     
     func testEncoded() throws {

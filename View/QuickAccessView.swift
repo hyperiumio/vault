@@ -3,7 +3,7 @@ import SwiftUI
 
 struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
     
-    private let model: Model
+    @ObservedObject var model: Model
     private let cancel: () -> Void
     
     init(_ model: Model, cancel: @escaping () -> Void) {
@@ -17,11 +17,12 @@ struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
             Group {
                 switch model.state {
                 case .locked(let model):
-                    LockedView(model, useBiometricsOnAppear: true)
+                    QuickAccessLockedView(model)
                 case .unlocked(let model):
-                    CredentialProviderView(model)
+                    QuickAccessUnlockedView(model)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(LocalizedString.cancel) {

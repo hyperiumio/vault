@@ -6,7 +6,7 @@ public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
     public let iban: String?
     public let bic: String?
     
-    public var type: SecureItemType { .bankAccount }
+    public static var secureItemType: SecureItemType { .bankAccount }
     
     public init(accountHolder: String? = nil, iban: String? = nil, bic: String? = nil) {
         self.accountHolder = accountHolder
@@ -14,7 +14,7 @@ public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
         self.bic = bic
     }
     
-    init(from data: Data) throws {
+    public init(from data: Data) throws {
         self = try JSONDecoder().decode(Self.self, from: data)
     }
     

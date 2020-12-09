@@ -65,8 +65,19 @@ public enum SecureItem: Equatable {
 
 public protocol SecureItemValue {
     
-    var type: SecureItemType { get }
+    var secureItemType: SecureItemType { get }
 
     func encoded() throws -> Data
     
+    init(from data: Data) throws
+    
+    static var secureItemType: SecureItemType { get }
+    
 }
+
+extension SecureItemValue {
+    
+    public var secureItemType: SecureItemType { Self.secureItemType }
+    
+}
+
