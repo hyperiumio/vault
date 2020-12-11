@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Store
+import Identifier
 import Preferences
 
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {
@@ -60,7 +61,7 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         createVaultSubscription = Vault.create(in: vaultContainerDirectory, using: password)
             .flatMap { [biometricUnlockEnabled, keychain] vault -> AnyPublisher<Vault, Error> in
                 if biometricUnlockEnabled {
-                    return keychain.store(vault.derivedKey)
+                    return keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
                         .map { vault }
                         .eraseToAnyPublisher()
                 } else {

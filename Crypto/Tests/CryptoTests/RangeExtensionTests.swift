@@ -1,6 +1,7 @@
 import XCTest
 @testable import Crypto
 
+/*
 class RangeExtensionTests: XCTestCase {
     
     func testZeroCount() {
@@ -17,3 +18,4 @@ class RangeExtensionTests: XCTestCase {
     }
     
 }
+*/

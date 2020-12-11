@@ -7,15 +7,15 @@ public struct CryptoKey {
     
     let value: SymmetricKey
     
-    public init() {
-        self.value = SymmetricKey(size: .bits256)
-    }
-    
     init(_ value: SymmetricKey) {
         self.value = value
     }
     
-    init<D>(_ data: D) where D : ContiguousBytes {
+    public init() {
+        self.value = SymmetricKey(size: .bits256)
+    }
+    
+    public init<D>(_ data: D) where D : ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     
@@ -46,6 +46,14 @@ public struct CryptoKey {
             let seal = try AES.GCM.seal(cryptoKey, using: derivedKey.value)
             return seal.nonce + seal.ciphertext + seal.tag
         }
+    }
+    
+}
+
+extension CryptoKey: ContiguousBytes {
+    
+    public func withUnsafeBytes<R>(_ body: (UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        try value.withUnsafeBytes(body)
     }
     
 }

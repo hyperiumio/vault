@@ -1,6 +1,7 @@
 import XCTest
 @testable import Crypto
 
+/*
 class DataExtenionsTests: XCTestCase {
     
     func testEmpty() {
@@ -54,3 +55,4 @@ class DataExtenionsTests: XCTestCase {
     }
     
 }
+*/

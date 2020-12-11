@@ -3,12 +3,8 @@ import XCTest
 
 final class IdentifierTests: XCTestCase {
     
-    func testAppBundleID() {
-        XCTAssertEqual(Identifier.appBundleID, "io.hyperium.vault")
-    }
-    
     func testCloudContainerID() {
-        XCTAssertEqual(Identifier.cloudContainerID, "group.io.hyperium.vault.default")
+        XCTAssertEqual(Identifier.cloudContainer, "group.io.hyperium.vault.default")
     }
     
     #if os(iOS)

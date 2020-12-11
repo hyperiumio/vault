@@ -1,6 +1,7 @@
 import XCTest
 @testable import Crypto
 
+/*
 class ManagedMemoryTests: XCTestCase {
     
     override func setUp() {
@@ -109,3 +110,4 @@ private class WritableBufferMock: WritableBuffer {
     }
     
 }
+*/

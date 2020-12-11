@@ -18,7 +18,7 @@ class AppDelegate: NSObject {
         }
         let preferences = Preferences(using: userDefaults)
         let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
-        let keychain = Keychain(accessGroup: Identifier.appGroup, identifier: Identifier.appBundleID)
+        let keychain = Keychain(accessGroup: Identifier.appGroup)
         let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
         
         self.appModel = AppModel(appModelDependency)
