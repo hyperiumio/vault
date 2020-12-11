@@ -1,4 +1,5 @@
 import Combine
+import Identifier
 import Foundation
 import Preferences
 import Store
@@ -91,10 +92,11 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         
         status = .unlocking
         
-        let keyPublisher = keychain.load()
+        let keyPublisher = keychain.loadSecret(forKey: Identifier.derivedKey)
         openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKey -> [VaultItemInfo: [LoginItem]]? in
-                if let derivedKey = derivedKey {
+            .tryMap { vaultContainer, derivedKeyData -> [VaultItemInfo: [LoginItem]]? in
+                if let derivedKeyData = derivedKeyData {
+                    let derivedKey = CryptoKey(derivedKeyData)
                     return try vaultContainer.decryptSecureItems(for: LoginItem.self, with: derivedKey)
                 } else {
                     return nil

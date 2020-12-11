@@ -21,7 +21,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         }
         
         let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
-        let keychain = Keychain(accessGroup: Identifier.appGroup, identifier: Identifier.appBundleID)
+        let keychain = Keychain(accessGroup: Identifier.appGroup)
         let mainModelDependency = QuickAccessDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
         let model = QuickAccessModel(dependency: mainModelDependency, vaultID: activeVaultID)
         

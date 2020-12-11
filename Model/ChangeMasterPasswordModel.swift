@@ -1,4 +1,5 @@
 import Combine
+import Identifier
 import Crypto
 import Foundation
 import Preferences
@@ -53,7 +54,7 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         isLoading = true
         changeMasterPasswordSubscription = vault.changeMasterPassword(to: password)
             .flatMap { [keychain, vault] vaultID in
-                keychain.store(vault.derivedKey)
+                keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
                     .map { vaultID }
             }
             .receive(on: DispatchQueue.main)

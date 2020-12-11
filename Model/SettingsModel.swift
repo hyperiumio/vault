@@ -2,6 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
+import Identifier
 import Store
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
@@ -70,11 +71,11 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
         isBiometricUnlockEnabledSubscription = $isBiometricUnlockEnabled
             .flatMap { isBiometricUnlockEnabled -> AnyPublisher<Bool, Error> in
                 if isBiometricUnlockEnabled {
-                    return keychain.store(vault.derivedKey)
+                    return keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
                         .map { isBiometricUnlockEnabled }
                         .eraseToAnyPublisher()
                 } else {
-                    return keychain.delete()
+                    return keychain.deleteSecret(forKey: Identifier.derivedKey)
                         .map { isBiometricUnlockEnabled }
                         .eraseToAnyPublisher()
                 }

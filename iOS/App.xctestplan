@@ -16,13 +16,6 @@
         "undefinedBehaviorSanitizerEnabled" : true,
         "userAttachmentLifetime" : "keepNever"
       }
-    },
-    {
-      "id" : "7CD4DF6D-A020-47AE-A398-6580040D7301",
-      "name" : "Configuration 2",
-      "options" : {
-
-      }
     }
   ],
   "defaultOptions" : {
@@ -32,9 +25,25 @@
     {
       "parallelizable" : true,
       "target" : {
+        "containerPath" : "container:Crypto",
+        "identifier" : "CryptoTests",
+        "name" : "CryptoTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
         "containerPath" : "container:Format",
         "identifier" : "FormatTests",
         "name" : "FormatTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Identifier",
+        "identifier" : "IdentifierTests",
+        "name" : "IdentifierTests"
       }
     },
     {
@@ -91,14 +100,6 @@
         "containerPath" : "container:Sync",
         "identifier" : "SyncTests",
         "name" : "SyncTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:Identifier",
-        "identifier" : "IdentifierTests",
-        "name" : "IdentifierTests"
       }
     }
   ],

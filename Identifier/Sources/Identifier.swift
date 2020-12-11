@@ -1,10 +1,11 @@
-public var appBundleID: String { "io.hyperium.vault" }
-public var cloudContainerID: String { "group.\(appBundleID).default" }
+private var appBundle: String { "io.hyperium.vault" }
+public var cloudContainer: String { "group.\(appBundle).default" }
+public var derivedKey: String { "DerivedKey" }
 
 #if os(iOS)
-public var appGroup: String { "group.\(appBundleID)" }
+public var appGroup: String { "group.\(appBundle)" }
 #endif
 
 #if os(macOS)
-public var appGroup: String { "HX3QTQLX65.\(appBundleID)" }
+public var appGroup: String { "HX3QTQLX65.\(appBundle)" }
 #endif

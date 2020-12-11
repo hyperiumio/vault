@@ -2,6 +2,7 @@ import CommonCrypto
 import XCTest
 @testable import Crypto
 
+/*
 class RandomBytesTest: XCTestCase {
     
     override func setUp() {
@@ -47,3 +48,4 @@ class RandomBytesTest: XCTestCase {
     }
     
 }
+*/

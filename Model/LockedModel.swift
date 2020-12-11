@@ -1,4 +1,5 @@
 import Combine
+import Identifier
 import Crypto
 import Foundation
 import Preferences
@@ -99,10 +100,11 @@ class LockedModel: LockedModelRepresentable {
         
         status = .unlocking
         
-        let keyPublisher = keychain.load()
+        let keyPublisher = keychain.loadSecret(forKey: Identifier.derivedKey)
         openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKey -> Vault? in
-                if let derivedKey = derivedKey {
+            .tryMap { vaultContainer, derivedKeyData -> Vault? in
+                if let derivedKeyData = derivedKeyData {
+                    let derivedKey = CryptoKey(derivedKeyData)
                     return try vaultContainer.unlockVault(with: derivedKey)
                 } else {
                     return nil

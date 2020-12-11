@@ -1,6 +1,7 @@
 import XCTest
 @testable import Crypto
 
+/*
 class MasterKeyTests: XCTestCase {
     
     func testInit() {
@@ -20,3 +21,4 @@ class MasterKeyTests: XCTestCase {
     }
     
 }
+*/
