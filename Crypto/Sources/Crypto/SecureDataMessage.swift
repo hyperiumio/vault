@@ -33,7 +33,7 @@ extension SecureDataMessage {
             return try SecureDataSeal(message, itemKey.value, nil)
         }
         
-        let tagSegment = seals.map(\.tag).reduce(.empty, +)
+        let tagSegment = seals.map(\.tag).reduce(Data(), +)
         
         let wrappedItemKey = try itemKey.value.withUnsafeBytes { itemKey in
             guard let wrappedItemKey = try AES.GCM.seal(itemKey, using: masterKey.value, authenticating: tagSegment).combined else {
@@ -43,18 +43,19 @@ extension SecureDataMessage {
             return wrappedItemKey
         } as Data
         
-        let messageCount = UnsignedInteger32BitEncode(seals.count)
+        let sealsCount = UInt32(seals.count)
+        let messageCount = UnsignedInteger32BitEncode(sealsCount)
         
-        let ciphertextSizes = seals.reduce(.empty) { result, seal in
-            let ciphertextSize = UnsignedInteger32BitEncode(seal.ciphertext.count)
-            return result + ciphertextSize
+        let ciphertextSizes = seals.reduce(Data()) { result, seal in
+            let ciphertextSize = UInt32(seal.ciphertext.count)
+            return result + UnsignedInteger32BitEncode(ciphertextSize)
         } as Data
         
-        let tags = seals.map(\.tag).reduce(.empty, +)
+        let tags = seals.map(\.tag).reduce(Data(), +)
         
         let ciphertextContainers = seals.map { seal in
-            return seal.nonce + seal.ciphertext
-        }.reduce(.empty, +)
+            seal.nonce + seal.ciphertext
+        }.reduce(Data(), +)
         
         return messageCount + ciphertextSizes + wrappedItemKey + tags + ciphertextContainers
     }
