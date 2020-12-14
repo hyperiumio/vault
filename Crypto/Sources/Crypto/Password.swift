@@ -1,6 +1,6 @@
 import CommonCrypto
 
-public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool) throws -> String {
+public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool, configuration: PasswordConfiguration = .production) throws -> String {
     var symbolGroups = Set<SymbolGroup>()
     if uppercase {
         symbolGroups.insert(.uppercase)
@@ -25,7 +25,15 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
     let sourceCharacters = symbolGroups.flatMap(\.characters)
     var password = [Character]()
     while password.count < length {
-        let randomIndex = try RandomNumber(upperBound: sourceCharacters.endIndex)
+        var randomValue = UInt8(0)
+        repeat {
+            let status = configuration.random(&randomValue, 1)
+            guard status == kCCSuccess else {
+                throw CryptoError.rngFailure
+            }
+        } while randomValue >= sourceCharacters.endIndex
+
+        let randomIndex = Int(randomValue)
         let randomCharacter = sourceCharacters[randomIndex]
         
         password.append(randomCharacter)
@@ -41,6 +49,14 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
     }
     
     return String(password)
+}
+
+public struct PasswordConfiguration {
+    
+    let random: (_ bytes: UnsafeMutableRawPointer, _ count: Int) -> CCRNGStatus
+    
+    public static let production = PasswordConfiguration(random: CCRandomGenerateBytes)
+    
 }
 
 private enum SymbolGroup {
@@ -63,20 +79,4 @@ private enum SymbolGroup {
         }
     }
     
-}
-
-private func RandomNumber(upperBound: Int) throws -> Int {
-    var randomValue = UInt8(0)
-    repeat {
-        let status = CCRandomGenerateBytes(&randomValue, 1)
-        guard status == kCCSuccess else {
-            throw CryptoError.rngFailure
-        }
-    } while randomValue >= upperBound
-
-    guard let result = Int(exactly: randomValue) else {
-        throw CryptoError.rngFailure
-    }
-    
-    return result
 }

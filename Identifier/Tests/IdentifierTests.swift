@@ -3,8 +3,12 @@ import XCTest
 
 final class IdentifierTests: XCTestCase {
     
-    func testCloudContainerID() {
+    func testCloudContainer() {
         XCTAssertEqual(Identifier.cloudContainer, "group.io.hyperium.vault.default")
+    }
+    
+    func testDerivedKey() {
+        XCTAssertEqual(Identifier.derivedKey, "DerivedKey")
     }
     
     #if os(iOS)
