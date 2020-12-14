@@ -136,9 +136,8 @@ class KeychainTests: XCTestCase {
     }
     
     func testStoreSecretDeleteFailed() {
-        let store = { _, _ in errSecSuccess } as (CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
         let delete = { _ in errSecNotAvailable } as (CFDictionary) -> OSStatus
-        let configuration = Keychain.Configuration.stub(store: store, delete: delete)
+        let configuration = Keychain.Configuration.stub(delete: delete)
         let completionExpectation = XCTestExpectation()
         
         Keychain(accessGroup: "", configuration: configuration).storeSecret(Data(), forKey: "")
