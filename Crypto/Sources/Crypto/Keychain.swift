@@ -6,7 +6,7 @@ import Security
 
 public class Keychain {
     
-    private let attributeBuilder: QueryAttributeBuilder
+    private let attributeBuilder: AttributeBuilder
     private let configuration: Configuration
     private let operationQueue = DispatchQueue(label: "KeychainOperationQueue")
     private let availabilityDidChangeSubject: CurrentValueSubject<Availability, Never>
@@ -26,20 +26,20 @@ public class Keychain {
         let availabilityDidChangeSubject = CurrentValueSubject<Availability, Never>(availability)
         
         self.configuration = configuration
-        self.attributeBuilder = QueryAttributeBuilder(accessGroup: accessGroup)
+        self.attributeBuilder = AttributeBuilder(accessGroup: accessGroup)
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
     }
     
     public func storeSecret<D>(_ secret: D, forKey key: String) -> AnyPublisher<Void, Error> where D: ContiguousBytes {
         operationQueue.future { [configuration, attributeBuilder] in
-            let deleteQuery = attributeBuilder.deleteQuery(key: key)
+            let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let deleteStatus = configuration.delete(deleteQuery)
             guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
                 throw CryptoError.keychainDeleteDidFail
             }
             
-            let addQuery = attributeBuilder.addQuery(key: key, data: secret, context: configuration.context)
-            let addStatus = configuration.store(addQuery, nil)
+            let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, context: configuration.context)
+            let addStatus = configuration.store(addAttributes, nil)
             guard addStatus == errSecSuccess else {
                 throw CryptoError.keychainStoreDidFail
             }
@@ -49,7 +49,7 @@ public class Keychain {
     
     public func loadSecret(forKey key: String) -> AnyPublisher<Data?, Error> {
         operationQueue.future { [configuration, attributeBuilder] in
-            let loadQuery = attributeBuilder.loadQuery(key: key)
+            let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
             var item: CFTypeRef?
             let status = configuration.load(loadQuery, &item)
             switch status {
@@ -70,7 +70,7 @@ public class Keychain {
     
     public func deleteSecret(forKey key: String) -> AnyPublisher<Void, Error> {
         operationQueue.future { [configuration, attributeBuilder] in
-            let deleteQuery = attributeBuilder.deleteQuery(key: key)
+            let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let status = configuration.delete(deleteQuery)
             guard status == errSecSuccess || status == errSecItemNotFound else {
                 throw CryptoError.keychainDeleteDidFail
@@ -132,7 +132,7 @@ extension Keychain {
     
 }
 
-public protocol KeychainContext {
+public protocol KeychainContext: class {
     
     var biometryType: LABiometryType { get }
     
@@ -142,11 +142,11 @@ public protocol KeychainContext {
 
 extension LAContext: KeychainContext {}
 
-private struct QueryAttributeBuilder {
+private struct AttributeBuilder {
     
     let accessGroup: String
     
-    func addQuery<D>(key: String, data: D, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
+    func buildAddAttributes<D>(key: String, data: D, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
         [
             kSecClass: kSecClassGenericPassword,
             kSecUseDataProtectionKeychain: true,
@@ -160,7 +160,7 @@ private struct QueryAttributeBuilder {
         ] as CFDictionary
     }
     
-    func deleteQuery(key: String) -> CFDictionary {
+    func buildDeleteAttributes(key: String) -> CFDictionary {
         [
             kSecClass: kSecClassGenericPassword,
             kSecUseDataProtectionKeychain: true,
@@ -169,7 +169,7 @@ private struct QueryAttributeBuilder {
         ] as CFDictionary
     }
     
-    func loadQuery(key: String) -> CFDictionary {
+    func buildLoadAttributes(key: String) -> CFDictionary {
         [
             kSecClass: kSecClassGenericPassword,
             kSecUseDataProtectionKeychain: true,
