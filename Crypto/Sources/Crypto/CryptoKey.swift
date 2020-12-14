@@ -112,3 +112,11 @@ private extension UInt32 {
     static let keyDerivationRounds: Self = 524288
     
 }
+
+private extension Range where Bound == Int {
+    
+    init(lowerBound: Bound, count: Int) {
+        self = lowerBound ..< lowerBound + count
+    }
+    
+}

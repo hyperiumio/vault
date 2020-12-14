@@ -18,7 +18,8 @@ public struct SecureDataHeader {
         let messageCountRange = Range(lowerBound: 0, count: UnsignedInteger32BitEncodingSize)
         let messageCountData = try dataProvider(messageCountRange)
         precondition(messageCountData.count == UnsignedInteger32BitEncodingSize)
-        let messageCount = UnsignedInteger32BitDecode(messageCountData) as Int
+        let rawMessageCount = UnsignedInteger32BitDecode(messageCountData)
+        let messageCount = Int(rawMessageCount)
         
         let headerEncodingSize = UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
         let headerRange = Range(lowerBound: messageCountRange.upperBound, count: headerEncodingSize)
@@ -29,7 +30,8 @@ public struct SecureDataHeader {
             let ciphertextSizeLowerBound = headerData.startIndex + index * UnsignedInteger32BitEncodingSize
             let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: UnsignedInteger32BitEncodingSize)
             let ciphertextSizeData = headerData[ciphertextSizeRange]
-            return UnsignedInteger32BitDecode(ciphertextSizeData)
+            let rawCiphertextSize = UnsignedInteger32BitDecode(ciphertextSizeData)
+            return Int(rawCiphertextSize)
         } as [Int]
         
         let itemKeyRangeLowerBound = headerData.startIndex + messageCount * UnsignedInteger32BitEncodingSize
@@ -71,7 +73,7 @@ public struct SecureDataHeader {
     }
     
     public func unwrapKey(with masterKey: CryptoKey) throws -> CryptoKey {
-        let tagSegment = elements.map(\.tag).reduce(.empty, +)
+        let tagSegment = elements.map(\.tag).reduce(Data(), +)
         let wrappedItemKey = try AES.GCM.SealedBox(combined: itemKey)
         
         return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(CryptoKey.init)
@@ -90,5 +92,13 @@ private extension Int {
     static let nonceSize = 12
     static let wrappedKeySize = 60
     static let tagSize = 16
+    
+}
+
+private extension Range where Bound == Int {
+    
+    init(lowerBound: Bound, count: Int) {
+        self = lowerBound ..< lowerBound + count
+    }
     
 }
