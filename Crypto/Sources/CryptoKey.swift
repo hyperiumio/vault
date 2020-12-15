@@ -57,30 +57,50 @@ extension CryptoKey: ContiguousBytes {
     
 }
 
-public extension CryptoKey {
+extension CryptoKey {
     
-    static var derivedKeyContainerSize: Int { .saltSize + UnsignedInteger32BitEncodingSize }
-    static var encryptedKeyContainerSize: Int { 60 }
+    public static var derivedKeyContainerSize: Int { .saltSize + UnsignedInteger32BitEncodingSize }
+    public static var encryptedKeyContainerSize: Int { 60 }
     
-    static func derive(from password: String) throws -> (container: Data, key: Self) {
+    public static func derive(from password: String) throws -> (container: Data, key: Self) {
+        try derive(from: password, configuration: .production)
+    }
+    
+    static func derive(from password: String, configuration: Configuration) throws -> (container: Data, key: Self) {
         var salt = Data(repeating: 0, count: .saltSize)
         
         let status = salt.withUnsafeMutableBytes { buffer in
-            CCRandomGenerateBytes(buffer.baseAddress, buffer.count)
+            configuration.random(buffer.baseAddress, buffer.count)
         }
         guard status == kCCSuccess else {
             throw CryptoError.rngFailure
         }
         
         let container = salt + UnsignedInteger32BitEncode(.keyDerivationRounds)
-        let key = try PBKDF2(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password)
+        let key = try PBKDF2(salt: salt, rounds: .keyDerivationRounds, keySize: .keySize, password: password, kdf: configuration.kdf)
         
         return (container, CryptoKey(key))
     }
     
 }
 
-private func PBKDF2(salt: Data, rounds: UInt32, keySize: Int, password: String) throws -> SymmetricKey {
+extension CryptoKey {
+    
+    public struct Configuration {
+        
+        typealias Random = (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> CCRNGStatus
+        typealias KDF = (_ algorithm: CCPBKDFAlgorithm, _ password: UnsafePointer<Int8>, _ passwordLen: Int, _ salt: UnsafePointer<UInt8>, _ saltLen: Int, _ prf: CCPseudoRandomAlgorithm, _ rounds: UInt32, _ derivedKey: UnsafeMutablePointer<UInt8>, _ derivedKeyLen: Int) -> Int32
+        
+        let random: Random
+        let kdf: KDF
+        
+        public static let production = Configuration(random: CCRandomGenerateBytes, kdf: CCKeyDerivationPBKDF)
+        
+    }
+    
+}
+
+private func PBKDF2(salt: Data, rounds: UInt32, keySize: Int, password: String, kdf: CryptoKey.Configuration.KDF = CCKeyDerivationPBKDF) throws -> SymmetricKey {
     let salt = Array(salt)
     let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: keySize)
     buffer.initialize(repeating: 0, count: keySize)
@@ -90,7 +110,7 @@ private func PBKDF2(salt: Data, rounds: UInt32, keySize: Int, password: String) 
         buffer.deallocate()
     }
     
-    let status = CCKeyDerivationPBKDF(.PBKDF2, password, password.count, salt, salt.count, .PRFHmacAlgSHA512, rounds, buffer, keySize)
+    let status = kdf(.PBKDF2, password, password.count, salt, salt.count, .PRFHmacAlgSHA512, rounds, buffer, keySize)
     guard status == kCCSuccess else {
         throw CryptoError.keyDerivationFailure
     }
