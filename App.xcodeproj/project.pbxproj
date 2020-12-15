@@ -1282,7 +1282,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1307,7 +1307,7 @@
 					"@executable_path/../Frameworks",
 					"@executable_path/../../../../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "io.hyperium.vault.credential-provider";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1326,7 +1326,7 @@
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1351,7 +1351,7 @@
 				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				INFOPLIST_FILE = iOS/CredentialProviderInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1493,7 +1493,7 @@
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/AppInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1522,7 +1522,7 @@
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = iOS/AppInfo.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1558,7 +1558,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;
@@ -1589,7 +1589,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 11.1;
 				MARKETING_VERSION = 0.13.0;
 				PRODUCT_BUNDLE_IDENTIFIER = io.hyperium.vault;
 				PRODUCT_MODULE_NAME = App;

@@ -1,5 +1,4 @@
 import CommonCrypto
-import CoreCrypto
 import CryptoKit
 import Foundation
 
@@ -82,22 +81,22 @@ public extension CryptoKey {
 }
 
 private func PBKDF2(salt: Data, rounds: UInt32, keySize: Int, password: String) throws -> SymmetricKey {
-    let buffer = UnsafeMutableRawBufferPointer.allocate(byteCount: keySize, alignment: MemoryLayout<UInt8>.alignment)
+    let salt = Array(salt)
+    let buffer = UnsafeMutablePointer<UInt8>.allocate(capacity: keySize)
+    buffer.initialize(repeating: 0, count: keySize)
     defer {
-        for index in buffer.indices {
-            buffer[index] = 0
-        }
+        buffer.assign(repeating: 0, count: keySize)
+        buffer.deinitialize(count: keySize)
         buffer.deallocate()
     }
     
-    let status = salt.withUnsafeBytes { salt in
-        CoreCrypto.PBKDF2(password, password.count, salt.baseAddress, salt.count, rounds, buffer.baseAddress, buffer.count)
-    }
-    guard status == CoreCrypto.Success else {
+    let status = CCKeyDerivationPBKDF(.PBKDF2, password, password.count, salt, salt.count, .PRFHmacAlgSHA512, rounds, buffer, keySize)
+    guard status == kCCSuccess else {
         throw CryptoError.keyDerivationFailure
     }
     
-    return SymmetricKey(data: buffer)
+    let key = UnsafeBufferPointer(start: buffer, count: keySize)
+    return SymmetricKey(data: key)
 }
 
 private extension Int {
@@ -117,6 +116,22 @@ private extension Range where Bound == Int {
     
     init(lowerBound: Bound, count: Int) {
         self = lowerBound ..< lowerBound + count
+    }
+    
+}
+
+private extension CCPBKDFAlgorithm {
+    
+    static var PBKDF2: Self {
+        Self(kCCPBKDF2)
+    }
+    
+}
+
+private extension CCPseudoRandomAlgorithm {
+    
+    static var PRFHmacAlgSHA512: Self {
+        Self(kCCPRFHmacAlgSHA512)
     }
     
 }

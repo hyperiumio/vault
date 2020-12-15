@@ -12,8 +12,7 @@ let package = Package(
         .library(name: "Crypto", targets: ["Crypto"])
     ],
     targets: [
-        .target(name: "CoreCrypto"),
-        .target(name: "Crypto", dependencies: ["CoreCrypto"]),
-        .testTarget(name: "CryptoTests", dependencies: ["Crypto"])
+        .target(name: "Crypto", path: "Sources"),
+        .testTarget(name: "CryptoTests", dependencies: ["Crypto"], path: "Tests")
     ]
 )
