@@ -10,6 +10,10 @@ public struct SecureDataHeader {
         try self.init { range in
             let lowerBound = data.startIndex + range.startIndex
             let range = Range(lowerBound: lowerBound, count: range.count)
+            guard data.startIndex <= range.startIndex, data.endIndex >= range.endIndex else {
+                throw CryptoError.invalidDataSize
+            }
+            
             return data[range]
         }
     }
@@ -17,14 +21,12 @@ public struct SecureDataHeader {
     public init(from dataProvider: (Range<Int>) throws -> Data) throws {
         let messageCountRange = Range(lowerBound: 0, count: UnsignedInteger32BitEncodingSize)
         let messageCountData = try dataProvider(messageCountRange)
-        precondition(messageCountData.count == UnsignedInteger32BitEncodingSize)
         let rawMessageCount = UnsignedInteger32BitDecode(messageCountData)
         let messageCount = Int(rawMessageCount)
         
         let headerEncodingSize = UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
         let headerRange = Range(lowerBound: messageCountRange.upperBound, count: headerEncodingSize)
         let headerData = try dataProvider(headerRange)
-        precondition(headerData.count == headerEncodingSize)
         
         let ciphertextSizes = (0 ..< messageCount).map { index in
             let ciphertextSizeLowerBound = headerData.startIndex + index * UnsignedInteger32BitEncodingSize

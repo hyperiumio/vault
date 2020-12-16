@@ -17,4 +17,3 @@ let package = Package(
         .testTarget(name: "LocalizationTests", dependencies: ["Localization"], path: "Tests")
     ]
 )
- 

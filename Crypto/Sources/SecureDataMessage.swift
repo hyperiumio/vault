@@ -1,8 +1,6 @@
 import CryptoKit
 import Foundation
 
-var SecureDataSeal = AES.GCM.seal as (Data, SymmetricKey, AES.GCM.Nonce?) throws -> AES.GCM.SealedBox
-
 public struct SecureDataMessage {
     
     let nonce: Data
@@ -27,16 +25,21 @@ public struct SecureDataMessage {
 extension SecureDataMessage {
     
     public static func encryptContainer(from messages: [Data], using masterKey: CryptoKey) throws -> Data {
+        let productionCryptor = Cryptor()
+        return try encryptContainer(from: messages, using: masterKey, cryptor: productionCryptor)
+    }
+    
+    static func encryptContainer(from messages: [Data], using masterKey: CryptoKey, cryptor: SecureDataMessageCryptor) throws -> Data {
         let itemKey = CryptoKey()
         
         let seals = try messages.map { message in
-            return try SecureDataSeal(message, itemKey.value, nil)
+            try cryptor.encrypt(message, using: itemKey.value)
         }
         
         let tagSegment = seals.map(\.tag).reduce(Data(), +)
         
         let wrappedItemKey = try itemKey.value.withUnsafeBytes { itemKey in
-            guard let wrappedItemKey = try AES.GCM.seal(itemKey, using: masterKey.value, authenticating: tagSegment).combined else {
+            guard let wrappedItemKey = try cryptor.encrypt(itemKey, using: masterKey.value, authenticating: tagSegment).combined else {
                 throw CryptoError.encryptionFailed
             }
             
@@ -68,6 +71,28 @@ extension SecureDataMessage {
             let nonce = container[element.nonceRange]
             let ciphertext = container[element.ciphertextRange]
             return try SecureDataMessage(nonce: nonce, ciphertext: ciphertext, tag: element.tag).decrypt(using: itemKey)
+        }
+    }
+    
+}
+
+protocol SecureDataMessageCryptor {
+    
+    func encrypt<Plaintext>(_ message: Plaintext, using key: SymmetricKey) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol
+    func encrypt<Plaintext, AuthenticatedData>(_ message: Plaintext, using key: SymmetricKey, authenticating authenticatedData: AuthenticatedData) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol, AuthenticatedData : DataProtocol
+    
+}
+
+extension SecureDataMessage {
+    
+    struct Cryptor: SecureDataMessageCryptor {
+        
+        func encrypt<Plaintext>(_ message: Plaintext, using key: SymmetricKey) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol {
+            try AES.GCM.seal(message, using: key)
+        }
+        
+        func encrypt<Plaintext, AuthenticatedData>(_ message: Plaintext, using key: SymmetricKey, authenticating authenticatedData: AuthenticatedData) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol, AuthenticatedData : DataProtocol {
+            try AES.GCM.seal(message, using: key, authenticating: authenticatedData)
         }
     }
     
