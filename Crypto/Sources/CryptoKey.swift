@@ -14,7 +14,7 @@ public struct CryptoKey {
         self.value = SymmetricKey(size: .bits256)
     }
     
-    public init<D>(_ data: D) where D : ContiguousBytes {
+    public init<D>(_ data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     

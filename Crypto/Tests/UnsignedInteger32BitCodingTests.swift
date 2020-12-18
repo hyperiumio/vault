@@ -5,8 +5,9 @@ class UnsignedInteger32BitCodingTests: XCTestCase {
     
     func testEncodeUInt32() {
         let data = UnsignedInteger32BitEncode(67305985)
+        let expectedData = Data([1, 2, 3, 4])
         
-        XCTAssertEqual(data, Data([1, 2, 3, 4]))
+        XCTAssertEqual(data, expectedData)
     }
     
     

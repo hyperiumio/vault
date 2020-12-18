@@ -4,7 +4,12 @@ import Foundation
 public struct SecureDataHeader {
     
     public let elements: [Element]
-    private let itemKey: Data
+    let wrappedItemKey: Data
+    
+    init(elements: [Element], wrappedItemKey: Data) {
+        self.elements = elements
+        self.wrappedItemKey = wrappedItemKey
+    }
     
     public init(data: Data) throws {
         try self.init { range in
@@ -70,13 +75,13 @@ public struct SecureDataHeader {
             return (nonceRange, ciphertextRange, tag)
         } as [Element]
         
-        self.itemKey = itemKey
+        self.wrappedItemKey = itemKey
         self.elements = elements
     }
     
     public func unwrapKey(with masterKey: CryptoKey) throws -> CryptoKey {
         let tagSegment = elements.map(\.tag).reduce(Data(), +)
-        let wrappedItemKey = try AES.GCM.SealedBox(combined: itemKey)
+        let wrappedItemKey = try AES.GCM.SealedBox(combined: self.wrappedItemKey)
         
         return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(CryptoKey.init)
     }
