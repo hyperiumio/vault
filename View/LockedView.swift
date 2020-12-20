@@ -1,9 +1,9 @@
-import Haptic
 import Localization
 import SwiftUI
 
-private let successFeedback = SuccessFeedbackGenerator()
-private let failureFeedback = FailureFeedbackGenerator()
+#if os(iOS)
+private let feedbackGenerator = UINotificationFeedbackGenerator()
+#endif
 
 struct LockedView<Model>: View where Model: LockedModelRepresentable {
     
@@ -62,11 +62,11 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
         }
         .onReceive(model.error) { error in
-            failureFeedback.play()
+            feedbackGenerator.notificationOccurred(.error)
             self.error = error
         }
         .onReceive(model.done) { _ in
-            successFeedback.play()
+            feedbackGenerator.notificationOccurred(.success)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
             isKeyboardVisible = true
@@ -75,8 +75,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             isKeyboardVisible = false
         }
         .onAppear {
-            successFeedback.prepare()
-            failureFeedback.prepare()
+            feedbackGenerator.prepare()
         }
     }
     #endif
@@ -124,15 +123,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             }
         }
         .onReceive(model.error) { error in
-            failureFeedback.play()
             self.error = error
-        }
-        .onReceive(model.done) { _ in
-            successFeedback.play()
-        }
-        .onAppear {
-            successFeedback.prepare()
-            failureFeedback.prepare()
         }
     }
     #endif

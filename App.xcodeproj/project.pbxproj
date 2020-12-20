@@ -201,9 +201,7 @@
 		95A28005253DC57600E2A3A3 /* ImagePickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28003253DC57600E2A3A3 /* ImagePickerShim.swift */; };
 		95A28028253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPickerShim.swift */; };
 		95A28029253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95A28027253F0C6900E2A3A3 /* DocumentPickerShim.swift */; };
-		95AA68D3256449D200616D56 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68D2256449D200616D56 /* Haptic */; };
 		95AA68DB2565420E00616D56 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68DA2565420E00616D56 /* Format */; };
-		95AA68E52565432000616D56 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68E42565432000616D56 /* Haptic */; };
 		95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96024A9D5AA009D87A4 /* Pasteboard */; };
 		95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96224A9D5AA009D87A4 /* Preferences */; };
 		95ABC96524A9D5AA009D87A4 /* Search in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96424A9D5AA009D87A4 /* Search */; };
@@ -250,8 +248,6 @@
 		95C994B32574F5E000C3A758 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
 		95C994BA2574F61C00C3A758 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994B92574F61C00C3A758 /* Store */; };
 		95C994C02574F62400C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994BF2574F62400C3A758 /* Preferences */; };
-		95C994C62574F63000C3A758 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994C52574F63000C3A758 /* Haptic */; };
-		95C994CC2574F63E00C3A758 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CB2574F63E00C3A758 /* Haptic */; };
 		95C994CE2574F64900C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CD2574F64900C3A758 /* Preferences */; };
 		95C994D02574F64E00C3A758 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CF2574F64E00C3A758 /* Store */; };
 		95C994DA2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
@@ -346,7 +342,6 @@
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F238B2547257700949362 /* Localization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Localization; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
-		9522CC5A257156E30055F9CC /* Haptic */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Haptic; sourceTree = "<group>"; };
 		952A9631256FD8E3003E0584 /* iOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = iOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		952A9640256FDA0F003E0584 /* macOSCredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = macOSCredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
@@ -491,7 +486,6 @@
 				95375C35257A938C00624AE6 /* Search in Frameworks */,
 				9540F5A6256FDC8C00D8514C /* Localization in Frameworks */,
 				9540F5DB256FF8E400D8514C /* Crypto in Frameworks */,
-				95C994CC2574F63E00C3A758 /* Haptic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,7 +494,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9569CBAC257021EB0065E860 /* Identifier in Frameworks */,
-				95C994C62574F63000C3A758 /* Haptic in Frameworks */,
 				956F4B442577A75D00E90BE2 /* Sort in Frameworks */,
 				95C994C02574F62400C3A758 /* Preferences in Frameworks */,
 				95375C37257A939500624AE6 /* Search in Frameworks */,
@@ -519,7 +512,6 @@
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				951F23842547253000949362 /* Localization in Frameworks */,
-				95AA68D3256449D200616D56 /* Haptic in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
@@ -537,7 +529,6 @@
 				9584E4D32518CC5500C6D772 /* Store in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
-				95AA68E52565432000616D56 /* Haptic in Frameworks */,
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				9555A5E4255436E300B683EF /* Localization in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
@@ -736,7 +727,6 @@
 			children = (
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
-				9522CC5A257156E30055F9CC /* Haptic */,
 				9569CB95257020140065E860 /* Identifier */,
 				951F238B2547257700949362 /* Localization */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
@@ -797,7 +787,6 @@
 				9540F5A5256FDC8C00D8514C /* Localization */,
 				9540F5DA256FF8E400D8514C /* Crypto */,
 				9569CBAD257021F50065E860 /* Identifier */,
-				95C994CB2574F63E00C3A758 /* Haptic */,
 				95C994CD2574F64900C3A758 /* Preferences */,
 				95C994CF2574F64E00C3A758 /* Store */,
 				956F4B452577A76400E90BE2 /* Sort */,
@@ -826,7 +815,6 @@
 				9569CBAB257021EB0065E860 /* Identifier */,
 				95C994B92574F61C00C3A758 /* Store */,
 				95C994BF2574F62400C3A758 /* Preferences */,
-				95C994C52574F63000C3A758 /* Haptic */,
 				956F4B432577A75D00E90BE2 /* Sort */,
 				95375C36257A939500624AE6 /* Search */,
 			);
@@ -861,7 +849,6 @@
 				951F23832547253000949362 /* Localization */,
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
-				95AA68D2256449D200616D56 /* Haptic */,
 				9569CBA7257021DE0065E860 /* Identifier */,
 			);
 			productName = iOS;
@@ -893,7 +880,6 @@
 				950C70382548205A001BB318 /* Crypto */,
 				9555A5E3255436E300B683EF /* Localization */,
 				95AA68DA2565420E00616D56 /* Format */,
-				95AA68E42565432000616D56 /* Haptic */,
 				9569CBA9257021E50065E860 /* Identifier */,
 			);
 			productName = macOS;
@@ -1731,17 +1717,9 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Store;
 		};
-		95AA68D2256449D200616D56 /* Haptic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Haptic;
-		};
 		95AA68DA2565420E00616D56 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
-		};
-		95AA68E42565432000616D56 /* Haptic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Haptic;
 		};
 		95ABC96024A9D5AA009D87A4 /* Pasteboard */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1774,14 +1752,6 @@
 		95C994BF2574F62400C3A758 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Preferences;
-		};
-		95C994C52574F63000C3A758 /* Haptic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Haptic;
-		};
-		95C994CB2574F63E00C3A758 /* Haptic */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Haptic;
 		};
 		95C994CD2574F64900C3A758 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
