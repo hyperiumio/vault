@@ -1,8 +1,5 @@
-import Haptic
 import Localization
 import SwiftUI
-
-private let changeFeedback = ChangeFeedbackGenerator()
 
 struct GeneratePasswordView: View {
     
@@ -54,15 +51,8 @@ struct GeneratePasswordView: View {
         .font(.text)
         .foregroundColor(.secondaryLabel)
         .onChange(of: model.password, perform: passworGenerator)
-        .onChange(of: model.length) { _ in
-            changeFeedback.play()
-        }
         .onAppear {
-            changeFeedback.start()
             model.createPassword()
-        }
-        .onDisappear {
-            changeFeedback.stop()
         }
     }
     #endif
@@ -112,15 +102,8 @@ struct GeneratePasswordView: View {
         .font(.text)
         .foregroundColor(.secondaryLabel)
         .onChange(of: model.password, perform: passworGenerator)
-        .onChange(of: model.length) { _ in
-            changeFeedback.play()
-        }
         .onAppear {
-            changeFeedback.start()
             model.createPassword()
-        }
-        .onDisappear {
-            changeFeedback.stop()
         }
     }
     #endif

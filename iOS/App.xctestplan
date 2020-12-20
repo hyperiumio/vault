@@ -19,7 +19,50 @@
     }
   ],
   "defaultOptions" : {
-
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:Crypto",
+          "identifier" : "Crypto",
+          "name" : "Crypto"
+        },
+        {
+          "containerPath" : "container:Format",
+          "identifier" : "Format",
+          "name" : "Format"
+        },
+        {
+          "containerPath" : "container:Identifier",
+          "identifier" : "Identifier",
+          "name" : "Identifier"
+        },
+        {
+          "containerPath" : "container:Pasteboard",
+          "identifier" : "Pasteboard",
+          "name" : "Pasteboard"
+        },
+        {
+          "containerPath" : "container:Preferences",
+          "identifier" : "Preferences",
+          "name" : "Preferences"
+        },
+        {
+          "containerPath" : "container:Search",
+          "identifier" : "Search",
+          "name" : "Search"
+        },
+        {
+          "containerPath" : "container:Sort",
+          "identifier" : "Sort",
+          "name" : "Sort"
+        },
+        {
+          "containerPath" : "container:Store",
+          "identifier" : "Store",
+          "name" : "Store"
+        }
+      ]
+    }
   },
   "testTargets" : [
     {

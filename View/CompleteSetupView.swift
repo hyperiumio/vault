@@ -1,8 +1,9 @@
-import Haptic
 import Localization
 import SwiftUI
 
-private let successFeedback = SuccessFeedbackGenerator()
+#if os(iOS)
+private let feedbackGenerator = UINotificationFeedbackGenerator()
+#endif
 
 struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentable {
     
@@ -57,9 +58,8 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             }
         }
         .onAppear {
-            successFeedback.prepare()
             isCheckmarkVisible = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: successFeedback.play)
+
         }
 
     }
@@ -102,9 +102,11 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             }
         }
         .onAppear {
-            successFeedback.prepare()
+            feedbackGenerator.prepare()
             isCheckmarkVisible = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: successFeedback.play)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                feedbackGenerator.notificationOccurred(.success)
+            }
         }
 
     }

@@ -1,9 +1,9 @@
-import Haptic
 import Localization
 import SwiftUI
 
-private let successFeedback = SuccessFeedbackGenerator()
-private let failureFeedback = FailureFeedbackGenerator()
+#if os(iOS)
+private let feedbackGenerator = UINotificationFeedbackGenerator()
+#endif
 
 struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRepresentable {
     
@@ -53,11 +53,11 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             return Alert(title: title)
         }
         .onReceive(model.error) { error in
-            failureFeedback.play()
+            feedbackGenerator.notificationOccurred(.error)
             self.error = error
         }
         .onReceive(model.done) { _ in
-            successFeedback.play()
+            feedbackGenerator.notificationOccurred(.success)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
             isKeyboardVisible = true
@@ -66,8 +66,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             isKeyboardVisible = false
         }
         .onAppear {
-            successFeedback.prepare()
-            failureFeedback.prepare()
+            feedbackGenerator.prepare()
             model.loginWithBiometrics()
         }
     }
@@ -111,15 +110,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             return Alert(title: title)
         }
         .onReceive(model.error) { error in
-            failureFeedback.play()
             self.error = error
-        }
-        .onReceive(model.done) { _ in
-            successFeedback.play()
-        }
-        .onAppear {
-            successFeedback.prepare()
-            failureFeedback.prepare()
         }
     }
     #endif

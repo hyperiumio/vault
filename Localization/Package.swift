@@ -14,6 +14,5 @@ let package = Package(
     ],
     targets: [
         .target(name: "Localization", path: "Sources", resources: [.copy("en.lproj")]),
-        .testTarget(name: "LocalizationTests", dependencies: ["Localization"], path: "Tests")
     ]
 )
