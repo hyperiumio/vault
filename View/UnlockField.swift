@@ -2,11 +2,11 @@ import SwiftUI
 
 struct UnlockField: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let text: Binding<String>
     private let action: () -> Void
     
-    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
+    init(_ title: LocalizedStringKey, text: Binding<String>, action: @escaping () -> Void) {
         self.title = title
         self.text = text
         self.action = action
@@ -23,7 +23,7 @@ struct UnlockField: View {
                 .background(Color.textFieldBackground)
             
             Button(action: action) {
-                Image.lock
+                Image(systemName: SFSymbolName.lockFill)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 22, height: 22)
@@ -43,7 +43,7 @@ struct UnlockField: View {
             TextFieldShim(title: title, text: text, isSecure: true, textStyle: .headline, alignment: .center, action: action)
             
             Button(action: action) {
-                Image.lock
+                Image(systemName: SFSymbolName.lockFill)
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 18, height: 18)

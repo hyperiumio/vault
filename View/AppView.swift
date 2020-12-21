@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct AppView<Model>: View where Model: AppModelRepresentable {

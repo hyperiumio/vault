@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
@@ -10,7 +9,7 @@ struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
     }
     
     var body: some View {
-        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
     }
 
 }

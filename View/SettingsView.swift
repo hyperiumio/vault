@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 // TODO
@@ -17,30 +16,30 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                     EmptyView()
                 case .enrolled(.touchID):
                     Section {
-                        Toggle(LocalizedString.useTouchID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
                     } footer: {
-                        Text(LocalizedString.touchIDDescription)
+                        Text(.touchIDDescription)
                     }
                 case .enrolled(.faceID):
                     Section {
-                        Toggle(LocalizedString.useFaceID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
                     } footer: {
-                        Text(LocalizedString.faceIDDescription)
+                        Text(.faceIDDescription)
                     }
                 }
                 
                 Section {
-                    NavigationLink(LocalizedString.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
+                    NavigationLink(.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
                 } footer: {
-                    Text(LocalizedString.changeMasterPasswordDescription)
+                    Text(.changeMasterPasswordDescription)
                 }
             }
             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             .listStyle(GroupedListStyle())
-            .navigationTitle(LocalizedString.settings)
+            .navigationTitle(.settings)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -58,29 +57,29 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                     EmptyView()
                 case .enrolled(.touchID):
                     Section {
-                        Toggle(LocalizedString.useTouchID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
                     } footer: {
-                        Text(LocalizedString.touchIDDescription)
+                        Text(.touchIDDescription)
                     }
                 case .enrolled(.faceID):
                     Section {
-                        Toggle(LocalizedString.useFaceID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
                     } footer: {
-                        Text(LocalizedString.faceIDDescription)
+                        Text(.faceIDDescription)
                     }
                 }
                 
                 Section {
-                    NavigationLink(LocalizedString.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
+                    NavigationLink(.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
                 } footer: {
-                    Text(LocalizedString.changeMasterPasswordDescription)
+                    Text(.changeMasterPasswordDescription)
                 }
             }
             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-            .navigationTitle(LocalizedString.settings)
+            .navigationTitle(.settings)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }

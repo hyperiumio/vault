@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 #if os(iOS)
@@ -21,7 +20,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             Color.systemBackground.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 
@@ -78,7 +77,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             Color.systemBackground.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 
@@ -122,9 +121,9 @@ private extension QuickAccessLockedView {
     static func title(for error: QuickAccessLockedError) -> Text {
         switch error {
         case .wrongPassword:
-            return Text(LocalizedString.invalidPassword)
+            return Text(.invalidPassword)
         case .unlockFailed:
-            return Text(LocalizedString.unlockFailed)
+            return Text(.unlockFailed)
         }
     }
     

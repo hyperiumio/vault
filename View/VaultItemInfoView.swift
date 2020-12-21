@@ -38,21 +38,21 @@ private extension VaultItemInfoView {
     static func image(for type: SecureItemType) -> Image {
         switch type {
         case .password:
-            return .password
+            return Image(systemName: SFSymbolName.keyFill)
         case .login:
-            return .login
+            return Image(systemName: SFSymbolName.personFill)
         case .file:
-            return .file
+            return Image(systemName: SFSymbolName.paperclip)
         case .note:
-            return .note
+            return Image(systemName: SFSymbolName.noteText)
         case .bankCard:
-            return .bankCard
+            return Image(systemName: SFSymbolName.creditcard)
         case .wifi:
-            return .wifi
+            return Image(systemName: SFSymbolName.wifi)
         case .bankAccount:
-            return .bankAccount
+            return Image(systemName: SFSymbolName.dollarsignCircle)
         case .custom:
-            return .custom
+            return Image(systemName: SFSymbolName.scribbleVariable)
         }
     }
     

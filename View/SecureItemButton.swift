@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct SecureItemButton<Content>: View where Content: View {
@@ -36,11 +35,10 @@ struct SecureItemButton<Content>: View where Content: View {
                     .opacity(isMessageShow ? 0 : 1)
                 
                 if isMessageShow {
-                    Text(LocalizedString.copied)
+                    Text(.copied)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .font(.subheadline)
                         .foregroundColor(.white)
-                        .background(Color.appTeal)
                 }
             }
         }

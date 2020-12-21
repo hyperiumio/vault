@@ -3,7 +3,7 @@ import Pasteboard
 
 struct SecureItemDateField: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let date: Date
     
     private var formattedDate: String {
@@ -12,7 +12,7 @@ struct SecureItemDateField: View {
         return formatter.string(from: date)
     }
     
-    init(_ title: String, date: Date) {
+    init(_ title: LocalizedStringKey, date: Date) {
         self.title = title
         self.date = date
     }

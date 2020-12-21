@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -21,37 +20,37 @@ struct SelectCategoryView: View {
         NavigationView {
             List {
                 Group {
-                    ItemButton(LocalizedString.login, image: .login) {
+                    ItemButton(.login, imageName: SFSymbolName.personFill) {
                         action(.login)
                     }
                     
-                    ItemButton(LocalizedString.password, image: .password) {
+                    ItemButton(.password, imageName: SFSymbolName.keyFill) {
                         action(.password)
                     }
                     
-                    ItemButton(LocalizedString.wifi, image: .wifi) {
+                    ItemButton(.wifi, imageName: SFSymbolName.wifi) {
                         action(.wifi)
                     }
                     
-                    ItemButton(LocalizedString.note, image: .note) {
+                    ItemButton(.note, imageName: SFSymbolName.noteText) {
                         action(.note)
                     }
                     
-                    ItemButton(LocalizedString.bankCard, image: .bankCard) {
+                    ItemButton(.bankCard, imageName: SFSymbolName.creditcard) {
                         action(.bankCard)
                     }
                     
-                    ItemButton(LocalizedString.bankAccount, image: .bankAccount) {
+                    ItemButton(.bankAccount, imageName: SFSymbolName.dollarsignCircle) {
                         action(.bankAccount)
                     }
                     
-                    ItemButton(LocalizedString.custom, image: .custom) {
+                    ItemButton(.custom, imageName: SFSymbolName.scribbleVariable) {
                         action(.custom)
                     }
                 }
                 
                 Group {
-                    ItemButton(LocalizedString.photo, image: .photo) {
+                    ItemButton(.photo, imageName: SFSymbolName.camera) {
                         isShowingCameraView = true
                     }
                     .fullScreenCover(isPresented: $isShowingCameraView) {
@@ -63,7 +62,7 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(LocalizedString.document, image: .document) {
+                    ItemButton(.document, imageName: SFSymbolName.docTextViewfinder) {
                         isShowingScannerView = true
                     }
                     .fullScreenCover(isPresented: $isShowingScannerView) {
@@ -75,7 +74,7 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(LocalizedString.image, image: .image) {
+                    ItemButton(.image, imageName: SFSymbolName.photoOnRectangle) {
                         isShowingImagePicker = true
                     }
                     .sheet(isPresented: $isShowingImagePicker) {
@@ -87,7 +86,7 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(LocalizedString.file, image: .file) {
+                    ItemButton(.file, imageName: SFSymbolName.paperclip) {
                         isShowingFilePicker = true
                         
                     }
@@ -103,12 +102,12 @@ struct SelectCategoryView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
-            .navigationBarTitle(LocalizedString.selectCategory, displayMode: .inline)
+            .navigationBarTitle(.selectCategory, displayMode: .inline)
         }
     }
     
@@ -131,13 +130,13 @@ extension SelectCategoryView {
     
     private struct ItemButton: View {
         
-        private let text: String
-        private let image: Image
+        private let text: LocalizedStringKey
+        private let imageName: String
         private let action: () -> Void
         
-        init(_ text: String, image: Image, action: @escaping () -> Void) {
+        init(_ text: LocalizedStringKey, imageName: String, action: @escaping () -> Void) {
             self.text = text
-            self.image = image
+            self.imageName = imageName
             self.action = action
         }
         
@@ -146,7 +145,7 @@ extension SelectCategoryView {
                 Label {
                     Text(text)
                 } icon: {
-                    image
+                    Image(systemName: imageName)
                         .foregroundColor(.accentColor)
                 }
             }

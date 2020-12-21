@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct VaultItemFooter: View {
@@ -17,11 +16,11 @@ struct VaultItemFooter: View {
             
             VStack(alignment: .custom, spacing: 4) {
                 if let created = created {
-                    DateLabel(LocalizedString.created, date: created)
+                    DateLabel(.created, date: created)
                 }
 
                 if let modified = modified {
-                    DateLabel(LocalizedString.modified, date: modified)
+                    DateLabel(.modified, date: modified)
                 }
             }
             .font(.footnote)
@@ -36,10 +35,10 @@ struct VaultItemFooter: View {
 
 private struct DateLabel: View {
     
-    private let text: String
+    private let text: LocalizedStringKey
     private let date: Date
     
-    init(_ text: String, date: Date) {
+    init(_ text: LocalizedStringKey, date: Date) {
         self.text = text
         self.date = date
     }

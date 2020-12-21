@@ -3,7 +3,7 @@ import SwiftUI
 #if os(iOS)
 struct TextFieldShim: UIViewRepresentable {
     
-    let title: String
+    let title: LocalizedStringKey
     let text: Binding<String>
     let textStyle: UIFont.TextStyle
     let alignment: NSTextAlignment
@@ -11,7 +11,7 @@ struct TextFieldShim: UIViewRepresentable {
     func makeUIView(context: UIViewRepresentableContext<TextFieldShim>) -> UITextField {
         let action = #selector(Coordinator.textFieldDidChange)
         let textField = UITextField()
-        textField.placeholder = title
+        textField.placeholder = "\(title)"
         textField.font = UIFont.preferredFont(forTextStyle: textStyle)
         textField.textAlignment = alignment
         textField.addTarget(context.coordinator, action:action, for: .editingChanged)
@@ -57,7 +57,7 @@ extension TextFieldShim {
 #if os(macOS)
 struct TextFieldShim: NSViewRepresentable {
     
-    let title: String
+    let title: LocalizedStringKey
     let text: Binding<String>
     let isSecure: Bool
     let textStyle: NSFont.TextStyle
@@ -73,7 +73,7 @@ struct TextFieldShim: NSViewRepresentable {
         let textField = isSecure ? NSSecureTextField() : NSTextField()
         textField.font = NSFont.preferredFont(forTextStyle: textStyle)
         textField.textColor = .labelColor
-        (textField.cell as? NSTextFieldCell)?.placeholderAttributedString = NSAttributedString(string: title, attributes: attributes)
+        (textField.cell as? NSTextFieldCell)?.placeholderAttributedString = NSAttributedString(string: "\(title)", attributes: attributes)
         textField.drawsBackground = false
         textField.isBezeled = false
         textField.focusRingType = .none

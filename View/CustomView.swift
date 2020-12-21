@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -12,7 +11,7 @@ struct CustomView: View {
     
     var body: some View {
         if item.description?.isEmpty == false || item.value?.isEmpty == false {
-            SecureItemTextField(item.description ?? "", text: item.value ?? "")
+            SecureItemTextField(LocalizedStringKey(item.description ?? ""), text: item.value ?? "")
         }
     }
     

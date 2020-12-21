@@ -2,11 +2,11 @@ import SwiftUI
 
 struct EditSecureItemField<Content>: View where Content: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let text: Binding<String>
     private let content: Content
     
-    init(_ title: String, text: Binding<String>, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, text: Binding<String>, @ViewBuilder content: () -> Content) {
         self.title = title
         self.text = text
         self.content = content()

@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 #if os(macOS)
@@ -17,7 +16,7 @@ struct VaultApp: App {
             SidebarCommands()
             
             CommandGroup(before: .appTermination) {
-                Button(LocalizedString.lockVault) {
+                Button(.lockVault) {
                     
                 }
             }

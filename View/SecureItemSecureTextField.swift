@@ -3,11 +3,11 @@ import SwiftUI
 
 struct SecureItemSecureTextField: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let text: String
     @State private var secureDisplay = true
     
-    init(_ title: String, text: String) {
+    init(_ title: LocalizedStringKey, text: String) {
         self.title = title
         self.text = text
     }
@@ -31,9 +31,9 @@ struct SecureItemSecureTextField: View {
                     secureDisplay.toggle()
                 } label: {
                     if secureDisplay {
-                        Image.hideSecret
+                        Image(systemName: SFSymbolName.eyeSlash)
                     } else {
-                        Image.showSecret
+                        Image(systemName: SFSymbolName.eye)
                     }
                 }
                 .buttonStyle(PlainButtonStyle())

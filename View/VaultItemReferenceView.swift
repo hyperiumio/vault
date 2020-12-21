@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -22,10 +21,10 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                 ProgressView()
             case .loadingFailed:
                 VStack {
-                    Text(LocalizedString.loadingVaultItemFailed)
+                    Text(.loadingVaultItemFailed)
                         .font(.title3)
                     
-                    Button(LocalizedString.retry, action: model.load)
+                    Button(.retry, action: model.load)
                         .padding()
                 }
             case .loaded(let model):
@@ -54,10 +53,10 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                 ProgressView()
             case .loadingFailed:
                 VStack {
-                    Text(LocalizedString.loadingVaultItemFailed)
+                    Text(.loadingVaultItemFailed)
                         .font(.title3)
                     
-                    Button(LocalizedString.retry, action: model.load)
+                    Button(.retry, action: model.load)
                         .padding()
                 }
             case .loaded(let model):

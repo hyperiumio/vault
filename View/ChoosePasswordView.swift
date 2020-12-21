@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresentable {
@@ -11,16 +10,16 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     
     #if os(macOS)
     var body: some View {
-        PageNavigationView(LocalizedString.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
+        PageNavigationView(.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
             VStack {
                 Spacer()
                 
                 VStack(spacing: 10) {
-                    Text(LocalizedString.chooseMasterPassword)
+                    Text(.chooseMasterPassword)
                         .font(.title)
                         .multilineTextAlignment(.center)
                     
-                    Text(LocalizedString.chooseMasterPasswordDescription)
+                    Text(.chooseMasterPasswordDescription)
                         .font(.body)
                         .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
@@ -28,7 +27,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 
                 Spacer()
                 
-                TextFieldShim(title: LocalizedString.enterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
+                TextFieldShim(title: .enterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
                     .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()
@@ -41,16 +40,16 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     
     #if os(iOS)
     var body: some View {
-        PageNavigationView(LocalizedString.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
+        PageNavigationView(.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
             VStack {
                 Spacer()
                 
                 VStack(spacing: 10) {
-                    Text(LocalizedString.chooseMasterPassword)
+                    Text(.chooseMasterPassword)
                         .font(.title)
                         .multilineTextAlignment(.center)
                     
-                    Text(LocalizedString.chooseMasterPasswordDescription)
+                    Text(.chooseMasterPasswordDescription)
                         .font(.body)
                         .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
@@ -58,7 +57,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 
                 Spacer()
                 
-                SecureField(LocalizedString.enterMasterPassword, text: $model.password)
+                SecureField(.enterMasterPassword, text: $model.password)
                     .textContentType(.oneTimeCode)
                     .font(.title2)
                     .minimumScaleFactor(0.5)

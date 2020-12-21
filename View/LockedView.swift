@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 #if os(iOS)
@@ -25,7 +24,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             Color.systemBackground.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 
@@ -86,7 +85,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             Color.systemBackground.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                UnlockField(LocalizedString.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 
@@ -135,9 +134,9 @@ private extension LockedView {
     static func title(for error: LockedError) -> Text {
         switch error {
         case .wrongPassword:
-            return Text(LocalizedString.invalidPassword)
+            return Text(.invalidPassword)
         case .unlockFailed:
-            return Text(LocalizedString.unlockFailed)
+            return Text(.unlockFailed)
         }
     }
     

@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct SetupView<Model>: View where Model: SetupModelRepresentable {

@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -12,11 +11,11 @@ struct WifiView: View {
     
     var body: some View {
         if let name = item.name {
-            SecureItemTextField(LocalizedString.name, text: name)
+            SecureItemTextField(.name, text: name)
         }
         
         if let password = item.password {
-            SecureItemSecureTextField(LocalizedString.password, text: password)
+            SecureItemSecureTextField(.password, text: password)
         }
     }
     

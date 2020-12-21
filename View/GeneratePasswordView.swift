@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct GeneratePasswordView: View {
@@ -18,10 +17,6 @@ struct GeneratePasswordView: View {
         }
     }
     
-    private var passwordLengthText: String {
-        LocalizedString.characters(model.length)
-    }
-    
     init(passworGenerator: @escaping (String?) -> Void) {
         self.passworGenerator = passworGenerator
     }
@@ -37,15 +32,15 @@ struct GeneratePasswordView: View {
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(passwordLengthText)
+                Text(.characters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
             }
             
-            Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
+            Toggle(.numbers, isOn: $model.digitsEnabled)
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             
-            Toggle(LocalizedString.symbols, isOn: $model.symbolsEnabled)
+            Toggle(.symbols, isOn: $model.symbolsEnabled)
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
         }
         .font(.text)
@@ -68,7 +63,7 @@ struct GeneratePasswordView: View {
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(passwordLengthText)
+                Text(.characters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
                     .alignmentGuide(.custom) { dimension in
@@ -77,9 +72,9 @@ struct GeneratePasswordView: View {
             }
             
             HStack {
-                Text(LocalizedString.numbers)
+                Text(.numbers)
                 
-                Toggle(LocalizedString.numbers, isOn: $model.digitsEnabled)
+                Toggle(.numbers, isOn: $model.digitsEnabled)
                     .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                     .labelsHidden()
                     .alignmentGuide(.custom) { dimension in
@@ -88,9 +83,9 @@ struct GeneratePasswordView: View {
             }
             
             HStack {
-                Text(LocalizedString.symbols)
+                Text(.symbols)
                 
-                Toggle(LocalizedString.symbols, isOn: $model.symbolsEnabled)
+                Toggle(.symbols, isOn: $model.symbolsEnabled)
                     .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                     .labelsHidden()
                     .alignmentGuide(.custom) { dimension in

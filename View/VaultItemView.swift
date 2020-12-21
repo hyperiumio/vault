@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 // TODO
@@ -20,7 +19,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 VaultItemDisplayView(model)
                     .toolbar {
                         ToolbarItem(placement: .primaryAction) {
-                            Button(LocalizedString.edit) {
+                            Button(.edit) {
                                 mode = .edit
                             }
                         }
@@ -29,14 +28,14 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 VaultItemEditView(model)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button(LocalizedString.cancel) {
+                            Button(.cancel) {
                                 model.discardChanges()
                                 mode = .display
                             }
                         }
                         
                         ToolbarItem(placement: .primaryAction) {
-                            Button(LocalizedString.save) {
+                            Button(.save) {
                                 model.save()
                                 mode = .display
                             }
@@ -57,7 +56,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 VaultItemDisplayView(model)
                     .toolbar {
                         ToolbarItem(placement: .primaryAction) {
-                            Button(LocalizedString.edit) {
+                            Button(.edit) {
                                 mode = .edit
                             }
                         }
@@ -66,14 +65,14 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                 VaultItemEditView(model)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
-                            Button(LocalizedString.cancel) {
+                            Button(.cancel) {
                                 model.discardChanges()
                                 mode = .display
                             }
                         }
                         
                         ToolbarItem(placement: .primaryAction) {
-                            Button(LocalizedString.save) {
+                            Button(.save) {
                                 model.save()
                                 mode = .display
                             }
@@ -163,17 +162,17 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    TextFieldShim(title: LocalizedString.title, text: $model.title, textStyle: .title1, alignment: .left)
+                    TextFieldShim(title: .title, text: $model.title, textStyle: .title1, alignment: .left)
                         .listRowInsets(.zero)
                         .padding()
                 }
                 
                 Section {
-                    Button(LocalizedString.deleteItem) {
+                    Button(.deleteItem) {
                         model.delete()
                         presentationMode.wrappedValue.dismiss()
                     }
-                    .foregroundColor(.appRed)
+                    .foregroundColor(.red)
                 }
             }
         }
@@ -188,18 +187,18 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    TextField(LocalizedString.title, text: $model.title)
+                    TextField(.title, text: $model.title)
                         .font(.title)
                         .listRowInsets(.zero)
                         .padding()
                 }
                 
                 Section {
-                    Button(LocalizedString.deleteItem) {
+                    Button(.deleteItem) {
                         model.delete()
                         presentationMode.wrappedValue.dismiss()
                     }
-                    .foregroundColor(.appRed)
+                    .foregroundColor(.red)
                 }
             }
         }

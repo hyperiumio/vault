@@ -1,5 +1,4 @@
 import Format
-import Localization
 import Store
 import SwiftUI
 
@@ -13,33 +12,33 @@ struct BankCardView: View {
     
     var body: some View {
         if let name = item.name {
-            SecureItemTextField(LocalizedString.name, text: name)
+            SecureItemTextField(.name, text: name)
         }
         
         if let vendor = item.vendor {
-            SecureItemField(LocalizedString.vendor) {
+            SecureItemField(.vendor) {
                 switch vendor {
                 case .masterCard:
-                    Text(LocalizedString.mastercard)
+                    Text(.mastercard)
                 case .visa:
-                    Text(LocalizedString.visa)
+                    Text(.visa)
                 case .americanExpress:
-                    Text(LocalizedString.americanExpress)
+                    Text(.americanExpress)
                 }
             }
         }
         
         if let number = item.number {
-            SecureItemTextField(LocalizedString.number, text: number, formatter: CreditCardNumberFormatter())
+            SecureItemTextField(.number, text: number, formatter: CreditCardNumberFormatter())
                 .font(.system(.body, design: .monospaced))
         }
         
         if let expirationDate = item.expirationDate {
-            SecureItemDateField(LocalizedString.expirationDate, date: expirationDate)
+            SecureItemDateField(.expirationDate, date: expirationDate)
         }
         
         if let pin = item.pin {
-            SecureItemSecureTextField(LocalizedString.pin, text: pin)
+            SecureItemSecureTextField(.pin, text: pin)
                 .font(.system(.body, design: .monospaced))
         }
     }

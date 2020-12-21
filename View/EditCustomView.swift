@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
@@ -11,8 +10,8 @@ struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
     
     var body: some View {
         SecureItemView {
-            EditSecureItemField(LocalizedString.description, text: $model.description) {
-                TextField(LocalizedString.value, text: $model.value)
+            EditSecureItemField(.description, text: $model.description) {
+                TextField(.value, text: $model.value)
             }
         }
     }

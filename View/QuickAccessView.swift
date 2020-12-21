@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
@@ -25,7 +24,7 @@ struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         cancel()
                     }
                 }
@@ -39,7 +38,7 @@ struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
         VStack {
             Text("CredentialProviderView")
             
-            Button(LocalizedString.cancel) {
+            Button(.cancel) {
               cancel()
             }
         }
