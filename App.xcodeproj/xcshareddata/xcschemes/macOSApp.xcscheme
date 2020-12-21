@@ -29,73 +29,7 @@
       shouldUseLaunchSchemeArgsEnv = "NO"
       language = "en"
       region = "US"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Identifier"
-            BuildableName = "Identifier"
-            BlueprintName = "Identifier"
-            ReferencedContainer = "container:Identifier">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Pasteboard"
-            BuildableName = "Pasteboard"
-            BlueprintName = "Pasteboard"
-            ReferencedContainer = "container:Pasteboard">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Store"
-            BuildableName = "Store"
-            BlueprintName = "Store"
-            ReferencedContainer = "container:Store">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Sync"
-            BuildableName = "Sync"
-            BlueprintName = "Sync"
-            ReferencedContainer = "container:Sync">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Preferences"
-            BuildableName = "Preferences"
-            BlueprintName = "Preferences"
-            ReferencedContainer = "container:Preferences">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Sort"
-            BuildableName = "Sort"
-            BlueprintName = "Sort"
-            ReferencedContainer = "container:Sort">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Crypto"
-            BuildableName = "Crypto"
-            BlueprintName = "Crypto"
-            ReferencedContainer = "container:Crypto">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Search"
-            BuildableName = "Search"
-            BlueprintName = "Search"
-            ReferencedContainer = "container:Search">
-         </BuildableReference>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Format"
-            BuildableName = "Format"
-            BlueprintName = "Format"
-            ReferencedContainer = "container:Format">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
             skipped = "NO"
