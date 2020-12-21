@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
@@ -12,7 +11,7 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     #if os(iOS)
     var body: some View {
-        SecureItemField(LocalizedString.note) {
+        SecureItemField(.note) {
             TextEditorShim($model.text) { height in
                 let font = UIFont.preferredFont(forTextStyle: .body)
                 let minimumHeight = ceil(font.lineHeight)
@@ -25,7 +24,7 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     #if os(macOS)
     var body: some View {
-        SecureItemField(LocalizedString.note) {
+        SecureItemField(.note) {
             TextEditor(text: $model.text)
         }
     }

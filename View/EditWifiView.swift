@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
@@ -11,18 +10,18 @@ struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
     
     #if os(iOS)
     var body: some View {
-        EditSecureItemTextField(LocalizedString.name, placeholder: LocalizedString.name, text: $model.name)
+        EditSecureItemTextField(.name, placeholder: .name, text: $model.name)
             .keyboardType(.asciiCapable)
         
-        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
     }
     #endif
     
     #if os(macOS)
     var body: some View {
-        EditSecureItemTextField(LocalizedString.name, placeholder: LocalizedString.name, text: $model.name)
+        EditSecureItemTextField(.name, placeholder: .name, text: $model.name)
         
-        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
     }
     #endif
     

@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 // TODO
@@ -18,16 +17,16 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     var body: some View {
         List {
             Section {
-                SecureField(LocalizedString.newMasterPassword, text: $model.password)
+                SecureField(.newMasterPassword, text: $model.password)
                 
-                SecureField(LocalizedString.repeatMasterPassword, text: $model.repeatedPassword)
+                SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
             }
             
             Section {
                 HStack {
                     Spacer()
                     
-                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
+                    Button(.changeMasterPassword, action: model.changeMasterPassword)
                         .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
                     
                     Spacer()
@@ -35,7 +34,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             }
         }
         .disabled(model.isLoading)
-        .navigationBarTitle(LocalizedString.masterPassword, displayMode: .inline)
+        .navigationBarTitle(.masterPassword, displayMode: .inline)
         .listStyle(GroupedListStyle())
         .onReceive(model.error) { error in
             self.error = error
@@ -55,16 +54,16 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     var body: some View {
         List {
             Section {
-                SecureField(LocalizedString.newMasterPassword, text: $model.password)
+                SecureField(.newMasterPassword, text: $model.password)
                 
-                SecureField(LocalizedString.repeatMasterPassword, text: $model.repeatedPassword)
+                SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
             }
             
             Section {
                 HStack {
                     Spacer()
                     
-                    Button(LocalizedString.changeMasterPassword, action: model.changeMasterPassword)
+                    Button(.changeMasterPassword, action: model.changeMasterPassword)
                         .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
                     
                     Spacer()
@@ -93,9 +92,9 @@ private extension ChangeMasterPasswordView {
     static func title(for error: ChangeMasterPasswordError) -> Text {
         switch error {
         case .passwordMismatch:
-            return Text(LocalizedString.passwordMismatch)
+            return Text(.passwordMismatch)
         case .masterPasswordChangeDidFail:
-            return Text(LocalizedString.masterPasswordChangeDidFail)
+            return Text(.masterPasswordChangeDidFail)
         }
     }
     

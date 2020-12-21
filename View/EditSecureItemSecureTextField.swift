@@ -1,16 +1,15 @@
-import Localization
 import SwiftUI
 
 struct EditSecureItemSecureTextField: View {
     
-    private let title: String
-    private let placeholder: String
+    private let title: LocalizedStringKey
+    private let placeholder: LocalizedStringKey
     private let text: Binding<String>
     private let generatorAvailable: Bool
     
     @State private var showGeneratorControls = false
     
-    init(_ title: String, placeholder: String, text: Binding<String>, generatorAvailable: Bool) {
+    init(_ title: LocalizedStringKey, placeholder: LocalizedStringKey, text: Binding<String>, generatorAvailable: Bool) {
         self.title = title
         self.placeholder = placeholder
         self.text = text
@@ -32,14 +31,14 @@ struct EditSecureItemSecureTextField: View {
                             text.wrappedValue = password
                         }
                         
-                        Button(LocalizedString.usePassword) {
+                        Button(.usePassword) {
                             showGeneratorControls = false
                         }
                         .buttonStyle(ColoredButtonStyle(.accentColor, size: .small, expansion: .fill))
                     case (true, false):
                         SecureField(placeholder, text: text)
                         
-                        Button(LocalizedString.generatePassword) {
+                        Button(.generatePassword) {
                             showGeneratorControls = true
                         }
                         .buttonStyle(ColoredButtonStyle(.accentColor, size: .small, expansion: .fill))
@@ -66,13 +65,13 @@ struct EditSecureItemSecureTextField: View {
                             text.wrappedValue = password
                         }
                         
-                        Button(LocalizedString.usePassword) {
+                        Button(.usePassword) {
                             showGeneratorControls = false
                         }
                     case (true, false):
                         SecureField(placeholder, text: text)
                         
-                        Button(LocalizedString.generatePassword) {
+                        Button(.generatePassword) {
                             showGeneratorControls = true
                         }
                     }

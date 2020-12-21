@@ -1,7 +1,7 @@
 import XCTest
 @testable import Pasteboard
 
-#if canImport(macOS)
+#if os(macOS)
 final class PasteboardTests: XCTestCase {
     
     func testGetString() {

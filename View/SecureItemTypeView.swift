@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -25,42 +24,42 @@ private extension SecureItemTypeView {
     static func image(for type: SecureItemType) -> Image {
         switch type {
         case .login:
-            return .login
+            return Image(systemName: SFSymbolName.personFill)
         case .password:
-            return .password
+            return Image(systemName: SFSymbolName.keyFill)
         case .wifi:
-            return .wifi
+            return Image(systemName: SFSymbolName.wifi)
         case .note:
-            return .note
+            return Image(systemName: SFSymbolName.noteText)
         case .bankCard:
-            return .bankCard
+            return Image(systemName: SFSymbolName.creditcard)
         case .bankAccount:
-            return .bankAccount
+            return Image(systemName: SFSymbolName.dollarsignCircle)
         case .custom:
-            return .custom
+            return Image(systemName: SFSymbolName.scribbleVariable)
         case .file:
-            return .file
+            return Image(systemName: SFSymbolName.paperclip)
         }
     }
     
     static func text(for type: SecureItemType) -> Text {
         switch type {
         case .login:
-            return Text(LocalizedString.login)
+            return Text(.login)
         case .password:
-            return Text(LocalizedString.password)
+            return Text(.password)
         case .wifi:
-            return Text(LocalizedString.wifi)
+            return Text(.wifi)
         case .note:
-            return Text(LocalizedString.note)
+            return Text(.note)
         case .bankCard:
-            return Text(LocalizedString.bankCard)
+            return Text(.bankCard)
         case .bankAccount:
-            return Text(LocalizedString.bankAccount)
+            return Text(.bankAccount)
         case .custom:
-            return Text(LocalizedString.custom)
+            return Text(.custom)
         case .file:
-            return Text(LocalizedString.file)
+            return Text(.file)
         }
     }
     

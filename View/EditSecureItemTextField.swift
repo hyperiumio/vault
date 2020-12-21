@@ -2,12 +2,12 @@ import SwiftUI
 
 struct EditSecureItemTextField: View {
     
-    private let title: String
-    private let placeholder: String
+    private let title: LocalizedStringKey
+    private let placeholder: LocalizedStringKey
     private let text: Binding<String>
     private let formatter: Formatter?
     
-    init(_ title: String, placeholder: String, text: Binding<String>, formatter: Formatter? = nil) {
+    init(_ title: LocalizedStringKey, placeholder: LocalizedStringKey, text: Binding<String>, formatter: Formatter? = nil) {
         self.title = title
         self.placeholder = placeholder
         self.text = text

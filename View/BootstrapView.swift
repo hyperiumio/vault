@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
@@ -15,16 +14,16 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
             EmptyView()
         case .loadingFailed:
             VStack {
-                Image.exclamationmarkTriangleFill
+                Image(systemName: SFSymbolName.exclamationmarkTriangleFill)
                     .renderingMode(.original)
                     .resizable()
                     .scaledToFit()
                     .frame(width: 50, height: 50)
                 
-                Text(LocalizedString.appLaunchFailure)
+                Text(.appLaunchFailure)
                     .font(.title2)
                 
-                Button(LocalizedString.retry, action: model.load)
+                Button(.retry, action: model.load)
                     .keyboardShortcut(.defaultAction)
                     .padding()
             }

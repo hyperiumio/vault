@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 #if os(iOS)
@@ -26,11 +25,11 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             
             if isCheckmarkVisible {
                 VStack(spacing: 20) {
-                    Text(LocalizedString.setupComplete)
+                    Text(.setupComplete)
                         .font(.title)
                         .zIndex(0)
                     
-                    Image.checkmark
+                    Image(systemName: SFSymbolName.checkmarkCircle)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.green)
@@ -41,7 +40,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             
             Spacer()
             
-            Button(LocalizedString.createVault, action: model.createVault)
+            Button(.createVault, action: model.createVault)
                 .controlSize(.large)
                 .keyboardShortcut(.defaultAction)
                 .disabled(!enabledIntensions.contains(.forward))
@@ -53,7 +52,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
         .alert(item: $displayError) { error in
             switch error {
             case .vaultCreationFailed:
-                let title = Text(LocalizedString.invalidPassword)
+                let title = Text(.invalidPassword)
                 return Alert(title: title)
             }
         }
@@ -72,11 +71,11 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             
             if isCheckmarkVisible {
                 VStack(spacing: 20) {
-                    Text(LocalizedString.setupComplete)
+                    Text(.setupComplete)
                         .font(.title)
                         .zIndex(0)
                     
-                    Image.checkmark
+                    Image(systemName: SFSymbolName.checkmarkCircle)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.green)
@@ -87,7 +86,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             
             Spacer()
             
-            Button(LocalizedString.createVault, action: model.createVault)
+            Button(.createVault, action: model.createVault)
                 .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                 .disabled(!enabledIntensions.contains(.forward))
         }
@@ -97,7 +96,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
         .alert(item: $displayError) { error in
             switch error {
             case .vaultCreationFailed:
-                let title = Text(LocalizedString.invalidPassword)
+                let title = Text(.invalidPassword)
                 return Alert(title: title)
             }
         }

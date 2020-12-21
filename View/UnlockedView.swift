@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
@@ -33,29 +32,29 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     .listStyle(PlainListStyle())
                 } else {
                     VStack(spacing: 30) {
-                        Text(LocalizedString.emptyVault)
+                        Text(.emptyVault)
                             .font(.title)
                         
-                        Button(LocalizedString.createFirstItem) {
+                        Button(.createFirstItem) {
                             presentedSheet = .selectCategory
                         }
                         .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
                     }
                 }
             }
-            .navigationBarTitle(LocalizedString.vault, displayMode: .inline)
+            .navigationBarTitle(.vault, displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
                         presentedSheet = .settings
                     } label: {
-                        Image.settings
+                        Image(systemName: SFSymbolName.sliderHorizontal3)
                     }
                     
                     Button {
                         model.lockApp(enableBiometricUnlock: false)
                     } label: {
-                        Image.lock
+                        Image(systemName: SFSymbolName.lockFill)
                     }
                 }
                 
@@ -63,13 +62,13 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     Button {
                         presentedSheet = .selectCategory
                     } label: {
-                        Image.plus
+                        Image(systemName: SFSymbolName.plus)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
             }
             
-            Text(LocalizedString.nothingSelected)
+            Text(.nothingSelected)
         }
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
@@ -103,10 +102,10 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         .alert(item: $model.failure) { failure in
             switch failure {
             case .loadOperationFailed:
-                let name = Text(LocalizedString.loadingVaultFailed)
+                let name = Text(.loadingVaultFailed)
                 return Alert(title: name)
             case .deleteOperationFailed:
-                let name = Text(LocalizedString.deleteFailed)
+                let name = Text(.deleteFailed)
                 return Alert(title: name)
             }
         }
@@ -150,7 +149,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         }
                     }
                 } else {
-                    Text(LocalizedString.emptyVault)
+                    Text(.emptyVault)
                         .font(.title)
                 }
             }
@@ -160,53 +159,53 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 
                 Menu {
                     Button(action: model.createLoginItem) {
-                        Image.login
+                        Image(systemName: SFSymbolName.personFill)
                         
-                        Text(LocalizedString.login)
+                        Text(.login)
                     }
                     
                     Button(action: model.createPasswordItem) {
-                        Image.password
+                        Image(systemName: SFSymbolName.keyFill)
                         
-                        Text(LocalizedString.password)
+                        Text(.password)
                     }
                     
                     Button(action: model.createWifiItem) {
-                        Image.wifi
+                        Image(systemName: SFSymbolName.wifi)
                         
-                        Text(LocalizedString.wifi)
+                        Text(.wifi)
                     }
                     
                     Button(action: model.createNoteItem) {
-                        Image.note
+                        Image(systemName: SFSymbolName.noteText)
                         
-                        Text(LocalizedString.note)
+                        Text(.note)
                     }
                     
                     Button(action: model.createBankCardItem) {
-                        Image.bankCard
+                        Image(systemName: SFSymbolName.creditcard)
                         
-                        Text(LocalizedString.bankCard)
+                        Text(.bankCard)
                     }
                     
                     Button(action: model.createBankAccountItem) {
-                        Image.bankAccount
+                        Image(systemName: SFSymbolName.dollarsignCircle)
                         
-                        Text(LocalizedString.bankAccount)
+                        Text(.bankAccount)
                     }
                     
                     Button(action: model.createCustomItem) {
-                        Image.custom
+                        Image(systemName: SFSymbolName.scribbleVariable)
                         
-                        Text(LocalizedString.custom)
+                        Text(.custom)
                     }
                 } label: {
-                    Image.plus
+                    Image(systemName: SFSymbolName.plus)
                 }
                 .menuStyle(BorderlessButtonMenuStyle(showsMenuIndicator: false))
             }
             
-            Text(LocalizedString.nothingSelected)
+            Text(.nothingSelected)
         }
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
@@ -221,10 +220,10 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         .alert(item: $model.failure) { failure in
             switch failure {
             case .loadOperationFailed:
-                let name = Text(LocalizedString.loadingVaultFailed)
+                let name = Text(.loadingVaultFailed)
                 return Alert(title: name)
             case .deleteOperationFailed:
-                let name = Text(LocalizedString.deleteFailed)
+                let name = Text(.deleteFailed)
                 return Alert(title: name)
             }
         }
@@ -272,9 +271,10 @@ struct SearchBar: View {
  
     var body: some View {
         HStack(spacing: 5) {
-            Image.search.foregroundColor(.secondaryLabel)
+            Image(systemName: SFSymbolName.magnifyingglass)
+                .foregroundColor(.secondaryLabel)
             
-            TextFieldShim(title: LocalizedString.search, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
+            TextFieldShim(title: .search, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
         }
         .padding(.vertical, 5)
         .padding(.horizontal, 5)

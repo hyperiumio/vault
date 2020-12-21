@@ -1,5 +1,4 @@
 import Crypto
-import Localization
 import SwiftUI
 
 struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlockModelRepresentable {
@@ -12,7 +11,7 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
     }
     
     var body: some View {
-        PageNavigationView(LocalizedString.continue, enabledIntensions: [.backward, .forward]) { intension in
+        PageNavigationView(.continue, enabledIntensions: [.backward, .forward]) { intension in
             switch intension {
             case .forward:
                 model.done()
@@ -26,9 +25,9 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
                 VStack {
                     switch model.biometryType {
                     case .touchID:
-                        Content(image: .touchID, title: LocalizedString.enableTouchIDUnlock, description: LocalizedString.unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: SFSymbolName.touchid, title: .enableTouchIDUnlock, description: .unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
                     case .faceID:
-                        Content(image: .faceID, title: LocalizedString.enableFaceIDUnlock, description: LocalizedString.unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: SFSymbolName.faceid, title: .enableFaceIDUnlock, description: .unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
                     }
                 }
                 
@@ -41,13 +40,13 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
 
 private struct Content: View {
     
-    private let image: Image
-    private let title: String
-    private let description: String
+    private let imageName: String
+    private let title: LocalizedStringKey
+    private let description: LocalizedStringKey
     private let isEnabled: Binding<Bool>
     
-    init(image: Image, title: String, description: String, isEnabled: Binding<Bool>) {
-        self.image = image
+    init(imageName: String, title: LocalizedStringKey, description: LocalizedStringKey, isEnabled: Binding<Bool>) {
+        self.imageName = imageName
         self.title = title
         self.description = description
         self.isEnabled = isEnabled
@@ -55,7 +54,7 @@ private struct Content: View {
     
     var body: some View {
         VStack {
-            image
+            Image(systemName: imageName)
                 .resizable()
                 .scaledToFit()
                 .foregroundColor(.accentColor)
@@ -64,10 +63,10 @@ private struct Content: View {
             Spacer().frame(height: 40)
             
             HStack {
-                Text(LocalizedString.enableTouchIDUnlock)
+                Text(.enableTouchIDUnlock)
                     .font(.title)
                 
-                Toggle(LocalizedString.enableTouchIDUnlock, isOn:isEnabled)
+                Toggle(.enableTouchIDUnlock, isOn:isEnabled)
                     .toggleStyle(SwitchToggleStyle(tint: .accentColor))
                     .labelsHidden()
             }
@@ -88,13 +87,13 @@ private extension EnableBiometricUnlockView {
     static func title(for error: EnableBiometricUnlockError, biometryType: Keychain.BiometryType) -> Text {
         switch (error, biometryType) {
         case (.didFailEnabling, .touchID):
-            return Text(LocalizedString.touchIDActivationFailed)
+            return Text(.touchIDActivationFailed)
         case (.didFailEnabling, .faceID):
-            return Text(LocalizedString.faceIDActivationFailed)
+            return Text(.faceIDActivationFailed)
         case (.didFailDisabling, .touchID):
-            return Text(LocalizedString.touchIDDeactivationFailed)
+            return Text(.touchIDDeactivationFailed)
         case (.didFailDisabling, .faceID):
-            return Text(LocalizedString.faceIDDeactivationFailed)
+            return Text(.faceIDDeactivationFailed)
         }
     }
     

@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -12,7 +11,7 @@ struct NoteView: View {
     
     var body: some View {
         if let text = item.text {
-            SecureItemTextField(LocalizedString.note, text: text)
+            SecureItemTextField(.note, text: text)
         }
     }
     

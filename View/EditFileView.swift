@@ -1,4 +1,3 @@
-import Localization
 import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers

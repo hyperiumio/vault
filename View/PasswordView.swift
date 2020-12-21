@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -12,7 +11,7 @@ struct PasswordView: View {
     
     var body: some View {
         if let password = item.password {
-            SecureItemSecureTextField(LocalizedString.password, text: password)
+            SecureItemSecureTextField(.password, text: password)
         }
     }
 

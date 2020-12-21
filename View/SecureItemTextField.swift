@@ -3,11 +3,11 @@ import Pasteboard
 
 struct SecureItemTextField: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let text: String
     private let formatter: Formatter?
     
-    init(_ title: String, text: String, formatter: Formatter? = nil) {
+    init(_ title: LocalizedStringKey, text: String, formatter: Formatter? = nil) {
         self.title = title
         self.text = text
         self.formatter = formatter

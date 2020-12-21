@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 // TODO
@@ -36,14 +35,14 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
-                    TextFieldShim(title: LocalizedString.title, text: $model.title, textStyle: .title1, alignment: .left)
+                    TextFieldShim(title: .title, text: $model.title, textStyle: .title1, alignment: .left)
                         .padding()
                         .listRowInsets(.zero)
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -53,7 +52,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizedString.save, action: model.save)
+                    Button(.save, action: model.save)
                         .disabled(model.title.isEmpty)
                 }
             }
@@ -87,7 +86,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
-                    TextField(LocalizedString.title, text: $model.title)
+                    TextField(.title, text: $model.title)
                         .font(.title)
                         .padding()
                         .listRowInsets(.zero)
@@ -95,7 +94,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(LocalizedString.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -105,7 +104,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
-                    Button(LocalizedString.save, action: model.save)
+                    Button(.save, action: model.save)
                         .disabled(model.title.isEmpty)
                 }
             }

@@ -2,10 +2,10 @@ import SwiftUI
 
 struct EditSecureItemDateField: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let date: Binding<Date>
     
-    init(_ title: String, date: Binding<Date>) {
+    init(_ title: LocalizedStringKey, date: Binding<Date>) {
         self.title = title
         self.date = date
     }

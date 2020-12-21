@@ -1,4 +1,3 @@
-import Localization
 import Store
 import SwiftUI
 
@@ -12,15 +11,15 @@ struct LoginView: View {
     
     var body: some View {
         if let username = item.username {
-            SecureItemTextField(LocalizedString.username, text: username)
+            SecureItemTextField(.username, text: username)
         }
         
         if let password = item.password {
-            SecureItemSecureTextField(LocalizedString.password, text: password)
+            SecureItemSecureTextField(.password, text: password)
         }
         
         if let url = item.url {
-            SecureItemTextField(LocalizedString.url, text: url)
+            SecureItemTextField(.url, text: url)
         }
     }
     

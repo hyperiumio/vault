@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
@@ -16,7 +15,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     
     #if os(macOS)
     var body: some View {
-        PageNavigationView(LocalizedString.continue, enabledIntensions: enabledIntensions) { intension in
+        PageNavigationView(.continue, enabledIntensions: enabledIntensions) { intension in
             switch intension {
             case .forward:
                 model.validatePassword()
@@ -28,11 +27,11 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 Spacer()
                 
                 VStack(spacing: 10) {
-                    Text(LocalizedString.repeatMasterPassword)
+                    Text(.repeatMasterPassword)
                         .font(.title)
                         .multilineTextAlignment(.center)
                     
-                    Text(LocalizedString.repeatMasterPasswordDescription)
+                    Text(.repeatMasterPasswordDescription)
                         .font(.body)
                         .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
@@ -40,7 +39,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 
                 Spacer()
                 
-                TextFieldShim(title: LocalizedString.enterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
+                TextFieldShim(title: .enterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
                     .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()
@@ -54,7 +53,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
         .alert(item: $displayError) { error in
             switch error {
             case .invalidPassword:
-                let title = Text(LocalizedString.invalidPassword)
+                let title = Text(.invalidPassword)
                 return Alert(title: title)
             }
         }
@@ -63,7 +62,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     
     #if os(iOS)
     var body: some View {
-        PageNavigationView(LocalizedString.continue, enabledIntensions: enabledIntensions) { intension in
+        PageNavigationView(.continue, enabledIntensions: enabledIntensions) { intension in
             switch intension {
             case .forward:
                 model.validatePassword()
@@ -75,11 +74,11 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 Spacer()
                 
                 VStack(spacing: 10) {
-                    Text(LocalizedString.repeatMasterPassword)
+                    Text(.repeatMasterPassword)
                         .font(.title)
                         .multilineTextAlignment(.center)
                     
-                    Text(LocalizedString.repeatMasterPasswordDescription)
+                    Text(.repeatMasterPasswordDescription)
                         .font(.body)
                         .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
@@ -87,7 +86,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 
                 Spacer()
                 
-                SecureField(LocalizedString.enterMasterPassword, text: $model.repeatedPassword)
+                SecureField(.enterMasterPassword, text: $model.repeatedPassword)
                     .textContentType(.oneTimeCode)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
@@ -106,7 +105,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
         .alert(item: $displayError) { error in
             switch error {
             case .invalidPassword:
-                let title = Text(LocalizedString.invalidPassword)
+                let title = Text(.invalidPassword)
                 return Alert(title: title)
             }
         }

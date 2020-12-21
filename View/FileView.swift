@@ -1,4 +1,3 @@
-import Localization
 import PDFKit
 import Store
 import SwiftUI

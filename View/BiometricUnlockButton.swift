@@ -28,9 +28,9 @@ private extension BiometricUnlockButton {
     static func image(for biometryType: Keychain.BiometryType) -> Image {
         switch biometryType {
         case .touchID:
-            return .touchID
+            return Image(systemName: SFSymbolName.touchid)
         case .faceID:
-            return .faceID
+            return Image(systemName: SFSymbolName.faceid)
         }
     }
     

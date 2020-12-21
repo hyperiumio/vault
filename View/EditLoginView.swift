@@ -1,4 +1,3 @@
-import Localization
 import SwiftUI
 
 struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
@@ -11,13 +10,13 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
     
     #if os(iOS)
     var body: some View {
-        EditSecureItemTextField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
+        EditSecureItemTextField(.username, placeholder: .usernameOrEmail, text: $model.username)
             .keyboardType(.emailAddress)
             .textContentType(.username)
         
-        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
         
-        EditSecureItemTextField(LocalizedString.url, placeholder: LocalizedString.exampleURL, text: $model.url)
+        EditSecureItemTextField(.url, placeholder: .exampleURL, text: $model.url)
             .keyboardType(.URL)
             .textContentType(.URL)
     }
@@ -25,11 +24,11 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
     
     #if os(macOS)
     var body: some View {
-        EditSecureItemTextField(LocalizedString.username, placeholder: LocalizedString.usernameOrEmail, text: $model.username)
+        EditSecureItemTextField(.username, placeholder: .usernameOrEmail, text: $model.username)
         
-        EditSecureItemSecureTextField(LocalizedString.password, placeholder: LocalizedString.password, text: $model.password, generatorAvailable: true)
+        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
         
-        EditSecureItemTextField(LocalizedString.url, placeholder: LocalizedString.exampleURL, text: $model.url)
+        EditSecureItemTextField(.url, placeholder: .exampleURL, text: $model.url)
     }
     #endif
     

@@ -1,19 +1,18 @@
-import Localization
 import SwiftUI
 
 struct PageNavigationView<Content>: View where Content: View {
     
-    private let title: String
+    private let title: LocalizedStringKey
     private let content: Content
     private let configuration: Configuration
     
-    init(_ title: String, isEnabled: Bool, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, isEnabled: Bool, action: @escaping () -> Void, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
         self.configuration = .forward(isEnabled: isEnabled, action: action)
     }
     
-    init(_ title: String, enabledIntensions: Set<PageNavigationIntention>, action: @escaping (PageNavigationIntention) -> Void, @ViewBuilder content: () -> Content) {
+    init(_ title: LocalizedStringKey, enabledIntensions: Set<PageNavigationIntention>, action: @escaping (PageNavigationIntention) -> Void, @ViewBuilder content: () -> Content) {
         self.title = title
         self.content = content()
         self.configuration = .forwardBack(enabledIntensions: enabledIntensions, action: action)
@@ -26,20 +25,20 @@ struct PageNavigationView<Content>: View where Content: View {
             
             switch configuration {
             case .forward(let isEnabled, let action):
-                NavigationButton(LocalizedString.continue, image: .chevronRightCircle, action: action)
+                NavigationButton(.continue, imageName: SFSymbolName.chevronRightCircle, action: action)
                     .disabled(!isEnabled)
                     
             case .forwardBack(let enabledIntensions, let action):
                 HStack(spacing: 30) {
                     Spacer()
                         .frame(maxWidth: .infinity)
-                    NavigationButton(LocalizedString.back, image: .chevronLeftCircle) {
+                    NavigationButton(.back, imageName: SFSymbolName.chevronLeftCircle) {
                         action(.backward)
                     }
                     .frame(maxWidth: .infinity)
                     .disabled(!enabledIntensions.contains(.backward))
                     
-                    NavigationButton(LocalizedString.continue, image: .chevronRightCircle) {
+                    NavigationButton(.continue, imageName: SFSymbolName.chevronRightCircle) {
                         action(.forward)
                     }
                     .frame(maxWidth: .infinity)
@@ -68,7 +67,7 @@ struct PageNavigationView<Content>: View where Content: View {
                     Button {
                         action(.backward)
                     } label: {
-                        Image.chevronLeftCircle
+                        Image(systemName: SFSymbolName.chevronLeftCircle)
                             .imageScale(.large)
                     }
                     .disabled(!enabledIntensions.contains(.backward))
@@ -109,20 +108,20 @@ extension PageNavigationView {
     
     private struct NavigationButton: View {
         
-        private let title: String
-        private let image: Image
+        private let title: LocalizedStringKey
+        private let imageName: String
         private let action: () -> Void
         
-        init(_ title: String, image: Image, action: @escaping () -> Void) {
+        init(_ title: LocalizedStringKey, imageName: String, action: @escaping () -> Void) {
             self.title = title
-            self.image = image
+            self.imageName = imageName
             self.action = action
         }
         
         var body: some View {
             Button(action: action) {
                 VStack(spacing: 5) {
-                    image
+                    Image(systemName: imageName)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 25, height: 25)
