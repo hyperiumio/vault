@@ -37,6 +37,7 @@ class BankAccountItemTests: XCTestCase {
         let item = BankAccountItem(accountHolder: "", iban: "", bic: "")
         
         XCTAssertEqual(item.secureItemType, .bankAccount)
+        XCTAssertEqual(BankAccountItem.secureItemType, .bankAccount)
     }
     
     func testEncoded() throws {

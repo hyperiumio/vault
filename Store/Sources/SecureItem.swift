@@ -80,4 +80,3 @@ extension SecureItemValue {
     public var secureItemType: SecureItemType { Self.secureItemType }
     
 }
-

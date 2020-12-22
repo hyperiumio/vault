@@ -74,4 +74,23 @@ class SecureItemTests: XCTestCase {
         XCTAssertThrowsError(try SecureItem(from: data, as: .custom))
     }
     
+    func testSecureItemType() {
+        let secureItemValue = SecureItemValueStub()
+        
+        XCTAssertEqual(secureItemValue.secureItemType, .login)
+    }
+    
+}
+
+private struct SecureItemValueStub: SecureItemValue {
+    
+    static var secureItemType: SecureItemType { .login }
+    
+    func encoded() throws -> Data {
+        Data()
+    }
+    
+    init(from data: Data) throws {}
+    init() {}
+    
 }

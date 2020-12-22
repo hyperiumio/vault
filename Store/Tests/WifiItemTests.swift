@@ -1,7 +1,7 @@
 import XCTest
 @testable import Store
 
-class WifiTests: XCTestCase {
+class WifiItemTests: XCTestCase {
     
     func testInitFromValues() {
         let item = WifiItem(name: "foo", password: "bar")
@@ -34,7 +34,7 @@ class WifiTests: XCTestCase {
         let item = WifiItem(name: "", password: "")
         
         XCTAssertEqual(item.secureItemType, .wifi)
-    }
+        XCTAssertEqual(WifiItem.secureItemType, .wifi)    }
     
     func testEncoded() throws {
         let item = try WifiItem(name: "foo", password: "bar").encoded()

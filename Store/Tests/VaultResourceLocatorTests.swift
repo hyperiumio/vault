@@ -3,37 +3,43 @@ import XCTest
 
 class VaultResourceLocatorTests: XCTestCase {
     
-    let rootUrl = URL(string: "file://foo")!
+    let rootUrl = URL(string: "file://foo/bar")!
     
     func testInit() {
         let rootDirectory = VaultResourceLocator(rootUrl).rootDirectory
         
-        XCTAssertEqual(rootDirectory.absoluteString, "file://foo")
+        XCTAssertEqual(rootDirectory.absoluteString, "file://foo/bar")
     }
     
-    func testMasterKeyFile() {
-        let keyFile = VaultResourceLocator(rootUrl).key
+    func testContainer() {
+        let container = VaultResourceLocator(rootUrl).container
         
-        XCTAssertEqual(keyFile.absoluteString, "file://foo/Key")
+        XCTAssertEqual(container.absoluteString, "file://foo/")
+    }
+    
+    func testKeyFile() {
+        let key = VaultResourceLocator(rootUrl).key
+        
+        XCTAssertEqual(key.absoluteString, "file://foo/bar/Key")
     }
     
     func testInfoFile() {
-        let infoFile = VaultResourceLocator(rootUrl).info
+        let info = VaultResourceLocator(rootUrl).info
         
-        XCTAssertEqual(infoFile.absoluteString, "file://foo/Info.json")
+        XCTAssertEqual(info.absoluteString, "file://foo/bar/Info.json")
     }
     
     func testItemsDirectory() {
-        let keyFile = VaultResourceLocator(rootUrl).items
+        let items = VaultResourceLocator(rootUrl).items
         
-        XCTAssertEqual(keyFile.absoluteString, "file://foo/Items/")
+        XCTAssertEqual(items.absoluteString, "file://foo/bar/Items/")
     }
     
     func testItemFile() throws {
-        let itemFile = VaultResourceLocator(rootUrl).item()
+        let item = VaultResourceLocator(rootUrl).item()
         
-        let itemID = try XCTUnwrap(UUID(uuidString: itemFile.lastPathComponent))
-        XCTAssertEqual(itemFile.absoluteString, "file://foo/Items/\(itemID.uuidString)")
+        let itemID = try XCTUnwrap(UUID(uuidString: item.lastPathComponent))
+        XCTAssertEqual(item.absoluteString, "file://foo/bar/Items/\(itemID.uuidString)")
     }
     
 }

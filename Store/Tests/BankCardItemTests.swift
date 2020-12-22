@@ -37,21 +37,24 @@ class BankCardItemTests: XCTestCase {
     }
     
     func testVendor() {
-        let mastercard = BankCardItem(name: "", number: "5", expirationDate: .distantPast, pin: "").vendor
-        let visa = BankCardItem(name: "", number: "4", expirationDate: .distantPast, pin: "").vendor
-        let americanExpress = BankCardItem(name: "", number: "38", expirationDate: .distantPast, pin: "").vendor
-        let other = BankCardItem(name: "", number: "0", expirationDate: .distantPast, pin: "").vendor
+        let mastercard = BankCardItem(number: "5").vendor
+        let visa = BankCardItem(number: "4").vendor
+        let americanExpress = BankCardItem(number: "38").vendor
+        let other = BankCardItem(number: "0").vendor
+        let none = BankCardItem().vendor
         
         XCTAssertEqual(mastercard, .masterCard)
         XCTAssertEqual(visa, .visa)
         XCTAssertEqual(americanExpress, .americanExpress)
         XCTAssertNil(other)
+        XCTAssertNil(none)
     }
     
     func testType() {
         let item = BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "")
         
         XCTAssertEqual(item.secureItemType, .bankCard)
+        XCTAssertEqual(BankCardItem.secureItemType, .bankCard)
     }
     
     func testEncoded() throws {

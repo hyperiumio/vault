@@ -37,6 +37,7 @@ class LoginItemTests: XCTestCase {
         let item = LoginItem(username: "", password: "", url: "")
         
         XCTAssertEqual(item.secureItemType, .login)
+        XCTAssertEqual(LoginItem.secureItemType, .login)
     }
     
     func testEncoded() throws {

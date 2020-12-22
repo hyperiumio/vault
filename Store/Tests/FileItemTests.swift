@@ -18,8 +18,10 @@ class FileItemTests: XCTestCase {
         }
         """.data(using: .utf8)!
         let dataSegment = Data(0 ... UInt8.max)
-        let infoSize = UInt32Encode(infoSegment.count)
-        let dataSize = UInt32Encode(dataSegment.count)
+        let rawInfoSize = UInt32(infoSegment.count)
+        let infoSize = UInt32Encode(rawInfoSize)
+        let rawSegmentDataSize = UInt32(dataSegment.count)
+        let dataSize = UInt32Encode(rawSegmentDataSize)
         let data = infoSize + infoSegment + dataSize + dataSegment
         
         let item = try FileItem(from: data)
@@ -40,13 +42,27 @@ class FileItemTests: XCTestCase {
         XCTAssertThrowsError(try FileItem(from: data))
     }
     
+    func testInitFromDataInvalidTypeIdentifier() {
+        let infoSegment = """
+        {
+          "typeIdentifier": "foo"
+        }
+        """.data(using: .utf8)!
+        let rawInfoSize = UInt32(infoSegment.count)
+        let infoSize = UInt32Encode(rawInfoSize)
+        let data = infoSize + infoSegment
+        
+        XCTAssertThrowsError(try FileItem(from: data))
+    }
+    
     func testInitFromDataWithDataSegmentSizeTooShort() {
         let infoSegment = """
         {
-          "name": "foo"
+          "typeIdentifier": "public.item"
         }
         """.data(using: .utf8)!
-        let data = UInt32Encode(infoSegment.count) + infoSegment
+        let rawInfoSegmentSize = UInt32(infoSegment.count)
+        let data = UInt32Encode(rawInfoSegmentSize) + infoSegment
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -54,10 +70,11 @@ class FileItemTests: XCTestCase {
     func testInitFromDataWithDataSegmentTooShort() {
         let infoSegment = """
         {
-          "name": "foo"
+          "typeIdentifier": "public.item"
         }
         """.data(using: .utf8)!
-        let data = UInt32Encode(infoSegment.count) + infoSegment + UInt32Encode(1)
+        let rawInfoSegmentSize = UInt32(infoSegment.count)
+        let data = UInt32Encode(rawInfoSegmentSize) + infoSegment + UInt32Encode(1)
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
@@ -65,19 +82,20 @@ class FileItemTests: XCTestCase {
     func testInitFromDataWithDataSegmentTooLong() {
         let infoSegment = """
         {
-          "name": "foo"
+          "typeIdentifier": "public.item"
         }
         """.data(using: .utf8)!
-        let data = UInt32Encode(infoSegment.count) + infoSegment + UInt32Encode(0) + Data(repeating: 0, count: 1)
+        let rawInfoSegmentSize = UInt32(infoSegment.count)
+        let data = UInt32Encode(rawInfoSegmentSize) + infoSegment + UInt32Encode(0) + Data(repeating: 0, count: 1)
         
         XCTAssertThrowsError(try FileItem(from: data))
     }
-    
     
     func testType() {
         let item = FileItem(data: Data(), typeIdentifier: .item)
         
         XCTAssertEqual(item.secureItemType, .file)
+        XCTAssertEqual(FileItem.secureItemType, .file)
     }
     
     func testEncoded() throws {
@@ -88,24 +106,27 @@ class FileItemTests: XCTestCase {
         
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize)
         
-        let infoSizeDataRange = Range(item.startIndex, count: UInt32CodingSize)
+        
+        let infoSizeDataRange = Range(lowerBound: item.startIndex, count: UInt32CodingSize)
         let infoSizeData = item[infoSizeDataRange]
-        let infoSize = UInt32Decode(infoSizeData) as Int
+        let rawInfoSize = UInt32Decode(infoSizeData)
+        let infoSize = Int(rawInfoSize)
         
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize)
         
-        let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
+        let infoSegmentRange = Range(lowerBound: infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = item[infoSegmentRange]
         
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize)
         
-        let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
+        let dataSizeDataRange = Range(lowerBound: infoSegmentRange.upperBound, count: UInt32CodingSize)
         let dataSizeData = item[dataSizeDataRange]
-        let dataSize = UInt32Decode(dataSizeData) as Int
+        let rawDataSize = UInt32Decode(dataSizeData)
+        let dataSize = Int(rawDataSize)
         
         XCTAssertEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize + dataSize)
         
-        let dataSegmentRange = Range(dataSizeDataRange.upperBound, count: dataSize)
+        let dataSegmentRange = Range(lowerBound: dataSizeDataRange.upperBound, count: dataSize)
         let dataSegment = item[dataSegmentRange]
         
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: infoSegment) as? [String: Any])
@@ -113,6 +134,14 @@ class FileItemTests: XCTestCase {
         
         XCTAssertEqual(typeIdentifier, "public.item")
         XCTAssertEqual(dataSegment, expectedData)
+    }
+    
+}
+
+private extension Range where Bound == Int {
+    
+    init(lowerBound: Bound, count: Int) {
+        self = lowerBound ..< lowerBound + count
     }
     
 }
