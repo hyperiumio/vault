@@ -114,6 +114,31 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     
 }
 
+#if os(macOS)
+private typealias TextStyle = NSFont.TextStyle
+
+private extension NSFont.TextStyle {
+    
+    var lineHeight: CGFloat {
+        let font = NSFont.preferredFont(forTextStyle: self)
+        return NSLayoutManager().defaultLineHeight(for: font)
+    }
+    
+}
+#endif
+    
+#if os(iOS)
+private typealias TextStyle = UIFont.TextStyle
+
+private extension UIFont.TextStyle {
+
+    var lineHeight: CGFloat {
+        UIFont.preferredFont(forTextStyle: self).lineHeight
+    }
+    
+}
+#endif
+
 #if DEBUG
 struct RepeatPasswordViewProvider: PreviewProvider {
     

@@ -115,7 +115,7 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
                     .font(.title)
                     .textCase(.none)
                     .foregroundColor(.label)
-                    .listRowInsets(.zero)
+                    .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
                 VaultItemFooter(created: model.created, modified: model.modified)
@@ -135,7 +135,7 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
                     .font(.title)
                     .textCase(.none)
                     .foregroundColor(.label)
-                    .listRowInsets(.zero)
+                    .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
                 VaultItemFooter(created: model.created, modified: model.modified)
@@ -163,7 +163,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                     ElementView(model.primaryItemModel)
                 } header: {
                     TextFieldShim(title: .title, text: $model.title, textStyle: .title1, alignment: .left)
-                        .listRowInsets(.zero)
+                        .listRowInsets(EdgeInsets())
                         .padding()
                 }
                 
@@ -189,7 +189,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 } header: {
                     TextField(.title, text: $model.title)
                         .font(.title)
-                        .listRowInsets(.zero)
+                        .listRowInsets(EdgeInsets())
                         .padding()
                 }
                 
@@ -204,6 +204,22 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
         }
     }
     #endif
+    
+}
+
+private extension Section where Parent: View, Content: View, Footer == EmptyView {
+
+    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
+        self.init(header: header(), content: content)
+    }
+    
+}
+
+private extension Section where Parent: View, Content: View, Footer: View {
+    
+    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent, @ViewBuilder footer: () -> Footer) {
+        self.init(header: header(), footer: footer(), content: content)
+    }
     
 }
 

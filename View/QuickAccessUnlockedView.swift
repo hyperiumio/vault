@@ -51,3 +51,11 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
     #endif
     
 }
+
+private extension Section where Parent: View, Content: View, Footer == EmptyView {
+
+    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
+        self.init(header: header(), content: content)
+    }
+    
+}

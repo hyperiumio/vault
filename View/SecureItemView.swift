@@ -10,7 +10,7 @@ struct SecureItemView<Content>: View where Content: View {
     
     var body: some View {
         content
-            .listRowInsets(.zero)
+            .listRowInsets(EdgeInsets())
             .padding()
     }
     

@@ -37,7 +37,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 } header: {
                     TextFieldShim(title: .title, text: $model.title, textStyle: .title1, alignment: .left)
                         .padding()
-                        .listRowInsets(.zero)
+                        .listRowInsets(EdgeInsets())
                 }
             }
             .toolbar {
@@ -89,7 +89,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                     TextField(.title, text: $model.title)
                         .font(.title)
                         .padding()
-                        .listRowInsets(.zero)
+                        .listRowInsets(EdgeInsets())
                 }
             }
             .toolbar {
@@ -111,6 +111,14 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
         }
     }
     #endif
+}
+
+private extension Section where Parent: View, Content: View, Footer == EmptyView {
+
+    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
+        self.init(header: header(), content: content)
+    }
+    
 }
 
 #if DEBUG

@@ -34,7 +34,7 @@ struct FileView: View {
                 UnrepresentableFileView(item.typeIdentifier)
             }
         }
-        .listRowInsets(.zero)
+        .listRowInsets(EdgeInsets())
     }
     #endif
     
@@ -61,7 +61,7 @@ struct FileView: View {
                 UnrepresentableFileView(item.typeIdentifier)
             }
         }
-        .listRowInsets(.zero)
+        .listRowInsets(EdgeInsets())
     }
     #endif
     

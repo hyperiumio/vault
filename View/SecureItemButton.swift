@@ -42,7 +42,7 @@ struct SecureItemButton<Content>: View where Content: View {
                 }
             }
         }
-        .listRowInsets(.zero)
+        .listRowInsets(EdgeInsets())
         .buttonStyle(BareButtonStyle())
     }
     

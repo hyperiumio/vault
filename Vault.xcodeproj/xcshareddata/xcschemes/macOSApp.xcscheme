@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "95ABC93A24A9D38E009D87A4"
+               BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
                BuildableName = "Vault.app"
-               BlueprintName = "iOSApp"
-               ReferencedContainer = "container:App.xcodeproj">
+               BlueprintName = "macOSApp"
+               ReferencedContainer = "container:Vault.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -143,10 +143,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "95ABC93A24A9D38E009D87A4"
+            BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
             BuildableName = "Vault.app"
-            BlueprintName = "iOSApp"
-            ReferencedContainer = "container:App.xcodeproj">
+            BlueprintName = "macOSApp"
+            ReferencedContainer = "container:Vault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -160,10 +160,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "95ABC93A24A9D38E009D87A4"
+            BlueprintIdentifier = "95ABC94224A9D38E009D87A4"
             BuildableName = "Vault.app"
-            BlueprintName = "iOSApp"
-            ReferencedContainer = "container:App.xcodeproj">
+            BlueprintName = "macOSApp"
+            ReferencedContainer = "container:Vault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
