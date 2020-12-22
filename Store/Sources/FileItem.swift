@@ -20,7 +20,8 @@ public struct FileItem: SecureItemValue, Equatable  {
         
         let infoSizeDataRange = Range(fileItemData.startIndex, count: UInt32CodingSize)
         let infoSizeData = fileItemData[infoSizeDataRange]
-        let infoSize = UInt32Decode(infoSizeData)
+        let rawInfoSize = UInt32Decode(infoSizeData)
+        let infoSize = Int(rawInfoSize)
         
         guard fileItemData.count >= UInt32CodingSize + infoSize else {
             throw StoreError.decodingFailed
@@ -39,7 +40,8 @@ public struct FileItem: SecureItemValue, Equatable  {
         
         let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
         let dataSizeData = fileItemData[dataSizeDataRange]
-        let dataSize = UInt32Decode(dataSizeData)
+        let rawDataSize = UInt32Decode(dataSizeData)
+        let dataSize = Int(rawDataSize)
         
         guard fileItemData.count == UInt32CodingSize + infoSize + UInt32CodingSize + dataSize else {
             throw StoreError.decodingFailed
@@ -55,8 +57,10 @@ public struct FileItem: SecureItemValue, Equatable  {
     public func encoded() throws -> Data {
         let encodableItem = CodableFileItem(typeIdentifier: typeIdentifier.identifier)
         let encodedItem = try JSONEncoder().encode(encodableItem)
-        let encodedItemSize = UInt32Encode(encodedItem.count)
-        let encodedDataSize = UInt32Encode(data.count)
+        let rawItemCount = UInt32(encodedItem.count)
+        let encodedItemSize = UInt32Encode(rawItemCount)
+        let rawDataSize = UInt32(data.count)
+        let encodedDataSize = UInt32Encode(rawDataSize)
         
         return encodedItemSize + encodedItem + encodedDataSize + data
     }
@@ -66,5 +70,13 @@ public struct FileItem: SecureItemValue, Equatable  {
 private struct CodableFileItem: Codable {
     
     let typeIdentifier: String
+    
+}
+
+private extension Range where Bound == Int {
+    
+    init(_ lowerBound: Bound, count: Int) {
+        self = lowerBound ..< lowerBound + count
+    }
     
 }
