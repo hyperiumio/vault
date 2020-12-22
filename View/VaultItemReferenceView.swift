@@ -1,4 +1,4 @@
-import Store
+import Storage
 import SwiftUI
 
 // TODO
@@ -80,7 +80,7 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
 struct VaultItemReferenceViewPreview: PreviewProvider {
     
     static let model: VaultItemReferenceModelStub = {
-        let info = VaultItemInfo(id: UUID(), name: "foo", description: "bar", primaryType: .login, secondaryTypes: [], created: .distantPast, modified: .distantFuture)
+        let info = SecureContainerInfo(id: UUID(), name: "foo", description: "bar", primaryType: .login, secondaryTypes: [], created: .distantPast, modified: .distantFuture)
         return VaultItemReferenceModelStub(state: .loadingFailed, info: info)
     }()
     

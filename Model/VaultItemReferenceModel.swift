@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import Store
+import Storage
 import Sort
 import Crypto
 
@@ -11,7 +11,7 @@ protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable, A
     typealias State = VaultItemReferenceState<VaultItemModel>
     
     var state: State { get }
-    var info: VaultItemInfo { get }
+    var info: SecureContainerInfo { get }
     
     func load()
     
@@ -38,7 +38,7 @@ protocol VaultItemReferenceModelDependency {
     
     associatedtype VaultItemModel: VaultItemModelRepresentable
     
-    func vaultItemModel(vaultItem: VaultItem) -> VaultItemModel
+    func vaultItemModel(vaultItem: SecureContainer) -> VaultItemModel
     
 }
 
@@ -58,12 +58,12 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     @Published private(set) var state = State.initialized
     
-    let info: VaultItemInfo
+    let info: SecureContainerInfo
     
-    private let vault: Vault
+    private let vault: Store
     private let dependency: Dependency
     
-    init(vault: Vault, info: VaultItemInfo, dependency: Dependency) {
+    init(vault: Store, info: SecureContainerInfo, dependency: Dependency) {
         self.vault = vault
         self.info = info
         self.dependency = dependency
@@ -88,11 +88,11 @@ class VaultItemReferenceModelStub: VaultItemReferenceModelRepresentable {
     typealias VaultItemModel = VaultItemModelStub
     
     let state: State
-    let info: VaultItemInfo
+    let info: SecureContainerInfo
     
     func load() {}
     
-    init(state: State, info: VaultItemInfo) {
+    init(state: State, info: SecureContainerInfo) {
         self.state = state
         self.info = info
     }

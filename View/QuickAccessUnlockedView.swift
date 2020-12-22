@@ -1,5 +1,5 @@
 import SwiftUI
-import Store
+import Storage
 
 struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedModelRepresentable {
     

@@ -1,17 +1,17 @@
 import Foundation
 
-struct VaultInfo: Codable {
+struct StoreInfo: Codable {
     
     public let id: UUID
-    public let createdAt: Date
     public let keyVersion: Int
     public let itemVersion: Int
+    public let created: Date
     
     init() {
         self.id = UUID()
-        self.createdAt = Date()
         self.keyVersion = 1
         self.itemVersion = 1
+        self.created = Date()
     }
     
     init(from data: Data) throws {

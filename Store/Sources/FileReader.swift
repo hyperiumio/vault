@@ -18,16 +18,16 @@ class FileReader {
     
     func bytes(in range: Range<Int>) throws -> Data {
         guard isValid else {
-            throw FileReaderError.invalidFileReader
+            throw StorageError.invalidFileReader
         }
         
         guard let fileOffset = UInt64(exactly: range.startIndex) else {
-            throw FileReaderError.invalidByteRange
+            throw StorageError.invalidByteRange
         }
         
         try fileHandle.seek(toOffset: fileOffset)
         guard let data = try? fileHandle.read(upToCount: range.count) else {
-            throw FileReaderError.dataNotAvailable
+            throw StorageError.dataNotAvailable
         }
         
         return data
@@ -45,13 +45,5 @@ extension FileReader {
         
         return try body(fileReader)
     }
-    
-}
-
-enum FileReaderError: Error {
-    
-    case invalidFileReader
-    case invalidByteRange
-    case dataNotAvailable
     
 }

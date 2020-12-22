@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import Store
+import Storage
 import Sort
 import Search
 
@@ -50,9 +50,9 @@ class QuickAccessUnlockedModel: QuickAccessUnlockedModelRepresentable {
     private var itemCollationSubscription: AnyCancellable?
     private let operationQueue = DispatchQueue(label: "QuickAccessUnlockedModelOperationQueue")
     
-    init(vaultItems: [VaultItemInfo: [LoginItem]]) {
+    init(vaultItems: [SecureContainerInfo: [LoginItem]]) {
         
-        func loginCredetials(from vaultItems: [VaultItemInfo: [LoginItem]]) -> [LoginCredential] {
+        func loginCredetials(from vaultItems: [SecureContainerInfo: [LoginItem]]) -> [LoginCredential] {
             vaultItems.flatMap { info, item in
                 item.compactMap { item in
                     guard let username = item.username, let password = item.password else {

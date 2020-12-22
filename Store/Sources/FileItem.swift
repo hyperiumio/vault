@@ -15,7 +15,7 @@ public struct FileItem: SecureItemValue, Equatable  {
     
     public init(from fileItemData: Data) throws {
         guard fileItemData.count >= UInt32CodingSize else {
-            throw StoreError.decodingFailed
+            throw StorageError.decodingFailed
         }
         
         let infoSizeDataRange = Range(fileItemData.startIndex, count: UInt32CodingSize)
@@ -24,18 +24,18 @@ public struct FileItem: SecureItemValue, Equatable  {
         let infoSize = Int(rawInfoSize)
         
         guard fileItemData.count >= UInt32CodingSize + infoSize else {
-            throw StoreError.decodingFailed
+            throw StorageError.decodingFailed
         }
         
         let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = fileItemData[infoSegmentRange]
         let info = try JSONDecoder().decode(CodableFileItem.self, from: infoSegment)
         guard let typeIdentifier = UTType(info.typeIdentifier) else {
-            throw StoreError.decodingFailed
+            throw StorageError.decodingFailed
         }
         
         guard fileItemData.count >= UInt32CodingSize + infoSize + UInt32CodingSize else {
-            throw StoreError.decodingFailed
+            throw StorageError.decodingFailed
         }
         
         let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
@@ -44,7 +44,7 @@ public struct FileItem: SecureItemValue, Equatable  {
         let dataSize = Int(rawDataSize)
         
         guard fileItemData.count == UInt32CodingSize + infoSize + UInt32CodingSize + dataSize else {
-            throw StoreError.decodingFailed
+            throw StorageError.decodingFailed
         }
         
         let dataSegmentRange = Range(dataSizeDataRange.upperBound, count: dataSize)

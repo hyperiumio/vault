@@ -1,4 +1,4 @@
-public enum StoreError: Error {
+public enum StorageError: Error {
     
     case invalidFileReader
     case invalidByteRange

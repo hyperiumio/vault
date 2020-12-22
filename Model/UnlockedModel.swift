@@ -3,7 +3,7 @@ import Crypto
 import Foundation
 import Preferences
 import Search
-import Store
+import Storage
 import Sort
 import UniformTypeIdentifiers
 
@@ -15,7 +15,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
     typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
     
-    var vaultID: UUID { get }
+    var storeID: UUID { get }
     var searchText: String { get set }
     var itemCollation: Collation? { get }
     var settingsModel: SettingsModel { get }
@@ -42,7 +42,7 @@ protocol UnlockedModelDependency {
     
     func settingsModel() -> SettingsModel
     func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel
-    func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel
+    func vaultItemReferenceModel(vaultItemInfo: SecureContainerInfo) -> VaultItemReferenceModel
     
 }
 
@@ -74,17 +74,17 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
         lockRequestSubject.eraseToAnyPublisher()
     }
     
-    var vaultID: UUID { vault.id }
+    var storeID: UUID { vault.id }
     
     let settingsModel: SettingsModel
     
-    private let vault: Vault
+    private let vault: Store
     private let dependency: Dependency
     private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
     private let lockRequestSubject = PassthroughSubject<Bool, Never>()
     private var infoItemsSubscription: AnyCancellable?
     
-    init(vault: Vault, dependency: Dependency) {
+    init(vault: Store, dependency: Dependency) {
         let referenceModels = vault.vaultItemInfos.map(dependency.vaultItemReferenceModel)
         
         self.vault = vault
@@ -199,7 +199,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
     typealias SettingsModel = SettingsModelStub
     typealias VaultItemModel = VaultItemModelStub
     typealias VaultItemReferenceModel = VaultItemReferenceModelStub
-    
+     
     @Published var searchText = ""
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
@@ -211,7 +211,7 @@ class UnlockedModelStub: UnlockedModelRepresentable {
         PassthroughSubject().eraseToAnyPublisher()
     }
     
-    let vaultID = UUID()
+    let storeID = UUID()
     
     func reload() {}
     func createLoginItem() {}

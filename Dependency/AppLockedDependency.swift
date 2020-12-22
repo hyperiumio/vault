@@ -1,6 +1,6 @@
 import Crypto
 import Foundation
-import Store
+import Storage
 import Preferences
 
 struct AppLockedDependency {
@@ -31,7 +31,7 @@ extension AppLockedDependency: AppModelDependency {
         MainModel(dependency: self, vaultID: vaultID)
     }
     
-    func mainModel(vault: Vault) -> MainModel<Self> {
+    func mainModel(vault: Store) -> MainModel<Self> {
         MainModel(dependency: self, vault: vault)
     }
     
@@ -63,7 +63,7 @@ extension AppLockedDependency: MainModelDependency {
         LockedModel(vaultID: vaultID, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
     }
     
-    func unlockedModel(vault: Vault) -> UnlockedModel<AppUnlockedDependency> {
+    func unlockedModel(vault: Store) -> UnlockedModel<AppUnlockedDependency> {
         let dependency = AppUnlockedDependency(vault: vault, preferences: preferences, keychain: keychain)
         return UnlockedModel(vault: vault, dependency: dependency)
     }

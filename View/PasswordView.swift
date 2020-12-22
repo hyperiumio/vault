@@ -1,4 +1,4 @@
-import Store
+import Storage
 import SwiftUI
 
 struct PasswordView: View {

@@ -2,7 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Pasteboard
-import Store
+import Storage
 
 protocol WifiModelRepresentable: ObservableObject, Identifiable {
     

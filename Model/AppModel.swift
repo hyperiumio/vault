@@ -2,7 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Storage
 import Sort
 
 protocol AppModelRepresentable: ObservableObject, Identifiable {
@@ -26,7 +26,7 @@ protocol AppModelDependency {
     func bootstrapModel() -> BootstrapModel
     func setupModel() -> SetupModel
     func mainModel(vaultID: UUID) -> MainModel
-    func mainModel(vault: Vault) -> MainModel
+    func mainModel(vault: Store) -> MainModel
     
 }
 

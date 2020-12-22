@@ -3,7 +3,7 @@ import Identifier
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Storage
 
 protocol ChangeMasterPasswordModelRepresentable: ObservableObject, Identifiable {
     
@@ -32,14 +32,14 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
         errorSubject.eraseToAnyPublisher()
     }
     
-    private let vault: Vault
+    private let vault: Store
     private let preferences: Preferences
     private let keychain: Keychain
     private let doneSubject = PassthroughSubject<Void, Never>()
     private let errorSubject = PassthroughSubject<ChangeMasterPasswordError, Never>()
     private var changeMasterPasswordSubscription: AnyCancellable?
     
-    init(vault: Vault, preferences: Preferences, keychain: Keychain) {
+    init(vault: Store, preferences: Preferences, keychain: Keychain) {
         self.vault = vault
         self.preferences = preferences
         self.keychain = keychain

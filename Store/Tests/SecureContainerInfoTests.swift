@@ -1,8 +1,8 @@
 import Foundation
 import XCTest
-@testable import Store
+@testable import Storage
 
-class VaultItemInfoTests: XCTestCase {
+class SecureContainerInfoTests: XCTestCase {
     
     func testInitFromValues() {
         let id = UUID()
@@ -10,7 +10,7 @@ class VaultItemInfoTests: XCTestCase {
         let created = Date(timeIntervalSince1970: 0)
         let modified = Date(timeIntervalSince1970: 1)
         
-        let info = VaultItemInfo(id: id, name: "foo", description: "bar", primaryType: .password, secondaryTypes: secondaryTypes, created: created, modified: modified)
+        let info = SecureContainerInfo(id: id, name: "foo", description: "bar", primaryType: .password, secondaryTypes: secondaryTypes, created: created, modified: modified)
         
         XCTAssertEqual(info.id, id)
         XCTAssertEqual(info.name, "foo")
@@ -24,7 +24,7 @@ class VaultItemInfoTests: XCTestCase {
     func testInitFromValuesNilValues() {
         let id = UUID()
         
-        let info = VaultItemInfo(id: id, name: "", description: nil, primaryType: .password, secondaryTypes: [], created: .distantPast, modified: .distantPast)
+        let info = SecureContainerInfo(id: id, name: "", description: nil, primaryType: .password, secondaryTypes: [], created: .distantPast, modified: .distantPast)
         
         XCTAssertNil(info.description)
     }
@@ -42,7 +42,7 @@ class VaultItemInfoTests: XCTestCase {
         }
         """.data(using: .utf8)!
         
-        let info = try VaultItemInfo(from: data)
+        let info = try SecureContainerInfo(from: data)
         
         XCTAssertEqual(info.id.uuidString, "145E33F1-6CE9-4BFF-B261-3D5E71F8C50A")
         XCTAssertEqual(info.name, "foo")
@@ -56,7 +56,7 @@ class VaultItemInfoTests: XCTestCase {
     func testInitFromInvalidData() {
         let data = "".data(using: .utf8)!
         
-        XCTAssertThrowsError(try VaultItemInfo(from: data))
+        XCTAssertThrowsError(try SecureContainerInfo(from: data))
     }
     
     func testEncoded() throws {
@@ -65,7 +65,7 @@ class VaultItemInfoTests: XCTestCase {
         let expectedCreated = Date(timeIntervalSince1970: 0)
         let expectedModified = Date(timeIntervalSince1970: 1)
         
-        let info = try VaultItemInfo(id: expectedID, name: "foo", description: "bar", primaryType: .password, secondaryTypes: expectedSecondaryTypes, created: expectedCreated, modified: expectedModified).encoded()
+        let info = try SecureContainerInfo(id: expectedID, name: "foo", description: "bar", primaryType: .password, secondaryTypes: expectedSecondaryTypes, created: expectedCreated, modified: expectedModified).encoded()
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: info) as? [String: Any])
         
         let id = try XCTUnwrap(json["id"] as? String)

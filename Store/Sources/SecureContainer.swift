@@ -1,16 +1,16 @@
 import Foundation
 
-public struct VaultItem {
+public struct SecureContainer {
     
     public let id: UUID
     public let name: String
-    public let primarySecureItem: SecureItem
-    public let secondarySecureItems: [SecureItem]
+    public let primaryItem: SecureItem
+    public let secondaryItems: [SecureItem]
     public let created: Date
     public let modified: Date
     
     public var description: String? {
-        switch primarySecureItem {
+        switch primaryItem {
         case .password:
             let formatter = DateFormatter()
             formatter.dateStyle = .short
@@ -35,11 +35,11 @@ public struct VaultItem {
         }
     }
     
-    public init(id: UUID, name: String, primarySecureItem: SecureItem, secondarySecureItems: [SecureItem], created: Date, modified: Date) {
+    public init(id: UUID, name: String, primaryItem: SecureItem, secondaryItems: [SecureItem], created: Date, modified: Date) {
         self.id = id
         self.name = name
-        self.primarySecureItem = primarySecureItem
-        self.secondarySecureItems = secondarySecureItems
+        self.primaryItem = primaryItem
+        self.secondaryItems = secondaryItems
         self.created = created
         self.modified = modified
     }

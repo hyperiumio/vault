@@ -1,5 +1,5 @@
 import XCTest
-@testable import Store
+@testable import Storage
 
 class FileItemTests: XCTestCase {
     
