@@ -1,5 +1,5 @@
 import Combine
-import Store
+import Storage
 import Crypto
 import Foundation
 
@@ -20,7 +20,7 @@ protocol MainModelDependency {
     associatedtype UnlockedModel: UnlockedModelRepresentable
     
     func lockedModel(vaultID: UUID) -> LockedModel
-    func unlockedModel(vault: Vault) -> UnlockedModel
+    func unlockedModel(vault: Store) -> UnlockedModel
     
 }
 
@@ -38,7 +38,7 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     
     @Published var state: State
     
-    convenience init(dependency: Dependency, vault: Vault) {
+    convenience init(dependency: Dependency, vault: Store) {
         let unlockedModel = dependency.unlockedModel(vault: vault)
         let state = State.unlocked(model: unlockedModel)
         
@@ -64,7 +64,7 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
             case .unlocked(let model):
                 return model.lockRequest
                     .map { enableBiometricUnlock in
-                        let model = dependency.lockedModel(vaultID: model.vaultID)
+                        let model = dependency.lockedModel(vaultID: model.storeID)
                         return .locked(model: model, userBiometricUnlock: enableBiometricUnlock)
                     }
                     .eraseToAnyPublisher()

@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 import Pasteboard
-import Store
+import Storage
 
 protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     

@@ -1,6 +1,6 @@
 import Combine
 import Pasteboard
-import Store
+import Storage
 
 protocol NoteModelRepresentable: ObservableObject, Identifiable {
     

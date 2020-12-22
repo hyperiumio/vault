@@ -3,7 +3,7 @@ import Crypto
 import Foundation
 import Preferences
 import Identifier
-import Store
+import Storage
 
 protocol SettingsModelRepresentable: ObservableObject, Identifiable {
     
@@ -43,14 +43,14 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     
     let changeMasterPasswordModel: ChangeMasterPasswordModel
     
-    private let vault: Vault
+    private let vault: Store
     private let preferences: Preferences
     private let keychain: Keychain
     private let dependency: Dependency
     private let errorSubject = PassthroughSubject<SettingModelError, Never>()
     private var isBiometricUnlockEnabledSubscription: AnyCancellable?
     
-    init(vault: Vault, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
+    init(vault: Store, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
         self.vault = vault
         self.preferences = preferences
         self.keychain = keychain

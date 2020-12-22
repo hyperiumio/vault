@@ -2,7 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Storage
 import Sort
 
 protocol SetupModelRepresentable: ObservableObject, Identifiable {
@@ -14,7 +14,7 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     
     typealias State = SetupState<ChoosePasswordModel, RepeatPasswordModel, EnableBiometricUnlockModel, CompleteSetupModel>
     
-    var done: AnyPublisher<Vault, Never> { get }
+    var done: AnyPublisher<Store, Never> { get }
     var state: State { get }
     
 }
@@ -66,10 +66,10 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
 
     @Published var state: State
     
-    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let doneSubject = PassthroughSubject<Store, Never>()
     private var setupCompleteSubscription: AnyCancellable?
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<Store, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -145,7 +145,7 @@ class SetupModelStub: SetupModelRepresentable {
     
     let state: State
     
-    var done: AnyPublisher<Vault, Never> {
+    var done: AnyPublisher<Store, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

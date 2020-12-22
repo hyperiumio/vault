@@ -1,6 +1,6 @@
 import Foundation
 
-public struct VaultItemInfo: Codable, Hashable {
+public struct SecureContainerInfo: Codable, Hashable {
     
     public let id: UUID
     public let name: String

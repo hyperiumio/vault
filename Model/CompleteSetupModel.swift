@@ -1,14 +1,14 @@
 import Combine
 import Crypto
 import Foundation
-import Store
+import Storage
 import Identifier
 import Preferences
 
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {
     
     var isLoading: Bool { get }
-    var event: AnyPublisher<Vault, Never> { get }
+    var event: AnyPublisher<Store, Never> { get }
     var error: AnyPublisher<CompleteSetupModelError, Never> { get }
     
     func createVault()
@@ -32,11 +32,11 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
     private let vaultContainerDirectory: URL
     private let preferences: Preferences
     private let keychain: Keychain
-    private let doneSubject = PassthroughSubject<Vault, Never>()
+    private let doneSubject = PassthroughSubject<Store, Never>()
     private let errorSubject = PassthroughSubject<CompleteSetupModelError, Never>()
     private var createVaultSubscription: AnyCancellable?
     
-    var event: AnyPublisher<Vault, Never> {
+    var event: AnyPublisher<Store, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -58,8 +58,8 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         }
         
         isLoading = true
-        createVaultSubscription = Vault.create(in: vaultContainerDirectory, using: password)
-            .flatMap { [biometricUnlockEnabled, keychain] vault -> AnyPublisher<Vault, Error> in
+        createVaultSubscription = Store.create(in: vaultContainerDirectory, using: password)
+            .flatMap { [biometricUnlockEnabled, keychain] vault -> AnyPublisher<Store, Error> in
                 if biometricUnlockEnabled {
                     return keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
                         .map { vault }
@@ -94,7 +94,7 @@ class CompleteSetupModelStub: CompleteSetupModelRepresentable {
     
     @Published var isLoading = false
     
-    var event: AnyPublisher<Vault, Never> {
+    var event: AnyPublisher<Store, Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

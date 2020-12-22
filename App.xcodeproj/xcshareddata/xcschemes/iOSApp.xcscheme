@@ -121,9 +121,9 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StoreTests"
-               BuildableName = "StoreTests"
-               BlueprintName = "StoreTests"
+               BlueprintIdentifier = "StorageTests"
+               BuildableName = "StorageTests"
+               BlueprintName = "StorageTests"
                ReferencedContainer = "container:Store">
             </BuildableReference>
          </TestableReference>

@@ -1,6 +1,6 @@
 import Foundation
 import UniformTypeIdentifiers
-import Store
+import Storage
 
 protocol FileModelRepresentable: ObservableObject, Identifiable {
     

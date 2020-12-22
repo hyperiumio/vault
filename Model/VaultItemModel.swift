@@ -1,7 +1,7 @@
 import Combine
 import Crypto
 import Foundation
-import Store
+import Storage
 
 protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable {
     
@@ -130,24 +130,24 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         doneSubject.eraseToAnyPublisher()
     }
     
-    private let vault: Vault
+    private let vault: Store
     private let dependency: Dependency
-    private let originalVaultItem: VaultItem?
+    private let originalVaultItem: SecureContainer?
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var addItemSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     private var deleteSubscription: AnyCancellable?
     
-    init(vault: Vault, vaultItem: VaultItem, dependency: Dependency) {
+    init(vault: Store, vaultItem: SecureContainer, dependency: Dependency) {
         self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = vaultItem
         self.title = vaultItem.name
-        self.primaryItemModel = dependency.vaultItemElement(from: vaultItem.primarySecureItem)
-        self.secondaryItemModels = vaultItem.secondarySecureItems.map(dependency.vaultItemElement)
+        self.primaryItemModel = dependency.vaultItemElement(from: vaultItem.primaryItem)
+        self.secondaryItemModels = vaultItem.secondaryItems.map(dependency.vaultItemElement)
     }
     
-    init(vault: Vault, secureItem: SecureItem, dependency: Dependency) {
+    init(vault: Store, secureItem: SecureItem, dependency: Dependency) {
         self.vault = vault
         self.dependency = dependency
         self.originalVaultItem = nil
@@ -167,18 +167,18 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
         guard let originalVaultItem = originalVaultItem else { return }
         
         title = originalVaultItem.name
-        primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primarySecureItem)
-        secondaryItemModels = originalVaultItem.secondarySecureItems.map(dependency.vaultItemElement)
+        primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primaryItem)
+        secondaryItemModels = originalVaultItem.secondaryItems.map(dependency.vaultItemElement)
     }
     
     func save() {
         let now = Date()
         let id = originalVaultItem?.id ?? UUID()
-        let primarySecureItem = primaryItemModel.secureItem
-        let secondarySecureItems = secondaryItemModels.map(\.secureItem)
+        let primaryItem = primaryItemModel.secureItem
+        let secondaryItems = secondaryItemModels.map(\.secureItem)
         let created = originalVaultItem?.created ?? now
         let modified = now
-        let vaultItem = VaultItem(id: id, name: title, primarySecureItem: primarySecureItem, secondarySecureItems: secondarySecureItems, created: created, modified: modified)
+        let vaultItem = SecureContainer(id: id, name: title, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
         
         saveSubscription = vault.save(vaultItem)
             .receive(on: DispatchQueue.main)

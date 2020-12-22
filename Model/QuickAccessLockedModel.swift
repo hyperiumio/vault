@@ -2,7 +2,7 @@ import Combine
 import Identifier
 import Foundation
 import Preferences
-import Store
+import Storage
 import Crypto
 
 protocol QuickAccessLockedModelRepresentable: ObservableObject, Identifiable {
@@ -10,7 +10,7 @@ protocol QuickAccessLockedModelRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var keychainAvailability: Keychain.Availability { get }
     var status: QuickAccessLockedStatus { get }
-    var done: AnyPublisher<[VaultItemInfo: [LoginItem]], Never> { get }
+    var done: AnyPublisher<[SecureContainerInfo: [LoginItem]], Never> { get }
     var error: AnyPublisher<QuickAccessLockedError, Never> { get }
     
     func loginWithMasterPassword()
@@ -43,12 +43,12 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
     let keychainAvailability: Keychain.Availability
     
     private let keychain: Keychain
-    private let vaultContainerPublisher: AnyPublisher<VaultContainer, Error>
-    private let doneSubject = PassthroughSubject<[VaultItemInfo: [LoginItem]], Never>()
+    private let vaultContainerPublisher: AnyPublisher<EncryptedStore, Error>
+    private let doneSubject = PassthroughSubject<[SecureContainerInfo: [LoginItem]], Never>()
     private let errorSubject = PassthroughSubject<QuickAccessLockedError, Never>()
     private var openVaultSubscription: AnyCancellable?
     
-    var done: AnyPublisher<[VaultItemInfo: [LoginItem]], Never> {
+    var done: AnyPublisher<[SecureContainerInfo: [LoginItem]], Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -58,7 +58,7 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
     
     init(vaultID: UUID, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
-        self.vaultContainerPublisher = Vault.load(vaultID: vaultID, in: vaultContainerDirectory)
+        self.vaultContainerPublisher = Store.load(vaultID: vaultID, in: vaultContainerDirectory)
         self.keychain = keychain
     }
     
@@ -94,7 +94,7 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         
         let keyPublisher = keychain.loadSecret(forKey: Identifier.derivedKey)
         openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKeyData -> [VaultItemInfo: [LoginItem]]? in
+            .tryMap { vaultContainer, derivedKeyData -> [SecureContainerInfo: [LoginItem]]? in
                 if let derivedKeyData = derivedKeyData {
                     let derivedKey = CryptoKey(derivedKeyData)
                     return try vaultContainer.decryptSecureItems(for: LoginItem.self, with: derivedKey)

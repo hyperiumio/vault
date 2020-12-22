@@ -3,16 +3,16 @@
 import PackageDescription
 
 let package = Package(
-    name: "Store",
+    name: "Storage",
     platforms: [
         .macOS(.v11),
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Store", targets: ["Store"])
+        .library(name: "Storage", targets: ["Storage"])
     ],
     targets: [
-        .target(name: "Store", path: "Sources"),
-        .testTarget(name: "StoreTests", dependencies: ["Store"], path: "Tests")
+        .target(name: "Storage", path: "Sources"),
+        .testTarget(name: "StorageTests", dependencies: ["Storage"], path: "Tests")
     ]
 )

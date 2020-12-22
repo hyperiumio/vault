@@ -1,15 +1,15 @@
 import Crypto
 import Preferences
-import Store
+import Storage
 import UniformTypeIdentifiers
 
 struct AppUnlockedDependency {
     
-    private let vault: Vault
+    private let vault: Store
     private let preferences: Preferences
     private let keychain: Keychain
     
-    init(vault: Vault, preferences: Preferences, keychain: Keychain) {
+    init(vault: Store, preferences: Preferences, keychain: Keychain) {
         self.vault = vault
         self.preferences = preferences
         self.keychain = keychain
@@ -24,7 +24,7 @@ extension AppUnlockedDependency: UnlockedModelDependency {
         SettingsModel(vault: vault, preferences: preferences, keychain: keychain, dependency: self)
     }
     
-    func vaultItemReferenceModel(vaultItemInfo: VaultItemInfo) -> VaultItemReferenceModel<Self> {
+    func vaultItemReferenceModel(vaultItemInfo: SecureContainerInfo) -> VaultItemReferenceModel<Self> {
         VaultItemReferenceModel(vault: vault, info: vaultItemInfo, dependency: self)
     }
     
@@ -44,7 +44,7 @@ extension AppUnlockedDependency: SettingsModelDependency {
 
 extension AppUnlockedDependency: VaultItemReferenceModelDependency {
     
-    func vaultItemModel(vaultItem: VaultItem) -> VaultItemModel {
+    func vaultItemModel(vaultItem: SecureContainer) -> VaultItemModel {
         VaultItemModel(vault: vault, vaultItem: vaultItem, dependency: self)
     }
     

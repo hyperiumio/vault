@@ -1,5 +1,5 @@
 import Combine
-import Store
+import Storage
 import Crypto
 import Foundation
 import Sort
@@ -22,7 +22,7 @@ protocol QuickAccessModelDependency {
     associatedtype QuickAccessUnlockedModel: QuickAccessUnlockedModelRepresentable
     
     func quickAccessLockedModel(vaultID: UUID) -> QuickAccessLockedModel
-    func quickAccessUnlockedModel(vaultItems: [VaultItemInfo: [LoginItem]]) -> QuickAccessUnlockedModel
+    func quickAccessUnlockedModel(vaultItems: [SecureContainerInfo: [LoginItem]]) -> QuickAccessUnlockedModel
     
 }
 

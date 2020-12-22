@@ -2,7 +2,7 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Storage
 
 protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
     
@@ -54,7 +54,7 @@ class BootstrapModel: BootstrapModelRepresentable {
             return
         }
         
-        vaultLocationSubscription = Vault.vaultExists(with: activeVaultIdentifier, in: vaultContainerDirectory)
+        vaultLocationSubscription = Store.vaultExists(with: activeVaultIdentifier, in: vaultContainerDirectory)
             .map { vaultExists in
                 vaultExists ? .locked(vaultID: activeVaultIdentifier) : .setup
             }

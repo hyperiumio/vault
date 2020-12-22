@@ -29,6 +29,10 @@
 		9539B1FF25405D8D00C81A2A /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
 		9539B20D2540692000C81A2A /* PDFViewShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFViewShim.swift */; };
 		9539B20E2540692000C81A2A /* PDFViewShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFViewShim.swift */; };
+		953C7E6A259217E800DA7CBE /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 953C7E69259217E800DA7CBE /* Storage */; };
+		953C7E6C259217F800DA7CBE /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 953C7E6B259217F800DA7CBE /* Storage */; };
+		953C7E6E2592181A00DA7CBE /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 953C7E6D2592181A00DA7CBE /* Storage */; };
+		953C7E702592182300DA7CBE /* Storage in Frameworks */ = {isa = PBXBuildFile; productRef = 953C7E6F2592182300DA7CBE /* Storage */; };
 		9540F5AB256FDCF200D8514C /* QuickAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* QuickAccessView.swift */; };
 		9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
 		9540F5D5256FF72F00D8514C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5D4256FF72F00D8514C /* Crypto */; };
@@ -143,8 +147,6 @@
 		957AAB5D256D860000245A68 /* CenteredLabelStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */; };
 		95842D49256FAB180080711C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
 		95842D6C256FBE2B0080711C /* QuickAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* QuickAccessView.swift */; };
-		9584E4CA2518C60E00C6D772 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 9584E4C92518C60E00C6D772 /* Store */; };
-		9584E4D32518CC5500C6D772 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 9584E4D22518CC5500C6D772 /* Store */; };
 		958648FB251E11130081DF08 /* SecureItemField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FA251E11130081DF08 /* SecureItemField.swift */; };
 		958648FC251E11130081DF08 /* SecureItemField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FA251E11130081DF08 /* SecureItemField.swift */; };
 		95864900251E11520081DF08 /* SecureItemTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FF251E11520081DF08 /* SecureItemTextField.swift */; };
@@ -242,10 +244,8 @@
 		95C9949F2574F5C600C3A758 /* UnlockField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* UnlockField.swift */; };
 		95C994AE2574F5E000C3A758 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
 		95C994B32574F5E000C3A758 /* BiometricUnlockButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */; };
-		95C994BA2574F61C00C3A758 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994B92574F61C00C3A758 /* Store */; };
 		95C994C02574F62400C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994BF2574F62400C3A758 /* Preferences */; };
 		95C994CE2574F64900C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CD2574F64900C3A758 /* Preferences */; };
-		95C994D02574F64E00C3A758 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CF2574F64E00C3A758 /* Store */; };
 		95C994DA2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
 		95C994DB2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
 		95C994FC25765E3A00C3A758 /* TextFieldShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B2C3CB256A92F300CAA97A /* TextFieldShim.swift */; };
@@ -456,7 +456,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				95C994D02574F64E00C3A758 /* Store in Frameworks */,
+				953C7E702592182300DA7CBE /* Storage in Frameworks */,
 				9569CBAE257021F50065E860 /* Identifier in Frameworks */,
 				956F4B462577A76400E90BE2 /* Sort in Frameworks */,
 				95C994CE2574F64900C3A758 /* Preferences in Frameworks */,
@@ -469,11 +469,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				953C7E6E2592181A00DA7CBE /* Storage in Frameworks */,
 				9569CBAC257021EB0065E860 /* Identifier in Frameworks */,
 				956F4B442577A75D00E90BE2 /* Sort in Frameworks */,
 				95C994C02574F62400C3A758 /* Preferences in Frameworks */,
 				95375C37257A939500624AE6 /* Search in Frameworks */,
-				95C994BA2574F61C00C3A758 /* Store in Frameworks */,
 				9540F5D5256FF72F00D8514C /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -483,12 +483,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				95ABC96524A9D5AA009D87A4 /* Search in Frameworks */,
-				9584E4CA2518C60E00C6D772 /* Store in Frameworks */,
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95E609FE24C073C60053D4E0 /* Sync in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
+				953C7E6A259217E800DA7CBE /* Storage in Frameworks */,
 				9569CBA8257021DE0065E860 /* Identifier in Frameworks */,
 				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
@@ -500,11 +500,11 @@
 			files = (
 				9512F7F924B46733008A4DB8 /* Sync in Frameworks */,
 				95ABC97124A9D5B8009D87A4 /* Search in Frameworks */,
-				9584E4D32518CC5500C6D772 /* Store in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
+				953C7E6C259217F800DA7CBE /* Storage in Frameworks */,
 				9569CBAA257021E50065E860 /* Identifier in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 			);
@@ -757,9 +757,9 @@
 				9540F5DA256FF8E400D8514C /* Crypto */,
 				9569CBAD257021F50065E860 /* Identifier */,
 				95C994CD2574F64900C3A758 /* Preferences */,
-				95C994CF2574F64E00C3A758 /* Store */,
 				956F4B452577A76400E90BE2 /* Sort */,
 				95375C34257A938C00624AE6 /* Search */,
+				953C7E6F2592182300DA7CBE /* Storage */,
 			);
 			productName = macOSCredentialProvider;
 			productReference = 952A9640256FDA0F003E0584 /* CredentialProvider.appex */;
@@ -781,10 +781,10 @@
 			packageProductDependencies = (
 				9540F5D4256FF72F00D8514C /* Crypto */,
 				9569CBAB257021EB0065E860 /* Identifier */,
-				95C994B92574F61C00C3A758 /* Store */,
 				95C994BF2574F62400C3A758 /* Preferences */,
 				956F4B432577A75D00E90BE2 /* Sort */,
 				95375C36257A939500624AE6 /* Search */,
+				953C7E6D2592181A00DA7CBE /* Storage */,
 			);
 			productName = "iOS Credential Provider";
 			productReference = 952A9631256FD8E3003E0584 /* CredentialProvider.appex */;
@@ -811,10 +811,10 @@
 				95ABC96424A9D5AA009D87A4 /* Search */,
 				95E609FD24C073C60053D4E0 /* Sync */,
 				95F8BBC824CEC936001FC495 /* Sort */,
-				9584E4C92518C60E00C6D772 /* Store */,
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
 				9569CBA7257021DE0065E860 /* Identifier */,
+				953C7E69259217E800DA7CBE /* Storage */,
 			);
 			productName = iOS;
 			productReference = 957680D6256FC25F00E1C62B /* Vault.app */;
@@ -841,10 +841,10 @@
 				95ABC97024A9D5B8009D87A4 /* Search */,
 				9512F7F824B46733008A4DB8 /* Sync */,
 				95F8BBCA24CEC949001FC495 /* Sort */,
-				9584E4D22518CC5500C6D772 /* Store */,
 				950C70382548205A001BB318 /* Crypto */,
 				95AA68DA2565420E00616D56 /* Format */,
 				9569CBA9257021E50065E860 /* Identifier */,
+				953C7E6B259217F800DA7CBE /* Storage */,
 			);
 			productName = macOS;
 			productReference = 95E30FE0256FD4FA00A850EE /* Vault.app */;
@@ -1624,6 +1624,22 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
 		};
+		953C7E69259217E800DA7CBE /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
+		953C7E6B259217F800DA7CBE /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
+		953C7E6D2592181A00DA7CBE /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
+		953C7E6F2592182300DA7CBE /* Storage */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Storage;
+		};
 		9540F5D4256FF72F00D8514C /* Crypto */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Crypto;
@@ -1656,14 +1672,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Sort;
 		};
-		9584E4C92518C60E00C6D772 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
-		};
-		9584E4D22518CC5500C6D772 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
-		};
 		95AA68DA2565420E00616D56 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
@@ -1692,10 +1700,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Search;
 		};
-		95C994B92574F61C00C3A758 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
-		};
 		95C994BF2574F62400C3A758 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Preferences;
@@ -1703,10 +1707,6 @@
 		95C994CD2574F64900C3A758 /* Preferences */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Preferences;
-		};
-		95C994CF2574F64E00C3A758 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
 		};
 		95E609FD24C073C60053D4E0 /* Sync */ = {
 			isa = XCSwiftPackageProductDependency;
