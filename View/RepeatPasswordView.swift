@@ -39,7 +39,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 
                 Spacer()
                 
-                TextFieldShim(title: .enterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
+                TextFieldShim(title: .localizedEnterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
                     .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()

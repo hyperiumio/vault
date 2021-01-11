@@ -50,7 +50,7 @@ class BankCardItemTests: XCTestCase {
         XCTAssertNil(none)
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = BankCardItem(name: "", number: "", expirationDate: .distantPast, pin: "")
         
         XCTAssertEqual(item.secureItemType, .bankCard)

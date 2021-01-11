@@ -3,7 +3,7 @@ import XCTest
 
 class SecureItemTypeTests: XCTestCase {
     
-    func testSecureItemTypeIdentifierId() {
+    func testSecureItemTypeID() {
         XCTAssertEqual(SecureItemType.password.id, .password)
         XCTAssertEqual(SecureItemType.login.id, .login)
         XCTAssertEqual(SecureItemType.file.id, .file)

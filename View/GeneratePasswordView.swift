@@ -32,7 +32,7 @@ struct GeneratePasswordView: View {
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(.characters(model.length))
+                Text(String.localizedCharacters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
             }
@@ -63,7 +63,7 @@ struct GeneratePasswordView: View {
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(.characters(model.length))
+                Text(String.localizedCharacters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
                     .alignmentGuide(.custom) { dimension in

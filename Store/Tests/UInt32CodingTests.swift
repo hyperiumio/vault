@@ -11,12 +11,18 @@ class UInt32CodingTests: XCTestCase {
     }
     
     
-    func testDecodeUInt32SliceIndependent() {
+    func testDecodeUInt32() throws {
         let dataChunk = Data([255, 1, 2, 3, 4])
         let data = dataChunk[1...]
-        let value = UInt32Decode(data)
+        let value = try UInt32Decode(data)
         
         XCTAssertEqual(value, 67305985)
+    }
+    
+    func testDecodeUInt32InvalidDataSize() throws {
+        let data = Data()
+        
+        XCTAssertThrowsError(try UInt32Decode(data))
     }
     
 }

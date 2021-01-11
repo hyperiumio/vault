@@ -85,7 +85,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
             Color.systemBackground.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 20) {
-                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                UnlockField(.localizedMasterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
                     .frame(maxWidth: 300)
                 

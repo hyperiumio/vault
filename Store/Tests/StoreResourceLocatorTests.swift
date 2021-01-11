@@ -3,44 +3,53 @@ import XCTest
 
 class StoreResourceLocatorTests: XCTestCase {
     
-    let rootUrl = URL(string: "file://foo/bar")!
+    let storeURL = URL(string: "file://foo/bar")!
     
     func testInit() {
-        let rootDirectory = StoreResourceLocator(rootUrl).rootDirectory
+        let locator = StoreResourceLocator(storeURL: storeURL)
         
-        XCTAssertEqual(rootDirectory.absoluteString, "file://foo/bar")
+        XCTAssertEqual(locator.storeURL.absoluteString, "file://foo/bar")
     }
     
-    func testContainer() {
-        let container = StoreResourceLocator(rootUrl).container
+    func testInfoURL() {
+        let locator = StoreResourceLocator(storeURL: storeURL)
         
-        XCTAssertEqual(container.absoluteString, "file://foo/")
+        XCTAssertEqual(locator.infoURL.absoluteString, "file://foo/bar/Info.json")
     }
     
-    func testKeyFile() {
-        let key = StoreResourceLocator(rootUrl).key
+    func testDerivedKeyContainerURL() {
+        let locator = StoreResourceLocator(storeURL: storeURL)
         
-        XCTAssertEqual(key.absoluteString, "file://foo/bar/Key")
+        XCTAssertEqual(locator.derivedKeyContainerURL.absoluteString, "file://foo/bar/DerivedKeyContainer")
     }
     
-    func testInfoFile() {
-        let info = StoreResourceLocator(rootUrl).info
+    func testMasterKeyContainerURL() {
+        let locator = StoreResourceLocator(storeURL: storeURL)
         
-        XCTAssertEqual(info.absoluteString, "file://foo/bar/Info.json")
+        XCTAssertEqual(locator.masterKeyContainerURL.absoluteString, "file://foo/bar/MasterKeyContainer")
     }
     
-    func testItemsDirectory() {
-        let items = StoreResourceLocator(rootUrl).items
+    func testItemsURL() {
+        let locator = StoreResourceLocator(storeURL: storeURL)
         
-        XCTAssertEqual(items.absoluteString, "file://foo/bar/Items/")
+        XCTAssertEqual(locator.itemsURL.absoluteString, "file://foo/bar/Items/")
     }
     
-    func testItemFile() throws {
-        let item = StoreResourceLocator(rootUrl).item()
+    func testGenerateItemURL() throws {
+        let item = StoreResourceLocator(storeURL: storeURL).generateItemURL()
         
         let itemID = try XCTUnwrap(UUID(uuidString: item.lastPathComponent))
         XCTAssertEqual(item.absoluteString, "file://foo/bar/Items/\(itemID.uuidString)")
     }
     
+    func testGenerateStoreResourceLocator() {
+        let expectedContainerURL = URL(string: "file://foo")!
+        let locator = StoreResourceLocator.generate(in: expectedContainerURL)
+        let containerURL = locator.storeURL.deletingLastPathComponent()
+        let storeID = UUID(uuidString: locator.storeURL.lastPathComponent)
+        
+        XCTAssertEqual(containerURL.absoluteString, "file://foo/")
+        XCTAssertNotNil(storeID)
+    }
+    
 }
-

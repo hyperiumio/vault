@@ -15,7 +15,7 @@ class GeneratePasswordModel: ObservableObject {
         Publishers.CombineLatest3($length, $digitsEnabled, $symbolsEnabled)
             .receive(on: operationQueue)
             .map { length, digitsEnabled, symbolsEnabled in
-                try? Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+                try? PasswordGenerator(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
             }
             .receive(on: DispatchQueue.main)
             .assign(to: &$password)

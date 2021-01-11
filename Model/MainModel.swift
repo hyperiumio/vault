@@ -19,15 +19,15 @@ protocol MainModelDependency {
     associatedtype LockedModel: LockedModelRepresentable
     associatedtype UnlockedModel: UnlockedModelRepresentable
     
-    func lockedModel(vaultID: UUID) -> LockedModel
-    func unlockedModel(vault: Store) -> UnlockedModel
+    func lockedModel(store: Store) -> LockedModel
+    func unlockedModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [Store.ItemLocator: StoreItemInfo]) -> UnlockedModel
     
 }
 
 enum MainModelState<Locked, Unlocked> {
     
-    case locked(model: Locked, userBiometricUnlock: Bool)
-    case unlocked(model: Unlocked)
+    case locked(model: Locked, store: Store, userBiometricUnlock: Bool)
+    case unlocked(model: Unlocked, store: Store)
     
 }
 
@@ -38,34 +38,46 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     
     @Published var state: State
     
-    convenience init(dependency: Dependency, vault: Store) {
-        let unlockedModel = dependency.unlockedModel(vault: vault)
-        let state = State.unlocked(model: unlockedModel)
-        
-        self.init(dependency: dependency, state: state)
-    }
-    
-    convenience init(dependency: Dependency, vaultID: UUID) {
-        let lockedModel = dependency.lockedModel(vaultID: vaultID)
-        let state = State.locked(model: lockedModel, userBiometricUnlock: true)
-        
-        self.init(dependency: dependency, state: state)
-    }
-    
-    private init(dependency: Dependency, state: State) {
+    init(dependency: Dependency, state: State) {
         
         func statePublisher(from state: State) -> AnyPublisher<State, Never> {
             switch state {
-            case .locked(let model, _):
-                return model.done
-                    .map(dependency.unlockedModel)
-                    .map(MainModelState.unlocked)
+            case .locked(let model, let store, _):
+                let encryptedItemIndexLoaded = store.loadItems() { context -> (Store.ItemLocator, SecureDataHeader, SecureDataMessage) in
+                    let header = try SecureDataHeader { range in
+                        try context.bytes(in: range)
+                    }
+                    let nonceDataRange = header.elements[.infoIndex].nonceRange
+                    let ciphertextRange = header.elements[.infoIndex].ciphertextRange
+                    let nonce = try context.bytes(in: nonceDataRange)
+                    let ciphertext = try context.bytes(in: ciphertextRange)
+                    let tag = header.elements[.infoIndex].tag
+                    let message = SecureDataMessage(nonce: nonce, ciphertext: ciphertext, tag: tag)
+                    return (context.itemLocator, header, message)
+                }
+                .assertNoFailure()
+                .collect()
+                
+                return Publishers.Zip(encryptedItemIndexLoaded, model.done)
+                    .tryMap { encryptedItemIndex, keys in
+                        let (derivedKey, masterKey) = keys
+                        let itemIndexValues = try encryptedItemIndex.map { itemLocator, header, message in
+                            let messageKey = try header.unwrapKey(with: masterKey)
+                            let encodedItemInfo = try message.decrypt(using: messageKey)
+                            let storeItemInfo = try StoreItemInfo(from: encodedItemInfo)
+                            return (itemLocator, storeItemInfo)
+                        } as [(Store.ItemLocator, StoreItemInfo)]
+                        let itemIndex = Dictionary(uniqueKeysWithValues: itemIndexValues)
+                        let model = dependency.unlockedModel(store: store, derivedKey: derivedKey, masterKey: masterKey, itemIndex: itemIndex)
+                        return MainModelState.unlocked(model: model, store: store)
+                    }
+                    .assertNoFailure()
                     .eraseToAnyPublisher()
-            case .unlocked(let model):
+            case .unlocked(let model, let store):
                 return model.lockRequest
                     .map { enableBiometricUnlock in
-                        let model = dependency.lockedModel(vaultID: model.storeID)
-                        return .locked(model: model, userBiometricUnlock: enableBiometricUnlock)
+                        let model = dependency.lockedModel(store: store)
+                        return .locked(model: model, store: store, userBiometricUnlock: enableBiometricUnlock)
                     }
                     .eraseToAnyPublisher()
             }
@@ -80,6 +92,15 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
             .flatMap(statePublisher)
             .assign(to: &$state)
     }
+    
+}
+
+private extension Int {
+    
+    static let versionIndex = 0
+    static let infoIndex = 0
+    static let primarySecureItemIndex = 1
+    static let secondarySecureItemIndex = 2
     
 }
 

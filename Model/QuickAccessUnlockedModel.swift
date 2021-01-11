@@ -50,9 +50,9 @@ class QuickAccessUnlockedModel: QuickAccessUnlockedModelRepresentable {
     private var itemCollationSubscription: AnyCancellable?
     private let operationQueue = DispatchQueue(label: "QuickAccessUnlockedModelOperationQueue")
     
-    init(vaultItems: [SecureContainerInfo: [LoginItem]]) {
+    init(vaultItems: [StoreItemInfo: [LoginItem]]) {
         
-        func loginCredetials(from vaultItems: [SecureContainerInfo: [LoginItem]]) -> [LoginCredential] {
+        func loginCredetials(from vaultItems: [StoreItemInfo: [LoginItem]]) -> [LoginCredential] {
             vaultItems.flatMap { info, item in
                 item.compactMap { item in
                     guard let username = item.username, let password = item.password else {

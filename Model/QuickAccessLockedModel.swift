@@ -10,7 +10,7 @@ protocol QuickAccessLockedModelRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var keychainAvailability: Keychain.Availability { get }
     var status: QuickAccessLockedStatus { get }
-    var done: AnyPublisher<[SecureContainerInfo: [LoginItem]], Never> { get }
+    var done: AnyPublisher<MasterKey, Never> { get }
     var error: AnyPublisher<QuickAccessLockedError, Never> { get }
     
     func loginWithMasterPassword()
@@ -43,12 +43,13 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
     let keychainAvailability: Keychain.Availability
     
     private let keychain: Keychain
-    private let vaultContainerPublisher: AnyPublisher<EncryptedStore, Error>
-    private let doneSubject = PassthroughSubject<[SecureContainerInfo: [LoginItem]], Never>()
+    private let doneSubject = PassthroughSubject<MasterKey, Never>()
     private let errorSubject = PassthroughSubject<QuickAccessLockedError, Never>()
+    private let derivedKeyContainerLoaded: AnyPublisher<Data, Error>
+    private let masterKeyContainerLoaded: AnyPublisher<Data, Error>
     private var openVaultSubscription: AnyCancellable?
     
-    var done: AnyPublisher<[SecureContainerInfo: [LoginItem]], Never> {
+    var done: AnyPublisher<MasterKey, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -56,10 +57,11 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         errorSubject.eraseToAnyPublisher()
     }
     
-    init(vaultID: UUID, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
-        self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
-        self.vaultContainerPublisher = Store.load(vaultID: vaultID, in: vaultContainerDirectory)
+    init(store: Store, preferences: Preferences, keychain: Keychain) {
         self.keychain = keychain
+        self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
+        self.derivedKeyContainerLoaded = store.loadDerivedKeyContainer()
+        self.masterKeyContainerLoaded = store.loadMasterKeyContainer()
     }
     
     func loginWithMasterPassword() {
@@ -67,9 +69,11 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         
         status = .unlocking
         
-        openVaultSubscription = vaultContainerPublisher
-            .tryMap { [password] vaultContainer in
-                try vaultContainer.decryptSecureItems(for: LoginItem.self, with: password)
+        openVaultSubscription = Publishers.Zip(derivedKeyContainerLoaded, masterKeyContainerLoaded)
+            .tryMap { [password] derivedKeyContainer, masterKeyContainer in
+                let derivedKeyArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
+                let derivedKey = try DerivedKey(from: password, with: derivedKeyArguments)
+                return try MasterKey(from: masterKeyContainer, using: derivedKey)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -82,9 +86,10 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
                     self.status = .locked
                     self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [doneSubject] secureItems in
-                doneSubject.send(secureItems)
+            } receiveValue: { [doneSubject] cryptor in
+                doneSubject.send(cryptor)
             }
+
     }
     
     func loginWithBiometrics() {
@@ -92,12 +97,12 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         
         status = .unlocking
         
-        let keyPublisher = keychain.loadSecret(forKey: Identifier.derivedKey)
-        openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKeyData -> [SecureContainerInfo: [LoginItem]]? in
+        let derivedKeyLoaded = keychain.loadSecret(forKey: Identifier.derivedKey)
+        openVaultSubscription = Publishers.Zip3(derivedKeyContainerLoaded, masterKeyContainerLoaded, derivedKeyLoaded)
+            .tryMap { derivedKeyContainer, masterKeyContainer, derivedKeyData -> MasterKey? in
                 if let derivedKeyData = derivedKeyData {
-                    let derivedKey = CryptoKey(derivedKeyData)
-                    return try vaultContainer.decryptSecureItems(for: LoginItem.self, with: derivedKey)
+                    let derivedKey = DerivedKey(derivedKeyData)
+                    return try MasterKey(from: masterKeyContainer, using: derivedKey)
                 } else {
                     return nil
                 }
@@ -110,15 +115,15 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
                     self.status = .locked
                     self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [weak self] secureItems in
+            } receiveValue: { [weak self] cryptor in
                 guard let self = self else { return }
-                guard let secureItems = secureItems else {
+                guard let cryptor = cryptor else {
                     self.status = .locked
                     return
                 }
                 
                 self.status = .unlocked
-                self.doneSubject.send(secureItems)
+                self.doneSubject.send(cryptor)
             }
     }
     

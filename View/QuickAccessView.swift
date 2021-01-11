@@ -15,10 +15,14 @@ struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
         NavigationView {
             Group {
                 switch model.state {
-                case .locked(let model):
+                case .locked(let model, _):
                     QuickAccessLockedView(model)
                 case .unlocked(let model):
                     QuickAccessUnlockedView(model)
+                case .loading:
+                    EmptyView()
+                case .loadingFailed:
+                    Text("Error")
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

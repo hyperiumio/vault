@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SecureContainer {
+public struct StoreItem: Equatable {
     
     public let id: UUID
     public let name: String
@@ -33,6 +33,11 @@ public struct SecureContainer {
         case .custom(let item):
             return item.description
         }
+    }
+    
+    public var info: StoreItemInfo {
+        let secondaryTypes = secondaryItems.map(\.value.secureItemType)
+        return StoreItemInfo(id: id, name: name, description: description, primaryType: primaryItem.value.secureItemType, secondaryTypes: secondaryTypes, created: created, modified: modified)
     }
     
     public init(id: UUID, name: String, primaryItem: SecureItem, secondaryItems: [SecureItem], created: Date, modified: Date) {

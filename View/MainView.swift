@@ -11,11 +11,11 @@ struct MainView<Model>: View where Model: MainModelRepresentable {
     var body: some View {
         Group {
             switch model.state {
-            case .locked(let model, let useBiometricUnlock):
+            case .locked(let model, _, let useBiometricUnlock):
                 LockedView(model, useBiometricsOnAppear: useBiometricUnlock)
                     .transition(.unlock)
                     .zIndex(1)
-            case .unlocked(let model):
+            case .unlocked(let model, _):
                 UnlockedView(model)
                     .zIndex(0)
             }
@@ -36,9 +36,7 @@ private extension AnyTransition {
 struct MainViewPreview: PreviewProvider {
     
     static var model: MainModelStub {
-        let lockedModel = LockedModelStub()
-        let state = MainModelStub.State.locked(model: lockedModel, userBiometricUnlock: false)
-        return MainModelStub(state: state)
+        fatalError()
     }
     
     static var previews: some View {

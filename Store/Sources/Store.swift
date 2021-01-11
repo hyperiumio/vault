@@ -1,129 +1,132 @@
 import Combine
 import Foundation
 
-// TODO: is currently not thread save
-// TODO: items should reload after configuration change
-
-private let operationQueue = DispatchQueue(label: "VaultOperationQueue")
-
-public class Store<CryptoKey, Header, Message> where CryptoKey: CryptoKeyRepresentable, Header: HeaderRepresentable, Message: MessageRepresentable, Header.CryptoKey == CryptoKey, Message.CryptoKey == CryptoKey {
+public class Store {
     
-    public var id: UUID { configuration.id }
-    public var directory: URL { configuration.resourceLocator.rootDirectory }
-    public var derivedKey: CryptoKey { configuration.derivedKey }
+    public var didChange: AnyPublisher<Change, Never> {
+        didChangeSubject.eraseToAnyPublisher()
+    }
     
-    private var configuration: Configuration
-    private let indexSubject: CurrentValueSubject<VaultIndex, Error>
+    let resourceLocator: StoreResourceLocator
+    private let didChangeSubject = PassthroughSubject<Change, Never>()
     
-    init(id: UUID, derivedKey: CryptoKey, masterKey: CryptoKey, resourceLocator: StoreResourceLocator, initialElements: [Store.Element]) {
-        let configuration = Configuration(id: id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator)
-        let ids = initialElements.map(\.info.id)
-        let keysWithValues = zip(ids, initialElements)
-        let index = Dictionary(uniqueKeysWithValues: keysWithValues)
+    init(resourceLocator: StoreResourceLocator) {
+        self.resourceLocator = resourceLocator
+    }
+    
+    public func loadInfo(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<StoreInfo, Error> {
+        Self.operationQueue.future { [resourceLocator] in
+            let storeInfoData = try load(resourceLocator.infoURL, [])
+            return try StoreInfo(from: storeInfoData)
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func loadDerivedKeyContainer(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Data, Error> {
+        Self.operationQueue.future { [resourceLocator] in
+            try load(resourceLocator.derivedKeyContainerURL, [])
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func loadMasterKeyContainer(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Data, Error> {
+        Self.operationQueue.future { [resourceLocator] in
+            try load(resourceLocator.masterKeyContainerURL, [])
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func loadItem(itemLocator: ItemLocator, decrypt: @escaping (Data) throws -> [Data]) -> AnyPublisher<StoreItem, Error> {
+        Self.operationQueue.future {
+            let encryptedMessageContainer = try Data(contentsOf: itemLocator.url)
+            let encodedMessages = try decrypt(encryptedMessageContainer)
+            
+            guard let encodedInfo = encodedMessages.first else {
+                throw StorageError.invalidMessageContainer
+            }
+            let encodedItems = encodedMessages.dropFirst()
+            guard let encodedPrimaryItem = encodedItems.first else {
+                throw StorageError.invalidMessageContainer
+            }
+            let encodedSecondaryItems = encodedItems.dropFirst()
+            
+            let info = try StoreItemInfo(from: encodedInfo)
+            guard encodedSecondaryItems.count == info.secondaryTypes.count else {
+                throw StorageError.invalidMessageContainer
+            }
+            
+            let primaryItem = try SecureItem(from: encodedPrimaryItem, as: info.primaryType)
+            let secondaryItems = try zip(encodedSecondaryItems, info.secondaryTypes).map { encodedItem, itemType in
+                try SecureItem(from: encodedItem, as: itemType)
+            }
+            
+            return StoreItem(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
+        }
+        .eraseToAnyPublisher()
+    }
+    
+    public func loadItems<T>(read: @escaping (ReadingContext) throws -> T) -> AnyPublisher<T, Error> {
+        let subject = PassthroughSubject<T, Error>()
         
-        self.configuration = configuration
-        self.indexSubject = CurrentValueSubject(index)
-    }
-    
-    public var vaultItemInfos: [SecureContainerInfo] {
-        indexSubject.value.values.map(\.info)
-    }
-    
-    public var vaultItemInfosDidChange: AnyPublisher<[SecureContainerInfo], Error> {
-        indexSubject
-            .map { index in
-                index.values.map(\.info)
+        Self.operationQueue.async { [resourceLocator] in
+            guard FileManager.default.fileExists(atPath: resourceLocator.itemsURL.path) else {
+                subject.send(completion: .finished)
+                return
             }
-            .eraseToAnyPublisher()
-    }
-    
-    public func save(_ vaultItem: SecureContainer) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [configuration, indexSubject] in
-            let newItemURL = configuration.resourceLocator.item()
-            let secondaryTypes = vaultItem.secondaryItems.map(\.value.secureItemType)
-            let info = SecureContainerInfo(id: vaultItem.id, name: vaultItem.name, description: vaultItem.description, primaryType: vaultItem.primaryItem.value.secureItemType, secondaryTypes: secondaryTypes, created: vaultItem.created, modified: vaultItem.modified)
-            let encodedInfo = try info.encoded()
-            let encodedPrimarySecureItem = try vaultItem.primaryItem.value.encoded()
-            let encodedSecondarySecureItems = try vaultItem.secondaryItems.map { secureItem in
-                try secureItem.value.encoded()
-            }
-            let messages = [encodedInfo, encodedPrimarySecureItem] + encodedSecondarySecureItems
-            let secureDataContainer = try Message.encryptContainer(from: messages, using: configuration.masterKey)
-            let header = try Header(data: secureDataContainer)
-            let indexElement = Store.Element(url: newItemURL, header: header, info: info)
-            
-            try secureDataContainer.write(to: newItemURL)
-            
-            if let oldItemURL = indexSubject.value[vaultItem.id]?.url {
-                try FileManager.default.removeItem(at: oldItemURL)
+            guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: resourceLocator.itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
+                subject.send(completion: .failure(NSError()))
+                return
             }
             
-            indexSubject.value[indexElement.info.id] = indexElement
+            for itemURL in itemURLs {
+                do {
+                    let itemLocator = ItemLocator(url: itemURL)
+                    let context = ReadingContext(itemLocator)
+                    let value = try read(context)
+                    subject.send(value)
+                } catch {
+                    subject.send(completion: .failure(NSError()))
+                }
+            }
+            
+            subject.send(completion: .finished)
         }
-        .eraseToAnyPublisher()
+
+        return subject.eraseToAnyPublisher()
     }
     
-    public func loadVaultItem(with itemID: UUID) -> AnyPublisher<SecureContainer, Error> {
-        operationQueue.future { [configuration, indexSubject] in
-            guard let element = indexSubject.value[itemID] else {
-                throw NSError()
-            }
-            let itemKey = try element.header.unwrapKey(with: configuration.masterKey)
-            let primaryNonceRange = element.header.elements[.primarySecureItemIndex].nonceRange
-            let primaryCiphertextRange = element.header.elements[.primarySecureItemIndex].ciphertextRange
-            let data = try Data(contentsOf: element.url)
+    public func execute(deleteOperation: DeleteItemOperation? = nil, saveOperation: SaveItemOperation? = nil) -> AnyPublisher<Void, Error> {
+        Self.operationQueue.future { [resourceLocator, didChangeSubject] in
+            var itemsAdded = [ItemLocator: StoreItem]()
             
-            let primaryNonce = data[primaryNonceRange]
-            let primaryCiphertext = data[primaryCiphertextRange]
-            let primaryTag = element.header.elements[.primarySecureItemIndex].tag
-            let primaryItemData = try Message(nonce: primaryNonce, ciphertext: primaryCiphertext, tag: primaryTag).decrypt(using: itemKey)
-            let primaryItem = try SecureItem(from: primaryItemData, as: element.info.primaryType)
-            
-            return SecureContainer(id: element.info.id, name: element.info.name, primaryItem: primaryItem, secondaryItems: [], created: element.info.created, modified: element.info.modified)
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    public func deleteVaultItem(with itemID: UUID) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [indexSubject] in
-            guard let itemURL = indexSubject.value[itemID]?.url else {
-                throw NSError()
-            }
-            try FileManager.default.removeItem(at: itemURL)
-            
-            indexSubject.value[itemID] = nil
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    public func changeMasterPassword(to newPassword: String) -> AnyPublisher<UUID, Error> {
-        operationQueue.future { [self, configuration] in
-            let vaultName = UUID().uuidString
-            let vaultDirectory = configuration.resourceLocator.container.appendingPathComponent(vaultName, isDirectory: true)
-            let resourceLocator = StoreResourceLocator(vaultDirectory)
-            let vaultInfo = StoreInfo()
-            let (derivedKeyContainer, derivedKey) = try CryptoKey.derive(from: newPassword)
-            let masterKey = CryptoKey()
-            let masterKeyContainer = try masterKey.encryptedKeyContainer(using: derivedKey)
-            let keyContainer = derivedKeyContainer + masterKeyContainer
-            
-            try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
-            try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
-            try vaultInfo.encoded().write(to: resourceLocator.info)
-            try keyContainer.write(to: resourceLocator.key)
-            
-            for itemURL in try FileManager.default.urls(in: configuration.resourceLocator.items) {
-                let itemData = try Data(contentsOf: itemURL)
-                let messages = try Message.decryptMessages(from: itemData, using: configuration.masterKey)
-                let newItemURL = resourceLocator.item()
-                try Message.encryptContainer(from: messages, using: masterKey).write(to: newItemURL)
+            if let saveOperation = saveOperation {
+                for storeItem in saveOperation.storeItems {
+                    let encodedInfo = try storeItem.info.encoded()
+                    
+                    let items = [storeItem.primaryItem] + storeItem.secondaryItems
+                    let encodedItems = try items.map { item in
+                        try item.value.encoded()
+                    }
+                    let messages = [encodedInfo] + encodedItems
+                    let encryptedContainer = try saveOperation.encrypt(messages)
+                    
+                    let storeItemURL = resourceLocator.generateItemURL()
+                    let storeItemLocator = ItemLocator(url: storeItemURL)
+                    try encryptedContainer.write(to: storeItemURL)
+                    
+                    itemsAdded[storeItemLocator] = storeItem
+                }
             }
             
-            self.configuration = Configuration(id: vaultInfo.id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator)
+            if let deleteOperation = deleteOperation {
+                for itemLocator in deleteOperation.itemLocators {
+                    try FileManager.default.removeItem(at: itemLocator.url)
+                }
+            }
             
-            try FileManager.default.removeItem(at: configuration.resourceLocator.rootDirectory)
-            
-            return vaultInfo.id
+            let itemsDelete =  deleteOperation?.itemLocators ?? []
+            let change = Change(deleted: itemsDelete, added: itemsAdded)
+            didChangeSubject.send(change)
         }
         .eraseToAnyPublisher()
     }
@@ -132,24 +135,71 @@ public class Store<CryptoKey, Header, Message> where CryptoKey: CryptoKeyReprese
 
 extension Store {
     
-    typealias VaultIndex = [UUID: Element]
-    
-    public typealias VaultContainer = Storage.EncryptedStore<CryptoKey, Header, Message>
-    
-    struct Element {
+    public struct ItemLocator: Hashable {
         
         let url: URL
-        let header: Header
-        let info: SecureContainerInfo
         
     }
     
-    struct Configuration {
+    public struct ReadingContext {
         
-        let id: UUID
-        let derivedKey: CryptoKey
-        let masterKey: CryptoKey
-        let resourceLocator: StoreResourceLocator
+        public let itemLocator: ItemLocator
+        
+        init(_ itemLocator: ItemLocator) {
+            self.itemLocator = itemLocator
+        }
+        
+        public func bytes(in range: Range<Int>, fileHandle: (URL) throws -> FileHandleRepresentable = FileHandle.init(forReadingFrom:)) throws -> Data {
+            let fileHandle = try fileHandle(itemLocator.url)
+            
+            guard let fileOffset = UInt64(exactly: range.startIndex) else {
+                throw StorageError.invalidByteRange
+            }
+            
+            try fileHandle.seek(toOffset: fileOffset)
+            guard let data = try? fileHandle.read(upToCount: range.count) else {
+                throw StorageError.dataNotAvailable
+            }
+            
+            return data
+        }
+        
+    }
+    
+    public struct DeleteItemOperation {
+        
+        let itemLocators: [ItemLocator]
+        
+        public init(_ itemLocators: [ItemLocator]) {
+            self.itemLocators = itemLocators
+        }
+        
+        public init(_ itemLocators: ItemLocator...) {
+            self.itemLocators = itemLocators
+        }
+        
+    }
+    
+    public struct SaveItemOperation {
+        
+        let storeItems: [StoreItem]
+        let encrypt: ([Data]) throws -> Data
+        
+        public init(_ storeItems: [StoreItem], encrypt: @escaping ([Data]) throws -> Data) {
+            self.storeItems = storeItems
+            self.encrypt = encrypt
+        }
+        
+        public init(_ storeItems: StoreItem..., encrypt: @escaping ([Data]) throws -> Data) {
+            self.storeItems = storeItems
+            self.encrypt = encrypt
+        }
+    }
+    
+    public struct Change {
+        
+        public let deleted: [ItemLocator]
+        public let added: [ItemLocator: StoreItem]
         
     }
     
@@ -157,110 +207,68 @@ extension Store {
 
 extension Store {
     
-    public static func vaultExists(with vaultID: UUID, in vaultContainerDirectory: URL) -> AnyPublisher<Bool, Error> {
+    private static let operationQueue = DispatchQueue(label: "StoreOperationQueue")
+    
+    public static func load(from containerDirectory: URL, matching storeID: UUID, fileManager: FileManagerRepresentable = FileManager.default, load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Store?, Error> {
         operationQueue.future {
-            for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
-                let resourceLocator = StoreResourceLocator(vaultDirectory)
-                let infoData = try Data(contentsOf: resourceLocator.info)
-                let info = try StoreInfo(from: infoData)
+            guard fileManager.fileExists(atPath: containerDirectory.path) else {
+                return nil
+            }
+            let storeURLs = try fileManager.contentsOfDirectory(at: containerDirectory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            
+            for storeURL in storeURLs {
+                let resourceLocator = StoreResourceLocator(storeURL: storeURL)
+                let storeInfoData = try load(resourceLocator.infoURL, [])
+                let storeInfo = try StoreInfo(from: storeInfoData)
                 
-                if info.id == vaultID {
-                    return true
+                if storeInfo.id == storeID {
+                    return Store(resourceLocator: resourceLocator)
                 }
             }
             
-            return false
+            return nil
         }
         .eraseToAnyPublisher()
     }
     
-    public static func create(in vaultContainerDirectory: URL, using password: String) -> AnyPublisher<Store, Error> {
+    public static func create(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, fileManager: FileManagerRepresentable = FileManager.default, writer: @escaping (Data) -> (URL, Data.WritingOptions) throws -> Void = Data.write) -> AnyPublisher<Store, Error> {
         operationQueue.future {
-            let vaultDirectoryID = UUID()
-            let vaultDirectory = vaultContainerDirectory.appendingPathComponent(vaultDirectoryID.uuidString, isDirectory: true)
-            let resourceLocator = StoreResourceLocator(vaultDirectory)
-            let vaultInfo = StoreInfo()
-            let (derivedKeyContainer, derivedKey) = try CryptoKey.derive(from: password)
-            let masterKey = CryptoKey()
-            let masterKeyContainer = try masterKey.encryptedKeyContainer(using: derivedKey)
-            let keyContainer = derivedKeyContainer + masterKeyContainer
+            let resourceLocator = StoreResourceLocator.generate(in: containerDirectory)
+            let storeInfo = try StoreInfo().encoded()
             
-            try FileManager.default.createDirectory(at: resourceLocator.rootDirectory, withIntermediateDirectories: true)
-            try FileManager.default.createDirectory(at: resourceLocator.items, withIntermediateDirectories: false)
-            try vaultInfo.encoded().write(to: resourceLocator.info)
-            try keyContainer.write(to: resourceLocator.key)
+            try fileManager.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false, attributes: nil)
+            try fileManager.createDirectory(at: resourceLocator.itemsURL, withIntermediateDirectories: false, attributes: nil)
+            try writer(storeInfo)(resourceLocator.infoURL, [])
+            try writer(derivedKeyContainer)(resourceLocator.derivedKeyContainerURL, [])
+            try writer(masterKeyContainer)(resourceLocator.masterKeyContainerURL, [])
             
-            return Store(id: vaultInfo.id, derivedKey: derivedKey, masterKey: masterKey, resourceLocator: resourceLocator, initialElements: [])
-        }
-        .eraseToAnyPublisher()
-    }
-    
-    public static func load(vaultID: UUID, in vaultContainerDirectory: URL) -> AnyPublisher<VaultContainer, Error> {
-        operationQueue.future {
-            for vaultDirectory in try FileManager.default.urls(in: vaultContainerDirectory) {
-                let resourceLocator = StoreResourceLocator(vaultDirectory)
-                let infoData = try Data(contentsOf: resourceLocator.info)
-                let info = try StoreInfo(from: infoData)
-                
-                if info.id == vaultID {
-                    let resourceLocator = StoreResourceLocator(vaultDirectory)
-                    let infoData = try Data(contentsOf: resourceLocator.info)
-                    let info = try StoreInfo(from: infoData)
-                    
-                    let keyContainer = try Data(contentsOf: resourceLocator.key)
-                    guard keyContainer.count == CryptoKey.derivedKeyContainerSize + CryptoKey.encryptedKeyContainerSize else {
-                        throw NSError()
-                    }
-                    let derivedKeyContainer = keyContainer[keyContainer.startIndex ..< keyContainer.startIndex + CryptoKey.derivedKeyContainerSize]
-                    let masterKeyContainer = keyContainer[keyContainer.startIndex + CryptoKey.derivedKeyContainerSize ..< keyContainer.startIndex + CryptoKey.derivedKeyContainerSize +  CryptoKey.encryptedKeyContainerSize]
-                    
-                    let elements = try FileManager.default.urls(in: resourceLocator.items).map { itemURL in
-                        let fileHandle = try FileHandle(forReadingFrom: itemURL)
-                        return try FileReader.read(from: fileHandle) { fileReader in
-                            let header = try Header(from: fileReader.bytes)
-                            let nonceDataRange = header.elements[.infoIndex].nonceRange
-                            let ciphertextRange = header.elements[.infoIndex].ciphertextRange
-                            let nonce = try fileReader.bytes(in: nonceDataRange)
-                            let ciphertext = try fileReader.bytes(in: ciphertextRange)
-                            let tag = header.elements[.infoIndex].tag
-                            let message = Message(nonce: nonce, ciphertext: ciphertext, tag: tag)
-                            return VaultContainer.Element(url: itemURL, header: header, message: message)
-                        }
-                    } as [VaultContainer.Element]
-                    
-                    return VaultContainer(storeID: info.id, resourceLocator: resourceLocator, derivedKeyContainer: derivedKeyContainer, masterKeyContainer: masterKeyContainer, elements: elements)
-                }
-            }
-            
-            throw NSError()
+            return Store(resourceLocator: resourceLocator)
         }
         .eraseToAnyPublisher()
     }
     
 }
 
-private extension Int {
+public protocol FileHandleRepresentable {
     
-    static let versionIndex = 0
-    static let infoIndex = 0
-    static let primarySecureItemIndex = 1
-    static let secondarySecureItemIndex = 2
+    func seek(toOffset offset: UInt64) throws
+    func read(upToCount count: Int) throws -> Data?
     
 }
 
-private extension FileManager {
+public protocol FileManagerRepresentable {
     
-    func urls(in directory: URL) throws -> [URL] {
-        guard fileExists(atPath: directory.path) else {
-            return []
-        }
-        
-        return try contentsOfDirectory(at: directory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
-    }
+    func fileExists(atPath path: String) -> Bool
+    func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?, options mask: FileManager.DirectoryEnumerationOptions) throws -> [URL]
+    func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey : Any]?) throws
     
 }
 
-extension DispatchQueue {
+extension FileHandle: FileHandleRepresentable {}
+extension FileManager: FileManagerRepresentable {}
+
+private extension DispatchQueue {
     
     func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
         Future { promise in
@@ -272,5 +280,3 @@ extension DispatchQueue {
     }
     
 }
-
-extension FileHandle: FileHandleRepresentable {}

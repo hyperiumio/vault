@@ -30,7 +30,7 @@ class CustomItemTests: XCTestCase {
         XCTAssertThrowsError(try CustomItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = CustomItem(description: "", value: "")
         
         XCTAssertEqual(item.secureItemType, .custom)

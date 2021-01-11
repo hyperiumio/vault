@@ -1,6 +1,7 @@
 import Crypto
 import Identifier
 import Preferences
+import Storage
 import Sync
 
 class AppDelegate: NSObject {
@@ -10,16 +11,18 @@ class AppDelegate: NSObject {
     let syncCoordinator = SyncCoordinator()
     
     override init() {
-        guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
+        guard let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup)?.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true) else {
             fatalError()
         }
+        
+        
         guard let userDefaults = UserDefaults(suiteName: Identifier.appGroup) else {
             fatalError()
         }
+        
         let preferences = Preferences(using: userDefaults)
-        let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(accessGroup: Identifier.appGroup)
-        let appModelDependency = AppLockedDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
+        let appModelDependency = AppLockedDependency(containerDirectory: containerDirectory, preferences: preferences, keychain: keychain)
         
         self.appModel = AppModel(appModelDependency)
         self.keychain = keychain

@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public protocol PreferencesStore: class {
+public protocol PreferencesStore: AnyObject {
     
     func set(_ value: Bool, forKey defaultName: String)
     func set(_ value: Any?, forKey defaultName: String)
@@ -39,8 +39,8 @@ public class Preferences {
         didChangeSubject.value = Value(from: store)
     }
     
-    public func set(activeVaultIdentifier: UUID) {
-        store.activeVaultIdentifier = activeVaultIdentifier
+    public func set(activeStoreID: UUID) {
+        store.activeStoreID = activeStoreID
         didChangeSubject.value = Value(from: store)
     }
     
@@ -51,11 +51,11 @@ extension Preferences {
     public struct Value: Equatable {
         
         public let isBiometricUnlockEnabled: Bool
-        public let activeVaultIdentifier: UUID?
+        public let activeStoreID: UUID?
         
         init(from store: PreferencesStore) {
             self.isBiometricUnlockEnabled = store.isBiometricUnlockEnabled
-            self.activeVaultIdentifier = store.activeVaultIdentifier
+            self.activeStoreID = store.activeStoreID
         }
         
     }
@@ -75,15 +75,15 @@ private extension PreferencesStore {
         }
     }
     
-    var activeVaultIdentifier: UUID? {
+    var activeStoreID: UUID? {
         get {
-            guard let vaultIdentifier = string(forKey: .activeVaultIdentifier) else {
+            guard let storeID = string(forKey: .activeStoreID) else {
                 return nil
             }
-            return UUID(uuidString: vaultIdentifier)
+            return UUID(uuidString: storeID)
         }
-        set(activeVaultIdentifier) {
-            set(activeVaultIdentifier?.uuidString, forKey: .activeVaultIdentifier)
+        set(storeID) {
+            set(storeID?.uuidString, forKey: .activeStoreID)
         }
     }
     
@@ -92,6 +92,6 @@ private extension PreferencesStore {
 private extension String {
     
     static var biometricUnlockEnabledKey: Self { "BiometricUnlockEnabled" }
-    static var activeVaultIdentifier: Self { "ActiveVaultIdentifier" }
+    static var activeStoreID: Self { "ActiveStoreID" }
     
 }

@@ -1,12 +1,12 @@
 public enum CryptoError: Error {
     
-    case keychainStoreDidFail
-    case keychainLoadDidFail
-    case keychainDeleteDidFail
-    case keyDerivationFailure
-    case invalidDataSize
+    case keychainStoreFailed
+    case keychainLoadFailed
+    case keychainDeleteFailed
+    case keyDerivationFailed
     case encryptionFailed
-    case rngFailure
-    case passwordGenerationFailure
+    case randomNumberGenerationFailed
+    case passwordGenerationFailed
+    case invalidDataSize
     
 }

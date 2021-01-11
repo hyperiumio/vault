@@ -1,32 +1,37 @@
 import Foundation
 
-public struct StoreResourceLocator {
+struct StoreResourceLocator {
     
-    let rootDirectory: URL
+    let storeURL: URL
     
-    init(_ rootDirectory: URL) {
-        self.rootDirectory = rootDirectory
+    var infoURL: URL {
+        storeURL.appendingPathComponent("Info.json", isDirectory: false)
     }
     
-    var container: URL {
-        rootDirectory.deletingLastPathComponent()
+    var derivedKeyContainerURL: URL {
+        storeURL.appendingPathComponent("DerivedKeyContainer", isDirectory: false)
     }
     
-    var key: URL {
-        rootDirectory.appendingPathComponent("Key", isDirectory: false)
+    var masterKeyContainerURL: URL {
+        storeURL.appendingPathComponent("MasterKeyContainer", isDirectory: false)
     }
     
-    var info: URL {
-        rootDirectory.appendingPathComponent("Info", isDirectory: false).appendingPathExtension(for: .json)
+    var itemsURL: URL {
+        storeURL.appendingPathComponent("Items", isDirectory: true)
     }
     
-    var items: URL {
-        rootDirectory.appendingPathComponent("Items", isDirectory: true)
+    func generateItemURL() -> URL {
+        let itemFileName = UUID().uuidString
+        return itemsURL.appendingPathComponent(itemFileName, isDirectory: false)
     }
     
-    func item() -> URL {
-        let fileName = UUID().uuidString
-        return items.appendingPathComponent(fileName, isDirectory: false)
+}
+extension StoreResourceLocator {
+    
+    static func generate(in directory: URL) -> Self {
+        let storeID = UUID()
+        let storeURL = directory.appendingPathComponent(storeID.uuidString, isDirectory: true)
+        return StoreResourceLocator(storeURL: storeURL)
     }
     
 }

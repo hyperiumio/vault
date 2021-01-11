@@ -123,34 +123,40 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     @Published var primaryItemModel: Element
     @Published var secondaryItemModels: [Element]
     
-    var created: Date? { originalVaultItem?.created }
-    var modified: Date? { originalVaultItem?.modified }
+    var created: Date? { originalStoreItem?.created }
+    var modified: Date? { originalStoreItem?.modified }
     
     var done: AnyPublisher<Void, Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
-    private let vault: Store
+    private let store: Store
+    private let originalItemLocator: Store.ItemLocator?
+    private let originalStoreItem: StoreItem?
+    private let masterKey: MasterKey
     private let dependency: Dependency
-    private let originalVaultItem: SecureContainer?
     private let doneSubject = PassthroughSubject<Void, Never>()
     private var addItemSubscription: AnyCancellable?
     private var saveSubscription: AnyCancellable?
     private var deleteSubscription: AnyCancellable?
     
-    init(vault: Store, vaultItem: SecureContainer, dependency: Dependency) {
-        self.vault = vault
+    init(storeItem: StoreItem, itemLocator: Store.ItemLocator, store: Store, masterKey: MasterKey, dependency: Dependency) {
+        self.originalStoreItem = storeItem
+        self.originalItemLocator = itemLocator
+        self.store = store
+        self.masterKey = masterKey
         self.dependency = dependency
-        self.originalVaultItem = vaultItem
-        self.title = vaultItem.name
-        self.primaryItemModel = dependency.vaultItemElement(from: vaultItem.primaryItem)
-        self.secondaryItemModels = vaultItem.secondaryItems.map(dependency.vaultItemElement)
+        self.title = storeItem.name
+        self.primaryItemModel = dependency.vaultItemElement(from: storeItem.primaryItem)
+        self.secondaryItemModels = storeItem.secondaryItems.map(dependency.vaultItemElement)
     }
     
-    init(vault: Store, secureItem: SecureItem, dependency: Dependency) {
-        self.vault = vault
+    init(secureItem: SecureItem, store: Store, masterKey: MasterKey, dependency: Dependency) {
+        self.originalStoreItem = nil
+        self.originalItemLocator = nil
+        self.store = store
+        self.masterKey = masterKey
         self.dependency = dependency
-        self.originalVaultItem = nil
         self.primaryItemModel = dependency.vaultItemElement(from: secureItem)
         self.secondaryItemModels = []
     }
@@ -164,7 +170,7 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     }
     
     func discardChanges() {
-        guard let originalVaultItem = originalVaultItem else { return }
+        guard let originalVaultItem = originalStoreItem else { return }
         
         title = originalVaultItem.name
         primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primaryItem)
@@ -173,18 +179,24 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     
     func save() {
         let now = Date()
-        let id = originalVaultItem?.id ?? UUID()
+        let id = originalStoreItem?.id ?? UUID()
         let primaryItem = primaryItemModel.secureItem
         let secondaryItems = secondaryItemModels.map(\.secureItem)
-        let created = originalVaultItem?.created ?? now
+        let created = originalStoreItem?.created ?? now
         let modified = now
-        let vaultItem = SecureContainer(id: id, name: title, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
+        let storeItem = StoreItem(id: id, name: title, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
         
-        saveSubscription = vault.save(vaultItem)
+        let deleteOperation = originalItemLocator.map { locator in
+            Store.DeleteItemOperation(locator)
+        }
+        let saveOperation = Store.SaveItemOperation(storeItem) { [masterKey] encodedSecureItems in
+            try SecureDataMessage.encryptContainer(from: encodedSecureItems, using: masterKey)
+        }
+        saveSubscription = store.execute(deleteOperation: deleteOperation, saveOperation: saveOperation)
             .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure = completion {
-                    // should show error
+                // should show error
                 }
             } receiveValue: { [doneSubject] in
                 doneSubject.send()
@@ -192,11 +204,12 @@ class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepres
     }
     
     func delete() {
-        guard let itemID = originalVaultItem?.id else {
+        guard let itemLocator = originalItemLocator else {
             return
         }
         
-        deleteSubscription = vault.deleteVaultItem(with: itemID)
+        let deleteOperation = Store.DeleteItemOperation(itemLocator)
+        deleteSubscription = store.execute(deleteOperation: deleteOperation)
             .sink { completion in
                 
             } receiveValue: {

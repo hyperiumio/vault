@@ -1,8 +1,8 @@
 import Foundation
 
-let UnsignedInteger32BitEncodingSize = 4
+let UInt32CodingSize = 4
 
-func UnsignedInteger32BitEncode(_ value: UInt32) -> Data {
+func UInt32Encode(_ value: UInt32) -> Data {
     let bytes = [
         UInt8(truncatingIfNeeded: value),
         UInt8(truncatingIfNeeded: value >> 8),
@@ -13,8 +13,10 @@ func UnsignedInteger32BitEncode(_ value: UInt32) -> Data {
     return Data(bytes)
 }
 
-func UnsignedInteger32BitDecode(_ data: Data) -> UInt32 {
-    precondition(data.count == UnsignedInteger32BitEncodingSize)
+func UInt32Decode(_ data: Data) throws -> UInt32 {
+    guard data.count == UInt32CodingSize else {
+        throw CryptoError.invalidDataSize
+    }
     
     let byte0 = data[data.startIndex + 0]
     let byte1 = data[data.startIndex + 1]

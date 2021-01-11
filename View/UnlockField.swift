@@ -2,6 +2,7 @@ import SwiftUI
 
 struct UnlockField: View {
     
+    #if os(iOS)
     private let title: LocalizedStringKey
     private let text: Binding<String>
     private let action: () -> Void
@@ -12,7 +13,6 @@ struct UnlockField: View {
         self.action = action
     }
     
-    #if os(iOS)
     var body: some View {
         HStack(spacing: 0) {
             SecureField(title, text: text)
@@ -38,6 +38,16 @@ struct UnlockField: View {
     #endif
     
     #if os(macOS)
+    private let title: String
+    private let text: Binding<String>
+    private let action: () -> Void
+    
+    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
+        self.title = title
+        self.text = text
+        self.action = action
+    }
+    
     var body: some View {
         HStack(spacing: 0) {
             TextFieldShim(title: title, text: text, isSecure: true, textStyle: .headline, alignment: .center, action: action)

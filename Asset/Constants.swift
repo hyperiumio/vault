@@ -91,7 +91,7 @@ extension LocalizedStringKey {
     static var setUpTouchID: Self { "SetUpTouchID" }
     static var setUpFaceID: Self { "SetUpFaceID" }
     static var symbols: Self { "Symbols" }
-    static var title: Self { "Title" }
+    static var title: Self { "Title"}
     static var touchID: Self { "TouchID" }
     static var touchIDActivationFailed: Self { "TouchIDActivationFailed" }
     static var touchIDDeactivationFailed: Self { "TouchIDDeactivationFailed" }
@@ -116,7 +116,15 @@ extension LocalizedStringKey {
     static var invalidPassword: Self { "InvalidPassword" }
     static var nothingSelected: Self { "NothingSelected" }
     
-    static func characters(_ count: Int) -> Self { "COUNT \(count)" }
+}
+
+extension String {
+    
+    static var localizedSearch: Self { NSLocalizedString("Search", comment: "") }
+    static var localizedMasterPassword: Self { NSLocalizedString("MasterPassword", comment: "") }
+    static var localizedEnterMasterPassword: Self { NSLocalizedString("EnterMasterPassword", comment: "") }
+    static var localizedTitle: Self { NSLocalizedString("Title", comment: "") }
+    static func localizedCharacters(_ count: Int) -> Self { localizedStringWithFormat("%d characters", count) }
     
 }
 

@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO
-
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -162,7 +160,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
-                    TextFieldShim(title: .title, text: $model.title, textStyle: .title1, alignment: .left)
+                    TextFieldShim(title: .localizedTitle, text: $model.title, textStyle: .title1, alignment: .left)
                         .listRowInsets(EdgeInsets())
                         .padding()
                 }

@@ -51,25 +51,7 @@ class ChangeMasterPasswordModel: ChangeMasterPasswordModelRepresentable {
             return
         }
         
-        isLoading = true
-        changeMasterPasswordSubscription = vault.changeMasterPassword(to: password)
-            .flatMap { [keychain, vault] vaultID in
-                keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
-                    .map { vaultID }
-            }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                self.isLoading = false
-                
-                if case .failure = completion {
-                    self.errorSubject.send(.masterPasswordChangeDidFail)
-                }
-            } receiveValue: { [preferences, doneSubject] vaultID in
-                preferences.set(activeVaultIdentifier: vaultID)
-                doneSubject.send()
-            }
+        // missing
     }
     
     func reset() {

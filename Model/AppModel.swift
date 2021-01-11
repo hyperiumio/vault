@@ -25,8 +25,8 @@ protocol AppModelDependency {
     
     func bootstrapModel() -> BootstrapModel
     func setupModel() -> SetupModel
-    func mainModel(vaultID: UUID) -> MainModel
-    func mainModel(vault: Store) -> MainModel
+    func lockedMainModel(store: Store) -> MainModel
+    func unlockedMainModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainModel
     
 }
 
@@ -57,15 +57,15 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
                         case .setup:
                             let model = dependency.setupModel()
                             return .setup(model)
-                        case .locked(let vaultID):
-                            let model = dependency.mainModel(vaultID: vaultID)
+                        case .locked(let store):
+                            let model = dependency.lockedMainModel(store: store)
                             return .main(model)
                         }
                     }
                     .eraseToAnyPublisher()
             case .setup(let model):
                 return model.done
-                    .map(dependency.mainModel)
+                    .map(dependency.unlockedMainModel)
                     .map(State.main)
                     .eraseToAnyPublisher()
             case .main:

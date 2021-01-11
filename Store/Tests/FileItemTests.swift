@@ -91,7 +91,7 @@ class FileItemTests: XCTestCase {
         XCTAssertThrowsError(try FileItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = FileItem(data: Data(), typeIdentifier: .item)
         
         XCTAssertEqual(item.secureItemType, .file)
@@ -107,26 +107,26 @@ class FileItemTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize)
         
         
-        let infoSizeDataRange = Range(lowerBound: item.startIndex, count: UInt32CodingSize)
+        let infoSizeDataRange = Range(item.startIndex, count: UInt32CodingSize)
         let infoSizeData = item[infoSizeDataRange]
-        let rawInfoSize = UInt32Decode(infoSizeData)
+        let rawInfoSize = try UInt32Decode(infoSizeData)
         let infoSize = Int(rawInfoSize)
         
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize)
         
-        let infoSegmentRange = Range(lowerBound: infoSizeDataRange.upperBound, count: infoSize)
+        let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = item[infoSegmentRange]
         
         XCTAssertGreaterThanOrEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize)
         
-        let dataSizeDataRange = Range(lowerBound: infoSegmentRange.upperBound, count: UInt32CodingSize)
+        let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
         let dataSizeData = item[dataSizeDataRange]
-        let rawDataSize = UInt32Decode(dataSizeData)
+        let rawDataSize = try UInt32Decode(dataSizeData)
         let dataSize = Int(rawDataSize)
         
         XCTAssertEqual(item.count, UInt32CodingSize + infoSize + UInt32CodingSize + dataSize)
         
-        let dataSegmentRange = Range(lowerBound: dataSizeDataRange.upperBound, count: dataSize)
+        let dataSegmentRange = Range(dataSizeDataRange.upperBound, count: dataSize)
         let dataSegment = item[dataSegmentRange]
         
         let json = try XCTUnwrap(try JSONSerialization.jsonObject(with: infoSegment) as? [String: Any])
@@ -140,7 +140,7 @@ class FileItemTests: XCTestCase {
 
 private extension Range where Bound == Int {
     
-    init(lowerBound: Bound, count: Int) {
+    init(_ lowerBound: Bound, count: Int) {
         self = lowerBound ..< lowerBound + count
     }
     

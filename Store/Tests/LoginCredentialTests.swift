@@ -3,7 +3,7 @@ import XCTest
 
 class LoginCredentialTests: XCTestCase {
     
-    func testInit() {
+    func testInitFromValues() {
         let expectedID = UUID()
         let credential = LoginCredential(id: expectedID, title: "foo", username: "bar", password: "baz", url: "qux")
         

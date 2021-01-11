@@ -24,24 +24,24 @@ public struct SecureDataHeader {
     }
     
     public init(from dataProvider: (Range<Int>) throws -> Data) throws {
-        let messageCountRange = Range(lowerBound: 0, count: UnsignedInteger32BitEncodingSize)
+        let messageCountRange = Range(lowerBound: 0, count: UInt32CodingSize)
         let messageCountData = try dataProvider(messageCountRange)
-        let rawMessageCount = UnsignedInteger32BitDecode(messageCountData)
+        let rawMessageCount = try UInt32Decode(messageCountData)
         let messageCount = Int(rawMessageCount)
         
-        let headerEncodingSize = UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
+        let headerEncodingSize = UInt32CodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
         let headerRange = Range(lowerBound: messageCountRange.upperBound, count: headerEncodingSize)
         let headerData = try dataProvider(headerRange)
         
-        let ciphertextSizes = (0 ..< messageCount).map { index in
-            let ciphertextSizeLowerBound = headerData.startIndex + index * UnsignedInteger32BitEncodingSize
-            let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: UnsignedInteger32BitEncodingSize)
+        let ciphertextSizes = try (0 ..< messageCount).map { index in
+            let ciphertextSizeLowerBound = headerData.startIndex + index * UInt32CodingSize
+            let ciphertextSizeRange = Range(lowerBound: ciphertextSizeLowerBound, count: UInt32CodingSize)
             let ciphertextSizeData = headerData[ciphertextSizeRange]
-            let rawCiphertextSize = UnsignedInteger32BitDecode(ciphertextSizeData)
+            let rawCiphertextSize = try UInt32Decode(ciphertextSizeData)
             return Int(rawCiphertextSize)
         } as [Int]
         
-        let itemKeyRangeLowerBound = headerData.startIndex + messageCount * UnsignedInteger32BitEncodingSize
+        let itemKeyRangeLowerBound = headerData.startIndex + messageCount * UInt32CodingSize
         let itemKeyRange = Range(lowerBound: itemKeyRangeLowerBound, count: .wrappedKeySize)
         let itemKey = headerData[itemKeyRange]
         
@@ -51,7 +51,7 @@ public struct SecureDataHeader {
             return headerData[tagRange]
         } as [Data]
         
-        var nonceRangeLowerBound = UnsignedInteger32BitEncodingSize + UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
+        var nonceRangeLowerBound = UInt32CodingSize + UInt32CodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount
         let nonceRanges = ciphertextSizes.map { ciphertextSize in
             defer {
                 nonceRangeLowerBound += .nonceSize + ciphertextSize
@@ -59,7 +59,7 @@ public struct SecureDataHeader {
             return Range(lowerBound: nonceRangeLowerBound, count: .nonceSize)
         } as [Range<Int>]
         
-        var ciphertextRangeLowerBound = UnsignedInteger32BitEncodingSize + UnsignedInteger32BitEncodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount + .nonceSize
+        var ciphertextRangeLowerBound = UInt32CodingSize + UInt32CodingSize * messageCount + .wrappedKeySize + .tagSize * messageCount + .nonceSize
         let ciphertextRanges = ciphertextSizes.map { ciphertextSize in
             defer {
                 ciphertextRangeLowerBound += ciphertextSize + .nonceSize
@@ -79,11 +79,11 @@ public struct SecureDataHeader {
         self.elements = elements
     }
     
-    public func unwrapKey(with masterKey: CryptoKey) throws -> CryptoKey {
+    public func unwrapKey(with masterKey: MasterKey) throws -> MessageKey {
         let tagSegment = elements.map(\.tag).reduce(Data(), +)
         let wrappedItemKey = try AES.GCM.SealedBox(combined: self.wrappedItemKey)
         
-        return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(CryptoKey.init)
+        return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(MessageKey.init)
     }
     
 }

@@ -20,7 +20,7 @@ public struct FileItem: SecureItemValue, Equatable  {
         
         let infoSizeDataRange = Range(fileItemData.startIndex, count: UInt32CodingSize)
         let infoSizeData = fileItemData[infoSizeDataRange]
-        let rawInfoSize = UInt32Decode(infoSizeData)
+        let rawInfoSize = try UInt32Decode(infoSizeData)
         let infoSize = Int(rawInfoSize)
         
         guard fileItemData.count >= UInt32CodingSize + infoSize else {
@@ -40,7 +40,7 @@ public struct FileItem: SecureItemValue, Equatable  {
         
         let dataSizeDataRange = Range(infoSegmentRange.upperBound, count: UInt32CodingSize)
         let dataSizeData = fileItemData[dataSizeDataRange]
-        let rawDataSize = UInt32Decode(dataSizeData)
+        let rawDataSize = try UInt32Decode(dataSizeData)
         let dataSize = Int(rawDataSize)
         
         guard fileItemData.count == UInt32CodingSize + infoSize + UInt32CodingSize + dataSize else {

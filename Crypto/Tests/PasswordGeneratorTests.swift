@@ -5,11 +5,11 @@ import XCTest
 class PasswordTests: XCTestCase {
     
     func testEmptySymbolGroup() {
-        XCTAssertThrowsError(try Password(length: 0, uppercase: false, lowercase: false, digit: false, symbol: false))
+        XCTAssertThrowsError(try PasswordGenerator(length: 0, uppercase: false, lowercase: false, digit: false, symbol: false))
     }
     
     func testLengthGreaterThanSymbolGroupCount() {
-        XCTAssertThrowsError(try Password(length: 1, uppercase: true, lowercase: true, digit: true, symbol: true))
+        XCTAssertThrowsError(try PasswordGenerator(length: 1, uppercase: true, lowercase: true, digit: true, symbol: true))
     }
     
     func testRandomCallArguments() throws {
@@ -20,7 +20,7 @@ class PasswordTests: XCTestCase {
             bytes.storeBytes(of: 0, as: UInt8.self)
             return CCRNGStatus(kCCSuccess)
         }
-        _ = try Password(length: 1, uppercase: true, lowercase: false, digit: false, symbol: false, configuration: configuration)
+        _ = try PasswordGenerator(length: 1, uppercase: true, lowercase: false, digit: false, symbol: false, configuration: configuration)
     }
     
     func testEverySymbolGroupPresent() throws {
@@ -32,7 +32,7 @@ class PasswordTests: XCTestCase {
             
             return CCRNGStatus(kCCSuccess)
         }
-        let password = try Password(length: characterSet.count, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration)
+        let password = try PasswordGenerator(length: characterSet.count, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration)
         
         XCTAssertEqual(Set(password), Set(characterSet))
     }
@@ -53,7 +53,7 @@ class PasswordTests: XCTestCase {
             return CCRNGStatus(kCCSuccess)
         }
         
-        _ = try Password(length: characterSet.count, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration)
+        _ = try PasswordGenerator(length: characterSet.count, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration)
     }
     
     func testRNGFailure() {
@@ -61,7 +61,7 @@ class PasswordTests: XCTestCase {
             CCRNGStatus(kCCRNGFailure)
         }
         
-        XCTAssertThrowsError(try Password(length: 4, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration))
+        XCTAssertThrowsError(try PasswordGenerator(length: 4, uppercase: true, lowercase: true, digit: true, symbol: true, configuration: configuration))
     }
     
 }

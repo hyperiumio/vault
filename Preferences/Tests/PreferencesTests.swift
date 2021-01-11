@@ -23,7 +23,7 @@ final class PreferencesTests: XCTestCase {
         let preferences = Preferences(using: mock)
         
         XCTAssertEqual(preferences.value.isBiometricUnlockEnabled, false)
-        XCTAssertNil(preferences.value.activeVaultIdentifier)
+        XCTAssertNil(preferences.value.activeStoreID)
     }
     
     func testInitNonEmptyStore() {
@@ -31,12 +31,12 @@ final class PreferencesTests: XCTestCase {
         let storeMock = PreferencesStoreMock()
         storeMock.defaults = [
             "BiometricUnlockEnabled": true,
-            "ActiveVaultIdentifier": expectedActiveVaultID
+            "ActiveStoreID": expectedActiveVaultID
         ]
         let preferences = Preferences(using: storeMock)
         
         XCTAssertEqual(preferences.value.isBiometricUnlockEnabled, true)
-        XCTAssertNil(preferences.value.activeVaultIdentifier)
+        XCTAssertNil(preferences.value.activeStoreID)
     }
     
     func testSetBiometricUnlockEnabled() {
@@ -60,22 +60,22 @@ final class PreferencesTests: XCTestCase {
 
     func testActiveVaultIdentifier() {
         let didChangeExpectation = XCTestExpectation()
-        let expectedActiveVaultID = UUID()
+        let expectedActiveStoreID = UUID()
         let storeMock = PreferencesStoreMock()
         let preferences = Preferences(using: storeMock)
         preferences.didChange
             .dropFirst()
             .sink { value in
-                XCTAssertEqual(value.activeVaultIdentifier, expectedActiveVaultID)
+                XCTAssertEqual(value.activeStoreID, expectedActiveStoreID)
                 didChangeExpectation.fulfill()
             }
             .store(in: &subscriptions)
         
-        preferences.set(activeVaultIdentifier: expectedActiveVaultID)
+        preferences.set(activeStoreID: expectedActiveStoreID)
         
         let waitResult = XCTWaiter.wait(for: [didChangeExpectation], timeout: .infinity)
         XCTAssertEqual(waitResult, .completed)
-        XCTAssertEqual(storeMock.defaults["ActiveVaultIdentifier"] as? String, expectedActiveVaultID.uuidString)
+        XCTAssertEqual(storeMock.defaults["ActiveStoreID"] as? String, expectedActiveStoreID.uuidString)
     }
     
 }

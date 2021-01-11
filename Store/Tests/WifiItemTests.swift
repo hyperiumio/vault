@@ -30,7 +30,7 @@ class WifiItemTests: XCTestCase {
         XCTAssertThrowsError(try WifiItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = WifiItem(name: "", password: "")
         
         XCTAssertEqual(item.secureItemType, .wifi)

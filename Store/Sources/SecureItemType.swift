@@ -8,7 +8,7 @@ public enum SecureItemType: String, Codable, CaseIterable, Identifiable {
     case bankAccount
     case custom
     case file
- 
+    
     public var id: Self { self }
     
 }

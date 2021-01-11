@@ -43,18 +43,10 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
     
     let changeMasterPasswordModel: ChangeMasterPasswordModel
     
-    private let vault: Store
-    private let preferences: Preferences
-    private let keychain: Keychain
-    private let dependency: Dependency
     private let errorSubject = PassthroughSubject<SettingModelError, Never>()
     private var isBiometricUnlockEnabledSubscription: AnyCancellable?
     
-    init(vault: Store, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
-        self.vault = vault
-        self.preferences = preferences
-        self.keychain = keychain
-        self.dependency = dependency
+    init(store: Store, derivedKey: DerivedKey, preferences: Preferences, keychain: Keychain, dependency: Dependency) {
         self.keychainAvailability = keychain.availability
         self.isBiometricUnlockEnabled = preferences.value.isBiometricUnlockEnabled
         self.changeMasterPasswordModel = dependency.changeMasterPasswordModel()
@@ -71,7 +63,7 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
         isBiometricUnlockEnabledSubscription = $isBiometricUnlockEnabled
             .flatMap { isBiometricUnlockEnabled -> AnyPublisher<Bool, Error> in
                 if isBiometricUnlockEnabled {
-                    return keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
+                    return keychain.storeSecret(derivedKey, forKey: Identifier.derivedKey)
                         .map { isBiometricUnlockEnabled }
                         .eraseToAnyPublisher()
                 } else {
