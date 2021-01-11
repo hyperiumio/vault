@@ -11,7 +11,7 @@ protocol LockedModelRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var keychainAvailability: Keychain.Availability { get }
     var status: LockedStatus { get }
-    var done: AnyPublisher<Store, Never> { get }
+    var done: AnyPublisher<(DerivedKey, MasterKey), Never> { get }
     var error: AnyPublisher<LockedError, Never> { get }
     
     func loginWithMasterPassword()
@@ -42,7 +42,7 @@ class LockedModel: LockedModelRepresentable {
     @Published private(set) var keychainAvailability: Keychain.Availability
     @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
-    var done: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(DerivedKey, MasterKey), Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -50,19 +50,18 @@ class LockedModel: LockedModelRepresentable {
         errorSubject.eraseToAnyPublisher()
     }
     
-    private let doneSubject = PassthroughSubject<Store, Never>()
-    private let errorSubject = PassthroughSubject<LockedError, Never>()
-    private let derivedKeySubject = PassthroughSubject<CryptoKey, Never>()
-    
-    private let vaultContainerPublisher: AnyPublisher<EncryptedStore, Error>
     private let keychain: Keychain
+    private let doneSubject = PassthroughSubject<(DerivedKey, MasterKey), Never>()
+    private let errorSubject = PassthroughSubject<LockedError, Never>()
+    private let derivedKeyContainerLoaded: AnyPublisher<Data, Error>
+    private let masterKeyContainerLoaded: AnyPublisher<Data, Error>
     private var openVaultSubscription: AnyCancellable?
-    private var keychainLoadSubscription: AnyCancellable?
     
-    init(vaultID: UUID, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
+    init(store: Store, preferences: Preferences, keychain: Keychain) {
         self.keychain = keychain
         self.keychainAvailability = preferences.value.isBiometricUnlockEnabled ? keychain.availability : .notAvailable
-        self.vaultContainerPublisher = Store.load(vaultID: vaultID, in: vaultContainerDirectory)
+        self.derivedKeyContainerLoaded = store.loadDerivedKeyContainer()
+        self.masterKeyContainerLoaded = store.loadMasterKeyContainer()
         
         Publishers.CombineLatest(preferences.didChange, keychain.availabilityDidChange)
             .map { preferences, keychainAvailability in preferences.isBiometricUnlockEnabled ? keychainAvailability : .notAvailable }
@@ -75,9 +74,13 @@ class LockedModel: LockedModelRepresentable {
         
         status = .unlocking
         
-        openVaultSubscription = vaultContainerPublisher
-            .tryMap { [password] vaultContainer in
-                try vaultContainer.unlock(with: password)
+        openVaultSubscription = Publishers.Zip(derivedKeyContainerLoaded, masterKeyContainerLoaded)
+            .tryMap { [password] derivedKeyContainer, masterKeyContainer in
+                let publicArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
+                let derivedKey = try DerivedKey(from: password, with: publicArguments)
+                let masterKey = try MasterKey(from: masterKeyContainer, using: derivedKey)
+                
+                return (derivedKey, masterKey)
             }
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -90,8 +93,8 @@ class LockedModel: LockedModelRepresentable {
                     self.status = .locked(cancelled: false)
                     self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [doneSubject] vault in
-                doneSubject.send(vault)
+            } receiveValue: { [doneSubject] keys in
+                doneSubject.send(keys)
             }
     }
     
@@ -100,12 +103,13 @@ class LockedModel: LockedModelRepresentable {
         
         status = .unlocking
         
-        let keyPublisher = keychain.loadSecret(forKey: Identifier.derivedKey)
-        openVaultSubscription = Publishers.Zip(vaultContainerPublisher, keyPublisher)
-            .tryMap { vaultContainer, derivedKeyData -> Store? in
+        let derivedKeyLoaded = keychain.loadSecret(forKey: Identifier.derivedKey)
+        openVaultSubscription = Publishers.Zip(derivedKeyLoaded, masterKeyContainerLoaded)
+            .tryMap { derivedKeyData, masterKeyContainer -> (DerivedKey, MasterKey)? in
                 if let derivedKeyData = derivedKeyData {
-                    let derivedKey = CryptoKey(derivedKeyData)
-                    return try vaultContainer.unlock(with: derivedKey)
+                    let derivedKey = DerivedKey(derivedKeyData)
+                    let masterKey = try MasterKey(from: masterKeyContainer, using: derivedKey)
+                    return (derivedKey, masterKey)
                 } else {
                     return nil
                 }
@@ -118,15 +122,15 @@ class LockedModel: LockedModelRepresentable {
                     self.status = .locked(cancelled: false)
                     self.errorSubject.send(.wrongPassword)
                 }
-            } receiveValue: { [weak self] vault in
+            } receiveValue: { [weak self] cryptor in
                 guard let self = self else { return }
-                guard let vault = vault else {
+                guard let cryptor = cryptor else {
                     self.status = .locked(cancelled: true)
                     return
                 }
                 
                 self.status = .unlocked
-                self.doneSubject.send(vault)
+                self.doneSubject.send(cryptor)
             }
     }
     
@@ -139,7 +143,7 @@ class LockedModelStub: LockedModelRepresentable {
     @Published var keychainAvailability = Keychain.Availability.enrolled(.faceID)
     @Published private(set) var status = LockedStatus.locked(cancelled: false)
     
-    var done: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(DerivedKey, MasterKey), Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

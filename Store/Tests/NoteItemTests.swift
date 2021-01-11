@@ -27,7 +27,7 @@ class NoteItemTests: XCTestCase {
         XCTAssertThrowsError(try NoteItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = NoteItem(text: "")
         
         XCTAssertEqual(item.secureItemType, .note)

@@ -14,7 +14,7 @@ protocol SetupModelRepresentable: ObservableObject, Identifiable {
     
     typealias State = SetupState<ChoosePasswordModel, RepeatPasswordModel, EnableBiometricUnlockModel, CompleteSetupModel>
     
-    var done: AnyPublisher<Store, Never> { get }
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> { get }
     var state: State { get }
     
 }
@@ -66,15 +66,15 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
 
     @Published var state: State
     
-    private let doneSubject = PassthroughSubject<Store, Never>()
+    private let doneSubject = PassthroughSubject<(Store, DerivedKey, MasterKey), Never>()
     private var setupCompleteSubscription: AnyCancellable?
     
-    var done: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
     init(dependency: Dependency, keychain: Keychain) {
-        
+         
         func statePublisher(from state: State) -> AnyPublisher<State, Never> {
             switch state {
             case .choosePassword(let choosePasswordModel):
@@ -112,7 +112,7 @@ class SetupModel<Dependency>: SetupModelRepresentable where Dependency: SetupMod
                     }
                     .eraseToAnyPublisher()
             case .completeSetup(_, _, _, let completeSetupModel):
-                setupCompleteSubscription = completeSetupModel.event
+                setupCompleteSubscription = completeSetupModel.done
                     .subscribe(doneSubject)
                 
                 return Empty<State, Never>()
@@ -145,7 +145,7 @@ class SetupModelStub: SetupModelRepresentable {
     
     let state: State
     
-    var done: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

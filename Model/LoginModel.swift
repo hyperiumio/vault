@@ -39,7 +39,7 @@ class LoginModel: LoginModelRepresentable {
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
         operationQueue.future {
-            try Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+            try PasswordGenerator(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
         }
         .replaceError(with: "")
         .receive(on: DispatchQueue.main)

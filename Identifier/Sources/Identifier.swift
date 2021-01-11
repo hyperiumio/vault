@@ -1,4 +1,3 @@
-public var cloudContainer: String { "group.io.hyperium.vault.default" }
 public var derivedKey: String { "DerivedKey" }
 
 #if os(iOS)

@@ -5,14 +5,18 @@ import UniformTypeIdentifiers
 
 struct AppUnlockedDependency {
     
-    private let vault: Store
+    private let store: Store
     private let preferences: Preferences
     private let keychain: Keychain
+    private let derivedKey: DerivedKey
+    private let masterKey: MasterKey
     
-    init(vault: Store, preferences: Preferences, keychain: Keychain) {
-        self.vault = vault
+    init(store: Store, preferences: Preferences, keychain: Keychain, derivedKey: DerivedKey, masterKey: MasterKey) {
+        self.store = store
         self.preferences = preferences
         self.keychain = keychain
+        self.derivedKey = derivedKey
+        self.masterKey = masterKey
     }
     
 }
@@ -21,15 +25,15 @@ extension AppUnlockedDependency: UnlockedModelDependency {
     
     
     func settingsModel() -> SettingsModel<Self> {
-        SettingsModel(vault: vault, preferences: preferences, keychain: keychain, dependency: self)
+        SettingsModel(store: store, derivedKey: derivedKey, preferences: preferences, keychain: keychain, dependency: self)
     }
     
-    func vaultItemReferenceModel(vaultItemInfo: SecureContainerInfo) -> VaultItemReferenceModel<Self> {
-        VaultItemReferenceModel(vault: vault, info: vaultItemInfo, dependency: self)
+    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: Store.ItemLocator) -> VaultItemReferenceModel<Self> {
+        VaultItemReferenceModel(info: itemInfo, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     
     func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel<Self> {
-        VaultItemModel(vault: vault, secureItem: secureItem, dependency: self)
+        VaultItemModel(secureItem: secureItem, store: store, masterKey: masterKey, dependency: self)
     }
     
 }
@@ -37,15 +41,15 @@ extension AppUnlockedDependency: UnlockedModelDependency {
 extension AppUnlockedDependency: SettingsModelDependency {
     
     func changeMasterPasswordModel() -> ChangeMasterPasswordModel {
-        ChangeMasterPasswordModel(vault: vault, preferences: preferences, keychain: keychain)
+        ChangeMasterPasswordModel(vault: store, preferences: preferences, keychain: keychain)
     }
     
 }
 
 extension AppUnlockedDependency: VaultItemReferenceModelDependency {
     
-    func vaultItemModel(vaultItem: SecureContainer) -> VaultItemModel {
-        VaultItemModel(vault: vault, vaultItem: vaultItem, dependency: self)
+    func vaultItemModel(storeItem: StoreItem, itemLocator: Store.ItemLocator) -> VaultItemModel {
+        VaultItemModel(storeItem: storeItem, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     
 }

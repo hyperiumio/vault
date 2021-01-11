@@ -27,7 +27,7 @@ class PasswordItemTests: XCTestCase {
         XCTAssertThrowsError(try PasswordItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = PasswordItem(password: "")
         
         XCTAssertEqual(item.secureItemType, .password)

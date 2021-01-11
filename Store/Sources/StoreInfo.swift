@@ -1,6 +1,6 @@
 import Foundation
 
-struct StoreInfo: Codable {
+public struct StoreInfo: Codable {
     
     public let id: UUID
     public let keyVersion: Int
@@ -14,7 +14,7 @@ struct StoreInfo: Codable {
         self.created = Date()
     }
     
-    init(from data: Data) throws {
+    public init(from data: Data) throws {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         self = try decoder.decode(Self.self, from: data)

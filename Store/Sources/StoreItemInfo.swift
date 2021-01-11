@@ -1,6 +1,6 @@
 import Foundation
 
-public struct SecureContainerInfo: Codable, Hashable {
+public struct StoreItemInfo: Codable, Hashable {
     
     public let id: UUID
     public let name: String
@@ -10,13 +10,7 @@ public struct SecureContainerInfo: Codable, Hashable {
     public let created: Date
     public let modified: Date
     
-    public func encoded() throws -> Data {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        return try encoder.encode(self)
-    }
-    
-    public init(id: UUID, name: String, description: String?, primaryType: SecureItemType, secondaryTypes: [SecureItemType], created: Date, modified: Date) {
+    init(id: UUID, name: String, description: String?, primaryType: SecureItemType, secondaryTypes: [SecureItemType], created: Date, modified: Date) {
         self.id = id
         self.name = name
         self.description = description
@@ -30,6 +24,12 @@ public struct SecureContainerInfo: Codable, Hashable {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         self = try decoder.decode(Self.self, from: data)
+    }
+    
+    public func encoded() throws -> Data {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        return try encoder.encode(self)
     }
     
 }

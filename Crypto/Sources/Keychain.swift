@@ -25,55 +25,54 @@ public class Keychain {
         let availability = Availability(from: configuration.context)
         let availabilityDidChangeSubject = CurrentValueSubject<Availability, Never>(availability)
         
-        self.configuration = configuration
         self.attributeBuilder = AttributeBuilder(accessGroup: accessGroup)
         self.availabilityDidChangeSubject = availabilityDidChangeSubject
+        self.configuration = configuration
     }
     
     public func storeSecret<D>(_ secret: D, forKey key: String) -> AnyPublisher<Void, Error> where D: ContiguousBytes {
-        operationQueue.future { [configuration, attributeBuilder] in
+        operationQueue.future { [attributeBuilder, configuration] in
             let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let deleteStatus = configuration.delete(deleteQuery)
             guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
-                throw CryptoError.keychainDeleteDidFail
+                throw CryptoError.keychainDeleteFailed
             }
             
             let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, context: configuration.context)
             let addStatus = configuration.store(addAttributes, nil)
             guard addStatus == errSecSuccess else {
-                throw CryptoError.keychainStoreDidFail
+                throw CryptoError.keychainStoreFailed
             }
         }
         .eraseToAnyPublisher()
     }
     
     public func loadSecret(forKey key: String) -> AnyPublisher<Data?, Error> {
-        operationQueue.future { [configuration, attributeBuilder] in
+        operationQueue.future { [attributeBuilder, configuration] in
             let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
             var item: CFTypeRef?
             let status = configuration.load(loadQuery, &item)
             switch status {
             case errSecSuccess:
                 guard let data = item as? Data else {
-                    throw CryptoError.keychainLoadDidFail
+                    throw CryptoError.keychainLoadFailed
                 }
-                
                 return data
             case errSecUserCanceled:
                 return nil
             default:
-                throw CryptoError.keychainLoadDidFail
+                throw CryptoError.keychainLoadFailed
             }
         }
         .eraseToAnyPublisher()
     }
     
     public func deleteSecret(forKey key: String) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [configuration, attributeBuilder] in
+        operationQueue.future { [attributeBuilder, configuration] in
             let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let status = configuration.delete(deleteQuery)
             guard status == errSecSuccess || status == errSecItemNotFound else {
-                throw CryptoError.keychainDeleteDidFail
+                throw CryptoError.keychainDeleteFailed
             }
         }
         .eraseToAnyPublisher()
@@ -132,7 +131,7 @@ extension Keychain {
     
 }
 
-public protocol KeychainContext: class {
+protocol KeychainContext: AnyObject {
     
     var biometryType: LABiometryType { get }
     

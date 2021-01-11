@@ -16,14 +16,14 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
             return nil
         }
         let preferences = Preferences(using: userDefaults)
-        guard let activeVaultID = preferences.value.activeVaultIdentifier else {
+        guard let activeStoreID = preferences.value.activeStoreID else {
             return nil
         }
         
-        let vaultContainerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
+        let containerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(accessGroup: Identifier.appGroup)
-        let mainModelDependency = QuickAccessDependency(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
-        let model = QuickAccessModel(dependency: mainModelDependency, vaultID: activeVaultID)
+        let mainModelDependency = QuickAccessDependency(preferences: preferences, keychain: keychain)
+        let model = QuickAccessModel(dependency: mainModelDependency, containerDirectory: containerDirectory, storeID: activeStoreID)
         
         didSelectSubscription = model.done
             .sink { [extensionContext] item in

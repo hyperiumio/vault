@@ -3,7 +3,7 @@ import XCTest
 
 class LoginItemTests: XCTestCase {
     
-    func testInit() {
+    func testInitFromValues() {
         let item = LoginItem(username: "foo", password: "bar", url: "baz")
         
         XCTAssertEqual(item.username, "foo")
@@ -33,7 +33,7 @@ class LoginItemTests: XCTestCase {
         XCTAssertThrowsError(try LoginItem(from: data))
     }
     
-    func testType() {
+    func testSecureItemType() {
         let item = LoginItem(username: "", password: "", url: "")
         
         XCTAssertEqual(item.secureItemType, .login)

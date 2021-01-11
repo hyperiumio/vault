@@ -8,7 +8,7 @@ import Preferences
 protocol CompleteSetupModelRepresentable: ObservableObject, Identifiable {
     
     var isLoading: Bool { get }
-    var event: AnyPublisher<Store, Never> { get }
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> { get }
     var error: AnyPublisher<CompleteSetupModelError, Never> { get }
     
     func createVault()
@@ -29,14 +29,14 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
     
     private let password: String
     private let biometricUnlockEnabled: Bool
-    private let vaultContainerDirectory: URL
+    private let containerDirectory: URL
     private let preferences: Preferences
     private let keychain: Keychain
-    private let doneSubject = PassthroughSubject<Store, Never>()
+    private let doneSubject = PassthroughSubject<(Store, DerivedKey, MasterKey), Never>()
     private let errorSubject = PassthroughSubject<CompleteSetupModelError, Never>()
-    private var createVaultSubscription: AnyCancellable?
+    private var completeSetupSubscription: AnyCancellable?
     
-    var event: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> {
         doneSubject.eraseToAnyPublisher()
     }
     
@@ -44,10 +44,10 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         errorSubject.eraseToAnyPublisher()
     }
     
-    init(password: String, biometricUnlockEnabled: Bool, vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
+    init(password: String, biometricUnlockEnabled: Bool, containerDirectory: URL, preferences: Preferences, keychain: Keychain) {
         self.password = password
         self.biometricUnlockEnabled = biometricUnlockEnabled
-        self.vaultContainerDirectory = vaultContainerDirectory
+        self.containerDirectory = containerDirectory
         self.preferences = preferences
         self.keychain = keychain
     }
@@ -58,18 +58,49 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
         }
         
         isLoading = true
-        createVaultSubscription = Store.create(in: vaultContainerDirectory, using: password)
-            .flatMap { [biometricUnlockEnabled, keychain] vault -> AnyPublisher<Store, Error> in
+        
+        let masterKey = MasterKey()
+        
+        let publicArgumentsCreated = DispatchQueue.global().future {
+            try DerivedKey.PublicArguments()
+        }
+        
+        let derivedKeyContainerCreated = publicArgumentsCreated
+            .map { publicArguments in
+                publicArguments.container()
+            }
+        
+        let derivedKeyCreated = publicArgumentsCreated
+            .tryMap { [password] publicArguments in
+                try DerivedKey(from: password, with: publicArguments)
+            }
+            .flatMap { [biometricUnlockEnabled, keychain] derivedKey -> AnyPublisher<DerivedKey, Error> in
                 if biometricUnlockEnabled {
-                    return keychain.storeSecret(vault.derivedKey, forKey: Identifier.derivedKey)
-                        .map { vault }
+                    return keychain.storeSecret(derivedKey, forKey: Identifier.derivedKey)
+                        .map { _ in derivedKey }
                         .eraseToAnyPublisher()
                 } else {
-                    return Just(vault)
-                        .setFailureType(to: Error.self)
+                    return Result.Publisher(derivedKey)
                         .eraseToAnyPublisher()
                 }
             }
+        
+        let masterKeyContainerCreated = derivedKeyCreated
+            .tryMap { derivedKey in
+                try masterKey.encryptedContainer(using: derivedKey)
+            }
+        
+        let storeCreated = Publishers.Zip(derivedKeyContainerCreated, masterKeyContainerCreated)
+            .flatMap { [containerDirectory] derivedKeyContainer, masterKeyContainer in
+                Store.create(in: containerDirectory, derivedKeyContainer: derivedKeyContainer, masterKeyContainer: masterKeyContainer)
+            }
+        
+        let loadInfo = storeCreated
+            .flatMap { store in
+                store.loadInfo()
+            }
+        
+        completeSetupSubscription = Publishers.Zip3(storeCreated, loadInfo, derivedKeyCreated)
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
                 guard let self = self else { return }
@@ -79,12 +110,25 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
                 if case .failure = completion {
                     self.errorSubject.send(.vaultCreationFailed)
                 }
-            } receiveValue: { [biometricUnlockEnabled, preferences, doneSubject] vault in
-                preferences.set(activeVaultIdentifier: vault.id)
+            } receiveValue: { [biometricUnlockEnabled, preferences, doneSubject] store, info, derivedKey in
+                preferences.set(activeStoreID: info.id)
                 preferences.set(isBiometricUnlockEnabled: biometricUnlockEnabled)
                 
-                doneSubject.send(vault)
+                doneSubject.send((store, derivedKey, masterKey))
             }
+    }
+    
+}
+
+private extension DispatchQueue {
+    
+    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
+        Future { promise in
+            self.async {
+                let result = Result(catching: body)
+                promise(result)
+            }
+        }
     }
     
 }
@@ -94,7 +138,7 @@ class CompleteSetupModelStub: CompleteSetupModelRepresentable {
     
     @Published var isLoading = false
     
-    var event: AnyPublisher<Store, Never> {
+    var done: AnyPublisher<(Store, DerivedKey, MasterKey), Never> {
         PassthroughSubject().eraseToAnyPublisher()
     }
     

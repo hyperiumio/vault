@@ -11,7 +11,7 @@ protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable, A
     typealias State = VaultItemReferenceState<VaultItemModel>
     
     var state: State { get }
-    var info: SecureContainerInfo { get }
+    var info: StoreItemInfo { get }
     
     func load()
     
@@ -38,7 +38,7 @@ protocol VaultItemReferenceModelDependency {
     
     associatedtype VaultItemModel: VaultItemModelRepresentable
     
-    func vaultItemModel(vaultItem: SecureContainer) -> VaultItemModel
+    func vaultItemModel(storeItem: StoreItem, itemLocator: Store.ItemLocator) -> VaultItemModel
     
 }
 
@@ -58,26 +58,34 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
     
     @Published private(set) var state = State.initialized
     
-    let info: SecureContainerInfo
+    let info: StoreItemInfo
     
-    private let vault: Store
+    private let itemLocator: Store.ItemLocator
+    private let store: Store
+    private let masterKey: MasterKey
     private let dependency: Dependency
     
-    init(vault: Store, info: SecureContainerInfo, dependency: Dependency) {
-        self.vault = vault
+    init(info: StoreItemInfo, itemLocator: Store.ItemLocator, store: Store, masterKey: MasterKey, dependency: Dependency) {
         self.info = info
+        self.itemLocator = itemLocator
+        self.store = store
+        self.masterKey = masterKey
         self.dependency = dependency
     }
     
     func load() {
         state = .loading
         
-        vault.loadVaultItem(with: info.id)
-            .map(dependency.vaultItemModel)
-            .map(VaultItemReferenceState.loaded)
-            .replaceError(with: .loadingFailed)
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$state)
+        store.loadItem(itemLocator: itemLocator) { [masterKey] encryptedItemData in
+            try SecureDataMessage.decryptMessages(from: encryptedItemData, using: masterKey)
+        }
+        .map { [dependency, itemLocator] storeItem in
+            dependency.vaultItemModel(storeItem: storeItem, itemLocator: itemLocator)
+        }
+        .map(VaultItemReferenceState.loaded)
+        .replaceError(with: .loadingFailed)
+        .receive(on: DispatchQueue.main)
+        .assign(to: &$state)
     }
     
 }
@@ -88,11 +96,11 @@ class VaultItemReferenceModelStub: VaultItemReferenceModelRepresentable {
     typealias VaultItemModel = VaultItemModelStub
     
     let state: State
-    let info: SecureContainerInfo
+    let info: StoreItemInfo
     
     func load() {}
     
-    init(state: State, info: SecureContainerInfo) {
+    init(state: State, info: StoreItemInfo) {
         self.state = state
         self.info = info
     }

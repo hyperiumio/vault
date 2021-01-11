@@ -1,7 +1,5 @@
 import SwiftUI
 
-// TODO
-
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject private var model: Model

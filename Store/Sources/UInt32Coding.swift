@@ -13,8 +13,10 @@ func UInt32Encode(_ value: UInt32) -> Data {
     return Data(bytes)
 }
 
-func UInt32Decode(_ data: Data) -> UInt32 {
-    precondition(data.count == UInt32CodingSize)
+func UInt32Decode(_ data: Data) throws -> UInt32 {
+    guard data.count == UInt32CodingSize else {
+        throw StorageError.invalidDataSize
+    }
     
     let byte0 = data[data.startIndex + 0]
     let byte1 = data[data.startIndex + 1]

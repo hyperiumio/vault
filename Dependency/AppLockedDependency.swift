@@ -5,12 +5,12 @@ import Preferences
 
 struct AppLockedDependency {
     
-    private let vaultContainerDirectory: URL
+    private let containerDirectory: URL
     private let preferences: Preferences
     private let keychain: Keychain
     
-    init(vaultContainerDirectory: URL, preferences: Preferences, keychain: Keychain) {
-        self.vaultContainerDirectory = vaultContainerDirectory
+    init(containerDirectory: URL, preferences: Preferences, keychain: Keychain) {
+        self.containerDirectory = containerDirectory
         self.preferences = preferences
         self.keychain = keychain
     }
@@ -20,19 +20,23 @@ struct AppLockedDependency {
 extension AppLockedDependency: AppModelDependency {
     
     func bootstrapModel() -> BootstrapModel {
-        BootstrapModel(vaultContainerDirectory: vaultContainerDirectory, preferences: preferences)
+        BootstrapModel(containerDirectory: containerDirectory, preferences: preferences)
     }
     
     func setupModel() -> SetupModel<Self> {
         SetupModel(dependency: self, keychain: keychain)
     }
     
-    func mainModel(vaultID: UUID) -> MainModel<Self> {
-        MainModel(dependency: self, vaultID: vaultID)
+    func lockedMainModel(store: Store) -> MainModel<Self> {
+        let lockedModel = self.lockedModel(store: store)
+        let state = MainModel.State.locked(model: lockedModel, store: store, userBiometricUnlock: true)
+        return MainModel(dependency: self, state: state)
     }
     
-    func mainModel(vault: Store) -> MainModel<Self> {
-        MainModel(dependency: self, vault: vault)
+    func unlockedMainModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainModel<Self> {
+        let unlockedModel = self.unlockedModel(store: store, derivedKey: derivedKey, masterKey: masterKey, itemIndex: [:])
+        let state = MainModel.State.unlocked(model: unlockedModel, store: store)
+        return MainModel(dependency: self, state: state)
     }
     
 }
@@ -52,20 +56,20 @@ extension AppLockedDependency: SetupModelDependency {
     }
     
     func completeSetupModel(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupModel {
-        CompleteSetupModel(password: password, biometricUnlockEnabled: biometricUnlockEnabled, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
+        CompleteSetupModel(password: password, biometricUnlockEnabled: biometricUnlockEnabled, containerDirectory: containerDirectory, preferences: preferences, keychain: keychain)
     }
     
 }
 
 extension AppLockedDependency: MainModelDependency {
     
-    func lockedModel(vaultID: UUID) -> LockedModel {
-        LockedModel(vaultID: vaultID, vaultContainerDirectory: vaultContainerDirectory, preferences: preferences, keychain: keychain)
+    func lockedModel(store: Store) -> LockedModel {
+        LockedModel(store: store, preferences: preferences, keychain: keychain)
     }
     
-    func unlockedModel(vault: Store) -> UnlockedModel<AppUnlockedDependency> {
-        let dependency = AppUnlockedDependency(vault: vault, preferences: preferences, keychain: keychain)
-        return UnlockedModel(vault: vault, dependency: dependency)
+    func unlockedModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [Store.ItemLocator: StoreItemInfo]) -> UnlockedModel<AppUnlockedDependency> {
+        let dependency = AppUnlockedDependency(store: store, preferences: preferences, keychain: keychain, derivedKey: derivedKey, masterKey: masterKey)
+        return UnlockedModel(store: store, itemIndex: itemIndex, dependency: dependency)
     }
     
 }
