@@ -115,3 +115,4 @@
 "UnlockWithFaceIDDescription" = "Choose whether you want to make your vault unlockable with Face ID.";
 "NothingSelected" = "Nothing selected";
 "COUNT characters" = "%d characters";
+"NoResultsFound" = "No results found";

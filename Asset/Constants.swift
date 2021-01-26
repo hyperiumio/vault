@@ -115,6 +115,7 @@ extension LocalizedStringKey {
     static var wifi: Self { "Wifi" }
     static var invalidPassword: Self { "InvalidPassword" }
     static var nothingSelected: Self { "NothingSelected" }
+    static var noResultsFound: Self { "NoResultsFound" }
     
 }
 

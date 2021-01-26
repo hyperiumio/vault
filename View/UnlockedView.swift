@@ -14,7 +14,8 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     var body: some View {
         NavigationView {
             Group {
-                if model.itemCollation.sections.isEmpty {
+                switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
+                case (true, true):
                     VStack(spacing: 30) {
                         Text(.emptyVault)
                             .font(.title)
@@ -24,7 +25,10 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         }
                         .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
                     }
-                } else {
+                case (true, false):
+                    Text(.noResultsFound)
+                        .font(.title)
+                case (false, _):
                     List {
                         ForEach(model.itemCollation.sections) { section in
                             Section {
@@ -127,30 +131,40 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     #if os(macOS)
     var body: some View {
         NavigationView {
-            Group {
-                if let collation = model.itemCollation {
-                    VStack(spacing: 5) {
-                        SearchBar(text: $model.searchText)
-                            .padding(.horizontal, 10)
-                        
-                        List {
-                            ForEach(collation.sections) { section in
-                                Section {
-                                    ForEach(section.elements) { model in
-                                        NavigationLink(destination: VaultItemReferenceView(model)) {
-                                            VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
-                                        }
-                                    }
-                                } header: {
-                                    Text(section.key)
-                                }
-                                .collapsible(false)
-                            }
-                        }
-                    }
-                } else {
+            VStack(spacing: 5) {
+                SearchBar(text: $model.searchText)
+                    .padding(.horizontal, 10)
+                
+                switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
+                case (true, true):
+                    Spacer()
+                    
                     Text(.emptyVault)
                         .font(.title)
+                    
+                    Spacer()
+                case (true, false):
+                    Spacer()
+                    
+                    Text(.noResultsFound)
+                        .font(.title)
+                    
+                    Spacer()
+                case (false, _):
+                    List {
+                        ForEach(model.itemCollation.sections) { section in
+                            Section {
+                                ForEach(section.elements) { model in
+                                    NavigationLink(destination: VaultItemReferenceView(model)) {
+                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                                    }
+                                }
+                            } header: {
+                                Text(section.key)
+                            }
+                            .collapsible(false)
+                        }
+                    }
                 }
             }
             .frame(minWidth: 200)
@@ -235,7 +249,6 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
             }
         }
     }
-    
     #endif
     
 }

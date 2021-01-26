@@ -65,15 +65,10 @@ struct TextFieldShim: NSViewRepresentable {
     let action: () -> Void
     
     func makeNSView(context: Context) -> NSTextField {
-        let attributes = [
-            NSAttributedString.Key.foregroundColor: NSColor.secondaryLabelColor,
-            NSAttributedString.Key.font: NSFont.preferredFont(forTextStyle: textStyle)
-        ]
-        
         let textField = isSecure ? NSSecureTextField() : NSTextField()
+        textField.placeholderString = title
         textField.font = NSFont.preferredFont(forTextStyle: textStyle)
         textField.textColor = .labelColor
-        (textField.cell as? NSTextFieldCell)?.placeholderAttributedString = NSAttributedString(string: "\(title)", attributes: attributes)
         textField.drawsBackground = false
         textField.isBezeled = false
         textField.focusRingType = .none
