@@ -48,41 +48,31 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     #if os(macOS)
     var body: some View {
-        NavigationView {
-            List {
+        TabView {
+            VStack {
                 switch model.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .enrolled(.touchID):
-                    Section {
-                        Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
-                    } footer: {
-                        Text(.touchIDDescription)
-                    }
+                    Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
                 case .enrolled(.faceID):
-                    Section {
-                        Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
-                    } footer: {
-                        Text(.faceIDDescription)
-                    }
+                    Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
                 }
                 
-                Section {
-                    NavigationLink(.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
-                } footer: {
-                    Text(.changeMasterPasswordDescription)
+                Divider()
+                
+                Button(.changeMasterPassword) {
+                    
                 }
             }
-            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-            .navigationTitle(.settings)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(.cancel) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
+            .tabItem {
+                Label(.security, systemImage: SFSymbolName.lockFill)
             }
+            .padding()
         }
+        .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+        
+        
     }
     #endif
     
