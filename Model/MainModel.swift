@@ -38,6 +38,8 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
     
     @Published var state: State
     
+    private let dependency: Dependency
+    
     init(dependency: Dependency, state: State) {
         
         func statePublisher(from state: State) -> AnyPublisher<State, Never> {
@@ -84,6 +86,7 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
         }
         
         self.state = state
+        self.dependency = dependency
         
         statePublisher(from: state)
             .assign(to: &$state)
@@ -91,6 +94,16 @@ class MainModel<Dependency>: MainModelRepresentable where Dependency: MainModelD
         $state
             .flatMap(statePublisher)
             .assign(to: &$state)
+    }
+    
+    func lock() {
+        switch state {
+        case .locked:
+            return
+        case .unlocked(_, let store):
+            let lockedModel = dependency.lockedModel(store: store)
+            state = .locked(model: lockedModel, store: store, userBiometricUnlock: false)
+        }
     }
     
 }

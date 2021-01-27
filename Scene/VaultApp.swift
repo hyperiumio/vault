@@ -1,3 +1,4 @@
+import Combine
 import SwiftUI
 
 #if os(macOS)
@@ -17,8 +18,11 @@ struct VaultApp: App {
             
             CommandGroup(before: .appTermination) {
                 Button(.lockVault) {
+                    guard case .main(let model) = appDelegate.appModel.state else { return }
                     
+                    model.lock()
                 }
+                
             }
         }
         
