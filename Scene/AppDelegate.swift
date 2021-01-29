@@ -1,3 +1,4 @@
+import Combine
 import Crypto
 import Identifier
 import Preferences
@@ -8,7 +9,8 @@ class AppDelegate: NSObject {
     
     let appModel: AppModel<AppLockedDependency>
     let keychain: Keychain
-    let syncCoordinator = SyncCoordinator()
+    
+    private var serverInitialized: AnyCancellable?
     
     override init() {
         guard let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup)?.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true) else {
@@ -63,7 +65,13 @@ extension AppDelegate: NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.registerForRemoteNotifications()
-        syncCoordinator.initialize()
+        
+        serverInitialized = Server.initialize(containerIdentifier: "iCloud.io.hyperium.vault.default")
+            .sink { completion in
+                print(completion)
+            } receiveValue: { server in
+                print(server)
+            }
     }
     
     func applicationDidBecomeActive(_ notification: Notification) {
@@ -71,7 +79,7 @@ extension AppDelegate: NSApplicationDelegate {
     }
     
     func application(_ application: NSApplication, didReceiveRemoteNotification userInfo: [String : Any]) {
-        syncCoordinator.startSync()
+        
     }
     
 }

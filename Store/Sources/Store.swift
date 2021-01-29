@@ -265,7 +265,13 @@ public protocol FileManagerRepresentable {
     
 }
 
-extension FileHandle: FileHandleRepresentable {}
+extension FileHandle: FileHandleRepresentable {
+    
+    public func read(upToCount count: Int) throws -> Data? {
+        readData(ofLength: count)
+    }
+    
+}
 extension FileManager: FileManagerRepresentable {}
 
 private extension DispatchQueue {
