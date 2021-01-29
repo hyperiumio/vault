@@ -3,21 +3,20 @@ import Combine
 
 public class SyncAvailability {
     
-    public var statusDidChange: AnyPublisher<Status, Error> {
-        return statusDidChangeSubject
-            .eraseToAnyPublisher()
-    }
-    
     public var status: Status { statusDidChangeSubject.value }
     
-    private let statusDidChangeSubject = CurrentValueSubject<Status, Error>(.unknown)
+    public var statusDidChange: AnyPublisher<Status, Never> {
+        statusDidChangeSubject.eraseToAnyPublisher()
+    }
+    
+    private let statusDidChangeSubject = CurrentValueSubject<Status, Never>(.unknown)
     private var accountDidChangeSubscription: AnyCancellable?
     
-    private init() {
+    public init(containerIdentifier: String) {
         accountDidChangeSubscription = NotificationCenter.default.publisher(for: .CKAccountChanged)
             .flatMap { _ in
-                return Future<Status, Never> { promise in
-                    CKContainer.default().accountStatus { status, error in
+                Future<Status, Never> { promise in
+                    CKContainer(identifier: containerIdentifier).accountStatus { status, error in
                         let status = SyncAvailability.Status(status)
                         let result = Result<Status, Never>.success(status)
                         promise(result)
@@ -25,14 +24,8 @@ public class SyncAvailability {
                 }
             }
             .removeDuplicates()
-            .sink(receiveValue: statusDidChangeSubject.send)
+            .subscribe(statusDidChangeSubject)
     }
-    
-}
-
-extension SyncAvailability {
-    
-    public static let shared = SyncAvailability()
     
 }
 
@@ -40,19 +33,19 @@ extension SyncAvailability {
     
     public enum Status {
         
-        case unknown
         case undefined
-        case available
+        case unknown
         case notAvailable
+        case available
         
         init(_ status: CKAccountStatus) {
             switch status {
             case .couldNotDetermine:
                 self = .undefined
-            case .available:
-                self = .available
             case .restricted, .noAccount:
                 self = .notAvailable
+            case .available:
+                self = .available
             @unknown default:
                 self = .undefined
             }

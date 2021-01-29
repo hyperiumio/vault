@@ -31,7 +31,7 @@ extension Pasteboard {
     
 }
 
-protocol SystemPasteboardRepresentable: class {
+protocol SystemPasteboardRepresentable: AnyObject {
     
     func string(forType dataType: NSPasteboard.PasteboardType) -> String?
     @discardableResult func clearContents() -> Int
