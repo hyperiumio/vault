@@ -1,17 +1,17 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 
 import PackageDescription
 
 let package = Package(
-    name: "Sync",
+    name: "Cloud",
     platforms: [
         .macOS(.v11),
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Sync", targets: ["Sync"])
+        .library(name: "Cloud", targets: ["Cloud"])
     ],
     targets: [
-        .target(name: "Sync", path: "Sources")
+        .target(name: "Cloud", path: "Sources")
     ]
 )

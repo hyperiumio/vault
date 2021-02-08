@@ -3,7 +3,6 @@ import Crypto
 import Identifier
 import Preferences
 import Storage
-import Sync
 
 class AppDelegate: NSObject {
     
@@ -43,13 +42,6 @@ extension AppDelegate: UIApplicationDelegate {
         application.ignoreSnapshotOnNextApplicationLaunch()
         application.registerForRemoteNotifications()
         
-        serverInitialized = Server.initialize(containerIdentifier: "iCloud.io.hyperium.vault.default")
-            .sink { completion in
-                print(completion)
-            } receiveValue: { server in
-                print(server)
-            }
-        
         return true
     }
     
@@ -71,13 +63,6 @@ extension AppDelegate: NSApplicationDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApplication.shared.registerForRemoteNotifications()
-        
-        serverInitialized = Server.initialize(containerIdentifier: "iCloud.io.hyperium.vault.default")
-            .sink { completion in
-                print(completion)
-            } receiveValue: { server in
-                print(server)
-            }
     }
     
     func applicationDidBecomeActive(_ notification: Notification) {
