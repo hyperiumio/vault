@@ -12,6 +12,6 @@ let package = Package(
         .library(name: "Cloud", targets: ["Cloud"])
     ],
     targets: [
-        .target(name: "Cloud", path: "Sources")
+        .target(name: "Cloud", path: "Sources", swiftSettings: [.unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])])
     ]
 )
