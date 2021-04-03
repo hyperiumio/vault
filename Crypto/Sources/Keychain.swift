@@ -1,37 +1,20 @@
-import Combine
 import CryptoKit
 import Foundation
 import LocalAuthentication
 import Security
 
-public class Keychain {
+public struct Keychain {
     
-    private let attributeBuilder: AttributeBuilder
+    private let attributeBuilder: KeychainAttributeBuilder
     private let configuration: Configuration
-    private let operationQueue = DispatchQueue(label: "KeychainOperationQueue")
-    private let availabilityDidChangeSubject: CurrentValueSubject<Availability, Never>
-    
-    public var availability: Availability {
-        availabilityDidChangeSubject.value
-    }
-    
-    public var availabilityDidChange: AnyPublisher<Availability, Never> {
-        availabilityDidChangeSubject
-            .removeDuplicates()
-            .eraseToAnyPublisher()
-    }
     
     public init(accessGroup: String, configuration: Configuration = .production) {
-        let availability = Availability(from: configuration.context)
-        let availabilityDidChangeSubject = CurrentValueSubject<Availability, Never>(availability)
-        
-        self.attributeBuilder = AttributeBuilder(accessGroup: accessGroup)
-        self.availabilityDidChangeSubject = availabilityDidChangeSubject
+        self.attributeBuilder = KeychainAttributeBuilder(accessGroup: accessGroup)
         self.configuration = configuration
     }
     
-    public func storeSecret<D>(_ secret: D, forKey key: String) -> AnyPublisher<Void, Error> where D: ContiguousBytes {
-        operationQueue.future { [attributeBuilder, configuration] in
+    public func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {
+        try await Self.operationQueue.dispatch {
             let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let deleteStatus = configuration.delete(deleteQuery)
             guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
@@ -44,11 +27,10 @@ public class Keychain {
                 throw CryptoError.keychainStoreFailed
             }
         }
-        .eraseToAnyPublisher()
     }
     
-    public func loadSecret(forKey key: String) -> AnyPublisher<Data?, Error> {
-        operationQueue.future { [attributeBuilder, configuration] in
+    public func loadSecret(forKey key: String) async throws -> Data? {
+        try await Self.operationQueue.dispatch {
             let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
             var item: CFTypeRef?
             let status = configuration.load(loadQuery, &item)
@@ -64,22 +46,35 @@ public class Keychain {
                 throw CryptoError.keychainLoadFailed
             }
         }
-        .eraseToAnyPublisher()
     }
     
-    public func deleteSecret(forKey key: String) -> AnyPublisher<Void, Error> {
-        operationQueue.future { [attributeBuilder, configuration] in
+    public func deleteSecret(forKey key: String) async throws {
+        try await Self.operationQueue.dispatch {
             let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
             let status = configuration.delete(deleteQuery)
             guard status == errSecSuccess || status == errSecItemNotFound else {
                 throw CryptoError.keychainDeleteFailed
             }
         }
-        .eraseToAnyPublisher()
     }
     
-    public func invalidateAvailability() {
-        availabilityDidChangeSubject.value = Availability(from: configuration.context)
+    public func availability() async -> Availability {
+        return await Self.operationQueue.dispatch { [configuration] in
+            var error: NSError?
+            let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            let biometryType = configuration.context.biometryType
+            
+            switch (canEvaluate, biometryType, error?.code) {
+            case (true, .touchID, _):
+                return .enrolled(.touchID)
+            case (true, .faceID, _):
+                return .enrolled(.faceID)
+            case (false, _, LAError.biometryNotEnrolled.rawValue):
+                return .notEnrolled
+            default:
+                return .notAvailable
+            }
+        }
     }
     
 }
@@ -110,24 +105,13 @@ extension Keychain {
         case notEnrolled
         case enrolled(BiometryType)
         
-        init(from context: KeychainContext) {
-            var error: NSError?
-            let canEvaluate = context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-            let biometryType = context.biometryType
-            
-            switch (canEvaluate, biometryType, error?.code) {
-            case (true, .touchID, _):
-                self = .enrolled(.touchID)
-            case (true, .faceID, _):
-                self = .enrolled(.faceID)
-            case (false, _, LAError.biometryNotEnrolled.rawValue):
-                self = .notEnrolled
-            default:
-                self = .notAvailable
-            }
-        }
-        
     }
+    
+}
+
+extension Keychain {
+    
+    private static let operationQueue = DispatchQueue(label: "KeychainOperationQueue")
     
 }
 
@@ -141,52 +125,22 @@ protocol KeychainContext: AnyObject {
 
 extension LAContext: KeychainContext {}
 
-private struct AttributeBuilder {
-    
-    let accessGroup: String
-    
-    func buildAddAttributes<D>(key: String, data: D, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
-        [
-            kSecClass: kSecClassGenericPassword,
-            kSecUseDataProtectionKeychain: true,
-            kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
-            kSecAttrAccount: key,
-            kSecUseAuthenticationContext: context,
-            kSecAttrAccessGroup: accessGroup,
-            kSecValueData: data.withUnsafeBytes { bytes in
-                Data(bytes)
-            }
-        ] as CFDictionary
-    }
-    
-    func buildDeleteAttributes(key: String) -> CFDictionary {
-        [
-            kSecClass: kSecClassGenericPassword,
-            kSecUseDataProtectionKeychain: true,
-            kSecAttrAccount: key,
-            kSecAttrAccessGroup: accessGroup
-        ] as CFDictionary
-    }
-    
-    func buildLoadAttributes(key: String) -> CFDictionary {
-        [
-            kSecClass: kSecClassGenericPassword,
-            kSecUseDataProtectionKeychain: true,
-            kSecAttrAccount: key,
-            kSecAttrAccessGroup: accessGroup,
-            kSecReturnData: true
-        ] as CFDictionary
-    }
-    
-}
-
 private extension DispatchQueue {
     
-    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
-        Future { promise in
-            self.async {
+    func dispatch<T>(body: @escaping () throws -> T) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            async {
                 let result = Result(catching: body)
-                promise(result)
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
+    func dispatch<T>(body: @escaping () -> T) async -> T {
+        await withCheckedContinuation { continuation in
+            async {
+                let value = body()
+                continuation.resume(returning: value)
             }
         }
     }

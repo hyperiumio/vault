@@ -146,7 +146,7 @@ extension Server {
         }
     }
     
-    public static func statusPublishe(identifier: String) -> AnyPublisher<Status, Never> {
+    public static func statusPublisher(identifier: String) -> AnyPublisher<Status, Never> {
         NotificationCenter.default.publisher(for: .CKAccountChanged)
             .flatMap { _ in
                 Future<Status, Never> { promise in

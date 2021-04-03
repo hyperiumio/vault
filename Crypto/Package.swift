@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "Crypto", targets: ["Crypto"])
     ],
     targets: [
-        .target(name: "Crypto", path: "Sources"),
+        .target(name: "Crypto", path: "Sources", swiftSettings: [.unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])]),
         .testTarget(name: "CryptoTests", dependencies: ["Crypto"], path: "Tests")
     ]
 )
