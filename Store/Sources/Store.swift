@@ -1,43 +1,40 @@
 import Combine
 import Foundation
 
-public class Store {
+public struct Store {
     
-    public var didChange: AnyPublisher<Change, Never> {
+    public var didChange: AnyPublisher<StoreChangeSet, Never> {
         didChangeSubject.eraseToAnyPublisher()
     }
     
-    let resourceLocator: StoreResourceLocator
-    private let didChangeSubject = PassthroughSubject<Change, Never>()
+    private let resourceLocator: StoreResourceLocator
+    private let didChangeSubject = PassthroughSubject<StoreChangeSet, Never>()
     
     init(resourceLocator: StoreResourceLocator) {
         self.resourceLocator = resourceLocator
     }
     
-    public func loadInfo(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<StoreInfo, Error> {
-        Self.operationQueue.future { [resourceLocator] in
-            let storeInfoData = try load(resourceLocator.infoURL, [])
-            return try StoreInfo(from: storeInfoData)
+    public func loadInfo() async throws -> StoreInfo {
+        try await Self.operationQueue.dispatch {
+            let infoData = try Data(contentsOf: resourceLocator.infoURL)
+            return try StoreInfo(from: infoData)
         }
-        .eraseToAnyPublisher()
     }
     
-    public func loadDerivedKeyContainer(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Data, Error> {
-        Self.operationQueue.future { [resourceLocator] in
-            try load(resourceLocator.derivedKeyContainerURL, [])
+    public func loadDerivedKeyContainer() async throws -> Data {
+        try await Self.operationQueue.dispatch {
+            try Data(contentsOf: resourceLocator.derivedKeyContainerURL)
         }
-        .eraseToAnyPublisher()
     }
     
-    public func loadMasterKeyContainer(load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Data, Error> {
-        Self.operationQueue.future { [resourceLocator] in
-            try load(resourceLocator.masterKeyContainerURL, [])
+    public func loadMasterKeyContainer() async throws -> Data {
+        try await Self.operationQueue.dispatch {
+            try Data(contentsOf: resourceLocator.masterKeyContainerURL)
         }
-        .eraseToAnyPublisher()
     }
     
-    public func loadItem(itemLocator: ItemLocator, decrypt: @escaping (Data) throws -> [Data]) -> AnyPublisher<StoreItem, Error> {
-        Self.operationQueue.future {
+    public func loadItem(itemLocator: StoreItemLocator, decrypt: @escaping (Data) throws -> [Data]) async throws -> StoreItem {
+        try await Self.operationQueue.dispatch {
             let encryptedMessageContainer = try Data(contentsOf: itemLocator.url)
             let encodedMessages = try decrypt(encryptedMessageContainer)
             
@@ -62,45 +59,43 @@ public class Store {
             
             return StoreItem(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
         }
-        .eraseToAnyPublisher()
     }
     
-    public func loadItems<T>(read: @escaping (ReadingContext) throws -> T) -> AnyPublisher<T, Error> {
-        let subject = PassthroughSubject<T, Error>()
-        
-        Self.operationQueue.async { [resourceLocator] in
-            guard FileManager.default.fileExists(atPath: resourceLocator.itemsURL.path) else {
-                subject.send(completion: .finished)
-                return
-            }
-            guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: resourceLocator.itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
-                subject.send(completion: .failure(NSError()))
-                return
-            }
-            
-            for itemURL in itemURLs {
-                do {
-                    let itemLocator = ItemLocator(url: itemURL)
-                    let context = ReadingContext(itemLocator)
-                    let value = try read(context)
-                    subject.send(value)
-                } catch {
-                    subject.send(completion: .failure(NSError()))
+    public func loadItems<T>(read: @escaping (ReadingContext) throws -> T) -> ValueSequence<T> {
+        ValueSequence { send in
+            Self.operationQueue.async {
+                guard FileManager.default.fileExists(atPath: resourceLocator.itemsURL.path) else {
+                    send(.finished)
+                    return
+                }
+                guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: resourceLocator.itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
+                    send(.failure(StorageError.dataNotAvailable))
+                    return
+                }
+                
+                for itemURL in itemURLs {
+                    do {
+                        let itemLocator = StoreItemLocator(url: itemURL)
+                        let context = ReadingContext(itemLocator)
+                        let value = try read(context)
+                        send(.value(value))
+                    } catch let error {
+                        send(.failure(error))
+                    }
                 }
             }
-            
-            subject.send(completion: .finished)
         }
-
-        return subject.eraseToAnyPublisher()
     }
     
-    public func execute(deleteOperation: DeleteItemOperation? = nil, saveOperation: SaveItemOperation? = nil) -> AnyPublisher<Void, Error> {
-        Self.operationQueue.future { [resourceLocator, didChangeSubject] in
-            var itemsAdded = [ItemLocator: StoreItem]()
+    public func commit(operations: [StoreOperation], encrypt: @escaping ([Data]) throws -> Data) async throws {
+        try await Self.operationQueue.dispatch {
+            var itemsSaved = [StoreItemLocator: StoreItem]()
+            var itemsDeleted = [StoreItemLocator]()
             
-            if let saveOperation = saveOperation {
-                for storeItem in saveOperation.storeItems {
+            for operation in operations {
+                switch operation {
+                
+                case .save(let storeItem, let storeItemLocator):
                     let encodedInfo = try storeItem.info.encoded()
                     
                     let items = [storeItem.primaryItem] + storeItem.secondaryItems
@@ -108,99 +103,27 @@ public class Store {
                         try item.value.encoded()
                     }
                     let messages = [encodedInfo] + encodedItems
-                    let encryptedContainer = try saveOperation.encrypt(messages)
+                    let encryptedContainer = try encrypt(messages)
                     
-                    let storeItemURL = resourceLocator.generateItemURL()
-                    let storeItemLocator = ItemLocator(url: storeItemURL)
-                    try encryptedContainer.write(to: storeItemURL)
-                    
-                    itemsAdded[storeItemLocator] = storeItem
+                    if let storeItemLocator = storeItemLocator {
+                        try encryptedContainer.write(to: storeItemLocator.url)
+                        itemsSaved[storeItemLocator] = storeItem
+                    } else {
+                        let storeItemURL = resourceLocator.generateItemURL()
+                        let storeItemLocator = StoreItemLocator(url: storeItemURL)
+                        try encryptedContainer.write(to: storeItemURL)
+                        
+                        itemsSaved[storeItemLocator] = storeItem
+                    }
+                case .delete(let storeItemLocator):
+                    try FileManager.default.removeItem(at: storeItemLocator.url)
+                    itemsDeleted.append(storeItemLocator)
                 }
             }
             
-            if let deleteOperation = deleteOperation {
-                for itemLocator in deleteOperation.itemLocators {
-                    try FileManager.default.removeItem(at: itemLocator.url)
-                }
-            }
-            
-            let itemsDelete =  deleteOperation?.itemLocators ?? []
-            let change = Change(deleted: itemsDelete, added: itemsAdded)
-            didChangeSubject.send(change)
+            let changeSet = StoreChangeSet(saved: itemsSaved, deleted: itemsDeleted)
+            didChangeSubject.send(changeSet)
         }
-        .eraseToAnyPublisher()
-    }
-    
-}
-
-extension Store {
-    
-    public struct ItemLocator: Hashable {
-        
-        let url: URL
-        
-    }
-    
-    public struct ReadingContext {
-        
-        public let itemLocator: ItemLocator
-        
-        init(_ itemLocator: ItemLocator) {
-            self.itemLocator = itemLocator
-        }
-        
-        public func bytes(in range: Range<Int>, fileHandle: (URL) throws -> FileHandleRepresentable = FileHandle.init(forReadingFrom:)) throws -> Data {
-            let fileHandle = try fileHandle(itemLocator.url)
-            
-            guard let fileOffset = UInt64(exactly: range.startIndex) else {
-                throw StorageError.invalidByteRange
-            }
-            
-            try fileHandle.seek(toOffset: fileOffset)
-            guard let data = try? fileHandle.read(upToCount: range.count) else {
-                throw StorageError.dataNotAvailable
-            }
-            
-            return data
-        }
-        
-    }
-    
-    public struct DeleteItemOperation {
-        
-        let itemLocators: [ItemLocator]
-        
-        public init(_ itemLocators: [ItemLocator]) {
-            self.itemLocators = itemLocators
-        }
-        
-        public init(_ itemLocators: ItemLocator...) {
-            self.itemLocators = itemLocators
-        }
-        
-    }
-    
-    public struct SaveItemOperation {
-        
-        let storeItems: [StoreItem]
-        let encrypt: ([Data]) throws -> Data
-        
-        public init(_ storeItems: [StoreItem], encrypt: @escaping ([Data]) throws -> Data) {
-            self.storeItems = storeItems
-            self.encrypt = encrypt
-        }
-        
-        public init(_ storeItems: StoreItem..., encrypt: @escaping ([Data]) throws -> Data) {
-            self.storeItems = storeItems
-            self.encrypt = encrypt
-        }
-    }
-    
-    public struct Change {
-        
-        public let deleted: [ItemLocator]
-        public let added: [ItemLocator: StoreItem]
-        
     }
     
 }
@@ -209,16 +132,16 @@ extension Store {
     
     private static let operationQueue = DispatchQueue(label: "StoreOperationQueue")
     
-    public static func load(from containerDirectory: URL, matching storeID: UUID, fileManager: FileManagerRepresentable = FileManager.default, load: @escaping (URL, Data.ReadingOptions) throws -> Data = Data.init(contentsOf:options:)) -> AnyPublisher<Store?, Error> {
-        operationQueue.future {
-            guard fileManager.fileExists(atPath: containerDirectory.path) else {
+    public static func load(from containerDirectory: URL, matching storeID: UUID) async throws -> Store? {
+        try await operationQueue.dispatch {
+            guard FileManager.default.fileExists(atPath: containerDirectory.path) else {
                 return nil
             }
-            let storeURLs = try fileManager.contentsOfDirectory(at: containerDirectory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+            let storeURLs = try FileManager.default.contentsOfDirectory(at: containerDirectory, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
             
             for storeURL in storeURLs {
                 let resourceLocator = StoreResourceLocator(storeURL: storeURL)
-                let storeInfoData = try load(resourceLocator.infoURL, [])
+                let storeInfoData = try Data(contentsOf: resourceLocator.infoURL)
                 let storeInfo = try StoreInfo(from: storeInfoData)
                 
                 if storeInfo.id == storeID {
@@ -228,59 +151,32 @@ extension Store {
             
             return nil
         }
-        .eraseToAnyPublisher()
     }
-    
-    public static func create(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, fileManager: FileManagerRepresentable = FileManager.default, writer: @escaping (Data) -> (URL, Data.WritingOptions) throws -> Void = Data.write) -> AnyPublisher<Store, Error> {
-        operationQueue.future {
+   
+    public static func create(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data) async throws -> Store {
+        try await operationQueue.dispatch {
             let resourceLocator = StoreResourceLocator.generate(in: containerDirectory)
-            let storeInfo = try StoreInfo().encoded()
             
-            try fileManager.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
-            try fileManager.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false, attributes: nil)
-            try fileManager.createDirectory(at: resourceLocator.itemsURL, withIntermediateDirectories: false, attributes: nil)
-            try writer(storeInfo)(resourceLocator.infoURL, [])
-            try writer(derivedKeyContainer)(resourceLocator.derivedKeyContainerURL, [])
-            try writer(masterKeyContainer)(resourceLocator.masterKeyContainerURL, [])
+            try FileManager.default.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false, attributes: nil)
+            try FileManager.default.createDirectory(at: resourceLocator.itemsURL, withIntermediateDirectories: false, attributes: nil)
+            try StoreInfo().encoded().write(to: resourceLocator.infoURL)
+            try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainerURL)
+            try masterKeyContainer.write(to: resourceLocator.masterKeyContainerURL)
             
             return Store(resourceLocator: resourceLocator)
         }
-        .eraseToAnyPublisher()
     }
     
 }
-
-public protocol FileHandleRepresentable {
-    
-    func seek(toOffset offset: UInt64) throws
-    func read(upToCount count: Int) throws -> Data?
-    
-}
-
-public protocol FileManagerRepresentable {
-    
-    func fileExists(atPath path: String) -> Bool
-    func contentsOfDirectory(at url: URL, includingPropertiesForKeys keys: [URLResourceKey]?, options mask: FileManager.DirectoryEnumerationOptions) throws -> [URL]
-    func createDirectory(at url: URL, withIntermediateDirectories createIntermediates: Bool, attributes: [FileAttributeKey : Any]?) throws
-    
-}
-
-extension FileHandle: FileHandleRepresentable {
-    
-    public func read(upToCount count: Int) throws -> Data? {
-        readData(ofLength: count)
-    }
-    
-}
-extension FileManager: FileManagerRepresentable {}
 
 private extension DispatchQueue {
     
-    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
-        Future { promise in
-            self.async {
+    func dispatch<T>(body: @escaping () throws -> T) async throws -> T {
+        try await withCheckedThrowingContinuation { continuation in
+            async {
                 let result = Result(catching: body)
-                promise(result)
+                continuation.resume(with: result)
             }
         }
     }

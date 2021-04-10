@@ -12,7 +12,7 @@ let package = Package(
         .library(name: "Storage", targets: ["Storage"])
     ],
     targets: [
-        .target(name: "Storage", path: "Sources"),
+        .target(name: "Storage", path: "Sources", swiftSettings: [.unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"])]),
         .testTarget(name: "StorageTests", dependencies: ["Storage"], path: "Tests")
     ]
 )

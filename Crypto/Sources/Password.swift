@@ -1,6 +1,6 @@
 import CommonCrypto
 
-public func PasswordGenerator(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool, configuration: PasswordConfiguration = .production) throws -> String {
+public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool, configuration: PasswordConfiguration = .production) throws -> String {
     var symbolGroups = Set<SymbolGroup>()
     if uppercase {
         symbolGroups.insert(.uppercase)

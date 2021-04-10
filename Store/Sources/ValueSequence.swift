@@ -1,8 +1,8 @@
 import Foundation
 
-public struct ChangeSetSequence: AsyncSequence {
+public struct ValueSequence<T>: AsyncSequence {
     
-    public typealias Element = ChangeSet
+    public typealias Element = T
     
     let body: (_ send: @escaping (Event) -> Void) -> Void
     
@@ -14,11 +14,11 @@ public struct ChangeSetSequence: AsyncSequence {
     
 }
 
-extension ChangeSetSequence {
+extension ValueSequence {
     
     enum Event {
         
-        case value(ChangeSet)
+        case value(T)
         case finished
         case failure(Error)
         
@@ -27,8 +27,8 @@ extension ChangeSetSequence {
     public class Iterator: AsyncIteratorProtocol {
         
         private let queue = DispatchQueue(label: "ChangeSetSequenceIteratorQueue")
-        private var changeSets = [ChangeSet]()
-        private var continuations = [CheckedContinuation<ChangeSet?, Error>]()
+        private var changeSets = [T]()
+        private var continuations = [CheckedContinuation<T?, Error>]()
         private var completion: Result<Void, Error>?
         
         func apply(_ event: Event) {
@@ -54,7 +54,7 @@ extension ChangeSetSequence {
             }
         }
         
-        public func next() async throws -> ChangeSet? {
+        public func next() async throws -> T? {
             try await withCheckedThrowingContinuation { [queue] continuation in
                 queue.sync {
                     switch completion {
