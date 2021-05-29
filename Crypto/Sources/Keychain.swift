@@ -5,8 +5,8 @@ import Security
 
 public struct Keychain {
     
-    private let attributeBuilder: KeychainAttributeBuilder
-    private let configuration: Configuration
+    let attributeBuilder: KeychainAttributeBuilder
+    let configuration: Configuration
     
     public init(accessGroup: String, configuration: Configuration = .production) {
         let builderConfiguration = KeychainAttributeBuilder.Configuration(accessControlCreate: configuration.accessControlCreate)
