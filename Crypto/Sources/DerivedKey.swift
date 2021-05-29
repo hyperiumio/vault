@@ -6,7 +6,7 @@ public struct DerivedKey {
     
     let value: SymmetricKey
     
-    public init<D>(_ data: D) where D: ContiguousBytes {
+    public init<D>(with data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     
@@ -31,10 +31,10 @@ extension DerivedKey {
         let salt: Data
         let rounds: UInt32
         
-        public init(rng: RNG = CCRandomGenerateBytes) throws {
+        public init(configuration: Configuration = .production) throws {
             var salt = Data(repeating: 0, count: .saltSize)
             try salt.withUnsafeMutableBytes { buffer in
-                let status = rng(buffer.baseAddress, buffer.count)
+                let status = configuration.rng(buffer.baseAddress, buffer.count)
                 guard status == kCCSuccess else {
                     throw CryptoError.randomNumberGenerationFailed
                 }
@@ -66,11 +66,13 @@ extension DerivedKey {
         
     }
     
-}
-
-extension DerivedKey.PublicArguments {
-    
-    public typealias RNG = (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> CCRNGStatus
+    public struct Configuration {
+        
+        let rng: (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> CCRNGStatus
+        
+        static let production = Self(rng: CCRandomGenerateBytes)
+        
+    }
     
 }
 
@@ -95,14 +97,14 @@ private func PBKDF2(salt: Data, rounds: UInt32, password: String) throws -> Symm
 
 private extension Int {
 
-    static let saltSize = 32
-    static let keySize = 32
+    static var saltSize: Self { 32 }
+    static var keySize: Self { 32 }
 
 }
 
 private extension UInt32 {
 
-    static let defaultRounds = 524288 as Self
+    static var defaultRounds: Self { 524288 }
 
 }
 

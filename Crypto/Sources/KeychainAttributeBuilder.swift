@@ -3,12 +3,18 @@ import Foundation
 struct KeychainAttributeBuilder {
     
     let accessGroup: String
+    let configuration: Configuration
+    
+    init(accessGroup: String, configuration: KeychainAttributeBuilder.Configuration = .production) {
+        self.accessGroup = accessGroup
+        self.configuration = configuration
+    }
     
     func buildAddAttributes<D>(key: String, data: D, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
         [
             kSecClass: kSecClassGenericPassword,
             kSecUseDataProtectionKeychain: true,
-            kSecAttrAccessControl: SecAccessControlCreateWithFlags(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
+            kSecAttrAccessControl: configuration.accessControlCreate(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
             kSecAttrAccount: key,
             kSecUseAuthenticationContext: context,
             kSecAttrAccessGroup: accessGroup,
@@ -35,6 +41,18 @@ struct KeychainAttributeBuilder {
             kSecAttrAccessGroup: accessGroup,
             kSecReturnData: true
         ] as CFDictionary
+    }
+    
+}
+
+extension KeychainAttributeBuilder {
+    
+    public struct Configuration {
+        
+        let accessControlCreate: (_ allocator: CFAllocator?, _ protection: CFTypeRef, _ flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl?
+        
+        public static let production = Self(accessControlCreate: SecAccessControlCreateWithFlags)
+        
     }
     
 }

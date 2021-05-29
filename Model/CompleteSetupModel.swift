@@ -76,7 +76,7 @@ class CompleteSetupModel: CompleteSetupModelRepresentable {
             }
             .flatMap { [biometricUnlockEnabled, keychain] derivedKey -> AnyPublisher<DerivedKey, Error> in
                 if biometricUnlockEnabled {
-                    return keychain.storeSecret(derivedKey, forKey: Identifier.derivedKey)
+                    return keychain.storeSecret(derivedKey, forKey: "DerivedKey")
                         .map { _ in derivedKey }
                         .eraseToAnyPublisher()
                 } else {

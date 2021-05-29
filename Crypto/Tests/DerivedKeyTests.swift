@@ -5,95 +5,143 @@ import XCTest
 
 class DerivedKeyTests: XCTestCase {
     
-    func testDerivedKeyInitFromData() {
-        let keyData = Data(0 ..< 32)
+    func testInitFromData() {
+        let keyData = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let derivedKey = DerivedKey(with: keyData)
         let expectedKey = SymmetricKey(data: keyData)
-        let derivedKey = DerivedKey(keyData)
         
         XCTAssertEqual(derivedKey.value, expectedKey)
     }
     
-    func testDerivedKeyInitFromArguments() throws {
-        let salt = [UInt8](repeating: 0, count: 32)
-        let rounds = [1, 0, 0, 0] as [UInt8]
-        let derivedKeyContainer = Data(salt + rounds)
-        let keyData = [160, 172, 145, 150, 69, 134, 235, 176, 226, 167, 116, 34, 123, 31, 108, 208, 49, 231, 71, 212, 129, 55, 35, 165, 226, 33, 76, 245, 0, 51, 19, 216] as [UInt8]
-        let expectedKey = SymmetricKey(data: keyData)
-        let arguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-        let derivedKey = try DerivedKey(from: "", with: arguments)
+    func testInitFromPasswordWithPublicArguments() throws {
+        let salt = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let rounds = [
+            0x08, 0x04, 0x02, 0x01
+        ] as Data
+        let container = salt + rounds
+        let arguments = try DerivedKey.PublicArguments(from: container)
+        let derivedKey = try DerivedKey(from: "foo", with: arguments)
+        let expectedKey = [
+            0x40, 0xD5, 0x28, 0x8C, 0x64, 0x47, 0xD4, 0x1F,
+            0xB0, 0xB3, 0x52, 0x1D, 0xC2, 0xF1, 0x0E, 0x23,
+            0x90, 0x76, 0x9A, 0x32, 0x27, 0x3A, 0xB1, 0x68,
+            0x29, 0xC0, 0xFA, 0xCC, 0x13, 0xBA, 0xED, 0xF3
+        ] as SymmetricKey
         
         XCTAssertEqual(derivedKey.value, expectedKey)
     }
     
-    func testDerivedKeyInitFromArgumentsInvalidRounds() throws {
-        let salt = [UInt8](repeating: 0, count: 32)
-        let rounds = [0, 0, 0, 0] as [UInt8]
-        let derivedKeyContainer = Data(salt + rounds)
-        let arguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-        
-        XCTAssertThrowsError(try DerivedKey(from: "", with: arguments))
-    }
-    
-    func testDerivedKeyWithUnsafeBytes() {
-        let data = Array(0 ... UInt8.max)
-        let derivedKeyData = DerivedKey(data).withUnsafeBytes { bytes in
-            Array(bytes)
-        }
-            
-        XCTAssertEqual(derivedKeyData, data)
-    }
-    
-    func testPublicArgumentsInit() throws {
-        let expectedSalt = Data(0 ..< 32)
-        let arguments = try DerivedKey.PublicArguments { buffer, count in
-            expectedSalt.withUnsafeBytes { expectedSaltBytes in
-                buffer!.copyMemory(from: expectedSaltBytes.baseAddress!, byteCount: count)
-            }
-            
-            return CCRNGStatus(kCCSuccess)
-        }
-        
-        XCTAssertEqual(arguments.salt, expectedSalt)
-        XCTAssertEqual(arguments.rounds, 524288)
-    }
-    
-    func testPublicArgumentsInitRNGFailure() {
-        let rng = { _, _ in
-            CCRNGStatus(kCCRNGFailure)
-        } as DerivedKey.PublicArguments.RNG
-        
-        XCTAssertThrowsError(try DerivedKey.PublicArguments(rng: rng))
-    }
-    
-    func testPublicArgumentsInitFromContainer() throws {
-        let expectedSalt = Data(0 ..< 32)
-        let rounds = [1, 0, 0, 0] as [UInt8]
-        let container = expectedSalt + rounds
+    func testInitFromPasswordWithPublicArgumentsInvalidRounds() throws {
+        let salt = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let rounds = [
+            0x00, 0x00, 0x00, 0x00
+        ] as Data
+        let container = salt + rounds
         let arguments = try DerivedKey.PublicArguments(from: container)
         
-        XCTAssertEqual(arguments.salt, expectedSalt)
-        XCTAssertEqual(arguments.rounds, 1)
+        XCTAssertThrowsError(try DerivedKey(from: "foo", with: arguments))
     }
     
-    func testPublicArgumentsInitFromContainerInvalidContainerSize() {
+    func testWithUnsafeBytes() {
+        let keyData = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let derivedKeyData = DerivedKey(with: keyData).withUnsafeBytes { keyData in
+            Data(keyData)
+        }
+            
+        XCTAssertEqual(derivedKeyData, keyData)
+    }
+    
+}
+
+class DerivedKeyPublicArgumentsTests: XCTestCase {
+    
+    func testInit() throws {
+        let salt = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let config = DerivedKey.Configuration(rng: rng)
+        let arguments = try DerivedKey.PublicArguments(configuration: config)
+        
+        XCTAssertEqual(arguments.salt, salt)
+        XCTAssertEqual(arguments.rounds, 524288)
+        
+        func rng(bytes: UnsafeMutableRawPointer?, count: Int) -> CCRNGStatus {
+            let buffer = UnsafeMutableRawBufferPointer(start: bytes, count: count)
+            salt.copyBytes(to: buffer)
+            return CCRNGStatus(kCCSuccess)
+        }
+    }
+    
+    func testInitRNGFailure() {
+        let config = DerivedKey.Configuration(rng: rng)
+        
+        XCTAssertThrowsError(try DerivedKey.PublicArguments(configuration: config))
+        
+        func rng(bytes: UnsafeMutableRawPointer?, count: Int) -> CCRNGStatus {
+            CCRNGStatus(kCCRNGFailure)
+        }
+    }
+    
+    func testInitFromContainer() throws {
+        let salt = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let rounds = [
+            0x08, 0x04, 0x02, 0x01
+        ] as Data
+        let container = salt + rounds
+        let arguments = try DerivedKey.PublicArguments(from: container)
+        
+        XCTAssertEqual(arguments.salt, salt)
+        XCTAssertEqual(arguments.rounds, 16909320)
+    }
+    
+    func testInitFromContainerInvalidContainerSize() {
         let container = Data()
         
         XCTAssertThrowsError(try DerivedKey.PublicArguments(from: container))
     }
     
-    func testPublicArgumentsContainer() throws {
-        let expectedSalt = Data(0 ..< 32)
-        let rounds = [0, 0, 8, 0] as [UInt8]
-        let expectedContainer = expectedSalt + rounds
-        let container = try DerivedKey.PublicArguments { buffer, count in
-            expectedSalt.withUnsafeBytes { expectedSaltBytes in
-                buffer!.copyMemory(from: expectedSaltBytes.baseAddress!, byteCount: count)
-            }
-            
-            return CCRNGStatus(kCCSuccess)
-        }.container()
+    func testContainer() throws {
+        let salt = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as Data
+        let rounds = [
+            0x08, 0x04, 0x02, 0x01
+        ] as Data
+        let inputContainer = salt + rounds
+        let outputContainer = try DerivedKey.PublicArguments(from: inputContainer).container()
         
-        XCTAssertEqual(container, expectedContainer)
+        XCTAssertEqual(outputContainer, inputContainer)
     }
     
 }

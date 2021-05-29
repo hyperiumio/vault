@@ -63,11 +63,11 @@ class SettingsModel<Dependency: SettingsModelDependency>: SettingsModelRepresent
         isBiometricUnlockEnabledSubscription = $isBiometricUnlockEnabled
             .flatMap { isBiometricUnlockEnabled -> AnyPublisher<Bool, Error> in
                 if isBiometricUnlockEnabled {
-                    return keychain.storeSecret(derivedKey, forKey: Identifier.derivedKey)
+                    return keychain.storeSecret(derivedKey, forKey: "DerivedKey")
                         .map { isBiometricUnlockEnabled }
                         .eraseToAnyPublisher()
                 } else {
-                    return keychain.deleteSecret(forKey: Identifier.derivedKey)
+                    return keychain.deleteSecret(forKey: "DerivedKey")
                         .map { isBiometricUnlockEnabled }
                         .eraseToAnyPublisher()
                 }

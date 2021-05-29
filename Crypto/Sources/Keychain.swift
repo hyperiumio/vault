@@ -9,7 +9,9 @@ public struct Keychain {
     private let configuration: Configuration
     
     public init(accessGroup: String, configuration: Configuration = .production) {
-        self.attributeBuilder = KeychainAttributeBuilder(accessGroup: accessGroup)
+        let builderConfiguration = KeychainAttributeBuilder.Configuration(accessControlCreate: configuration.accessControlCreate)
+        
+        self.attributeBuilder = KeychainAttributeBuilder(accessGroup: accessGroup, configuration: builderConfiguration)
         self.configuration = configuration
     }
     
@@ -84,11 +86,12 @@ extension Keychain {
     public struct Configuration {
         
         let context: KeychainContext
+        let accessControlCreate: (_ allocator: CFAllocator?, _ protection: CFTypeRef, _ flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl?
         let store: (_ attributes: CFDictionary, _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
         let load: (_ query: CFDictionary, _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
         let delete: (_ query: CFDictionary) -> OSStatus
         
-        public static let production = Configuration(context: LAContext(), store: SecItemAdd, load: SecItemCopyMatching, delete: SecItemDelete)
+        public static let production = Self(context: LAContext(), accessControlCreate: SecAccessControlCreateWithFlags, store: SecItemAdd, load: SecItemCopyMatching, delete: SecItemDelete)
         
     }
     
@@ -112,14 +115,6 @@ extension Keychain {
 extension Keychain {
     
     private static let operationQueue = DispatchQueue(label: "KeychainOperationQueue")
-    
-}
-
-protocol KeychainContext: AnyObject {
-    
-    var biometryType: LABiometryType { get }
-    
-    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool
     
 }
 

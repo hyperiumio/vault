@@ -1,0 +1,65 @@
+{
+  "": {
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/master.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/CyptoError.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/DerivedKey.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/Keychain.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/KeychainAttributeBuilder.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/MasterKey.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/MessageKey.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/Password.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataHeader.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataMessage.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/UInt32Coding.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding.swiftdeps"
+  }
+}

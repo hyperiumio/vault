@@ -9,10 +9,28 @@ let package = Package(
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Pasteboard", targets: ["Pasteboard"])
+        .library(
+            name: "Pasteboard",
+            targets: ["Pasteboard"]
+        )
     ],
     targets: [
-        .target(name: "Pasteboard", path: "Sources"),
-        .testTarget(name: "PasteboardTests", dependencies: ["Pasteboard"], path: "Tests")
+        .target(
+            name: "Pasteboard",
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        ),
+        .testTarget(
+            name: "PasteboardTests",
+            dependencies: ["Pasteboard"],
+            path: "Tests",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        )
     ]
 )

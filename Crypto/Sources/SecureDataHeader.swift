@@ -4,11 +4,11 @@ import Foundation
 public struct SecureDataHeader {
     
     public let elements: [Element]
-    let wrappedItemKey: Data
+    let wrappedMessageKey: Data
     
-    init(elements: [Element], wrappedItemKey: Data) {
+    init(with elements: [Element], encryptedBy wrappedMessageKey: Data) {
         self.elements = elements
-        self.wrappedItemKey = wrappedItemKey
+        self.wrappedMessageKey = wrappedMessageKey
     }
     
     public init(data: Data) throws {
@@ -41,12 +41,12 @@ public struct SecureDataHeader {
             return Int(rawCiphertextSize)
         } as [Int]
         
-        let itemKeyRangeLowerBound = headerData.startIndex + messageCount * UInt32CodingSize
-        let itemKeyRange = Range(lowerBound: itemKeyRangeLowerBound, count: .wrappedKeySize)
-        let itemKey = headerData[itemKeyRange]
+        let wrappedMessageKeyRangeLowerBound = headerData.startIndex + messageCount * UInt32CodingSize
+        let wrappedMessageKeyRange = Range(lowerBound: wrappedMessageKeyRangeLowerBound, count: .wrappedKeySize)
+        let wrappedMessageKey = headerData[wrappedMessageKeyRange]
         
         let tags = (0 ..< messageCount).map { index in
-            let tagRangeLowerBound = itemKeyRange.upperBound + index * .tagSize
+            let tagRangeLowerBound = wrappedMessageKeyRange.upperBound + index * .tagSize
             let tagRange = Range(lowerBound: tagRangeLowerBound, count: .tagSize)
             return headerData[tagRange]
         } as [Data]
@@ -72,25 +72,37 @@ public struct SecureDataHeader {
             let ciphertextRange = ciphertextRanges[index]
             let tag = tags[index]
             
-            return (nonceRange, ciphertextRange, tag)
+            return Element(nonceRange: nonceRange, ciphertextRange: ciphertextRange, tag: tag)
         } as [Element]
         
-        self.wrappedItemKey = itemKey
+        self.wrappedMessageKey = wrappedMessageKey
         self.elements = elements
     }
     
     public func unwrapKey(with masterKey: MasterKey) throws -> MessageKey {
         let tagSegment = elements.map(\.tag).reduce(Data(), +)
-        let wrappedItemKey = try AES.GCM.SealedBox(combined: self.wrappedItemKey)
+        let wrappedMessageKey = try AES.GCM.SealedBox(combined: self.wrappedMessageKey)
         
-        return try AES.GCM.open(wrappedItemKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(MessageKey.init)
+        return try AES.GCM.open(wrappedMessageKey, using: masterKey.value, authenticating: tagSegment).withUnsafeBytes(MessageKey.init)
     }
     
 }
 
 extension SecureDataHeader {
     
-    public typealias Element = (nonceRange: Range<Int>, ciphertextRange: Range<Int>, tag: Data)
+    public struct Element: Equatable {
+        
+        let nonceRange: Range<Int>
+        let ciphertextRange: Range<Int>
+        let tag: Data
+        
+        init(nonceRange: Range<Int>, ciphertextRange: Range<Int>, tag: Data) {
+            self.nonceRange = nonceRange
+            self.ciphertextRange = ciphertextRange
+            self.tag = tag
+        }
+        
+    }
     
 }
 

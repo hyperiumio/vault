@@ -1,0 +1,13 @@
+version: "Apple Swift version 5.5-dev (LLVM fb5a91b4e892ed9, Swift 3b3f173ebde6e3b)"
+options: "9aff27a3fc586effa49a0b6c026c65ca0a396e5f6a7de5b478e8ccc74a22a23f"
+build_start_time: [1619178473, 442239046]
+build_end_time: [1619178474, 493994951]
+inputs:
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/DerivedKeyTests.swift": [1619107680, 405206680]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/KeychainTests.swift": [1619177711, 646838665]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/MasterKeyTests.swift": [1619106889, 959526062]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/MessageKeyTests.swift": [1619106907, 359493732]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/PasswordTests.swift": [1619106973, 184410572]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataHeaderTests.swift": [1619106923, 87904691]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataMessageTests.swift": [1619107405, 427062749]
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/UInt32CodingTests.swift": [1619107300, 953355550]

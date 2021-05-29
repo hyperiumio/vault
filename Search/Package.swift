@@ -9,10 +9,28 @@ let package = Package(
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Search", targets: ["Search"])
+        .library(
+            name: "Search",
+            targets: ["Search"]
+        )
     ],
     targets: [
-        .target(name: "Search", path: "Sources"),
-        .testTarget(name: "SearchTests", dependencies: ["Search"], path: "Tests")
+        .target(
+            name: "Search",
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        ),
+        .testTarget(
+            name: "SearchTests",
+            dependencies: ["Search"],
+            path: "Tests",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        )
     ]
 )

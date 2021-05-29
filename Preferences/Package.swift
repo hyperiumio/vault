@@ -9,10 +9,28 @@ let package = Package(
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Preferences", targets: ["Preferences"])
+        .library(
+            name: "Preferences",
+            targets: ["Preferences"]
+        )
     ],
     targets: [
-        .target(name: "Preferences", path: "Sources"),
-        .testTarget(name: "PreferencesTests", dependencies: ["Preferences"], path: "Tests")
+        .target(
+            name: "Preferences",
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        ),
+        .testTarget(
+            name: "PreferencesTests",
+            dependencies: ["Preferences"],
+            path: "Tests",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        )
     ]
 )

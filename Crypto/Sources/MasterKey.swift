@@ -5,7 +5,7 @@ public struct MasterKey {
     
     let value: SymmetricKey
     
-    init<D>(_ data: D) where D: ContiguousBytes {
+    init<D>(with data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     

@@ -9,10 +9,28 @@ let package = Package(
         .iOS(.v14)
     ],
     products: [
-        .library(name: "Format", targets: ["Format"])
+        .library(
+            name: "Format",
+            targets: ["Format"]
+        )
     ],
     targets: [
-        .target(name: "Format", path: "Sources"),
-        .testTarget(name: "FormatTests", dependencies: ["Format"], path: "Tests")
+        .target(
+            name: "Format",
+            path: "Sources",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        ),
+        .testTarget(
+            name: "FormatTests",
+            dependencies: ["Format"],
+            path: "Tests",
+            swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
+                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
+            ]
+        )
     ]
 )

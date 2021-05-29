@@ -1,0 +1,314 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoPackageTests.xctest/Contents/MacOS/CryptoPackageTests",
+      "productName" : "CryptoPackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "swiftCommands" : {
+    "C.Crypto-debug.module" : {
+      "executable" : "/Library/Developer/Toolchains/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-04-19-a.xctoolchain/usr/bin/swiftc",
+      "importPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/CyptoError.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/DerivedKey.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/Keychain.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/KeychainAttributeBuilder.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/MasterKey.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/MessageKey.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/Password.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataHeader.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataMessage.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Sources/UInt32Coding.swift"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "Crypto",
+      "moduleOutputPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.swiftmodule",
+      "objects" : [
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-apple-macosx11.0",
+        "-swift-version",
+        "5",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/index/store",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-Onone",
+        "-enable-testing",
+        "-g",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-emit-objc-header",
+        "-emit-objc-header-path",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Crypto-Swift.h",
+        "-profile-coverage-mapping",
+        "-profile-generate",
+        "-color-diagnostics",
+        "-Xfrontend",
+        "-enable-experimental-concurrency",
+        "-Xfrontend",
+        "-disable-availability-checking"
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/CyptoError.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/DerivedKey.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Keychain.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/KeychainAttributeBuilder.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MasterKey.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/MessageKey.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/Password.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataHeader.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/SecureDataMessage.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build/UInt32Coding.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.swiftmodule"
+        }
+      ],
+      "sources" : [
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/CyptoError.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/DerivedKey.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/Keychain.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/KeychainAttributeBuilder.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/MasterKey.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/MessageKey.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/Password.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataHeader.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataMessage.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Sources/UInt32Coding.swift"
+      ],
+      "tempsPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.CryptoTests-debug.module" : {
+      "executable" : "/Library/Developer/Toolchains/swift-5.5-DEVELOPMENT-SNAPSHOT-2021-04-19-a.xctoolchain/usr/bin/swiftc",
+      "importPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/DerivedKeyTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/KeychainTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/MasterKeyTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/MessageKeyTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/PasswordTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataHeaderTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataMessageTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/Tests/UInt32CodingTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/Crypto.swiftmodule"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "CryptoTests",
+      "moduleOutputPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.swiftmodule",
+      "objects" : [
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests.swift.o",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-apple-macosx11.0",
+        "-swift-version",
+        "5",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/index/store",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-Onone",
+        "-enable-testing",
+        "-g",
+        "-j16",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-profile-coverage-mapping",
+        "-profile-generate",
+        "-color-diagnostics",
+        "-Xfrontend",
+        "-enable-experimental-concurrency",
+        "-Xfrontend",
+        "-disable-availability-checking"
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.swiftmodule"
+        }
+      ],
+      "sources" : [
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/DerivedKeyTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/KeychainTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/MasterKeyTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/MessageKeyTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/PasswordTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataHeaderTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataMessageTests.swift",
+        "/Users/johannesauer/Documents/vault/Crypto/Tests/UInt32CodingTests.swift"
+      ],
+      "tempsPath" : "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "testDiscoveryCommands" : {
+
+  }
+}

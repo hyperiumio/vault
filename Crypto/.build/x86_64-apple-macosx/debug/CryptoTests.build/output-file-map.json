@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/master.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/DerivedKeyTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/DerivedKeyTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/KeychainTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/KeychainTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/MasterKeyTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MasterKeyTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/MessageKeyTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/MessageKeyTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/PasswordTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/PasswordTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataHeaderTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataHeaderTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/SecureDataMessageTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/SecureDataMessageTests.swiftdeps"
+  },
+  "/Users/johannesauer/Documents/vault/Crypto/Tests/UInt32CodingTests.swift": {
+    "dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests.d",
+    "object": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests.swift.o",
+    "swiftmodule": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests~partial.swiftmodule",
+    "swift-dependencies": "/Users/johannesauer/Documents/vault/Crypto/.build/x86_64-apple-macosx/debug/CryptoTests.build/UInt32CodingTests.swiftdeps"
+  }
+}

@@ -9,10 +9,10 @@ import SwiftUI
 class CredentialProviderViewController: ASCredentialProviderViewController {
 
     private lazy var mainModel: QuickAccessModel<QuickAccessDependency>? = {
-        guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup) else {
+        guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: .appGroup) else {
             return nil
         }
-        guard let userDefaults = UserDefaults(suiteName: Identifier.appGroup) else {
+        guard let userDefaults = UserDefaults(suiteName: .appGroup) else {
             return nil
         }
         let preferences = Preferences(using: userDefaults)
@@ -21,7 +21,7 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         }
         
         let containerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
-        let keychain = Keychain(accessGroup: Identifier.appGroup)
+        let keychain = Keychain(accessGroup: .appGroup)
         let mainModelDependency = QuickAccessDependency(preferences: preferences, keychain: keychain)
         let model = QuickAccessModel(dependency: mainModelDependency, containerDirectory: containerDirectory, storeID: activeStoreID)
         
@@ -76,6 +76,18 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         
         view = NSHostingView(rootView: rootView)
     }
+    #endif
+    
+}
+
+private extension String {
+    
+    #if os(iOS)
+    static var appGroup: Self { "group.io.hyperium.vault" }
+    #endif
+
+    #if os(macOS)
+    static var appGroup: Self { "HX3QTQLX65.io.hyperium.vault" }
     #endif
     
 }

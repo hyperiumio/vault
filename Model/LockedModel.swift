@@ -103,7 +103,7 @@ class LockedModel: LockedModelRepresentable {
         
         status = .unlocking
         
-        let derivedKeyLoaded = keychain.loadSecret(forKey: Identifier.derivedKey)
+        let derivedKeyLoaded = keychain.loadSecret(forKey: "DerivedKey")
         openVaultSubscription = Publishers.Zip(derivedKeyLoaded, masterKeyContainerLoaded)
             .tryMap { derivedKeyData, masterKeyContainer -> (DerivedKey, MasterKey)? in
                 if let derivedKeyData = derivedKeyData {

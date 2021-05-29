@@ -1,0 +1,14 @@
+version: "Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)"
+options: "748312d30cdc4c90e162613ea42ae2a3"
+build_time: [1619178085, 411491000]
+inputs:
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/CyptoError.swift": !dirty [1611673445, 351918520]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/DerivedKey.swift": !dirty [1619106348, 650090370]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/Keychain.swift": !dirty [1618839674, 45885003]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/KeychainAttributeBuilder.swift": !dirty [1617368439, 831788267]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/MasterKey.swift": !dirty [1617368514, 736097911]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/MessageKey.swift": !dirty [1611673445, 352475373]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/Password.swift": !dirty [1617630257, 683459318]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataHeader.swift": !dirty [1611673445, 352796564]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/SecureDataMessage.swift": !dirty [1611673445, 352970274]
+  "/Users/johannesauer/Documents/vault/Crypto/Sources/UInt32Coding.swift": !dirty [1611673445, 353121400]

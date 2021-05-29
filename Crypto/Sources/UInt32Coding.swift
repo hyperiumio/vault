@@ -18,7 +18,7 @@ func UInt32Decode(_ data: Data) throws -> UInt32 {
         throw CryptoError.invalidDataSize
     }
     
-    let byte0 = data[data.startIndex + 0]
+    let byte0 = data[data.startIndex]
     let byte1 = data[data.startIndex + 1]
     let byte2 = data[data.startIndex + 2]
     let byte3 = data[data.startIndex + 3]

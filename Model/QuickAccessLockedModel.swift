@@ -97,7 +97,7 @@ class QuickAccessLockedModel: QuickAccessLockedModelRepresentable {
         
         status = .unlocking
         
-        let derivedKeyLoaded = keychain.loadSecret(forKey: Identifier.derivedKey)
+        let derivedKeyLoaded = keychain.loadSecret(forKey: "DerivedKey")
         openVaultSubscription = Publishers.Zip3(derivedKeyContainerLoaded, masterKeyContainerLoaded, derivedKeyLoaded)
             .tryMap { derivedKeyContainer, masterKeyContainer, derivedKeyData -> MasterKey? in
                 if let derivedKeyData = derivedKeyData {

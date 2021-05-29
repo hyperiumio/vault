@@ -12,17 +12,17 @@ class AppDelegate: NSObject {
     private var serverInitialized: AnyCancellable?
     
     override init() {
-        guard let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Identifier.appGroup)?.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true) else {
+        guard let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: .appGroup)?.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true) else {
             fatalError()
         }
         
         
-        guard let userDefaults = UserDefaults(suiteName: Identifier.appGroup) else {
+        guard let userDefaults = UserDefaults(suiteName: .appGroup) else {
             fatalError()
         }
         
         let preferences = Preferences(using: userDefaults)
-        let keychain = Keychain(accessGroup: Identifier.appGroup)
+        let keychain = Keychain(accessGroup: .appGroup)
         let appModelDependency = AppLockedDependency(containerDirectory: containerDirectory, preferences: preferences, keychain: keychain)
         
         self.appModel = AppModel(appModelDependency)
@@ -75,3 +75,15 @@ extension AppDelegate: NSApplicationDelegate {
     
 }
 #endif
+
+private extension String {
+    
+    #if os(iOS)
+    static var appGroup: Self { "group.io.hyperium.vault" }
+    #endif
+
+    #if os(macOS)
+    static var appGroup: Self { "HX3QTQLX65.io.hyperium.vault" }
+    #endif
+    
+}

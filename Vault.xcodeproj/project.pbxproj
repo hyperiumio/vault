@@ -71,10 +71,6 @@
 		956307362535CC1B0076022A /* CreateVaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307342535CC1B0076022A /* CreateVaultItemView.swift */; };
 		9563074C2535DC600076022A /* SecureItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9563074B2535DC600076022A /* SecureItemTypeView.swift */; };
 		9563074D2535DC600076022A /* SecureItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9563074B2535DC600076022A /* SecureItemTypeView.swift */; };
-		9569CBA8257021DE0065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBA7257021DE0065E860 /* Identifier */; };
-		9569CBAA257021E50065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBA9257021E50065E860 /* Identifier */; };
-		9569CBAC257021EB0065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBAB257021EB0065E860 /* Identifier */; };
-		9569CBAE257021F50065E860 /* Identifier in Frameworks */ = {isa = PBXBuildFile; productRef = 9569CBAD257021F50065E860 /* Identifier */; };
 		956EFCDC24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956EFCDB24AA368E0084D716 /* BootstrapModel.swift */; };
 		956F4B292577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */; };
@@ -301,6 +297,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		951253A4262DCE40005AC701 /* Storage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Storage; sourceTree = "<group>"; };
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		952A9631256FD8E3003E0584 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -333,8 +330,6 @@
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9563074B2535DC600076022A /* SecureItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeView.swift; sourceTree = "<group>"; };
-		9565F5E525189A1600134BD1 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
-		9569CB95257020140065E860 /* Identifier */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Identifier; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapModel.swift; sourceTree = "<group>"; };
 		956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedView.swift; sourceTree = "<group>"; };
 		956F4B332577A2DA00E90BE2 /* QuickAccessLockedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedModel.swift; sourceTree = "<group>"; };
@@ -433,7 +428,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				953C7E702592182300DA7CBE /* Storage in Frameworks */,
-				9569CBAE257021F50065E860 /* Identifier in Frameworks */,
 				956F4B462577A76400E90BE2 /* Sort in Frameworks */,
 				95C994CE2574F64900C3A758 /* Preferences in Frameworks */,
 				95375C35257A938C00624AE6 /* Search in Frameworks */,
@@ -446,7 +440,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				953C7E6E2592181A00DA7CBE /* Storage in Frameworks */,
-				9569CBAC257021EB0065E860 /* Identifier in Frameworks */,
 				956F4B442577A75D00E90BE2 /* Sort in Frameworks */,
 				95C994C02574F62400C3A758 /* Preferences in Frameworks */,
 				95375C37257A939500624AE6 /* Search in Frameworks */,
@@ -464,7 +457,6 @@
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
 				953C7E6A259217E800DA7CBE /* Storage in Frameworks */,
-				9569CBA8257021DE0065E860 /* Identifier in Frameworks */,
 				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -479,7 +471,6 @@
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
 				953C7E6C259217F800DA7CBE /* Storage in Frameworks */,
-				9569CBAA257021E50065E860 /* Identifier in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -674,12 +665,11 @@
 				953A43DE25D1ABBD000267D0 /* Cloud */,
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
-				9569CB95257020140065E860 /* Identifier */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
 				9574336624AA13C20062B05A /* Preferences */,
 				9574336824AA13C30062B05A /* Search */,
 				95F8BBC624CEB8FF001FC495 /* Sort */,
-				9565F5E525189A1600134BD1 /* Store */,
+				951253A4262DCE40005AC701 /* Storage */,
 				9574322F24AA05710062B05A /* Asset */,
 				95842D78256FC0210080711C /* Controller */,
 				9577120F24F814E30095AF33 /* Dependency */,
@@ -715,7 +705,6 @@
 			name = macOSCredentialProvider;
 			packageProductDependencies = (
 				9540F5DA256FF8E400D8514C /* Crypto */,
-				9569CBAD257021F50065E860 /* Identifier */,
 				95C994CD2574F64900C3A758 /* Preferences */,
 				956F4B452577A76400E90BE2 /* Sort */,
 				95375C34257A938C00624AE6 /* Search */,
@@ -740,7 +729,6 @@
 			name = iOSCredentialProvider;
 			packageProductDependencies = (
 				9540F5D4256FF72F00D8514C /* Crypto */,
-				9569CBAB257021EB0065E860 /* Identifier */,
 				95C994BF2574F62400C3A758 /* Preferences */,
 				956F4B432577A75D00E90BE2 /* Sort */,
 				95375C36257A939500624AE6 /* Search */,
@@ -772,7 +760,6 @@
 				95F8BBC824CEC936001FC495 /* Sort */,
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
-				9569CBA7257021DE0065E860 /* Identifier */,
 				953C7E69259217E800DA7CBE /* Storage */,
 			);
 			productName = iOS;
@@ -801,7 +788,6 @@
 				95F8BBCA24CEC949001FC495 /* Sort */,
 				950C70382548205A001BB318 /* Crypto */,
 				95AA68DA2565420E00616D56 /* Format */,
-				9569CBA9257021E50065E860 /* Identifier */,
 				953C7E6B259217F800DA7CBE /* Storage */,
 			);
 			productName = macOS;
@@ -1592,22 +1578,6 @@
 		9540F5DA256FF8E400D8514C /* Crypto */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Crypto;
-		};
-		9569CBA7257021DE0065E860 /* Identifier */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Identifier;
-		};
-		9569CBA9257021E50065E860 /* Identifier */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Identifier;
-		};
-		9569CBAB257021EB0065E860 /* Identifier */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Identifier;
-		};
-		9569CBAD257021F50065E860 /* Identifier */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Identifier;
 		};
 		956F4B432577A75D00E90BE2 /* Sort */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -25,9 +25,9 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
     let sourceCharacters = symbolGroups.flatMap(\.characters)
     var password = [Character]()
     while password.count < length {
-        var randomValue = UInt8(0)
+        var randomValue = 0 as UInt8
         repeat {
-            let status = configuration.random(&randomValue, 1)
+            let status = configuration.rng(&randomValue, 1)
             guard status == kCCSuccess else {
                 throw CryptoError.randomNumberGenerationFailed
             }
@@ -53,13 +53,13 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
 
 public struct PasswordConfiguration {
     
-    let random: (_ bytes: UnsafeMutableRawPointer, _ count: Int) -> CCRNGStatus
+    let rng: (_ bytes: UnsafeMutableRawPointer, _ count: Int) -> CCRNGStatus
     
-    public static let production = PasswordConfiguration(random: CCRandomGenerateBytes)
+    public static let production = PasswordConfiguration(rng: CCRandomGenerateBytes)
     
 }
 
-private enum SymbolGroup {
+enum SymbolGroup {
     
     case uppercase
     case lowercase

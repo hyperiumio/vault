@@ -1,100 +1,55 @@
-import Combine
 import LocalAuthentication
 import XCTest
 @testable import Crypto
 
 class KeychainTests: XCTestCase {
     
-    var subscriptions = Set<AnyCancellable>()
-    
-    func testInitTouchID() {
-        let context = KeychainContextStub(biometryType: .touchID, canEvaluatePolicy: true)
-        let configuration = Keychain.Configuration.stub(context: context)
-        let keychain = Keychain(accessGroup: "", configuration: configuration)
-        
-        XCTAssertEqual(keychain.availability, .enrolled(.touchID))
-    }
-    
-    func testInitFaceID() {
-        let context = KeychainContextStub(biometryType: .faceID, canEvaluatePolicy: true)
-        let configuration = Keychain.Configuration.stub(context: context)
-        let keychain = Keychain(accessGroup: "", configuration: configuration)
-        
-        XCTAssertEqual(keychain.availability, .enrolled(.faceID))
-    }
-    
-    func testInitNotEnrolled() {
-        let context = KeychainContextStub(biometryType: .none, canEvaluatePolicy: false, canEvaluteError: LAError.biometryNotEnrolled)
-        let configuration = Keychain.Configuration.stub(context: context)
-        let keychain = Keychain(accessGroup: "", configuration: configuration)
-        
-        XCTAssertEqual(keychain.availability, .notEnrolled)
-    }
-    
-    func testInitNotAvailable() {
-        let context = KeychainContextStub(biometryType: .none, canEvaluatePolicy: false)
-        let configuration = Keychain.Configuration.stub(context: context)
-        let keychain = Keychain(accessGroup: "", configuration: configuration)
-        
-        XCTAssertEqual(keychain.availability, .notAvailable)
-    }
-    
-    func testStoreSecretCallArguments() {
-        let accessGroup = "foo"
-        let key = "bar"
-        let secret = Data(0 ... UInt8.max)
-        let context = KeychainContextStub(biometryType: .none, canEvaluatePolicy: false)
-        
-        let delete = { query in
-            let query = query as? [CFString: AnyObject]
-            let secClass = query?[kSecClass] as? String
-            let secUseDataProtectionKeychain = query?[kSecUseDataProtectionKeychain] as? Bool
-            let secAttrAccount = query?[kSecAttrAccount] as? String
-            let secAttrAccessGroup = query?[kSecAttrAccessGroup] as? String
+    func testStoreSecretSuccess() {
+        asyncTest {
+            let deleteCalled = XCTestExpectation()
+            let storeCalled = XCTestExpectation()
+            let accessGroup = "foo"
+            let key = "bar"
+            let secret = Data(0...UInt8.max)
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreate, store: store, load: load, delete: delete)
+            let keychain = Keychain(accessGroup: accessGroup, configuration: configuration)
             
-            XCTAssertEqual(secClass, kSecClassGenericPassword as String)
-            XCTAssertEqual(secUseDataProtectionKeychain, true)
-            XCTAssertEqual(secAttrAccount, key)
-            XCTAssertEqual(secAttrAccessGroup, accessGroup)
+            try await keychain.storeSecret(secret, forKey: key)
             
-            return errSecSuccess
-        } as (CFDictionary) -> OSStatus
-        
-        let store = { attributes, result in
-            let attributes = attributes as? [CFString: AnyObject]
-            let secClass = attributes?[kSecClass] as? String
-            let secUseDataProtectionKeychain = attributes?[kSecUseDataProtectionKeychain] as? Bool
-            let secAttrAccessControl = attributes?[kSecAttrAccessControl]
-            let secAttrAccount = attributes?[kSecAttrAccount] as? String
-            let secUseAuthenticationContext = attributes?[kSecUseAuthenticationContext] as? KeychainContextStub
-            let secAttrAccessGroup = attributes?[kSecAttrAccessGroup] as? String
-            let secValueData = attributes?[kSecValueData] as? Data
+            let result = XCTWaiter.wait(for: [deleteCalled, storeCalled], timeout: .infinity, enforceOrder: true)
+            XCTAssertEqual(result, .completed)
             
-            XCTAssertEqual(secClass, kSecClassGenericPassword as String)
-            XCTAssertEqual(secUseDataProtectionKeychain, true)
-            XCTAssertEqual(CFGetTypeID(secAttrAccessControl), SecAccessControlGetTypeID())
-            XCTAssertEqual(secAttrAccount, key)
-            XCTAssertTrue(secUseAuthenticationContext === context)
-            XCTAssertEqual(secAttrAccessGroup, accessGroup)
-            XCTAssertEqual(secValueData, secret)
-            XCTAssertNil(result)
+            func accessControlCreate(allocator: CFAllocator?, protection: CFTypeRef, flags: SecAccessControlCreateFlags, error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl? {
+                SecAccessControlCreateWithFlags(allocator, protection, flags, error)
+            }
             
-            return errSecSuccess
-        } as (CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
- 
-        let configuration = Keychain.Configuration.stub(context: context, store: store, delete: delete)
-        let completionExpectation = XCTestExpectation()
-        
-        Keychain(accessGroup: accessGroup, configuration: configuration).storeSecret(secret, forKey: key)
-            .sink { completion in
-                completionExpectation.fulfill()
-            } receiveValue: {}
-            .store(in: &subscriptions)
-        
-        let result = XCTWaiter.wait(for: [completionExpectation], timeout: .infinity)
-        XCTAssertEqual(result, .completed)
+            func store(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                defer {
+                    storeCalled.fulfill()
+                }
+                XCTAssertNil(result)
+                return errSecSuccess
+            }
+            
+            func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                XCTFail()
+                return errSecSuccess
+            }
+            
+            func delete(query: CFDictionary) -> OSStatus {
+                defer {
+                    deleteCalled.fulfill()
+                }
+                let builder = KeychainAttributeBuilder(accessGroup: accessGroup)
+                let expectedQuery = builder.buildDeleteAttributes(key: key)
+                XCTAssertEqual(query, expectedQuery)
+                return errSecSuccess
+            }
+        }
     }
     
+     /*
     func testStoreSecretSuccess() {
         let store = { _, _ in errSecSuccess } as (CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
         let delete = { _ in errSecSuccess } as (CFDictionary) -> OSStatus
@@ -388,60 +343,6 @@ class KeychainTests: XCTestCase {
         let result = XCTWaiter.wait(for: [completionExpectation], timeout: .infinity)
         XCTAssertEqual(result, .completed)
     }
-    
-}
-
-private extension Keychain.Configuration {
-    
-    static func stub(context: KeychainContext = KeychainContextStub(biometryType: .none, canEvaluatePolicy: false), store: @escaping (CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus = { _, _ in errSecSuccess }, load: @escaping (CFDictionary, UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus = { _, _ in errSecSuccess }, delete: @escaping (CFDictionary) -> OSStatus = { _ in errSecSuccess }) -> Self {
-        Self(context: context, store: store, load: load, delete: delete)
-    }
-    
-}
-
-private extension Subscribers.Completion {
-    
-    var finished: Bool {
-        switch self {
-        case .finished:
-            return true
-        case .failure:
-            return false
-        }
-    }
-    
-    var failed: Bool {
-        switch self {
-        case .finished:
-            return false
-        case .failure:
-            return true
-        }
-    }
-    
-}
-
-private class KeychainContextStub: KeychainContext {
-    
-    var biometryType: LABiometryType
-    var canEvaluatePolicy: Bool
-    var canEvaluteError: LAError?
-    
-    var canEvaluatePolicyCallArgs = [(policy: LAPolicy, error: NSErrorPointer)]()
-    
-    init(biometryType: LABiometryType, canEvaluatePolicy: Bool, canEvaluteError: LAError.Code? = nil) {
-        self.biometryType = biometryType
-        self.canEvaluatePolicy = canEvaluatePolicy
-        self.canEvaluteError = canEvaluteError.map { code in
-            LAError(code)
-        }
-    }
-    
-    func canEvaluatePolicy(_ policy: LAPolicy, error: NSErrorPointer) -> Bool {
-        if let canEvaluteError = canEvaluteError {
-            error?.pointee = NSError(domain: LAError.errorDomain, code: canEvaluteError.errorCode, userInfo: canEvaluteError.errorUserInfo)
-        }
-        return canEvaluatePolicy
-    }
+    */
     
 }
