@@ -220,31 +220,178 @@ class KeychainTests: XCTestCase {
     }
     
     func testLoadSecretSuccess() {
-
+        asyncTest {
+            let loadCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: load, delete: deleteFailure)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            let data = try await keychain.loadSecret(forKey: "bar")
+            
+            let result = XCTWaiter.wait(for: [loadCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            XCTAssertEqual(data, Data(0...UInt8.max))
+            
+            func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                defer {
+                    loadCalled.fulfill()
+                }
+                let expectedQuery = KeychainAttributeBuilder(accessGroup: "foo").buildLoadAttributes(key: "bar")
+                XCTAssertEqual(query, expectedQuery)
+                result?.pointee = Data(0...UInt8.max) as CFData
+                return errSecSuccess
+            }
+        }
     }
     
     func testLoadSecretCanceled() {
-
+        asyncTest {
+            let loadCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: load, delete: deleteFailure)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            let data = try await keychain.loadSecret(forKey: "bar")
+            
+            let result = XCTWaiter.wait(for: [loadCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            XCTAssertNil(data)
+            
+            func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                defer {
+                    loadCalled.fulfill()
+                }
+                return errSecUserCanceled
+            }
+        }
     }
     
     func testLoadSecretInvalidResultType() {
-
+        asyncTest {
+            let loadCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: load, delete: deleteFailure)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            #warning("Workaround")
+            do {
+                _ = try await keychain.loadSecret(forKey: "bar")
+                XCTFail()
+            } catch {
+                
+            }
+            
+            let result = XCTWaiter.wait(for: [loadCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            
+            func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                defer {
+                    loadCalled.fulfill()
+                }
+                result?.pointee = "" as CFString
+                return errSecSuccess
+            }
+        }
     }
     
     func testLoadSecretFailure() {
-
+        asyncTest {
+            let loadCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: load, delete: deleteFailure)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            #warning("Workaround")
+            do {
+                _ = try await keychain.loadSecret(forKey: "bar")
+                XCTFail()
+            } catch {
+                
+            }
+            
+            let result = XCTWaiter.wait(for: [loadCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            
+            func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
+                defer {
+                    loadCalled.fulfill()
+                }
+                return errSecInternalError
+            }
+        }
     }
 
     func testDeleteSecretSuccess() {
-
+        asyncTest {
+            let deleteCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: loadFailure, delete: delete)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            try await keychain.deleteSecret(forKey: "bar")
+            
+            let result = XCTWaiter.wait(for: [deleteCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            
+            func delete(query: CFDictionary) -> OSStatus {
+                defer {
+                    deleteCalled.fulfill()
+                }
+                let expectedQuery = KeychainAttributeBuilder(accessGroup: "foo").buildDeleteAttributes(key: "bar")
+                XCTAssertEqual(query, expectedQuery)
+                return errSecSuccess
+            }
+        }
     }
     
-    func testDeleteSecretItemNotFound() {
-
+    func testDeleteSecretSuccessItemNotFound() {
+        asyncTest {
+            let deleteCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: loadFailure, delete: delete)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            try await keychain.deleteSecret(forKey: "bar")
+            
+            let result = XCTWaiter.wait(for: [deleteCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            
+            func delete(query: CFDictionary) -> OSStatus {
+                defer {
+                    deleteCalled.fulfill()
+                }
+                let expectedQuery = KeychainAttributeBuilder(accessGroup: "foo").buildDeleteAttributes(key: "bar")
+                XCTAssertEqual(query, expectedQuery)
+                return errSecItemNotFound
+            }
+        }
     }
     
     func testDeleteSecretFailure() {
-
+        asyncTest {
+            let deleteCalled = XCTestExpectation()
+            let context = KeychainContextStub(biometryType: .none, canEvaluatePolicyResult: false)
+            let configuration = Keychain.Configuration(context: context, accessControlCreate: accessControlCreateFailure, store: storeFailure, load: loadFailure, delete: delete)
+            let keychain = Keychain(accessGroup: "foo", configuration: configuration)
+            
+            #warning("Workaround")
+            do {
+                try await keychain.deleteSecret(forKey: "bar")
+                XCTFail()
+            } catch {
+                
+            }
+            
+            let result = XCTWaiter.wait(for: [deleteCalled], timeout: .infinity)
+            XCTAssertEqual(result, .completed)
+            
+            func delete(query: CFDictionary) -> OSStatus {
+                defer {
+                    deleteCalled.fulfill()
+                }
+                return errSecInternalError
+            }
+        }
     }
     
 }
@@ -264,18 +411,7 @@ func loadFailure(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?)
     return errSecInternalError
 }
 
-func accessControlCreate(allocator: CFAllocator?, protection: CFTypeRef, flags: SecAccessControlCreateFlags, error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl? {
-    fatalError()
-}
-
-func store(attributes: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
-    fatalError()
-}
-
-func load(query: CFDictionary, result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus {
-    fatalError()
-}
-
-func delete(query: CFDictionary) -> OSStatus {
-    fatalError()
+func deleteFailure(query: CFDictionary) -> OSStatus {
+    XCTFail()
+    return errSecInternalError
 }
