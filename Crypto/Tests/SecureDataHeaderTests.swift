@@ -4,7 +4,7 @@ import XCTest
 
 class SecureDataHeaderTests: XCTestCase {
     
-    func testInitWithItemsEncryptedByWrappedItemKey() {
+    func testInitWithElementsEncryptedByWrappedMessageKey() {
         let tag = [
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
             0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F
@@ -28,20 +28,35 @@ class SecureDataHeaderTests: XCTestCase {
         XCTAssertEqual(header.wrappedMessageKey, wrappedMessageKey)
     }
     
-    /*
     func testInitFromDataSuccess() throws {
-        let messageCount = [1, 0, 0, 0] as Data
-        let ciphertextSizes = [UInt8.max, 0, 0, 0] as Data
-        let wrappedKey = Data(repeating: 2, count: 60)
-        let tags = Data(repeating: 3, count: 16)
-        let secureData = messageCount + ciphertextSizes + wrappedKey + tags
+        let messageCount = [
+            0x01, 0x00, 0x00, 0x00
+        ] as Data
+        let ciphertextSizes = [
+            0x02, 0x00, 0x00, 0x00
+        ] as Data
+        let wrappedMessageKey = [
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+            0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+            0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+            0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
+            0x40, 0x41, 0x42, 0x43,
+        ] as Data
+        let tags =  [
+            0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F,
+            0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57
+        ] as Data
+        let secureData = messageCount + ciphertextSizes + wrappedMessageKey + tags
         let header = try SecureDataHeader(data: secureData)
         
-        XCTAssertEqual(header.wrappedMessageKey, wrappedKey)
-        XCTAssertEqual(header.elements.count, 1)
-        XCTAssertEqual(header.elements.first?.nonceRange, 84 ..< 96)
-        XCTAssertEqual(header.elements.first?.ciphertextRange, 96 ..< 351)
-        XCTAssertEqual(header.elements.first?.tag, tags)
+        let expectedElements = [
+            SecureDataHeader.Element(nonceRange: 84..<96, ciphertextRange: 96..<98, tag: tags)
+        ]
+        XCTAssertEqual(header.elements, expectedElements)
+        XCTAssertEqual(header.wrappedMessageKey, wrappedMessageKey)
     }
     
     func testInitFromDataInvalidDataSize() {
@@ -51,87 +66,190 @@ class SecureDataHeaderTests: XCTestCase {
     }
     
     func testInitFromDataProviderSuccess() throws {
-        let messageCount = [1, 0, 0, 0] as [UInt8]
-        let ciphertextSizes = [UInt8.max, 0, 0, 0] as [UInt8]
-        let wrappedKey = Data(repeating: 2, count: 60)
-        let tags = Data(repeating: 3, count: 16)
-        let secureData = Data(messageCount + ciphertextSizes + wrappedKey + tags)
+        let messageCount = [
+            0x01, 0x00, 0x00, 0x00
+        ] as Data
+        let ciphertextSizes = [
+            0x02, 0x00, 0x00, 0x00
+        ] as Data
+        let wrappedMessageKey = [
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F,
+            0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+            0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+            0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F,
+            0x40, 0x41, 0x42, 0x43,
+        ] as Data
+        let tags = [
+            0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4E, 0x4F,
+            0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56, 0x57
+        ] as Data
+        let secureData = messageCount + ciphertextSizes + wrappedMessageKey + tags
+        let header = try SecureDataHeader(from: dataProvider)
         
-        let header = try SecureDataHeader { range in
+        let expectedElements = [
+            SecureDataHeader.Element(nonceRange: 84..<96, ciphertextRange: 96..<98, tag: tags)
+        ]
+        XCTAssertEqual(header.elements, expectedElements)
+        XCTAssertEqual(header.wrappedMessageKey, wrappedMessageKey)
+        
+        func dataProvider(range: Range<Int>) throws -> Data {
             secureData[range]
         }
-        
-        XCTAssertEqual(header.wrappedItemKey, wrappedKey)
-        XCTAssertEqual(header.elements.count, 1)
-        XCTAssertEqual(header.elements.first?.nonceRange, 84 ..< 96)
-        XCTAssertEqual(header.elements.first?.ciphertextRange, 96 ..< 351)
-        XCTAssertEqual(header.elements.first?.tag, tags)
     }
     
     func testInitFromDataProviderMessageCountDataNotAvailable() {
-        XCTAssertThrowsError(try SecureDataHeader { _ in
-            throw CryptoError.invalidDataSize
-        })
+        XCTAssertThrowsError(try SecureDataHeader(from: dataProvider))
+        
+        func dataProvider(range: Range<Int>) throws -> Data {
+            switch range {
+            case 0..<4:
+                throw NSError()
+            default:
+                XCTFail()
+                return []
+            }
+        }
     }
     
     func testInitFromDataProviderHeaderDataNotAvailable() {
-        var callIndex = 0
+        XCTAssertThrowsError(try SecureDataHeader(from: dataProvider))
         
-        XCTAssertThrowsError(try SecureDataHeader { _ in
-            defer {
-                callIndex += 1
-            }
-            
-            switch callIndex {
-            case 0:
-                return Data([1, 0, 0, 0])
+        func dataProvider(range: Range<Int>) throws -> Data {
+            switch range {
+            case 0..<4:
+                return [
+                    0x01, 0x00, 0x00, 0x00
+                ]
+            case 4..<84:
+                throw NSError()
             default:
-                throw CryptoError.invalidDataSize
+                XCTFail()
+                return []
             }
-        })
+        }
     }
     
-    func testUnwrapKeySuccess() throws {
-        let key = MasterKey(Data(0 ..< 32))
-        let message = [1, 0, 0, 0, 9, 0, 0, 0, 103, 20, 24, 195, 10, 172, 111, 110, 93, 193, 247, 247, 43, 226, 30, 158, 57, 117, 32, 224, 37, 2, 211, 7, 195, 73, 198, 122, 47, 179, 2, 210, 117, 72, 197, 200, 153, 61, 244, 18, 87, 74, 60, 198, 136, 174, 74, 196, 144, 67, 249, 166, 227, 148, 134, 196, 95, 165, 249, 216, 12, 68, 242, 82, 231, 65, 114, 150, 51, 165, 246, 108, 3, 157, 31, 163, 49, 88, 124, 150, 118, 170, 95, 46, 41, 253, 98, 203, 218, 84, 162, 16, 39, 222, 181, 90, 105] as [UInt8]
-        let itemKey = try SecureDataHeader(data: Data(message)).unwrapKey(with: key)
-        let expectedKeyBytes = [71, 243, 126, 209, 2, 41, 252, 15, 204, 184, 231, 12, 150, 227, 53, 194, 3, 140, 52, 173, 215, 235, 202, 100, 78, 203, 135, 200, 167, 63, 244, 239] as [UInt8]
-        let expectedKey = SymmetricKey(data: expectedKeyBytes)
-              
-        XCTAssertEqual(itemKey.value, expectedKey)
-    }
- 
-    
-    func testUnwrapKeyInvalidItemKeySize() {
-        let header = SecureDataHeader(elements: [], wrappedItemKey: Data())
-        let masterKey = MasterKey()
+    func testUnwrapMessageKeySuccess() throws {
+        let elements = [SecureDataHeader.Element]()
+        let wrappedMessageKey = [
+            0x26, 0x6A, 0xB8, 0x82, 0x02, 0x4E, 0x4E, 0x6F,
+            0x85, 0x29, 0xEF, 0x01, 0x07, 0xE1, 0x78, 0x4C,
+            0xF8, 0x4B, 0x67, 0xCE, 0x86, 0x30, 0x20, 0xD4,
+            0xED, 0x0A, 0x7C, 0xF0, 0x51, 0xA0, 0xAC, 0xD4,
+            0xFB, 0x59, 0x43, 0xA1, 0x26, 0xE3, 0xBB, 0x47,
+            0xD1, 0x75, 0x4A, 0x82, 0x46, 0xDB, 0x17, 0xC4,
+            0xB3, 0x55, 0xD0, 0x56, 0x0F, 0xA1, 0x29, 0xF2,
+            0xB0, 0x62, 0xBC, 0x46
+        ] as Data
+        let masterKey = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as MasterKey
+        let expectedMessageKey = [
+            0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27,
+            0x28, 0x29, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F,
+            0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37,
+            0x38, 0x39, 0x3A, 0x3B, 0x3C, 0x3D, 0x3E, 0x3F
+        ] as MessageKey
+        let header = SecureDataHeader(with: elements, encryptedBy: wrappedMessageKey)
         
-        XCTAssertThrowsError(try header.unwrapKey(with: masterKey))
+        let messageKey = try header.unwrapMessageKey(with: masterKey)
+        
+        XCTAssertEqual(messageKey, expectedMessageKey)
     }
     
-    func testUnwrapKeyInvalidItemKey() throws {
-        let key = MasterKey(Data(0 ..< 32))
-        let message = [1, 0, 0, 0, 9, 0, 0, 0, UInt8.max, 20, 24, 195, 10, 172, 111, 110, 93, 193, 247, 247, 43, 226, 30, 158, 57, 117, 32, 224, 37, 2, 211, 7, 195, 73, 198, 122, 47, 179, 2, 210, 117, 72, 197, 200, 153, 61, 244, 18, 87, 74, 60, 198, 136, 174, 74, 196, 144, 67, 249, 166, 227, 148, 134, 196, 95, 165, 249, 216, 12, 68, 242, 82, 231, 65, 114, 150, 51, 165, 246, 108, 3, 157, 31, 163, 49, 88, 124, 150, 118, 170, 95, 46, 41, 253, 98, 203, 218, 84, 162, 16, 39, 222, 181, 90, 105] as [UInt8]
-        let header = try SecureDataHeader(data: Data(message))
+    func testUnwrapMessageKeyInvalidMessageKeySize() {
+        let elements = [SecureDataHeader.Element]()
+        let wrappedMessageKey = [] as Data
+        let header = SecureDataHeader(with: elements, encryptedBy: wrappedMessageKey)
+        let masterKey = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as MasterKey
         
-        XCTAssertThrowsError(try header.unwrapKey(with: key))
+        XCTAssertThrowsError(try header.unwrapMessageKey(with: masterKey))
     }
     
-    func testUnwrapKeyInvalidMasterKey() throws {
-        let key = MasterKey(Data(repeating: 0, count: 32))
-        let message = [1, 0, 0, 0, 9, 0, 0, 0, 103, 20, 24, 195, 10, 172, 111, 110, 93, 193, 247, 247, 43, 226, 30, 158, 57, 117, 32, 224, 37, 2, 211, 7, 195, 73, 198, 122, 47, 179, 2, 210, 117, 72, 197, 200, 153, 61, 244, 18, 87, 74, 60, 198, 136, 174, 74, 196, 144, 67, 249, 166, 227, 148, 134, 196, 95, 165, 249, 216, 12, 68, 242, 82, 231, 65, 114, 150, 51, 165, 246, 108, 3, 157, 31, 163, 49, 88, 124, 150, 118, 170, 95, 46, 41, 253, 98, 203, 218, 84, 162, 16, 39, 222, 181, 90, 105] as [UInt8]
-        let header = try SecureDataHeader(data: Data(message))
+    func testUnwrapMessageKeyInvalidMessageKey() throws {
+        let elements = [SecureDataHeader.Element]()
+        let wrappedMessageKey = [
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00
+        ] as Data
+        let masterKey = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as MasterKey
+        let header = SecureDataHeader(with: elements, encryptedBy: wrappedMessageKey)
         
-        XCTAssertThrowsError(try header.unwrapKey(with: key))
+        XCTAssertThrowsError(try header.unwrapMessageKey(with: masterKey))
     }
     
-    func testUnwrapKeyInvalidTagSegment() throws {
-        let key = MasterKey(Data(repeating: 0, count: 32))
-        let message = [1, 0, 0, 0, 9, 0, 0, 0, 103, 20, 24, 195, 10, 172, 111, 110, 93, 193, 247, 247, 43, 226, 30, 158, 57, 117, 32, 224, 37, 2, 211, 7, 195, 73, 198, 122, 47, 179, 2, 210, 117, 72, 197, 200, 153, 61, 244, 18, 87, 74, 60, 198, 136, 174, 74, 196, 144, 67, 249, 166, 227, 148, 134, 196, 95, 165, 249, 216, UInt8.max, 68, 242, 82, 231, 65, 114, 150, 51, 165, 246, 108, 3, 157, 31, 163, 49, 88, 124, 150, 118, 170, 95, 46, 41, 253, 98, 203, 218, 84, 162, 16, 39, 222, 181, 90, 105] as [UInt8]
-        let header = try SecureDataHeader(data: Data(message))
+    func testUnwrapMessageKeyInvalidMasterKey() throws {
+        let elements = [SecureDataHeader.Element]()
+        let wrappedMessageKey = [
+            0x26, 0x6A, 0xB8, 0x82, 0x02, 0x4E, 0x4E, 0x6F,
+            0x85, 0x29, 0xEF, 0x01, 0x07, 0xE1, 0x78, 0x4C,
+            0xF8, 0x4B, 0x67, 0xCE, 0x86, 0x30, 0x20, 0xD4,
+            0xED, 0x0A, 0x7C, 0xF0, 0x51, 0xA0, 0xAC, 0xD4,
+            0xFB, 0x59, 0x43, 0xA1, 0x26, 0xE3, 0xBB, 0x47,
+            0xD1, 0x75, 0x4A, 0x82, 0x46, 0xDB, 0x17, 0xC4,
+            0xB3, 0x55, 0xD0, 0x56, 0x0F, 0xA1, 0x29, 0xF2,
+            0xB0, 0x62, 0xBC, 0x46
+        ] as Data
+        let masterKey = [
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        ] as MasterKey
+        let header = SecureDataHeader(with: elements, encryptedBy: wrappedMessageKey)
         
-        XCTAssertThrowsError(try header.unwrapKey(with: key))
+        XCTAssertThrowsError(try header.unwrapMessageKey(with: masterKey))
     }
- */
+    
+    func testUnwrapMessageKeyInvalidTagSegment() throws {
+        let tag = [
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        ] as Data
+        let elements = [
+            SecureDataHeader.Element(nonceRange: 0..<0, ciphertextRange: 0..<0, tag: tag)
+        ]
+        let wrappedMessageKey = [
+            0x26, 0x6A, 0xB8, 0x82, 0x02, 0x4E, 0x4E, 0x6F,
+            0x85, 0x29, 0xEF, 0x01, 0x07, 0xE1, 0x78, 0x4C,
+            0xF8, 0x4B, 0x67, 0xCE, 0x86, 0x30, 0x20, 0xD4,
+            0xED, 0x0A, 0x7C, 0xF0, 0x51, 0xA0, 0xAC, 0xD4,
+            0xFB, 0x59, 0x43, 0xA1, 0x26, 0xE3, 0xBB, 0x47,
+            0xD1, 0x75, 0x4A, 0x82, 0x46, 0xDB, 0x17, 0xC4,
+            0xB3, 0x55, 0xD0, 0x56, 0x0F, 0xA1, 0x29, 0xF2,
+            0xB0, 0x62, 0xBC, 0x46
+        ] as Data
+        let masterKey = [
+            0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+            0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+            0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+            0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F
+        ] as MasterKey
+        let header = SecureDataHeader(with: elements, encryptedBy: wrappedMessageKey)
+        
+        XCTAssertThrowsError(try header.unwrapMessageKey(with: masterKey))
+    }
     
 }

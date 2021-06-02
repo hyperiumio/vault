@@ -45,7 +45,7 @@ public struct SecureDataHeader {
         let wrappedMessageKeyRange = Range(lowerBound: wrappedMessageKeyRangeLowerBound, count: .wrappedKeySize)
         let wrappedMessageKey = headerData[wrappedMessageKeyRange]
         
-        let tags = (0 ..< messageCount).map { index in
+        let tags = (0..<messageCount).map { index in
             let tagRangeLowerBound = wrappedMessageKeyRange.upperBound + index * .tagSize
             let tagRange = Range(lowerBound: tagRangeLowerBound, count: .tagSize)
             return headerData[tagRange]
@@ -67,7 +67,7 @@ public struct SecureDataHeader {
             return Range(lowerBound: ciphertextRangeLowerBound, count: ciphertextSize)
         } as [Range<Int>]
         
-        let elements = (0 ..< messageCount).map { index in
+        let elements = (0..<messageCount).map { index in
             let nonceRange = nonceRanges[index]
             let ciphertextRange = ciphertextRanges[index]
             let tag = tags[index]
@@ -79,7 +79,7 @@ public struct SecureDataHeader {
         self.elements = elements
     }
     
-    public func unwrapKey(with masterKey: MasterKey) throws -> MessageKey {
+    public func unwrapMessageKey(with masterKey: MasterKey) throws -> MessageKey {
         let tagSegment = elements.map(\.tag).reduce(Data(), +)
         let wrappedMessageKey = try AES.GCM.SealedBox(combined: self.wrappedMessageKey)
         

@@ -2,7 +2,7 @@ import CommonCrypto
 import CryptoKit
 import Foundation
 
-public struct DerivedKey {
+public struct DerivedKey: Equatable {
     
     let value: SymmetricKey
     

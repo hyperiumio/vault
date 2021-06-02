@@ -65,7 +65,7 @@ extension SecureDataMessage {
     
     public static func decryptMessages(from container: Data, using masterKey: MasterKey) throws -> [Data] {
         let header = try SecureDataHeader(data: container)
-        let itemKey = try header.unwrapKey(with: masterKey)
+        let itemKey = try header.unwrapMessageKey(with: masterKey)
         
         return try header.elements.map { element in
             let nonce = container[element.nonceRange]

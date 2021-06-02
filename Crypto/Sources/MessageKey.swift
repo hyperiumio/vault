@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-public struct MessageKey {
+public struct MessageKey: Equatable {
     
     let value: SymmetricKey
     
