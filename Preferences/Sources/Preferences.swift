@@ -25,7 +25,9 @@ public class Preferences {
     private let didChangeSubject: CurrentValueSubject<Value, Never>
     
     public init(using store: PreferencesStore) {
-        let defaults = [String.biometricUnlockEnabledKey: false]
+        let defaults = [
+            String.biometricUnlockEnabledKey: false
+        ]
         store.register(defaults: defaults)
         
         let preferences = Value(from: store)
@@ -77,13 +79,13 @@ private extension PreferencesStore {
     
     var activeStoreID: UUID? {
         get {
-            guard let storeID = string(forKey: .activeStoreID) else {
+            guard let storeID = string(forKey: .activeStoreIDKey) else {
                 return nil
             }
             return UUID(uuidString: storeID)
         }
         set(storeID) {
-            set(storeID?.uuidString, forKey: .activeStoreID)
+            set(storeID?.uuidString, forKey: .activeStoreIDKey)
         }
     }
     
@@ -92,6 +94,6 @@ private extension PreferencesStore {
 private extension String {
     
     static var biometricUnlockEnabledKey: Self { "BiometricUnlockEnabled" }
-    static var activeStoreID: Self { "ActiveStoreID" }
+    static var activeStoreIDKey: Self { "ActiveStoreID" }
     
 }

@@ -30,12 +30,14 @@
       codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Tests"
-               BuildableName = "Tests"
-               BlueprintName = "Tests"
+               BlueprintIdentifier = "CryptoTests"
+               BuildableName = "CryptoTests"
+               BlueprintName = "CryptoTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

@@ -72,9 +72,9 @@ class QuickAccessUnlockedModel: QuickAccessUnlockedModelRepresentable {
             .receive(on: operationQueue)
             .map { searchText in
                 loginCredetials(from: vaultItems).filter { credential in
-                    FuzzyMatch(searchText, in: credential.title)
-                        || FuzzyMatch(searchText, in: credential.username)
-                        || FuzzyMatch(searchText, in: credential.url ?? "")
+                    Match(searchText, in: credential.title)
+                        || Match(searchText, in: credential.username)
+                        || Match(searchText, in: credential.url ?? "")
                 }
             }
             .map { credentials in

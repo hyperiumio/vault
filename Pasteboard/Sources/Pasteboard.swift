@@ -12,9 +12,7 @@ public class Pasteboard {
         set(string) {
             systemPasteboard.clearContents()
             
-            guard let string = string else {
-                return
-            }
+            guard let string = string else { return }
             systemPasteboard.setString(string, forType: .string)
         }
     }

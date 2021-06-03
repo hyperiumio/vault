@@ -4,20 +4,6 @@ import XCTest
 
 final class PreferencesTests: XCTestCase {
     
-    var subscriptions = Set<AnyCancellable>()
-    
-    override func setUp() {
-        super.setUp()
-        
-        subscriptions.removeAll()
-    }
-    
-    override func tearDown() {
-        subscriptions.removeAll()
-        
-        super.tearDown()
-    }
-    
     func testInitEmptyStore() {
         let mock = PreferencesStoreMock()
         let preferences = Preferences(using: mock)
@@ -43,13 +29,15 @@ final class PreferencesTests: XCTestCase {
         let didChangeExpectation = XCTestExpectation()
         let storeMock = PreferencesStoreMock()
         let preferences = Preferences(using: storeMock)
-        preferences.didChange
+        let subscription = preferences.didChange
             .dropFirst()
             .sink { value in
                 XCTAssertEqual(value.isBiometricUnlockEnabled, true)
                 didChangeExpectation.fulfill()
             }
-            .store(in: &subscriptions)
+        defer {
+            subscription.cancel()
+        }
         
         preferences.set(isBiometricUnlockEnabled: true)
         
@@ -63,13 +51,15 @@ final class PreferencesTests: XCTestCase {
         let expectedActiveStoreID = UUID()
         let storeMock = PreferencesStoreMock()
         let preferences = Preferences(using: storeMock)
-        preferences.didChange
+        let subscription = preferences.didChange
             .dropFirst()
             .sink { value in
                 XCTAssertEqual(value.activeStoreID, expectedActiveStoreID)
                 didChangeExpectation.fulfill()
             }
-            .store(in: &subscriptions)
+        defer {
+            subscription.cancel()
+        }
         
         preferences.set(activeStoreID: expectedActiveStoreID)
         

@@ -1,70 +1,70 @@
 import XCTest
 @testable import Search
 
-final class FuzzyMatchTests: XCTestCase {
+final class MatchTests: XCTestCase {
     
     func testEmptyPattern() {
-        let matches = FuzzyMatch("", in: "abc")
+        let matches = Match("", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testEmptyPatternEmptyString() {
-        let matches = FuzzyMatch("", in: "")
+        let matches = Match("", in: "")
         
         XCTAssertTrue(matches)
     }
     
     func testPatternLongerThanString() {
-        let matches = FuzzyMatch("abc", in: "ab")
+        let matches = Match("abc", in: "ab")
         
         XCTAssertFalse(matches)
     }
     
     func testPatternEqualToString() {
-        let matches = FuzzyMatch("abc", in: "abc")
+        let matches = Match("abc", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testMatchFirstCharacter() {
-        let matches = FuzzyMatch("a", in: "abc")
+        let matches = Match("a", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testMatchAnyCharacter() {
-        let matches = FuzzyMatch("b", in: "abc")
+        let matches = Match("b", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testMatchLastCharacter() {
-        let matches = FuzzyMatch("c", in: "abc")
+        let matches = Match("c", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testPartitialMatchesWithGaps() {
-        let matches = FuzzyMatch("ac", in: "abc")
+        let matches = Match("ac", in: "abc")
         
         XCTAssertTrue(matches)
     }
     
     func testPartitialMatchesWithMismatch() {
-        let matches = FuzzyMatch("adc", in: "abc")
+        let matches = Match("adc", in: "abc")
         
         XCTAssertFalse(matches)
     }
     
     func testUppercasePatternLowercaseString() {
-        let matches = FuzzyMatch("A", in: "a")
+        let matches = Match("A", in: "a")
         
         XCTAssertTrue(matches)
     }
     
     func testLowercasePatternUppercaseString() {
-        let matches = FuzzyMatch("a", in: "A")
+        let matches = Match("a", in: "A")
         
         XCTAssertTrue(matches)
     }

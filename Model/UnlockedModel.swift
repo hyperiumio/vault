@@ -111,7 +111,7 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
             .map { itemIndex, searchText in
                 itemIndex
                     .filter { _, itemInfo in
-                        FuzzyMatch(searchText, in: itemInfo.name)
+                        Match(searchText, in: itemInfo.name)
                     }
                     .map { itemLocator, itemInfo in
                         dependency.vaultItemReferenceModel(itemInfo: itemInfo, itemLocator: itemLocator)

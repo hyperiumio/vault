@@ -1,10 +1,4 @@
-public protocol AlphabeticCollationElement: Comparable {
-    
-    var sectionKey: String { get }
-    
-}
-
-public struct AlphabeticCollation<Element> where Element: AlphabeticCollationElement {
+public struct AlphabeticCollation<Element> where Element: CollationElement {
     
     public let sections: [Section]
     

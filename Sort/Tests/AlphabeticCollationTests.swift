@@ -86,7 +86,7 @@ final class AlphabeticCollationTests: XCTestCase {
     
 }
 
-private struct AlphabeticCollationElementStub: AlphabeticCollationElement {
+private struct AlphabeticCollationElementStub: CollationElement {
     
     let value: String
     

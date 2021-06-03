@@ -24,7 +24,7 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "Tests",
+            name: "CryptoTests",
             dependencies: ["Crypto"],
             path: "Tests",
             swiftSettings: [
