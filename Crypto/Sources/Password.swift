@@ -55,7 +55,9 @@ public struct PasswordConfiguration {
     
     let rng: (_ bytes: UnsafeMutableRawPointer, _ count: Int) -> CCRNGStatus
     
-    public static let production = PasswordConfiguration(rng: CCRandomGenerateBytes)
+    public static var production: Self {
+        Self(rng: CCRandomGenerateBytes)
+    }
     
 }
 

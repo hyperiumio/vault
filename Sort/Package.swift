@@ -1,36 +1,32 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "Sort",
     platforms: [
-        .macOS(.v11),
-        .iOS(.v14)
+        .macOS("12.0"),
+        .iOS("15.0")
     ],
     products: [
         .library(
             name: "Sort",
-            targets: ["Sort"]
+            targets: [
+                "Sort"
+            ]
         )
     ],
     targets: [
         .target(
             name: "Sort",
-            path: "Sources",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "SortTests",
-            dependencies: ["Sort"],
-            path: "Tests",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            dependencies: [
+                "Sort"
+            ],
+            path: "Tests"
         ),
     ]
 )

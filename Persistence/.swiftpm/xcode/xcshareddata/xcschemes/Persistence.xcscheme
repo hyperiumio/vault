@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Cloud"
-               BuildableName = "Cloud"
-               BlueprintName = "Cloud"
+               BlueprintIdentifier = "Persistence"
+               BuildableName = "Persistence"
+               BlueprintName = "Persistence"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -26,15 +26,20 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      language = "en"
+      region = "US"
+      codeCoverageEnabled = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO">
+            skipped = "NO"
+            parallelizable = "YES"
+            testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CloudTests"
-               BuildableName = "CloudTests"
-               BlueprintName = "CloudTests"
+               BlueprintIdentifier = "PersistenceTests"
+               BuildableName = "PersistenceTests"
+               BlueprintName = "PersistenceTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +65,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Cloud"
-            BuildableName = "Cloud"
-            BlueprintName = "Cloud"
+            BlueprintIdentifier = "Persistence"
+            BuildableName = "Persistence"
+            BlueprintName = "Persistence"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

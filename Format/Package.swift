@@ -1,36 +1,32 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "Format",
     platforms: [
-        .macOS(.v11),
-        .iOS(.v14)
+        .macOS("12.0"),
+        .iOS("15.0")
     ],
     products: [
         .library(
             name: "Format",
-            targets: ["Format"]
+            targets: [
+                "Format"
+            ]
         )
     ],
     targets: [
         .target(
             name: "Format",
-            path: "Sources",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "FormatTests",
-            dependencies: ["Format"],
-            path: "Tests",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            dependencies: [
+                "Format"
+            ],
+            path: "Tests"
         )
     ]
 )

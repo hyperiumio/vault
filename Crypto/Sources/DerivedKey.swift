@@ -70,7 +70,9 @@ extension DerivedKey {
         
         let rng: (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> CCRNGStatus
         
-        static let production = Self(rng: CCRandomGenerateBytes)
+        public static var production: Self {
+            Self(rng: CCRandomGenerateBytes)
+        }
         
     }
     

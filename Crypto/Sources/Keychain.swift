@@ -91,7 +91,9 @@ extension Keychain {
         let load: (_ query: CFDictionary, _ result: UnsafeMutablePointer<CFTypeRef?>?) -> OSStatus
         let delete: (_ query: CFDictionary) -> OSStatus
         
-        public static let production = Self(context: LAContext(), accessControlCreate: SecAccessControlCreateWithFlags, store: SecItemAdd, load: SecItemCopyMatching, delete: SecItemDelete)
+        public static var production: Self {
+            Self(context: LAContext(), accessControlCreate: SecAccessControlCreateWithFlags, store: SecItemAdd, load: SecItemCopyMatching, delete: SecItemDelete)
+        }
         
     }
     

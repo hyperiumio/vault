@@ -106,7 +106,7 @@ class SecureDataHeaderTests: XCTestCase {
         func dataProvider(range: Range<Int>) throws -> Data {
             switch range {
             case 0..<4:
-                throw NSError()
+                throw SecureDataHeaderTestsError.somethingWentWrong
             default:
                 XCTFail()
                 return []
@@ -124,7 +124,7 @@ class SecureDataHeaderTests: XCTestCase {
                     0x01, 0x00, 0x00, 0x00
                 ]
             case 4..<84:
-                throw NSError()
+                throw SecureDataHeaderTestsError.somethingWentWrong
             default:
                 XCTFail()
                 return []
@@ -251,5 +251,11 @@ class SecureDataHeaderTests: XCTestCase {
         
         XCTAssertThrowsError(try header.unwrapMessageKey(with: masterKey))
     }
+    
+}
+
+enum SecureDataHeaderTestsError: Error {
+    
+    case somethingWentWrong
     
 }

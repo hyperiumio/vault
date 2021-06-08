@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		950C70392548205A001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C70382548205A001BB318 /* Crypto */; };
 		950C703D2548206C001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C703C2548206C001BB318 /* Crypto */; };
-		952A964E256FDA0F003E0584 /* CredentialProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 952A9640256FDA0F003E0584 /* CredentialProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		952D1062251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1063251B2CB200B95C4B /* CompleteSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1061251B2CB200B95C4B /* CompleteSetupView.swift */; };
 		952D1069251B2D1D00B95C4B /* CompleteSetupModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952D1068251B2D1D00B95C4B /* CompleteSetupModel.swift */; };
@@ -129,7 +128,6 @@
 		9574337A24AA23D30062B05A /* UnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337124AA23D30062B05A /* UnlockedView.swift */; };
 		9574338224AA358A0062B05A /* BootstrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574338124AA358A0062B05A /* BootstrapView.swift */; };
 		9574338324AA358A0062B05A /* BootstrapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574338124AA358A0062B05A /* BootstrapView.swift */; };
-		957607E025C05CA9007DADAC /* CredentialProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 952A9631256FD8E3003E0584 /* CredentialProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		9577121424F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
 		9577121524F815B30095AF33 /* AppLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121324F815B30095AF33 /* AppLockedDependency.swift */; };
 		9577121724F8160C0095AF33 /* AppUnlockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */; };
@@ -278,7 +276,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				952A964E256FDA0F003E0584 /* CredentialProvider.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,7 +286,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				957607E025C05CA9007DADAC /* CredentialProvider.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,11 +293,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		951253A4262DCE40005AC701 /* Storage */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Storage; sourceTree = "<group>"; };
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
-		952A9631256FD8E3003E0584 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		952A9640256FDA0F003E0584 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		952A9631256FD8E3003E0584 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
+		952A9640256FDA0F003E0584 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
 		952D1061251B2CB200B95C4B /* CompleteSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteSetupView.swift; sourceTree = "<group>"; };
@@ -312,6 +307,7 @@
 		9539B1FD25405D8D00C81A2A /* BiometricUnlockButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricUnlockButton.swift; sourceTree = "<group>"; };
 		9539B20C2540692000C81A2A /* PDFViewShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewShim.swift; sourceTree = "<group>"; };
 		953A43DE25D1ABBD000267D0 /* Cloud */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cloud; sourceTree = "<group>"; };
+		953FFAAE266A229400142E6D /* Persistence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Persistence; sourceTree = "<group>"; };
 		9542207A255183C1002F14AB /* FileModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileModel.swift; sourceTree = "<group>"; };
 		95422087255186A4002F14AB /* EditBankAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBankAccountView.swift; sourceTree = "<group>"; };
 		9542208C2551873C002F14AB /* EditBankCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBankCardView.swift; sourceTree = "<group>"; };
@@ -365,7 +361,7 @@
 		9574337024AA23D30062B05A /* VaultItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemView.swift; sourceTree = "<group>"; };
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		9574338124AA358A0062B05A /* BootstrapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapView.swift; sourceTree = "<group>"; };
-		957680D6256FC25F00E1C62B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		957680D6256FC25F00E1C62B /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		9577121324F815B30095AF33 /* AppLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLockedDependency.swift; sourceTree = "<group>"; };
 		9577121624F8160C0095AF33 /* AppUnlockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnlockedDependency.swift; sourceTree = "<group>"; };
 		957AAB5B256D860000245A68 /* CenteredLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenteredLabelStyle.swift; sourceTree = "<group>"; };
@@ -415,7 +411,7 @@
 		95D4712D255552AE0053FA13 /* EditSecureItemDateField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemDateField.swift; sourceTree = "<group>"; };
 		95D47136255556080053FA13 /* EditSecureItemSecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSecureItemSecureTextField.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
-		95E30FE0256FD4FA00A850EE /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95E30FE0256FD4FA00A850EE /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		95EBFD34256BA27100E2F2D2 /* PageNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageNavigationView.swift; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* VaultItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultItemInfoView.swift; sourceTree = "<group>"; };
 		95F7E84B252C509200D87231 /* HeaderLabelStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLabelStyle.swift; sourceTree = "<group>"; };
@@ -666,10 +662,10 @@
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
+				953FFAAE266A229400142E6D /* Persistence */,
 				9574336624AA13C20062B05A /* Preferences */,
 				9574336824AA13C30062B05A /* Search */,
 				95F8BBC624CEB8FF001FC495 /* Sort */,
-				951253A4262DCE40005AC701 /* Storage */,
 				9574322F24AA05710062B05A /* Asset */,
 				95842D78256FC0210080711C /* Controller */,
 				9577120F24F814E30095AF33 /* Dependency */,
@@ -680,10 +676,6 @@
 				9548581A257133110048785D /* Shim */,
 				9595583C251A2FA700F7715F /* Style */,
 				9574323224AA05710062B05A /* View */,
-				957680D6256FC25F00E1C62B /* Vault.app */,
-				95E30FE0256FD4FA00A850EE /* Vault.app */,
-				952A9631256FD8E3003E0584 /* CredentialProvider.appex */,
-				952A9640256FDA0F003E0584 /* CredentialProvider.appex */,
 			);
 			sourceTree = "<group>";
 		};

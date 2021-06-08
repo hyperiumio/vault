@@ -3,28 +3,28 @@
 import PackageDescription
 
 let package = Package(
-    name: "Search",
+    name: "Persistence",
     platforms: [
         .macOS("12.0"),
         .iOS("15.0")
     ],
     products: [
         .library(
-            name: "Search",
+            name: "Persistence",
             targets: [
-                "Search"
+                "Persistence"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Search",
+            name: "Persistence",
             path: "Sources"
         ),
         .testTarget(
-            name: "SearchTests",
+            name: "PersistenceTests",
             dependencies: [
-                "Search"
+                "Persistence"
             ],
             path: "Tests"
         )

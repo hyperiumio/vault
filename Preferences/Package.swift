@@ -1,36 +1,32 @@
-// swift-tools-version:5.4
+// swift-tools-version:5.5
 
 import PackageDescription
 
 let package = Package(
     name: "Preferences",
     platforms: [
-        .macOS(.v11),
-        .iOS(.v14)
+        .macOS("12.0"),
+        .iOS("15.0")
     ],
     products: [
         .library(
             name: "Preferences",
-            targets: ["Preferences"]
+            targets: [
+                "Preferences"
+            ]
         )
     ],
     targets: [
         .target(
             name: "Preferences",
-            path: "Sources",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            path: "Sources"
         ),
         .testTarget(
             name: "PreferencesTests",
-            dependencies: ["Preferences"],
-            path: "Tests",
-            swiftSettings: [
-                .unsafeFlags(["-Xfrontend", "-enable-experimental-concurrency"]),
-                .unsafeFlags(["-Xfrontend", "-disable-availability-checking"])
-            ]
+            dependencies: [
+                "Preferences"
+            ],
+            path: "Tests"
         )
     ]
 )

@@ -9,7 +9,7 @@ struct CryptorStub: SecureDataMessageCryptor {
     
     func encrypt<Plaintext>(_ message: Plaintext, using key: SymmetricKey) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol {
         guard let result = encryptionResult else {
-            throw NSError()
+            throw CryptorStubError.somethingWentWrong
         }
         
         return result
@@ -17,10 +17,16 @@ struct CryptorStub: SecureDataMessageCryptor {
     
     func encrypt<Plaintext, AuthenticatedData>(_ message: Plaintext, using key: SymmetricKey, authenticating authenticatedData: AuthenticatedData) throws -> AES.GCM.SealedBox where Plaintext : DataProtocol, AuthenticatedData : DataProtocol {
         guard let result = authenticationEncryptionResult else {
-            throw NSError()
+            throw CryptorStubError.somethingWentWrong
         }
         
         return result
     }
+    
+}
+
+enum CryptorStubError: Error {
+    
+    case somethingWentWrong
     
 }

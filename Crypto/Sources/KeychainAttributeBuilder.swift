@@ -51,7 +51,9 @@ extension KeychainAttributeBuilder {
         
         let accessControlCreate: (_ allocator: CFAllocator?, _ protection: CFTypeRef, _ flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl?
         
-        public static let production = Self(accessControlCreate: SecAccessControlCreateWithFlags)
+        public static var production: Self {
+            Self(accessControlCreate: SecAccessControlCreateWithFlags)
+        }
         
     }
     
