@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,6 +12,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
     
     #if os(iOS)
     var body: some View {
+        /*
         NavigationView {
             List {
                 Section {
@@ -33,9 +35,11 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
+                    /*
                     TextFieldShim(title: .localizedTitle, text: $model.title, textStyle: .title1, alignment: .left)
                         .padding()
                         .listRowInsets(EdgeInsets())
+                     */
                 }
             }
             .toolbar {
@@ -49,19 +53,23 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                     SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
                 }
                 
+                /*
                 ToolbarItem(placement: .confirmationAction) {
                     Button(.save, action: model.save)
                         .disabled(model.title.isEmpty)
-                }
+                }*/
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitleDisplayMode(.inline)
         }
+         */
+        Text("foo")
     }
     #endif
     
     #if os(macOS)
     var body: some View {
+        /*
         NavigationView {
             List {
                 Section {
@@ -102,11 +110,15 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
+                    /*
                     Button(.save, action: model.save)
-                        .disabled(model.title.isEmpty)
+                        .disabled(model.title.isEmpty) */
                 }
             }
         }
+         */
+        Text("")
+         
     }
     #endif
 }

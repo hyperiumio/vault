@@ -2,8 +2,9 @@ import Combine
 import Crypto
 import Foundation
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol LoginModelRepresentable: ObservableObject, Identifiable {
 
     var username: String { get set }
@@ -11,17 +12,16 @@ protocol LoginModelRepresentable: ObservableObject, Identifiable {
     var url: String { get set}
     var item: LoginItem { get }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async
     
 }
 
+@MainActor
 class LoginModel: LoginModelRepresentable {
     
     @Published var username: String
     @Published var password: String
     @Published var url: String
-    
-    private let operationQueue = DispatchQueue(label: "LoginModelOperationQueue")
     
     var item: LoginItem {
         let username = self.username.isEmpty ? nil : self.username
@@ -37,26 +37,7 @@ class LoginModel: LoginModelRepresentable {
         self.url = item.url ?? ""
     }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
-        operationQueue.future {
-            try PasswordGenerator(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
-        }
-        .replaceError(with: "")
-        .receive(on: DispatchQueue.main)
-        .assign(to: &$password)
-    }
-    
-}
-
-private extension DispatchQueue {
-    
-    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
-        Future { promise in
-            self.async {
-                let result = Result(catching: body)
-                promise(result)
-            }
-        }
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {
     }
     
 }
@@ -71,7 +52,6 @@ class LoginModelStub: LoginModelRepresentable {
     var item: LoginItem {
         LoginItem(username: username, password: password, url: url)
     }
-
     
     func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     

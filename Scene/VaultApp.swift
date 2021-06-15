@@ -1,82 +1,33 @@
-import Combine
 import SwiftUI
 
-#if os(macOS)
 @main
 struct VaultApp: App {
     
-    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    @State var settingsModel: SettingsModel<AppUnlockedDependency>?
+    @StateObject var model: AppModel<AppLockedDependency> = {
+        let dependency = AppLockedDependency()
+        return AppModel(dependency)
+    }()
     
+    #if os(iOS)
     var body: some Scene {
         WindowGroup {
-            AppView(appDelegate.appModel)
+            AppView(model)
         }
-        .windowStyle(HiddenTitleBarWindowStyle())
-        .windowToolbarStyle(UnifiedCompactWindowToolbarStyle())
+    }
+    #endif
+    
+    #if os(macOS)
+    var body: some Scene {
+        WindowGroup {
+            AppView(model)
+                .frame(width: 600, height: 600)
+        }
+        .windowStyle(.hiddenTitleBar)
+        .windowToolbarStyle(.unifiedCompact)
         .commands {
-            SidebarCommands()
-            
-            CommandGroup(before: .appTermination) {
-                Button(.lockVault) {
-                    guard case .main(let model) = appDelegate.appModel.state else { return }
-                    
-                    model.lock()
-                }
-                
-            }
-        }
-        
-        Settings {
-            Group {
-                if let settingsModel = settingsModel {
-                    SettingsView(settingsModel)
-                } else {
-                    Text("Locked")
-                        .padding()
-                }
-            }
-            .frame(width: 600)
-            .onReceive(settingsModelPublisher) { settingsModel in
-                self.settingsModel = settingsModel
-            }
+            AppCommands(model)
         }
     }
-    
-    var settingsModelPublisher: AnyPublisher<SettingsModel<AppUnlockedDependency>?, Never> {
-        appDelegate.appModel.$state
-            .flatMap { state -> AnyPublisher<SettingsModel<AppUnlockedDependency>?, Never> in
-                guard case .main(let model) = state else {
-                    return Just(nil).eraseToAnyPublisher()
-                }
-                
-                return model.$state
-                    .map { state in
-                        guard case .unlocked(let model, _) = state else {
-                            return nil
-                        }
-                        
-                        return model.settingsModel
-                    }
-                    .eraseToAnyPublisher()
-            }
-            .eraseToAnyPublisher()
-    }
+    #endif
     
 }
-#endif
-
-#if os(iOS)
-@main
-struct VaultApp: App {
-    
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
-    var body: some Scene {
-        WindowGroup {
-            AppView(appDelegate.appModel)
-        }
-    }
-    
-}
-#endif

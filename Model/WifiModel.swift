@@ -2,18 +2,20 @@ import Combine
 import Crypto
 import Foundation
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol WifiModelRepresentable: ObservableObject, Identifiable {
     
     var name: String { get set }
     var password: String { get set }
     var item: WifiItem { get }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async
     
 }
 
+@MainActor
 class WifiModel: WifiModelRepresentable {
     
     @Published var name: String
@@ -33,26 +35,7 @@ class WifiModel: WifiModelRepresentable {
         self.password = item.password ?? ""
     }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {
-        operationQueue.future {
-            try PasswordGenerator(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
-        }
-        .replaceError(with: "")
-        .receive(on: DispatchQueue.main)
-        .assign(to: &$password)
-    }
-    
-}
-
-private extension DispatchQueue {
-    
-    func future<Success>(catching body: @escaping () throws -> Success) -> Future<Success, Error> {
-        Future { promise in
-            self.async {
-                let result = Result(catching: body)
-                promise(result)
-            }
-        }
+    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {
     }
     
 }

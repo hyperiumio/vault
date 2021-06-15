@@ -1,9 +1,9 @@
 import SwiftUI
 
+#warning("Todo")
 struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject private var model: Model
-    @State private var textViewHeight: CGFloat?
     
     init(_ model: Model) {
         self.model = model
@@ -12,12 +12,7 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     #if os(iOS)
     var body: some View {
         SecureItemField(.note) {
-            TextEditorShim($model.text) { height in
-                let font = UIFont.preferredFont(forTextStyle: .body)
-                let minimumHeight = ceil(font.lineHeight)
-                textViewHeight = max(height, minimumHeight)
-            }
-            .frame(height: textViewHeight)
+            TextEditor(text: $model.text)
         }
     }
     #endif

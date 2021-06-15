@@ -1,6 +1,7 @@
 import Format
 import SwiftUI
 
+#warning("Todo")
 struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentable {
     
     @ObservedObject private var model: Model

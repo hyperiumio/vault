@@ -1,7 +1,8 @@
 import Combine
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol CustomModelRepresentable: ObservableObject, Identifiable {
     
     var description: String { get set }
@@ -10,6 +11,7 @@ protocol CustomModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+@MainActor
 class CustomModel: CustomModelRepresentable {
     
     @Published var description: String

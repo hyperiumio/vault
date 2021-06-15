@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct SecureItemButton<Content>: View where Content: View {
     
     private let action: () -> Void
@@ -43,7 +44,7 @@ struct SecureItemButton<Content>: View where Content: View {
             }
         }
         .listRowInsets(EdgeInsets())
-        .buttonStyle(BareButtonStyle())
+      //  .buttonStyle(BareButtonStyle())
     }
     
 }

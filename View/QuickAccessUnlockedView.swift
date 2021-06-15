@@ -1,6 +1,7 @@
 import SwiftUI
-import Storage
+import Persistence
 
+#warning("Todo")
 struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -16,7 +17,7 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
                 Section {
                     ForEach(section.elements) { item in
                         Button {
-                            model.selectItem(item)
+                //            model.selectItem(item)
                         } label: {
                             LoginCredentialView(title: item.title, username: item.username, url: item.url)
                         }
@@ -26,13 +27,14 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
                 }
             }
         }
-        .searchBar($model.searchText)
+        .searchable(text: $model.searchText)
     }
     #endif
     
     #if os(macOS)
     var body: some View {
         List {
+            /*
             ForEach(model.itemCollation.sections) { section in
                 Section {
                     ForEach(section.elements) { item in
@@ -46,6 +48,7 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
                     Text(section.key)
                 }
             }
+             */
         }
     }
     #endif

@@ -1,8 +1,9 @@
 import Crypto
 import Preferences
-import Storage
+import Persistence
 import UniformTypeIdentifiers
 
+@MainActor
 struct AppUnlockedDependency {
     
     private let store: Store
@@ -28,7 +29,7 @@ extension AppUnlockedDependency: UnlockedModelDependency {
         SettingsModel(store: store, derivedKey: derivedKey, preferences: preferences, keychain: keychain, dependency: self)
     }
     
-    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: Store.ItemLocator) -> VaultItemReferenceModel<Self> {
+    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: StoreItemLocator) -> VaultItemReferenceModel<Self> {
         VaultItemReferenceModel(info: itemInfo, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     
@@ -48,7 +49,7 @@ extension AppUnlockedDependency: SettingsModelDependency {
 
 extension AppUnlockedDependency: VaultItemReferenceModelDependency {
     
-    func vaultItemModel(storeItem: StoreItem, itemLocator: Store.ItemLocator) -> VaultItemModel {
+    func vaultItemModel(storeItem: StoreItem, itemLocator: StoreItemLocator) -> VaultItemModel {
         VaultItemModel(storeItem: storeItem, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     

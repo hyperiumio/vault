@@ -24,11 +24,11 @@ struct VaultItemFooter: View {
                 }
             }
             .font(.footnote)
-            .foregroundColor(.secondaryLabel)
+            .foregroundStyle(.secondary)
+            .padding()
             
             Spacer()
         }
-        .padding(.vertical)
     }
     
 }
@@ -44,23 +44,22 @@ private struct DateLabel: View {
     }
     
     var body: some View {
-        HStack(alignment: .center) {
+        HStack {
             Text(text)
                 .fontWeight(.semibold)
                 .textCase(.uppercase)
                 .alignmentGuide(.custom) { dimension in
                     dimension[HorizontalAlignment.trailing]
                 }
-                
-            Text(date, formatter: dateFormatter)
+               
+            Text(date, formatter: Self.dateFormatter)
         }
     }
     
-    private var dateFormatter: DateFormatter {
+    private static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .medium
-        
         return formatter
     }
     
@@ -77,21 +76,16 @@ private extension HorizontalAlignment {
     }
 
     static let custom = HorizontalAlignment(CustomAlignment.self)
+    
 }
 
 #if DEBUG
 struct VaultItemFooterPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            VaultItemFooter(created: .distantPast, modified: .distantFuture)
-                .preferredColorScheme(.light)
-            
-            VaultItemFooter(created: .distantPast, modified: .distantFuture)
-                .preferredColorScheme(.dark)
-
-        }
-        .previewLayout(.sizeThatFits)
+        VaultItemFooter(created: .distantPast, modified: .distantFuture)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

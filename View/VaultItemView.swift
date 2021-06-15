@@ -1,5 +1,5 @@
 import SwiftUI
-
+#warning("Todo")
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -112,7 +112,7 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
                 Text(model.title)
                     .font(.title)
                     .textCase(.none)
-                    .foregroundColor(.label)
+   //                 .foregroundColor(.label)
                     .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
@@ -132,7 +132,7 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
                 Text(model.title)
                     .font(.title)
                     .textCase(.none)
-                    .foregroundColor(.label)
+               //     .foregroundColor(.label)
                     .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
@@ -160,9 +160,11 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     ElementView(model.primaryItemModel)
                 } header: {
+                    /*
                     TextFieldShim(title: .localizedTitle, text: $model.title, textStyle: .title1, alignment: .left)
                         .listRowInsets(EdgeInsets())
                         .padding()
+                     */
                 }
                 
                 Section {
@@ -232,6 +234,7 @@ private extension VaultItemDisplayView {
         }
         
         var body: some View {
+            /*
             switch element {
             case .login(let model):
                 LoginView(model.item)
@@ -249,7 +252,8 @@ private extension VaultItemDisplayView {
                 BankAccountView(model.item)
             case .custom(let model):
                 CustomView(model.item)
-            }
+            }*/
+            Text("foo")
         }
         
     }
@@ -267,6 +271,7 @@ private extension VaultItemEditView {
         }
         
         var body: some View {
+            /*
             switch element {
             case .login(let model):
                 EditLoginView(model)
@@ -285,6 +290,8 @@ private extension VaultItemEditView {
             case .custom(let model):
                 EditCustomView(model)
             }
+             */
+            Text("foo")
         }
         
     }

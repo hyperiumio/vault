@@ -1,66 +1,55 @@
-import Storage
 import SwiftUI
 
 struct SecureItemTypeView: View {
     
-    private let type: SecureItemType
+    private let itemType: ItemType
     
-    init(_ type: SecureItemType) {
-        self.type = type
+    init(_ itemType: ItemType) {
+        self.itemType = itemType
     }
     
     var body: some View {
-        HStack(spacing: 5) {
-            Self.image(for: type)
-            
-            Self.text(for: type)
-        }
+        Label(itemType.assetIdentifier.localizedStringKey, systemImage: itemType.assetIdentifier.systemImage)
     }
     
 }
 
-private extension SecureItemTypeView {
+extension SecureItemTypeView {
     
-    static func image(for type: SecureItemType) -> Image {
-        switch type {
-        case .login:
-            return Image(systemName: SFSymbolName.personFill)
-        case .password:
-            return Image(systemName: SFSymbolName.keyFill)
-        case .wifi:
-            return Image(systemName: SFSymbolName.wifi)
-        case .note:
-            return Image(systemName: SFSymbolName.noteText)
-        case .bankCard:
-            return Image(systemName: SFSymbolName.creditcard)
-        case .bankAccount:
-            return Image(systemName: SFSymbolName.dollarsignCircle)
-        case .custom:
-            return Image(systemName: SFSymbolName.scribbleVariable)
-        case .file:
-            return Image(systemName: SFSymbolName.paperclip)
+    enum ItemType {
+        
+        typealias AssetIdentifier = (systemImage: String, localizedStringKey: LocalizedStringKey)
+        
+        case login
+        case password
+        case wifi
+        case note
+        case bankCard
+        case bankAccount
+        case custom
+        case file
+        
+        var assetIdentifier: AssetIdentifier {
+            switch self {
+            case .login:
+                return (systemImage: .person, localizedStringKey: .login)
+            case .password:
+                return (systemImage: .key, localizedStringKey: .password)
+            case .wifi:
+                return (systemImage: .wifi, localizedStringKey: .wifi)
+            case .note:
+                return (systemImage: .noteText, localizedStringKey: .note)
+            case .bankCard:
+                return (systemImage: .creditcard, localizedStringKey: .bankCard)
+            case .bankAccount:
+                return (systemImage: .dollarsign, localizedStringKey: .bankAccount)
+            case .custom:
+                return (systemImage: .scribbleVariable, localizedStringKey: .custom)
+            case .file:
+                return (systemImage: .paperclip, localizedStringKey: .file)
+            }
         }
-    }
-    
-    static func text(for type: SecureItemType) -> Text {
-        switch type {
-        case .login:
-            return Text(.login)
-        case .password:
-            return Text(.password)
-        case .wifi:
-            return Text(.wifi)
-        case .note:
-            return Text(.note)
-        case .bankCard:
-            return Text(.bankCard)
-        case .bankAccount:
-            return Text(.bankAccount)
-        case .custom:
-            return Text(.custom)
-        case .file:
-            return Text(.file)
-        }
+        
     }
     
 }
@@ -69,14 +58,9 @@ private extension SecureItemTypeView {
 struct SecureItemTypeViewPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            SecureItemTypeView(.login)
-                .preferredColorScheme(.light)
-            
-            SecureItemTypeView(.login)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        SecureItemTypeView(.login)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

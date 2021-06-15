@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 #if os(iOS)
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
@@ -21,6 +22,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
     #if os(macOS)
     var body: some View {
         VStack {
+            /*
             Spacer()
             
             if isCheckmarkVisible {
@@ -60,6 +62,8 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             isCheckmarkVisible = true
 
         }
+             */
+        }
 
     }
     #endif
@@ -75,7 +79,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
                         .font(.title)
                         .zIndex(0)
                     
-                    Image(systemName: SFSymbolName.checkmarkCircle)
+                    Image(systemName: .checkmark)
                         .resizable()
                         .scaledToFit()
                         .foregroundColor(.green)
@@ -85,11 +89,12 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             }
             
             Spacer()
-            
+            /*
             Button(.createVault, action: model.createVault)
-                .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
-                .disabled(!enabledIntensions.contains(.forward))
+          //      .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
+                .disabled(!enabledIntensions.contains(.forward))*/
         }
+        /*
         .onReceive(model.error) { error in
             displayError = error
         }
@@ -106,7 +111,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 feedbackGenerator.notificationOccurred(.success)
             }
-        }
+        }*/
 
     }
     #endif

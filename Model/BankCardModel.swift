@@ -1,8 +1,9 @@
 import Combine
 import Foundation
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     
     var name: String { get set }
@@ -13,6 +14,7 @@ protocol BankCardModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+@MainActor
 class BankCardModel: BankCardModelRepresentable {
     
     @Published var name: String

@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,6 +11,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
     
     #if os(macOS)
     var body: some View {
+        /*
         PageNavigationView(.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
             VStack {
                 Spacer()
@@ -21,13 +23,13 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                     
                     Text(.chooseMasterPasswordDescription)
                         .font(.body)
-                        .foregroundColor(.secondaryLabel)
+                 //       .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
                 }
                 
                 Spacer()
                 
-                TextFieldShim(title: .localizedEnterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
+                //TextFieldShim(title: .localizedEnterMasterPassword, text: $model.password, isSecure: true, textStyle: .title2, alignment: .center, action: model.choosePassword)
                     .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()
@@ -35,11 +37,14 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 Spacer()
             }
         }
+         */
+        Text("foo")
     }
     #endif
     
     #if os(iOS)
     var body: some View {
+        /*
         PageNavigationView(.continue, isEnabled: !model.password.isEmpty, action: model.choosePassword) {
             VStack {
                 Spacer()
@@ -51,7 +56,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                     
                     Text(.chooseMasterPasswordDescription)
                         .font(.body)
-                        .foregroundColor(.secondaryLabel)
+      //                  .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
                 }
                 
@@ -67,6 +72,8 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 Spacer()
             }
         }
+         */
+        Text("foo")
     }
     #endif
     

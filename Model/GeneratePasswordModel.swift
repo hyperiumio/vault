@@ -2,23 +2,28 @@ import Combine
 import Crypto
 import Foundation
 
-class GeneratePasswordModel: ObservableObject {
+@MainActor
+protocol GeneratePasswordModelRepresentable: ObservableObject, Identifiable {
+    
+    var length: Int { get set }
+    var digitsEnabled: Bool { get set }
+    var symbolsEnabled: Bool { get set }
+    var password: String? { get set }
+    
+    func createPassword() async
+    
+}
+
+@MainActor
+class GeneratePasswordModel: GeneratePasswordModelRepresentable {
     
     @Published var length = 32
     @Published var digitsEnabled = true
     @Published var symbolsEnabled = true
     @Published var password: String?
     
-    private let operationQueue = DispatchQueue(label: "GeneratePasswordModelOperationQueue")
-    
-    func createPassword() {
-        Publishers.CombineLatest3($length, $digitsEnabled, $symbolsEnabled)
-            .receive(on: operationQueue)
-            .map { length, digitsEnabled, symbolsEnabled in
-                try? PasswordGenerator(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$password)
+    func createPassword() async {
+        
     }
     
 }

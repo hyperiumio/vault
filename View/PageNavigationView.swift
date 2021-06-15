@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct PageNavigationView<Content>: View where Content: View {
     
     private let title: LocalizedStringKey
@@ -60,14 +61,14 @@ struct PageNavigationView<Content>: View where Content: View {
                 content
                 
                 Button(title, action: action)
-                    .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
+             //       .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                     .disabled(!isEnabled)
             case .forwardBack(let enabledIntensions, let action):
                 HStack {
                     Button {
                         action(.backward)
                     } label: {
-                        Image(systemName: SFSymbolName.chevronLeftCircle)
+                        Image(systemName: .chevronLeft)
                             .imageScale(.large)
                     }
                     .disabled(!enabledIntensions.contains(.backward))
@@ -80,7 +81,7 @@ struct PageNavigationView<Content>: View where Content: View {
                 Button(title) {
                     action(.forward)
                 }
-                .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
+    //            .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                 .disabled(!enabledIntensions.contains(.forward))
             }
         }

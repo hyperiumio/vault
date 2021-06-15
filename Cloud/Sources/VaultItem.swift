@@ -13,13 +13,13 @@ public struct VaultItem {
     }
     
     init?(from record: CKRecord) {
-        guard let id = UUID(uuidString: record.recordID.recordName) else {
-            return nil
-        }
-        guard let vault = record[.vault] as? CKRecord.Reference, let vaultID = UUID(uuidString: vault.recordID.recordName) else {
-            return nil
-        }
-        guard let data = record[.data] as? CKAsset, let url = data.fileURL else {
+        guard
+            let id = UUID(uuidString: record.recordID.recordName),
+            let vault = record[.vault] as? CKRecord.Reference,
+            let vaultID = UUID(uuidString: vault.recordID.recordName),
+            let data = record[.data] as? CKAsset,
+            let url = data.fileURL
+        else {
             return nil
         }
         

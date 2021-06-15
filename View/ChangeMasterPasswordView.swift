@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -15,17 +16,18 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     var body: some View {
         List {
             Section {
-                SecureField(.newMasterPassword, text: $model.password)
+              //  SecureField(.newMasterPassword, text: $model.password)
                 
-                SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
+              //  SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
             }
             
             Section {
                 HStack {
                     Spacer()
                     
+                    /*
                     Button(.changeMasterPassword, action: model.changeMasterPassword)
-                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
+                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)*/
                     
                     Spacer()
                 }
@@ -34,6 +36,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
         .disabled(model.isLoading)
         .navigationBarTitle(.masterPassword, displayMode: .inline)
         .listStyle(GroupedListStyle())
+        /*
         .onReceive(model.error) { error in
             self.error = error
         }
@@ -44,7 +47,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             let title = Self.title(for: error)
             return Alert(title: title)
         }
-        .onAppear(perform: model.reset)
+        .onAppear(perform: model.reset)*/
     }
     #endif
     
@@ -52,22 +55,24 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
     var body: some View {
         List {
             Section {
-                SecureField(.newMasterPassword, text: $model.password)
+            //    SecureField(.newMasterPassword, text: $model.password)
                 
-                SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
+            //    SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
             }
             
             Section {
                 HStack {
                     Spacer()
+                    /*
                     
                     Button(.changeMasterPassword, action: model.changeMasterPassword)
-                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
+                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty) */
                     
                     Spacer()
                 }
             }
         }
+        /*
         .disabled(model.isLoading)
         .onReceive(model.error) { error in
             self.error = error
@@ -79,7 +84,7 @@ struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordMo
             let title = Self.title(for: error)
             return Alert(title: title)
         }
-        .onAppear(perform: model.reset)
+        .onAppear(perform: model.reset)*/
     }
     #endif
     

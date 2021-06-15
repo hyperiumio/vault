@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -15,6 +16,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
     
     #if os(macOS)
     var body: some View {
+        /*
         PageNavigationView(.continue, enabledIntensions: enabledIntensions) { intension in
             switch intension {
             case .forward:
@@ -33,20 +35,21 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                     
                     Text(.repeatMasterPasswordDescription)
                         .font(.body)
-                        .foregroundColor(.secondaryLabel)
+                //        .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
                 }
                 
                 Spacer()
                 
-                TextFieldShim(title: .localizedEnterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
-                    .frame(minHeight: TextStyle.title2.lineHeight)
+                //TextFieldShim(title: .localizedEnterMasterPassword, text: $model.repeatedPassword, isSecure: true, textStyle: .title2, alignment: .center, action: model.validatePassword)
+                //    .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()
                 
                 Spacer()
             }
         }
+         */        /*
         .onReceive(model.error) { error in
             displayError = error
         }
@@ -57,6 +60,8 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 return Alert(title: title)
             }
         }
+         */
+        Text("foo")
     }
     #endif
     
@@ -65,7 +70,8 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
         PageNavigationView(.continue, enabledIntensions: enabledIntensions) { intension in
             switch intension {
             case .forward:
-                model.validatePassword()
+                break
+              //  model.validatePassword()
             case .backward:
                 break
             }
@@ -80,7 +86,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                     
                     Text(.repeatMasterPasswordDescription)
                         .font(.body)
-                        .foregroundColor(.secondaryLabel)
+    //                    .foregroundColor(.secondaryLabel)
                         .multilineTextAlignment(.center)
                 }
                 
@@ -99,6 +105,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 
             }
         }
+        /*
         .onReceive(model.error) { error in
             displayError = error
         }
@@ -108,7 +115,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 let title = Text(.invalidPassword)
                 return Alert(title: title)
             }
-        }
+        }*/
     }
     #endif
     

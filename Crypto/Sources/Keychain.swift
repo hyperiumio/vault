@@ -3,7 +3,7 @@ import Foundation
 import LocalAuthentication
 import Security
 
-public struct Keychain {
+public actor Keychain {
     
     let attributeBuilder: KeychainAttributeBuilder
     let configuration: Configuration
@@ -16,66 +16,58 @@ public struct Keychain {
     }
     
     public func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {
-        try await Self.operationQueue.dispatch {
-            let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
-            let deleteStatus = configuration.delete(deleteQuery)
-            guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
-                throw CryptoError.keychainDeleteFailed
-            }
-            
-            let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, context: configuration.context)
-            let addStatus = configuration.store(addAttributes, nil)
-            guard addStatus == errSecSuccess else {
-                throw CryptoError.keychainStoreFailed
-            }
+        let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
+        let deleteStatus = configuration.delete(deleteQuery)
+        guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
+            throw CryptoError.keychainDeleteFailed
+        }
+        
+        let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, context: configuration.context)
+        let addStatus = configuration.store(addAttributes, nil)
+        guard addStatus == errSecSuccess else {
+            throw CryptoError.keychainStoreFailed
         }
     }
     
     public func loadSecret(forKey key: String) async throws -> Data? {
-        try await Self.operationQueue.dispatch {
-            let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
-            var item: CFTypeRef?
-            let status = configuration.load(loadQuery, &item)
-            switch status {
-            case errSecSuccess:
-                guard let data = item as? Data else {
-                    throw CryptoError.keychainLoadFailed
-                }
-                return data
-            case errSecUserCanceled:
-                return nil
-            default:
+        let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
+        var item: CFTypeRef?
+        let status = configuration.load(loadQuery, &item)
+        switch status {
+        case errSecSuccess:
+            guard let data = item as? Data else {
                 throw CryptoError.keychainLoadFailed
             }
+            return data
+        case errSecUserCanceled:
+            return nil
+        default:
+            throw CryptoError.keychainLoadFailed
         }
     }
     
     public func deleteSecret(forKey key: String) async throws {
-        try await Self.operationQueue.dispatch {
-            let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
-            let status = configuration.delete(deleteQuery)
-            guard status == errSecSuccess || status == errSecItemNotFound else {
-                throw CryptoError.keychainDeleteFailed
-            }
+        let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
+        let status = configuration.delete(deleteQuery)
+        guard status == errSecSuccess || status == errSecItemNotFound else {
+            throw CryptoError.keychainDeleteFailed
         }
     }
     
     public func availability() async -> Availability {
-        return await Self.operationQueue.dispatch { [configuration] in
-            var error: NSError?
-            let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-            let biometryType = configuration.context.biometryType
-            
-            switch (canEvaluate, biometryType, error?.code) {
-            case (true, .touchID, _):
-                return .enrolled(.touchID)
-            case (true, .faceID, _):
-                return .enrolled(.faceID)
-            case (false, _, LAError.biometryNotEnrolled.rawValue):
-                return .notEnrolled
-            default:
-                return .notAvailable
-            }
+        var error: NSError?
+        let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+        let biometryType = configuration.context.biometryType
+        
+        switch (canEvaluate, biometryType, error?.code) {
+        case (true, .touchID, _):
+            return .enrolled(.touchID)
+        case (true, .faceID, _):
+            return .enrolled(.faceID)
+        case (false, _, LAError.biometryNotEnrolled.rawValue):
+            return .notEnrolled
+        default:
+            return .notAvailable
         }
     }
     
@@ -114,32 +106,4 @@ extension Keychain {
     
 }
 
-extension Keychain {
-    
-    private static let operationQueue = DispatchQueue(label: "KeychainOperationQueue")
-    
-}
-
 extension LAContext: KeychainContext {}
-
-private extension DispatchQueue {
-    
-    func dispatch<T>(body: @escaping () throws -> T) async throws -> T {
-        try await withCheckedThrowingContinuation { continuation in
-            async {
-                let result = Result(catching: body)
-                continuation.resume(with: result)
-            }
-        }
-    }
-    
-    func dispatch<T>(body: @escaping () -> T) async -> T {
-        await withCheckedContinuation { continuation in
-            async {
-                let value = body()
-                continuation.resume(returning: value)
-            }
-        }
-    }
-    
-}

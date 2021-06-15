@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -12,6 +13,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     #if os(iOS)
     var body: some View {
+        /*
         NavigationView {
             Group {
                 switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
@@ -23,7 +25,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         Button(.createFirstItem) {
                             presentedSheet = .selectCategory
                         }
-                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
+          //              .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
                     }
                 case (true, false):
                     Text(.noResultsFound)
@@ -42,7 +44,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                             }
                         }
                     }
-                    .searchBar($model.searchText)
+                    .searchable(text: $model.searchText)
                     .listStyle(PlainListStyle())
                 }
             }
@@ -125,11 +127,13 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 model.lockApp(enableBiometricUnlock: true)
             }
         }
+         */
+        Text("")
     }
     #endif
     
     #if os(macOS)
-    var body: some View {
+    var body: some View {/*
         NavigationView {
             VStack(spacing: 5) {
                 SearchBar(text: $model.searchText)
@@ -248,6 +252,8 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 presentedSheet = nil
             }
         }
+         */
+        Text("")
     }
     #endif
     
@@ -293,9 +299,9 @@ struct SearchBar: View {
     var body: some View {
         HStack(spacing: 5) {
             Image(systemName: SFSymbolName.magnifyingglass)
-                .foregroundColor(.secondaryLabel)
+        //        .foregroundColor(.secondaryLabel)
             
-            TextFieldShim(title: .localizedSearch, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
+            //TextFieldShim(title: .localizedSearch, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
         }
         .padding(.vertical, 5)
         .padding(.horizontal, 5)

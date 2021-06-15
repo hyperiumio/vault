@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct SecureItemField<Content>: View where Content: View {
     
     private let title: LocalizedStringKey
@@ -14,7 +15,7 @@ struct SecureItemField<Content>: View where Content: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(.secondaryLabel)
+ //               .foregroundColor(.secondaryLabel)
             
             content
         }

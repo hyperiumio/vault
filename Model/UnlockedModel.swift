@@ -3,17 +3,18 @@ import Crypto
 import Foundation
 import Preferences
 import Search
-import Storage
+import Persistence
 import Sort
 import UniformTypeIdentifiers
 
+@MainActor
 protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     
     associatedtype SettingsModel: SettingsModelRepresentable
     associatedtype VaultItemModel: VaultItemModelRepresentable
     associatedtype VaultItemReferenceModel: VaultItemReferenceModelRepresentable
     
-    typealias Collation = AlphabeticCollation<VaultItemReferenceModel>
+    typealias Collation = AlphabeticCollation<VaultItemReferenceModelCollationIdentifier>
     
     var store: Store { get }
     var searchText: String { get set }
@@ -21,7 +22,6 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     var settingsModel: SettingsModel { get }
     var creationModel: VaultItemModel? { get set }
     var failure: UnlockedFailure? { get set }
-    var lockRequest: AnyPublisher<Bool, Never> { get }
     
     func createLoginItem()
     func createPasswordItem()
@@ -34,6 +34,7 @@ protocol UnlockedModelRepresentable: ObservableObject, Identifiable {
     func lockApp(enableBiometricUnlock: Bool)
 }
 
+@MainActor
 protocol UnlockedModelDependency {
     
     associatedtype SettingsModel: SettingsModelRepresentable
@@ -42,91 +43,29 @@ protocol UnlockedModelDependency {
     
     func settingsModel() -> SettingsModel
     func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel
-    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: Store.ItemLocator) -> VaultItemReferenceModel
+    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: StoreItemLocator) -> VaultItemReferenceModel
 
 }
 
-enum UnlockedFailure {
-    
-    case loadOperationFailed
-    case deleteOperationFailed
-    
-}
-
-extension UnlockedFailure: Identifiable {
-    
-    var id: Self { self }
-    
-}
-
+@MainActor
 class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresentable {
     
     typealias SettingsModel = Dependency.SettingsModel
     typealias VaultItemModel = Dependency.VaultItemModel
     typealias VaultItemReferenceModel = Dependency.VaultItemReferenceModel
     
-    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModel>
+    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceModelCollationIdentifier>
     @Published var searchText: String = ""
     @Published var creationModel: VaultItemModel?
     @Published var failure: UnlockedFailure?
     
-    var lockRequest: AnyPublisher<Bool, Never> {
-        lockRequestSubject.eraseToAnyPublisher()
-    }
     
     let settingsModel: SettingsModel
-    
     let store: Store
-    
     private let dependency: Dependency
-    private let operationQueue = DispatchQueue(label: "UnlockedModelOperationQueue")
-    private let lockRequestSubject = PassthroughSubject<Bool, Never>()
     
-    init(store: Store, itemIndex: [Store.ItemLocator: StoreItemInfo], dependency: Dependency) {
-        let referenceModels = itemIndex.map { itemLocator, itemInfo in
-            dependency.vaultItemReferenceModel(itemInfo: itemInfo, itemLocator: itemLocator)
-        }
-        
-        self.store = store
-        self.settingsModel = dependency.settingsModel()
-        self.dependency = dependency
-        self.itemCollation = AlphabeticCollation(from: referenceModels)
-        
-        let itemIndexDidChange = store.didChange
-            .scan(itemIndex) { itemIndex, change in
-                var itemIndex = itemIndex
-                
-                for itemLocator in change.deleted {
-                    itemIndex[itemLocator] = nil
-                }
-                for (itemLocator, storeItem) in change.added {
-                    itemIndex[itemLocator] = storeItem.info
-                }
-                
-                return itemIndex
-            }
-        
-        Publishers.CombineLatest(itemIndexDidChange, $searchText)
-            .receive(on: operationQueue)
-            .map { itemIndex, searchText in
-                itemIndex
-                    .filter { _, itemInfo in
-                        Match(searchText, in: itemInfo.name)
-                    }
-                    .map { itemLocator, itemInfo in
-                        dependency.vaultItemReferenceModel(itemInfo: itemInfo, itemLocator: itemLocator)
-                    }
-            }
-            .map(AlphabeticCollation.init)
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$itemCollation)
-          
-        $creationModel
-            .compactMap { model in model }
-            .flatMap { model in model.done }
-            .map { nil }
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$creationModel)
+    init(store: Store, itemIndex: [StoreItemLocator: StoreItemInfo], dependency: Dependency) {
+        fatalError()
     }
     
     func createLoginItem() {
@@ -178,8 +117,21 @@ class UnlockedModel<Dependency: UnlockedModelDependency>: UnlockedModelRepresent
     }
     
     func lockApp(enableBiometricUnlock: Bool) {
-        lockRequestSubject.send(enableBiometricUnlock)
+    //    lockRequestSubject.send(enableBiometricUnlock)
     }
+    
+}
+
+enum UnlockedFailure {
+    
+    case loadOperationFailed
+    case deleteOperationFailed
+    
+}
+
+extension UnlockedFailure: Identifiable {
+    
+    var id: Self { self }
     
 }
 

@@ -1,7 +1,8 @@
 import Combine
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol NoteModelRepresentable: ObservableObject, Identifiable {
     
     var text: String { get set }
@@ -9,6 +10,7 @@ protocol NoteModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+@MainActor
 class NoteModel: NoteModelRepresentable {
     
     @Published var text: String

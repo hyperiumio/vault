@@ -1,6 +1,7 @@
-import Storage
+import Persistence
 import SwiftUI
 
+#warning("Todo")
 struct VaultItemInfoView: View {
     
     private let title: String
@@ -16,18 +17,23 @@ struct VaultItemInfoView: View {
     var body: some View {
         Label {
             VStack(alignment: .leading, spacing: 2) {
-                TextShim(title, textStyle: .body, color: .label)
-                
+                //Text(title, textStyle: .body, color: .label)
+                /*
                 if let description = description {
-                    TextShim(description, textStyle: .footnote, color: .secondaryLabel)
-                }
+                    //Text(description, textStyle: .footnote, color: .secondaryLabel)
+                }*/
+            }
+            .alignmentGuide(.firstTextBaseline) { dimension in
+                dimension[VerticalAlignment.center]
             }
             
         } icon: {
             Self.image(for: type)
                 .foregroundColor(.accentColor)
+                .alignmentGuide(.firstTextBaseline) { dimension in
+                    dimension[VerticalAlignment.center]
+                }
         }
-        .labelStyle(CenteredLabelStyle())
         .padding(.vertical, 4)
     }
     
@@ -38,21 +44,21 @@ private extension VaultItemInfoView {
     static func image(for type: SecureItemType) -> Image {
         switch type {
         case .password:
-            return Image(systemName: SFSymbolName.keyFill)
+            return Image(systemName: .key)
         case .login:
-            return Image(systemName: SFSymbolName.personFill)
+            return Image(systemName: .person)
         case .file:
-            return Image(systemName: SFSymbolName.paperclip)
+            return Image(systemName: .paperclip)
         case .note:
-            return Image(systemName: SFSymbolName.noteText)
+            return Image(systemName: .noteText)
         case .bankCard:
-            return Image(systemName: SFSymbolName.creditcard)
+            return Image(systemName: .creditcard)
         case .wifi:
-            return Image(systemName: SFSymbolName.wifi)
+            return Image(systemName: .wifi)
         case .bankAccount:
-            return Image(systemName: SFSymbolName.dollarsignCircle)
+            return Image(systemName: .dollarsign)
         case .custom:
-            return Image(systemName: SFSymbolName.scribbleVariable)
+            return Image(systemName: .scribbleVariable)
         }
     }
     

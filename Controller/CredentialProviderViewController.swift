@@ -2,13 +2,13 @@ import AuthenticationServices
 import Combine
 import Crypto
 import Foundation
-import Identifier
 import Preferences
 import SwiftUI
 
 class CredentialProviderViewController: ASCredentialProviderViewController {
 
     private lazy var mainModel: QuickAccessModel<QuickAccessDependency>? = {
+        /*
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: .appGroup) else {
             return nil
         }
@@ -32,6 +32,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
             }
         
         return model
+         */
+        fatalError()
     }()
     
     private var didSelectSubscription: AnyCancellable?

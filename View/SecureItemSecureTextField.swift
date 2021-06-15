@@ -1,6 +1,7 @@
 import Pasteboard
 import SwiftUI
 
+#warning("Todo")
 struct SecureItemSecureTextField: View {
     
     private let title: LocalizedStringKey
@@ -31,12 +32,12 @@ struct SecureItemSecureTextField: View {
                     secureDisplay.toggle()
                 } label: {
                     if secureDisplay {
-                        Image(systemName: SFSymbolName.eyeSlash)
+        //                Image(systemName: SFSymbolName.eyeSlash)
                     } else {
-                        Image(systemName: SFSymbolName.eye)
+                        Image(systemName: .eye)
                     }
                 }
-                .buttonStyle(PlainButtonStyle())
+                .buttonStyle(.plain)
                 .foregroundColor(.accentColor)
                 .padding(.trailing)
             }

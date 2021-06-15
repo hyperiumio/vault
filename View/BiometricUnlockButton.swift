@@ -1,37 +1,43 @@
-import Crypto
 import SwiftUI
 
 struct BiometricUnlockButton: View {
     
-    private let biometryType: Keychain.BiometryType
+    private let biometryType: BiometryType
     private let action: () -> Void
     
-    init(_ biometryType: Keychain.BiometryType, action: @escaping () -> Void) {
+    init(_ biometryType: BiometryType, action: @escaping () -> Void) {
         self.biometryType = biometryType
         self.action = action
     }
     
     var body: some View {
         Button(action: action) {
-            Self.image(for: biometryType)
+            Image(systemName: biometryType.symbolName)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.accentColor)
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.plain)
     }
     
 }
 
-private extension BiometricUnlockButton {
+extension BiometricUnlockButton {
     
-    static func image(for biometryType: Keychain.BiometryType) -> Image {
-        switch biometryType {
-        case .touchID:
-            return Image(systemName: SFSymbolName.touchid)
-        case .faceID:
-            return Image(systemName: SFSymbolName.faceid)
+    enum BiometryType {
+        
+        case touchID
+        case faceID
+        
+        var symbolName: String {
+            switch self {
+            case .touchID:
+                return .touchid
+            case .faceID:
+                return .faceid
+            }
         }
+        
     }
     
 }
@@ -40,20 +46,9 @@ private extension BiometricUnlockButton {
 struct BiometricUnlockButtonPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            BiometricUnlockButton(.faceID) {}
-                .preferredColorScheme(.light)
-            
-            BiometricUnlockButton(.touchID) {}
-                .preferredColorScheme(.light)
-            
-            BiometricUnlockButton(.faceID) {}
-                .preferredColorScheme(.dark)
-            
-            BiometricUnlockButton(.touchID) {}
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        BiometricUnlockButton(.faceID) {}
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

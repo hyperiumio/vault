@@ -118,75 +118,33 @@ extension LocalizedStringKey {
     static var noResultsFound: Self { "NoResultsFound" }
     static var security: Self { "Security" }
     
+    static func localizedCharacters(_ count: Int) -> Self { "\(count) characters" }
+    
 }
 
 extension String {
     
-    static var localizedSearch: Self { NSLocalizedString("Search", comment: "") }
-    static var localizedMasterPassword: Self { NSLocalizedString("MasterPassword", comment: "") }
-    static var localizedEnterMasterPassword: Self { NSLocalizedString("EnterMasterPassword", comment: "") }
-    static var localizedTitle: Self { NSLocalizedString("Title", comment: "") }
-    static func localizedCharacters(_ count: Int) -> Self { localizedStringWithFormat("%d characters", count) }
+    static var person: Self { "person" }
+    static var key: Self { "key" }
+    static var noteText: Self { "note.text" }
+    static var creditcard: Self { "creditcard" }
+    static var wifi: Self { "wifi" }
+    static var dollarsign: Self { "dollarsign" }
+    static var scribbleVariable: Self { "scribble.variable" }
+    static var touchid: Self { "touchid" }
+    static var faceid: Self { "faceid" }
+    static var eye: Self { "eye" }
+    static var plus: Self { "plus" }
+    static var lock: Self { "lock" }
+    static var sliderHorizontal3: Self { "slider.horizontal.3" }
+    static var chevronLeft: Self { "chevron.left" }
+    static var chevronRight: Self { "chevron.right" }
+    static var magnifyingglass: Self { "magnifyingglass" }
+    static var paperclip: Self { "paperclip" }
+    static var camera: Self { "camera" }
+    static var docTextViewfinder: Self { "doc.text.viewfinder" }
+    static var photoOnRectangle: Self { "photo.on.rectangle" }
+    static var checkmark: Self { "checkmark" }
+    static var exclamationmarkTriangle: Self { "exclamationmark.triangle" }
     
 }
-
-enum SFSymbolName {
-    
-    static var personFill: String { "person.fill" }
-    static var keyFill: String { "key.fill" }
-    static var noteText: String { "note.text" }
-    static var creditcard: String { "creditcard" }
-    static var wifi: String { "wifi" }
-    static var dollarsignCircle: String { "dollarsign.circle" }
-    static var scribbleVariable: String { "scribble.variable" }
-    static var touchid: String { "touchid" }
-    static var faceid: String { "faceid" }
-    static var exclamationmarkTriangle: String { "exclamationmark.triangle" }
-    static var eyeSlash: String { "eye.slash" }
-    static var eye: String { "eye" }
-    static var plus: String { "plus" }
-    static var lockFill: String { "lock.fill" }
-    static var sliderHorizontal3: String { "slider.horizontal.3" }
-    static var chevronLeftCircle: String { "chevron.left.circle" }
-    static var chevronRightCircle: String { "chevron.right.circle" }
-    static var magnifyingglass: String { "magnifyingglass" }
-    static var paperclip: String { "paperclip" }
-    static var camera: String { "camera" }
-    static var docTextViewfinder: String { "doc.text.viewfinder" }
-    static var photoOnRectangle: String { "photo.on.rectangle" }
-    static var checkmarkCircle: String { "checkmark.circle" }
-    static var exclamationmarkTriangleFill: String { "exclamationmark.triangle.fill" }
-    
-}
-
-
-#if canImport(AppKit)
-import AppKit
-
-extension Color {
-    
-    static let systemBackground = Self(.textBackgroundColor)
-    static let textFieldBackground = Self(.windowBackgroundColor)
-    static let label = Self(.labelColor)
-    static let secondaryLabel = Self(.secondaryLabelColor)
-    static let tertiaryLabel = Self(.tertiaryLabelColor)
-    static let quaternaryLabel = Self(.quaternaryLabelColor)
-    
-}
-
-#endif
-
-#if canImport(UIKit)
-import UIKit
-
-extension Color {
-    
-    static let systemBackground = Self(.systemBackground)
-    static let textFieldBackground = Self(.secondarySystemBackground)
-    static let label = Self(.label)
-    static let secondaryLabel = Self(.secondaryLabel)
-    static let tertiaryLabel = Self(.tertiaryLabel)
-    static let quaternaryLabel = Self(.quaternaryLabel)
-    
-}
-#endif

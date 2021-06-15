@@ -11,7 +11,7 @@ public protocol PreferencesStore: AnyObject {
     
 }
 
-public class Preferences {
+public actor Preferences {
     
     public var didChange: AnyPublisher<Value, Never> {
         didChangeSubject

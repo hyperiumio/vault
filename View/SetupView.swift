@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct SetupView<Model>: View where Model: SetupModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -116,14 +117,9 @@ struct SetupViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        Group {
-            SetupView(model)
-                .preferredColorScheme(.light)
-            
-            SetupView(model)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        SetupView(model)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

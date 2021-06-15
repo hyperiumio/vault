@@ -1,6 +1,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+#warning("Todo")
 #if os(iOS)
 struct SelectCategoryView: View {
     
@@ -20,37 +21,37 @@ struct SelectCategoryView: View {
         NavigationView {
             List {
                 Group {
-                    ItemButton(.login, imageName: SFSymbolName.personFill) {
+                    ItemButton(.login, imageName: .person) {
                         action(.login)
                     }
                     
-                    ItemButton(.password, imageName: SFSymbolName.keyFill) {
+                    ItemButton(.password, imageName: .key) {
                         action(.password)
                     }
                     
-                    ItemButton(.wifi, imageName: SFSymbolName.wifi) {
+                    ItemButton(.wifi, imageName: .wifi) {
                         action(.wifi)
                     }
                     
-                    ItemButton(.note, imageName: SFSymbolName.noteText) {
+                    ItemButton(.note, imageName: .noteText) {
                         action(.note)
                     }
                     
-                    ItemButton(.bankCard, imageName: SFSymbolName.creditcard) {
+                    ItemButton(.bankCard, imageName: .creditcard) {
                         action(.bankCard)
                     }
                     
-                    ItemButton(.bankAccount, imageName: SFSymbolName.dollarsignCircle) {
+                    ItemButton(.bankAccount, imageName: .dollarsign) {
                         action(.bankAccount)
                     }
                     
-                    ItemButton(.custom, imageName: SFSymbolName.scribbleVariable) {
+                    ItemButton(.custom, imageName: .scribbleVariable) {
                         action(.custom)
                     }
                 }
                 
                 Group {
-                    ItemButton(.photo, imageName: SFSymbolName.camera) {
+                    ItemButton(.photo, imageName: .camera) {
                         isShowingCameraView = true
                     }
                     .fullScreenCover(isPresented: $isShowingCameraView) {
@@ -62,7 +63,7 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(.document, imageName: SFSymbolName.docTextViewfinder) {
+                    ItemButton(.document, imageName: .docTextViewfinder) {
                         isShowingScannerView = true
                     }
                     .fullScreenCover(isPresented: $isShowingScannerView) {
@@ -74,7 +75,7 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(.image, imageName: SFSymbolName.photoOnRectangle) {
+                    ItemButton(.image, imageName: .photoOnRectangle) {
                         isShowingImagePicker = true
                     }
                     .sheet(isPresented: $isShowingImagePicker) {
@@ -86,17 +87,19 @@ struct SelectCategoryView: View {
                         }
                     }
                     
-                    ItemButton(.file, imageName: SFSymbolName.paperclip) {
+                    ItemButton(.file, imageName: .paperclip) {
                         isShowingFilePicker = true
                         
                     }
                     .sheet(isPresented: $isShowingFilePicker) {
+                        /*
                         FilePickerShim { output in
                             guard let output = output else { return }
                             
                             let selection = Selection.file(data: output.data, type: output.type)
                             action(selection)
                         }
+                         */
                     }
                 }
             }

@@ -1,8 +1,9 @@
 import Combine
 import Crypto
 import Foundation
-import Storage
+import Persistence
 
+@MainActor
 protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable {
     
     associatedtype LoginModel: LoginModelRepresentable
@@ -21,7 +22,6 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable 
     var secondaryItemModels: [Element] { get }
     var created: Date? { get }
     var modified: Date? { get }
-    var done: AnyPublisher<Void, Never> { get }
     
     func addSecondaryItem(with type: SecureItemType)
     func deleteSecondaryItem(at index: Int)
@@ -31,6 +31,7 @@ protocol VaultItemModelRepresentable: ObservableObject, Identifiable, Equatable 
     
 }
 
+@MainActor
 protocol VaultItemModelDependency {
     
     associatedtype LoginModel: LoginModelRepresentable
@@ -53,6 +54,90 @@ protocol VaultItemModelDependency {
     
 }
 
+@MainActor
+class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepresentable {
+    
+    typealias LoginModel = Dependency.LoginModel
+    typealias PasswordModel = Dependency.PasswordModel
+    typealias FileModel = Dependency.FileModel
+    typealias NoteModel = Dependency.NoteModel
+    typealias BankCardModel = Dependency.BankCardModel
+    typealias WifiModel = Dependency.WifiModel
+    typealias BankAccountModel = Dependency.BankAccountModel
+    typealias CustomModel = Dependency.CustomItemModel
+    
+    @Published var title = ""
+    @Published var primaryItemModel: Element
+    @Published var secondaryItemModels: [Element]
+    
+    var created: Date? { originalStoreItem?.created }
+    var modified: Date? { originalStoreItem?.modified }
+    
+    private let store: Store
+    private let originalItemLocator: StoreItemLocator?
+    private let originalStoreItem: StoreItem?
+    private let masterKey: MasterKey
+    private let dependency: Dependency
+    private let doneSubject = PassthroughSubject<Void, Never>()
+    private var addItemSubscription: AnyCancellable?
+    private var saveSubscription: AnyCancellable?
+    private var deleteSubscription: AnyCancellable?
+    
+    init(storeItem: StoreItem, itemLocator: StoreItemLocator, store: Store, masterKey: MasterKey, dependency: Dependency) {
+        /*
+        self.originalStoreItem = storeItem
+        self.originalItemLocator = itemLocator
+        self.store = store
+        self.masterKey = masterKey
+        self.dependency = dependency
+        self.title = storeItem.name
+        self.primaryItemModel = dependency.vaultItemElement(from: storeItem.primaryItem)
+        self.secondaryItemModels = storeItem.secondaryItems.map(dependency.vaultItemElement)
+         */
+        fatalError()
+    }
+    
+    init(secureItem: SecureItem, store: Store, masterKey: MasterKey, dependency: Dependency) {
+        self.originalStoreItem = nil
+        self.originalItemLocator = nil
+        self.store = store
+        self.masterKey = masterKey
+        self.dependency = dependency
+        self.primaryItemModel = dependency.vaultItemElement(from: secureItem)
+        self.secondaryItemModels = []
+    }
+    
+    func addSecondaryItem(with type: SecureItemType) {
+        
+    }
+    
+    func deleteSecondaryItem(at index: Int) {
+        secondaryItemModels.remove(at: index)
+    }
+    
+    func discardChanges() {
+        guard let originalVaultItem = originalStoreItem else { return }
+        
+        title = originalVaultItem.name
+        primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primaryItem)
+      //  secondaryItemModels = originalVaultItem.secondaryItems.map(dependency.vaultItemElement)
+    }
+    
+    func save() {
+
+    }
+    
+    func delete() {
+
+    }
+    
+    nonisolated static func == (lhs: VaultItemModel<Dependency>, rhs: VaultItemModel<Dependency>) -> Bool {
+        lhs === rhs
+    }
+    
+}
+
+@MainActor
 enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: PasswordModelRepresentable, FileModel: FileModelRepresentable, NoteModel: NoteModelRepresentable, BankCardModel: BankCardModelRepresentable, WifiModel: WifiModelRepresentable, BankAccountModel: BankAccountModelRepresentable, CustomItemModel: CustomModelRepresentable>: Identifiable {
     
     case login(LoginModel)
@@ -64,7 +149,7 @@ enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: Passwo
     case bankAccount(BankAccountModel)
     case custom(CustomItemModel)
     
-    var id: ObjectIdentifier {
+    nonisolated var id: ObjectIdentifier {
         switch self {
         case .login(let model):
             return model.id
@@ -104,121 +189,6 @@ enum VaultItemElement<LoginModel: LoginModelRepresentable, PasswordModel: Passwo
         case .custom(let model):
             return SecureItem.custom(model.item)
         }
-    }
-    
-}
-
-class VaultItemModel<Dependency: VaultItemModelDependency>: VaultItemModelRepresentable {
-    
-    typealias LoginModel = Dependency.LoginModel
-    typealias PasswordModel = Dependency.PasswordModel
-    typealias FileModel = Dependency.FileModel
-    typealias NoteModel = Dependency.NoteModel
-    typealias BankCardModel = Dependency.BankCardModel
-    typealias WifiModel = Dependency.WifiModel
-    typealias BankAccountModel = Dependency.BankAccountModel
-    typealias CustomModel = Dependency.CustomItemModel
-    
-    @Published var title = ""
-    @Published var primaryItemModel: Element
-    @Published var secondaryItemModels: [Element]
-    
-    var created: Date? { originalStoreItem?.created }
-    var modified: Date? { originalStoreItem?.modified }
-    
-    var done: AnyPublisher<Void, Never> {
-        doneSubject.eraseToAnyPublisher()
-    }
-    
-    private let store: Store
-    private let originalItemLocator: Store.ItemLocator?
-    private let originalStoreItem: StoreItem?
-    private let masterKey: MasterKey
-    private let dependency: Dependency
-    private let doneSubject = PassthroughSubject<Void, Never>()
-    private var addItemSubscription: AnyCancellable?
-    private var saveSubscription: AnyCancellable?
-    private var deleteSubscription: AnyCancellable?
-    
-    init(storeItem: StoreItem, itemLocator: Store.ItemLocator, store: Store, masterKey: MasterKey, dependency: Dependency) {
-        self.originalStoreItem = storeItem
-        self.originalItemLocator = itemLocator
-        self.store = store
-        self.masterKey = masterKey
-        self.dependency = dependency
-        self.title = storeItem.name
-        self.primaryItemModel = dependency.vaultItemElement(from: storeItem.primaryItem)
-        self.secondaryItemModels = storeItem.secondaryItems.map(dependency.vaultItemElement)
-    }
-    
-    init(secureItem: SecureItem, store: Store, masterKey: MasterKey, dependency: Dependency) {
-        self.originalStoreItem = nil
-        self.originalItemLocator = nil
-        self.store = store
-        self.masterKey = masterKey
-        self.dependency = dependency
-        self.primaryItemModel = dependency.vaultItemElement(from: secureItem)
-        self.secondaryItemModels = []
-    }
-    
-    func addSecondaryItem(with type: SecureItemType) {
-        
-    }
-    
-    func deleteSecondaryItem(at index: Int) {
-        secondaryItemModels.remove(at: index)
-    }
-    
-    func discardChanges() {
-        guard let originalVaultItem = originalStoreItem else { return }
-        
-        title = originalVaultItem.name
-        primaryItemModel = dependency.vaultItemElement(from: originalVaultItem.primaryItem)
-        secondaryItemModels = originalVaultItem.secondaryItems.map(dependency.vaultItemElement)
-    }
-    
-    func save() {
-        let now = Date()
-        let id = originalStoreItem?.id ?? UUID()
-        let primaryItem = primaryItemModel.secureItem
-        let secondaryItems = secondaryItemModels.map(\.secureItem)
-        let created = originalStoreItem?.created ?? now
-        let modified = now
-        let storeItem = StoreItem(id: id, name: title, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-        
-        let deleteOperation = originalItemLocator.map { locator in
-            Store.DeleteItemOperation(locator)
-        }
-        let saveOperation = Store.SaveItemOperation(storeItem) { [masterKey] encodedSecureItems in
-            try SecureDataMessage.encryptContainer(from: encodedSecureItems, using: masterKey)
-        }
-        saveSubscription = store.execute(deleteOperation: deleteOperation, saveOperation: saveOperation)
-            .receive(on: DispatchQueue.main)
-            .sink { completion in
-                if case .failure = completion {
-                // should show error
-                }
-            } receiveValue: { [doneSubject] in
-                doneSubject.send()
-            }
-    }
-    
-    func delete() {
-        guard let itemLocator = originalItemLocator else {
-            return
-        }
-        
-        let deleteOperation = Store.DeleteItemOperation(itemLocator)
-        deleteSubscription = store.execute(deleteOperation: deleteOperation)
-            .sink { completion in
-                
-            } receiveValue: {
-                
-            }
-    }
-    
-    static func == (lhs: VaultItemModel<Dependency>, rhs: VaultItemModel<Dependency>) -> Bool {
-        lhs === rhs
     }
     
 }
@@ -289,7 +259,7 @@ class VaultItemModelStub: VaultItemModelRepresentable {
         self.secondaryItemModels = secondaryItemModels
     }
     
-    static func == (lhs: VaultItemModelStub, rhs: VaultItemModelStub) -> Bool {
+    nonisolated static func == (lhs: VaultItemModelStub, rhs: VaultItemModelStub) -> Bool {
         lhs === rhs
     }
     

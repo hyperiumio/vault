@@ -1,9 +1,10 @@
 import Crypto
 import Foundation
 import Preferences
-import Storage
+import Persistence
 import Sort
 
+@MainActor
 struct QuickAccessDependency: QuickAccessModelDependency {
     
     private let preferences: Preferences

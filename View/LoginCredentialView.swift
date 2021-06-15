@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct LoginCredentialView: View {
     
     private let title: String
@@ -16,16 +17,16 @@ struct LoginCredentialView: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(.body)
-                .foregroundColor(.label)
+//                .foregroundColor(.label)
             
             Text(username)
                 .font(.footnote)
-                .foregroundColor(.secondaryLabel)
+//                .foregroundColor(.secondaryLabel)
             
             if let url = url {
                 Text(url)
                     .font(.footnote)
-                    .foregroundColor(.secondaryLabel)
+//                    .foregroundColor(.secondaryLabel)
             }
         }
     }

@@ -9,23 +9,28 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
     }
     
     var body: some View {
-        switch model.status {
+        switch model.state {
         case .initialized, .loading, .loaded:
             EmptyView()
         case .loadingFailed:
             VStack {
-                Image(systemName: SFSymbolName.exclamationmarkTriangleFill)
-                    .renderingMode(.original)
+                Image(systemName: .exclamationmarkTriangle)
                     .resizable()
                     .scaledToFit()
+                    .symbolVariant(.fill)
+                    .symbolRenderingMode(.multicolor)
                     .frame(width: 50, height: 50)
                 
                 Text(.appLaunchFailure)
                     .font(.title2)
                 
-                Button(.retry, action: model.load)
-                    .keyboardShortcut(.defaultAction)
-                    .padding()
+                Spacer()
+                    .frame(height: 50)
+                
+                Button(.retry, role: nil) {
+                    await model.load()
+                }
+                .keyboardShortcut(.defaultAction)
             }
         }
     }
@@ -35,17 +40,12 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
 #if DEBUG
 struct BootStrapViewPreview: PreviewProvider {
     
-    static let model = BootstrapModelStub(status: .loadingFailed)
+    static let model = BootstrapModelStub(state: .loadingFailed)
     
     static var previews: some View {
-        Group {
-            BootstrapView(model)
-                .preferredColorScheme(.light)
-            
-            BootstrapView(model)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        BootstrapView(model)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

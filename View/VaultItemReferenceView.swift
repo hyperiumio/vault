@@ -1,6 +1,7 @@
-import Storage
+import Persistence
 import SwiftUI
 
+#warning("Todo")
 struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -22,8 +23,9 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                     Text(.loadingVaultItemFailed)
                         .font(.title3)
                     
+                    /*
                     Button(.retry, action: model.load)
-                        .padding()
+                        .padding()*/
                 }
             case .loaded(let model):
                 VaultItemView(model)
@@ -31,7 +33,7 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-                SecureItemTypeView(model.info.primaryType)
+             //   SecureItemTypeView(model.info.primaryType)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
@@ -54,8 +56,9 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                     Text(.loadingVaultItemFailed)
                         .font(.title3)
                     
+                    /*
                     Button(.retry, action: model.load)
-                        .padding()
+                        .padding()*/
                 }
             case .loaded(let model):
                 VaultItemView(model)

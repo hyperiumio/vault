@@ -1,26 +1,21 @@
 import Combine
 
+@MainActor
 protocol ChoosePasswordModelRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
-    var done: AnyPublisher<Void, Never> { get }
     
-    func choosePassword()
+    func choosePassword() async
     
 }
 
+@MainActor
 class ChoosePasswordModel: ChoosePasswordModelRepresentable {
     
     @Published var password = ""
     
-    var done: AnyPublisher<Void, Never> {
-        doneSubject.eraseToAnyPublisher()
-    }
-    
-    private let doneSubject = PassthroughSubject<Void, Never>()
-    
-    func choosePassword() {
-        doneSubject.send()
+    func choosePassword() async {
+        
     }
     
 }
@@ -30,11 +25,7 @@ class ChoosePasswordModelStub: ChoosePasswordModelRepresentable {
     
     @Published var password = ""
     
-    var done: AnyPublisher<Void, Never> {
-        PassthroughSubject().eraseToAnyPublisher()
-    }
-    
-    func choosePassword() {}
+    func choosePassword() async {}
     
 }
 #endif

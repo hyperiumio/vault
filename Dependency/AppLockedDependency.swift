@@ -1,15 +1,21 @@
 import Crypto
 import Foundation
-import Storage
+import Persistence
 import Preferences
 
+@MainActor
 struct AppLockedDependency {
     
     private let containerDirectory: URL
     private let preferences: Preferences
     private let keychain: Keychain
     
-    init(containerDirectory: URL, preferences: Preferences, keychain: Keychain) {
+    init() {
+        let containerDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first!.appendingPathComponent(.vaults, isDirectory: true)
+        let userDefaults = UserDefaults(suiteName: .appGroup)!
+        let preferences = Preferences(using: userDefaults)
+        let keychain = Keychain(accessGroup: .appGroup)
+        
         self.containerDirectory = containerDirectory
         self.preferences = preferences
         self.keychain = keychain
@@ -29,13 +35,13 @@ extension AppLockedDependency: AppModelDependency {
     
     func lockedMainModel(store: Store) -> MainModel<Self> {
         let lockedModel = self.lockedModel(store: store)
-        let state = MainModel.State.locked(model: lockedModel, store: store, userBiometricUnlock: true)
+        let state = MainModel.State.locked(model: lockedModel)
         return MainModel(dependency: self, state: state)
     }
     
     func unlockedMainModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainModel<Self> {
         let unlockedModel = self.unlockedModel(store: store, derivedKey: derivedKey, masterKey: masterKey, itemIndex: [:])
-        let state = MainModel.State.unlocked(model: unlockedModel, store: store)
+        let state = MainModel.State.unlocked(model: unlockedModel)
         return MainModel(dependency: self, state: state)
     }
     
@@ -67,9 +73,23 @@ extension AppLockedDependency: MainModelDependency {
         LockedModel(store: store, preferences: preferences, keychain: keychain)
     }
     
-    func unlockedModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [Store.ItemLocator: StoreItemInfo]) -> UnlockedModel<AppUnlockedDependency> {
+    func unlockedModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [StoreItemLocator: StoreItemInfo]) -> UnlockedModel<AppUnlockedDependency> {
         let dependency = AppUnlockedDependency(store: store, preferences: preferences, keychain: keychain, derivedKey: derivedKey, masterKey: masterKey)
         return UnlockedModel(store: store, itemIndex: itemIndex, dependency: dependency)
     }
+    
+}
+
+private extension String {
+    
+    static var vaults: Self { "Vaults" }
+    
+    #if os(iOS)
+    static var appGroup: Self { "group.io.hyperium.vault" }
+    #endif
+
+    #if os(macOS)
+    static var appGroup: Self { "HX3QTQLX65.io.hyperium.vault" }
+    #endif
     
 }

@@ -15,16 +15,12 @@ public struct Vault {
     }
     
     init?(from record: CKRecord) {
-        guard let id = UUID(uuidString: record.recordID.recordName) else {
-            return nil
-        }
-        guard let info = record[.info] as? Data else {
-            return nil
-        }
-        guard let derivedKeyContainer = record[.derivedKeyContainer] as? Data else {
-            return nil
-        }
-        guard let masterKeyContainer = record[.masterKeyContainer] as? Data else {
+        guard
+            let id = UUID(uuidString: record.recordID.recordName),
+            let info = record.encryptedValues[.info] as? Data,
+            let derivedKeyContainer = record.encryptedValues[.derivedKeyContainer] as? Data,
+            let masterKeyContainer = record.encryptedValues[.masterKeyContainer] as? Data
+        else {
             return nil
         }
         
@@ -37,9 +33,9 @@ public struct Vault {
     func record(inRecordZoneWith zoneID: CKRecordZone.ID) -> CKRecord {
         let recordID = CKRecord.ID(recordName: id.uuidString, zoneID: zoneID)
         let record = CKRecord(recordType: Self.recordType, recordID: recordID)
-        record[.info] = info
-        record[.derivedKeyContainer] = derivedKeyContainer
-        record[.masterKeyContainer] = masterKeyContainer
+        record.encryptedValues[.info] = info
+        record.encryptedValues[.derivedKeyContainer] = derivedKeyContainer
+        record.encryptedValues[.masterKeyContainer] = masterKeyContainer
         return record
     }
     

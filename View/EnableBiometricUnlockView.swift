@@ -1,6 +1,7 @@
 import Crypto
 import SwiftUI
 
+#warning("Todo")
 struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlockModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -14,9 +15,11 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
         PageNavigationView(.continue, enabledIntensions: [.backward, .forward]) { intension in
             switch intension {
             case .forward:
-                model.done()
+                break
+         //       model.done()
             case .backward:
-                model.dismiss()
+                break
+         //       model.dismiss()
             }
         } content: {
             VStack {
@@ -25,9 +28,9 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
                 VStack {
                     switch model.biometryType {
                     case .touchID:
-                        Content(imageName: SFSymbolName.touchid, title: .enableTouchIDUnlock, description: .unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: .touchid, title: .enableTouchIDUnlock, description: .unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
                     case .faceID:
-                        Content(imageName: SFSymbolName.faceid, title: .enableFaceIDUnlock, description: .unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: .faceid, title: .enableFaceIDUnlock, description: .unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
                     }
                 }
                 
@@ -75,7 +78,7 @@ private struct Content: View {
             
             Text(description)
                 .font(.body)
-                .foregroundColor(.secondaryLabel)
+    //            .foregroundColor(.secondaryLabel)
                 .multilineTextAlignment(.center)
         }
     }

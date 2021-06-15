@@ -1,7 +1,8 @@
 import Combine
 import Pasteboard
-import Storage
+import Persistence
 
+@MainActor
 protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
     
     var accountHolder: String { get set }
@@ -11,6 +12,7 @@ protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+@MainActor
 class BankAccountModel: BankAccountModelRepresentable {
     
     @Published var accountHolder: String

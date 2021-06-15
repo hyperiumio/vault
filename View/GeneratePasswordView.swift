@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct GeneratePasswordView: View {
     
     let passworGenerator: (String?) -> Void
@@ -26,13 +27,13 @@ struct GeneratePasswordView: View {
         VStack(alignment: .leading) {
             Text(model.password ?? "")
                 .font(.password)
-                .foregroundColor(.label)
+    //            .foregroundColor(.label)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(String.localizedCharacters(model.length))
+                Text(.localizedCharacters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
             }
@@ -44,10 +45,10 @@ struct GeneratePasswordView: View {
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
         }
         .font(.text)
-        .foregroundColor(.secondaryLabel)
+ //       .foregroundColor(.secondaryLabel)
         .onChange(of: model.password, perform: passworGenerator)
         .onAppear {
-            model.createPassword()
+       //     model.createPassword()
         }
     }
     #endif
@@ -57,13 +58,13 @@ struct GeneratePasswordView: View {
         VStack(alignment: .leading) {
             Text(model.password ?? "")
                 .font(.password)
-                .foregroundColor(.label)
+    //            .foregroundColor(.label)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
                 .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
-                Text(String.localizedCharacters(model.length))
+                Text(.localizedCharacters(model.length))
                 
                 Slider(value: length, in: 16 ... 64)
                     .alignmentGuide(.custom) { dimension in
@@ -95,10 +96,10 @@ struct GeneratePasswordView: View {
         }
         .frame(maxWidth: 300)
         .font(.text)
-        .foregroundColor(.secondaryLabel)
+  //      .foregroundColor(.secondaryLabel)
         .onChange(of: model.password, perform: passworGenerator)
         .onAppear {
-            model.createPassword()
+    //        model.createPassword()
         }
     }
     #endif

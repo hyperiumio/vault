@@ -1,7 +1,8 @@
 import Foundation
 import UniformTypeIdentifiers
-import Storage
+import Persistence
 
+@MainActor
 protocol FileModelRepresentable: ObservableObject, Identifiable {
     
     var typeIdentifier: UTType { get }
@@ -10,6 +11,7 @@ protocol FileModelRepresentable: ObservableObject, Identifiable {
     
 }
 
+@MainActor
 class FileModel: FileModelRepresentable {
     
     @Published var typeIdentifier: UTType

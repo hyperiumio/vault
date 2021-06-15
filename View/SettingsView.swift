@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     @ObservedObject private var model: Model
@@ -66,7 +67,7 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
                 }
             }
             .tabItem {
-                Label(.security, systemImage: SFSymbolName.lockFill)
+                Label(.security, systemImage: SFSymbolName.lock)
             }
             .padding()
         }

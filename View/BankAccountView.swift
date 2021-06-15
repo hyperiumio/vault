@@ -1,7 +1,8 @@
 import Format
-import Storage
+import Persistence
 import SwiftUI
 
+#warning("Todo")
 struct BankAccountView: View {
     
     private let item: BankAccountItem
@@ -33,17 +34,10 @@ struct BankAccountViewPreview: PreviewProvider {
     static let item = BankAccountItem(accountHolder: "foo", iban: "bar", bic: "baz")
     
     static var previews: some View {
-        Group {
-            List {
-                BankAccountView(item)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                BankAccountView(item)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            BankAccountView(item)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

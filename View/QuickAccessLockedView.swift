@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("Todo")
 #if os(iOS)
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
@@ -17,8 +18,68 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
     #if os(iOS)
     var body: some View {
         ZStack {
-            Color.systemBackground.edgesIgnoringSafeArea(.all)
+     //       Color.systemBackground.edgesIgnoringSafeArea(.all)
             
+            VStack(spacing: 20) {
+                /*
+                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
+                    .disabled(model.status == .unlocking)
+                    .frame(maxWidth: 300)*/
+                
+                Group {
+                    switch model.keychainAvailability {
+                    case .enrolled(.touchID):
+                        BiometricUnlockButton(.touchID) {
+                            if !isKeyboardVisible {
+                        //        model.loginWithBiometrics()
+                            }
+                        }
+                    case .enrolled(.faceID):
+                        BiometricUnlockButton(.faceID) {
+                            if !isKeyboardVisible {
+                        //        model.loginWithBiometrics()
+                            }
+                        }
+                    case .notAvailable, .notEnrolled:
+                        EmptyView()
+                    }
+                }
+                .frame(width: 40, height: 40)
+                .disabled(isKeyboardVisible)
+            }
+            .padding()
+        }
+        /*
+        .alert(item: $error) { error in
+            let title = Self.title(for: error)
+            return Alert(title: title)
+        }
+        .onReceive(model.error) { error in
+            feedbackGenerator.notificationOccurred(.error)
+            self.error = error
+        }
+        .onReceive(model.done) { _ in
+            feedbackGenerator.notificationOccurred(.success)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
+            isKeyboardVisible = true
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidHideNotification)) { _ in
+            isKeyboardVisible = false
+        }
+        .onAppear {
+            feedbackGenerator.prepare()
+            model.loginWithBiometrics()
+        }*/
+    }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        ZStack {
+           // Color.systemBackground.edgesIgnoringSafeArea(.all)
+            
+            /*
             VStack(spacing: 20) {
                 UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
                     .disabled(model.status == .unlocking)
@@ -52,64 +113,9 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             return Alert(title: title)
         }
         .onReceive(model.error) { error in
-            feedbackGenerator.notificationOccurred(.error)
             self.error = error
         }
-        .onReceive(model.done) { _ in
-            feedbackGenerator.notificationOccurred(.success)
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
-            isKeyboardVisible = true
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidHideNotification)) { _ in
-            isKeyboardVisible = false
-        }
-        .onAppear {
-            feedbackGenerator.prepare()
-            model.loginWithBiometrics()
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        ZStack {
-            Color.systemBackground.edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 20) {
-                UnlockField(.localizedMasterPassword, text: $model.password, action: model.loginWithMasterPassword)
-                    .disabled(model.status == .unlocking)
-                    .frame(maxWidth: 300)
-                
-                Group {
-                    switch model.keychainAvailability {
-                    case .enrolled(.touchID):
-                        BiometricUnlockButton(.touchID) {
-                            if !isKeyboardVisible {
-                                model.loginWithBiometrics()
-                            }
-                        }
-                    case .enrolled(.faceID):
-                        BiometricUnlockButton(.faceID) {
-                            if !isKeyboardVisible {
-                                model.loginWithBiometrics()
-                            }
-                        }
-                    case .notAvailable, .notEnrolled:
-                        EmptyView()
-                    }
-                }
-                .frame(width: 40, height: 40)
-                .disabled(isKeyboardVisible)
-            }
-            .padding()
-        }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error)
-            return Alert(title: title)
-        }
-        .onReceive(model.error) { error in
-            self.error = error
+             */
         }
     }
     #endif

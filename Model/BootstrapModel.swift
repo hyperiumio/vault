@@ -2,90 +2,52 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Storage
+import Persistence
 
+@MainActor
 protocol BootstrapModelRepresentable: ObservableObject, Identifiable {
     
-    var didBootstrap: AnyPublisher<BootstrapState, Never> { get }
-    var status: BootstrapStatus { get }
+    var state: BootstrapState { get }
     
-    func load()
-    
-}
-
-enum BootstrapState {
-    
-    case setup
-    case locked(store: Store)
+    func load() async
     
 }
 
-enum BootstrapStatus {
-    
-    case initialized
-    case loading
-    case loadingFailed
-    case loaded
-    
-}
-
+@MainActor
 class BootstrapModel: BootstrapModelRepresentable {
     
-    @Published private(set) var status = BootstrapStatus.initialized
+    @Published private(set) var state = BootstrapState.initialized
     
     let containerDirectory: URL
     let preferences: Preferences
-    
-    var didBootstrap: AnyPublisher<BootstrapState, Never> { didBootstrapSubject.eraseToAnyPublisher() }
-    
-    private let didBootstrapSubject = PassthroughSubject<BootstrapState, Never>()
-    private var vaultLocationSubscription: AnyCancellable?
     
     init(containerDirectory: URL, preferences: Preferences) {
         self.containerDirectory = containerDirectory
         self.preferences = preferences
     }
     
-    func load() {
-        status = .loading
-        
-        guard let activeStoreID = preferences.value.activeStoreID else {
-            didBootstrapSubject.send(.setup)
-            return
-        }
-        
-        vaultLocationSubscription = Store.load(from: containerDirectory, matching: activeStoreID)
-            .map { store in
-                store.map(BootstrapState.locked) ?? BootstrapState.setup
-            }
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                guard let self = self else { return }
-                
-                switch completion {
-                case .finished:
-                    self.status = .loaded
-                case .failure:
-                    self.status = .loadingFailed
-                }
-            } receiveValue: { [didBootstrapSubject] initialAppState in
-                didBootstrapSubject.send(initialAppState)
-            }
+    func load() async {
     }
     
 }
 
+enum BootstrapState {
+    
+    case initialized
+    case loading
+    case loadingFailed
+    case loaded(store: Store)
+    
+}
+
 #if DEBUG
+@MainActor
 class BootstrapModelStub: BootstrapModelRepresentable {
     
-    @Published var status: BootstrapStatus
+    @Published var state: BootstrapState
     
-    var didBootstrap: AnyPublisher<BootstrapState, Never> {
-        PassthroughSubject().eraseToAnyPublisher()
-    }
-    
-    init(status: BootstrapStatus) {
-        self.status = status
+    init(state: BootstrapState) {
+        self.state = state
     }
     
     func load() {}

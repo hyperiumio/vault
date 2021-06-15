@@ -9,25 +9,12 @@ struct MainView<Model>: View where Model: MainModelRepresentable {
     }
     
     var body: some View {
-        Group {
-            switch model.state {
-            case .locked(let model, _, let useBiometricUnlock):
-                LockedView(model, useBiometricsOnAppear: useBiometricUnlock)
-                    .transition(.unlock)
-                    .zIndex(1)
-            case .unlocked(let model, _):
-                UnlockedView(model)
-                    .zIndex(0)
-            }
+        switch model.state {
+        case .locked(let model):
+            LockedView(model)
+        case .unlocked(let model):
+            UnlockedView(model)
         }
-    }
-    
-}
-
-private extension AnyTransition {
-    
-    static var unlock: Self {
-        AnyTransition.scale(scale: 2).combined(with: .opacity).animation(.easeInOut)
     }
     
 }
@@ -35,19 +22,16 @@ private extension AnyTransition {
 #if DEBUG
 struct MainViewPreview: PreviewProvider {
     
-    static var model: MainModelStub {
-        fatalError()
-    }
+    static var model: MainModelStub = {
+        let lockedModel = MainModelStub.LockedModel()
+        let state = MainModelStub.State.locked(model: lockedModel)
+        return MainModelStub(state: state)
+    }()
     
     static var previews: some View {
-        Group {
-            MainView(model)
-                .preferredColorScheme(.light)
-            
-            MainView(model)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        MainView(model)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }
