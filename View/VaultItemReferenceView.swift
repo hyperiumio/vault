@@ -1,18 +1,20 @@
-import Persistence
+import Model
 import SwiftUI
 
 
-struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
+struct VaultItemReferenceView<S>: View where S: VaultItemReferenceStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
+        Text("foo")
+        /*
         Group {
-            switch model.state {
+            switch state.state {
             case .initialized:
                 EmptyView()
             case .loading:
@@ -24,25 +26,26 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                     
                     
                     Button(.retry, role: nil) {
-                        await model.load()
+                        await state.load()
                     }
                     .padding()
                 }
-            case .loaded(let model):
-                VaultItemView(model)
+            case .loaded(let state):
+                VaultItemView(state)
             }
         }
         .toolbar {
             ToolbarItem(placement: .principal) {
-             //   SecureItemTypeView(model.info.primaryType)
+             //   SecureItemTypeView(state.info.primaryType)
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             async {
-                await model.load()
+                await state.load()
             }
         }
+         */
     }
     
 }
@@ -50,13 +53,13 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
 #if DEBUG
 struct VaultItemReferenceViewPreview: PreviewProvider {
     
-    static let model: VaultItemReferenceModelStub = {
+    static let state: VaultItemReferenceStateStub = {
         fatalError()
     }()
     
     static var previews: some View {
         NavigationView {
-            VaultItemReferenceView(model)
+            VaultItemReferenceView(state)
                 .preferredColorScheme(.light)
         }
         .previewLayout(.sizeThatFits)

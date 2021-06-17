@@ -1,24 +1,24 @@
 import Format
 import SwiftUI
 
-struct EditBankAccountView<Model>: View where Model: BankAccountStateRepresentable {
+struct EditBankAccountView<S>: View where S: BankAccountStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        EditItemTextField(.accountHolder, placeholder: .accountHolder, text: $model.accountHolder)
+        EditItemTextField(.accountHolder, placeholder: .accountHolder, text: $state.accountHolder)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        EditItemTextField(.iban, placeholder: .iban, text: $model.iban, formatter: BankAccountNumberFormatter())
+        EditItemTextField(.iban, placeholder: .iban, text: $state.iban)
             .font(.system(.body, design: .monospaced))
             .keyboardType(.asciiCapable)
         
-        EditItemTextField(.bic, placeholder: .bic, text: $model.bic)
+        EditItemTextField(.bic, placeholder: .bic, text: $state.bic)
             .keyboardType(.asciiCapable)
     }
     
@@ -27,11 +27,11 @@ struct EditBankAccountView<Model>: View where Model: BankAccountStateRepresentab
 #if DEBUG
 struct EditBankAccountViewPreview: PreviewProvider {
     
-    static let model = BankAccountStateStub()
+    static let state = BankAccountStateStub()
     
     static var previews: some View {
         List {
-            EditBankAccountView(model)
+            EditBankAccountView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

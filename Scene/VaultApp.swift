@@ -19,13 +19,13 @@ struct VaultApp: App {
     #if os(macOS)
     var body: some Scene {
         WindowGroup {
-            AppView(model)
+            AppView(state)
                 .frame(width: 600, height: 600)
         }
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unifiedCompact)
         .commands {
-            AppCommands(model)
+            AppCommands(state)
         }
     }
     #endif

@@ -1,23 +1,23 @@
 import SwiftUI
-import Persistence
+import Model
 
 #warning("Todo")
-struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedModelRepresentable {
+struct QuickAccessUnlockedView<S>: View where S: QuickAccessUnlockedStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     #if os(iOS)
     var body: some View {
         List {
-            ForEach(model.itemCollation.sections) { section in
+            ForEach(state.itemCollation.sections) { section in
                 Section {
                     ForEach(section.elements) { item in
                         Button {
-                //            model.selectItem(item)
+                //            state.selectItem(item)
                         } label: {
                             LoginCredentialView(title: item.title, username: item.username, url: item.url)
                         }
@@ -27,7 +27,7 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
                 }
             }
         }
-        .searchable(text: $model.searchText)
+        .searchable(text: $state.searchText)
     }
     #endif
     
@@ -35,11 +35,11 @@ struct QuickAccessUnlockedView<Model>: View where Model: QuickAccessUnlockedMode
     var body: some View {
         List {
             /*
-            ForEach(model.itemCollation.sections) { section in
+            ForEach(state.itemCollation.sections) { section in
                 Section {
                     ForEach(section.elements) { item in
                         Button {
-                            model.selectItem(item)
+                            state.selectItem(item)
                         } label: {
                             LoginCredentialView(title: item.title, username: item.username, url: item.url)
                         }

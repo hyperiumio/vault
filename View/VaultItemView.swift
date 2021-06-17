@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
+struct VaultItemView<S>: View where S: VaultItemStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @State private var mode = Mode.display
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     #if os(iOS)
@@ -14,7 +14,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         Group {
             switch mode {
             case .display:
-                VaultItemDisplayView(model)
+                VaultItemDisplayView(state)
                     .toolbar {
                         ToolbarItem(placement: .primaryAction) {
                             Button(.edit) {
@@ -23,11 +23,11 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         }
                     }
             case .edit:
-                VaultItemEditView(model)
+                VaultItemEditView(state)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button(.cancel) {
-                                model.discardChanges()
+                                state.discardChanges()
                                 mode = .display
                             }
                         }
@@ -35,7 +35,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         ToolbarItem(placement: .primaryAction) {
                             Button(.save) {
                                 async {
-                                    await model.save()
+                                    await state.save()
                                     mode = .display
                                 }
                             }
@@ -53,7 +53,7 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
         Group {
             switch mode {
             case .display:
-                VaultItemDisplayView(model)
+                VaultItemDisplayView(state)
                     .toolbar {
                         ToolbarItem(placement: .primaryAction) {
                             Button(.edit) {
@@ -62,18 +62,18 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         }
                     }
             case .edit:
-                VaultItemEditView(model)
+                VaultItemEditView(state)
                     .toolbar {
                         ToolbarItem(placement: .cancellationAction) {
                             Button(.cancel) {
-                                model.discardChanges()
+                                state.discardChanges()
                                 mode = .display
                             }
                         }
                         
                         ToolbarItem(placement: .primaryAction) {
                             Button(.save) {
-                                model.save()
+                                state.save()
                                 mode = .display
                             }
                         }
@@ -97,28 +97,28 @@ private extension VaultItemView {
     
 }
 
-private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepresentable {
+private struct VaultItemDisplayView<S>: View where S: VaultItemStateRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     #if os(iOS)
     var body: some View {
         List {
             Section {
-                ElementView(model.primaryItemModel)
+                ElementView(state.primaryItemState)
             } header: {
-                Text(model.title)
+                Text(state.title)
                     .font(.title)
                     .textCase(.none)
    //                 .foregroundColor(.label)
                     .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
-                VaultItemFooter(created: model.created, modified: model.modified)
+                VaultItemFooter(created: state.created, modified: state.modified)
             }
         }
         .listStyle(GroupedListStyle())
@@ -129,16 +129,16 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
     var body: some View {
         List {
             Section {
-                ElementView(model.primaryItemModel)
+                ElementView(state.primaryItemState)
             } header: {
-                Text(model.title)
+                Text(state.title)
                     .font(.title)
                     .textCase(.none)
                //     .foregroundColor(.label)
                     .listRowInsets(EdgeInsets())
                     .padding()
             } footer: {
-                VaultItemFooter(created: model.created, modified: model.modified)
+                VaultItemFooter(created: state.created, modified: state.modified)
             }
         }
     }
@@ -146,13 +146,13 @@ private struct VaultItemDisplayView<Model>: View where Model: VaultItemModelRepr
     
 }
 
-private struct VaultItemEditView<Model>: View where Model: VaultItemModelRepresentable {
+private struct VaultItemEditView<S>: View where S: VaultItemStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @Environment(\.presentationMode) private var presentationMode
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     #if os(iOS)
@@ -160,10 +160,10 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
         List {
             Group {
                 Section {
-                    ElementView(model.primaryItemModel)
+                    ElementView(state.primaryItemState)
                 } header: {
                     /*
-                    TextFieldShim(title: .localizedTitle, text: $model.title, textStyle: .title1, alignment: .left)
+                    TextFieldShim(title: .localizedTitle, text: $state.title, textStyle: .title1, alignment: .left)
                         .listRowInsets(EdgeInsets())
                         .padding()
                      */
@@ -172,7 +172,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 Section {
                     Button(.deleteItem) {
                         async {
-                            await model.delete()
+                            await state.delete()
                             presentationMode.wrappedValue.dismiss()
                         }
                     }
@@ -189,9 +189,9 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
         List {
             Group {
                 Section {
-                    ElementView(model.primaryItemModel)
+                    ElementView(state.primaryItemState)
                 } header: {
-                    TextField(.title, text: $model.title)
+                    TextField(.title, text: $state.title)
                         .font(.title)
                         .listRowInsets(EdgeInsets())
                         .padding()
@@ -199,7 +199,7 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 
                 Section {
                     Button(.deleteItem) {
-                        model.delete()
+                        state.delete()
                         presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(.red)
@@ -231,31 +231,31 @@ private extension VaultItemDisplayView {
 
     struct ElementView: View {
         
-        private let element: Model.Element
+        private let element: S.Element
         
-        init(_ element: Model.Element) {
+        init(_ element: S.Element) {
             self.element = element
         }
         
         var body: some View {
             /*
             switch element {
-            case .login(let model):
-                LoginView(model.item)
-            case .password(let model):
-                PasswordView(model.item)
-            case .file(let model):
-                FileView(model.item)
-            case .note(let model):
-                NoteView(model.item)
-            case .bankCard(let model):
-                BankCardView(model.item)
-            case .wifi(let model):
-                WifiView(model.item)
-            case .bankAccount(let model):
-                BankAccountView(model.item)
-            case .custom(let model):
-                CustomView(model.item)
+            case .login(let state):
+                LoginView(state.item)
+            case .password(let state):
+                PasswordView(state.item)
+            case .file(let state):
+                FileView(state.item)
+            case .note(let state):
+                NoteView(state.item)
+            case .bankCard(let state):
+                BankCardView(state.item)
+            case .wifi(let state):
+                WifiView(state.item)
+            case .bankAccount(let state):
+                BankAccountView(state.item)
+            case .custom(let state):
+                CustomView(state.item)
             }*/
             Text("foo")
         }
@@ -268,31 +268,31 @@ private extension VaultItemEditView {
 
     struct ElementView: View {
         
-        private let element: Model.Element
+        private let element: S.Element
         
-        init(_ element: Model.Element) {
+        init(_ element: S.Element) {
             self.element = element
         }
         
         var body: some View {
             /*
             switch element {
-            case .login(let model):
-                EditLoginView(model)
-            case .password(let model):
-                EditPasswordView(model)
-            case .file(let model):
-                EditFileView(model)
-            case .note(let model):
-                EditNoteView(model)
-            case .bankCard(let model):
-                EditBankCardView(model)
-            case .wifi(let model):
-                EditWifiView(model)
-            case .bankAccount(let model):
-                EditBankAccountView(model)
-            case .custom(let model):
-                EditCustomView(model)
+            case .login(let state):
+                EditLoginView(state)
+            case .password(let state):
+                EditPasswordView(state)
+            case .file(let state):
+                EditFileView(state)
+            case .note(let state):
+                EditNoteView(state)
+            case .bankCard(let state):
+                EditBankCardView(state)
+            case .wifi(let state):
+                EditWifiView(state)
+            case .bankAccount(let state):
+                EditBankAccountView(state)
+            case .custom(let state):
+                EditCustomView(state)
             }
              */
             Text("foo")

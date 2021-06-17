@@ -1,18 +1,18 @@
 import SwiftUI
 
-struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
+struct EditWifiView<S>: View where S: WifiStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        EditItemTextField(.name, placeholder: .name, text: $model.name)
+        EditItemTextField(.name, placeholder: .name, text: $state.name)
             .keyboardType(.asciiCapable)
         
-        EditItemSecureField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
+        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
     }
     
 }
@@ -20,11 +20,11 @@ struct EditWifiView<Model>: View where Model: WifiModelRepresentable {
 #if DEBUG
 struct EditWifiViewPreview: PreviewProvider {
     
-    static let model = WifiModelStub()
+    static let state = WifiStateStub()
     
     static var previews: some View {
         List {
-            EditWifiView(model)
+            EditWifiView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

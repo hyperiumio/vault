@@ -1,15 +1,15 @@
 import SwiftUI
 
-struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
+struct BootstrapView<S>: View where S: BootstrapStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        switch model.state {
+        switch state.state {
         case .initialized, .loading, .loaded:
             EmptyView()
         case .loadingFailed:
@@ -28,7 +28,7 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
                     .frame(height: 50)
                 
                 Button(.retry, role: nil) {
-                    await model.load()
+                    await state.load()
                 }
                 .buttonStyle(.bordered)
                 .tint(.accentColor)
@@ -42,10 +42,10 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
 #if DEBUG
 struct BootStrapViewPreview: PreviewProvider {
     
-    static let model = BootstrapModelStub(state: .loadingFailed)
+    static let state = BootstrapStateStub(state: .loadingFailed)
     
     static var previews: some View {
-        BootstrapView(model)
+        BootstrapView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

@@ -1,17 +1,17 @@
 import SwiftUI
 
-struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
+struct EditCustomView<S>: View where S: CustomStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
         SecureItemView {
-            EditSecureItemField(.description, text: $model.description) {
-                TextField(.value, text: $model.value)
+            EditSecureItemField(.description, text: $state.description) {
+                TextField(.value, text: $state.value)
             }
         }
     }
@@ -21,11 +21,11 @@ struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
 #if DEBUG
 struct EditCustomViewPreview: PreviewProvider {
     
-    static let model = CustomModelStub()
+    static let state = CustomStateStub()
     
     static var previews: some View {
         List {
-            EditCustomView(model)
+            EditCustomView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

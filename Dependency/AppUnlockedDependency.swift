@@ -1,6 +1,6 @@
 import Crypto
 import Preferences
-import Persistence
+import Model
 import UniformTypeIdentifiers
 
 @MainActor
@@ -22,71 +22,71 @@ struct AppUnlockedDependency {
     
 }
 
-extension AppUnlockedDependency: UnlockedModelDependency {
+extension AppUnlockedDependency: UnlockedStateDependency {
     
     
-    func settingsModel() -> SettingsModel<Self> {
-        SettingsModel(store: store, derivedKey: derivedKey, preferences: preferences, keychain: keychain, dependency: self)
+    func settingsState() -> SettingsState<Self> {
+        SettingsState(store: store, derivedKey: derivedKey, preferences: preferences, keychain: keychain, dependency: self)
     }
     
-    func vaultItemReferenceModel(itemInfo: StoreItemInfo, itemLocator: StoreItemLocator) -> VaultItemReferenceModel<Self> {
-        VaultItemReferenceModel(info: itemInfo, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
+    func vaultItemReferenceState(itemInfo: StoreItemInfo, itemLocator: StoreItemLocator) -> VaultItemReferenceState<Self> {
+        VaultItemReferenceState(info: itemInfo, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     
-    func vaultItemModel(from secureItem: SecureItem) -> VaultItemModel<Self> {
-        VaultItemModel(secureItem: secureItem, store: store, masterKey: masterKey, dependency: self)
-    }
-    
-}
-
-extension AppUnlockedDependency: SettingsModelDependency {
-    
-    func changeMasterPasswordModel() -> ChangeMasterPasswordModel {
-        ChangeMasterPasswordModel(vault: store, preferences: preferences, keychain: keychain)
+    func vaultItemState(from secureItem: SecureItem) -> VaultItemState<Self> {
+        VaultItemState(secureItem: secureItem, store: store, masterKey: masterKey, dependency: self)
     }
     
 }
 
-extension AppUnlockedDependency: VaultItemReferenceModelDependency {
+extension AppUnlockedDependency: SettingsStateDependency {
     
-    func vaultItemModel(storeItem: StoreItem, itemLocator: StoreItemLocator) -> VaultItemModel {
-        VaultItemModel(storeItem: storeItem, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
+    func changeMasterPasswordState() -> ChangeMasterPasswordState {
+        ChangeMasterPasswordState(vault: store, preferences: preferences, keychain: keychain)
     }
     
 }
 
-extension AppUnlockedDependency: VaultItemModelDependency {
+extension AppUnlockedDependency: VaultItemReferenceStateDependency {
     
-    func loginModel(item: LoginItem) -> LoginModel {
-        LoginModel(item)
+    func vaultItemState(storeItem: StoreItem, itemLocator: StoreItemLocator) -> VaultItemState {
+        VaultItemState(storeItem: storeItem, itemLocator: itemLocator, store: store, masterKey: masterKey, dependency: self)
     }
     
-    func passwordModel(item: PasswordItem) -> PasswordModel {
-        PasswordModel(item)
+}
+
+extension AppUnlockedDependency: VaultItemStateDependency {
+    
+    func loginState(item: LoginItem) -> LoginState {
+        LoginState(item)
     }
     
-    func fileModel(item: FileItem) -> FileModel {
-        FileModel(item)
+    func passwordState(item: PasswordItem) -> PasswordState {
+        PasswordState(item)
     }
     
-    func noteModel(item: NoteItem) -> NoteModel {
-        NoteModel(item)
+    func fileState(item: FileItem) -> FileState {
+        FileState(item)
     }
     
-    func bankCardModel(item: BankCardItem) -> BankCardState {
+    func noteState(item: NoteItem) -> NoteState {
+        NoteState(item)
+    }
+    
+    func bankCardState(item: BankCardItem) -> BankCardState {
         BankCardState(item)
     }
     
-    func wifiModel(item: WifiItem) -> WifiModel {
-        WifiModel(item)
+    func wifiState(item: WifiItem) -> WifiState {
+        WifiState(item)
     }
     
-    func bankAccountModel(item: BankAccountItem) -> BankAccountState {
+    func bankAccountState(item: BankAccountItem) -> BankAccountState {
         BankAccountState(item)
     }
     
-    func customItemModel(item: CustomItem) -> CustomModel {
-        CustomItemModel(item)
+    func customItemState(item: CustomItem) -> CustomState {
+        CustomItemState(item)
     }
     
 }

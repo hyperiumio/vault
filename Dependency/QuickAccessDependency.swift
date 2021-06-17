@@ -1,11 +1,11 @@
 import Crypto
 import Foundation
 import Preferences
-import Persistence
+import Model
 import Sort
 
 @MainActor
-struct QuickAccessDependency: QuickAccessModelDependency {
+struct QuickAccessDependency: QuickAccessStateDependency {
     
     private let preferences: Preferences
     private let keychain: Keychain
@@ -15,12 +15,12 @@ struct QuickAccessDependency: QuickAccessModelDependency {
         self.keychain = keychain
     }
     
-    func quickAccessLockedModel(store: Store) -> QuickAccessLockedModel {
-        QuickAccessLockedModel(store: store, preferences: preferences, keychain: keychain)
+    func quickAccessLockedState(store: Store) -> QuickAccessLockedState {
+        QuickAccessLockedState(store: store, preferences: preferences, keychain: keychain)
     }
     
-    func quickAccessUnlockedModel(vaultItems: [StoreItemInfo: [LoginItem]]) -> QuickAccessUnlockedModel {
-        QuickAccessUnlockedModel(vaultItems: vaultItems)
+    func quickAccessUnlockedState(vaultItems: [StoreItemInfo: [LoginItem]]) -> QuickAccessUnlockedState {
+        QuickAccessUnlockedState(vaultItems: vaultItems)
     }
     
 }

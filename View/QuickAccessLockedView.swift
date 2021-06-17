@@ -5,14 +5,14 @@ import SwiftUI
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
 
-struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRepresentable {
+struct QuickAccessLockedView<S>: View where S: QuickAccessLockedStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @State private var error: QuickAccessLockedError?
     @State private var isKeyboardVisible = false
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     #if os(iOS)
@@ -22,22 +22,22 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             
             VStack(spacing: 20) {
                 /*
-                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
-                    .disabled(model.status == .unlocking)
+                UnlockField(.masterPassword, text: $state.password, action: state.loginWithMasterPassword)
+                    .disabled(state.status == .unlocking)
                     .frame(maxWidth: 300)*/
                 
                 Group {
-                    switch model.keychainAvailability {
+                    switch state.keychainAvailability {
                     case .enrolled(.touchID):
                         BiometricUnlockButton(.touchID) {
                             if !isKeyboardVisible {
-                        //        model.loginWithBiometrics()
+                        //        state.loginWithBiometrics()
                             }
                         }
                     case .enrolled(.faceID):
                         BiometricUnlockButton(.faceID) {
                             if !isKeyboardVisible {
-                        //        model.loginWithBiometrics()
+                        //        state.loginWithBiometrics()
                             }
                         }
                     case .notAvailable, .notEnrolled:
@@ -54,11 +54,11 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             let title = Self.title(for: error)
             return Alert(title: title)
         }
-        .onReceive(model.error) { error in
+        .onReceive(state.error) { error in
             feedbackGenerator.notificationOccurred(.error)
             self.error = error
         }
-        .onReceive(model.done) { _ in
+        .onReceive(state.done) { _ in
             feedbackGenerator.notificationOccurred(.success)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
@@ -69,7 +69,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
         }
         .onAppear {
             feedbackGenerator.prepare()
-            model.loginWithBiometrics()
+            state.loginWithBiometrics()
         }*/
     }
     #endif
@@ -81,22 +81,22 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             
             /*
             VStack(spacing: 20) {
-                UnlockField(.masterPassword, text: $model.password, action: model.loginWithMasterPassword)
-                    .disabled(model.status == .unlocking)
+                UnlockField(.masterPassword, text: $state.password, action: state.loginWithMasterPassword)
+                    .disabled(state.status == .unlocking)
                     .frame(maxWidth: 300)
                 
                 Group {
-                    switch model.keychainAvailability {
+                    switch state.keychainAvailability {
                     case .enrolled(.touchID):
                         BiometricUnlockButton(.touchID) {
                             if !isKeyboardVisible {
-                                model.loginWithBiometrics()
+                                state.loginWithBiometrics()
                             }
                         }
                     case .enrolled(.faceID):
                         BiometricUnlockButton(.faceID) {
                             if !isKeyboardVisible {
-                                model.loginWithBiometrics()
+                                state.loginWithBiometrics()
                             }
                         }
                     case .notAvailable, .notEnrolled:
@@ -112,7 +112,7 @@ struct QuickAccessLockedView<Model>: View where Model: QuickAccessLockedModelRep
             let title = Self.title(for: error)
             return Alert(title: title)
         }
-        .onReceive(model.error) { error in
+        .onReceive(state.error) { error in
             self.error = error
         }
              */

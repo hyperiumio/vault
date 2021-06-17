@@ -1,19 +1,19 @@
 import SwiftUI
 
-struct MainView<Model>: View where Model: MainModelRepresentable {
+struct MainView<S>: View where S: MainStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        switch model.state {
-        case .locked(let model):
-            LockedView(model)
-        case .unlocked(let model):
-            UnlockedView(model)
+        switch state.state {
+        case .locked(let state):
+            LockedView(state)
+        case .unlocked(let state):
+            UnlockedView(state)
         }
     }
     
@@ -22,14 +22,14 @@ struct MainView<Model>: View where Model: MainModelRepresentable {
 #if DEBUG
 struct MainViewPreview: PreviewProvider {
     
-    static var model: MainModelStub = {
-        let lockedModel = MainModelStub.LockedModel()
-        let state = MainModelStub.State.locked(model: lockedModel)
-        return MainModelStub(state: state)
+    static var state: MainStateStub = {
+        let lockedState = MainStateStub.LockedState()
+        let state = MainStateStub.State.locked(state: lockedState)
+        return MainStateStub(state: state)
     }()
     
     static var previews: some View {
-        MainView(model)
+        MainView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

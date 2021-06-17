@@ -1,15 +1,15 @@
 import SwiftUI
 
-struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
+struct EditPasswordView<S>: View where S: PasswordStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        EditItemSecureField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
+        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
     }
 
 }
@@ -17,11 +17,11 @@ struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
 #if DEBUG
 struct EditPasswordViewPreview: PreviewProvider {
     
-    static let model = PasswordModelStub()
+    static let state = PasswordStateStub()
     
     static var previews: some View {
         List {
-            EditPasswordView(model)
+            EditPasswordView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

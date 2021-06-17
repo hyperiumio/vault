@@ -1,33 +1,33 @@
 import SwiftUI
 
-struct SettingsView<Model: SettingsModelRepresentable>: View {
+struct SettingsView<S>: View where S: SettingsStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @Environment(\.presentationMode) private var presentationMode
     
     #if os(iOS)
     var body: some View {
         NavigationView {
             List {
-                switch model.keychainAvailability {
+                switch state.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .enrolled(.touchID):
                     Section {
-                        Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
                     } footer: {
                         Text(.touchIDDescription)
                     }
                 case .enrolled(.faceID):
                     Section {
-                        Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
+                        Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
                     } footer: {
                         Text(.faceIDDescription)
                     }
                 }
                 
                 Section {
-                    NavigationLink(.changeMasterPassword, destination: ChangeMasterPasswordView(model.changeMasterPasswordModel))
+                    NavigationLink(.changeMasterPassword, destination: ChangeMasterPasswordView(state.changeMasterPasswordState))
                 } footer: {
                     Text(.changeMasterPasswordDescription)
                 }
@@ -50,13 +50,13 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     var body: some View {
         TabView {
             VStack {
-                switch model.keychainAvailability {
+                switch state.keychainAvailability {
                 case .notAvailable, .notEnrolled:
                     EmptyView()
                 case .enrolled(.touchID):
-                    Toggle(.useTouchID, isOn: $model.isBiometricUnlockEnabled)
+                    Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
                 case .enrolled(.faceID):
-                    Toggle(.useFaceID, isOn: $model.isBiometricUnlockEnabled)
+                    Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
                 }
                 
                 Divider()
@@ -76,8 +76,8 @@ struct SettingsView<Model: SettingsModelRepresentable>: View {
     }
     #endif
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
 }

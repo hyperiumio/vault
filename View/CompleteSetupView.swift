@@ -4,18 +4,18 @@ import SwiftUI
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
 
-struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentable {
+struct CompleteSetupView<S>: View where S: CompleteSetupStateRepresentable {
     
-    @ObservedObject private var model: Model
-    @State private var displayError: CompleteSetupModelError?
+    @ObservedObject private var state: S
+    @State private var displayError: CompleteSetupStateError?
     @State private var isCheckmarkVisible = false
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var enabledIntensions: Set<PageNavigationIntention> {
-        model.isLoading ? [.backward] : [.backward, .forward]
+        state.isLoading ? [.backward] : [.backward, .forward]
     }
     
     var body: some View {
@@ -40,7 +40,7 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
             Spacer()
             
             Button(.createVault, role: nil) {
-                await model.createVault()
+                await state.createVault()
             }
             .disabled(!enabledIntensions.contains(.forward))
         }
@@ -66,10 +66,10 @@ struct CompleteSetupView<Model>: View where Model: CompleteSetupModelRepresentab
 #if DEBUG
 struct CompleteSetupViewPreview: PreviewProvider {
     
-    static let model = CompleteSetupModelStub()
+    static let state = CompleteSetupStateStub()
     
     static var previews: some View {
-        CompleteSetupView(model)
+        CompleteSetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable {
+struct CreateVaultItemView<S>: View where S: VaultItemStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @Environment(\.presentationMode) private var presentationMode
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
@@ -14,26 +14,26 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
             /*
             List {
                 Section {
-                    switch model.primaryItemModel {
-                    case .login(let model):
-                        EditLoginView(model)
-                    case .password(let model):
-                        EditPasswordView(model)
-                    case .file(let model):
-                        EditFileView(model)
-                    case .note(let model):
-                        EditNoteView(model)
-                    case .bankCard(let model):
-                        EditBankCardView(model)
-                    case .wifi(let model):
-                        EditWifiView(model)
-                    case .bankAccount(let model):
-                        EditBankAccountView(model)
-                    case .custom(let model):
-                        EditCustomView(model)
+                    switch state.primaryItemState {
+                    case .login(let state):
+                        EditLoginView(state)
+                    case .password(let state):
+                        EditPasswordView(state)
+                    case .file(let state):
+                        EditFileView(state)
+                    case .note(let state):
+                        EditNoteView(state)
+                    case .bankCard(let state):
+                        EditBankCardView(state)
+                    case .wifi(let state):
+                        EditWifiView(state)
+                    case .bankAccount(let state):
+                        EditBankAccountView(state)
+                    case .custom(let state):
+                        EditCustomView(state)
                     }
                 } header: {
-                    TextField(.security, text: $model.title, prompt: nil)
+                    TextField(.security, text: $state.title, prompt: nil)
                         .font(.title)
                         .padding()
                         .listRowInsets(EdgeInsets())
@@ -48,15 +48,15 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 
                 ToolbarItem(placement: .principal) {
                     Text("Foo")
-                    //SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
+                    //SecureItemTypeView(state.primaryItemState.secureItem.value.secureItemType)
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
                     /*
                     Button(.save, role: nil) {
-                        await model.save()
+                        await state.save()
                     }
-                    .disabled(model.title.isEmpty)
+                    .disabled(state.title.isEmpty)
                      */
                 }
             }
@@ -79,14 +79,14 @@ private extension Section where Parent: View, Content: View, Footer == EmptyView
 #if DEBUG
 struct CreateVaultItemViewPreview: PreviewProvider {
     
-    static let model: VaultItemModelStub = {
-        let loginModel = LoginModelStub()
-        let primaryItemModel = VaultItemModelStub.Element.login(loginModel)
-        return VaultItemModelStub(primaryItemModel: primaryItemModel, secondaryItemModels: [])
+    static let state: VaultItemStateStub = {
+        let loginState = LoginStateStub()
+        let primaryItemState = VaultItemStateStub.Element.login(loginState)
+        return VaultItemStateStub(primaryItemState: primaryItemState, secondaryItemStates: [])
     }()
     
     static var previews: some View {
-        CreateVaultItemView(model)
+        CreateVaultItemView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

@@ -1,6 +1,6 @@
 import Combine
 import Pasteboard
-import Persistence
+import Model
 
 @MainActor
 protocol BankAccountStateRepresentable: ObservableObject, Identifiable {

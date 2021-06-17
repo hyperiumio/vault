@@ -4,38 +4,38 @@ import SwiftUI
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
 
-struct LockedView<Model>: View where Model: LockedModelRepresentable {
+struct LockedView<S>: View where S: LockedStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @State private var error: LockedError?
     @State private var isKeyboardVisible = false
     @Environment(\.scenePhase) private var scenePhase
     
     private let useBiometricsOnAppear: Bool
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
         self.useBiometricsOnAppear = true
     }
     
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                UnlockField(.masterPassword, text: $model.password) {
+                UnlockField(.masterPassword, text: $state.password) {
                     async {
-                        model.loginWithMasterPassword
+                        state.loginWithMasterPassword
                     }
                 }
-                .disabled(model.status == .unlocking)
+                .disabled(state.status == .unlocking)
                 .frame(maxWidth: 300)
                 
                 Group {
-                    switch model.keychainAvailability {
+                    switch state.keychainAvailability {
                     case .enrolled(.touchID):
                         BiometricUnlockButton(.touchID) {
                             if !isKeyboardVisible {
                                 async {
-                                    await model.loginWithBiometrics()
+                                    await state.loginWithBiometrics()
                                 }
                                 
                             }
@@ -44,7 +44,7 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
                         BiometricUnlockButton(.faceID) {
                             if !isKeyboardVisible {
                                 async {
-                                    await model.loginWithBiometrics()
+                                    await state.loginWithBiometrics()
                                 }
                             }
                         }
@@ -63,15 +63,15 @@ struct LockedView<Model>: View where Model: LockedModelRepresentable {
         }
     /*
         .onChange(of: scenePhase) { scenePhase in
-            if scenePhase == .active, useBiometricsOnAppear, model.status != .locked(cancelled: true) {
-                model.loginWithBiometrics()
+            if scenePhase == .active, useBiometricsOnAppear, state.status != .locked(cancelled: true) {
+                state.loginWithBiometrics()
             }
         }
-        .onReceive(model.error) { error in
+        .onReceive(state.error) { error in
             feedbackGenerator.notificationOccurred(.error)
             self.error = error
         }
-        .onReceive(model.done) { _ in
+        .onReceive(state.done) { _ in
             feedbackGenerator.notificationOccurred(.success)
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.keyboardDidShowNotification)) { _ in
@@ -104,10 +104,10 @@ private extension LockedView {
 #if DEBUG
 struct LockedViewPreview: PreviewProvider {
     
-    static let model = LockedModelStub()
+    static let state = LockedStateStub()
     
     static var previews: some View {
-        LockedView(model)
+        LockedView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

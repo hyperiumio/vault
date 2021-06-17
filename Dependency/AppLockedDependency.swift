@@ -1,6 +1,6 @@
 import Crypto
 import Foundation
-import Persistence
+import Model
 import Preferences
 
 @MainActor
@@ -25,57 +25,57 @@ struct AppLockedDependency {
 
 extension AppLockedDependency: AppStateDependency {
     
-    func bootstrapModel() -> BootstrapModel {
-        BootstrapModel(containerDirectory: containerDirectory, preferences: preferences)
+    func bootstrapState() -> BootstrapState {
+        BootstrapState(containerDirectory: containerDirectory, preferences: preferences)
     }
     
-    func setupModel() -> SetupModel<Self> {
-        SetupModel(dependency: self, keychain: keychain)
+    func setupState() -> SetupState<Self> {
+        SetupState(dependency: self, keychain: keychain)
     }
     
-    func lockedMainModel(store: Store) -> MainModel<Self> {
-        let lockedModel = self.lockedModel(store: store)
-        let state = MainModel.State.locked(model: lockedModel)
-        return MainModel(dependency: self, state: state)
+    func lockedMainState(store: Store) -> MainState<Self> {
+        let lockedState = self.lockedState(store: store)
+        let state = MainState.State.locked(state: lockedState)
+        return MainState(dependency: self, state: state)
     }
     
-    func unlockedMainModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainModel<Self> {
-        let unlockedModel = self.unlockedModel(store: store, derivedKey: derivedKey, masterKey: masterKey, itemIndex: [:])
-        let state = MainModel.State.unlocked(model: unlockedModel)
-        return MainModel(dependency: self, state: state)
-    }
-    
-}
-
-extension AppLockedDependency: SetupModelDependency {
-    
-    func choosePasswordModel() -> ChoosePasswordModel {
-        ChoosePasswordModel()
-    }
-    
-    func repeatPasswordModel(password: String) -> RepeatPasswordModel {
-        RepeatPasswordModel(password: password)
-    }
-    
-    func enabledBiometricUnlockModel(password: String, biometryType: Keychain.BiometryType) -> EnableBiometricUnlockModel {
-        EnableBiometricUnlockModel(password: password, biometryType: biometryType)
-    }
-    
-    func completeSetupModel(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupModel {
-        CompleteSetupModel(password: password, biometricUnlockEnabled: biometricUnlockEnabled, containerDirectory: containerDirectory, preferences: preferences, keychain: keychain)
+    func unlockedMainState(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainState<Self> {
+        let unlockedState = self.unlockedState(store: store, derivedKey: derivedKey, masterKey: masterKey, itemIndex: [:])
+        let state = MainState.State.unlocked(state: unlockedState)
+        return MainState(dependency: self, state: state)
     }
     
 }
 
-extension AppLockedDependency: MainModelDependency {
+extension AppLockedDependency: SetupStateDependency {
     
-    func lockedModel(store: Store) -> LockedModel {
-        LockedModel(store: store, preferences: preferences, keychain: keychain)
+    func choosePasswordState() -> ChoosePasswordState {
+        ChoosePasswordState()
     }
     
-    func unlockedModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [StoreItemLocator: StoreItemInfo]) -> UnlockedModel<AppUnlockedDependency> {
+    func repeatPasswordState(password: String) -> RepeatPasswordState {
+        RepeatPasswordState(password: password)
+    }
+    
+    func enabledBiometricUnlockState(password: String, biometryType: Keychain.BiometryType) -> EnableBiometricUnlockState {
+        EnableBiometricUnlockState(password: password, biometryType: biometryType)
+    }
+    
+    func completeSetupState(password: String, biometricUnlockEnabled: Bool) -> CompleteSetupState {
+        CompleteSetupState(password: password, biometricUnlockEnabled: biometricUnlockEnabled, containerDirectory: containerDirectory, preferences: preferences, keychain: keychain)
+    }
+    
+}
+
+extension AppLockedDependency: MainStateDependency {
+    
+    func lockedState(store: Store) -> LockedState {
+        LockedState(store: store, preferences: preferences, keychain: keychain)
+    }
+    
+    func unlockedState(store: Store, derivedKey: DerivedKey, masterKey: MasterKey, itemIndex: [StoreItemLocator: StoreItemInfo]) -> UnlockedState<AppUnlockedDependency> {
         let dependency = AppUnlockedDependency(store: store, preferences: preferences, keychain: keychain, derivedKey: derivedKey, masterKey: masterKey)
-        return UnlockedModel(store: store, itemIndex: itemIndex, dependency: dependency)
+        return UnlockedState(store: store, itemIndex: itemIndex, dependency: dependency)
     }
     
 }

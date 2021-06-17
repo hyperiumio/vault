@@ -1,17 +1,17 @@
 import SwiftUI
 
-struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresentable {
+struct ChoosePasswordView<S>: View where S: ChoosePasswordStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        PageNavigationView(.continue, isEnabled: !model.password.isEmpty) {
+        PageNavigationView(.continue, isEnabled: !state.password.isEmpty) {
             async {
-                await model.choosePassword()
+                await state.choosePassword()
             }
         } content: {
             VStack {
@@ -30,7 +30,7 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
                 
                 Spacer()
                 
-                SecureField(.enterMasterPassword, text: $model.password, prompt: nil)
+                SecureField(.enterMasterPassword, text: $state.password, prompt: nil)
                     .textContentType(.oneTimeCode)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
@@ -46,10 +46,10 @@ struct ChoosePasswordView<Model>: View where Model: ChoosePasswordModelRepresent
 #if DEBUG
 struct ChoosePasswordViewProvider: PreviewProvider {
     
-    static let model = ChoosePasswordModelStub()
+    static let state = ChoosePasswordStateStub()
     
     static var previews: some View {
-        ChoosePasswordView(model)
+        ChoosePasswordView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

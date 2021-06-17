@@ -4,16 +4,16 @@ struct GeneratePasswordView: View {
     
     let passworGenerator: (String?) -> Void
     
-    @StateObject private var model = GeneratePasswordModel()
+    @StateObject private var state = GeneratePasswordState()
     
     private var length: Binding<Double> {
         Binding<Double> {
-            Double(model.length)
+            Double(state.length)
         } set: { length in
             let length = Int(length)
-            guard model.length != length else { return }
+            guard state.length != length else { return }
             
-            model.length = length
+            state.length = length
         }
     }
     
@@ -23,30 +23,30 @@ struct GeneratePasswordView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(model.password ?? "")
+            Text(state.password ?? "")
                 .font(.body.monospaced())
                 .foregroundColor(.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             
             HStack() {
-                Text(.localizedCharacters(model.length))
+                Text(.localizedCharacters(state.length))
                 
                 Slider(value: length, in: 16 ... 64)
             }
             
-            Toggle(.numbers, isOn: $model.digitsEnabled)
+            Toggle(.numbers, isOn: $state.digitsEnabled)
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             
-            Toggle(.symbols, isOn: $model.symbolsEnabled)
+            Toggle(.symbols, isOn: $state.symbolsEnabled)
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
         }
         .monospacedDigit()
         .foregroundStyle(.secondary)
-        .onChange(of: model.password, perform: passworGenerator)
+        .onChange(of: state.password, perform: passworGenerator)
         .onAppear {
             async {
-                await model.createPassword()
+                await state.createPassword()
             }
         }
     }

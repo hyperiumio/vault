@@ -1,22 +1,22 @@
 import SwiftUI
 
-struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
+struct EditLoginView<S>: View where S: LoginStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        EditItemTextField(.username, placeholder: .usernameOrEmail, text: $model.username)
+        EditItemTextField(.username, placeholder: .usernameOrEmail, text: $state.username)
             .keyboardType(.emailAddress)
             .textContentType(.username)
         
-        EditItemSecureField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
+        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
             .textContentType(.password)
         
-        EditItemTextField(.url, placeholder: .exampleURL, text: $model.url)
+        EditItemTextField(.url, placeholder: .exampleURL, text: $state.url)
             .keyboardType(.URL)
             .textContentType(.URL)
     }
@@ -26,11 +26,11 @@ struct EditLoginView<Model>: View where Model: LoginModelRepresentable {
 #if DEBUG
 struct EditLoginViewPreview: PreviewProvider {
     
-    static let model = LoginModelStub()
+    static let state = LoginStateStub()
     
     static var previews: some View {
         List {
-            EditLoginView(model)
+            EditLoginView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

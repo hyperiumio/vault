@@ -1,13 +1,13 @@
 import SwiftUI
 
 #warning("Todo")
-struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
+struct QuickAccessView<S>: View where S: QuickAccessStateRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject var state: S
     private let cancel: () -> Void
     
-    init(_ model: Model, cancel: @escaping () -> Void) {
-        self.model = model
+    init(_ state: S, cancel: @escaping () -> Void) {
+        self.state = state
         self.cancel = cancel
     }
     
@@ -15,11 +15,11 @@ struct QuickAccessView<Model>: View where Model: QuickAccessModelRepresentable {
     var body: some View {
         NavigationView {
             Group {
-                switch model.state {
-                case .locked(let model, _):
-                    QuickAccessLockedView(model)
-                case .unlocked(let model):
-                    QuickAccessUnlockedView(model)
+                switch state.status {
+                case .locked(let state, _):
+                    QuickAccessLockedView(state)
+                case .unlocked(let state):
+                    QuickAccessUnlockedView(state)
                 case .loading:
                     EmptyView()
                 case .loadingFailed:

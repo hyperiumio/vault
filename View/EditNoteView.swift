@@ -1,16 +1,16 @@
 import SwiftUI
 
-struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
+struct EditNoteView<S>: View where S: NoteStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
         ItemField(.note) {
-            TextEditor(text: $model.text)
+            TextEditor(text: $state.text)
         }
     }
     
@@ -19,11 +19,11 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
 #if DEBUG
 struct EditNoteViewPreview: PreviewProvider {
     
-    static let model = NoteModelStub()
+    static let state = NoteStateStub()
     
     static var previews: some View {
         List {
-            EditNoteView(model)
+            EditNoteView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

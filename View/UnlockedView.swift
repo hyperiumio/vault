@@ -1,19 +1,19 @@
 import SwiftUI
 
-struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
+struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @State private var presentedSheet: Sheet?
     @Environment(\.scenePhase) private var scenePhase
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
         NavigationView {
             Group {
-                switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
+                switch (state.itemCollation.sections.isEmpty, state.searchText.isEmpty) {
                 case (true, true):
                     VStack(spacing: 30) {
                         Text(.emptyVault)
@@ -29,11 +29,11 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 case (false, _):
                     List {
                         /*
-                        ForEach(model.itemCollation.sections) { section in
+                        ForEach(state.itemCollation.sections) { section in
                             Section {
-                                ForEach(section.elements) { model in
-                                    NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
+                                ForEach(section.elements) { state in
+                                    NavigationLink(destination: VaultItemReferenceView(state)) {
+                                        VaultItemInfoView(state.info.name, description: state.info.description, type: state.info.primaryType)
                                     }
                                 }
                             } header: {
@@ -41,7 +41,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                             }
                         }*/
                     }
-                    .searchable(text: $model.searchText)
+                    .searchable(text: $state.searchText)
                     .listStyle(PlainListStyle())
                 }
             }
@@ -55,7 +55,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     }
                     
                     Button {
-                        model.lockApp(enableBiometricUnlock: false)
+                        state.lockApp(enableBiometricUnlock: false)
                     } label: {
                         Image(systemName: .lock)
                     }
@@ -76,33 +76,33 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
             case .settings:
-                SettingsView(model.settingsModel)
+                SettingsView(state.settingsState)
             case .selectCategory:
                 SelectCategoryView { selection in
                     switch selection {
                     case .login:
-                        model.createLoginItem()
+                        state.createLoginItem()
                     case .password:
-                        model.createPasswordItem()
+                        state.createPasswordItem()
                     case .wifi:
-                        model.createWifiItem()
+                        state.createWifiItem()
                     case .note:
-                        model.createNoteItem()
+                        state.createNoteItem()
                     case .bankCard:
-                        model.createBankCardItem()
+                        state.createBankCardItem()
                     case .bankAccount:
-                        model.createBankAccountItem()
+                        state.createBankAccountItem()
                     case .custom:
-                        model.createCustomItem()
+                        state.createCustomItem()
                     case .file(data: let data, type: let type):
-                        model.createFileItem(data: data, type: type)
+                        state.createFileItem(data: data, type: type)
                     }
                 }
-            case .createVaultItem(let model):
-                CreateVaultItemView(model)
+            case .createVaultItem(let state):
+                CreateVaultItemView(state)
             }
         }
-        .alert(item: $model.failure) { failure in
+        .alert(item: $state.failure) { failure in
             switch failure {
             case .loadOperationFailed:
                 let name = Text(.loadingVaultFailed)
@@ -112,16 +112,16 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 return Alert(title: name)
             }
         }
-        .onChange(of: model.creationModel) { model in
-            if let model = model {
-                presentedSheet = .createVaultItem(model)
+        .onChange(of: state.creationState) { state in
+            if let state = state {
+                presentedSheet = .createVaultItem(state)
             } else {
                 presentedSheet = nil
             }
         }
         .onChange(of: scenePhase) { scenePhase in
             if scenePhase == .background {
-                model.lockApp(enableBiometricUnlock: true)
+                state.lockApp(enableBiometricUnlock: true)
             }
         }
     }
@@ -142,7 +142,7 @@ private extension UnlockedView {
         
         case settings
         case selectCategory
-        case createVaultItem(Model.VaultItemModel)
+        case createVaultItem(S.VaultItemState)
         
         var id: String {
             switch self {

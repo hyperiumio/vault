@@ -7,7 +7,7 @@ import SwiftUI
 
 class CredentialProviderViewController: ASCredentialProviderViewController {
 
-    private lazy var mainModel: QuickAccessModel<QuickAccessDependency>? = {
+    private lazy var mainState: QuickAccessState<QuickAccessDependency>? = {
         /*
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: .appGroup) else {
             return nil
@@ -22,16 +22,16 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         
         let containerDirectory = appContainerDirectory.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true)
         let keychain = Keychain(accessGroup: .appGroup)
-        let mainModelDependency = QuickAccessDependency(preferences: preferences, keychain: keychain)
-        let model = QuickAccessModel(dependency: mainModelDependency, containerDirectory: containerDirectory, storeID: activeStoreID)
+        let mainStateDependency = QuickAccessDependency(preferences: preferences, keychain: keychain)
+        let state = QuickAccessState(dependency: mainStateDependency, containerDirectory: containerDirectory, storeID: activeStoreID)
         
-        didSelectSubscription = model.done
+        didSelectSubscription = state.done
             .sink { [extensionContext] item in
                 let passwordCredential = ASPasswordCredential(user: item.username, password: item.password)
                 extensionContext.completeRequest(withSelectedCredential: passwordCredential, completionHandler: nil)
             }
         
-        return model
+        return state
          */
         fatalError()
     }()
@@ -43,8 +43,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
         view = UIView()
         
         let rootView = Group {
-            if let model = mainModel {
-                QuickAccessView(model) {
+            if let state = mainState {
+                QuickAccessView(state) {
                     self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
                 }
             } else {
@@ -67,8 +67,8 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     #if os(macOS)
     override func loadView() {
         let rootView = Group {
-            if let model = mainModel {
-                QuickAccessView(model) {
+            if let state = mainState {
+                QuickAccessView(state) {
                     self.extensionContext.cancelRequest(withError: NSError(domain: ASExtensionErrorDomain, code: ASExtensionError.userCanceled.rawValue))
                 }
             } else {

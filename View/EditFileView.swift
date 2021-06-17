@@ -2,16 +2,16 @@ import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct EditFileView<Model>: View where Model: FileModelRepresentable {
+struct EditFileView<S>: View where S: FileStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        FileView(model.item)
+        FileView(state.item)
     }
     
 }
@@ -19,14 +19,14 @@ struct EditFileView<Model>: View where Model: FileModelRepresentable {
 #if DEBUG
 struct EditFileViewPreview: PreviewProvider {
     
-    static let model: FileModelStub = {
+    static let state: FileStateStub = {
         let data = NSDataAsset(name: "ImageDummy")!.data
-        return FileModelStub(typeIdentifier: .image, data: data)
+        return FileStateStub(typeIdentifier: .image, data: data)
     }()
     
     static var previews: some View {
         List {
-            EditFileView(model)
+            EditFileView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

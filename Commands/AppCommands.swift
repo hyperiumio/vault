@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct AppCommands<Model>: Commands where Model: AppModelRepresentable {
+struct AppCommands<S>: Commands where S: AppStateRepresentable {
     
-    @ObservedObject var model: Model
+    @ObservedObject var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some Commands {
@@ -13,9 +13,9 @@ struct AppCommands<Model>: Commands where Model: AppModelRepresentable {
         
         CommandGroup(before: .appTermination) {
             Button(.lockVault) {
-                guard case .main(let model) = model.state else { return }
+                guard case .main(let state) = state.state else { return }
                 
-           //     model.lock()
+           //     state.lock()
             }
         }
     }

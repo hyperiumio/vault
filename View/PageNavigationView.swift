@@ -104,7 +104,7 @@ extension PageNavigationView {
 #if DEBUG
 struct PageNavigationViewProvider: PreviewProvider {
     
-    static let model = ChoosePasswordModelStub()
+    static let state = ChoosePasswordStateStub()
     
     static var previews: some View {
         Group {

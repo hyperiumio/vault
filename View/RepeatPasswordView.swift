@@ -1,16 +1,16 @@
 import SwiftUI
 
-struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresentable {
+struct RepeatPasswordView<S>: View where S: RepeatPasswordStateRepresentable {
     
-    @ObservedObject private var model: Model
-    @State private var displayError: RepeatPasswordModelError?
+    @ObservedObject private var state: S
+    @State private var displayError: RepeatPasswordStateError?
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var enabledIntensions: Set<PageNavigationIntention> {
-        model.repeatedPassword.isEmpty ? [.backward] : [.backward, .forward]
+        state.repeatedPassword.isEmpty ? [.backward] : [.backward, .forward]
     }
     
     #if os(iOS)
@@ -19,7 +19,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
             switch intension {
             case .forward:
                 async {
-                    await model.validatePassword()
+                    await state.validatePassword()
                 }
             case .backward:
                 break
@@ -40,7 +40,7 @@ struct RepeatPasswordView<Model>: View where Model: RepeatPasswordModelRepresent
                 
                 Spacer()
                 
-                SecureField(.enterMasterPassword, text: $model.repeatedPassword)
+                SecureField(.enterMasterPassword, text: $state.repeatedPassword)
                     .textContentType(.oneTimeCode)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
@@ -93,10 +93,10 @@ private extension UIFont.TextStyle {
 #if DEBUG
 struct RepeatPasswordViewProvider: PreviewProvider {
     
-    static let model = RepeatPasswordModelStub()
+    static let state = RepeatPasswordStateStub()
     
     static var previews: some View {
-        RepeatPasswordView(model)
+        RepeatPasswordView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

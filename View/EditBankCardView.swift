@@ -1,27 +1,27 @@
 import Format
 import SwiftUI
 
-struct EditBankCardView<Model>: View where Model: BankCardStateRepresentable {
+struct EditBankCardView<S>: View where S: BankCardStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
-        EditItemTextField(.name, placeholder: .name, text: $model.name)
+        EditItemTextField(.name, placeholder: .name, text: $state.name)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        EditItemTextField(.number, placeholder: .number, text: $model.number, formatter: CreditCardNumberFormatter())
+        EditItemTextField(.number, placeholder: .number, text: $state.number, formatter: CreditCardNumberFormatter())
             .font(.system(.body, design: .monospaced))
             .keyboardType(.numberPad)
             .textContentType(.creditCardNumber)
         
-        EditItemDateField(.expirationDate, date: $model.expirationDate)
+        EditItemDateField(.expirationDate, date: $state.expirationDate)
         
-        EditItemSecureField(.pin, placeholder: .pin, text: $model.pin, generatorAvailable: false)
+        EditItemSecureField(.pin, placeholder: .pin, text: $state.pin, generatorAvailable: false)
     }
     
 }
@@ -29,11 +29,11 @@ struct EditBankCardView<Model>: View where Model: BankCardStateRepresentable {
 #if DEBUG
 struct EditBankCardViewPreview: PreviewProvider {
     
-    static let model = BankCardStateStub()
+    static let state = BankCardStateStub()
     
     static var previews: some View {
         List {
-            EditBankCardView(model)
+            EditBankCardView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

@@ -1,13 +1,13 @@
 import Crypto
 import SwiftUI
 
-struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlockModelRepresentable {
+struct EnableBiometricUnlockView<S>: View where S: EnableBiometricUnlockStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: S
     @State private var error: EnableBiometricUnlockError?
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: S) {
+        self.state = state
     }
     
     var body: some View {
@@ -15,11 +15,11 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
             switch intension {
             case .forward:
                 async {
-                    await model.done()
+                    await state.done()
                 }
             case .backward:
                 async {
-                    await model.dismiss()
+                    await state.dismiss()
                 }
             }
         } content: {
@@ -27,11 +27,11 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
                 Spacer()
                 
                 VStack {
-                    switch model.biometryType {
+                    switch state.biometryType {
                     case .touchID:
-                        Content(imageName: .touchid, title: .enableTouchIDUnlock, description: .unlockWithTouchIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: .touchid, title: .enableTouchIDUnlock, description: .unlockWithTouchIDDescription, isEnabled: $state.isEnabled)
                     case .faceID:
-                        Content(imageName: .faceid, title: .enableFaceIDUnlock, description: .unlockWithFaceIDDescription, isEnabled: $model.isEnabled)
+                        Content(imageName: .faceid, title: .enableFaceIDUnlock, description: .unlockWithFaceIDDescription, isEnabled: $state.isEnabled)
                     }
                 }
                 
@@ -106,14 +106,14 @@ private extension EnableBiometricUnlockView {
 #if DEBUG
 struct EnableBiometricUnlockViewPreview: PreviewProvider {
     
-    static let model = EnableBiometricUnlockModelStub(biometryType: .touchID)
+    static let state = EnableBiometricUnlockStateStub(biometryType: .touchID)
     
     static var previews: some View {
         Group {
-            EnableBiometricUnlockView(model)
+            EnableBiometricUnlockView(state)
                 .preferredColorScheme(.light)
             
-            EnableBiometricUnlockView(model)
+            EnableBiometricUnlockView(state)
                 .preferredColorScheme(.dark)
         }
         .previewLayout(.sizeThatFits)

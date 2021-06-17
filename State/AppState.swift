@@ -2,17 +2,17 @@ import Combine
 import Crypto
 import Foundation
 import Preferences
-import Persistence
+import Model
 import Sort
 
 @MainActor
 protocol AppStateRepresentable: ObservableObject, Identifiable {
     
-    associatedtype BootstrapModel: BootstrapModelRepresentable
-    associatedtype SetupModel: SetupModelRepresentable
-    associatedtype MainModel: MainModelRepresentable
+    associatedtype BootstrapState: BootstrapStateRepresentable
+    associatedtype SetupState: SetupStateRepresentable
+    associatedtype MainState: MainStateRepresentable
     
-    typealias Mode = AppStateMode<BootstrapModel, SetupModel, MainModel>
+    typealias Mode = AppStateMode<BootstrapState, SetupState, MainState>
     
     var mode: Mode { get }
     
@@ -21,37 +21,41 @@ protocol AppStateRepresentable: ObservableObject, Identifiable {
 @MainActor
 protocol AppStateDependency {
     
-    associatedtype BootstrapModel: BootstrapModelRepresentable
-    associatedtype SetupModel: SetupModelRepresentable
-    associatedtype MainModel: MainModelRepresentable
+    associatedtype BootstrapState: BootstrapStateRepresentable
+    associatedtype SetupState: SetupStateRepresentable
+    associatedtype MainState: MainStateRepresentable
     
-    func bootstrapModel() -> BootstrapModel
-    func setupModel() -> SetupModel
-    func lockedMainModel(store: Store) -> MainModel
-    func unlockedMainModel(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainModel
+    func bootstrapState() -> BootstrapState
+    func setupState() -> SetupState
+    func lockedMainState(store: Store) -> MainState
+    func unlockedMainState(store: Store, derivedKey: DerivedKey, masterKey: MasterKey) -> MainState
     
 }
 
 @MainActor
 class AppState<Dependency: AppStateDependency>: AppStateRepresentable {
     
-    typealias BootstrapModel = Dependency.BootstrapModel
-    typealias SetupModel = Dependency.SetupModel
-    typealias MainModel = Dependency.MainModel
+    typealias BootstrapState = Dependency.BootstrapState
+    typealias SetupState = Dependency.SetupState
+    typealias MainState = Dependency.MainState
     
     @Published private(set) var mode: Mode
     
     init(_ dependency: Dependency) {
-        fatalError()
+        
+        let bootstrapState = dependency.bootstrapState()
+        let initialMode = Mode.bootstrap(bootstrapState)
+        
+        self.mode = initialMode
     }
     
 }
 
-enum AppStateMode<BootstrapModel, SetupModel, MainModel> {
+enum AppStateMode<BootstrapState, SetupState, MainState> {
     
-    case bootstrap(BootstrapModel)
-    case setup(SetupModel)
-    case main(MainModel)
+    case bootstrap(BootstrapState)
+    case setup(SetupState)
+    case main(MainState)
     
 }
 
@@ -59,10 +63,10 @@ enum AppStateMode<BootstrapModel, SetupModel, MainModel> {
 @MainActor
 class AppStateStub: AppStateRepresentable {
     
-    typealias BootstrapModel = BootstrapModelStub
-    typealias SetupModel = SetupModelStub
-    typealias MainModel = MainModelStub
-    typealias UnlockedModel = UnlockedModelStub
+    typealias BootstrapState = BootstrapStateStub
+    typealias SetupState = SetupStateStub
+    typealias MainState = MainStateStub
+    typealias UnlockedState = UnlockedStateStub
     
     let mode: Mode
     

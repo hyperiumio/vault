@@ -1,4 +1,4 @@
-import Persistence
+import Model
 import SwiftUI
 
 struct VaultItemInfoView: View {
