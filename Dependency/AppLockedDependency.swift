@@ -23,7 +23,7 @@ struct AppLockedDependency {
     
 }
 
-extension AppLockedDependency: AppModelDependency {
+extension AppLockedDependency: AppStateDependency {
     
     func bootstrapModel() -> BootstrapModel {
         BootstrapModel(containerDirectory: containerDirectory, preferences: preferences)

@@ -3,7 +3,7 @@ import Pasteboard
 import Persistence
 
 @MainActor
-protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
+protocol BankAccountStateRepresentable: ObservableObject, Identifiable {
     
     var accountHolder: String { get set }
     var iban: String { get set }
@@ -13,7 +13,7 @@ protocol BankAccountModelRepresentable: ObservableObject, Identifiable {
 }
 
 @MainActor
-class BankAccountModel: BankAccountModelRepresentable {
+class BankAccountState: BankAccountStateRepresentable {
     
     @Published var accountHolder: String
     @Published var iban: String
@@ -36,7 +36,7 @@ class BankAccountModel: BankAccountModelRepresentable {
 }
 
 #if DEBUG
-class BankAccountModelStub: BankAccountModelRepresentable {
+class BankAccountStateStub: BankAccountStateRepresentable {
     
     @Published var accountHolder = ""
     @Published var iban: String = ""

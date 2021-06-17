@@ -73,16 +73,16 @@ extension AppUnlockedDependency: VaultItemModelDependency {
         NoteModel(item)
     }
     
-    func bankCardModel(item: BankCardItem) -> BankCardModel {
-        BankCardModel(item)
+    func bankCardModel(item: BankCardItem) -> BankCardState {
+        BankCardState(item)
     }
     
     func wifiModel(item: WifiItem) -> WifiModel {
         WifiModel(item)
     }
     
-    func bankAccountModel(item: BankAccountItem) -> BankAccountModel {
-        BankAccountModel(item)
+    func bankAccountModel(item: BankAccountItem) -> BankAccountState {
+        BankAccountState(item)
     }
     
     func customItemModel(item: CustomItem) -> CustomModel {

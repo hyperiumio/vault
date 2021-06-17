@@ -4,7 +4,7 @@ import Pasteboard
 import Persistence
 
 @MainActor
-protocol BankCardModelRepresentable: ObservableObject, Identifiable {
+protocol BankCardStateRepresentable: ObservableObject, Identifiable {
     
     var name: String { get set }
     var number: String { get set }
@@ -15,7 +15,7 @@ protocol BankCardModelRepresentable: ObservableObject, Identifiable {
 }
 
 @MainActor
-class BankCardModel: BankCardModelRepresentable {
+class BankCardState: BankCardStateRepresentable {
     
     @Published var name: String
     @Published var number: String
@@ -40,7 +40,7 @@ class BankCardModel: BankCardModelRepresentable {
 }
 
 #if DEBUG
-class BankCardModelStub: BankCardModelRepresentable {
+class BankCardStateStub: BankCardStateRepresentable {
     
     @Published var name = ""
     @Published var number = ""

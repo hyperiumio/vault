@@ -1,7 +1,7 @@
 import Format
 import SwiftUI
 
-struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentable {
+struct EditBankAccountView<Model>: View where Model: BankAccountStateRepresentable {
     
     @ObservedObject private var model: Model
     
@@ -27,7 +27,7 @@ struct EditBankAccountView<Model>: View where Model: BankAccountModelRepresentab
 #if DEBUG
 struct EditBankAccountViewPreview: PreviewProvider {
     
-    static let model = BankAccountModelStub()
+    static let model = BankAccountStateStub()
     
     static var previews: some View {
         List {

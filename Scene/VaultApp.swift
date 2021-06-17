@@ -3,15 +3,15 @@ import SwiftUI
 @main
 struct VaultApp: App {
     
-    @StateObject var model: AppModel<AppLockedDependency> = {
+    @StateObject var state: AppState<AppLockedDependency> = {
         let dependency = AppLockedDependency()
-        return AppModel(dependency)
+        return AppState(dependency)
     }()
     
     #if os(iOS)
     var body: some Scene {
         WindowGroup {
-            AppView(model)
+            AppView(state)
         }
     }
     #endif

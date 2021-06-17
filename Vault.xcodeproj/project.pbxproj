@@ -77,8 +77,8 @@
 		9574322A24AA05430062B05A /* VaultApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* VaultApp.swift */; };
 		9574323424AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
 		9574323524AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
-		9574323E24AA075A0062B05A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574323D24AA075A0062B05A /* AppModel.swift */; };
-		9574323F24AA075A0062B05A /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574323D24AA075A0062B05A /* AppModel.swift */; };
+		9574323E24AA075A0062B05A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574323D24AA075A0062B05A /* AppState.swift */; };
+		9574323F24AA075A0062B05A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574323D24AA075A0062B05A /* AppState.swift */; };
 		9574326E24AA081B0062B05A /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteModel.swift */; };
 		9574326F24AA081B0062B05A /* NoteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteModel.swift */; };
 		9574327624AA081B0062B05A /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324824AA081A0062B05A /* SettingsModel.swift */; };
@@ -91,8 +91,8 @@
 		9574328724AA081B0062B05A /* VaultItemReferenceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325024AA081A0062B05A /* VaultItemReferenceModel.swift */; };
 		9574329024AA081B0062B05A /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */; };
 		9574329124AA081B0062B05A /* ChangeMasterPasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */; };
-		9574329224AA081B0062B05A /* BankAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountModel.swift */; };
-		9574329324AA081B0062B05A /* BankAccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountModel.swift */; };
+		9574329224AA081B0062B05A /* BankAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountState.swift */; };
+		9574329324AA081B0062B05A /* BankAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountState.swift */; };
 		9574329424AA081B0062B05A /* WifiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325724AA081A0062B05A /* WifiModel.swift */; };
 		9574329524AA081B0062B05A /* WifiModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325724AA081A0062B05A /* WifiModel.swift */; };
 		9574329624AA081B0062B05A /* PasswordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325824AA081A0062B05A /* PasswordModel.swift */; };
@@ -314,14 +314,14 @@
 		9574322524AA05430062B05A /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		9574322624AA05430062B05A /* AppInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		9574323024AA05710062B05A /* Icon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icon.xcassets; sourceTree = "<group>"; };
-		9574323D24AA075A0062B05A /* AppModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		9574323D24AA075A0062B05A /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		9574324424AA08190062B05A /* NoteModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteModel.swift; sourceTree = "<group>"; };
 		9574324824AA081A0062B05A /* SettingsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		9574324924AA081A0062B05A /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		9574324C24AA081A0062B05A /* VaultItemModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemModel.swift; sourceTree = "<group>"; };
 		9574325024AA081A0062B05A /* VaultItemReferenceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VaultItemReferenceModel.swift; sourceTree = "<group>"; };
 		9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeMasterPasswordModel.swift; sourceTree = "<group>"; };
-		9574325624AA081A0062B05A /* BankAccountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountModel.swift; sourceTree = "<group>"; };
+		9574325624AA081A0062B05A /* BankAccountState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountState.swift; sourceTree = "<group>"; };
 		9574325724AA081A0062B05A /* WifiModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiModel.swift; sourceTree = "<group>"; };
 		9574325824AA081A0062B05A /* PasswordModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordModel.swift; sourceTree = "<group>"; };
 		9574325B24AA081A0062B05A /* LockedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedModel.swift; sourceTree = "<group>"; };
@@ -491,11 +491,11 @@
 			path = Asset;
 			sourceTree = "<group>";
 		};
-		9574323124AA05710062B05A /* Model */ = {
+		9574323124AA05710062B05A /* State */ = {
 			isa = PBXGroup;
 			children = (
-				9574323D24AA075A0062B05A /* AppModel.swift */,
-				9574325624AA081A0062B05A /* BankAccountModel.swift */,
+				9574323D24AA075A0062B05A /* AppState.swift */,
+				9574325624AA081A0062B05A /* BankAccountState.swift */,
 				9574326024AA081A0062B05A /* BankCardModel.swift */,
 				956EFCDB24AA368E0084D716 /* BootstrapModel.swift */,
 				9574325524AA081A0062B05A /* ChangeMasterPasswordModel.swift */,
@@ -521,7 +521,7 @@
 				9574325024AA081A0062B05A /* VaultItemReferenceModel.swift */,
 				9574325724AA081A0062B05A /* WifiModel.swift */,
 			);
-			path = Model;
+			path = State;
 			sourceTree = "<group>";
 		};
 		9574323224AA05710062B05A /* View */ = {
@@ -636,7 +636,7 @@
 				9577120F24F814E30095AF33 /* Dependency */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
-				9574323124AA05710062B05A /* Model */,
+				9574323124AA05710062B05A /* State */,
 				957EB3BC2510F11500D6AE2E /* Scene */,
 				9548581A257133110048785D /* Shim */,
 				9574323224AA05710062B05A /* View */,
@@ -923,7 +923,7 @@
 				9574329624AA081B0062B05A /* PasswordModel.swift in Sources */,
 				9574333924AA135E0062B05A /* SetupView.swift in Sources */,
 				95C90C2E2520B13C00860CAE /* ItemButton.swift in Sources */,
-				9574323E24AA075A0062B05A /* AppModel.swift in Sources */,
+				9574323E24AA075A0062B05A /* AppState.swift in Sources */,
 				9586490F251E12060081DF08 /* LoginView.swift in Sources */,
 				956307292535ACAA0076022A /* SelectCategoryView.swift in Sources */,
 				9586490A251E11C60081DF08 /* ItemDateField.swift in Sources */,
@@ -960,7 +960,7 @@
 				9586495B251E24A60081DF08 /* BankAccountView.swift in Sources */,
 				95696A8C267A4BCC009287E8 /* ItemVendorField.swift in Sources */,
 				95864914251E126E0081DF08 /* PasswordView.swift in Sources */,
-				9574329224AA081B0062B05A /* BankAccountModel.swift in Sources */,
+				9574329224AA081B0062B05A /* BankAccountState.swift in Sources */,
 				9574327824AA081B0062B05A /* LoginModel.swift in Sources */,
 				95C994472574E0B600C3A758 /* MainModel.swift in Sources */,
 				95D46EBA251A1D7C00EF500A /* ChoosePasswordView.swift in Sources */,
@@ -974,7 +974,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				956EFCDD24AA368E0084D716 /* BootstrapModel.swift in Sources */,
-				9574329324AA081B0062B05A /* BankAccountModel.swift in Sources */,
+				9574329324AA081B0062B05A /* BankAccountState.swift in Sources */,
 				9574334024AA135E0062B05A /* ChangeMasterPasswordView.swift in Sources */,
 				9588439625397F7600732E35 /* GeneratePasswordModel.swift in Sources */,
 				9542209F25518847002F14AB /* EditLoginView.swift in Sources */,
@@ -1037,7 +1037,7 @@
 				95864906251E11930081DF08 /* ItemSecureField.swift in Sources */,
 				95696A8D267A4BCC009287E8 /* ItemVendorField.swift in Sources */,
 				952D1063251B2CB200B95C4B /* CompleteSetupView.swift in Sources */,
-				9574323F24AA075A0062B05A /* AppModel.swift in Sources */,
+				9574323F24AA075A0062B05A /* AppState.swift in Sources */,
 				95A28029253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */,
 				9595584B251A382C00F7715F /* RepeatPasswordModel.swift in Sources */,
 				959143FF2513C12300897086 /* MainView.swift in Sources */,

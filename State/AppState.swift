@@ -6,20 +6,20 @@ import Persistence
 import Sort
 
 @MainActor
-protocol AppModelRepresentable: ObservableObject, Identifiable {
+protocol AppStateRepresentable: ObservableObject, Identifiable {
     
     associatedtype BootstrapModel: BootstrapModelRepresentable
     associatedtype SetupModel: SetupModelRepresentable
     associatedtype MainModel: MainModelRepresentable
     
-    typealias State = AppState<BootstrapModel, SetupModel, MainModel>
+    typealias Mode = AppStateMode<BootstrapModel, SetupModel, MainModel>
     
-    var state: State { get }
+    var mode: Mode { get }
     
 }
 
 @MainActor
-protocol AppModelDependency {
+protocol AppStateDependency {
     
     associatedtype BootstrapModel: BootstrapModelRepresentable
     associatedtype SetupModel: SetupModelRepresentable
@@ -33,13 +33,13 @@ protocol AppModelDependency {
 }
 
 @MainActor
-class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
+class AppState<Dependency: AppStateDependency>: AppStateRepresentable {
     
     typealias BootstrapModel = Dependency.BootstrapModel
     typealias SetupModel = Dependency.SetupModel
     typealias MainModel = Dependency.MainModel
     
-    @Published private(set) var state: State
+    @Published private(set) var mode: Mode
     
     init(_ dependency: Dependency) {
         fatalError()
@@ -47,7 +47,7 @@ class AppModel<Dependency: AppModelDependency>: AppModelRepresentable {
     
 }
 
-enum AppState<BootstrapModel, SetupModel, MainModel> {
+enum AppStateMode<BootstrapModel, SetupModel, MainModel> {
     
     case bootstrap(BootstrapModel)
     case setup(SetupModel)
@@ -57,17 +57,17 @@ enum AppState<BootstrapModel, SetupModel, MainModel> {
 
 #if DEBUG
 @MainActor
-class AppModelStub: AppModelRepresentable {
+class AppStateStub: AppStateRepresentable {
     
     typealias BootstrapModel = BootstrapModelStub
     typealias SetupModel = SetupModelStub
     typealias MainModel = MainModelStub
     typealias UnlockedModel = UnlockedModelStub
     
-    let state: State
+    let mode: Mode
     
-    init(state: State) {
-        self.state = state
+    init(mode: Mode) {
+        self.mode = mode
     }
     
     func lock() {}

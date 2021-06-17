@@ -1,21 +1,21 @@
 import SwiftUI
 
-struct AppView<Model>: View where Model: AppModelRepresentable {
+struct AppView<State>: View where State: AppStateRepresentable {
     
-    @ObservedObject private var model: Model
+    @ObservedObject private var state: State
     
-    init(_ model: Model) {
-        self.model = model
+    init(_ state: State) {
+        self.state = state
     }
 
     var body: some View {
-        switch model.state {
-        case .bootstrap(let model):
-            BootstrapView(model)
-        case .setup(let model):
-            SetupView(model)
-        case .main(let model):
-            MainView(model)
+        switch state.mode {
+        case .bootstrap(let state):
+            BootstrapView(state)
+        case .setup(let state):
+            SetupView(state)
+        case .main(let state):
+            MainView(state)
         }
     }
     
@@ -24,14 +24,14 @@ struct AppView<Model>: View where Model: AppModelRepresentable {
 #if DEBUG
 struct AppViewPreview: PreviewProvider {
     
-    static var model: AppModelStub = {
+    static var state: AppStateStub = {
         let boostrapModel = BootstrapModelStub(state: .loadingFailed)
-        let state = AppModelStub.State.bootstrap(boostrapModel)
-        return AppModelStub(state: state)
+        let mode = AppStateStub.Mode.bootstrap(boostrapModel)
+        return AppStateStub(mode: mode)
     }()
     
     static var previews: some View {
-        AppView(model)
+        AppView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }
