@@ -1,7 +1,6 @@
 import SwiftUI
 
-#warning("Todo")
-struct SecureItemButton<Content>: View where Content: View {
+struct ItemButton<Content>: View where Content: View {
     
     private let action: () -> Void
     private let content: Content
@@ -44,7 +43,6 @@ struct SecureItemButton<Content>: View where Content: View {
             }
         }
         .listRowInsets(EdgeInsets())
-      //  .buttonStyle(BareButtonStyle())
     }
     
 }
@@ -56,19 +54,19 @@ private extension Animation {
 }
 
 #if DEBUG
-struct SecureItemButtonPreview: PreviewProvider {
+struct ItemButtonPreview: PreviewProvider {
     
     static var previews: some View {
         Group {
             List {
-                SecureItemButton {} content: {
+                ItemButton {} content: {
                     Text("foo")
                 }
             }
             .preferredColorScheme(.light)
             
             List {
-                SecureItemButton {} content: {
+                ItemButton {} content: {
                     Text("foo")
                 }
             }

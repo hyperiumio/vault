@@ -1,7 +1,6 @@
 import SwiftUI
 
-#warning("Todo")
-struct SecureItemField<Content>: View where Content: View {
+struct ItemField<Content>: View where Content: View {
     
     private let title: LocalizedStringKey
     private let content: Content
@@ -15,7 +14,7 @@ struct SecureItemField<Content>: View where Content: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(.subheadline)
- //               .foregroundColor(.secondaryLabel)
+                .foregroundStyle(.secondary)
             
             content
         }
@@ -24,24 +23,15 @@ struct SecureItemField<Content>: View where Content: View {
 }
 
 #if DEBUG
-struct SecureItemFieldPreview: PreviewProvider {
+struct ItemFieldPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            List {
-                SecureItemField("foo") {
-                    Text("bar")
-                }
+        List {
+            ItemField("foo") {
+                Text("bar")
             }
-            .preferredColorScheme(.light)
-            
-            List {
-                SecureItemField("foo") {
-                    Text("bar")
-                }
-            }
-            .preferredColorScheme(.dark)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

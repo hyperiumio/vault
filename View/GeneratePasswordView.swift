@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct GeneratePasswordView: View {
     
     let passworGenerator: (String?) -> Void
@@ -22,15 +21,13 @@ struct GeneratePasswordView: View {
         self.passworGenerator = passworGenerator
     }
     
-    #if os(iOS)
     var body: some View {
         VStack(alignment: .leading) {
             Text(model.password ?? "")
-                .font(.password)
-    //            .foregroundColor(.label)
+                .font(.body.monospaced())
+                .foregroundColor(.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
-                .frame(minHeight: TextStyle.title2.lineHeight)
             
             HStack() {
                 Text(.localizedCharacters(model.length))
@@ -44,101 +41,14 @@ struct GeneratePasswordView: View {
             Toggle(.symbols, isOn: $model.symbolsEnabled)
                 .toggleStyle(SwitchToggleStyle(tint: .accentColor))
         }
-        .font(.text)
- //       .foregroundColor(.secondaryLabel)
+        .monospacedDigit()
+        .foregroundStyle(.secondary)
         .onChange(of: model.password, perform: passworGenerator)
         .onAppear {
-       //     model.createPassword()
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        VStack(alignment: .leading) {
-            Text(model.password ?? "")
-                .font(.password)
-    //            .foregroundColor(.label)
-                .lineLimit(1)
-                .minimumScaleFactor(0.5)
-                .frame(minHeight: TextStyle.title2.lineHeight)
-            
-            HStack() {
-                Text(.localizedCharacters(model.length))
-                
-                Slider(value: length, in: 16 ... 64)
-                    .alignmentGuide(.custom) { dimension in
-                        dimension[HorizontalAlignment.leading]
-                    }
-            }
-            
-            HStack {
-                Text(.numbers)
-                
-                Toggle(.numbers, isOn: $model.digitsEnabled)
-                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                    .labelsHidden()
-                    .alignmentGuide(.custom) { dimension in
-                        dimension[HorizontalAlignment.leading]
-                    }
-            }
-            
-            HStack {
-                Text(.symbols)
-                
-                Toggle(.symbols, isOn: $model.symbolsEnabled)
-                    .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-                    .labelsHidden()
-                    .alignmentGuide(.custom) { dimension in
-                        dimension[HorizontalAlignment.leading]
-                    }
+            async {
+                await model.createPassword()
             }
         }
-        .frame(maxWidth: 300)
-        .font(.text)
-  //      .foregroundColor(.secondaryLabel)
-        .onChange(of: model.password, perform: passworGenerator)
-        .onAppear {
-    //        model.createPassword()
-        }
-    }
-    #endif
-    
-}
-
-#if os(macOS)
-private typealias TextStyle = NSFont.TextStyle
-
-private extension NSFont.TextStyle {
-    
-    var lineHeight: CGFloat {
-        let font = NSFont.preferredFont(forTextStyle: self)
-        return NSLayoutManager().defaultLineHeight(for: font)
-    }
-    
-}
-#endif
-    
-#if os(iOS)
-private typealias TextStyle = UIFont.TextStyle
-
-private extension UIFont.TextStyle {
-
-    var lineHeight: CGFloat {
-        UIFont.preferredFont(forTextStyle: self).lineHeight
-    }
-    
-}
-#endif
-
-private extension Font {
-    
-    static var password: Self {
-        .system(.body, design: .monospaced)
-    }
-    
-    static var text: Self {
-        Font.body.monospacedDigit()
     }
     
 }
@@ -160,14 +70,9 @@ private extension HorizontalAlignment {
 struct GeneratePasswordViewPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            GeneratePasswordView { _ in }
-                .preferredColorScheme(.light)
-            
-            GeneratePasswordView { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        GeneratePasswordView { _ in }
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

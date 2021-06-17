@@ -1,5 +1,5 @@
 import SwiftUI
-#warning("Todo")
+
 struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -34,8 +34,10 @@ struct VaultItemView<Model>: View where Model: VaultItemModelRepresentable {
                         
                         ToolbarItem(placement: .primaryAction) {
                             Button(.save) {
-                                model.save()
-                                mode = .display
+                                async {
+                                    await model.save()
+                                    mode = .display
+                                }
                             }
                         }
                     }
@@ -169,8 +171,10 @@ private struct VaultItemEditView<Model>: View where Model: VaultItemModelReprese
                 
                 Section {
                     Button(.deleteItem) {
-                        model.delete()
-                        presentationMode.wrappedValue.dismiss()
+                        async {
+                            await model.delete()
+                            presentationMode.wrappedValue.dismiss()
+                        }
                     }
                     .foregroundColor(.red)
                 }

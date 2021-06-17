@@ -24,12 +24,3 @@ public struct ReadingContext {
     }
     
 }
-
-#warning("Workaround")
-extension FileHandle {
-    
-    public func read(upToCount count: Int) throws -> Data? {
-        readData(ofLength: count)
-    }
-    
-}

@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -9,21 +8,11 @@ struct EditNoteView<Model>: View where Model: NoteModelRepresentable {
         self.model = model
     }
     
-    #if os(iOS)
     var body: some View {
-        SecureItemField(.note) {
+        ItemField(.note) {
             TextEditor(text: $model.text)
         }
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        SecureItemField(.note) {
-            TextEditor(text: $model.text)
-        }
-    }
-    #endif
     
 }
 
@@ -33,17 +22,10 @@ struct EditNoteViewPreview: PreviewProvider {
     static let model = NoteModelStub()
     
     static var previews: some View {
-        Group {
-            List {
-                EditNoteView(model)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                EditNoteView(model)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            EditNoteView(model)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

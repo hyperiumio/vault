@@ -1,7 +1,6 @@
 import Crypto
 import SwiftUI
 
-#warning("Todo")
 struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlockModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -15,11 +14,13 @@ struct EnableBiometricUnlockView<Model>: View where Model: EnableBiometricUnlock
         PageNavigationView(.continue, enabledIntensions: [.backward, .forward]) { intension in
             switch intension {
             case .forward:
-                break
-         //       model.done()
+                async {
+                    await model.done()
+                }
             case .backward:
-                break
-         //       model.dismiss()
+                async {
+                    await model.dismiss()
+                }
             }
         } content: {
             VStack {

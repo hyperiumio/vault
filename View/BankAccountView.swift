@@ -1,28 +1,33 @@
 import Format
-import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct BankAccountView: View {
     
-    private let item: BankAccountItem
+    private let accountHolder: String?
+    private let iban: String?
+    private let bic: String?
     
-    init(_ item: BankAccountItem) {
-        self.item = item
+    init(accountHolder: String?, iban: String?, bic: String?) {
+        self.accountHolder = accountHolder
+        self.iban = iban.map { iban in
+            BankAccountNumberFormatter().string(for: NSString(string: iban)) ?? ""
+        }
+        self.bic = bic
     }
     
     var body: some View {
-        if let accountHolder = item.accountHolder {
-            SecureItemTextField(.accountHolder, text: accountHolder)
+        if let accountHolder = accountHolder {
+            ItemTextField(.accountHolder, text: accountHolder)
         }
         
-        if let iban = item.iban {
-            SecureItemTextField(.iban, text: iban, formatter: BankAccountNumberFormatter())
-                .font(.system(.body, design: .monospaced))
+        if let iban = iban {
+            ItemTextField(.iban, text: iban)
+                .font(.body.monospaced())
         }
         
-        if let bic = item.bic {
-            SecureItemTextField(.bic, text: bic)
+        if let bic = bic {
+            ItemTextField(.bic, text: bic)
+                .font(.body.monospaced())
         }
     }
     
@@ -31,11 +36,9 @@ struct BankAccountView: View {
 #if DEBUG
 struct BankAccountViewPreview: PreviewProvider {
     
-    static let item = BankAccountItem(accountHolder: "foo", iban: "bar", bic: "baz")
-    
     static var previews: some View {
         List {
-            BankAccountView(item)
+            BankAccountView(accountHolder: "foo", iban: "bar", bic: "baz")
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

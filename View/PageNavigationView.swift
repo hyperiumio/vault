@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct PageNavigationView<Content>: View where Content: View {
     
     private let title: LocalizedStringKey
@@ -19,41 +18,6 @@ struct PageNavigationView<Content>: View where Content: View {
         self.configuration = .forwardBack(enabledIntensions: enabledIntensions, action: action)
     }
     
-    #if os(macOS)
-    var body: some View {
-        VStack {
-            content
-            
-            switch configuration {
-            case .forward(let isEnabled, let action):
-                NavigationButton(.continue, imageName: SFSymbolName.chevronRightCircle, action: action)
-                    .disabled(!isEnabled)
-                    
-            case .forwardBack(let enabledIntensions, let action):
-                HStack(spacing: 30) {
-                    Spacer()
-                        .frame(maxWidth: .infinity)
-                    NavigationButton(.back, imageName: SFSymbolName.chevronLeftCircle) {
-                        action(.backward)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .disabled(!enabledIntensions.contains(.backward))
-                    
-                    NavigationButton(.continue, imageName: SFSymbolName.chevronRightCircle) {
-                        action(.forward)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .disabled(!enabledIntensions.contains(.forward))
-                    
-                    Spacer().frame(maxWidth: .infinity)
-                }
-            }
-        }
-        .padding()
-    }
-    #endif
-    
-    #if os(iOS)
     var body: some View {
         VStack(spacing: 0) {
             switch configuration {
@@ -61,7 +25,6 @@ struct PageNavigationView<Content>: View where Content: View {
                 content
                 
                 Button(title, action: action)
-             //       .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                     .disabled(!isEnabled)
             case .forwardBack(let enabledIntensions, let action):
                 HStack {
@@ -81,13 +44,11 @@ struct PageNavigationView<Content>: View where Content: View {
                 Button(title) {
                     action(.forward)
                 }
-    //            .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fill))
                 .disabled(!enabledIntensions.contains(.forward))
             }
         }
         .padding()
     }
-    #endif
     
 }
 

@@ -1,7 +1,6 @@
 import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct VaultItemInfoView: View {
     
     private let title: String
@@ -17,11 +16,11 @@ struct VaultItemInfoView: View {
     var body: some View {
         Label {
             VStack(alignment: .leading, spacing: 2) {
-                //Text(title, textStyle: .body, color: .label)
-                /*
+                Text(title)
+                
                 if let description = description {
-                    //Text(description, textStyle: .footnote, color: .secondaryLabel)
-                }*/
+                    Text(description)
+                }
             }
             .alignmentGuide(.firstTextBaseline) { dimension in
                 dimension[VerticalAlignment.center]
@@ -68,16 +67,9 @@ private extension VaultItemInfoView {
 struct VaultItemInfoViewPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            List {
-                VaultItemInfoView("foo", description: "bar", type: .login)
-                    .preferredColorScheme(.light)
-            }
-            
-            List {
-                VaultItemInfoView("foo", description: "bar", type: .login)
-                    .preferredColorScheme(.dark)
-            }
+        List {
+            VaultItemInfoView("foo", description: "bar", type: .login)
+                .preferredColorScheme(.light)
         }
         .previewLayout(.sizeThatFits)
     }

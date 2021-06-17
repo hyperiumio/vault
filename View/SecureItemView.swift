@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct SecureItemView<Content>: View where Content: View {
     
     private let content: Content
@@ -21,21 +20,12 @@ struct SecureItemView<Content>: View where Content: View {
 struct SecureItemViewPreview: PreviewProvider {
     
     static var previews: some View {
-        Group {
-            List {
-                SecureItemView {
-                    Text("foo")
-                }
+        List {
+            SecureItemView {
+                Text("foo")
             }
-            .preferredColorScheme(.light)
-            
-            List {
-                SecureItemView {
-                    Text("foo")
-                }
-            }
-            .preferredColorScheme(.dark)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

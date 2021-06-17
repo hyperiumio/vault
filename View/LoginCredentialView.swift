@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct LoginCredentialView: View {
     
     private let title: String
@@ -17,18 +16,30 @@ struct LoginCredentialView: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
                 .font(.body)
-//                .foregroundColor(.label)
+                .foregroundStyle(.primary)
             
             Text(username)
                 .font(.footnote)
-//                .foregroundColor(.secondaryLabel)
+                .foregroundStyle(.secondary)
             
             if let url = url {
                 Text(url)
                     .font(.footnote)
-//                    .foregroundColor(.secondaryLabel)
+                    .foregroundStyle(.secondary)
             }
         }
     }
     
 }
+
+#if DEBUG
+struct LoginCredentialViewPreview: PreviewProvider {
+    
+    static var previews: some View {
+        LoginCredentialView(title: "foo", username: "bar", url: "baz")
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

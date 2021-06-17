@@ -36,11 +36,15 @@ struct VaultItemFooter: View {
 private struct DateLabel: View {
     
     private let text: LocalizedStringKey
-    private let date: Date
+    private let date: String
     
     init(_ text: LocalizedStringKey, date: Date) {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .medium
+        
         self.text = text
-        self.date = date
+        self.date = formatter.string(from: date)
     }
     
     var body: some View {
@@ -52,15 +56,8 @@ private struct DateLabel: View {
                     dimension[HorizontalAlignment.trailing]
                 }
                
-            Text(date, formatter: Self.dateFormatter)
+            Text(date)
         }
-    }
-    
-    private static var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .medium
-        return formatter
     }
     
 }

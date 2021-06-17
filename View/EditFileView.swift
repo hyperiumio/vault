@@ -2,7 +2,6 @@ import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
-#warning("Todo")
 struct EditFileView<Model>: View where Model: FileModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -26,17 +25,10 @@ struct EditFileViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        Group {
-            List {
-                EditFileView(model)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                EditFileView(model)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            EditFileView(model)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

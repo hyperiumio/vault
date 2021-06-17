@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,10 +9,9 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
         self.model = model
     }
     
-    #if os(iOS)
     var body: some View {
-        /*
         NavigationView {
+            /*
             List {
                 Section {
                     switch model.primaryItemModel {
@@ -35,64 +33,7 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                         EditCustomView(model)
                     }
                 } header: {
-                    /*
-                    TextFieldShim(title: .localizedTitle, text: $model.title, textStyle: .title1, alignment: .left)
-                        .padding()
-                        .listRowInsets(EdgeInsets())
-                     */
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(.cancel) {
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                }
-                
-                ToolbarItem(placement: .principal) {
-                    SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
-                }
-                
-                /*
-                ToolbarItem(placement: .confirmationAction) {
-                    Button(.save, action: model.save)
-                        .disabled(model.title.isEmpty)
-                }*/
-            }
-            .listStyle(GroupedListStyle())
-            .navigationBarTitleDisplayMode(.inline)
-        }
-         */
-        Text("foo")
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        /*
-        NavigationView {
-            List {
-                Section {
-                    switch model.primaryItemModel {
-                    case .login(let model):
-                        EditLoginView(model)
-                    case .password(let model):
-                        EditPasswordView(model)
-                    case .file(let model):
-                        EditFileView(model)
-                    case .note(let model):
-                        EditNoteView(model)
-                    case .bankCard(let model):
-                        EditBankCardView(model)
-                    case .wifi(let model):
-                        EditWifiView(model)
-                    case .bankAccount(let model):
-                        EditBankAccountView(model)
-                    case .custom(let model):
-                        EditCustomView(model)
-                    }
-                } header: {
-                    TextField(.title, text: $model.title)
+                    TextField(.security, text: $model.title, prompt: nil)
                         .font(.title)
                         .padding()
                         .listRowInsets(EdgeInsets())
@@ -106,21 +47,25 @@ struct CreateVaultItemView<Model>: View where Model: VaultItemModelRepresentable
                 }
                 
                 ToolbarItem(placement: .principal) {
-                    SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
+                    Text("Foo")
+                    //SecureItemTypeView(model.primaryItemModel.secureItem.value.secureItemType)
                 }
                 
                 ToolbarItem(placement: .confirmationAction) {
                     /*
-                    Button(.save, action: model.save)
-                        .disabled(model.title.isEmpty) */
+                    Button(.save, role: nil) {
+                        await model.save()
+                    }
+                    .disabled(model.title.isEmpty)
+                     */
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
+             */
         }
-         */
-        Text("")
-         
+
     }
-    #endif
+    
 }
 
 private extension Section where Parent: View, Content: View, Footer == EmptyView {
@@ -141,14 +86,9 @@ struct CreateVaultItemViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        Group {
-            CreateVaultItemView(model)
-                .preferredColorScheme(.light)
-            
-            CreateVaultItemView(model)
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
+        CreateVaultItemView(model)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
     }
     
 }

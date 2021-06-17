@@ -1,7 +1,6 @@
 import SwiftUI
 
-#warning("Todo")
-struct EditSecureItemSecureTextField: View {
+struct EditItemSecureField: View {
     
     private let title: LocalizedStringKey
     private let placeholder: LocalizedStringKey
@@ -17,50 +16,13 @@ struct EditSecureItemSecureTextField: View {
         self.generatorAvailable = generatorAvailable
     }
     
-    #if os(iOS)
     var body: some View {
         SecureItemView {
-            SecureItemField(title) {
+            ItemField(title) {
                 VStack(spacing: 20) {
                     switch (generatorAvailable, showGeneratorControls) {
                     case (false, _):
-                      //  SecureField(placeholder, text: text)
-                        Text("foo")
-                    case (true, true):
-                        GeneratePasswordView { password in
-                            guard let password = password else { return }
-                            
-                            text.wrappedValue = password
-                        }
-                        
-                        Button(.usePassword) {
-                            showGeneratorControls = false
-                        }
-//                        .buttonStyle(ColoredButtonStyle(.accentColor, size: .small, expansion: .fill))
-                    case (true, false):
-                     //   SecureField(placeholder, text: text)
-                        
-                        Button(.generatePassword) {
-                            showGeneratorControls = true
-                        }
-               //         .buttonStyle(ColoredButtonStyle(.accentColor, size: .small, expansion: .fill))
-                    }
-                }
-            }
-        //    .animation(nil)
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        SecureItemView {
-            SecureItemField(title) {
-                VStack(alignment: .leading) {
-                    switch (generatorAvailable, showGeneratorControls) {
-                    case (false, _):
-                        //SecureField(placeholder, text: text)
-                        Text("foo")
+                        SecureField(placeholder, text: text, prompt: nil)
                     case (true, true):
                         GeneratePasswordView { password in
                             guard let password = password else { return }
@@ -72,7 +34,7 @@ struct EditSecureItemSecureTextField: View {
                             showGeneratorControls = false
                         }
                     case (true, false):
-                      //  SecureField(placeholder, text: text)
+                        SecureField(placeholder, text: text, prompt: nil)
                         
                         Button(.generatePassword) {
                             showGeneratorControls = true
@@ -80,30 +42,21 @@ struct EditSecureItemSecureTextField: View {
                     }
                 }
             }
-            .animation(nil)
         }
     }
-    #endif
     
 }
 
 #if DEBUG
-struct EditSecureItemSecureTextFieldPreview: PreviewProvider {
+struct EditItemSecureFieldPreview: PreviewProvider {
     
     @State static var text = ""
     
     static var previews: some View {
-        Group {
-            List {
-                EditSecureItemSecureTextField("foo", placeholder: "bar", text: $text, generatorAvailable: true)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                EditSecureItemSecureTextField("foo", placeholder: "bar", text: $text, generatorAvailable: true)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            EditItemSecureField("foo", placeholder: "bar", text: $text, generatorAvailable: true)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

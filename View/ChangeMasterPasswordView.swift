@@ -1,104 +1,60 @@
 import SwiftUI
 
-#warning("Todo")
 struct ChangeMasterPasswordView<Model>: View where Model: ChangeMasterPasswordModelRepresentable {
     
     @ObservedObject private var model: Model
-    @State private var error: ChangeMasterPasswordError?
-    @Environment(\.presentationMode) private var presentationMode
-    
+    @FocusState private var focusedField: Field?
     
     init(_ model: Model) {
         self.model = model
     }
     
-    #if os(iOS)
     var body: some View {
         List {
             Section {
-              //  SecureField(.newMasterPassword, text: $model.password)
-                
-              //  SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
+                SecureField(.newMasterPassword, text: $model.password, prompt: nil)
+                    .focused($focusedField, equals: .newMasterPassword)
+                    .submitLabel(.next)
+                    
+                SecureField(.repeatMasterPassword, text: $model.repeatedPassword, prompt: nil)
+                    .focused($focusedField, equals: .repeatMasterPassword)
+                    .submitLabel(.next)
             }
-            
-            Section {
-                HStack {
-                    Spacer()
-                    
-                    /*
-                    Button(.changeMasterPassword, action: model.changeMasterPassword)
-                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)*/
-                    
-                    Spacer()
+            .onAppear {
+                focusedField = .newMasterPassword
+            }
+            .onSubmit {
+                switch focusedField {
+                case .newMasterPassword:
+                    focusedField = .repeatMasterPassword
+                case .repeatMasterPassword:
+                    focusedField = .newMasterPassword
+                case nil:
+                    focusedField = nil
                 }
             }
+            Section {
+                Button(.changeMasterPassword, role: .destructive) {
+                    focusedField = nil
+                    await model.changeMasterPassword()
+                }
+                .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty)
+            }
         }
-        .disabled(model.isLoading)
+        .disabled(model.state == .changingPassword)
         .navigationBarTitle(.masterPassword, displayMode: .inline)
-        .listStyle(GroupedListStyle())
-        /*
-        .onReceive(model.error) { error in
-            self.error = error
-        }
-        .onReceive(model.done) {
-            presentationMode.wrappedValue.dismiss()
-        }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error)
-            return Alert(title: title)
-        }
-        .onAppear(perform: model.reset)*/
+        .listStyle(.grouped)
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        List {
-            Section {
-            //    SecureField(.newMasterPassword, text: $model.password)
-                
-            //    SecureField(.repeatMasterPassword, text: $model.repeatedPassword)
-            }
-            
-            Section {
-                HStack {
-                    Spacer()
-                    /*
-                    
-                    Button(.changeMasterPassword, action: model.changeMasterPassword)
-                        .disabled(model.password.isEmpty || model.repeatedPassword.isEmpty) */
-                    
-                    Spacer()
-                }
-            }
-        }
-        /*
-        .disabled(model.isLoading)
-        .onReceive(model.error) { error in
-            self.error = error
-        }
-        .onReceive(model.done) {
-            presentationMode.wrappedValue.dismiss()
-        }
-        .alert(item: $error) { error in
-            let title = Self.title(for: error)
-            return Alert(title: title)
-        }
-        .onAppear(perform: model.reset)*/
-    }
-    #endif
     
 }
 
-private extension ChangeMasterPasswordView {
+extension ChangeMasterPasswordView {
     
-    static func title(for error: ChangeMasterPasswordError) -> Text {
-        switch error {
-        case .passwordMismatch:
-            return Text(.passwordMismatch)
-        case .masterPasswordChangeDidFail:
-            return Text(.masterPasswordChangeDidFail)
-        }
+    enum Field {
+        
+        case newMasterPassword
+        case repeatMasterPassword
+        
     }
     
 }
@@ -109,13 +65,10 @@ struct ChangeMasterPasswordViewPreview: PreviewProvider {
     static let model = ChangeMasterPasswordModelStub()
     
     static var previews: some View {
-        Group {
+        NavigationView {
             ChangeMasterPasswordView(model)
-                .preferredColorScheme(.light)
-            
-            ChangeMasterPasswordView(model)
-                .preferredColorScheme(.dark)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

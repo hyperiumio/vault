@@ -30,6 +30,8 @@ struct BootstrapView<Model>: View where Model: BootstrapModelRepresentable {
                 Button(.retry, role: nil) {
                     await model.load()
                 }
+                .buttonStyle(.bordered)
+                .tint(.accentColor)
                 .keyboardShortcut(.defaultAction)
             }
         }

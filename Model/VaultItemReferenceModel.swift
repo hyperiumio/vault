@@ -15,7 +15,7 @@ protocol VaultItemReferenceModelRepresentable: ObservableObject, Identifiable {
     var info: StoreItemInfo { get }
     var collationIdentifier: VaultItemReferenceModelCollationIdentifier { get }
     
-    func load()
+    func load() async
     
 }
 
@@ -82,7 +82,7 @@ class VaultItemReferenceModel<Dependency: VaultItemReferenceModelDependency>: Va
         VaultItemReferenceModelCollationIdentifier()
     }
     
-    func load() {
+    func load() async {
 
     }
     

@@ -1,18 +1,16 @@
-import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct PasswordView: View {
     
-    private let item: PasswordItem
+    private let password: String?
     
-    init(_ item: PasswordItem) {
-        self.item = item
+    init(password: String?) {
+        self.password = password
     }
     
     var body: some View {
-        if let password = item.password {
-            SecureItemSecureTextField(.password, text: password)
+        if let password = password {
+            ItemSecureField(.password, text: password)
         }
     }
 
@@ -21,20 +19,11 @@ struct PasswordView: View {
 #if DEBUG
 struct PasswordViewPreview: PreviewProvider {
     
-    static let item = PasswordItem(password: "foo")
-    
     static var previews: some View {
-        Group {
-            List {
-                PasswordView(item)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                PasswordView(item)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            PasswordView(password: "foo")
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

@@ -1,8 +1,6 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-#warning("Todo")
-#if os(iOS)
 struct SelectCategoryView: View {
     
     private let action: (Selection) -> Void
@@ -91,16 +89,6 @@ struct SelectCategoryView: View {
                         isShowingFilePicker = true
                         
                     }
-                    .sheet(isPresented: $isShowingFilePicker) {
-                        /*
-                        FilePickerShim { output in
-                            guard let output = output else { return }
-                            
-                            let selection = Selection.file(data: output.data, type: output.type)
-                            action(selection)
-                        }
-                         */
-                    }
                 }
             }
             .toolbar {
@@ -157,7 +145,6 @@ extension SelectCategoryView {
     }
     
 }
-#endif
 
 #if os(iOS) && DEBUG
 struct SelectCategoryViewPreview: PreviewProvider {

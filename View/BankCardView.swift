@@ -1,46 +1,45 @@
 import Format
-import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct BankCardView: View {
     
-    private let item: BankCardItem
+    private let name: String?
+    private let vendor: ItemVendorField.Vendor?
+    private let number: String?
+    private let expirationDate: Date?
+    private let pin: String?
     
-    init(_ item: BankCardItem) {
-        self.item = item
+    init(name: String?, vendor: ItemVendorField.Vendor?, number: String?, expirationDate: Date?, pin: String?) {
+        self.name = name
+        self.vendor = vendor
+        self.number = number.map { number in
+            CreditCardNumberFormatter().string(for: NSString(string: number)) ?? ""
+        }
+        self.expirationDate = expirationDate
+        self.pin = pin
     }
     
     var body: some View {
-        if let name = item.name {
-            SecureItemTextField(.name, text: name)
+        if let name = name {
+            ItemTextField(.name, text: name)
         }
         
-        if let vendor = item.vendor {
-            SecureItemField(.vendor) {
-                switch vendor {
-                case .masterCard:
-                    Text(.mastercard)
-                case .visa:
-                    Text(.visa)
-                case .americanExpress:
-                    Text(.americanExpress)
-                }
-            }
+        if let vendor = vendor {
+            ItemVendorField(vendor: vendor)
         }
         
-        if let number = item.number {
-            SecureItemTextField(.number, text: number, formatter: CreditCardNumberFormatter())
-                .font(.system(.body, design: .monospaced))
+        if let number = number {
+            ItemTextField(.number, text: number)
+                .font(.body.monospaced())
         }
         
-        if let expirationDate = item.expirationDate {
-            SecureItemDateField(.expirationDate, date: expirationDate)
+        if let expirationDate = expirationDate {
+            ItemDateField(.expirationDate, date: expirationDate)
         }
         
-        if let pin = item.pin {
-            SecureItemSecureTextField(.pin, text: pin)
-                .font(.system(.body, design: .monospaced))
+        if let pin = pin {
+            ItemSecureField(.pin, text: pin)
+                .font(.body.monospaced())
         }
     }
 }
@@ -48,20 +47,11 @@ struct BankCardView: View {
 #if DEBUG
 struct BankCardViewPreview: PreviewProvider {
     
-    static let item = BankCardItem(name: "foo", number: "1234567", expirationDate: Date(), pin: "paz")
-    
     static var previews: some View {
-        Group {
-            List {
-                BankCardView(item)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                BankCardView(item)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            BankCardView(name: "foo", vendor: .masterCard, number: "1234567", expirationDate: Date(), pin: "paz")
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

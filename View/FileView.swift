@@ -3,7 +3,6 @@ import Persistence
 import SwiftUI
 import UniformTypeIdentifiers
 
-#warning("Todo")
 struct FileView: View {
     
     private let item: FileItem
@@ -12,7 +11,6 @@ struct FileView: View {
         self.item = item
     }
     
-    #if os(iOS)
     var body: some View {
         Group {
             switch item.typeIdentifier {
@@ -37,34 +35,6 @@ struct FileView: View {
         }
         .listRowInsets(EdgeInsets())
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        Group {
-            switch item.typeIdentifier {
-            case let typeIdentifier where typeIdentifier.conforms(to: .image):
-                if let image = NSImage(data: item.data) {
-                    Image(nsImage: image)
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    UnrepresentableFileView(typeIdentifier)
-                }
-            case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
-                if let document = PDFDocument(data: item.data) {
-                    PDFViewShim(document)
-                        .scaledToFit()
-                } else {
-                    UnrepresentableFileView(typeIdentifier)
-                }
-            default:
-                UnrepresentableFileView(item.typeIdentifier)
-            }
-        }
-        .listRowInsets(EdgeInsets())
-    }
-    #endif
     
 }
 
@@ -110,37 +80,20 @@ struct FileViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        Group {
-            List {
-                Section {
-                    FileView(unrepresentable)
-                }
-                
-                Section {
-                    FileView(image)
-                }
-                
-                Section {
-                    FileView(pdf)
-                }
+        List {
+            Section {
+                FileView(unrepresentable)
             }
-            .preferredColorScheme(.light)
             
-            List {
-                Section {
-                    FileView(unrepresentable)
-                }
-                
-                Section {
-                    FileView(image)
-                }
-                
-                Section {
-                    FileView(pdf)
-                }
+            Section {
+                FileView(image)
             }
-            .preferredColorScheme(.dark)
+            
+            Section {
+                FileView(pdf)
+            }
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

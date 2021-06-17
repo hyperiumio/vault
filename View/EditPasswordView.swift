@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,7 +9,7 @@ struct EditPasswordView<Model>: View where Model: PasswordModelRepresentable {
     }
     
     var body: some View {
-        EditSecureItemSecureTextField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
+        EditItemSecureField(.password, placeholder: .password, text: $model.password, generatorAvailable: true)
     }
 
 }
@@ -21,17 +20,10 @@ struct EditPasswordViewPreview: PreviewProvider {
     static let model = PasswordModelStub()
     
     static var previews: some View {
-        Group {
-            List {
-                EditPasswordView(model)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                EditPasswordView(model)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            EditPasswordView(model)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

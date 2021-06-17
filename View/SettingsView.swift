@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct SettingsView<Model: SettingsModelRepresentable>: View {
     
     @ObservedObject private var model: Model

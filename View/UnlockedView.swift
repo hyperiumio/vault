@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -11,9 +10,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
         self.model = model
     }
     
-    #if os(iOS)
     var body: some View {
-        /*
         NavigationView {
             Group {
                 switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
@@ -25,13 +22,13 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                         Button(.createFirstItem) {
                             presentedSheet = .selectCategory
                         }
-          //              .buttonStyle(ColoredButtonStyle(.accentColor, size: .large, expansion: .fit))
                     }
                 case (true, false):
                     Text(.noResultsFound)
                         .font(.title)
                 case (false, _):
                     List {
+                        /*
                         ForEach(model.itemCollation.sections) { section in
                             Section {
                                 ForEach(section.elements) { model in
@@ -42,7 +39,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                             } header: {
                                 Text(section.key)
                             }
-                        }
+                        }*/
                     }
                     .searchable(text: $model.searchText)
                     .listStyle(PlainListStyle())
@@ -54,13 +51,13 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     Button {
                         presentedSheet = .settings
                     } label: {
-                        Image(systemName: SFSymbolName.sliderHorizontal3)
+                        Image(systemName: .sliderHorizontal3)
                     }
                     
                     Button {
                         model.lockApp(enableBiometricUnlock: false)
                     } label: {
-                        Image(systemName: SFSymbolName.lockFill)
+                        Image(systemName: .lock)
                     }
                 }
                 
@@ -68,7 +65,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                     Button {
                         presentedSheet = .selectCategory
                     } label: {
-                        Image(systemName: SFSymbolName.plus)
+                        Image(systemName: .plus)
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
@@ -127,135 +124,7 @@ struct UnlockedView<Model>: View where Model: UnlockedModelRepresentable {
                 model.lockApp(enableBiometricUnlock: true)
             }
         }
-         */
-        Text("")
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {/*
-        NavigationView {
-            VStack(spacing: 5) {
-                SearchBar(text: $model.searchText)
-                    .padding(.horizontal, 10)
-                
-                switch (model.itemCollation.sections.isEmpty, model.searchText.isEmpty) {
-                case (true, true):
-                    Spacer()
-                    
-                    Text(.emptyVault)
-                        .font(.title)
-                    
-                    Spacer()
-                case (true, false):
-                    Spacer()
-                    
-                    Text(.noResultsFound)
-                        .font(.title)
-                    
-                    Spacer()
-                case (false, _):
-                    List {
-                        ForEach(model.itemCollation.sections) { section in
-                            Section {
-                                ForEach(section.elements) { model in
-                                    NavigationLink(destination: VaultItemReferenceView(model)) {
-                                        VaultItemInfoView(model.info.name, description: model.info.description, type: model.info.primaryType)
-                                    }
-                                }
-                            } header: {
-                                Text(section.key)
-                            }
-                            .collapsible(false)
-                        }
-                    }
-                }
-            }
-            .frame(minWidth: 200)
-            .toolbar {
-                Spacer()
-                
-                Menu {
-                    Button(action: model.createLoginItem) {
-                        Image(systemName: SFSymbolName.personFill)
-                        
-                        Text(.login)
-                    }
-                    
-                    Button(action: model.createPasswordItem) {
-                        Image(systemName: SFSymbolName.keyFill)
-                        
-                        Text(.password)
-                    }
-                    
-                    Button(action: model.createWifiItem) {
-                        Image(systemName: SFSymbolName.wifi)
-                        
-                        Text(.wifi)
-                    }
-                    
-                    Button(action: model.createNoteItem) {
-                        Image(systemName: SFSymbolName.noteText)
-                        
-                        Text(.note)
-                    }
-                    
-                    Button(action: model.createBankCardItem) {
-                        Image(systemName: SFSymbolName.creditcard)
-                        
-                        Text(.bankCard)
-                    }
-                    
-                    Button(action: model.createBankAccountItem) {
-                        Image(systemName: SFSymbolName.dollarsignCircle)
-                        
-                        Text(.bankAccount)
-                    }
-                    
-                    Button(action: model.createCustomItem) {
-                        Image(systemName: SFSymbolName.scribbleVariable)
-                        
-                        Text(.custom)
-                    }
-                } label: {
-                    Image(systemName: SFSymbolName.plus)
-                }
-                .menuStyle(BorderlessButtonMenuStyle(showsMenuIndicator: false))
-            }
-            
-            Text(.nothingSelected)
-        }
-        .sheet(item: $presentedSheet) { sheet in
-            switch sheet {
-            case .settings:
-                SettingsView(model.settingsModel)
-            case .selectCategory:
-                EmptyView()
-            case .createVaultItem(let model):
-                CreateVaultItemView(model)
-            }
-        }
-        .alert(item: $model.failure) { failure in
-            switch failure {
-            case .loadOperationFailed:
-                let name = Text(.loadingVaultFailed)
-                return Alert(title: name)
-            case .deleteOperationFailed:
-                let name = Text(.deleteFailed)
-                return Alert(title: name)
-            }
-        }
-        .onChange(of: model.creationModel) { model in
-            if let model = model {
-                presentedSheet = .createVaultItem(model)
-            } else {
-                presentedSheet = nil
-            }
-        }
-         */
-        Text("")
-    }
-    #endif
     
 }
 
@@ -289,24 +158,3 @@ private extension UnlockedView {
     }
     
 }
-
-#if os(macOS)
-struct SearchBar: View {
-    
-    let text: Binding<String>
-    @State private var isEditing = false
- 
-    var body: some View {
-        HStack(spacing: 5) {
-            Image(systemName: SFSymbolName.magnifyingglass)
-        //        .foregroundColor(.secondaryLabel)
-            
-            //TextFieldShim(title: .localizedSearch, text: text, isSecure: false, textStyle: .body, alignment: .left) {}
-        }
-        .padding(.vertical, 5)
-        .padding(.horizontal, 5)
-        .background(Color.white.opacity(0.1))
-        .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
-    }
-}
-#endif

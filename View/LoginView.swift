@@ -1,26 +1,28 @@
-import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct LoginView: View {
     
-    private let item: LoginItem
+    private let username: String?
+    private let password: String?
+    private let url: String?
     
-    init(_ item: LoginItem) {
-        self.item = item
+    init(username: String?, password: String?, url: String?) {
+        self.username = username
+        self.password = password
+        self.url = url
     }
     
     var body: some View {
-        if let username = item.username {
-            SecureItemTextField(.username, text: username)
+        if let username = username {
+            ItemTextField(.username, text: username)
         }
         
-        if let password = item.password {
-            SecureItemSecureTextField(.password, text: password)
+        if let password = password {
+            ItemSecureField(.password, text: password)
         }
         
-        if let url = item.url {
-            SecureItemTextField(.url, text: url)
+        if let url = url {
+            ItemTextField(.url, text: url)
         }
     }
     
@@ -29,20 +31,11 @@ struct LoginView: View {
 #if DEBUG
 struct LoginViewPreview: PreviewProvider {
     
-    static let item = LoginItem(username: "foo", password: "bar", url: "baz")
-    
     static var previews: some View {
-        Group {
-            List {
-                LoginView(item)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                LoginView(item)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            LoginView(username: "foo", password: "bar", url: "baz")
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

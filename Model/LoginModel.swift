@@ -1,7 +1,5 @@
 import Combine
-import Crypto
 import Foundation
-import Pasteboard
 import Persistence
 
 @MainActor
@@ -11,8 +9,6 @@ protocol LoginModelRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var url: String { get set}
     var item: LoginItem { get }
-    
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async
     
 }
 
@@ -37,9 +33,6 @@ class LoginModel: LoginModelRepresentable {
         self.url = item.url ?? ""
     }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {
-    }
-    
 }
 
 #if DEBUG
@@ -52,8 +45,6 @@ class LoginModelStub: LoginModelRepresentable {
     var item: LoginItem {
         LoginItem(username: username, password: password, url: url)
     }
-    
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     
 }
 #endif

@@ -1,7 +1,7 @@
 import Persistence
 import SwiftUI
 
-#warning("Todo")
+
 struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -10,7 +10,6 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
         self.model = model
     }
     
-    #if os(iOS)
     var body: some View {
         Group {
             switch model.state {
@@ -23,9 +22,11 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
                     Text(.loadingVaultItemFailed)
                         .font(.title3)
                     
-                    /*
-                    Button(.retry, action: model.load)
-                        .padding()*/
+                    
+                    Button(.retry, role: nil) {
+                        await model.load()
+                    }
+                    .padding()
                 }
             case .loaded(let model):
                 VaultItemView(model)
@@ -38,42 +39,11 @@ struct VaultItemReferenceView<Model>: View where Model: VaultItemReferenceModelR
         }
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
-            model.load()
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        Group {
-            switch model.state {
-            case .initialized:
-                EmptyView()
-            case .loading:
-                ProgressView()
-            case .loadingFailed:
-                VStack {
-                    Text(.loadingVaultItemFailed)
-                        .font(.title3)
-                    
-                    /*
-                    Button(.retry, action: model.load)
-                        .padding()*/
-                }
-            case .loaded(let model):
-                VaultItemView(model)
+            async {
+                await model.load()
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .principal) {
-                SecureItemTypeView(model.info.primaryType)
-            }
-        }
-        .onAppear {
-            model.load()
-        }
     }
-    #endif
     
 }
 
@@ -85,16 +55,9 @@ struct VaultItemReferenceViewPreview: PreviewProvider {
     }()
     
     static var previews: some View {
-        Group {
-            NavigationView {
-                VaultItemReferenceView(model)
-                    .preferredColorScheme(.light)
-            }
-            
-            NavigationView {
-                VaultItemReferenceView(model)
-                    .preferredColorScheme(.dark)
-            }
+        NavigationView {
+            VaultItemReferenceView(model)
+                .preferredColorScheme(.light)
         }
         .previewLayout(.sizeThatFits)
     }

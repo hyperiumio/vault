@@ -1,6 +1,5 @@
 import SwiftUI
 
-#warning("Todo")
 struct EditCustomView<Model>: View where Model: CustomModelRepresentable {
     
     @ObservedObject private var model: Model
@@ -25,17 +24,10 @@ struct EditCustomViewPreview: PreviewProvider {
     static let model = CustomModelStub()
     
     static var previews: some View {
-        Group {
-            List {
-                EditCustomView(model)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                EditCustomView(model)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            EditCustomView(model)
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     

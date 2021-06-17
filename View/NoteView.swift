@@ -1,18 +1,16 @@
-import Persistence
 import SwiftUI
 
-#warning("Todo")
 struct NoteView: View {
     
-    private let item: NoteItem
+    private let text: String?
     
-    init(_ item: NoteItem) {
-        self.item = item
+    init(text: String?) {
+        self.text = text
     }
     
     var body: some View {
-        if let text = item.text {
-            SecureItemTextField(.note, text: text)
+        if let text = text {
+            ItemTextField(.note, text: text)
         }
     }
     
@@ -21,20 +19,11 @@ struct NoteView: View {
 #if DEBUG
 struct NoteViewPreview: PreviewProvider {
     
-    static let item = NoteItem(text: "foo\n\nbar")
-    
     static var previews: some View {
-        Group {
-            List {
-                NoteView(item)
-            }
-            .preferredColorScheme(.light)
-            
-            List {
-                NoteView(item)
-            }
-            .preferredColorScheme(.dark)
+        List {
+            NoteView(text: "foo\n\nbar")
         }
+        .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
     }
     
