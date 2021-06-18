@@ -15,10 +15,10 @@ struct ItemDateField: View {
     }
     
     var body: some View {
-        ItemButton {
+        Button {
             Pasteboard.general.string = date
-        } content: {
-            ItemField(title) {
+        } label: {
+            Field(title) {
                 Text(date)
             }
         }

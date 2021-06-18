@@ -18,7 +18,7 @@ struct LoginView: View {
         }
         
         if let password = password {
-            ItemSecureField(.password, text: password)
+   //         ItemSecureField(.password, text: password)
         }
         
         if let url = url {

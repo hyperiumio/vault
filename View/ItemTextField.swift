@@ -12,10 +12,10 @@ struct ItemTextField: View {
     }
     
     var body: some View {
-        ItemButton {
+        Button {
             Pasteboard.general.string = text
-        } content: {
-            ItemField(title) {
+        } label: {
+            Field(title) {
                 Text(text)
             }
         }

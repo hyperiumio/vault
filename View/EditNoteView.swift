@@ -9,7 +9,7 @@ struct EditNoteView<S>: View where S: NoteStateRepresentable {
     }
     
     var body: some View {
-        ItemField(.note) {
+        Field(.note) {
             TextEditor(text: $state.text)
         }
     }

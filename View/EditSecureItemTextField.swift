@@ -16,7 +16,7 @@ struct EditItemTextField: View {
     
     var body: some View {
         SecureItemView {
-            ItemField(title) {
+            Field(title) {
                 if let formatter = formatter {
                     TextField(placeholder, value: text, formatter: formatter)
                 } else {

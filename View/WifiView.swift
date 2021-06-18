@@ -16,8 +16,9 @@ struct WifiView: View {
         }
         
         if let password = password {
+            /*
             ItemSecureField(.password, text: password)
-        }
+  */      }
     }
     
 }

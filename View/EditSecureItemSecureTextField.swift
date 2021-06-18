@@ -18,7 +18,7 @@ struct EditItemSecureField: View {
     
     var body: some View {
         SecureItemView {
-            ItemField(title) {
+            Field(title) {
                 VStack(spacing: 20) {
                     switch (generatorAvailable, showGeneratorControls) {
                     case (false, _):

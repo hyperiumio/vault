@@ -10,7 +10,7 @@ struct PasswordView: View {
     
     var body: some View {
         if let password = password {
-            ItemSecureField(.password, text: password)
+        //    ItemSecureField(.password, text: password)
         }
     }
 

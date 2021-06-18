@@ -12,7 +12,7 @@ struct EditItemDateField: View {
     
     var body: some View {
         SecureItemView {
-            ItemField(title) {
+            Field(title) {
                 HStack {
                     DatePicker(title, selection: date, displayedComponents: .date)
                         .labelsHidden()

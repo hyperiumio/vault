@@ -14,7 +14,7 @@ struct EditBankCardView<S>: View where S: BankCardStateRepresentable {
             .keyboardType(.namePhonePad)
             .textContentType(.name)
         
-        EditItemTextField(.number, placeholder: .number, text: $state.number, formatter: CreditCardNumberFormatter())
+        EditItemTextField(.number, placeholder: .number, text: $state.number)
             .font(.system(.body, design: .monospaced))
             .keyboardType(.numberPad)
             .textContentType(.creditCardNumber)
