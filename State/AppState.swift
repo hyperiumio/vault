@@ -4,7 +4,7 @@ import Foundation
 import Preferences
 import Model
 import Sort
-
+#warning("Todo")
 @MainActor
 protocol AppStateRepresentable: ObservableObject, Identifiable {
     
@@ -42,11 +42,7 @@ class AppState<Dependency: AppStateDependency>: AppStateRepresentable {
     @Published private(set) var mode: Mode
     
     init(_ dependency: Dependency) {
-        
-        let bootstrapState = dependency.bootstrapState()
-        let initialMode = Mode.bootstrap(bootstrapState)
-        
-        self.mode = initialMode
+        fatalError()
     }
     
 }

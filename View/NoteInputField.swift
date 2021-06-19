@@ -1,20 +1,17 @@
 import SwiftUI
-#warning("TODO")
-struct NoteInputField<S>: View where S: NoteStateRepresentable {
+
+struct NoteInputField<NoteInputState>: View where NoteInputState: NoteStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: NoteInputState
     
-    init(_ state: S) {
+    init(_ state: NoteInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
         Field(.note) {
             TextEditor(text: $state.text)
         }
-         */
     }
     
 }

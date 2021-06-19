@@ -1,5 +1,4 @@
-import Combine
-import Pasteboard
+import Foundation
 import Model
 
 @MainActor

@@ -1,7 +1,4 @@
-import Combine
-import Crypto
 import Foundation
-import Pasteboard
 import Model
 
 @MainActor
@@ -9,8 +6,6 @@ protocol PasswordStateRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
     var item: PasswordItem { get }
-    
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async
     
 }
 
@@ -29,9 +24,6 @@ class PasswordState: PasswordStateRepresentable {
         self.password = item.password ?? ""
     }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {
-    }
-    
 }
 
 #if DEBUG
@@ -42,8 +34,6 @@ class PasswordStateStub: PasswordStateRepresentable {
     var item: PasswordItem {
         PasswordItem(password: password)
     }
-    
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {}
     
 }
 #endif

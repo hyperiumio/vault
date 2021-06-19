@@ -1,27 +1,30 @@
 import SwiftUI
-#warning("TODO")
-struct LoginInputField<S>: View where S: LoginStateRepresentable {
+
+struct LoginInputField<LoginInputState>: View where LoginInputState: LoginStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: LoginInputState
     
-    init(_ state: S) {
+    init(_ state: LoginInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditItemTextField(.username, placeholder: .usernameOrEmail, text: $state.username)
-            .keyboardType(.emailAddress)
-            .textContentType(.username)
+        Field(.username) {
+            TextField(.usernameOrEmail, text: $state.username)
+                .keyboardType(.emailAddress)
+                .textContentType(.username)
+        }
         
-        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
-            .textContentType(.password)
+        Field (.password) {
+            SecureField(.password, text: $state.password, prompt: nil)
+                .textContentType(.password)
+        }
         
-        EditItemTextField(.url, placeholder: .exampleURL, text: $state.url)
-            .keyboardType(.URL)
-            .textContentType(.URL)
-         */
+        Field(.url) {
+            TextField(.exampleURL, text: $state.url)
+                .keyboardType(.URL)
+                .textContentType(.URL)
+        }
     }
     
 }

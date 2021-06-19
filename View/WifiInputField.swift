@@ -1,21 +1,23 @@
 import SwiftUI
-#warning("TODO")
-struct WifiInputField<S>: View where S: WifiStateRepresentable {
+
+struct WifiInputField<WifiInputState>: View where WifiInputState: WifiStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: WifiInputState
     
-    init(_ state: S) {
+    init(_ state: WifiInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditItemTextField(.name, placeholder: .name, text: $state.name)
-            .keyboardType(.asciiCapable)
+        Field(.name) {
+            TextField(.accountHolder, text: $state.name)
+                .keyboardType(.asciiCapable)
+        }
         
-        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
-         */
+        Field (.password) {
+            SecureField(.password, text: $state.password, prompt: nil)
+                .textContentType(.password)
+        }
     }
     
 }

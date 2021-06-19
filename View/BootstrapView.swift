@@ -9,7 +9,7 @@ struct BootstrapView<BootstrapState>: View where BootstrapState: BootstrapStateR
     }
     
     var body: some View {
-        switch state.state {
+        switch state.status {
         case .initialized, .loading, .loaded:
             EmptyView()
         case .loadingFailed:
@@ -42,7 +42,7 @@ struct BootstrapView<BootstrapState>: View where BootstrapState: BootstrapStateR
 #if DEBUG
 struct BootstrapViewPreview: PreviewProvider {
     
-    static let state = BootstrapStateStub(state: .loadingFailed)
+    static let state = BootstrapStateStub(status: .loadingFailed)
     
     static var previews: some View {
         BootstrapView(state)

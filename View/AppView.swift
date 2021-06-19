@@ -25,7 +25,7 @@ struct AppView<AppState>: View where AppState: AppStateRepresentable {
 struct AppViewPreview: PreviewProvider {
     
     static var state: AppStateStub = {
-        let boostrapState = BootstrapStateStub(state: .loadingFailed)
+        let boostrapState = BootstrapStateStub(status: .loadingFailed)
         let mode = AppStateStub.Mode.bootstrap(boostrapState)
         return AppStateStub(mode: mode)
     }()

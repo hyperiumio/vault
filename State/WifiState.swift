@@ -1,7 +1,4 @@
-import Combine
-import Crypto
 import Foundation
-import Pasteboard
 import Model
 
 @MainActor
@@ -11,8 +8,6 @@ protocol WifiStateRepresentable: ObservableObject, Identifiable {
     var password: String { get set }
     var item: WifiItem { get }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async
-    
 }
 
 @MainActor
@@ -20,8 +15,6 @@ class WifiState: WifiStateRepresentable {
     
     @Published var name: String
     @Published var password: String
-    
-    private let operationQueue = DispatchQueue(label: "WifiStateOperationQueue")
     
     var item: WifiItem {
         let name = self.name.isEmpty ? nil : self.name
@@ -35,9 +28,6 @@ class WifiState: WifiStateRepresentable {
         self.password = item.password ?? ""
     }
     
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) async {
-    }
-    
 }
 
 #if DEBUG
@@ -49,8 +39,6 @@ class WifiStateStub: WifiStateRepresentable {
     var item: WifiItem {
         WifiItem(name: name, password: password)
     }
-    
-    func generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool) {}
     
 }
 #endif

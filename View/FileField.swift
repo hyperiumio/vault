@@ -4,7 +4,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 #warning("TODO")
-struct FileView: View {
+struct FileField: View {
     
     private let item: FileItem
     
@@ -63,7 +63,7 @@ private struct UnrepresentableFileView: View {
 }
 
 #if DEBUG
-struct FileViewPreview: PreviewProvider {
+struct FileFieldPreview: PreviewProvider {
     
     static let pdf: FileItem = {
         let data = NSDataAsset(name: "PDFDummy")!.data
@@ -83,15 +83,15 @@ struct FileViewPreview: PreviewProvider {
     static var previews: some View {
         List {
             Section {
-                FileView(unrepresentable)
+                FileField(unrepresentable)
             }
             
             Section {
-                FileView(image)
+                FileField(image)
             }
             
             Section {
-                FileView(pdf)
+                FileField(pdf)
             }
         }
         .preferredColorScheme(.light)

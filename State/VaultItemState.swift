@@ -3,6 +3,8 @@ import Crypto
 import Foundation
 import Model
 
+
+#warning("Todo")
 @MainActor
 protocol VaultItemStateRepresentable: ObservableObject, Identifiable, Equatable {
     

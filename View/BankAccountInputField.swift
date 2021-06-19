@@ -1,28 +1,32 @@
 import Format
 import SwiftUI
-#warning("TODO")
-struct BankAccountInputField<S>: View where S: BankAccountStateRepresentable {
+
+struct BankAccountInputField<BankAccountInputState>: View where BankAccountInputState: BankAccountStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: BankAccountInputState
     
-    init(_ state: S) {
+    init(_ state: BankAccountInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditItemTextField(.accountHolder, placeholder: .accountHolder, text: $state.accountHolder)
-            .keyboardType(.namePhonePad)
-            .textContentType(.name)
+        Field(.accountHolder) {
+            TextField(.accountHolder, text: $state.accountHolder)
+                .keyboardType(.namePhonePad)
+                .textContentType(.name)
+        }
         
-        EditItemTextField(.iban, placeholder: .iban, text: $state.iban)
-            .font(.system(.body, design: .monospaced))
-            .keyboardType(.asciiCapable)
+        Field(.iban) {
+            TextField(.iban, value: $state.iban, format: .bankAccountNumber)
+                .font(.body.monospaced())
+                .keyboardType(.asciiCapable)
+        }
         
-        EditItemTextField(.bic, placeholder: .bic, text: $state.bic)
-            .keyboardType(.asciiCapable)
-         */
+        Field(.bic) {
+            TextField(.bic, text: $state.bic)
+                .font(.body.monospaced())
+                .keyboardType(.asciiCapable)
+        }
     }
     
 }

@@ -1,30 +1,43 @@
 import Format
 import SwiftUI
-#warning("TODO")
-struct BankCardInputField<S>: View where S: BankCardStateRepresentable {
+
+struct BankCardInputField<BankCardInputState>: View where BankCardInputState: BankCardStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: BankCardInputState
     
-    init(_ state: S) {
+    init(_ state: BankCardInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditItemTextField(.name, placeholder: .name, text: $state.name)
-            .keyboardType(.namePhonePad)
-            .textContentType(.name)
+        Field(.name) {
+            TextField(.accountHolder, text: $state.name)
+                .keyboardType(.namePhonePad)
+                .textContentType(.name)
+        }
         
-        EditItemTextField(.number, placeholder: .number, text: $state.number)
-            .font(.system(.body, design: .monospaced))
-            .keyboardType(.numberPad)
-            .textContentType(.creditCardNumber)
+        Field(.number) {
+            TextField(.number, value: $state.number, format: .creditCardNumber)
+                .font(.body.monospaced())
+                .keyboardType(.numberPad)
+                .textContentType(.creditCardNumber)
+        }
         
-        EditItemDateField(.expirationDate, date: $state.expirationDate)
+        Field(.expirationDate) {
+            HStack {
+                DatePicker(.expirationDate, selection: $state.expirationDate, displayedComponents: .date)
+                    .labelsHidden()
+                    #if os(macOS)
+                    .datePickerStyle(.field)
+                    #endif
+                
+                Spacer()
+            }
+        }
         
-        EditItemSecureField(.pin, placeholder: .pin, text: $state.pin, generatorAvailable: false)
-         */
+        Field(.pin) {
+            SecureField(.pin, text: $state.pin, prompt: nil)
+        }
     }
     
 }

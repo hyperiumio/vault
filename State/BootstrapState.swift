@@ -1,5 +1,3 @@
-import Combine
-import Crypto
 import Foundation
 import Preferences
 import Model
@@ -7,7 +5,8 @@ import Model
 @MainActor
 protocol BootstrapStateRepresentable: ObservableObject, Identifiable {
     
-    var state: BootstrapStatus { get }
+    var status: BootstrapStatus { get }
+    var statusDidChange: Published<BootstrapStatus>.Publisher { get }
     
     func load() async
     
@@ -16,8 +15,7 @@ protocol BootstrapStateRepresentable: ObservableObject, Identifiable {
 @MainActor
 class BootstrapState: BootstrapStateRepresentable {
     
-    @Published private(set) var state = BootstrapStatus.initialized
-    
+    @Published private(set) var status = BootstrapStatus.initialized
     let containerDirectory: URL
     let preferences: Preferences
     
@@ -26,24 +24,25 @@ class BootstrapState: BootstrapStateRepresentable {
         self.preferences = preferences
     }
     
+    var statusDidChange: Published<BootstrapStatus>.Publisher {
+        $status
+    }
+    
     func load() async {
-        state = await transition(from: state)
-        
-        @MainActor func transition(from state: BootstrapStatus) async -> BootstrapStatus {
-            switch state {
-            case .initialized, .loadingFailed:
-                guard let activeStoreID = await preferences.value.activeStoreID else {
-                    return .loadingFailed
-                }
-                do {
-                    let store = try await Store(from: containerDirectory, matching: activeStoreID)
-                    return .loaded(store: store)
-                } catch {
-                    return .loadingFailed
-                }
-            case .loading, .loaded:
-                return state
+        switch status {
+        case .initialized, .loadingFailed:
+            guard let activeStoreID = await preferences.value.activeStoreID else {
+                status = .loadingFailed
+                return
             }
+            do {
+                let store = try await Store(from: containerDirectory, matching: activeStoreID)
+                status = .loaded(store: store)
+            } catch {
+                status = .loadingFailed
+            }
+        case .loading, .loaded:
+            return
         }
     }
     
@@ -62,10 +61,14 @@ enum BootstrapStatus {
 @MainActor
 class BootstrapStateStub: BootstrapStateRepresentable {
     
-    @Published var state: BootstrapStatus
+    @Published var status: BootstrapStatus
     
-    init(state: BootstrapStatus) {
-        self.state = state
+    init(status: BootstrapStatus) {
+        self.status = status
+    }
+    
+    var statusDidChange: Published<BootstrapStatus>.Publisher {
+        $status
     }
     
     func load() async {}

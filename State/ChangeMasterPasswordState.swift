@@ -4,13 +4,13 @@ import Foundation
 import Preferences
 import Model
 
+#warning("Todo")
 @MainActor
 protocol ChangeMasterPasswordStateRepresentable: ObservableObject, Identifiable {
     
     var password: String { get set }
     var repeatedPassword: String { get set }
     var state: ChangeMasterPasswordStatus { get }
-    
     
     func changeMasterPassword() async
     

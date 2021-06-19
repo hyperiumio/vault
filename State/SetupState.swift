@@ -5,6 +5,7 @@ import Preferences
 import Model
 import Sort
 
+#warning("Todo")
 @MainActor
 protocol SetupStateRepresentable: ObservableObject, Identifiable {
     
@@ -16,6 +17,7 @@ protocol SetupStateRepresentable: ObservableObject, Identifiable {
     typealias Step = SetupStep<ChoosePasswordState, RepeatPasswordState, EnableBiometricUnlockState, CompleteSetupState>
     
     var step: Step { get }
+    var stepDidChange: Published<Step>.Publisher { get }
     
 }
 
@@ -34,6 +36,7 @@ protocol SetupStateDependency {
     
 }
 
+@MainActor
 class SetupState<Dependency>: SetupStateRepresentable where Dependency: SetupStateDependency {
     
     typealias ChoosePasswordState = Dependency.ChoosePasswordState
@@ -45,6 +48,10 @@ class SetupState<Dependency>: SetupStateRepresentable where Dependency: SetupSta
     
     init(dependency: Dependency, keychain: Keychain) {
         fatalError()
+    }
+    
+    var stepDidChange: Published<Step>.Publisher {
+        $step
     }
     
 }
@@ -81,10 +88,14 @@ class SetupStateStub: SetupStateRepresentable {
     typealias EnableBiometricUnlockState = EnableBiometricUnlockStateStub
     typealias CompleteSetupState = CompleteSetupStateStub
     
-    let step: Step
+    @Published var step: Step
     
     init(step: Step) {
         self.step = step
+    }
+    
+    var stepDidChange: Published<Step>.Publisher {
+        $step
     }
     
 }

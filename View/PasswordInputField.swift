@@ -1,18 +1,18 @@
 import SwiftUI
 #warning("TODO")
-struct PasswordInputField<S>: View where S: PasswordStateRepresentable {
+struct PasswordInputField<PasswordInputState>: View where PasswordInputState: PasswordStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: PasswordInputState
     
-    init(_ state: S) {
+    init(_ state: PasswordInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
-         */
+        Field (.password) {
+            SecureField(.password, text: $state.password, prompt: nil)
+                .textContentType(.password)
+        }
     }
 
 }

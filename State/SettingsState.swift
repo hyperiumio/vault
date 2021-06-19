@@ -4,6 +4,7 @@ import Foundation
 import Preferences
 import Model
 
+#warning("Todo")
 @MainActor
 protocol SettingsStateRepresentable: ObservableObject, Identifiable {
     

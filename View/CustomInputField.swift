@@ -1,20 +1,19 @@
 import SwiftUI
-#warning("TODO")
-struct CustomInputField<S>: View where S: CustomStateRepresentable {
+
+struct CustomInputField<CustomInputState>: View where CustomInputState: CustomStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: CustomInputState
     
-    init(_ state: S) {
+    init(_ state: CustomInputState) {
         self.state = state
     }
     
     var body: some View {
-        fatalError()
-        /*
-        EditSecureItemField(.description, text: $state.description) {
+        Field {
+            TextField(.description, text: $state.description)
+        } content: {
             TextField(.value, text: $state.value)
         }
-         */
     }
     
 }
