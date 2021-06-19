@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct ChangeMasterPasswordView<S>: View where S: ChangeMasterPasswordStateRepresentable {
+struct ChangeMasterPasswordView<ChangeMasterPasswordState>: View where ChangeMasterPasswordState: ChangeMasterPasswordStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: ChangeMasterPasswordState
     @FocusState private var focusedField: Field?
     
-    init(_ state: S) {
+    init(_ state: ChangeMasterPasswordState) {
         self.state = state
     }
     

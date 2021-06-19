@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct AppView<S>: View where S: AppStateRepresentable {
+struct AppView<AppState>: View where AppState: AppStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: AppState
     
-    init(_ state: S) {
+    init(_ state: AppState) {
         self.state = state
     }
 

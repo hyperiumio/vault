@@ -16,6 +16,8 @@ public struct BankAccountNumberFormatStyle: ParseableFormatStyle {
     
     public var parseStrategy: Self { self }
     
+    public init() {}
+    
 }
 
 extension BankAccountNumberFormatStyle: ParseStrategy {

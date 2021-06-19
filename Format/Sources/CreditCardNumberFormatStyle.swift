@@ -16,6 +16,8 @@ public struct CreditCardNumberFormatStyle: ParseableFormatStyle {
     
     public var parseStrategy: Self { self }
     
+    public init() {}
+    
 }
 
 extension CreditCardNumberFormatStyle: ParseStrategy {

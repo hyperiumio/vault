@@ -1,8 +1,7 @@
-import Format
 import Pasteboard
 import SwiftUI
 
-struct BankCardView: View {
+struct BankCardField: View {
     
     private let name: String?
     private let vendor: Vendor?
@@ -86,7 +85,7 @@ struct BankCardView: View {
     
 }
 
-extension BankCardView {
+extension BankCardField {
     
     enum Vendor {
         
@@ -99,11 +98,11 @@ extension BankCardView {
 }
 
 #if DEBUG
-struct BankCardViewPreview: PreviewProvider {
+struct BankCardFieldPreview: PreviewProvider {
     
     static var previews: some View {
         List {
-            BankCardView(name: "foo", vendor: .masterCard, number: "1234567", expirationDate: Date(), pin: "paz")
+            BankCardField(name: "foo", vendor: .masterCard, number: "1234567", expirationDate: Date(), pin: "paz")
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

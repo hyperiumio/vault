@@ -3,6 +3,7 @@ import Model
 import SwiftUI
 import UniformTypeIdentifiers
 
+#warning("TODO")
 struct FileView: View {
     
     private let item: FileItem

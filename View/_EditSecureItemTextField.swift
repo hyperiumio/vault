@@ -1,5 +1,6 @@
 import SwiftUI
-
+#warning("TODO")
+/*
 struct EditItemTextField: View {
     
     private let title: LocalizedStringKey
@@ -15,17 +16,15 @@ struct EditItemTextField: View {
     }
     
     var body: some View {
-        SecureItemView {
-            Field(title) {
-                if let formatter = formatter {
-                    TextField(placeholder, value: text, formatter: formatter)
-                } else {
-                    TextField(placeholder, text: text)
-                }
+        Field(title) {
+            if let formatter = formatter {
+                TextField(placeholder, value: text, formatter: formatter)
+            } else {
+                TextField(placeholder, text: text)
             }
-            .autocapitalization(.none)
-            .disableAutocorrection(true)
         }
+        .autocapitalization(.none)
+        .disableAutocorrection(true)
     }
     
 }
@@ -45,3 +44,4 @@ struct EditItemTextFieldPreview: PreviewProvider {
     
 }
 #endif
+*/

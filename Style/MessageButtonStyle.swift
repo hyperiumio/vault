@@ -29,12 +29,6 @@ extension ButtonStyle where Self == MessageButtonStyle {
     
 }
 
-private extension Animation {
-    
-    static var buttonFadeInOut: Self { Animation.easeIn(duration: 0.2) }
-    
-}
-
 #if DEBUG
 struct ItemButtonPreview: PreviewProvider {
     

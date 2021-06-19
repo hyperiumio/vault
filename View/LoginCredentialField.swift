@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginCredentialView: View {
+struct LoginCredentialField: View {
     
     private let title: String
     private let username: String
@@ -33,10 +33,10 @@ struct LoginCredentialView: View {
 }
 
 #if DEBUG
-struct LoginCredentialViewPreview: PreviewProvider {
+struct LoginCredentialFieldPreview: PreviewProvider {
     
     static var previews: some View {
-        LoginCredentialView(title: "foo", username: "bar", url: "baz")
+        LoginCredentialField(title: "foo", username: "bar", url: "baz")
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

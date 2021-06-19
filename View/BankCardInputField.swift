@@ -1,7 +1,7 @@
 import Format
 import SwiftUI
-
-struct EditBankCardView<S>: View where S: BankCardStateRepresentable {
+#warning("TODO")
+struct BankCardInputField<S>: View where S: BankCardStateRepresentable {
     
     @ObservedObject private var state: S
     
@@ -10,6 +10,8 @@ struct EditBankCardView<S>: View where S: BankCardStateRepresentable {
     }
     
     var body: some View {
+        fatalError()
+        /*
         EditItemTextField(.name, placeholder: .name, text: $state.name)
             .keyboardType(.namePhonePad)
             .textContentType(.name)
@@ -22,18 +24,19 @@ struct EditBankCardView<S>: View where S: BankCardStateRepresentable {
         EditItemDateField(.expirationDate, date: $state.expirationDate)
         
         EditItemSecureField(.pin, placeholder: .pin, text: $state.pin, generatorAvailable: false)
+         */
     }
     
 }
 
 #if DEBUG
-struct EditBankCardViewPreview: PreviewProvider {
+struct BankCardInputFieldPreview: PreviewProvider {
     
     static let state = BankCardStateStub()
     
     static var previews: some View {
         List {
-            EditBankCardView(state)
+            BankCardInputField(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

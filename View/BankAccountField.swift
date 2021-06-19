@@ -2,7 +2,7 @@ import Format
 import Pasteboard
 import SwiftUI
 
-struct BankAccountView: View {
+struct BankAccountField: View {
     
     private let accountHolder: String?
     private let iban: String?
@@ -10,7 +10,9 @@ struct BankAccountView: View {
     
     init(accountHolder: String?, iban: String?, bic: String?) {
         self.accountHolder = accountHolder
-        self.iban = iban.map(BankAccountNumberFormatStyle.bankAccountNumber.format)
+        self.iban = iban.map { iban in
+            BankAccountNumberFormatStyle().format(iban)
+        }
         self.bic = bic
     }
     
@@ -54,11 +56,11 @@ struct BankAccountView: View {
 }
 
 #if DEBUG
-struct BankAccountViewPreview: PreviewProvider {
+struct BankAccountFieldPreview: PreviewProvider {
     
     static var previews: some View {
         List {
-            BankAccountView(accountHolder: "foo", iban: "bar", bic: "baz")
+            BankAccountField(accountHolder: "foo", iban: "bar", bic: "baz")
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

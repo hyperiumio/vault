@@ -1,5 +1,6 @@
 import SwiftUI
-
+#warning("TODO")
+/*
 struct EditItemSecureField: View {
     
     private let title: LocalizedStringKey
@@ -17,28 +18,26 @@ struct EditItemSecureField: View {
     }
     
     var body: some View {
-        SecureItemView {
-            Field(title) {
-                VStack(spacing: 20) {
-                    switch (generatorAvailable, showGeneratorControls) {
-                    case (false, _):
-                        SecureField(placeholder, text: text, prompt: nil)
-                    case (true, true):
-                        GeneratePasswordView { password in
-                            guard let password = password else { return }
-                            
-                            text.wrappedValue = password
-                        }
+        Field(title) {
+            VStack(spacing: 20) {
+                switch (generatorAvailable, showGeneratorControls) {
+                case (false, _):
+                    SecureField(placeholder, text: text, prompt: nil)
+                case (true, true):
+                    GeneratePasswordView { password in
+                        guard let password = password else { return }
                         
-                        Button(.usePassword) {
-                            showGeneratorControls = false
-                        }
-                    case (true, false):
-                        SecureField(placeholder, text: text, prompt: nil)
-                        
-                        Button(.generatePassword) {
-                            showGeneratorControls = true
-                        }
+                        text.wrappedValue = password
+                    }
+                    
+                    Button(.usePassword) {
+                        showGeneratorControls = false
+                    }
+                case (true, false):
+                    SecureField(placeholder, text: text, prompt: nil)
+                    
+                    Button(.generatePassword) {
+                        showGeneratorControls = true
                     }
                 }
             }
@@ -62,3 +61,4 @@ struct EditItemSecureFieldPreview: PreviewProvider {
     
 }
 #endif
+*/

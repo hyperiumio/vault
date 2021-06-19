@@ -1,6 +1,6 @@
 import SwiftUI
-
-struct EditPasswordView<S>: View where S: PasswordStateRepresentable {
+#warning("TODO")
+struct NoteInputField<S>: View where S: NoteStateRepresentable {
     
     @ObservedObject private var state: S
     
@@ -9,19 +9,24 @@ struct EditPasswordView<S>: View where S: PasswordStateRepresentable {
     }
     
     var body: some View {
-        EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
+        fatalError()
+        /*
+        Field(.note) {
+            TextEditor(text: $state.text)
+        }
+         */
     }
-
+    
 }
 
 #if DEBUG
-struct EditPasswordViewPreview: PreviewProvider {
+struct NoteInputPreview: PreviewProvider {
     
-    static let state = PasswordStateStub()
+    static let state = NoteStateStub()
     
     static var previews: some View {
         List {
-            EditPasswordView(state)
+            NoteInputField(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

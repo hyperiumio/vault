@@ -1,5 +1,6 @@
 import SwiftUI
-
+import Crypto
+#warning("TODO")
 #if os(iOS)
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
@@ -21,7 +22,7 @@ struct LockedView<S>: View where S: LockedStateRepresentable {
     var body: some View {
         ZStack {
             VStack(spacing: 20) {
-                UnlockField(.masterPassword, text: $state.password) {
+                MasterPasswordField(.masterPassword, text: $state.password) {
                     async {
                         state.loginWithMasterPassword
                     }
@@ -31,23 +32,19 @@ struct LockedView<S>: View where S: LockedStateRepresentable {
                 
                 Group {
                     switch state.keychainAvailability {
-                    case .enrolled(.touchID):
-                        BiometricUnlockButton(.touchID) {
-                            if !isKeyboardVisible {
-                                async {
-                                    await state.loginWithBiometrics()
-                                }
-                                
+                    case .enrolled(let biometricType):
+                        Button(role: nil) {
+                            guard !isKeyboardVisible else {
+                                return
                             }
+                            await state.loginWithBiometrics()
+                        } label: {
+                            Image(systemName: biometricType.symbolName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.accentColor)
                         }
-                    case .enrolled(.faceID):
-                        BiometricUnlockButton(.faceID) {
-                            if !isKeyboardVisible {
-                                async {
-                                    await state.loginWithBiometrics()
-                                }
-                            }
-                        }
+                        .buttonStyle(.plain)
                     case .notAvailable, .notEnrolled:
                         EmptyView()
                     }
@@ -96,6 +93,19 @@ private extension LockedView {
             return Text(.invalidPassword)
         case .unlockFailed:
             return Text(.unlockFailed)
+        }
+    }
+    
+}
+
+private extension Keychain.BiometryType {
+    
+    var symbolName: String {
+        switch self {
+        case .touchID:
+            return .touchid
+        case .faceID:
+            return .faceid
         }
     }
     

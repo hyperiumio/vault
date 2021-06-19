@@ -1,12 +1,12 @@
 import Crypto
 import SwiftUI
 
-struct EnableBiometricUnlockView<S>: View where S: EnableBiometricUnlockStateRepresentable {
+struct EnableBiometricUnlockView<EnableBiometricUnlockState>: View where EnableBiometricUnlockState: EnableBiometricUnlockStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: EnableBiometricUnlockState
     @State private var error: EnableBiometricUnlockError?
     
-    init(_ state: S) {
+    init(_ state: EnableBiometricUnlockState) {
         self.state = state
     }
     

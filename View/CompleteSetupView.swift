@@ -4,13 +4,13 @@ import SwiftUI
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
 
-struct CompleteSetupView<S>: View where S: CompleteSetupStateRepresentable {
+struct CompleteSetupView<CompleteSetupState>: View where CompleteSetupState: CompleteSetupStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: CompleteSetupState
     @State private var displayError: CompleteSetupStateError?
     @State private var isCheckmarkVisible = false
     
-    init(_ state: S) {
+    init(_ state: CompleteSetupState) {
         self.state = state
     }
     

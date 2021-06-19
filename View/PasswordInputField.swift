@@ -1,6 +1,6 @@
 import SwiftUI
-
-struct EditWifiView<S>: View where S: WifiStateRepresentable {
+#warning("TODO")
+struct PasswordInputField<S>: View where S: PasswordStateRepresentable {
     
     @ObservedObject private var state: S
     
@@ -9,22 +9,22 @@ struct EditWifiView<S>: View where S: WifiStateRepresentable {
     }
     
     var body: some View {
-        EditItemTextField(.name, placeholder: .name, text: $state.name)
-            .keyboardType(.asciiCapable)
-        
+        fatalError()
+        /*
         EditItemSecureField(.password, placeholder: .password, text: $state.password, generatorAvailable: true)
+         */
     }
-    
+
 }
 
 #if DEBUG
-struct EditWifiViewPreview: PreviewProvider {
+struct PasswordInputFieldPreview: PreviewProvider {
     
-    static let state = WifiStateStub()
+    static let state = PasswordStateStub()
     
     static var previews: some View {
         List {
-            EditWifiView(state)
+            PasswordInputField(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

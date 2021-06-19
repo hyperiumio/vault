@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct CreateVaultItemView<S>: View where S: VaultItemStateRepresentable {
+struct CreateVaultItemView<CreateVaultItemState>: View where CreateVaultItemState: VaultItemStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: CreateVaultItemState
     @Environment(\.presentationMode) private var presentationMode
     
-    init(_ state: S) {
+    init(_ state: CreateVaultItemState) {
         self.state = state
     }
     

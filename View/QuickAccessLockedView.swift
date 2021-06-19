@@ -1,4 +1,5 @@
 import SwiftUI
+import Crypto
 
 #warning("Todo")
 #if os(iOS)
@@ -28,18 +29,19 @@ struct QuickAccessLockedView<S>: View where S: QuickAccessLockedStateRepresentab
                 
                 Group {
                     switch state.keychainAvailability {
-                    case .enrolled(.touchID):
-                        BiometricUnlockButton(.touchID) {
-                            if !isKeyboardVisible {
-                        //        state.loginWithBiometrics()
+                    case .enrolled(let biometricType):
+                        Button(role: nil) {
+                            guard !isKeyboardVisible else {
+                                return
                             }
+                            await state.loginWithBiometrics()
+                        } label: {
+                            Image(systemName: biometricType.symbolName)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .foregroundColor(.accentColor)
                         }
-                    case .enrolled(.faceID):
-                        BiometricUnlockButton(.faceID) {
-                            if !isKeyboardVisible {
-                        //        state.loginWithBiometrics()
-                            }
-                        }
+                        .buttonStyle(.plain)
                     case .notAvailable, .notEnrolled:
                         EmptyView()
                     }
@@ -119,6 +121,19 @@ struct QuickAccessLockedView<S>: View where S: QuickAccessLockedStateRepresentab
         }
     }
     #endif
+    
+}
+
+private extension Keychain.BiometryType {
+    
+    var symbolName: String {
+        switch self {
+        case .touchID:
+            return .touchid
+        case .faceID:
+            return .faceid
+        }
+    }
     
 }
 

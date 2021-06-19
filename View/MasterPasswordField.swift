@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UnlockField: View {
+struct MasterPasswordField: View {
     
     private let title: LocalizedStringKey
     private let text: Binding<String>
@@ -38,12 +38,12 @@ struct UnlockField: View {
 }
 
 #if DEBUG
-struct UnlockFieldPreview: PreviewProvider {
+struct MasterPasswordFieldPreview: PreviewProvider {
     
     @State static var text = ""
     
     static var previews: some View {
-        UnlockField("foo", text: $text) {}
+        MasterPasswordField("foo", text: $text) {}
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

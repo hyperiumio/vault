@@ -1,5 +1,6 @@
 import SwiftUI
-
+#warning("TODO")
+/*
 struct EditItemDateField: View {
     
     private let title: LocalizedStringKey
@@ -11,17 +12,15 @@ struct EditItemDateField: View {
     }
     
     var body: some View {
-        SecureItemView {
-            Field(title) {
-                HStack {
-                    DatePicker(title, selection: date, displayedComponents: .date)
-                        .labelsHidden()
-                        #if os(macOS)
-                        .datePickerStyle(FieldDatePickerStyle())
-                        #endif
-                    
-                    Spacer()
-                }
+        Field(title) {
+            HStack {
+                DatePicker(title, selection: date, displayedComponents: .date)
+                    .labelsHidden()
+                    #if os(macOS)
+                    .datePickerStyle(FieldDatePickerStyle())
+                    #endif
+                
+                Spacer()
             }
         }
     }
@@ -43,3 +42,4 @@ struct EditItemDateFieldPreview: PreviewProvider {
     
 }
 #endif
+*/

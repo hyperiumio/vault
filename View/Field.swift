@@ -37,7 +37,7 @@ extension Field where Title == Text {
 }
 
 #if DEBUG
-struct ItemFieldPreview: PreviewProvider {
+struct FieldPreview: PreviewProvider {
     
     static var previews: some View {
         List {

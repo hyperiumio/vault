@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct ChoosePasswordView<S>: View where S: ChoosePasswordStateRepresentable {
+struct ChoosePasswordView<ChoosePasswordState>: View where ChoosePasswordState: ChoosePasswordStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: ChoosePasswordState
     
-    init(_ state: S) {
+    init(_ state: ChoosePasswordState) {
         self.state = state
     }
     

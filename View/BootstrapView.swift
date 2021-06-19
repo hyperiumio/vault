@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct BootstrapView<S>: View where S: BootstrapStateRepresentable {
+struct BootstrapView<BootstrapState>: View where BootstrapState: BootstrapStateRepresentable {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: BootstrapState
     
-    init(_ state: S) {
+    init(_ state: BootstrapState) {
         self.state = state
     }
     
@@ -40,7 +40,7 @@ struct BootstrapView<S>: View where S: BootstrapStateRepresentable {
 }
 
 #if DEBUG
-struct BootStrapViewPreview: PreviewProvider {
+struct BootstrapViewPreview: PreviewProvider {
     
     static let state = BootstrapStateStub(state: .loadingFailed)
     

@@ -1,6 +1,6 @@
 import SwiftUI
-
-struct EditCustomView<S>: View where S: CustomStateRepresentable {
+#warning("TODO")
+struct CustomInputField<S>: View where S: CustomStateRepresentable {
     
     @ObservedObject private var state: S
     
@@ -9,23 +9,24 @@ struct EditCustomView<S>: View where S: CustomStateRepresentable {
     }
     
     var body: some View {
-        SecureItemView {
-            EditSecureItemField(.description, text: $state.description) {
-                TextField(.value, text: $state.value)
-            }
+        fatalError()
+        /*
+        EditSecureItemField(.description, text: $state.description) {
+            TextField(.value, text: $state.value)
         }
+         */
     }
     
 }
 
 #if DEBUG
-struct EditCustomViewPreview: PreviewProvider {
+struct CustomInputFieldPreview: PreviewProvider {
     
     static let state = CustomStateStub()
     
     static var previews: some View {
         List {
-            EditCustomView(state)
+            CustomInputField(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

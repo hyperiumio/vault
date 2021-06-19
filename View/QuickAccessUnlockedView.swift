@@ -19,7 +19,7 @@ struct QuickAccessUnlockedView<S>: View where S: QuickAccessUnlockedStateReprese
                         Button {
                 //            state.selectItem(item)
                         } label: {
-                            LoginCredentialView(title: item.title, username: item.username, url: item.url)
+                            LoginCredentialField(title: item.title, username: item.username, url: item.url)
                         }
                     }
                 } header: {
@@ -41,7 +41,7 @@ struct QuickAccessUnlockedView<S>: View where S: QuickAccessUnlockedStateReprese
                         Button {
                             state.selectItem(item)
                         } label: {
-                            LoginCredentialView(title: item.title, username: item.username, url: item.url)
+                            LoginCredentialField(title: item.title, username: item.username, url: item.url)
                         }
                     }
                 } header: {

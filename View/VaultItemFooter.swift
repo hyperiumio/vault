@@ -1,5 +1,6 @@
 import SwiftUI
 
+#warning("todo")
 struct VaultItemFooter: View {
     
     private let created: Date?

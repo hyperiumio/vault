@@ -1,6 +1,6 @@
 import SwiftUI
-
-struct EditLoginView<S>: View where S: LoginStateRepresentable {
+#warning("TODO")
+struct LoginInputField<S>: View where S: LoginStateRepresentable {
     
     @ObservedObject private var state: S
     
@@ -9,6 +9,8 @@ struct EditLoginView<S>: View where S: LoginStateRepresentable {
     }
     
     var body: some View {
+        fatalError()
+        /*
         EditItemTextField(.username, placeholder: .usernameOrEmail, text: $state.username)
             .keyboardType(.emailAddress)
             .textContentType(.username)
@@ -19,18 +21,19 @@ struct EditLoginView<S>: View where S: LoginStateRepresentable {
         EditItemTextField(.url, placeholder: .exampleURL, text: $state.url)
             .keyboardType(.URL)
             .textContentType(.URL)
+         */
     }
     
 }
 
 #if DEBUG
-struct EditLoginViewPreview: PreviewProvider {
+struct LoginInputFieldPreview: PreviewProvider {
     
     static let state = LoginStateStub()
     
     static var previews: some View {
         List {
-            EditLoginView(state)
+            LoginInputField(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)

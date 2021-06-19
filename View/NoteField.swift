@@ -1,6 +1,7 @@
+import Pasteboard
 import SwiftUI
 
-struct NoteView: View {
+struct NoteField: View {
     
     private let text: String?
     
@@ -10,18 +11,26 @@ struct NoteView: View {
     
     var body: some View {
         if let text = text {
-            ItemTextField(.note, text: text)
+            Button {
+                Pasteboard.general.string = text
+            } label: {
+                Field(.note) {
+                    Text(text)
+                }
+            }
+            .buttonStyle(.message(.copied))
         }
+        
     }
     
 }
 
 #if DEBUG
-struct NoteViewPreview: PreviewProvider {
+struct NoteFieldPreview: PreviewProvider {
     
     static var previews: some View {
         List {
-            NoteView(text: "foo\n\nbar")
+            NoteField(text: "foo\n\nbar")
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
