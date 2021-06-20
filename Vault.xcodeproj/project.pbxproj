@@ -26,6 +26,8 @@
 		953851152563E82B00C305F2 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 953851142563E82B00C305F2 /* Format */; };
 		9539B20D2540692000C81A2A /* PDFViewShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFViewShim.swift */; };
 		9539B20E2540692000C81A2A /* PDFViewShim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFViewShim.swift */; };
+		953A80FD267F8F8B00B104FC /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953A80FC267F8F8B00B104FC /* Background.swift */; };
+		953A80FE267F8F8B00B104FC /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953A80FC267F8F8B00B104FC /* Background.swift */; };
 		9540F5AB256FDCF200D8514C /* QuickAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* QuickAccessView.swift */; };
 		9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
 		9540F5D5256FF72F00D8514C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5D4256FF72F00D8514C /* Crypto */; };
@@ -267,6 +269,11 @@
 		953851102563E73600C305F2 /* Format */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Format; sourceTree = "<group>"; };
 		9539B20C2540692000C81A2A /* PDFViewShim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewShim.swift; sourceTree = "<group>"; };
 		953A43DE25D1ABBD000267D0 /* Cloud */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cloud; sourceTree = "<group>"; };
+		953A80F5267F7A1C00B104FC /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		953A80F6267F7A1C00B104FC /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		953A80F7267F7A1C00B104FC /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		953A80F8267F7A1C00B104FC /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		953A80FC267F8F8B00B104FC /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		9542207A255183C1002F14AB /* FileState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileState.swift; sourceTree = "<group>"; };
 		95422087255186A4002F14AB /* BankAccountInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountInputField.swift; sourceTree = "<group>"; };
 		9542208C2551873C002F14AB /* BankCardInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCardInputField.swift; sourceTree = "<group>"; };
@@ -280,10 +287,6 @@
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9563074B2535DC600076022A /* SecureItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemTypeView.swift; sourceTree = "<group>"; };
-		9566DF60267F11F5002F0206 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9566DF61267F11F5002F0206 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		9566DF62267F11F5002F0206 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9566DF63267F11F5002F0206 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		9566DF64267F1315002F0206 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		956EFCDB24AA368E0084D716 /* BootstrapState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BootstrapState.swift; sourceTree = "<group>"; };
 		956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedView.swift; sourceTree = "<group>"; };
@@ -547,6 +550,7 @@
 				9574337024AA23D30062B05A /* VaultItemView.swift */,
 				95864927251E137C0081DF08 /* WifiField.swift */,
 				954220AC25518A9C002F14AB /* WifiInputField.swift */,
+				953A80FC267F8F8B00B104FC /* Background.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -616,10 +620,10 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				9566DF60267F11F5002F0206 /* Vault.app */,
-				9566DF61267F11F5002F0206 /* CredentialProvider.appex */,
-				9566DF62267F11F5002F0206 /* Vault.app */,
-				9566DF63267F11F5002F0206 /* CredentialProvider.appex */,
+				953A80F5267F7A1C00B104FC /* Vault.app */,
+				953A80F6267F7A1C00B104FC /* CredentialProvider.appex */,
+				953A80F7267F7A1C00B104FC /* Vault.app */,
+				953A80F8267F7A1C00B104FC /* CredentialProvider.appex */,
 			);
 			sourceTree = "<group>";
 		};
@@ -647,7 +651,7 @@
 				9522E3B7267BB2B500A2B54E /* Model */,
 			);
 			productName = macOSCredentialProvider;
-			productReference = 9566DF63267F11F5002F0206 /* CredentialProvider.appex */;
+			productReference = 953A80F8267F7A1C00B104FC /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95842D44256FAB180080711C /* iOSCredentialProvider */ = {
@@ -671,7 +675,7 @@
 				9522E3B5267BB2AC00A2B54E /* Model */,
 			);
 			productName = "iOS Credential Provider";
-			productReference = 9566DF61267F11F5002F0206 /* CredentialProvider.appex */;
+			productReference = 953A80F6267F7A1C00B104FC /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95ABC93A24A9D38E009D87A4 /* iOSApp */ = {
@@ -699,7 +703,7 @@
 				9522E3B1267BB29300A2B54E /* Model */,
 			);
 			productName = iOS;
-			productReference = 9566DF60267F11F5002F0206 /* Vault.app */;
+			productReference = 953A80F5267F7A1C00B104FC /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -727,7 +731,7 @@
 				9522E3B3267BB29C00A2B54E /* Model */,
 			);
 			productName = macOS;
-			productReference = 9566DF62267F11F5002F0206 /* Vault.app */;
+			productReference = 953A80F7267F7A1C00B104FC /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -875,6 +879,7 @@
 				9595585D251A3CE000F7715F /* EnableBiometricUnlockView.swift in Sources */,
 				9586493E251E14AD0081DF08 /* VaultItemFooter.swift in Sources */,
 				95B894432541C6DD00E5D401 /* PhotoPickerShim.swift in Sources */,
+				953A80FD267F8F8B00B104FC /* Background.swift in Sources */,
 				95864923251E13210081DF08 /* BankCardField.swift in Sources */,
 				9586491E251E12D00081DF08 /* NoteField.swift in Sources */,
 				954220A825518A5A002F14AB /* PasswordInputField.swift in Sources */,
@@ -984,6 +989,7 @@
 				954220AE25518A9C002F14AB /* WifiInputField.swift in Sources */,
 				9574329524AA081B0062B05A /* WifiState.swift in Sources */,
 				9574329124AA081B0062B05A /* ChangeMasterPasswordState.swift in Sources */,
+				953A80FE267F8F8B00B104FC /* Background.swift in Sources */,
 				9574334624AA135E0062B05A /* AppView.swift in Sources */,
 				9574327724AA081B0062B05A /* SettingsState.swift in Sources */,
 				957432AD24AA081B0062B05A /* SetupState.swift in Sources */,

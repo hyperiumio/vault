@@ -17,7 +17,8 @@ protocol SetupStateRepresentable: ObservableObject, Identifiable {
     typealias Step = SetupStep<ChoosePasswordState, RepeatPasswordState, EnableBiometricUnlockState, CompleteSetupState>
     
     var step: Step { get }
-    var stepDidChange: Published<Step>.Publisher { get }
+    
+    func result() async -> SetupResult
     
 }
 
@@ -50,8 +51,8 @@ class SetupState<Dependency>: SetupStateRepresentable where Dependency: SetupSta
         fatalError()
     }
     
-    var stepDidChange: Published<Step>.Publisher {
-        $step
+    func result() async -> SetupResult {
+        fatalError()
     }
     
 }
@@ -80,6 +81,14 @@ enum SetupStep<ChoosePassword, RepeatPassword, EnableBiometricUnlock, CompleteSe
     
 }
 
+struct SetupResult {
+    
+    let store: Store
+    let derivedKey: DerivedKey
+    let masterKey: MasterKey
+    
+}
+
 #if DEBUG
 class SetupStateStub: SetupStateRepresentable {
     
@@ -94,8 +103,8 @@ class SetupStateStub: SetupStateRepresentable {
         self.step = step
     }
     
-    var stepDidChange: Published<Step>.Publisher {
-        $step
+    func result() async -> SetupResult {
+        fatalError()
     }
     
 }

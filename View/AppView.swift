@@ -10,6 +10,8 @@ struct AppView<AppState>: View where AppState: AppStateRepresentable {
 
     var body: some View {
         switch state.mode {
+        case .launched:
+            Background()
         case .bootstrap(let state):
             BootstrapView(state)
         case .setup(let state):

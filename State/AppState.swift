@@ -1,10 +1,7 @@
-import Combine
 import Crypto
 import Foundation
-import Preferences
 import Model
-import Sort
-#warning("Todo")
+
 @MainActor
 protocol AppStateRepresentable: ObservableObject, Identifiable {
     
@@ -12,7 +9,7 @@ protocol AppStateRepresentable: ObservableObject, Identifiable {
     associatedtype SetupState: SetupStateRepresentable
     associatedtype MainState: MainStateRepresentable
     
-    typealias Mode = AppStateMode<BootstrapState, SetupState, MainState>
+    typealias Mode = AppMode<BootstrapState, SetupState, MainState>
     
     var mode: Mode { get }
     
@@ -39,16 +36,31 @@ class AppState<Dependency: AppStateDependency>: AppStateRepresentable {
     typealias SetupState = Dependency.SetupState
     typealias MainState = Dependency.MainState
     
-    @Published private(set) var mode: Mode
+    @Published private(set) var mode = Mode.launched
     
     init(_ dependency: Dependency) {
-        fatalError()
+        async {
+            let bootstrapState = dependency.bootstrapState()
+            mode = .bootstrap(bootstrapState)
+            switch await bootstrapState.result() {
+            case .setup:
+                let setupState = dependency.setupState()
+                mode = .setup(setupState)
+                let result = await setupState.result()
+                let mainState = dependency.unlockedMainState(store: result.store, derivedKey: result.derivedKey, masterKey: result.masterKey)
+                mode = .main(mainState)
+            case .loaded(let store):
+                let mainState = dependency.lockedMainState(store: store)
+                mode = .main(mainState)
+            }
+        }
     }
     
 }
 
-enum AppStateMode<BootstrapState, SetupState, MainState> {
+enum AppMode<BootstrapState, SetupState, MainState> {
     
+    case launched
     case bootstrap(BootstrapState)
     case setup(SetupState)
     case main(MainState)
@@ -69,8 +81,6 @@ class AppStateStub: AppStateRepresentable {
     init(mode: Mode) {
         self.mode = mode
     }
-    
-    func lock() {}
     
 }
 #endif

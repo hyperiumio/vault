@@ -10,8 +10,13 @@ struct BootstrapView<BootstrapState>: View where BootstrapState: BootstrapStateR
     
     var body: some View {
         switch state.status {
-        case .initialized, .loading, .loaded:
-            EmptyView()
+        case .initialized:
+            Background()
+                .task {
+                    await state.load()
+                }
+        case .loading, .loaded:
+            Background()
         case .loadingFailed:
             VStack {
                 Image(systemName: .exclamationmarkTriangle)

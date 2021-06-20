@@ -6,9 +6,9 @@ import Model
 protocol BootstrapStateRepresentable: ObservableObject, Identifiable {
     
     var status: BootstrapStatus { get }
-    var statusDidChange: Published<BootstrapStatus>.Publisher { get }
     
     func load() async
+    func result() async -> BootstrapResult
     
 }
 
@@ -24,25 +24,30 @@ class BootstrapState: BootstrapStateRepresentable {
         self.preferences = preferences
     }
     
-    var statusDidChange: Published<BootstrapStatus>.Publisher {
-        $status
-    }
-    
     func load() async {
-        switch status {
-        case .initialized, .loadingFailed:
-            guard let activeStoreID = await preferences.value.activeStoreID else {
-                status = .loadingFailed
+        guard status == .initialized || status == .loadingFailed else {
+            return
+        }
+        
+        do {
+            guard
+                let activeStoreID = await preferences.value.activeStoreID,
+                let store = try await Store(from: containerDirectory, matching: activeStoreID)
+            else {
+                status = .loaded
+                // .setup
                 return
             }
-            do {
-                let store = try await Store(from: containerDirectory, matching: activeStoreID)
-                status = .loaded(store: store)
-            } catch {
-                status = .loadingFailed
-            }
-        case .loading, .loaded:
-            return
+            status = .loaded
+            // loaded
+        } catch {
+            status = .loadingFailed
+        }
+    }
+    
+    func result() async -> BootstrapResult {
+        await withCheckedContinuation { c in
+            
         }
     }
     
@@ -53,7 +58,14 @@ enum BootstrapStatus {
     case initialized
     case loading
     case loadingFailed
-    case loaded(store: Store?)
+    case loaded
+    
+}
+
+enum BootstrapResult {
+    
+    case setup
+    case loaded(Store)
     
 }
 
@@ -67,11 +79,10 @@ class BootstrapStateStub: BootstrapStateRepresentable {
         self.status = status
     }
     
-    var statusDidChange: Published<BootstrapStatus>.Publisher {
-        $status
-    }
-    
     func load() async {}
     
+    func result() async -> BootstrapResult {
+        .setup
+    }
 }
 #endif
