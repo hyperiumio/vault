@@ -1,5 +1,5 @@
 import SwiftUI
-#warning("todo")
+
 struct VaultItemView<S>: View where S: VaultItemStateRepresentable {
     
     @ObservedObject private var state: S
@@ -9,7 +9,6 @@ struct VaultItemView<S>: View where S: VaultItemStateRepresentable {
         self.state = state
     }
     
-    #if os(iOS)
     var body: some View {
         Group {
             switch mode {
@@ -41,48 +40,13 @@ struct VaultItemView<S>: View where S: VaultItemStateRepresentable {
                             }
                         }
                     }
+                    #if os(iOS)
                     .navigationBarBackButtonHidden(mode == .edit)
+                    #endif
             }
         }
         .transition(AnyTransition.opacity.animation(.easeInOut))
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        Group {
-            switch mode {
-            case .display:
-                VaultItemDisplayView(state)
-                    .toolbar {
-                        ToolbarItem(placement: .primaryAction) {
-                            Button(.edit) {
-                                mode = .edit
-                            }
-                        }
-                    }
-            case .edit:
-                VaultItemEditView(state)
-                    .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
-                            Button(.cancel) {
-                                state.discardChanges()
-                                mode = .display
-                            }
-                        }
-                        
-                        ToolbarItem(placement: .primaryAction) {
-                            Button(.save) {
-                                state.save()
-                                mode = .display
-                            }
-                        }
-                    }
-            }
-        }
-        .transition(AnyTransition.opacity.animation(.easeInOut))
-    }
-    #endif
     
 }
 
@@ -105,7 +69,6 @@ private struct VaultItemDisplayView<S>: View where S: VaultItemStateRepresentabl
         self.state = state
     }
     
-    #if os(iOS)
     var body: some View {
         List {
             Section {
@@ -121,28 +84,10 @@ private struct VaultItemDisplayView<S>: View where S: VaultItemStateRepresentabl
                 VaultItemFooter(created: state.created, modified: state.modified)
             }
         }
+        #if os(iOS)
         .listStyle(GroupedListStyle())
+        #endif
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        List {
-            Section {
-                ElementView(state.primaryItemState)
-            } header: {
-                Text(state.title)
-                    .font(.title)
-                    .textCase(.none)
-               //     .foregroundColor(.label)
-                    .listRowInsets(EdgeInsets())
-                    .padding()
-            } footer: {
-                VaultItemFooter(created: state.created, modified: state.modified)
-            }
-        }
-    }
-    #endif
     
 }
 
@@ -155,7 +100,6 @@ private struct VaultItemEditView<S>: View where S: VaultItemStateRepresentable {
         self.state = state
     }
     
-    #if os(iOS)
     var body: some View {
         List {
             Group {
@@ -180,34 +124,10 @@ private struct VaultItemEditView<S>: View where S: VaultItemStateRepresentable {
                 }
             }
         }
+        #if os(iOS)
         .listStyle(GroupedListStyle())
+        #endif
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        List {
-            Group {
-                Section {
-                    ElementView(state.primaryItemState)
-                } header: {
-                    TextField(.title, text: $state.title)
-                        .font(.title)
-                        .listRowInsets(EdgeInsets())
-                        .padding()
-                }
-                
-                Section {
-                    Button(.deleteItem) {
-                        state.delete()
-                        presentationMode.wrappedValue.dismiss()
-                    }
-                    .foregroundColor(.red)
-                }
-            }
-        }
-    }
-    #endif
     
 }
 

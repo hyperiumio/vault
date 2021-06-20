@@ -13,7 +13,6 @@ struct RepeatPasswordView<S>: View where S: RepeatPasswordStateRepresentable {
         state.repeatedPassword.isEmpty ? [.backward] : [.backward, .forward]
     }
     
-    #if os(iOS)
     var body: some View {
         PageNavigationView(.continue, enabledIntensions: enabledIntensions) { intension in
             switch intension {
@@ -40,12 +39,11 @@ struct RepeatPasswordView<S>: View where S: RepeatPasswordStateRepresentable {
                 
                 Spacer()
                 
-                SecureField(.enterMasterPassword, text: $state.repeatedPassword)
+                SecureField(.enterMasterPassword, text: $state.repeatedPassword, prompt: nil)
                     .textContentType(.oneTimeCode)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
                     .multilineTextAlignment(.center)
-                    .frame(minHeight: TextStyle.title2.lineHeight)
                 
                 Spacer()
                 
@@ -61,34 +59,8 @@ struct RepeatPasswordView<S>: View where S: RepeatPasswordStateRepresentable {
             }
         }
     }
-    #endif
     
 }
-
-#if os(macOS)
-private typealias TextStyle = NSFont.TextStyle
-
-private extension NSFont.TextStyle {
-    
-    var lineHeight: CGFloat {
-        let font = NSFont.preferredFont(forTextStyle: self)
-        return NSLayoutManager().defaultLineHeight(for: font)
-    }
-    
-}
-#endif
-    
-#if os(iOS)
-private typealias TextStyle = UIFont.TextStyle
-
-private extension UIFont.TextStyle {
-
-    var lineHeight: CGFloat {
-        UIFont.preferredFont(forTextStyle: self).lineHeight
-    }
-    
-}
-#endif
 
 #if DEBUG
 struct RepeatPasswordViewProvider: PreviewProvider {

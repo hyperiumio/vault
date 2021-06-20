@@ -11,7 +11,9 @@ struct WifiInputField<WifiInputState>: View where WifiInputState: WifiStateRepre
     var body: some View {
         Field(.name) {
             TextField(.accountHolder, text: $state.name)
+                #if os(iOS)
                 .keyboardType(.asciiCapable)
+                #endif
         }
         
         Field (.password) {

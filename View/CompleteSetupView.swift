@@ -52,11 +52,13 @@ struct CompleteSetupView<CompleteSetupState>: View where CompleteSetupState: Com
             }
         }
         .onAppear {
+            #if os(iOS)
             feedbackGenerator.prepare()
             isCheckmarkVisible = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 feedbackGenerator.notificationOccurred(.success)
             }
+            #endif
         }
 
     }

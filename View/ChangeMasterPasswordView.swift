@@ -42,8 +42,10 @@ struct ChangeMasterPasswordView<ChangeMasterPasswordState>: View where ChangeMas
             }
         }
         .disabled(state.state == .changingPassword)
+        #if os(iOS)
         .navigationBarTitle(.masterPassword, displayMode: .inline)
         .listStyle(.grouped)
+        #endif
     }
     
 }

@@ -5,7 +5,6 @@ struct SettingsView<S>: View where S: SettingsStateRepresentable {
     @ObservedObject private var state: S
     @Environment(\.presentationMode) private var presentationMode
     
-    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
@@ -33,7 +32,9 @@ struct SettingsView<S>: View where S: SettingsStateRepresentable {
                 }
             }
             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            #if os(iOS)
             .listStyle(GroupedListStyle())
+            #endif
             .navigationTitle(.settings)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -44,37 +45,6 @@ struct SettingsView<S>: View where S: SettingsStateRepresentable {
             }
         }
     }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        TabView {
-            VStack {
-                switch state.keychainAvailability {
-                case .notAvailable, .notEnrolled:
-                    EmptyView()
-                case .enrolled(.touchID):
-                    Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
-                case .enrolled(.faceID):
-                    Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
-                }
-                
-                Divider()
-                
-                Button(.changeMasterPassword) {
-                    
-                }
-            }
-            .tabItem {
-                Label(.security, systemImage: SFSymbolName.lock)
-            }
-            .padding()
-        }
-        .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-        
-        
-    }
-    #endif
     
     init(_ state: S) {
         self.state = state

@@ -45,6 +45,7 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
                     .listStyle(PlainListStyle())
                 }
             }
+            #if os(iOS)
             .navigationBarTitle(.vault, displayMode: .inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -70,6 +71,7 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
                     .buttonStyle(PlainButtonStyle())
                 }
             }
+            #endif
             
             Text(.nothingSelected)
         }

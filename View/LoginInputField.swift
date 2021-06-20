@@ -11,8 +11,10 @@ struct LoginInputField<LoginInputState>: View where LoginInputState: LoginStateR
     var body: some View {
         Field(.username) {
             TextField(.usernameOrEmail, text: $state.username)
+                #if os(iOS)
                 .keyboardType(.emailAddress)
                 .textContentType(.username)
+                #endif
         }
         
         Field (.password) {
@@ -22,8 +24,10 @@ struct LoginInputField<LoginInputState>: View where LoginInputState: LoginStateR
         
         Field(.url) {
             TextField(.exampleURL, text: $state.url)
+                #if os(iOS)
                 .keyboardType(.URL)
                 .textContentType(.URL)
+                #endif
         }
     }
     

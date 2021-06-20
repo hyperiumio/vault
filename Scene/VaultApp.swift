@@ -8,26 +8,20 @@ struct VaultApp: App {
         return AppState(dependency)
     }()
     
-    #if os(iOS)
     var body: some Scene {
         WindowGroup {
             AppView(state)
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some Scene {
-        WindowGroup {
-            AppView(state)
+                #if os(macOS)
                 .frame(width: 600, height: 600)
+                #endif
         }
+        #if os(macOS)
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unifiedCompact)
         .commands {
             AppCommands(state)
         }
+        #endif
     }
-    #endif
     
 }

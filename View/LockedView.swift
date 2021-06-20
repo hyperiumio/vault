@@ -100,7 +100,7 @@ private extension LockedView {
 
 private extension Keychain.BiometryType {
     
-    var symbolName: String {
+    var symbolName: SFSymbol {
         switch self {
         case .touchID:
             return .touchid

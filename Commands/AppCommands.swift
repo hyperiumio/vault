@@ -13,9 +13,7 @@ struct AppCommands<S>: Commands where S: AppStateRepresentable {
         
         CommandGroup(before: .appTermination) {
             Button(.lockVault) {
-                guard case .main(let state) = state.state else { return }
-                
-           //     state.lock()
+
             }
         }
     }

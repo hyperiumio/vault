@@ -16,6 +16,7 @@ struct FileField: View {
         Group {
             switch item.typeIdentifier {
             case let typeIdentifier where typeIdentifier.conforms(to: .image):
+                #if os(iOS)
                 if let image = UIImage(data: item.data) {
                     Image(uiImage: image)
                         .resizable()
@@ -23,6 +24,17 @@ struct FileField: View {
                 } else {
                     UnrepresentableFileView(typeIdentifier)
                 }
+                #endif
+                
+                #if os(macOS)
+                if let image = NSImage(data: item.data) {
+                    Image(nsImage: image)
+                        .resizable()
+                        .scaledToFit()
+                } else {
+                    UnrepresentableFileView(typeIdentifier)
+                }
+                #endif
             case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
                 if let document = PDFDocument(data: item.data) {
                     PDFViewShim(document)

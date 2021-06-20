@@ -12,15 +12,19 @@ struct BankCardInputField<BankCardInputState>: View where BankCardInputState: Ba
     var body: some View {
         Field(.name) {
             TextField(.accountHolder, text: $state.name)
+                #if os(iOS)
                 .keyboardType(.namePhonePad)
                 .textContentType(.name)
+                #endif
         }
         
         Field(.number) {
             TextField(.number, value: $state.number, format: .creditCardNumber)
                 .font(.body.monospaced())
+                #if os(iOS)
                 .keyboardType(.numberPad)
                 .textContentType(.creditCardNumber)
+                #endif
         }
         
         Field(.expirationDate) {

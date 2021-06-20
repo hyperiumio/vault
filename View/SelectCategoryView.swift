@@ -49,10 +49,12 @@ struct SelectCategoryView: View {
                     }
                 }
                 
+                #if os(iOS)
                 Group {
                     ItemButton(.photo, imageName: .camera) {
                         isShowingCameraView = true
                     }
+                    
                     .fullScreenCover(isPresented: $isShowingCameraView) {
                         PhotoPickerShim { output in
                             guard let output = output else { return }
@@ -91,6 +93,7 @@ struct SelectCategoryView: View {
                         
                     }
                 }
+                #endif
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -99,7 +102,10 @@ struct SelectCategoryView: View {
                     }
                 }
             }
+            #if os(iOS)
             .navigationBarTitle(.selectCategory, displayMode: .inline)
+            #endif
+            
         }
     }
     
