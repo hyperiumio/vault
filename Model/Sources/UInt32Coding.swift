@@ -15,7 +15,7 @@ func UInt32Encode(_ value: UInt32) -> Data {
 
 func UInt32Decode(_ data: Data) throws -> UInt32 {
     guard data.count == UInt32CodingSize else {
-        throw PersistenceError.invalidDataSize
+        throw ModelError.invalidDataSize
     }
     
     let byte0 = data[data.startIndex + 0]

@@ -1,12 +1,12 @@
 import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
-#warning("TODO")
-struct FileInputField<S>: View where S: FileStateRepresentable {
+#warning("todo")
+struct FileInputField: View {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: FileState
     
-    init(_ state: S) {
+    init(_ state: FileState) {
         self.state = state
     }
     
@@ -17,22 +17,3 @@ struct FileInputField<S>: View where S: FileStateRepresentable {
     }
     
 }
-
-#if DEBUG
-struct FileInputFieldPreview: PreviewProvider {
-    
-    static let state: FileStateStub = {
-        let data = NSDataAsset(name: "ImageDummy")!.data
-        return FileStateStub(typeIdentifier: .image, data: data)
-    }()
-    
-    static var previews: some View {
-        List {
-            FileInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

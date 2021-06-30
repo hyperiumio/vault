@@ -1,11 +1,11 @@
 import Format
 import SwiftUI
 
-struct BankAccountInputField<BankAccountInputState>: View where BankAccountInputState: BankAccountStateRepresentable {
+struct BankAccountInputField: View {
     
-    @ObservedObject private var state: BankAccountInputState
+    @ObservedObject private var state: BankAccountState
     
-    init(_ state: BankAccountInputState) {
+    init(_ state: BankAccountState) {
         self.state = state
     }
     
@@ -36,19 +36,3 @@ struct BankAccountInputField<BankAccountInputState>: View where BankAccountInput
     }
     
 }
-
-#if DEBUG
-struct BankAccountInputFieldPreview: PreviewProvider {
-    
-    static let state = BankAccountStateStub()
-    
-    static var previews: some View {
-        List {
-            BankAccountInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

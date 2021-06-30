@@ -1,16 +1,17 @@
 import SwiftUI
 #warning("todo")
-struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
+struct UnlockedView: View {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: UnlockedState
     @State private var presentedSheet: Sheet?
     @Environment(\.scenePhase) private var scenePhase
     
-    init(_ state: S) {
+    init(_ state: UnlockedState) {
         self.state = state
     }
     
     var body: some View {
+        /*
         NavigationView {
             Group {
                 switch (state.itemCollation.sections.isEmpty, state.searchText.isEmpty) {
@@ -75,6 +76,7 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
             
             Text(.nothingSelected)
         }
+        /*
         .sheet(item: $presentedSheet) { sheet in
             switch sheet {
             case .settings:
@@ -104,6 +106,8 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
                 CreateVaultItemView(state)
             }
         }
+         */
+        /*
         .alert(item: $state.failure) { failure in
             switch failure {
             case .loadOperationFailed:
@@ -114,6 +118,8 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
                 return Alert(title: name)
             }
         }
+         */
+        /*
         .onChange(of: state.creationState) { state in
             if let state = state {
                 presentedSheet = .createVaultItem(state)
@@ -126,6 +132,10 @@ struct UnlockedView<S>: View where S: UnlockedStateRepresentable {
                 state.lockApp(enableBiometricUnlock: true)
             }
         }
+         */
+    }
+         */
+        Text("foo")
     }
     
 }
@@ -144,7 +154,7 @@ private extension UnlockedView {
         
         case settings
         case selectCategory
-        case createVaultItem(S.VaultItemState)
+        case createVaultItem(StoreItemDetailState)
         
         var id: String {
             switch self {

@@ -1,12 +1,6 @@
 import SwiftUI
 
-struct AppCommands<S>: Commands where S: AppStateRepresentable {
-    
-    @ObservedObject var state: S
-    
-    init(_ state: S) {
-        self.state = state
-    }
+struct AppCommands: Commands {
     
     var body: some Commands {
         SidebarCommands()

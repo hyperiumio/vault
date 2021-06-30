@@ -1,12 +1,12 @@
+/*
 import SwiftUI
 import Model
-
-#warning("Todo")
-struct QuickAccessUnlockedView<S>: View where S: QuickAccessUnlockedStateRepresentable {
+#warning("todo")
+struct QuickAccessUnlockedView: View {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: QuickAccessUnlockedState
     
-    init(_ state: S) {
+    init(_ state: QuickAccessUnlockedState) {
         self.state = state
     }
     
@@ -62,3 +62,4 @@ private extension Section where Parent: View, Content: View, Footer == EmptyView
     }
     
 }
+*/

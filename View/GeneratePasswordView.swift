@@ -1,80 +1,61 @@
+import Crypto
 import SwiftUI
-
-#warning("TODO")
-struct GeneratePasswordView: View {
+#warning("todo")
+struct PasswordGeneratorView: View {
     
-    let passworGenerator: (String?) -> Void
+    private let passwordGenerator: (String?) -> Void
     
-    @StateObject private var state = GeneratePasswordState()
-    
-    private var length: Binding<Double> {
-        Binding<Double> {
-            Double(state.length)
-        } set: { length in
-            let length = Int(length)
-            guard state.length != length else { return }
-            
-            state.length = length
-        }
-    }
-    
-    init(passworGenerator: @escaping (String?) -> Void) {
-        self.passworGenerator = passworGenerator
+    @State private var length = 32 as Double
+    @State private var digitsEnabled = true
+    @State private var symbolsEnabled = true
+    @State private var password = ""
+     
+    init(passwordGenerator: @escaping (String?) -> Void) {
+        self.passwordGenerator = passwordGenerator
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(state.password ?? "")
+        VStack {
+            Text(password)
                 .font(.body.monospaced())
-                .foregroundColor(.primary)
                 .lineLimit(1)
                 .minimumScaleFactor(0.5)
             
             HStack() {
-                Text(.localizedCharacters(state.length))
+                Text(.localizedCharacters(Int(length)))
+                    .monospacedDigit()
                 
-                Slider(value: length, in: 16 ... 64)
+                Slider(value: $length, in: 16...64, step: 1)
             }
             
-            Toggle(.numbers, isOn: $state.digitsEnabled)
-                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            Toggle(.numbers, isOn: $digitsEnabled)
             
-            Toggle(.symbols, isOn: $state.symbolsEnabled)
-                .toggleStyle(SwitchToggleStyle(tint: .accentColor))
+            Toggle(.symbols, isOn: $symbolsEnabled)
         }
-        .monospacedDigit()
+        .toggleStyle(.switch)
         .foregroundStyle(.secondary)
-        .onChange(of: state.password, perform: passworGenerator)
-        .onAppear {
-            async {
-                await state.createPassword()
+        .task(id: length) {
+            do {
+                password = try await Password(length: Int(length), uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+            } catch {
+                
             }
         }
-    }
-    
-}
-
-private extension HorizontalAlignment {
-    
-    struct CustomAlignment: AlignmentID {
-        
-        static func defaultValue(in context: ViewDimensions) -> CGFloat {
-            context[HorizontalAlignment.center]
+        .task(id: digitsEnabled) {
+            do {
+                password = try await Password(length: Int(length), uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+            } catch {
+                
+            }
         }
-        
-    }
-
-    static let custom = HorizontalAlignment(CustomAlignment.self)
-}
-
-#if DEBUG
-struct GeneratePasswordViewPreview: PreviewProvider {
-    
-    static var previews: some View {
-        GeneratePasswordView { _ in }
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
+        .task(id: symbolsEnabled) {
+            do {
+                password = try await Password(length: Int(length), uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+            } catch {
+                
+            }
+        }
+        .onChange(of: password, perform: passwordGenerator)
     }
     
 }
-#endif

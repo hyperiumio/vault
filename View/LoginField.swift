@@ -32,8 +32,7 @@ struct LoginField: View {
                         Pasteboard.general.string = password
                     } label: {
                         Field(.password) {
-                            Text(passwordIsVisisble ? password : "••••••••")
-                                .font(.body.monospaced())
+                            ConfidentialText(password, isVisible: passwordIsVisisble)
                         }
                     }
                 }
@@ -54,17 +53,3 @@ struct LoginField: View {
     }
     
 }
-
-#if DEBUG
-struct LoginFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            LoginField(username: "foo", password: "bar", url: "baz")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

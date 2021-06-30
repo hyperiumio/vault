@@ -24,17 +24,3 @@ struct NoteField: View {
     }
     
 }
-
-#if DEBUG
-struct NoteFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            NoteField(text: "foo\n\nbar")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

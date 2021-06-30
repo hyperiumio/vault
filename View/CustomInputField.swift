@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct CustomInputField<CustomInputState>: View where CustomInputState: CustomStateRepresentable {
+struct CustomInputField: View {
     
-    @ObservedObject private var state: CustomInputState
+    @ObservedObject private var state: CustomState
     
-    init(_ state: CustomInputState) {
+    init(_ state: CustomState) {
         self.state = state
     }
     
@@ -17,19 +17,3 @@ struct CustomInputField<CustomInputState>: View where CustomInputState: CustomSt
     }
     
 }
-
-#if DEBUG
-struct CustomInputFieldPreview: PreviewProvider {
-    
-    static let state = CustomStateStub()
-    
-    static var previews: some View {
-        List {
-            CustomInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

@@ -10,9 +10,7 @@ struct BankAccountField: View {
     
     init(accountHolder: String?, iban: String?, bic: String?) {
         self.accountHolder = accountHolder
-        self.iban = iban.map { iban in
-            BankAccountNumberFormatStyle().format(iban)
-        }
+        self.iban = iban
         self.bic = bic
     }
     
@@ -33,7 +31,7 @@ struct BankAccountField: View {
                     Pasteboard.general.string = iban
                 } label: {
                     Field(.iban) {
-                        Text(iban)
+                        Text(iban, format: .bankAccountNumber)
                             .font(.body.monospaced())
                     }
                 }
@@ -54,17 +52,3 @@ struct BankAccountField: View {
     }
     
 }
-
-#if DEBUG
-struct BankAccountFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            BankAccountField(accountHolder: "foo", iban: "bar", bic: "baz")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

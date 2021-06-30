@@ -1,12 +1,12 @@
+/*
 import SwiftUI
-
-#warning("Todo")
-struct QuickAccessView<S>: View where S: QuickAccessStateRepresentable {
+#warning("todo")
+struct QuickAccessView: View {
     
-    @ObservedObject var state: S
+    @ObservedObject var state: QuickAccessState
     private let cancel: () -> Void
     
-    init(_ state: S, cancel: @escaping () -> Void) {
+    init(_ state: QuickAccessState, cancel: @escaping () -> Void) {
         self.state = state
         self.cancel = cancel
     }
@@ -51,3 +51,4 @@ struct QuickAccessView<S>: View where S: QuickAccessStateRepresentable {
     #endif
     
 }
+*/

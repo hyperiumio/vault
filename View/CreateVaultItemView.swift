@@ -1,6 +1,6 @@
 import SwiftUI
-
-struct CreateVaultItemView<CreateVaultItemState>: View where CreateVaultItemState: VaultItemStateRepresentable {
+/*
+struct CreateVaultItemView: View {
     
     @ObservedObject private var state: CreateVaultItemState
     @Environment(\.presentationMode) private var presentationMode
@@ -75,21 +75,4 @@ private extension Section where Parent: View, Content: View, Footer == EmptyView
     }
     
 }
-
-#if DEBUG
-struct CreateVaultItemViewPreview: PreviewProvider {
-    
-    static let state: VaultItemStateStub = {
-        let loginState = LoginStateStub()
-        let primaryItemState = VaultItemStateStub.Element.login(loginState)
-        return VaultItemStateStub(primaryItemState: primaryItemState, secondaryItemStates: [])
-    }()
-    
-    static var previews: some View {
-        CreateVaultItemView(state)
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif
+*/

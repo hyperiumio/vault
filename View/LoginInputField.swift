@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct LoginInputField<LoginInputState>: View where LoginInputState: LoginStateRepresentable {
+struct LoginInputField: View {
     
-    @ObservedObject private var state: LoginInputState
+    @ObservedObject private var state: LoginState
     
-    init(_ state: LoginInputState) {
+    init(_ state: LoginState) {
         self.state = state
     }
     
@@ -32,19 +32,3 @@ struct LoginInputField<LoginInputState>: View where LoginInputState: LoginStateR
     }
     
 }
-
-#if DEBUG
-struct LoginInputFieldPreview: PreviewProvider {
-    
-    static let state = LoginStateStub()
-    
-    static var previews: some View {
-        List {
-            LoginInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

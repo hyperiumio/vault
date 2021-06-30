@@ -17,27 +17,13 @@ struct PasswordField: View {
                     Pasteboard.general.string = password
                 } label: {
                     Field(.password) {
-                        Text(passwordIsVisisble ? password : "••••••••")
-                            .font(.body.monospaced())
+                        ConfidentialText(password, isVisible: passwordIsVisisble)
                     }
                 }
+                .buttonStyle(.message(.copied))
             }
             .toggleStyle(.secure)
         }
     }
 
 }
-
-#if DEBUG
-struct PasswordFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            PasswordField(password: "foo")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

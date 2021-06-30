@@ -2,15 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-protocol PasswordStateRepresentable: ObservableObject, Identifiable {
-    
-    var password: String { get set }
-    var item: PasswordItem { get }
-    
-}
-
-@MainActor
-class PasswordState: PasswordStateRepresentable {
+class PasswordState: ObservableObject {
     
     @Published var password: String
     
@@ -20,20 +12,8 @@ class PasswordState: PasswordStateRepresentable {
         return PasswordItem(password: password)
     }
     
-    init(_ item: PasswordItem) {
-        self.password = item.password ?? ""
+    init(_ item: PasswordItem? = nil) {
+        self.password = item?.password ?? ""
     }
     
 }
-
-#if DEBUG
-class PasswordStateStub: PasswordStateRepresentable {
-    
-    @Published var password = ""
-    
-    var item: PasswordItem {
-        PasswordItem(password: password)
-    }
-    
-}
-#endif

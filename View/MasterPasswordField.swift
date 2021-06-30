@@ -4,7 +4,7 @@ struct MasterPasswordField: View {
     
     private let title: LocalizedStringKey
     private let text: Binding<String>
-    private let action: () -> Void
+    private let action: () async -> Void
     
     init(_ title: LocalizedStringKey, text: Binding<String>, action: @escaping () -> Void) {
         self.title = title
@@ -15,38 +15,35 @@ struct MasterPasswordField: View {
     var body: some View {
         HStack(spacing: 0) {
             SecureField(.title, text: text, prompt: nil)
+                .font(.title2)
                 .submitLabel(.continue)
                 .padding()
             
-            Button(action: action) {
+            Button {
+                async {
+                    await action()
+                }
+            } label: {
                 Image(systemName: .lock)
+                    .imageScale(.large)
                     .foregroundColor(.white)
                     .frame(maxHeight: .infinity)
                     .padding(.horizontal)
                     .background(Color.accentColor)
-                    
             }
+            .buttonStyle(.plain)
         }
-        .buttonStyle(.plain)
         .frame(maxHeight: .infinity)
         .fixedSize(horizontal: false, vertical: true)
-        .font(.title2)
-        .imageScale(.large)
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+        .clipShape(.buttonShape)
     }
     
 }
 
-#if DEBUG
-struct MasterPasswordFieldPreview: PreviewProvider {
+private extension Shape where Self == RoundedRectangle {
     
-    @State static var text = ""
-    
-    static var previews: some View {
-        MasterPasswordField("foo", text: $text) {}
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
+    static var buttonShape: Self {
+        RoundedRectangle(cornerRadius: 10, style: .continuous)
     }
     
 }
-#endif

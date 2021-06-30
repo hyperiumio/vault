@@ -2,15 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-protocol NoteStateRepresentable: ObservableObject, Identifiable {
-    
-    var text: String { get set }
-    var item: NoteItem { get }
-    
-}
-
-@MainActor
-class NoteState: NoteStateRepresentable {
+class NoteState: ObservableObject {
     
     @Published var text: String
     
@@ -20,20 +12,8 @@ class NoteState: NoteStateRepresentable {
         return NoteItem(text: text)
     }
     
-    init(_ item: NoteItem) {
-        self.text = item.text ?? ""
+    init(_ item: NoteItem? = nil) {
+        self.text = item?.text ?? ""
     }
     
 }
-
-#if DEBUG
-class NoteStateStub: NoteStateRepresentable {
-    
-    @Published var text = ""
-    
-    var item: NoteItem {
-        NoteItem(text: text)
-    }
-    
-}
-#endif

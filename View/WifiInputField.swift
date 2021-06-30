@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct WifiInputField<WifiInputState>: View where WifiInputState: WifiStateRepresentable {
+struct WifiInputField: View {
     
-    @ObservedObject private var state: WifiInputState
+    @ObservedObject private var state: WifiState
     
-    init(_ state: WifiInputState) {
+    init(_ state: WifiState) {
         self.state = state
     }
     
@@ -23,19 +23,3 @@ struct WifiInputField<WifiInputState>: View where WifiInputState: WifiStateRepre
     }
     
 }
-
-#if DEBUG
-struct WifiInputFieldPreview: PreviewProvider {
-    
-    static let state = WifiStateStub()
-    
-    static var previews: some View {
-        List {
-            WifiInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

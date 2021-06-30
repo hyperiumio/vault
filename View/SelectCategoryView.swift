@@ -1,6 +1,5 @@
 import SwiftUI
 import UniformTypeIdentifiers
-
 #warning("todo")
 struct SelectCategoryView: View {
     
@@ -152,20 +151,3 @@ extension SelectCategoryView {
     }
     
 }
-
-#if os(iOS) && DEBUG
-struct SelectCategoryViewPreview: PreviewProvider {
-    
-    static var previews: some View {
-        Group {
-            SelectCategoryView { _ in }
-                .preferredColorScheme(.light)
-            
-            SelectCategoryView { _ in }
-                .preferredColorScheme(.dark)
-        }
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

@@ -23,17 +23,3 @@ struct CustomField: View {
     }
     
 }
-
-#if DEBUG
-struct CustomFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            CustomField(description: "foo", value: "bar")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

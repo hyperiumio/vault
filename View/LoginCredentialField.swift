@@ -15,31 +15,19 @@ struct LoginCredentialField: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(title)
-                .font(.body)
+                .font(.headline)
                 .foregroundStyle(.primary)
             
             Text(username)
-                .font(.footnote)
+                .font(.subheadline)
                 .foregroundStyle(.secondary)
             
             if let url = url {
                 Text(url)
-                    .font(.footnote)
+                    .font(.subheadline)
                     .foregroundStyle(.secondary)
             }
         }
     }
     
 }
-
-#if DEBUG
-struct LoginCredentialFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        LoginCredentialField(title: "foo", username: "bar", url: "baz")
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

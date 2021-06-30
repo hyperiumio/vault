@@ -30,8 +30,7 @@ struct WifiField: View {
                         Pasteboard.general.string = password
                     } label: {
                         Field(.password) {
-                            Text(passwordIsVisisble ? password : "••••••••")
-                                .font(.body.monospaced())
+                            ConfidentialText(password, isVisible: passwordIsVisisble)
                         }
                     }
                 }
@@ -42,18 +41,3 @@ struct WifiField: View {
     }
     
 }
-
-#if DEBUG
-struct WifiFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            WifiField(name: "foo", password: "bar")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-
-    
-}
-#endif

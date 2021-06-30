@@ -1,6 +1,16 @@
 import Combine
 import Foundation
 
+public actor PersistentStoreService: StoreService {
+    
+    public func createStore(derivedKeyContainer: Data, masterKeyContainer: Data) async throws -> UUID {
+        fatalError()
+    }
+    
+    public init() throws {}
+    
+}
+
 public actor Store {
     
     let resourceLocator: StoreResourceLocator
@@ -75,17 +85,17 @@ public actor Store {
         let encodedMessages = try decrypt(encryptedMessageContainer)
         
         guard let encodedInfo = encodedMessages.first else {
-            throw PersistenceError.invalidMessageContainer
+            throw ModelError.invalidMessageContainer
         }
         let encodedItems = encodedMessages.dropFirst()
         guard let encodedPrimaryItem = encodedItems.first else {
-            throw PersistenceError.invalidMessageContainer
+            throw ModelError.invalidMessageContainer
         }
         let encodedSecondaryItems = encodedItems.dropFirst()
         
         let info = try StoreItemInfo(from: encodedInfo)
         guard encodedSecondaryItems.count == info.secondaryTypes.count else {
-            throw PersistenceError.invalidMessageContainer
+            throw ModelError.invalidMessageContainer
         }
         
         let primaryItem = try SecureItem(from: encodedPrimaryItem, as: info.primaryType)
@@ -104,7 +114,7 @@ public actor Store {
                 return
             }
             guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: self.resourceLocator.itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
-                send(.failure(PersistenceError.dataNotAvailable))
+                send(.failure(ModelError.dataNotAvailable))
                 return
             }
             
@@ -121,14 +131,14 @@ public actor Store {
         }
     }
     
-    public func commit(operations: [StoreOperation], encrypt: @escaping ([Data]) throws -> Data) async throws {
+    public func commit(operations: [StoreOperation]) async throws {
         var itemsSaved = [StoreItemLocator: StoreItem]()
         var itemsDeleted = [StoreItemLocator]()
         
         for operation in operations {
             switch operation {
             
-            case .save(let storeItem, let storeItemLocator):
+            case .save(let storeItem, let storeItemLocator, let encrypt):
                 let items = [storeItem.primaryItem] + storeItem.secondaryItems
                 let encodedItems = try items.map { item in
                     try item.value.encoded

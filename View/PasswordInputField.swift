@@ -1,10 +1,10 @@
 import SwiftUI
-#warning("TODO")
-struct PasswordInputField<PasswordInputState>: View where PasswordInputState: PasswordStateRepresentable {
+
+struct PasswordInputField: View {
     
-    @ObservedObject private var state: PasswordInputState
+    @ObservedObject private var state: PasswordState
     
-    init(_ state: PasswordInputState) {
+    init(_ state: PasswordState) {
         self.state = state
     }
     
@@ -16,19 +16,3 @@ struct PasswordInputField<PasswordInputState>: View where PasswordInputState: Pa
     }
 
 }
-
-#if DEBUG
-struct PasswordInputFieldPreview: PreviewProvider {
-    
-    static let state = PasswordStateStub()
-    
-    static var previews: some View {
-        List {
-            PasswordInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

@@ -1,23 +1,23 @@
-import PDFKit
-import Model
 import SwiftUI
 import UniformTypeIdentifiers
+import PDFKit
 
-#warning("TODO")
 struct FileField: View {
     
-    private let item: FileItem
+    private let data: Data
+    private let typeIdentifier: UTType
     
-    init(_ item: FileItem) {
-        self.item = item
+    init(data: Data, typeIdentifier: UTType) {
+        self.data = data
+        self.typeIdentifier = typeIdentifier
     }
     
     var body: some View {
         Group {
-            switch item.typeIdentifier {
+            switch typeIdentifier {
             case let typeIdentifier where typeIdentifier.conforms(to: .image):
                 #if os(iOS)
-                if let image = UIImage(data: item.data) {
+                if let image = UIImage(data: data) {
                     Image(uiImage: image)
                         .resizable()
                         .scaledToFit()
@@ -36,17 +36,16 @@ struct FileField: View {
                 }
                 #endif
             case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
-                if let document = PDFDocument(data: item.data) {
-                    PDFViewShim(document)
+                if let document = PDFView.Document(data: data) {
+                    PDFView(document)
                         .scaledToFit()
                 } else {
                     UnrepresentableFileView(typeIdentifier)
                 }
             default:
-                UnrepresentableFileView(item.typeIdentifier)
+                UnrepresentableFileView(typeIdentifier)
             }
         }
-        .listRowInsets(EdgeInsets())
     }
     
 }
@@ -60,55 +59,10 @@ private struct UnrepresentableFileView: View {
     }
     
     var body: some View {
-        HStack {
-            Spacer()
-            
-            if let filenameExtension = typeIdentifier.preferredFilenameExtension {
-                Text(filenameExtension)
-                    .textCase(.uppercase)
-            }
-            
-            Spacer()
+        if let filenameExtension = typeIdentifier.preferredFilenameExtension {
+            Text(filenameExtension)
+                .textCase(.uppercase)
         }
     }
     
 }
-
-#if DEBUG
-struct FileFieldPreview: PreviewProvider {
-    
-    static let pdf: FileItem = {
-        let data = NSDataAsset(name: "PDFDummy")!.data
-        return FileItem(data: data, typeIdentifier: .pdf)
-    }()
-    
-    static let image: FileItem = {
-        let data = NSDataAsset(name: "ImageDummy")!.data
-        return FileItem(data: data, typeIdentifier: .image)
-    }()
-    
-    static let unrepresentable: FileItem = {
-        let data = Data()
-        return FileItem(data: data, typeIdentifier: .epub)
-    }()
-    
-    static var previews: some View {
-        List {
-            Section {
-                FileField(unrepresentable)
-            }
-            
-            Section {
-                FileField(image)
-            }
-            
-            Section {
-                FileField(pdf)
-            }
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

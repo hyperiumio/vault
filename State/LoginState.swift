@@ -2,17 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-protocol LoginStateRepresentable: ObservableObject, Identifiable {
-
-    var username: String { get set }
-    var password: String { get set }
-    var url: String { get set}
-    var item: LoginItem { get }
-    
-}
-
-@MainActor
-class LoginState: LoginStateRepresentable {
+class LoginState: ObservableObject {
     
     @Published var username: String
     @Published var password: String
@@ -26,24 +16,10 @@ class LoginState: LoginStateRepresentable {
         return LoginItem(username: username, password: password, url: url)
     }
     
-    init(_ item: LoginItem) {
-        self.username = item.username ?? ""
-        self.password = item.password ?? ""
-        self.url = item.url ?? ""
+    init(_ item: LoginItem? = nil) {
+        self.username = item?.username ?? ""
+        self.password = item?.password ?? ""
+        self.url = item?.url ?? ""
     }
     
 }
-
-#if DEBUG
-class LoginStateStub: LoginStateRepresentable {
-    
-    @Published var username = ""
-    @Published var password = ""
-    @Published var url = ""
-    
-    var item: LoginItem {
-        LoginItem(username: username, password: password, url: url)
-    }
-    
-}
-#endif

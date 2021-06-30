@@ -15,8 +15,7 @@ extension SFSymbol {
     static var plus: Self { "plus" }
     static var lock: Self { "lock" }
     static var sliderHorizontal3: Self { "slider.horizontal.3" }
-    static var chevronLeft: Self { "chevron.left" }
-    static var chevronRight: Self { "chevron.right" }
+    static var chevronBackward: Self { "chevron.backward" }
     static var magnifyingglass: Self { "magnifyingglass" }
     static var paperclip: Self { "paperclip" }
     static var camera: Self { "camera" }

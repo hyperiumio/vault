@@ -72,8 +72,7 @@ struct BankCardField: View {
                         Pasteboard.general.string = pin
                     } label: {
                         Field(.pin) {
-                            Text(pinIsVisisble ? pin : "••••••••")
-                                .font(.body.monospaced())
+                            ConfidentialText(pin, isVisible: pinIsVisisble)
                         }
                     }
                 }
@@ -96,17 +95,3 @@ extension BankCardField {
     }
     
 }
-
-#if DEBUG
-struct BankCardFieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            BankCardField(name: "foo", vendor: .masterCard, number: "1234567", expirationDate: Date(), pin: "paz")
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

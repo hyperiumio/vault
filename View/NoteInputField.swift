@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct NoteInputField<NoteInputState>: View where NoteInputState: NoteStateRepresentable {
+struct NoteInputField: View {
     
-    @ObservedObject private var state: NoteInputState
+    @ObservedObject private var state: NoteState
     
-    init(_ state: NoteInputState) {
+    init(_ state: NoteState) {
         self.state = state
     }
     
@@ -15,19 +15,3 @@ struct NoteInputField<NoteInputState>: View where NoteInputState: NoteStateRepre
     }
     
 }
-
-#if DEBUG
-struct NoteInputPreview: PreviewProvider {
-    
-    static let state = NoteStateStub()
-    
-    static var previews: some View {
-        List {
-            NoteInputField(state)
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

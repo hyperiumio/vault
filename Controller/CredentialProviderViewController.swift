@@ -5,8 +5,10 @@ import Foundation
 import Preferences
 import SwiftUI
 
+/*
 class CredentialProviderViewController: ASCredentialProviderViewController {
 
+    
     private lazy var mainState: QuickAccessState<QuickAccessDependency>? = {
         /*
         guard let appContainerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: .appGroup) else {
@@ -93,3 +95,4 @@ private extension String {
     #endif
     
 }
+*/

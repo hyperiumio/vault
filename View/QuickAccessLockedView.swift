@@ -1,18 +1,19 @@
+
+/*
 import SwiftUI
 import Crypto
-
-#warning("Todo")
+#warning("todo")
 #if os(iOS)
 private let feedbackGenerator = UINotificationFeedbackGenerator()
 #endif
 
-struct QuickAccessLockedView<S>: View where S: QuickAccessLockedStateRepresentable {
+struct QuickAccessLockedView: View {
     
-    @ObservedObject private var state: S
+    @ObservedObject private var state: QuickAccessLockedState
     @State private var error: QuickAccessLockedError?
     @State private var isKeyboardVisible = false
     
-    init(_ state: S) {
+    init(_ state: QuickAccessLockedState) {
         self.state = state
     }
     
@@ -149,3 +150,4 @@ private extension QuickAccessLockedView {
     }
     
 }
+*/

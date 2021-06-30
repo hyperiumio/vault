@@ -1,127 +1,256 @@
 import SwiftUI
-#warning("todo")
-struct SetupView<S>: View where S: SetupStateRepresentable {
+
+struct SetupView: View {
     
-    @ObservedObject private var state: S
-    //@State private var viewState: ViewState
-    @State private var direction: Direction? = Direction.forward
+    @ObservedObject private var state: SetupState
     
-    init(_ state: S) {
+    init(_ state: SetupState) {
         self.state = state
-    //    self._viewState = State(initialValue: ViewState(from: state.state))
     }
     
     var body: some View {
-        Text("foo")
-        /*
-        Group {
-            switch viewState {
-            case .choosePassword(let choosePasswordState):
-                ChoosePasswordView(choosePasswordState)
-            case .repeatPassword(let repeatPasswordState):
-                RepeatPasswordView(repeatPasswordState)
-            case .enableBiometricUnlock(let enableBiometricUnlockState):
-                EnableBiometricUnlockView(enableBiometricUnlockState)
-            case .completeSetup(let completeSetupState):
-                CompleteSetupView(completeSetupState)
-            }
-        }
-        .onChange(of: state.state) { state in
-            let newViewState = ViewState(from: state)
-            
-            if viewState.presentationIndex < newViewState.presentationIndex {
-                direction = .forward
-            }
-            if viewState.presentationIndex == newViewState.presentationIndex {
-                direction = nil
-            }
-            if viewState.presentationIndex > newViewState.presentationIndex {
-                direction = .backward
+        VStack {
+            BackButton(isVisisble: state.isBackButtonVisible) {
+                state.back()
             }
             
-            withAnimation {
-                self.viewState = newViewState
-            }
-        }
-        .transition(direction?.transition ?? AnyTransition.identity)
-         */
-    }
-    
-}
-
-    /*
-private extension SetupView where S: SetupStateRepresentable {
-    
-    enum ViewState {
-        
-        case choosePassword(S.ChoosePasswordState)
-        case repeatPassword(S.RepeatPasswordState)
-        case enableBiometricUnlock(S.EnableBiometricUnlockState)
-        case completeSetup(S.CompleteSetupState)
-        
-        var presentationIndex: Int {
-            switch self {
+            switch state.step {
             case .choosePassword:
-                return 0
+                ChooseMasterPasswordView(password: $state.password)
             case .repeatPassword:
-                return 1
-            case .enableBiometricUnlock:
-                return 2
+                RepeatPasswordView(repeatedPassword: $state.repeatedPassword)
+            case .enableBiometricUnlock(let biometryType):
+                EnableBiometricUnlockView(biometryType, isEnabled: $state.isBiometricUnlockEnabled)
             case .completeSetup:
-                return 3
+                CompleteSetupView()
+            }
+            
+            NextButton(state.nextButtonTitle) {
+                async {
+                    await state.next()
+                }
             }
         }
+        .padding()
+    }
+    
+}
+
+extension SetupView {
+    
+    struct BackButton: View {
         
-        init(from state: S.State) {
-            switch state {
-            case .choosePassword(let state):
-                self = .choosePassword(state)
-            case .repeatPassword(_, let state):
-                self = .repeatPassword(state)
-            case .enableBiometricUnlock(_, _, let state):
-                self = .enableBiometricUnlock(state)
-            case .completeSetup(_, _, _, let state):
-                self = .completeSetup(state)
+        private let isVisisble: Bool
+        private let action: () -> Void
+        
+        init(isVisisble: Bool, action: @escaping () -> Void) {
+            self.isVisisble = isVisisble
+            self.action = action
+        }
+        
+        var body: some View {
+            HStack {
+                if isVisisble {
+                    Image(systemName: .chevronBackward)
+                        .font(.title)
+                        .symbolVariant(.circle)
+                        .foregroundColor(.accentColor)
+                        .onTapGesture(perform: action)
+                }
+                
+                Spacer()
             }
         }
         
     }
     
-}*/
+    struct NextButton: View {
+        
+        private let title: LocalizedStringKey
+        private let action: () -> Void
+        
+        init(_ title: LocalizedStringKey, action: @escaping () -> Void) {
+            self.title = title
+            self.action = action
+        }
+        
+        var body: some View {
+            Button(action: action) {
+                Text(title)
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.large)
+            .controlProminence(.increased)
+        }
+        
+    }
+    
+    struct ChooseMasterPasswordView: View {
+        
+        private let password: Binding<String>
+        
+        init(password: Binding<String>) {
+            self.password = password
+        }
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                
+                Text(.chooseMasterPassword)
+                    .font(.title)
+                
+                Text(.chooseMasterPasswordDescription)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                SecureField(.enterMasterPassword, text: password, prompt: nil)
+                    .font(.title2)
+                    .minimumScaleFactor(0.5)
+                
+                Spacer()
+            }
+            .multilineTextAlignment(.center)
+        }
+        
+    }
+    
+    struct RepeatPasswordView: View {
+        
+        private let repeatedPassword: Binding<String>
+        
+        init(repeatedPassword: Binding<String>) {
+            self.repeatedPassword = repeatedPassword
+        }
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                
+                Text(.repeatMasterPassword)
+                    .font(.title)
+                
+                Text(.repeatMasterPasswordDescription)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                SecureField(.enterMasterPassword, text: repeatedPassword, prompt: nil)
+                    .font(.title2)
+                    .minimumScaleFactor(0.5)
+                
+                Spacer()
+            }
+            .multilineTextAlignment(.center)
+        }
+        
+    }
+    
+    struct EnableBiometricUnlockView: View {
+        
+        private let biometryType: SetupState.BiometryType
+        private let isEnabled: Binding<Bool>
+        
+        internal init(_ biometryType: SetupState.BiometryType, isEnabled: Binding<Bool>) {
+            self.biometryType = biometryType
+            self.isEnabled = isEnabled
+        }
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                
+                Image(systemName: biometryType.symbolName)
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundColor(.accentColor)
+                    .frame(width: 100, height: 100, alignment: .center)
+                
+                Text(biometryType.description)
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                
+                Spacer()
+                
+                Toggle(biometryType.title, isOn: isEnabled)
+                    .toggleStyle(.switch)
+                    .tint(.accentColor)
+                
+                Spacer()
+                    
+            }
+            .multilineTextAlignment(.center)
+        }
+        
+    }
+    
+    struct CompleteSetupView: View {
+        
+        #if os(iOS)
+        private let feedbackGenerator = UINotificationFeedbackGenerator()
+        #endif
+        
+        var body: some View {
+            VStack {
+                Spacer()
+                
+                Text(.setupComplete)
+                    .font(.title)
+                
+                Image(systemName: .checkmark)
+                    .resizable()
+                    .scaledToFit()
+                    .symbolVariant(.circle)
+                    .foregroundStyle(.green)
+                    .frame(maxWidth: 200, maxHeight: 200)
+                
+                Spacer()
+            }
+            .multilineTextAlignment(.center)
+            .onAppear {
+                #if os(iOS)
+                feedbackGenerator.prepare()
+                feedbackGenerator.notificationOccurred(.success)
+                #endif
+            }
 
-private enum Direction {
+        }
+        
+    }
     
-    case forward
-    case backward
+}
+
+private extension SetupState.BiometryType {
     
-    var transition: AnyTransition {
+    var symbolName: String {
         switch self {
-        case .forward:
-            let insertion = AnyTransition.move(edge: .trailing)
-            let removal = AnyTransition.move(edge: .leading).combined(with: .opacity)
-            return .asymmetric(insertion: insertion, removal: removal)
-        case .backward:
-            let insertion = AnyTransition.move(edge: .leading)
-            let removal = AnyTransition.move(edge: .trailing).combined(with: .opacity)
-            return .asymmetric(insertion: insertion, removal: removal)
+        case .touchID:
+            return .touchid
+        case .faceID:
+            return .faceid
+        }
+    }
+    
+    var description: LocalizedStringKey {
+        switch self {
+        case .touchID:
+            return .unlockWithTouchIDDescription
+        case .faceID:
+            return .unlockWithFaceIDDescription
+        }
+    }
+    
+    var title: LocalizedStringKey {
+        switch self {
+        case .touchID:
+            return .enableTouchIDUnlock
+        case .faceID:
+            return .enableFaceIDUnlock
         }
     }
     
 }
-
-#if DEBUG
-struct SetupViewPreview: PreviewProvider {
-    
-    static let state: SetupStateStub = {
-        let choosePasswordState = ChoosePasswordStateStub()
-        return SetupStateStub(step: .choosePassword(choosePasswordState))
-    }()
-    
-    static var previews: some View {
-        SetupView(state)
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

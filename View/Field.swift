@@ -35,25 +35,3 @@ extension Field where Title == Text {
     }
     
 }
-
-#if DEBUG
-struct FieldPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            Field("foo") {
-                Text("bar")
-            }
-            
-            Field {
-                Text("foo")
-            } content: {
-                Text("bar")
-            }
-        }
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

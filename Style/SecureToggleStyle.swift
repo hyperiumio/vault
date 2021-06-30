@@ -12,6 +12,9 @@ struct SecureToggleStyle: ToggleStyle {
                 .symbolVariant(configuration.isOn ? .none : .slash)
                 .foregroundColor(.accentColor)
                 .padding()
+                .onTapGesture {
+                    configuration.isOn.toggle()
+                }
         }
     }
     
@@ -24,18 +27,3 @@ extension ToggleStyle where Self == SecureToggleStyle {
     }
     
 }
-
-#if DEBUG
-struct ItemSecureFieldPreview: PreviewProvider {
-    
-    @State static private var isOn = true
-    
-    static var previews: some View {
-        Toggle("foo", isOn: $isOn)
-            .toggleStyle(.secure)
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif

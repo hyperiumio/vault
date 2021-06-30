@@ -2,16 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-protocol CustomStateRepresentable: ObservableObject, Identifiable {
-    
-    var description: String { get set }
-    var value: String { get set }
-    var item: CustomItem { get }
-    
-}
-
-@MainActor
-class CustomState: CustomStateRepresentable {
+class CustomState: ObservableObject {
     
     @Published var description: String
     @Published var value: String
@@ -23,22 +14,9 @@ class CustomState: CustomStateRepresentable {
         return CustomItem(description: description, value: value)
     }
     
-    init(_ item: CustomItem) {
-        self.description = item.description ?? ""
-        self.value = item.value ?? ""
+    init(_ item: CustomItem? = nil) {
+        self.description = item?.description ?? ""
+        self.value = item?.value ?? ""
     }
     
 }
-
-#if DEBUG
-class CustomStateStub: CustomStateRepresentable {
-
-    @Published var description = ""
-    @Published var value = ""
-    
-    var item: CustomItem {
-        CustomItem(description: description, value: value)
-    }
-    
-}
-#endif

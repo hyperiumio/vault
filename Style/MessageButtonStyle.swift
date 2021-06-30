@@ -28,23 +28,3 @@ extension ButtonStyle where Self == MessageButtonStyle {
     }
     
 }
-
-#if DEBUG
-struct ItemButtonPreview: PreviewProvider {
-    
-    static var previews: some View {
-        List {
-            Button(role: nil) {
-                
-            } label: {
-                Text("Foo")
-            }
-        }
-        
-        .buttonStyle(.message(.title))
-        .preferredColorScheme(.light)
-        .previewLayout(.sizeThatFits)
-    }
-    
-}
-#endif
