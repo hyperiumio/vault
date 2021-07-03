@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 
-public actor PersistentStoreService: StoreService {
+public actor PersistentStoreService {
     
     public var derivedKeyContainer: Data {
         get async {

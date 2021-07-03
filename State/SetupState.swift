@@ -1,8 +1,13 @@
 import Crypto
 import Foundation
 import Model
-import Preferences
 import SwiftUI
+
+protocol SetupDependency {
+    
+    func createStore(isBiometryEnabled: Bool) async throws -> (masterKey: MasterKey, storeID: UUID)
+    
+}
 
 @MainActor
 class SetupState: ObservableObject {
@@ -13,11 +18,11 @@ class SetupState: ObservableObject {
     @Published var isBiometricUnlockEnabled = false
     @Published var setupError: Error?
     
-    private let service: Service
+    private let dependency: SetupDependency
     private let yield: Yield
     
-    init(service: Service, yield: @escaping Yield) {
-        self.service = service
+    init(dependency: SetupDependency, yield: @escaping Yield) {
+        self.dependency = dependency
         self.yield = yield
     }
     
@@ -62,15 +67,8 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                let (derivedKey, masterKey, derivedKeyContainer, masterKeyContainer) = try await service.security.createKeySet(password: password)
-                let storeID = try await service.store.createStore(derivedKeyContainer: derivedKeyContainer, masterKeyContainer: masterKeyContainer)
-                await service.defaults.set(activeStoreID: storeID)
-                await service.defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-                if isBiometricUnlockEnabled {
-                    try await service.security.storeSecret(derivedKey, forKey: "DerivedKey")
-                }
-                
-                yield(derivedKey, masterKey, storeID)
+                let response = try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled)
+                yield(response.masterKey, response.storeID)
             } catch {
                 setupError = .completeSetupDidFail
             }
@@ -81,7 +79,7 @@ class SetupState: ObservableObject {
 
 extension SetupState {
     
-    typealias Yield = @MainActor (_ derivedKey: DerivedKey, _ masterKey: MasterKey, _ storeID: UUID) -> Void
+    typealias Yield = @MainActor (_ masterKey: MasterKey, _ storeID: UUID) -> Void
     typealias BiometryType = Crypto.BiometryType
     
     enum Step {

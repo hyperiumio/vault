@@ -1,6 +1,12 @@
 import Foundation
 import Model
 
+protocol StoreItemEditDependency {
+    
+    func save(_ storeItem: StoreItem) async throws
+    func delete(itemID: UUID) async throws
+}
+
 @MainActor
 class StoreItemEditState: ObservableObject {
     
@@ -8,9 +14,11 @@ class StoreItemEditState: ObservableObject {
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems: [SecureItemState]
     
+    let dependency: StoreItemEditDependency
     let editedStoreItem: StoreItem
     
-    init(editing storeItem: StoreItem) {
+    init(dependency: StoreItemEditDependency, editing storeItem: StoreItem) {
+        self.dependency = dependency
         self.editedStoreItem = storeItem
         self.title = storeItem.name
         self.primaryItem = SecureItemState(from: storeItem.primaryItem)
@@ -45,7 +53,7 @@ class StoreItemEditState: ObservableObject {
             let created = editedStoreItem.created
             let modified = Date.now
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-            try await service.store.saveItem(storeItem)
+            try await dependency.save(storeItem)
         } catch {
             
         }
@@ -53,7 +61,7 @@ class StoreItemEditState: ObservableObject {
     
     func delete() async {
         do {
-            try await service.store.deleteItem(itemID: editedStoreItem.id)
+            try await dependency.delete(itemID: editedStoreItem.id)
         } catch {
             
         }

@@ -1,4 +1,5 @@
 #if DEBUG
+/*
 import Crypto
 import Model
 import Preferences
@@ -86,6 +87,6 @@ struct SetupServiceStub: DefaultsService, SecurityService, StoreService  {
     
     static let shared = SetupServiceStub()
     
-}
+}*/
 #endif
                 

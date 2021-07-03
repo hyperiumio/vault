@@ -1,6 +1,6 @@
 import Foundation
 
-public actor PersistentDefaultsService<Store>: DefaultsService where Store: PersistenceProvider {
+public actor PersistentDefaultsService<Store> where Store: PersistenceProvider {
     
     private let store: Store
     

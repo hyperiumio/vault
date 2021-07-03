@@ -8,11 +8,6 @@ class UnlockedState: ObservableObject {
     @Published var searchText: String = ""
   //  @Published var createStoreItem: StoreItemDetailState?
     
-    private let service: Service
-    
-    init(service: Service) {
-        self.service = service
-    }
     
     func createLoginItem() {
 

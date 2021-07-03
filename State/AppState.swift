@@ -4,18 +4,27 @@ import Model
 import Preferences
 
 @MainActor
+protocol AppDependency {
+    
+    var activeStoreID: UUID? { get async }
+    var setupDependency: SetupDependency { get }
+    var lockedDependency: LockedDependency { get }
+    
+}
+
+@MainActor
 class AppState: ObservableObject {
     
     @Published private(set) var status = Status.launching
     
-    private let service: Service
+    private let dependency: AppDependency
     
-    init(service: Service) {
-        self.service = service
+    init(dependency: AppDependency) {
+        self.dependency = dependency
     }
     
     func bootstrap() async {
-        if let storeID = await service.defaults.defaults.activeStoreID {
+        if let storeID = await dependency.activeStoreID {
             presentLockedState(storeID: storeID)
         } else {
             presentSetupState()
@@ -23,16 +32,18 @@ class AppState: ObservableObject {
     }
     
     func presentSetupState() {
-        let setupState = SetupState(service: service, yield: presentUnlockedState)
+        let setupState = SetupState(dependency: dependency.setupDependency, yield: presentUnlockedState)
         status = .setup(state: setupState)
     }
     
     func presentLockedState(storeID: UUID) {
-        let lockedState = LockedState(storeID: storeID, service: service, yield: presentUnlockedState)
+        let lockedState = LockedState(dependency: dependency.lockedDependency) { masterKey in
+            self.presentUnlockedState(masterKey: masterKey, storeID: storeID)
+        }
         status = .locked(state: lockedState)
     }
     
-    func presentUnlockedState(derivedKey: DerivedKey, masterKey: MasterKey, storeID: UUID) {
+    func presentUnlockedState(masterKey: MasterKey, storeID: UUID) {
         
     }
     

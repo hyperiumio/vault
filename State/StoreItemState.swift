@@ -4,7 +4,7 @@ import Model
 protocol StoreItemDetailDependency {
     
     var storeItem: StoreItem { get async throws }
-    
+    var storeItemEditDependency: StoreItemEditDependency { get }
 }
 
 @MainActor
@@ -31,7 +31,7 @@ class StoreItemDetailState: ObservableObject{
             return
         }
         
-        let editState = StoreItemEditState(editing: storeItem)
+        let editState = StoreItemEditState(dependency: dependency.storeItemEditDependency, editing: storeItem)
         status = .edit(editState)
     }
     

@@ -1,4 +1,5 @@
 #if DEBUG
+/*
 import Crypto
 import Model
 import Preferences
@@ -40,4 +41,5 @@ struct LockedServiceStub: DefaultsService, SecurityService, StoreService  {
     static let shared = LockedServiceStub()
     
 }
+ */
 #endif

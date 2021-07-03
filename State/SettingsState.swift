@@ -13,7 +13,7 @@ class SettingsState: ObservableObject {
     private let errorSubject = PassthroughSubject<SettingStateError, Never>()
     private var isBiometricUnlockEnabledSubscription: AnyCancellable?
     
-    init(store: Store, derivedKey: DerivedKey, securityService: SecurityService) {
+    init() {
         fatalError()
     }
     

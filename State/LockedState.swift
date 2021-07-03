@@ -1,6 +1,15 @@
 import Crypto
 import Foundation
 
+protocol LockedDependency {
+    
+    var keychainAvailability: KeychainAvailability { get async }
+    
+    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey
+    func decryptMasterKeyWithBiometry() async throws -> MasterKey
+    
+}
+
 @MainActor
 class LockedState: ObservableObject {
     
@@ -8,18 +17,12 @@ class LockedState: ObservableObject {
     @Published private(set) var status = Status.locked
     @Published var keychainAvailablility: KeychainAvailability?
     
-    private let storeID: UUID
-    private let service: Service
+    private let dependency: LockedDependency
     private let yield: Yield
-    private let masterKeyContainerLoadingTask: Task.Handle<Data, Never>
     
-    init(storeID: UUID, service: Service, yield: @escaping Yield) {
-        self.storeID = storeID
-        self.service = service
+    init(dependency: LockedDependency, yield: @escaping Yield) {
+        self.dependency = dependency
         self.yield = yield
-        self.masterKeyContainerLoadingTask = detach {
-            await service.store.masterKeyContainer
-        }
     }
     
     var inputDisabled: Bool {
@@ -27,19 +30,15 @@ class LockedState: ObservableObject {
     }
     
     func fetchKeychainAvailability() async {
-        keychainAvailablility = await service.security.keychainAvailability
+        keychainAvailablility = await dependency.keychainAvailability
     }
     
     func loginWithPassword() async {
         status = .unlocking
         
         do {
-            let derivedKeyContainer = await service.store.derivedKeyContainer
-            let masterKeyContainer = await masterKeyContainerLoadingTask.get()
-            let publicArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-            let derivedKey = try DerivedKey(from: password, with: publicArguments)
-            let masterKey = try MasterKey(from: masterKeyContainer, using: derivedKey)
-            yield(derivedKey, masterKey, storeID)
+            let masterKey = try await dependency.decryptMasterKeyWithPassword(password)
+            yield(masterKey)
             status = .unlocked
         } catch {
             status = .wrongPassword
@@ -50,10 +49,8 @@ class LockedState: ObservableObject {
         status = .unlocking
         
         do {
-            let derivedKey = await service.security.derivedKey
-            let masterKeyContainer = await masterKeyContainerLoadingTask.get()
-            let masterKey = try MasterKey(from: masterKeyContainer, using: derivedKey)
-            yield(derivedKey, masterKey, storeID)
+            let masterKey = try await dependency.decryptMasterKeyWithBiometry()
+            yield(masterKey)
             status = .unlocked
         } catch {
             status = .wrongPassword
@@ -64,7 +61,7 @@ class LockedState: ObservableObject {
 
 extension LockedState {
     
-    typealias Yield = @MainActor (_ derivedKey: DerivedKey, _ masterKey: MasterKey, _ storeID: UUID) -> Void
+    typealias Yield = @MainActor (_ masterKey: MasterKey) -> Void
     typealias BiometryType = Crypto.BiometryType
     
     enum Status {
