@@ -1,22 +1,46 @@
-
 import Foundation
 import Model
+
+protocol StoreItemDetailDependency {
+    
+    var storeItem: StoreItem { get async throws }
+    
+}
 
 @MainActor
 class StoreItemDetailState: ObservableObject{
     
     @Published private(set) var status = Status.initialized
+    private let dependency: StoreItemDetailDependency
     
-    func load() async {
-        
+    init(dependency: StoreItemDetailDependency) {
+        self.dependency = dependency
     }
     
-    func cancelEdit() {
-        guard case .edit = status else {
+    func load() async {
+        do {
+            let storeItem = try await dependency.storeItem
+            status = .display(storeItem)
+        } catch {
+            status = .loadingFailed
+        }
+    }
+    
+    func edit() {
+        guard case .display(let storeItem) = status else {
             return
         }
         
-        status = .display
+        let editState = StoreItemEditState(editing: storeItem)
+        status = .edit(editState)
+    }
+    
+    func cancelEdit() {
+        guard case .edit(let storeItemEditState) = status else {
+            return
+        }
+        
+        status = .display(storeItemEditState.editedStoreItem)
     }
     
 }
@@ -27,11 +51,13 @@ extension StoreItemDetailState {
         
         case initialized
         case loading
-        case display
+        case display(StoreItem)
         case edit(StoreItemEditState)
         case loadingFailed
         
     }
+    
+    typealias SecureItem = Model.SecureItem
     
 }
 

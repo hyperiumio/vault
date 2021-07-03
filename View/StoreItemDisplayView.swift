@@ -7,15 +7,15 @@ struct StoreItemDisplayView: View {
     private let secondaryItems: [SecureItemField.Value]
     private let created: Date?
     private let modified: Date?
-    private let done: () -> Void
+    private let edit: () -> Void
     
-    init(_ title: String, primaryItem: SecureItemField.Value, secondaryItems: [SecureItemField.Value], created: Date?, modified: Date?, done: @escaping () -> Void) {
+    init(_ title: String, primaryItem: SecureItemField.Value, secondaryItems: [SecureItemField.Value], created: Date?, modified: Date?, edit: @escaping () -> Void) {
         self.title = title
         self.primaryItem = primaryItem
         self.secondaryItems = secondaryItems
         self.created = created
         self.modified = modified
-        self.done = done
+        self.edit = edit
     }
     
     var body: some View {
@@ -31,7 +31,7 @@ struct StoreItemDisplayView: View {
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(.edit, action: done)
+                Button(.edit, action: edit)
             }
         }
     }

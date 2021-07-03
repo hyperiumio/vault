@@ -200,9 +200,3 @@ private extension EnableBiometricUnlockView {
     
 }
  */
-private extension Section where Parent == EmptyView, Content: View, Footer: View {
-
-    init(@ViewBuilder content: () -> Content, @ViewBuilder footer: () -> Footer) {
-        self.init(footer: footer(), content: content)
-    }
-}

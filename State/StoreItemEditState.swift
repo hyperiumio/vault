@@ -8,10 +8,10 @@ class StoreItemEditState: ObservableObject {
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems: [SecureItemState]
     
-    private let storeItem: StoreItem
+    let editedStoreItem: StoreItem
     
-    init(storeItem: StoreItem) {
-        self.storeItem = storeItem
+    init(editing storeItem: StoreItem) {
+        self.editedStoreItem = storeItem
         self.title = storeItem.name
         self.primaryItem = SecureItemState(from: storeItem.primaryItem)
         self.secondaryItems = storeItem.secondaryItems.map { item in
@@ -20,11 +20,11 @@ class StoreItemEditState: ObservableObject {
     }
     
     var created: Date {
-        storeItem.created
+        editedStoreItem.created
     }
     
     var modified: Date {
-        storeItem.modified
+        editedStoreItem.modified
     }
     
     func addSecondaryItem(with type: SecureItemType) {
@@ -38,11 +38,11 @@ class StoreItemEditState: ObservableObject {
     
     func save() async throws {
         do {
-            let id = storeItem.id
+            let id = editedStoreItem.id
             let name = title
             let primaryItem = primaryItem.secureItem
             let secondaryItems = secondaryItems.map(\.secureItem)
-            let created = storeItem.created
+            let created = editedStoreItem.created
             let modified = Date.now
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
             try await service.store.saveItem(storeItem)
@@ -53,7 +53,7 @@ class StoreItemEditState: ObservableObject {
     
     func delete() async {
         do {
-            try await service.store.deleteItem(itemID: storeItem.id)
+            try await service.store.deleteItem(itemID: editedStoreItem.id)
         } catch {
             
         }
