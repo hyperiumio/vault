@@ -1,18 +1,19 @@
 import SwiftUI
 import UniformTypeIdentifiers
 import PDFKit
-
+#warning("Todo")
 struct FileField: View {
     
-    private let data: Data
-    private let typeIdentifier: UTType
+    private let data: Data?
+    private let typeIdentifier: UTType?
     
-    init(data: Data, typeIdentifier: UTType) {
+    init(data: Data?, typeIdentifier: UTType?) {
         self.data = data
         self.typeIdentifier = typeIdentifier
     }
     
     var body: some View {
+        /*
         Group {
             switch typeIdentifier {
             case let typeIdentifier where typeIdentifier.conforms(to: .image):
@@ -46,6 +47,8 @@ struct FileField: View {
                 UnrepresentableFileView(typeIdentifier)
             }
         }
+         */
+        fatalError()
     }
     
 }

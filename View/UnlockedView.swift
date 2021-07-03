@@ -3,7 +3,7 @@ import SwiftUI
 struct UnlockedView: View {
     
     @ObservedObject private var state: UnlockedState
-    @State private var presentedSheet: Sheet?
+ //   @State private var presentedSheet: Sheet?
     @Environment(\.scenePhase) private var scenePhase
     
     init(_ state: UnlockedState) {
@@ -140,6 +140,7 @@ struct UnlockedView: View {
     
 }
 
+/*
 private extension Section where Parent: View, Content: View, Footer == EmptyView {
 
     init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
@@ -154,7 +155,7 @@ private extension UnlockedView {
         
         case settings
         case selectCategory
-        case createVaultItem(StoreItemDetailState)
+        case createVaultItem(StoreItemDetState)
         
         var id: String {
             switch self {
@@ -170,3 +171,4 @@ private extension UnlockedView {
     }
     
 }
+*/

@@ -1,6 +1,6 @@
 import CommonCrypto
 
-public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool, configuration: PasswordConfiguration = .production) throws -> String {
+public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool, symbol: Bool, configuration: PasswordConfiguration = .production) async -> String {
     var symbolGroups = Set<SymbolGroup>()
     if uppercase {
         symbolGroups.insert(.uppercase)
@@ -16,10 +16,10 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
     }
     
     guard !symbolGroups.isEmpty else {
-        throw CryptoError.passwordGenerationFailed
+        fatalError()//throw CryptoError.passwordGenerationFailed
     }
     guard length >= symbolGroups.count else {
-        throw CryptoError.passwordGenerationFailed
+        fatalError()// throw CryptoError.passwordGenerationFailed
     }
     
     let sourceCharacters = symbolGroups.flatMap(\.characters)
@@ -29,7 +29,7 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
         repeat {
             let status = configuration.rng(&randomValue, 1)
             guard status == kCCSuccess else {
-                throw CryptoError.randomNumberGenerationFailed
+                continue
             }
         } while randomValue >= sourceCharacters.endIndex
 

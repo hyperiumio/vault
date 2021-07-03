@@ -1,8 +1,4 @@
 import SwiftUI
-#warning("todo")
-#if os(iOS)
-private let feedbackGenerator = UINotificationFeedbackGenerator()
-#endif
 
 struct LockedView: View {
     
@@ -13,48 +9,43 @@ struct LockedView: View {
     }
     
     var body: some View {
-        ZStack {
-            VStack(spacing: 20) {
-                /*
-                MasterPasswordField(.masterPassword, text: $state.password) {
-
+        VStack {
+            MasterPasswordField(.masterPassword, text: $state.password) {
+                async {
+                    await state.loginWithPassword()
                 }
-                .disabled(state.status == .unlocking)
-                .frame(maxWidth: 300)
-                 */
-                
-                /*
-                Group {
-                    switch state.keychainAvailability {
-                    case .enrolled(let biometricType):
-                        Button(role: nil) {
-                            await state.loginWithBiometrics()
-                        } label: {
-                            /*
-                            Image(systemName: biometricType.symbolName)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(.accentColor)
-                             */
-                        }
-                        .buttonStyle(.plain)
-                    case .notAvailable, .notEnrolled:
-                        EmptyView()
+            }
+            .disabled(state.status == .unlocking)
+            .frame(maxWidth: 300)
+            
+            switch state.keychainAvailablility {
+            case .enrolled(let biometryType):
+                Button {
+                    async {
+                        await state.loginWithBiometry()
                     }
+                } label: {
+                    Image(systemName: biometryType.symbolName)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(.accentColor)
                 }
                 .frame(width: 40, height: 40)
-                 */
+
+            case .notAvailable, .notEnrolled, .none:
+                EmptyView()
             }
-            .padding()
+        }
+        .task {
+            await state.fetchKeychainAvailability()
         }
     }
     
 }
 
-/*
-private extension Keychain.BiometryType {
+private extension LockedState.BiometryType {
     
-    var symbolName: SFSymbol {
+    var symbolName: String {
         switch self {
         case .touchID:
             return .touchid
@@ -64,4 +55,11 @@ private extension Keychain.BiometryType {
     }
     
 }
- */
+
+extension LockedView {
+    
+    #if os(iOS)
+    private static let feedbackGenerator = UINotificationFeedbackGenerator()
+    #endif
+    
+}

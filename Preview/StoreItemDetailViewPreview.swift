@@ -1,4 +1,5 @@
 #if DEBUG
+/*
 import SwiftUI
 
 struct StoreItemDetailViewPreview: PreviewProvider {
@@ -18,4 +19,5 @@ struct StoreItemDetailViewPreview: PreviewProvider {
 
     
 }
+ */
 #endif

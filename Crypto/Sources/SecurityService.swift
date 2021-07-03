@@ -2,6 +2,18 @@ import Foundation
 
 public actor SystemSecurityService: SecurityService {
     
+    public var derivedKey: DerivedKey {
+        get async {
+            fatalError()
+        }
+    }
+    
+    public var keychainAvailability: KeychainAvailability {
+        get async {
+            fatalError()
+        }
+    }
+    
     public func storeSecret<D>(_ secret: D, forKey key: String) async throws where D : ContiguousBytes {
         fatalError()
     }
@@ -16,6 +28,9 @@ public actor SystemSecurityService: SecurityService {
 
 public protocol SecurityService {
 
+    var keychainAvailability: KeychainAvailability { get async }
+    var derivedKey: DerivedKey { get async }
+    
     func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes
     func createKeySet(password: String) async throws -> KeySet
     

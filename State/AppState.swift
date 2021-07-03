@@ -15,8 +15,21 @@ class AppState: ObservableObject {
     }
     
     func bootstrap() async {
+        if let storeID = await service.defaults.defaults.activeStoreID {
+            presentLockedState(storeID: storeID)
+        } else {
+            presentSetupState()
+        }
+    }
+    
+    func presentSetupState() {
         let setupState = SetupState(service: service, yield: presentUnlockedState)
         status = .setup(state: setupState)
+    }
+    
+    func presentLockedState(storeID: UUID) {
+        let lockedState = LockedState(storeID: storeID, service: service, yield: presentUnlockedState)
+        status = .locked(state: lockedState)
     }
     
     func presentUnlockedState(derivedKey: DerivedKey, masterKey: MasterKey, storeID: UUID) {

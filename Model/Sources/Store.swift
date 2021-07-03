@@ -3,7 +3,28 @@ import Foundation
 
 public actor PersistentStoreService: StoreService {
     
+    public var derivedKeyContainer: Data {
+        get async {
+            fatalError()
+        }
+    }
+    
+    public var masterKeyContainer: Data {
+        get async {
+            fatalError()
+        }
+    }
+    
+    
     public func createStore(derivedKeyContainer: Data, masterKeyContainer: Data) async throws -> UUID {
+        fatalError()
+    }
+    
+    public func deleteItem(itemID: UUID) async throws {
+        fatalError()
+    }
+    
+    public func saveItem(_ item: StoreItem) async throws {
         fatalError()
     }
     

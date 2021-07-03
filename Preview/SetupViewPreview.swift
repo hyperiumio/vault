@@ -1,9 +1,8 @@
 #if DEBUG
-import SwiftUI
-
 import Crypto
 import Model
 import Preferences
+import SwiftUI
 
 struct SetupViewPreview: PreviewProvider {
     

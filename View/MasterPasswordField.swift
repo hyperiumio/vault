@@ -4,7 +4,7 @@ struct MasterPasswordField: View {
     
     private let title: LocalizedStringKey
     private let text: Binding<String>
-    private let action: () async -> Void
+    private let action: () -> Void
     
     init(_ title: LocalizedStringKey, text: Binding<String>, action: @escaping () -> Void) {
         self.title = title
@@ -19,11 +19,7 @@ struct MasterPasswordField: View {
                 .submitLabel(.continue)
                 .padding()
             
-            Button {
-                async {
-                    await action()
-                }
-            } label: {
+            Button(action: action) {
                 Image(systemName: .lock)
                     .imageScale(.large)
                     .foregroundColor(.white)
