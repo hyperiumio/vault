@@ -71,8 +71,26 @@ enum SecureItemState  {
         }
     }
     
+    @MainActor
     var secureItem: SecureItem {
-        fatalError()
+        switch self {
+        case .login(let loginState):
+            return .login(loginState.item)
+        case .password(let passwordState):
+            return .password(passwordState.item)
+        case .file(let fileState):
+            return .file(fileState.item)
+        case .note(let noteState):
+            return .note(noteState.item)
+        case .bankCard(let bankCardState):
+            return .bankCard(bankCardState.item)
+        case .wifi(let wifiState):
+            return .wifi(wifiState.item)
+        case .bankAccount(let bankAccountState):
+            return .bankAccount(bankAccountState.item)
+        case .custom(let customState):
+            return .custom(customState.item)
+        }
     }
     
 }

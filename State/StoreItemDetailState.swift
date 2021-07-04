@@ -1,6 +1,7 @@
 import Foundation
 import Model
 
+@MainActor
 protocol StoreItemDetailDependency {
     
     var storeItem: StoreItem { get async throws }

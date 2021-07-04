@@ -3,17 +3,17 @@ import SwiftUI
 
 struct PasswordInputFieldPreview: PreviewProvider {
     
-    static let state = PasswordState()
+    static let passwordState = PasswordState()
     
     static var previews: some View {
         List {
-            PasswordInputField(state)
+            PasswordInputField(passwordState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            PasswordInputField(state)
+            PasswordInputField(passwordState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

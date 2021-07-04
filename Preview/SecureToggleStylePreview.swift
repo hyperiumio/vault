@@ -1,7 +1,7 @@
 #if DEBUG
 import SwiftUI
 
-struct ItemSecureFieldPreview: PreviewProvider {
+struct SecureToggleStylePreview: PreviewProvider {
     
     @State static private var isOn = true
     

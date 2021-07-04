@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		950C70392548205A001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C70382548205A001BB318 /* Crypto */; };
 		950C703D2548206C001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C703C2548206C001BB318 /* Crypto */; };
+		951898372691CEC50040F572 /* ProductionSettingsDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898362691CEC50040F572 /* ProductionSettingsDependency.swift */; };
+		951898382691CEC50040F572 /* ProductionSettingsDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898362691CEC50040F572 /* ProductionSettingsDependency.swift */; };
+		9518983A2691CF000040F572 /* ProductionSetupDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898392691CF000040F572 /* ProductionSetupDependency.swift */; };
+		9518983B2691CF000040F572 /* ProductionSetupDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898392691CF000040F572 /* ProductionSetupDependency.swift */; };
+		9518983D2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */; };
+		9518983E2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */; };
+		951898402691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */; };
+		951898412691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */; };
+		951898432691D04F0040F572 /* ProductionUnlockedStateDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */; };
+		951898442691D04F0040F572 /* ProductionUnlockedStateDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */; };
 		952ED16A2590A4C600E07D95 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952ED1692590A4C600E07D95 /* Localizable.swift */; };
 		952ED16B2590A4C600E07D95 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952ED1692590A4C600E07D95 /* Localizable.swift */; };
 		952ED16C2590A4C600E07D95 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 952ED1692590A4C600E07D95 /* Localizable.swift */; };
@@ -26,10 +36,10 @@
 		9539B20E2540692000C81A2A /* PDFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9539B20C2540692000C81A2A /* PDFView.swift */; };
 		953A80FD267F8F8B00B104FC /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953A80FC267F8F8B00B104FC /* Background.swift */; };
 		953A80FE267F8F8B00B104FC /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 953A80FC267F8F8B00B104FC /* Background.swift */; };
-		954030B12690AAAD005F941C /* AppProductionDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* AppProductionDependency.swift */; };
-		954030B22690AAAD005F941C /* AppProductionDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* AppProductionDependency.swift */; };
-		954030B62690AAFC005F941C /* LockedProductionDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B52690AAFC005F941C /* LockedProductionDependency.swift */; };
-		954030B72690AAFC005F941C /* LockedProductionDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B52690AAFC005F941C /* LockedProductionDependency.swift */; };
+		954030B12690AAAD005F941C /* ProductionAppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* ProductionAppDependency.swift */; };
+		954030B22690AAAD005F941C /* ProductionAppDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* ProductionAppDependency.swift */; };
+		954030B62690AAFC005F941C /* ProductionLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B52690AAFC005F941C /* ProductionLockedDependency.swift */; };
+		954030B72690AAFC005F941C /* ProductionLockedDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B52690AAFC005F941C /* ProductionLockedDependency.swift */; };
 		9540F5AB256FDCF200D8514C /* QuickAccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D6B256FBE2B0080711C /* QuickAccessView.swift */; };
 		9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95842D48256FAB180080711C /* CredentialProviderViewController.swift */; };
 		9540F5D5256FF72F00D8514C /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 9540F5D4256FF72F00D8514C /* Crypto */; };
@@ -83,8 +93,8 @@
 		9574327924AA081B0062B05A /* LoginState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324924AA081A0062B05A /* LoginState.swift */; };
 		9574327E24AA081B0062B05A /* StoreItemEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324C24AA081A0062B05A /* StoreItemEditState.swift */; };
 		9574327F24AA081B0062B05A /* StoreItemEditState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324C24AA081A0062B05A /* StoreItemEditState.swift */; };
-		9574328624AA081B0062B05A /* StoreItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325024AA081A0062B05A /* StoreItemState.swift */; };
-		9574328724AA081B0062B05A /* StoreItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325024AA081A0062B05A /* StoreItemState.swift */; };
+		9574328624AA081B0062B05A /* StoreItemDetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325024AA081A0062B05A /* StoreItemDetailState.swift */; };
+		9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325024AA081A0062B05A /* StoreItemDetailState.swift */; };
 		9574329224AA081B0062B05A /* BankAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountState.swift */; };
 		9574329324AA081B0062B05A /* BankAccountState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325624AA081A0062B05A /* BankAccountState.swift */; };
 		9574329424AA081B0062B05A /* WifiState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574325724AA081A0062B05A /* WifiState.swift */; };
@@ -202,13 +212,10 @@
 		95BA956F268C403200B59DAC /* UnlockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9547268C403100B59DAC /* UnlockedViewPreview.swift */; };
 		95BA9570268C403200B59DAC /* StoreItemDetailViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9548268C403100B59DAC /* StoreItemDetailViewPreview.swift */; };
 		95BA9571268C403200B59DAC /* WifiInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9549268C403200B59DAC /* WifiInputFieldPreview.swift */; };
-		95BA9572268C403200B59DAC /* StoreItemLoadingViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954A268C403200B59DAC /* StoreItemLoadingViewPreview.swift */; };
 		95BA9573268C403200B59DAC /* BankAccountInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954B268C403200B59DAC /* BankAccountInputFieldPreview.swift */; };
 		95BA9574268C403200B59DAC /* FieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954C268C403200B59DAC /* FieldPreview.swift */; };
 		95BA9575268C403200B59DAC /* FileInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954D268C403200B59DAC /* FileInputFieldPreview.swift */; };
-		95BA9576268C403200B59DAC /* FileItemEditViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954E268C403200B59DAC /* FileItemEditViewPreview.swift */; };
 		95BA9577268C403200B59DAC /* QuickAccessViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954F268C403200B59DAC /* QuickAccessViewPreview.swift */; };
-		95BA9578268C403200B59DAC /* SecureItemDisplayViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9550268C403200B59DAC /* SecureItemDisplayViewPreview.swift */; };
 		95BA9579268C403200B59DAC /* PasswordGeneratorViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */; };
 		95BA957A268C403200B59DAC /* SettingsViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9552268C403200B59DAC /* SettingsViewPreview.swift */; };
 		95BA957B268C403200B59DAC /* LockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9553268C403200B59DAC /* LockedViewPreview.swift */; };
@@ -220,12 +227,8 @@
 		95BA9581268C403200B59DAC /* MasterPasswordSettingsViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9559268C403200B59DAC /* MasterPasswordSettingsViewPreview.swift */; };
 		95BA9586268C461A00B59DAC /* MessageButtonStylePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9585268C461A00B59DAC /* MessageButtonStylePreview.swift */; };
 		95BA9588268C463A00B59DAC /* SecureToggleStylePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9587268C463A00B59DAC /* SecureToggleStylePreview.swift */; };
-		95BA958B268C478000B59DAC /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA958A268C478000B59DAC /* Service.swift */; };
 		95BA9594268C535800B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9593268C535800B59DAC /* Sync */; };
 		95BA9596268C535F00B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9595268C535F00B59DAC /* Sync */; };
-		95C72BF0268DB1A400218602 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA958A268C478000B59DAC /* Service.swift */; };
-		95C72BF1268DB1A500218602 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA958A268C478000B59DAC /* Service.swift */; };
-		95C72BF2268DB1A600218602 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA958A268C478000B59DAC /* Service.swift */; };
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C994862574F57000C3A758 /* LockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574331024AA135E0062B05A /* LockedView.swift */; };
@@ -293,6 +296,11 @@
 
 /* Begin PBXFileReference section */
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
+		951898362691CEC50040F572 /* ProductionSettingsDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionSettingsDependency.swift; sourceTree = "<group>"; };
+		951898392691CF000040F572 /* ProductionSetupDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionSetupDependency.swift; sourceTree = "<group>"; };
+		9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemDetailDependency.swift; sourceTree = "<group>"; };
+		9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemEditDependency.swift; sourceTree = "<group>"; };
+		951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionUnlockedStateDependency.swift; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
@@ -305,12 +313,12 @@
 		953A43DE25D1ABBD000267D0 /* Cloud */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cloud; sourceTree = "<group>"; };
 		953A80FC267F8F8B00B104FC /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		953D8E5626849EB400E80B55 /* Model */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Model; sourceTree = "<group>"; };
-		954030AC269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		954030AD269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		954030AE269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		954030AF269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		954030B02690AAAD005F941C /* AppProductionDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppProductionDependency.swift; sourceTree = "<group>"; };
-		954030B52690AAFC005F941C /* LockedProductionDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedProductionDependency.swift; sourceTree = "<group>"; };
+		954030AC269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		954030AD269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
+		954030AE269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		954030AF269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
+		954030B02690AAAD005F941C /* ProductionAppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionAppDependency.swift; sourceTree = "<group>"; };
+		954030B52690AAFC005F941C /* ProductionLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionLockedDependency.swift; sourceTree = "<group>"; };
 		9542207A255183C1002F14AB /* Filestate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filestate.swift; sourceTree = "<group>"; };
 		95422087255186A4002F14AB /* BankAccountInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountInputField.swift; sourceTree = "<group>"; };
 		9542208C2551873C002F14AB /* BankCardInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankCardInputField.swift; sourceTree = "<group>"; };
@@ -337,7 +345,7 @@
 		9574324824AA081A0062B05A /* SettingsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
 		9574324924AA081A0062B05A /* LoginState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
 		9574324C24AA081A0062B05A /* StoreItemEditState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemEditState.swift; sourceTree = "<group>"; };
-		9574325024AA081A0062B05A /* StoreItemState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemState.swift; sourceTree = "<group>"; };
+		9574325024AA081A0062B05A /* StoreItemDetailState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemDetailState.swift; sourceTree = "<group>"; };
 		9574325624AA081A0062B05A /* BankAccountState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountState.swift; sourceTree = "<group>"; };
 		9574325724AA081A0062B05A /* WifiState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiState.swift; sourceTree = "<group>"; };
 		9574325824AA081A0062B05A /* PasswordState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordState.swift; sourceTree = "<group>"; };
@@ -406,13 +414,10 @@
 		95BA9547268C403100B59DAC /* UnlockedViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedViewPreview.swift; sourceTree = "<group>"; };
 		95BA9548268C403100B59DAC /* StoreItemDetailViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemDetailViewPreview.swift; sourceTree = "<group>"; };
 		95BA9549268C403200B59DAC /* WifiInputFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WifiInputFieldPreview.swift; sourceTree = "<group>"; };
-		95BA954A268C403200B59DAC /* StoreItemLoadingViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemLoadingViewPreview.swift; sourceTree = "<group>"; };
 		95BA954B268C403200B59DAC /* BankAccountInputFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountInputFieldPreview.swift; sourceTree = "<group>"; };
 		95BA954C268C403200B59DAC /* FieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldPreview.swift; sourceTree = "<group>"; };
 		95BA954D268C403200B59DAC /* FileInputFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileInputFieldPreview.swift; sourceTree = "<group>"; };
-		95BA954E268C403200B59DAC /* FileItemEditViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileItemEditViewPreview.swift; sourceTree = "<group>"; };
 		95BA954F268C403200B59DAC /* QuickAccessViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAccessViewPreview.swift; sourceTree = "<group>"; };
-		95BA9550268C403200B59DAC /* SecureItemDisplayViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureItemDisplayViewPreview.swift; sourceTree = "<group>"; };
 		95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorViewPreview.swift; sourceTree = "<group>"; };
 		95BA9552268C403200B59DAC /* SettingsViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewPreview.swift; sourceTree = "<group>"; };
 		95BA9553268C403200B59DAC /* LockedViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LockedViewPreview.swift; sourceTree = "<group>"; };
@@ -424,7 +429,6 @@
 		95BA9559268C403200B59DAC /* MasterPasswordSettingsViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterPasswordSettingsViewPreview.swift; sourceTree = "<group>"; };
 		95BA9585268C461A00B59DAC /* MessageButtonStylePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStylePreview.swift; sourceTree = "<group>"; };
 		95BA9587268C463A00B59DAC /* SecureToggleStylePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureToggleStylePreview.swift; sourceTree = "<group>"; };
-		95BA958A268C478000B59DAC /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
 		95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessUnlockedView.swift; sourceTree = "<group>"; };
@@ -553,8 +557,8 @@
 				9530DB66268F463700247AFF /* SecureItemState.swift */,
 				9574324824AA081A0062B05A /* SettingsState.swift */,
 				95ADC3422684CCC000BE3DFF /* SetupState.swift */,
+				9574325024AA081A0062B05A /* StoreItemDetailState.swift */,
 				9574324C24AA081A0062B05A /* StoreItemEditState.swift */,
-				9574325024AA081A0062B05A /* StoreItemState.swift */,
 				9574325F24AA081A0062B05A /* UnlockedState.swift */,
 				9574325724AA081A0062B05A /* WifiState.swift */,
 			);
@@ -666,10 +670,6 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				954030AC269098AF005F941C /* Vault.app */,
-				954030AD269098AF005F941C /* CredentialProvider.appex */,
-				954030AE269098AF005F941C /* Vault.app */,
-				954030AF269098AF005F941C /* CredentialProvider.appex */,
 			);
 			sourceTree = "<group>";
 		};
@@ -691,7 +691,6 @@
 				95BA954C268C403200B59DAC /* FieldPreview.swift */,
 				95BA953C268C403100B59DAC /* FileFieldPreview.swift */,
 				95BA954D268C403200B59DAC /* FileInputFieldPreview.swift */,
-				95BA954E268C403200B59DAC /* FileItemEditViewPreview.swift */,
 				95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */,
 				95BA9553268C403200B59DAC /* LockedViewPreview.swift */,
 				95BA9554268C403200B59DAC /* LoginCredentialFieldPreview.swift */,
@@ -706,13 +705,11 @@
 				95BA9544268C403100B59DAC /* QuickAccessLockedViewPreview.swift */,
 				95BA9539268C403100B59DAC /* QuickAccessUnlockedViewPreview.swift */,
 				95BA954F268C403200B59DAC /* QuickAccessViewPreview.swift */,
-				95BA9550268C403200B59DAC /* SecureItemDisplayViewPreview.swift */,
 				95BA9533268C403100B59DAC /* SelectCategoryViewPreview.swift */,
 				95BA9552268C403200B59DAC /* SettingsViewPreview.swift */,
 				95BA9556268C403200B59DAC /* SetupViewPreview.swift */,
 				95BA9548268C403100B59DAC /* StoreItemDetailViewPreview.swift */,
 				95BA9534268C403100B59DAC /* StoreItemInfoViewPreview.swift */,
-				95BA954A268C403200B59DAC /* StoreItemLoadingViewPreview.swift */,
 				95BA9547268C403100B59DAC /* UnlockedViewPreview.swift */,
 				95BA9535268C403100B59DAC /* WifiFieldPreview.swift */,
 				95BA9549268C403200B59DAC /* WifiInputFieldPreview.swift */,
@@ -725,9 +722,13 @@
 		95BA9589268C476700B59DAC /* Dependency */ = {
 			isa = PBXGroup;
 			children = (
-				95BA958A268C478000B59DAC /* Service.swift */,
-				954030B02690AAAD005F941C /* AppProductionDependency.swift */,
-				954030B52690AAFC005F941C /* LockedProductionDependency.swift */,
+				954030B02690AAAD005F941C /* ProductionAppDependency.swift */,
+				954030B52690AAFC005F941C /* ProductionLockedDependency.swift */,
+				951898362691CEC50040F572 /* ProductionSettingsDependency.swift */,
+				951898392691CF000040F572 /* ProductionSetupDependency.swift */,
+				9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */,
+				9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */,
+				951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */,
 			);
 			path = Dependency;
 			sourceTree = "<group>";
@@ -939,7 +940,6 @@
 				9540F5B0256FDD1600D8514C /* CredentialProviderViewController.swift in Sources */,
 				95C9949F2574F5C600C3A758 /* MasterPasswordField.swift in Sources */,
 				9540F5AB256FDCF200D8514C /* QuickAccessView.swift in Sources */,
-				95C72BF2268DB1A600218602 /* Service.swift in Sources */,
 				952ED16D2590A4C600E07D95 /* Localizable.swift in Sources */,
 				959E5827257FDFB000E09777 /* LoginCredentialField.swift in Sources */,
 			);
@@ -957,7 +957,6 @@
 				956F4B292577A2B100E90BE2 /* QuickAccessLockedView.swift in Sources */,
 				95842D6C256FBE2B0080711C /* QuickAccessView.swift in Sources */,
 				95C9949A2574F5C500C3A758 /* MasterPasswordField.swift in Sources */,
-				95C72BF1268DB1A500218602 /* Service.swift in Sources */,
 				95842D49256FAB180080711C /* CredentialProviderViewController.swift in Sources */,
 				952ED16C2590A4C600E07D95 /* Localizable.swift in Sources */,
 			);
@@ -975,11 +974,9 @@
 				954220942551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864932251E13EE0081DF08 /* CustomField.swift in Sources */,
 				95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
-				95BA9572268C403200B59DAC /* StoreItemLoadingViewPreview.swift in Sources */,
 				95BA957F268C403200B59DAC /* FailureViewPreview.swift in Sources */,
 				9574334F24AA135E0062B05A /* SettingsView.swift in Sources */,
 				9566DF65267F1315002F0206 /* SFSymbol.swift in Sources */,
-				95BA958B268C478000B59DAC /* Service.swift in Sources */,
 				95BA9568268C403200B59DAC /* BankCardFieldPreview.swift in Sources */,
 				95BA957E268C403200B59DAC /* SetupViewPreview.swift in Sources */,
 				95BA9574268C403200B59DAC /* FieldPreview.swift in Sources */,
@@ -995,26 +992,27 @@
 				953A80FD267F8F8B00B104FC /* Background.swift in Sources */,
 				95864923251E13210081DF08 /* BankCardField.swift in Sources */,
 				9586491E251E12D00081DF08 /* NoteField.swift in Sources */,
-				95BA9578268C403200B59DAC /* SecureItemDisplayViewPreview.swift in Sources */,
 				954220A825518A5A002F14AB /* PasswordInputField.swift in Sources */,
 				95BA956E268C403200B59DAC /* BankCardInputFieldPreview.swift in Sources */,
 				95BA9569268C403200B59DAC /* NoteFieldPreview.swift in Sources */,
 				952ED16A2590A4C600E07D95 /* Localizable.swift in Sources */,
 				95BA9571268C403200B59DAC /* WifiInputFieldPreview.swift in Sources */,
 				95BA957A268C403200B59DAC /* SettingsViewPreview.swift in Sources */,
-				954030B12690AAAD005F941C /* AppProductionDependency.swift in Sources */,
-				9574328624AA081B0062B05A /* StoreItemState.swift in Sources */,
+				954030B12690AAAD005F941C /* ProductionAppDependency.swift in Sources */,
+				9574328624AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95BA955B268C403200B59DAC /* SelectCategoryViewPreview.swift in Sources */,
 				9542208D2551873C002F14AB /* BankCardInputField.swift in Sources */,
-				95BA9576268C403200B59DAC /* FileItemEditViewPreview.swift in Sources */,
+				9518983A2691CF000040F572 /* ProductionSetupDependency.swift in Sources */,
 				95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */,
 				95BA9570268C403200B59DAC /* StoreItemDetailViewPreview.swift in Sources */,
+				951898402691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */,
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
+				9518983D2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */,
 				95BA9564268C403200B59DAC /* FileFieldPreview.swift in Sources */,
 				9574327624AA081B0062B05A /* SettingsState.swift in Sources */,
 				95BA9566268C403200B59DAC /* CustomInputFieldPreview.swift in Sources */,
 				95ADC3402684CA5D00BE3DFF /* AppState.swift in Sources */,
-				954030B62690AAFC005F941C /* LockedProductionDependency.swift in Sources */,
+				954030B62690AAFC005F941C /* ProductionLockedDependency.swift in Sources */,
 				958648FB251E11130081DF08 /* Field.swift in Sources */,
 				95BA9579268C403200B59DAC /* PasswordGeneratorViewPreview.swift in Sources */,
 				95BA957B268C403200B59DAC /* LockedViewPreview.swift in Sources */,
@@ -1036,6 +1034,7 @@
 				9586490F251E12060081DF08 /* LoginField.swift in Sources */,
 				956307292535ACAA0076022A /* SelectCategoryView.swift in Sources */,
 				9574333F24AA135E0062B05A /* MasterPasswordSettingsView.swift in Sources */,
+				951898432691D04F0040F572 /* ProductionUnlockedStateDependency.swift in Sources */,
 				95ADC3432684CCC000BE3DFF /* SetupState.swift in Sources */,
 				95BA956D268C403200B59DAC /* AppViewPreview.swift in Sources */,
 				95BA9573268C403200B59DAC /* BankAccountInputFieldPreview.swift in Sources */,
@@ -1055,6 +1054,7 @@
 				95ADC3462684CD7600BE3DFF /* LockedState.swift in Sources */,
 				95BA9586268C461A00B59DAC /* MessageButtonStylePreview.swift in Sources */,
 				95422088255186A4002F14AB /* BankAccountInputField.swift in Sources */,
+				951898372691CEC50040F572 /* ProductionSettingsDependency.swift in Sources */,
 				95864928251E137C0081DF08 /* WifiField.swift in Sources */,
 				95BA955E268C403200B59DAC /* LoginFieldPreview.swift in Sources */,
 				95864905251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
@@ -1085,12 +1085,12 @@
 			files = (
 				9574329324AA081B0062B05A /* BankAccountState.swift in Sources */,
 				9574334024AA135E0062B05A /* MasterPasswordSettingsView.swift in Sources */,
-				954030B22690AAAD005F941C /* AppProductionDependency.swift in Sources */,
+				954030B22690AAAD005F941C /* ProductionAppDependency.swift in Sources */,
 				9542209F25518847002F14AB /* LoginInputField.swift in Sources */,
 				956307362535CC1B0076022A /* CreateVaultItemView.swift in Sources */,
 				954220952551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864933251E13EE0081DF08 /* CustomField.swift in Sources */,
-				9574328724AA081B0062B05A /* StoreItemState.swift in Sources */,
+				9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
 				9574327924AA081B0062B05A /* LoginState.swift in Sources */,
 				9579A6C0267613560030DACF /* AppCommands.swift in Sources */,
@@ -1098,13 +1098,14 @@
 				9586493F251E14AD0081DF08 /* DateFooter.swift in Sources */,
 				95B894442541C6DD00E5D401 /* PhotoPickerShim.swift in Sources */,
 				95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */,
-				95C72BF0268DB1A400218602 /* Service.swift in Sources */,
 				95864924251E13210081DF08 /* BankCardField.swift in Sources */,
 				952ED16B2590A4C600E07D95 /* Localizable.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
 				954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */,
 				95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */,
 				9574327F24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
+				9518983E2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */,
+				951898412691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */,
 				9542208E2551873C002F14AB /* BankCardInputField.swift in Sources */,
 				9574326F24AA081B0062B05A /* NoteState.swift in Sources */,
 				9574335C24AA135E0062B05A /* LockedView.swift in Sources */,
@@ -1118,7 +1119,9 @@
 				9574335024AA135E0062B05A /* SettingsView.swift in Sources */,
 				95864910251E12060081DF08 /* LoginField.swift in Sources */,
 				9563072A2535ACAA0076022A /* SelectCategoryView.swift in Sources */,
+				9518983B2691CF000040F572 /* ProductionSetupDependency.swift in Sources */,
 				9574335E24AA135E0062B05A /* StoreItemDetailView.swift in Sources */,
+				951898442691D04F0040F572 /* ProductionUnlockedStateDependency.swift in Sources */,
 				954220AE25518A9C002F14AB /* WifiInputField.swift in Sources */,
 				9574329524AA081B0062B05A /* WifiState.swift in Sources */,
 				9530DB65268F42EE00247AFF /* SecureItemInputField.swift in Sources */,
@@ -1133,7 +1136,7 @@
 				95ADC3442684CCC000BE3DFF /* SetupState.swift in Sources */,
 				95ADC3472684CD7600BE3DFF /* LockedState.swift in Sources */,
 				9574333A24AA135E0062B05A /* SetupView.swift in Sources */,
-				954030B72690AAFC005F941C /* LockedProductionDependency.swift in Sources */,
+				954030B72690AAFC005F941C /* ProductionLockedDependency.swift in Sources */,
 				95422089255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864929251E137C0081DF08 /* WifiField.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardState.swift in Sources */,
@@ -1149,6 +1152,7 @@
 				9588438A25397F3100732E35 /* PasswordGeneratorView.swift in Sources */,
 				9586495C251E24A60081DF08 /* BankAccountField.swift in Sources */,
 				95864915251E126E0081DF08 /* PasswordField.swift in Sources */,
+				951898382691CEC50040F572 /* ProductionSettingsDependency.swift in Sources */,
 				957432AB24AA081B0062B05A /* CustomState.swift in Sources */,
 				9593E8F9268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
 			);

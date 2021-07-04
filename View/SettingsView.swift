@@ -9,7 +9,7 @@ struct SettingsView: View {
         NavigationView {
             List {
                 switch state.keychainAvailability {
-                case .notAvailable, .notEnrolled:
+                case .none, .notAvailable, .notEnrolled:
                     EmptyView()
                 case .enrolled(.touchID):
                     Section {

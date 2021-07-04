@@ -1,7 +1,7 @@
 #if DEBUG
 import SwiftUI
 
-struct VaultItemInfoViewPreview: PreviewProvider {
+struct StoreItemInfoViewPreview: PreviewProvider {
     
     static var previews: some View {
         List {

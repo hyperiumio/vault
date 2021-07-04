@@ -2,6 +2,11 @@ import Foundation
 import UniformTypeIdentifiers
 
 @MainActor
+protocol UnlockedStateDependency {
+    
+}
+
+@MainActor
 class UnlockedState: ObservableObject {
     
 //    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceStateCollationIdentifier>

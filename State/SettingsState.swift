@@ -4,23 +4,22 @@ import Foundation
 import Preferences
 import Model
 #warning("todo")
+
 @MainActor
-class SettingsState: ObservableObject {
-    
-    @Published var keychainAvailability: KeychainAvailability
-    @Published var isBiometricUnlockEnabled: Bool = true
-    
-    private let errorSubject = PassthroughSubject<SettingStateError, Never>()
-    private var isBiometricUnlockEnabledSubscription: AnyCancellable?
-    
-    init() {
-        fatalError()
-    }
+protocol SettingsDependency {
     
 }
 
-enum SettingStateError: Error {
+@MainActor
+class SettingsState: ObservableObject {
     
-    case keychainAccessDidFail
+    @Published var keychainAvailability: KeychainAvailability?
+    @Published var isBiometricUnlockEnabled: Bool = true
+    
+    private let dependency: SettingsDependency
+    
+    init(dependency: SettingsDependency) {
+        self.dependency = dependency
+    }
     
 }

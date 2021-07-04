@@ -1,6 +1,7 @@
 import Crypto
 import Foundation
 
+@MainActor
 protocol LockedDependency {
     
     var keychainAvailability: KeychainAvailability { get async }

@@ -1,20 +1,19 @@
 #if DEBUG
-import Model
 import SwiftUI
 
 struct WifiInputFieldPreview: PreviewProvider {
     
-    static let state = WifiState()
+    static let wifiState = WifiState()
     
     static var previews: some View {
         List {
-            WifiInputField(state)
+            WifiInputField(wifiState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            WifiInputField(state)
+            WifiInputField(wifiState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

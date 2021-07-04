@@ -1,6 +1,7 @@
 import Foundation
 import Model
 
+@MainActor
 protocol StoreItemEditDependency {
     
     func save(_ storeItem: StoreItem) async throws

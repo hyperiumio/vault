@@ -3,17 +3,17 @@ import SwiftUI
 
 struct CustomInputFieldPreview: PreviewProvider {
     
-    static let state = CustomState()
+    static let customState = CustomState()
     
     static var previews: some View {
         List {
-            CustomInputField(state)
+            CustomInputField(customState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            CustomInputField(state)
+            CustomInputField(customState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

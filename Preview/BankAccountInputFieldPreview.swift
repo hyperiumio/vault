@@ -3,17 +3,17 @@ import SwiftUI
 
 struct BankAccountInputFieldPreview: PreviewProvider {
     
-    static let state = BankAccountState()
+    static let bankAccountState = BankAccountState()
     
     static var previews: some View {
         List {
-            BankAccountInputField(state)
+            BankAccountInputField(bankAccountState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            BankAccountInputField(state)
+            BankAccountInputField(bankAccountState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

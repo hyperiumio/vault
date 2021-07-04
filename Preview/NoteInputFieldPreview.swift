@@ -3,17 +3,17 @@ import SwiftUI
 
 struct NoteInputPreview: PreviewProvider {
     
-    static let state = NoteState()
+    static let noteState = NoteState()
     
     static var previews: some View {
         List {
-            NoteInputField(state)
+            NoteInputField(noteState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            NoteInputField(state)
+            NoteInputField(noteState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

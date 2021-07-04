@@ -1,13 +1,19 @@
 #if DEBUG
 import SwiftUI
 
-struct ChangeMasterPasswordViewPreview: PreviewProvider {
+struct MasterPasswordSettingsViewPreview: PreviewProvider {
     
     static var previews: some View {
         NavigationView {
             MasterPasswordSettingsView()
         }
         .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        NavigationView {
+            MasterPasswordSettingsView()
+        }
+        .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)
     }
     

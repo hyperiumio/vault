@@ -3,6 +3,7 @@ import Foundation
 import Model
 import SwiftUI
 
+@MainActor
 protocol SetupDependency {
     
     func createStore(isBiometryEnabled: Bool) async throws -> (masterKey: MasterKey, storeID: UUID)
