@@ -66,8 +66,6 @@
 		9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B22680CACA0000BC44 /* FailureView.swift */; };
 		9551D3B62680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
 		9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
-		955A91D424D41FC300E98A7C /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955A91D324D41FC300E98A7C /* Color.xcassets */; };
-		955A91D524D41FC300E98A7C /* Color.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955A91D324D41FC300E98A7C /* Color.xcassets */; };
 		956307292535ACAA0076022A /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectCategoryView.swift */; };
 		9563072A2535ACAA0076022A /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectCategoryView.swift */; };
 		956307352535CC1B0076022A /* CreateVaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307342535CC1B0076022A /* CreateVaultItemView.swift */; };
@@ -83,8 +81,8 @@
 		95726C2B24C82B6D005F025A /* MasterPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* MasterPasswordField.swift */; };
 		95726C2C24C82B6D005F025A /* MasterPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* MasterPasswordField.swift */; };
 		9574322A24AA05430062B05A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* App.swift */; };
-		9574323424AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
-		9574323524AA05710062B05A /* Icon.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Icon.xcassets */; };
+		9574323424AA05710062B05A /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Image.xcassets */; };
+		9574323524AA05710062B05A /* Image.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Image.xcassets */; };
 		9574326E24AA081B0062B05A /* NoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteState.swift */; };
 		9574326F24AA081B0062B05A /* NoteState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteState.swift */; };
 		9574327624AA081B0062B05A /* SettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324824AA081A0062B05A /* SettingsState.swift */; };
@@ -301,6 +299,8 @@
 		9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemDetailDependency.swift; sourceTree = "<group>"; };
 		9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemEditDependency.swift; sourceTree = "<group>"; };
 		951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionUnlockedStateDependency.swift; sourceTree = "<group>"; };
+		951898452691DA120040F572 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		951898462691DA150040F572 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
@@ -313,9 +313,7 @@
 		953A43DE25D1ABBD000267D0 /* Cloud */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cloud; sourceTree = "<group>"; };
 		953A80FC267F8F8B00B104FC /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		953D8E5626849EB400E80B55 /* Model */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Model; sourceTree = "<group>"; };
-		954030AC269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		954030AD269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
-		954030AE269098AF005F941C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		954030AF269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		954030B02690AAAD005F941C /* ProductionAppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionAppDependency.swift; sourceTree = "<group>"; };
 		954030B52690AAFC005F941C /* ProductionLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionLockedDependency.swift; sourceTree = "<group>"; };
@@ -330,7 +328,6 @@
 		954220AC25518A9C002F14AB /* WifiInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInputField.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
-		955A91D324D41FC300E98A7C /* Color.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Color.xcassets; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
 		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9566DF64267F1315002F0206 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
@@ -340,7 +337,7 @@
 		9574322424AA05430062B05A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		9574322524AA05430062B05A /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		9574322624AA05430062B05A /* AppInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
-		9574323024AA05710062B05A /* Icon.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icon.xcassets; sourceTree = "<group>"; };
+		9574323024AA05710062B05A /* Image.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Image.xcassets; sourceTree = "<group>"; };
 		9574324424AA08190062B05A /* NoteState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteState.swift; sourceTree = "<group>"; };
 		9574324824AA081A0062B05A /* SettingsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
 		9574324924AA081A0062B05A /* LoginState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginState.swift; sourceTree = "<group>"; };
@@ -533,8 +530,7 @@
 			children = (
 				952ED1692590A4C600E07D95 /* Localizable.swift */,
 				9566DF64267F1315002F0206 /* SFSymbol.swift */,
-				955A91D324D41FC300E98A7C /* Color.xcassets */,
-				9574323024AA05710062B05A /* Icon.xcassets */,
+				9574323024AA05710062B05A /* Image.xcassets */,
 				9583624724D1643700C10BBB /* Preview.xcassets */,
 				95B1706E2590D783009A1126 /* Localizable.strings */,
 			);
@@ -811,7 +807,7 @@
 				95BA9593268C535800B59DAC /* Sync */,
 			);
 			productName = iOS;
-			productReference = 954030AC269098AF005F941C /* Vault.app */;
+			productReference = 951898452691DA120040F572 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -840,7 +836,7 @@
 				95BA9595268C535F00B59DAC /* Sync */,
 			);
 			productName = macOS;
-			productReference = 954030AE269098AF005F941C /* Vault.app */;
+			productReference = 951898462691DA150040F572 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -909,9 +905,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9574323424AA05710062B05A /* Icon.xcassets in Resources */,
+				9574323424AA05710062B05A /* Image.xcassets in Resources */,
 				95B170692590D783009A1126 /* Localizable.strings in Resources */,
-				955A91D424D41FC300E98A7C /* Color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -919,9 +914,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9574323524AA05710062B05A /* Icon.xcassets in Resources */,
+				9574323524AA05710062B05A /* Image.xcassets in Resources */,
 				95B1706A2590D783009A1126 /* Localizable.strings in Resources */,
-				955A91D524D41FC300E98A7C /* Color.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1405,7 +1399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1435,7 +1429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1467,7 +1461,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
@@ -1499,7 +1493,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;

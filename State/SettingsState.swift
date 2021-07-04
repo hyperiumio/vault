@@ -3,7 +3,6 @@ import Crypto
 import Foundation
 import Preferences
 import Model
-#warning("todo")
 
 @MainActor
 protocol SettingsDependency {

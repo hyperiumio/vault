@@ -11,7 +11,7 @@ struct FileInputField: View {
     }
     
     var body: some View {
-        fatalError()
+        Text("foo")
         /*
         FileView(state.item)*/
     }

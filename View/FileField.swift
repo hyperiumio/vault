@@ -48,7 +48,7 @@ struct FileField: View {
             }
         }
          */
-        fatalError()
+        Text("foo")
     }
     
 }
