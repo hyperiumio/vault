@@ -30,6 +30,7 @@ struct MasterPasswordField: View {
             .buttonStyle(.plain)
         }
         .frame(maxHeight: .infinity)
+        .background(.quaternary)
         .fixedSize(horizontal: false, vertical: true)
         .clipShape(.buttonShape)
     }

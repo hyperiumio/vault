@@ -1,37 +1,6 @@
 import Combine
 import Foundation
 
-public actor PersistentStoreService {
-    
-    public var derivedKeyContainer: Data {
-        get async {
-            fatalError()
-        }
-    }
-    
-    public var masterKeyContainer: Data {
-        get async {
-            fatalError()
-        }
-    }
-    
-    
-    public func createStore(derivedKeyContainer: Data, masterKeyContainer: Data) async throws -> UUID {
-        fatalError()
-    }
-    
-    public func deleteItem(itemID: UUID) async throws {
-        fatalError()
-    }
-    
-    public func saveItem(_ item: StoreItem) async throws {
-        fatalError()
-    }
-    
-    public init() throws {}
-    
-}
-
 public actor Store {
     
     let resourceLocator: StoreResourceLocator
@@ -43,7 +12,9 @@ public actor Store {
         self.configuration = configuration
     }
     
-    public init?(from containerDirectory: URL, matching storeID: UUID, configuration: Configuration = .production) async throws {
+    init?(from containerDirectory: URL, matching storeID: UUID, configuration: Configuration = .production) {
+        fatalError()
+        /*
         guard FileManager.default.fileExists(atPath: containerDirectory.path) else {
             return nil
         }
@@ -60,11 +31,14 @@ public actor Store {
                 return
             }
         }
-        
-        return nil
+         
+         return nil
+         */
     }
     
-    public init(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, configuration: Configuration = .production) async throws {
+    init(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, configuration: Configuration = .production) {
+        fatalError()
+        /*
         let resourceLocator = StoreResourceLocator.generate(in: containerDirectory)
         
         try FileManager.default.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
@@ -76,6 +50,7 @@ public actor Store {
         
         self.resourceLocator = resourceLocator
         self.configuration = configuration
+        */
     }
     
     public var didChange: AnyPublisher<StoreChangeSet, Never> {

@@ -46,7 +46,7 @@ extension StoreItemDetailState.SecureItem {
         case .login(let item):
             return .login(username: item.username, password: item.password, url: item.url)
         case .file(let item):
-            return .file(data: item.data, typeIdentifier: item.typeIdentifier)
+            return .file(data: item.data, type: item.type)
         case .note(let item):
             return .note(text: item.text)
         case .bankCard(let item):

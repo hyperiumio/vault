@@ -1,70 +1,69 @@
+import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
-import PDFKit
-#warning("Todo")
+
 struct FileField: View {
     
-    private let data: Data?
-    private let typeIdentifier: UTType?
+    private let value: (data: Data, type: UTType)?
     
-    init(data: Data?, typeIdentifier: UTType?) {
-        self.data = data
-        self.typeIdentifier = typeIdentifier
+    init(data: Data, type: UTType) {
+        self.value = (data: data, type: type)
+    }
+    
+    init() {
+        self.value = nil
     }
     
     var body: some View {
-        /*
-        Group {
-            switch typeIdentifier {
-            case let typeIdentifier where typeIdentifier.conforms(to: .image):
-                #if os(iOS)
-                if let image = UIImage(data: data) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    UnrepresentableFileView(typeIdentifier)
-                }
-                #endif
-                
-                #if os(macOS)
-                if let image = NSImage(data: item.data) {
-                    Image(nsImage: image)
-                        .resizable()
-                        .scaledToFit()
-                } else {
-                    UnrepresentableFileView(typeIdentifier)
-                }
-                #endif
-            case let typeIdentifier where typeIdentifier.conforms(to: .pdf):
-                if let document = PDFView.Document(data: data) {
-                    PDFView(document)
-                        .scaledToFit()
-                } else {
-                    UnrepresentableFileView(typeIdentifier)
-                }
-            default:
+        switch value {
+        case let value? where value.type.conforms(to: .image):
+            #if os(iOS)
+            if let image = UIImage(data: value.data) {
+                Image(uiImage: image)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                UnrepresentableFileView(value.type)
+            }
+            #endif
+            
+            #if os(macOS)
+            if let image = NSImage(data: item.data) {
+                Image(nsImage: image)
+                    .resizable()
+                    .scaledToFit()
+            } else {
                 UnrepresentableFileView(typeIdentifier)
             }
+            #endif
+        case let value? where value.type.conforms(to: .pdf):
+            if let document = PDFView.Document(data: value.data) {
+                PDFView(document)
+                    .scaledToFit()
+            } else {
+                UnrepresentableFileView(value.type)
+            }
+        default:
+            UnrepresentableFileView(value?.type ?? .item)
         }
-         */
-        Text("foo")
     }
     
 }
 
 private struct UnrepresentableFileView: View {
     
-    private let typeIdentifier: UTType
+    private let type: UTType
     
-    init(_ typeIdentifier: UTType) {
-        self.typeIdentifier = typeIdentifier
+    init(_ type: UTType) {
+        self.type = type
     }
     
     var body: some View {
-        if let filenameExtension = typeIdentifier.preferredFilenameExtension {
+        if let filenameExtension = type.preferredFilenameExtension {
             Text(filenameExtension)
                 .textCase(.uppercase)
+        } else {
+            Text(type.description)
         }
     }
     

@@ -5,16 +5,33 @@ import Model
 @MainActor
 class FileState: ObservableObject {
     
-    @Published var typeIdentifier: UTType
-    @Published var data: Data
+    @Published var value: Value?
     
     var item: FileItem {
-        FileItem(data: data, typeIdentifier: typeIdentifier)
+        guard let value = value else {
+            return FileItem(data: Data(), type: .data)
+        }
+        
+        return FileItem(data: value.data, type: value.type)
     }
     
-    required init(_ item: FileItem) {
-        self.typeIdentifier = item.typeIdentifier
-        self.data = item.data
+    required init(_ item: FileItem? = nil) {
+        guard let item = item else {
+            return
+        }
+        
+        self.value = Value(data: item.data, type: item.type)
+    }
+    
+}
+
+extension FileState {
+    
+    struct Value {
+        
+        let data: Data
+        let type: UTType
+        
     }
     
 }

@@ -1,10 +1,11 @@
 import Crypto
 import Foundation
 import Model
-import SwiftUI
 
 @MainActor
 protocol SetupDependency {
+    
+    var biometryTypeAvailability: BiometryType? { get async }
     
     func createStore(isBiometryEnabled: Bool) async throws -> (masterKey: MasterKey, storeID: UUID)
     
@@ -36,16 +37,16 @@ class SetupState: ObservableObject {
         }
     }
     
-    var nextButtonTitle: LocalizedStringKey {
+    var nextButtonTitle: ButtonTitle {
         switch step {
         case .choosePassword, .repeatPassword, .enableBiometricUnlock:
-            return .continue
+            return .next
         case .completeSetup:
-            return .setupComplete
+            return .completed
         }
     }
     
-    func back() {
+    func back() async {
         switch step {
         case .choosePassword:
             return
@@ -54,7 +55,12 @@ class SetupState: ObservableObject {
         case .enableBiometricUnlock:
             step = .repeatPassword
         case .completeSetup:
-            step = .enableBiometricUnlock(biometryType: .faceID)
+            if let biometryType = await dependency.biometryTypeAvailability {
+                step = .enableBiometricUnlock(biometryType: biometryType)
+            } else {
+                step = .repeatPassword
+            }
+            
         }
     }
     
@@ -63,7 +69,11 @@ class SetupState: ObservableObject {
         case .choosePassword:
             step = .repeatPassword
         case .repeatPassword:
-            step = .enableBiometricUnlock(biometryType: .touchID)
+            if let biometryType = await dependency.biometryTypeAvailability {
+                step = .enableBiometricUnlock(biometryType: biometryType)
+            } else {
+                step = .completeSetup
+            }
         case .enableBiometricUnlock:
             step = .completeSetup
         case .completeSetup:
@@ -89,6 +99,13 @@ extension SetupState {
         case repeatPassword
         case enableBiometricUnlock(biometryType: BiometryType)
         case completeSetup
+        
+    }
+    
+    enum ButtonTitle {
+        
+        case next
+        case completed
         
     }
     

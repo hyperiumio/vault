@@ -1,7 +1,7 @@
 import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
-#warning("Todo")
+
 struct FileInputField: View {
     
     @ObservedObject private var state: FileState
@@ -11,9 +11,11 @@ struct FileInputField: View {
     }
     
     var body: some View {
-        Text("foo")
-        /*
-        FileView(state.item)*/
+        if let value = state.value {
+            FileField(data: value.data, type: value.type)
+        } else {
+            Text("missing")
+        }
     }
     
 }

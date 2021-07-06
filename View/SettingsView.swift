@@ -26,7 +26,7 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    NavigationLink(.changeMasterPassword, destination: MasterPasswordSettingsView())
+                    NavigationLink(.changeMasterPassword, destination: Text("foo"))
                 } footer: {
                     Text(.changeMasterPasswordDescription)
                 }

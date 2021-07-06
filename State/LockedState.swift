@@ -15,8 +15,8 @@ protocol LockedDependency {
 class LockedState: ObservableObject {
     
     @Published var password = ""
-    @Published private(set) var status = Status.locked
     @Published var keychainAvailablility: KeychainAvailability?
+    @Published private(set) var status = Status.locked
     
     private let dependency: LockedDependency
     private let yield: Yield

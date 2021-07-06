@@ -2,23 +2,23 @@ import SwiftUI
 
 struct MasterPasswordSettingsView: View {
     
-    @State var password = ""
-    @State var repeatedPassword = ""
+    @ObservedObject private var state: MasterPasswordSettingsState
     @FocusState private var focusedField: Field?
     
+    init(_ state: MasterPasswordSettingsState) {
+        self.state = state
+    }
+    
     var body: some View {
-        List {
+        Form {
             Section {
-                SecureField(.newMasterPassword, text: $password, prompt: nil)
+                SecureField(.newMasterPassword, text: $state.password, prompt: nil)
                     .focused($focusedField, equals: .newMasterPassword)
                     .submitLabel(.next)
                     
-                SecureField(.repeatMasterPassword, text: $repeatedPassword, prompt: nil)
+                SecureField(.repeatMasterPassword, text: $state.repeatedPassword, prompt: nil)
                     .focused($focusedField, equals: .repeatMasterPassword)
                     .submitLabel(.next)
-            }
-            .onAppear {
-                focusedField = .newMasterPassword
             }
             .onSubmit {
                 switch focusedField {
@@ -26,16 +26,31 @@ struct MasterPasswordSettingsView: View {
                     focusedField = .repeatMasterPassword
                 case .repeatMasterPassword:
                     focusedField = .newMasterPassword
-                case nil:
+                case .none:
                     focusedField = nil
                 }
             }
+            
             Section {
                 Button(.changeMasterPassword, role: .destructive) {
-                    // change master password
+                    async {
+                        await state.changeMasterPassword()
+                    }
                 }
-                .disabled(password.isEmpty || repeatedPassword.isEmpty)
+                .disabled(state.isButtonDisabled)
+            } footer: {
+                if state.isLoadingVisible {
+                    ProgressView()
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                }
             }
+        }
+        .navigationTitle(.changeMasterPassword)
+        .navigationBarTitleDisplayMode(.inline)
+        .disabled(state.isInputDisabled)
+        .onAppear {
+            focusedField = .newMasterPassword
         }
     }
     

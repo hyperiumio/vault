@@ -1,4 +1,5 @@
 #if DEBUG
+#warning("Todo")
 import SwiftUI
 
 struct SelectCategoryViewPreview: PreviewProvider {

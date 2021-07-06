@@ -11,7 +11,9 @@ struct SetupView: View {
     var body: some View {
         VStack {
             BackButton(isVisisble: state.isBackButtonVisible) {
-                state.back()
+                async {
+                    await state.back()
+                }
             }
             
             switch state.step {
@@ -25,7 +27,7 @@ struct SetupView: View {
                 CompleteSetupView()
             }
             
-            NextButton(state.nextButtonTitle) {
+            NextButton(state.nextButtonTitle.localizedStringKey) {
                 async {
                     await state.next()
                 }
@@ -220,6 +222,19 @@ extension SetupView {
 
         }
         
+    }
+    
+}
+
+private extension SetupState.ButtonTitle {
+    
+    var localizedStringKey: LocalizedStringKey {
+        switch self {
+        case .next:
+            return .continue
+        case .completed:
+            return .setupComplete
+        }
     }
     
 }

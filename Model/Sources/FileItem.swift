@@ -4,13 +4,13 @@ import UniformTypeIdentifiers
 public struct FileItem: SecureItemValue, Equatable  {
     
     public let data: Data
-    public let typeIdentifier: UTType
+    public let type: UTType
     
     public static var secureItemType: SecureItemType { .file }
     
-    public init(data: Data, typeIdentifier: UTType) {
+    public init(data: Data, type: UTType) {
         self.data = data
-        self.typeIdentifier = typeIdentifier
+        self.type = type
     }
     
     public init(from fileItemData: Data) throws {
@@ -30,7 +30,7 @@ public struct FileItem: SecureItemValue, Equatable  {
         let infoSegmentRange = Range(infoSizeDataRange.upperBound, count: infoSize)
         let infoSegment = fileItemData[infoSegmentRange]
         let info = try JSONDecoder().decode(CodableFileItem.self, from: infoSegment)
-        guard let typeIdentifier = UTType(info.typeIdentifier) else {
+        guard let type = UTType(info.type) else {
             throw ModelError.decodingFailed
         }
         
@@ -51,12 +51,12 @@ public struct FileItem: SecureItemValue, Equatable  {
         let dataSegment = fileItemData[dataSegmentRange]
         
         self.data = dataSegment
-        self.typeIdentifier = typeIdentifier
+        self.type = type
     }
     
     public var encoded: Data {
         get throws {
-            let encodableItem = CodableFileItem(typeIdentifier: typeIdentifier.identifier)
+            let encodableItem = CodableFileItem(type: type.identifier)
             let encodedItem = try JSONEncoder().encode(encodableItem)
             let rawItemCount = UInt32(encodedItem.count)
             let encodedItemSize = UInt32Encode(rawItemCount)
@@ -71,7 +71,7 @@ public struct FileItem: SecureItemValue, Equatable  {
 
 private struct CodableFileItem: Codable {
     
-    let typeIdentifier: String
+    let type: String
     
 }
 

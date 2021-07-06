@@ -3,15 +3,18 @@ import SwiftUI
 
 struct MasterPasswordSettingsViewPreview: PreviewProvider {
     
+    static let masterPasswordSettingsDependency = MasterPasswordSettingDependencyStub()
+    static let masterPasswordSettingsState = MasterPasswordSettingsState(dependency: masterPasswordSettingsDependency)
+    
     static var previews: some View {
         NavigationView {
-            MasterPasswordSettingsView()
+            MasterPasswordSettingsView(masterPasswordSettingsState)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         NavigationView {
-            MasterPasswordSettingsView()
+            MasterPasswordSettingsView(masterPasswordSettingsState)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

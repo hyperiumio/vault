@@ -62,14 +62,17 @@
 		954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954220A725518A5A002F14AB /* PasswordInputField.swift */; };
 		954220AD25518A9C002F14AB /* WifiInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954220AC25518A9C002F14AB /* WifiInputField.swift */; };
 		954220AE25518A9C002F14AB /* WifiInputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954220AC25518A9C002F14AB /* WifiInputField.swift */; };
+		9550ED7426949BCE00C519C2 /* Development.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Development.xcassets */; };
+		9550ED762694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9550ED752694AC0B00C519C2 /* MasterPasswordSettingsState.swift */; };
+		9550ED772694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9550ED752694AC0B00C519C2 /* MasterPasswordSettingsState.swift */; };
+		9550ED792694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9550ED782694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift */; };
+		9550ED7A2694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9550ED782694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift */; };
 		9551D3B32680CACA0000BC44 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B22680CACA0000BC44 /* FailureView.swift */; };
 		9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B22680CACA0000BC44 /* FailureView.swift */; };
 		9551D3B62680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
 		9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
 		956307292535ACAA0076022A /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectCategoryView.swift */; };
 		9563072A2535ACAA0076022A /* SelectCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectCategoryView.swift */; };
-		956307352535CC1B0076022A /* CreateVaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307342535CC1B0076022A /* CreateVaultItemView.swift */; };
-		956307362535CC1B0076022A /* CreateVaultItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307342535CC1B0076022A /* CreateVaultItemView.swift */; };
 		9566DF65267F1315002F0206 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9566DF64267F1315002F0206 /* SFSymbol.swift */; };
 		9566DF66267F1495002F0206 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9566DF64267F1315002F0206 /* SFSymbol.swift */; };
 		9566DF67267F1495002F0206 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9566DF64267F1315002F0206 /* SFSymbol.swift */; };
@@ -195,7 +198,6 @@
 		95BA9560268C403200B59DAC /* PasswordFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9538268C403100B59DAC /* PasswordFieldPreview.swift */; };
 		95BA9561268C403200B59DAC /* QuickAccessUnlockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9539268C403100B59DAC /* QuickAccessUnlockedViewPreview.swift */; };
 		95BA9562268C403200B59DAC /* MasterPasswordFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953A268C403100B59DAC /* MasterPasswordFieldPreview.swift */; };
-		95BA9563268C403200B59DAC /* CreateVaultItemViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953B268C403100B59DAC /* CreateVaultItemViewPreview.swift */; };
 		95BA9564268C403200B59DAC /* FileFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953C268C403100B59DAC /* FileFieldPreview.swift */; };
 		95BA9565268C403200B59DAC /* DateFooterPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953D268C403100B59DAC /* DateFooterPreview.swift */; };
 		95BA9566268C403200B59DAC /* CustomInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953E268C403100B59DAC /* CustomInputFieldPreview.swift */; };
@@ -237,6 +239,8 @@
 		95C994CE2574F64900C3A758 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95C994CD2574F64900C3A758 /* Preferences */; };
 		95C994DA2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
 		95C994DB2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
+		95D3B7082694898C00895D4A /* StoreItemDisplayViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */; };
+		95D3B70A269489D300895D4A /* StoreItemEditViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */; };
 		95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F8BBC924CEC936001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBC824CEC936001FC495 /* Sort */; };
@@ -293,14 +297,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9511265C26943E6B000D71A8 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		9511265D26943E6B000D71A8 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
+		9511265E26943E6B000D71A8 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		9511265F26943E6B000D71A8 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951898362691CEC50040F572 /* ProductionSettingsDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionSettingsDependency.swift; sourceTree = "<group>"; };
 		951898392691CF000040F572 /* ProductionSetupDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionSetupDependency.swift; sourceTree = "<group>"; };
 		9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemDetailDependency.swift; sourceTree = "<group>"; };
 		9518983F2691CFCE0040F572 /* ProductionStoreItemEditDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionStoreItemEditDependency.swift; sourceTree = "<group>"; };
 		951898422691D04F0040F572 /* ProductionUnlockedStateDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionUnlockedStateDependency.swift; sourceTree = "<group>"; };
-		951898452691DA120040F572 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		951898462691DA150040F572 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
@@ -313,8 +319,6 @@
 		953A43DE25D1ABBD000267D0 /* Cloud */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Cloud; sourceTree = "<group>"; };
 		953A80FC267F8F8B00B104FC /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
 		953D8E5626849EB400E80B55 /* Model */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Model; sourceTree = "<group>"; };
-		954030AD269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
-		954030AF269098AF005F941C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		954030B02690AAAD005F941C /* ProductionAppDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionAppDependency.swift; sourceTree = "<group>"; };
 		954030B52690AAFC005F941C /* ProductionLockedDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionLockedDependency.swift; sourceTree = "<group>"; };
 		9542207A255183C1002F14AB /* Filestate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filestate.swift; sourceTree = "<group>"; };
@@ -326,10 +330,11 @@
 		954220A22551887B002F14AB /* NoteInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteInputField.swift; sourceTree = "<group>"; };
 		954220A725518A5A002F14AB /* PasswordInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordInputField.swift; sourceTree = "<group>"; };
 		954220AC25518A9C002F14AB /* WifiInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInputField.swift; sourceTree = "<group>"; };
+		9550ED752694AC0B00C519C2 /* MasterPasswordSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordSettingsState.swift; sourceTree = "<group>"; };
+		9550ED782694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionMasterPasswordSettingDependency.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryView.swift; sourceTree = "<group>"; };
-		956307342535CC1B0076022A /* CreateVaultItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateVaultItemView.swift; sourceTree = "<group>"; };
 		9566DF64267F1315002F0206 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		956F4B282577A2B100E90BE2 /* QuickAccessLockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessLockedView.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* MasterPasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordField.swift; sourceTree = "<group>"; };
@@ -361,7 +366,7 @@
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayView.swift; sourceTree = "<group>"; };
 		9579A6BE2676133D0030DACF /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
-		9583624724D1643700C10BBB /* Preview.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Preview.xcassets; sourceTree = "<group>"; };
+		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		95842D48256FAB180080711C /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		95842D4D256FAB180080711C /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		95842D4E256FAB180080711C /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
@@ -396,7 +401,6 @@
 		95BA9538268C403100B59DAC /* PasswordFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordFieldPreview.swift; sourceTree = "<group>"; };
 		95BA9539268C403100B59DAC /* QuickAccessUnlockedViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuickAccessUnlockedViewPreview.swift; sourceTree = "<group>"; };
 		95BA953A268C403100B59DAC /* MasterPasswordFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MasterPasswordFieldPreview.swift; sourceTree = "<group>"; };
-		95BA953B268C403100B59DAC /* CreateVaultItemViewPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateVaultItemViewPreview.swift; sourceTree = "<group>"; };
 		95BA953C268C403100B59DAC /* FileFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileFieldPreview.swift; sourceTree = "<group>"; };
 		95BA953D268C403100B59DAC /* DateFooterPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFooterPreview.swift; sourceTree = "<group>"; };
 		95BA953E268C403100B59DAC /* CustomInputFieldPreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomInputFieldPreview.swift; sourceTree = "<group>"; };
@@ -429,6 +433,8 @@
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
 		95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessUnlockedView.swift; sourceTree = "<group>"; };
+		95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayViewPreview.swift; sourceTree = "<group>"; };
+		95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemEditViewPreview.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
@@ -531,7 +537,7 @@
 				952ED1692590A4C600E07D95 /* Localizable.swift */,
 				9566DF64267F1315002F0206 /* SFSymbol.swift */,
 				9574323024AA05710062B05A /* Image.xcassets */,
-				9583624724D1643700C10BBB /* Preview.xcassets */,
+				9583624724D1643700C10BBB /* Development.xcassets */,
 				95B1706E2590D783009A1126 /* Localizable.strings */,
 			);
 			path = Asset;
@@ -547,6 +553,7 @@
 				9542207A255183C1002F14AB /* Filestate.swift */,
 				95ADC3452684CD7600BE3DFF /* LockedState.swift */,
 				9574324924AA081A0062B05A /* LoginState.swift */,
+				9550ED752694AC0B00C519C2 /* MasterPasswordSettingsState.swift */,
 				9574324424AA08190062B05A /* NoteState.swift */,
 				9593E8F7268C8CC5000FCC0F /* PasswordGeneratorState.swift */,
 				9574325824AA081A0062B05A /* PasswordState.swift */,
@@ -571,7 +578,6 @@
 				95864922251E13210081DF08 /* BankCardField.swift */,
 				9542208C2551873C002F14AB /* BankCardInputField.swift */,
 				9551D3B52680DFB40000BC44 /* ConfidentialText.swift */,
-				956307342535CC1B0076022A /* CreateVaultItemView.swift */,
 				95864931251E13EE0081DF08 /* CustomField.swift */,
 				954220932551878E002F14AB /* CustomInputField.swift */,
 				9586493D251E14AD0081DF08 /* DateFooter.swift */,
@@ -598,10 +604,10 @@
 				956307282535ACAA0076022A /* SelectCategoryView.swift */,
 				9574330A24AA135D0062B05A /* SettingsView.swift */,
 				957432FF24AA135D0062B05A /* SetupView.swift */,
+				9574331124AA135E0062B05A /* StoreItemDetailView.swift */,
 				95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */,
 				9574337024AA23D30062B05A /* StoreItemEditView.swift */,
 				95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */,
-				9574331124AA135E0062B05A /* StoreItemDetailView.swift */,
 				9574337124AA23D30062B05A /* UnlockedView.swift */,
 				95864927251E137C0081DF08 /* WifiField.swift */,
 				954220AC25518A9C002F14AB /* WifiInputField.swift */,
@@ -679,7 +685,6 @@
 				95BA9540268C403100B59DAC /* BankCardFieldPreview.swift */,
 				95BA9546268C403100B59DAC /* BankCardInputFieldPreview.swift */,
 				95BA9558268C403200B59DAC /* ConfidentialTextPreview.swift */,
-				95BA953B268C403100B59DAC /* CreateVaultItemViewPreview.swift */,
 				95BA9555268C403200B59DAC /* CustomFieldPreview.swift */,
 				95BA953E268C403100B59DAC /* CustomInputFieldPreview.swift */,
 				95BA953D268C403100B59DAC /* DateFooterPreview.swift */,
@@ -687,30 +692,32 @@
 				95BA954C268C403200B59DAC /* FieldPreview.swift */,
 				95BA953C268C403100B59DAC /* FileFieldPreview.swift */,
 				95BA954D268C403200B59DAC /* FileInputFieldPreview.swift */,
-				95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */,
 				95BA9553268C403200B59DAC /* LockedViewPreview.swift */,
 				95BA9554268C403200B59DAC /* LoginCredentialFieldPreview.swift */,
 				95BA9536268C403100B59DAC /* LoginFieldPreview.swift */,
 				95BA953F268C403100B59DAC /* LoginInputFieldPreview.swift */,
 				95BA953A268C403100B59DAC /* MasterPasswordFieldPreview.swift */,
 				95BA9559268C403200B59DAC /* MasterPasswordSettingsViewPreview.swift */,
+				95BA9585268C461A00B59DAC /* MessageButtonStylePreview.swift */,
 				95BA9541268C403100B59DAC /* NoteFieldPreview.swift */,
 				95BA9532268C403100B59DAC /* NoteInputFieldPreview.swift */,
 				95BA9538268C403100B59DAC /* PasswordFieldPreview.swift */,
+				95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */,
 				95BA9543268C403100B59DAC /* PasswordInputFieldPreview.swift */,
 				95BA9544268C403100B59DAC /* QuickAccessLockedViewPreview.swift */,
 				95BA9539268C403100B59DAC /* QuickAccessUnlockedViewPreview.swift */,
 				95BA954F268C403200B59DAC /* QuickAccessViewPreview.swift */,
+				95BA9587268C463A00B59DAC /* SecureToggleStylePreview.swift */,
 				95BA9533268C403100B59DAC /* SelectCategoryViewPreview.swift */,
 				95BA9552268C403200B59DAC /* SettingsViewPreview.swift */,
 				95BA9556268C403200B59DAC /* SetupViewPreview.swift */,
 				95BA9548268C403100B59DAC /* StoreItemDetailViewPreview.swift */,
+				95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */,
+				95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */,
 				95BA9534268C403100B59DAC /* StoreItemInfoViewPreview.swift */,
 				95BA9547268C403100B59DAC /* UnlockedViewPreview.swift */,
 				95BA9535268C403100B59DAC /* WifiFieldPreview.swift */,
 				95BA9549268C403200B59DAC /* WifiInputFieldPreview.swift */,
-				95BA9585268C461A00B59DAC /* MessageButtonStylePreview.swift */,
-				95BA9587268C463A00B59DAC /* SecureToggleStylePreview.swift */,
 			);
 			path = Preview;
 			sourceTree = "<group>";
@@ -720,6 +727,7 @@
 			children = (
 				954030B02690AAAD005F941C /* ProductionAppDependency.swift */,
 				954030B52690AAFC005F941C /* ProductionLockedDependency.swift */,
+				9550ED782694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift */,
 				951898362691CEC50040F572 /* ProductionSettingsDependency.swift */,
 				951898392691CF000040F572 /* ProductionSetupDependency.swift */,
 				9518983C2691CF730040F572 /* ProductionStoreItemDetailDependency.swift */,
@@ -753,7 +761,7 @@
 				95ADC33D26849EF600BE3DFF /* Model */,
 			);
 			productName = macOSCredentialProvider;
-			productReference = 954030AF269098AF005F941C /* CredentialProvider.appex */;
+			productReference = 9511265F26943E6B000D71A8 /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95842D44256FAB180080711C /* iOSCredentialProvider */ = {
@@ -777,7 +785,7 @@
 				95ADC33B26849EED00BE3DFF /* Model */,
 			);
 			productName = "iOS Credential Provider";
-			productReference = 954030AD269098AF005F941C /* CredentialProvider.appex */;
+			productReference = 9511265D26943E6B000D71A8 /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95ABC93A24A9D38E009D87A4 /* iOSApp */ = {
@@ -807,7 +815,7 @@
 				95BA9593268C535800B59DAC /* Sync */,
 			);
 			productName = iOS;
-			productReference = 951898452691DA120040F572 /* Vault.app */;
+			productReference = 9511265C26943E6B000D71A8 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -836,7 +844,7 @@
 				95BA9595268C535F00B59DAC /* Sync */,
 			);
 			productName = macOS;
-			productReference = 951898462691DA150040F572 /* Vault.app */;
+			productReference = 9511265E26943E6B000D71A8 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -905,6 +913,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9550ED7426949BCE00C519C2 /* Development.xcassets in Resources */,
 				9574323424AA05710062B05A /* Image.xcassets in Resources */,
 				95B170692590D783009A1126 /* Localizable.strings in Resources */,
 			);
@@ -964,7 +973,6 @@
 				9542209E25518847002F14AB /* LoginInputField.swift in Sources */,
 				9593E8F8268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
 				95BA9580268C403200B59DAC /* ConfidentialTextPreview.swift in Sources */,
-				956307352535CC1B0076022A /* CreateVaultItemView.swift in Sources */,
 				954220942551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864932251E13EE0081DF08 /* CustomField.swift in Sources */,
 				95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
@@ -990,6 +998,7 @@
 				95BA956E268C403200B59DAC /* BankCardInputFieldPreview.swift in Sources */,
 				95BA9569268C403200B59DAC /* NoteFieldPreview.swift in Sources */,
 				952ED16A2590A4C600E07D95 /* Localizable.swift in Sources */,
+				9550ED792694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift in Sources */,
 				95BA9571268C403200B59DAC /* WifiInputFieldPreview.swift in Sources */,
 				95BA957A268C403200B59DAC /* SettingsViewPreview.swift in Sources */,
 				954030B12690AAAD005F941C /* ProductionAppDependency.swift in Sources */,
@@ -999,6 +1008,7 @@
 				9518983A2691CF000040F572 /* ProductionSetupDependency.swift in Sources */,
 				95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */,
 				95BA9570268C403200B59DAC /* StoreItemDetailViewPreview.swift in Sources */,
+				95D3B70A269489D300895D4A /* StoreItemEditViewPreview.swift in Sources */,
 				951898402691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */,
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
 				9518983D2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */,
@@ -1011,7 +1021,6 @@
 				95BA9579268C403200B59DAC /* PasswordGeneratorViewPreview.swift in Sources */,
 				95BA957B268C403200B59DAC /* LockedViewPreview.swift in Sources */,
 				95BA9567268C403200B59DAC /* LoginInputFieldPreview.swift in Sources */,
-				95BA9563268C403200B59DAC /* CreateVaultItemViewPreview.swift in Sources */,
 				95BA9588268C463A00B59DAC /* SecureToggleStylePreview.swift in Sources */,
 				954220A32551887B002F14AB /* NoteInputField.swift in Sources */,
 				95BA957C268C403200B59DAC /* LoginCredentialFieldPreview.swift in Sources */,
@@ -1040,6 +1049,7 @@
 				95971DC22683D5B40076961D /* LoginCredentialField.swift in Sources */,
 				957432A624AA081B0062B05A /* BankCardState.swift in Sources */,
 				95BA957D268C403200B59DAC /* CustomFieldPreview.swift in Sources */,
+				9550ED762694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */,
 				9574326E24AA081B0062B05A /* NoteState.swift in Sources */,
 				9542207B255183C1002F14AB /* Filestate.swift in Sources */,
 				9551D3B32680CACA0000BC44 /* FailureView.swift in Sources */,
@@ -1062,6 +1072,7 @@
 				95A28004253DC57600E2A3A3 /* ImagePickerShim.swift in Sources */,
 				958E17EB24ABD4DB00487EA4 /* App.swift in Sources */,
 				9588438925397F3100732E35 /* PasswordGeneratorView.swift in Sources */,
+				95D3B7082694898C00895D4A /* StoreItemDisplayViewPreview.swift in Sources */,
 				9542209925518815002F14AB /* FileInputField.swift in Sources */,
 				95BA9577268C403200B59DAC /* QuickAccessViewPreview.swift in Sources */,
 				9586495B251E24A60081DF08 /* BankAccountField.swift in Sources */,
@@ -1081,7 +1092,6 @@
 				9574334024AA135E0062B05A /* MasterPasswordSettingsView.swift in Sources */,
 				954030B22690AAAD005F941C /* ProductionAppDependency.swift in Sources */,
 				9542209F25518847002F14AB /* LoginInputField.swift in Sources */,
-				956307362535CC1B0076022A /* CreateVaultItemView.swift in Sources */,
 				954220952551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864933251E13EE0081DF08 /* CustomField.swift in Sources */,
 				9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
@@ -1092,6 +1102,7 @@
 				9586493F251E14AD0081DF08 /* DateFooter.swift in Sources */,
 				95B894442541C6DD00E5D401 /* PhotoPickerShim.swift in Sources */,
 				95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */,
+				9550ED7A2694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift in Sources */,
 				95864924251E13210081DF08 /* BankCardField.swift in Sources */,
 				952ED16B2590A4C600E07D95 /* Localizable.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
@@ -1133,6 +1144,7 @@
 				954030B72690AAFC005F941C /* ProductionLockedDependency.swift in Sources */,
 				95422089255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864929251E137C0081DF08 /* WifiField.swift in Sources */,
+				9550ED772694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardState.swift in Sources */,
 				95864906251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
 				95A28029253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */,
@@ -1404,7 +1416,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "";
@@ -1434,7 +1446,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_PREVIEWS = YES;
 				EXCLUDED_SOURCE_FILE_NAMES = "";
@@ -1467,7 +1479,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1499,7 +1511,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Asset/Preview.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;

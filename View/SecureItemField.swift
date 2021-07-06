@@ -15,8 +15,12 @@ struct SecureItemField: View {
             LoginField(username: username, password: password, url: url)
         case .password(let password):
             PasswordField(password: password)
-        case .file(let data, let typeIdentifier):
-            FileField(data: data, typeIdentifier: typeIdentifier)
+        case .file(let data, let type):
+            if let data = data, let type = type {
+                FileField(data: data, type: type)
+            } else {
+                FileField()
+            }
         case .note(let text):
             NoteField(text: text)
         case .bankCard(let name, let vendor, let number, let expirationDate, let pin):
@@ -38,7 +42,7 @@ extension SecureItemField {
         
         case login(username: String?, password: String?, url: String?)
         case password(password: String?)
-        case file(data: Data?, typeIdentifier: UTType?)
+        case file(data: Data?, type: UTType?)
         case note(text: String?)
         case bankCard(name: String?, vendor: BankCardField.Vendor?, number: String?, expirationDate: Date?, pin: String?)
         case wifi(name: String?, password: String?)

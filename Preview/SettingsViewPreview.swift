@@ -1,6 +1,6 @@
 #if DEBUG
 import SwiftUI
-
+#warning("Todo")
 struct SettingsViewPreview: PreviewProvider {
     
     static let settingsDependency = SettingsDependencyStub()
