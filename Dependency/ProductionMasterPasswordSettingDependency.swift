@@ -1,5 +1,5 @@
 #if DEBUG
-struct MasterPasswordSettingDependencyStub: MasterPasswordSettingsDependency {
+struct MasterPasswordSettingsDependencyStub: MasterPasswordSettingsDependency {
     
     func changeMasterPassword(to masterPassword: String) async throws {
 

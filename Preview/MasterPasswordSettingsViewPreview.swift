@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MasterPasswordSettingsViewPreview: PreviewProvider {
     
-    static let masterPasswordSettingsDependency = MasterPasswordSettingDependencyStub()
+    static let masterPasswordSettingsDependency = MasterPasswordSettingsDependencyStub()
     static let masterPasswordSettingsState = MasterPasswordSettingsState(dependency: masterPasswordSettingsDependency)
     
     static var previews: some View {

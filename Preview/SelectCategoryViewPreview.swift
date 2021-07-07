@@ -1,17 +1,20 @@
 #if DEBUG
-#warning("Todo")
 import SwiftUI
 
 struct SelectCategoryViewPreview: PreviewProvider {
     
     static var previews: some View {
-        SelectCategoryView { _ in }
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
+        SelectCategoryView { action in
+            print(action)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
         
-        SelectCategoryView { _ in }
-            .preferredColorScheme(.dark)
-            .previewLayout(.sizeThatFits)
+        SelectCategoryView { action in
+            print(action)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
     }
     
 }

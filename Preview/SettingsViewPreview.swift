@@ -1,9 +1,11 @@
 #if DEBUG
 import SwiftUI
-#warning("Todo")
+
 struct SettingsViewPreview: PreviewProvider {
     
-    static let settingsDependency = SettingsDependencyStub()
+    static let biometrySettingsDependency = BiometrySettingsDependencyStub()
+    static let masterPasswordSettingsDependency = MasterPasswordSettingsDependencyStub()
+    static let settingsDependency = SettingsDependencyStub(keychainAvailablity: .notEnrolled, isBiometricUnlockEnabled: false, biometrySettingsDependency: biometrySettingsDependency, masterPasswordSettingsDependency: masterPasswordSettingsDependency)
     static let settingsState = SettingsState(dependency: settingsDependency)
     
     static var previews: some View {

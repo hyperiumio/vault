@@ -7,7 +7,7 @@ extension SFSymbol {
     static var noteText: Self { "note.text" }
     static var creditcard: Self { "creditcard" }
     static var wifi: Self { "wifi" }
-    static var dollarsign: Self { "dollarsign" }
+    static var dollarsign: Self { "dollarsign.circle" }
     static var scribbleVariable: Self { "scribble.variable" }
     static var touchid: Self { "touchid" }
     static var faceid: Self { "faceid" }
@@ -20,6 +20,7 @@ extension SFSymbol {
     static var paperclip: Self { "paperclip" }
     static var camera: Self { "camera" }
     static var docTextViewfinder: Self { "doc.text.viewfinder" }
+    static var doc: Self { "doc" }
     static var photoOnRectangle: Self { "photo.on.rectangle" }
     static var checkmark: Self { "checkmark" }
     static var exclamationmarkTriangle: Self { "exclamationmark.triangle" }
