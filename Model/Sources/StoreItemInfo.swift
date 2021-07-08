@@ -1,6 +1,6 @@
 import Foundation
 
-public struct StoreItemInfo: Codable, Hashable {
+public struct StoreItemInfo: Codable, Hashable, Identifiable {
     
     public let id: UUID
     public let name: String
@@ -10,7 +10,7 @@ public struct StoreItemInfo: Codable, Hashable {
     public let created: Date
     public let modified: Date
     
-    init(id: UUID, name: String, description: String?, primaryType: SecureItemType, secondaryTypes: [SecureItemType], created: Date, modified: Date) {
+    public init(id: UUID, name: String, description: String?, primaryType: SecureItemType, secondaryTypes: [SecureItemType], created: Date, modified: Date) {
         self.id = id
         self.name = name
         self.description = description

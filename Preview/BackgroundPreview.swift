@@ -11,7 +11,6 @@ struct BackgroundPreview: PreviewProvider {
         Background()
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
-        
     }
     
 }

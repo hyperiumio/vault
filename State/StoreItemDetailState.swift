@@ -1,5 +1,6 @@
 import Foundation
 import Model
+import Sort
 
 @MainActor
 protocol StoreItemDetailDependency {
@@ -9,13 +10,28 @@ protocol StoreItemDetailDependency {
 }
 
 @MainActor
-class StoreItemDetailState: ObservableObject{
+class StoreItemDetailState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
+    
+    private let storeItemInfo: StoreItemInfo
     private let dependency: StoreItemDetailDependency
     
-    init(dependency: StoreItemDetailDependency) {
+    init(storeItemInfo: StoreItemInfo, dependency: StoreItemDetailDependency) {
+        self.storeItemInfo = storeItemInfo
         self.dependency = dependency
+    }
+    
+    var name: String {
+        storeItemInfo.name
+    }
+    
+    var description: String? {
+        storeItemInfo.description
+    }
+    
+    var primaryType: SecureItemType {
+        storeItemInfo.primaryType
     }
     
     func load() async {
@@ -42,6 +58,31 @@ class StoreItemDetailState: ObservableObject{
         }
         
         status = .display(storeItemEditState.editedStoreItem)
+    }
+    
+}
+
+extension StoreItemDetailState: CollationElement {
+    
+    nonisolated var sectionKey: String {
+        let firstCharacter = storeItemInfo.name.prefix(1)
+        return String(firstCharacter)
+    }
+    
+    nonisolated static func < (lhs: StoreItemDetailState, rhs: StoreItemDetailState) -> Bool {
+        lhs.storeItemInfo.name < rhs.storeItemInfo.name
+    }
+    
+    nonisolated static func == (lhs: StoreItemDetailState, rhs: StoreItemDetailState) -> Bool {
+        lhs.storeItemInfo.name == rhs.storeItemInfo.name
+    }
+    
+}
+
+extension StoreItemDetailState: Identifiable {
+    
+    nonisolated var id: UUID {
+        storeItemInfo.id
     }
     
 }

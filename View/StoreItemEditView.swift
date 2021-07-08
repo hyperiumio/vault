@@ -40,7 +40,9 @@ struct StoreItemEditView: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationBarBackButtonHidden(true)
+        #endif
     }
     
 }

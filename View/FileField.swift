@@ -28,12 +28,12 @@ struct FileField: View {
             #endif
             
             #if os(macOS)
-            if let image = NSImage(data: item.data) {
+            if let image = NSImage(data: value.data) {
                 Image(nsImage: image)
                     .resizable()
                     .scaledToFit()
             } else {
-                UnrepresentableFileView(typeIdentifier)
+                UnrepresentableFileView(value.type)
             }
             #endif
         case let value? where value.type.conforms(to: .pdf):

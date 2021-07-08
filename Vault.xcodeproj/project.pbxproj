@@ -249,6 +249,46 @@
 		95C994DB2575592E00C3A758 /* QuickAccessUnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C994D92575592E00C3A758 /* QuickAccessUnlockedView.swift */; };
 		95D3B7082694898C00895D4A /* StoreItemDisplayViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */; };
 		95D3B70A269489D300895D4A /* StoreItemEditViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */; };
+		95F0DE262697583A0020A103 /* PasswordFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9538268C403100B59DAC /* PasswordFieldPreview.swift */; };
+		95F0DE272697583A0020A103 /* SecureToggleStylePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9587268C463A00B59DAC /* SecureToggleStylePreview.swift */; };
+		95F0DE282697583A0020A103 /* FileFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953C268C403100B59DAC /* FileFieldPreview.swift */; };
+		95F0DE292697583A0020A103 /* WifiFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9535268C403100B59DAC /* WifiFieldPreview.swift */; };
+		95F0DE2A2697583A0020A103 /* MasterPasswordFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953A268C403100B59DAC /* MasterPasswordFieldPreview.swift */; };
+		95F0DE2B2697583A0020A103 /* StoreItemInfoViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9534268C403100B59DAC /* StoreItemInfoViewPreview.swift */; };
+		95F0DE2C2697583A0020A103 /* PasswordGeneratorViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9551268C403200B59DAC /* PasswordGeneratorViewPreview.swift */; };
+		95F0DE2D2697583A0020A103 /* LoginCredentialFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9554268C403200B59DAC /* LoginCredentialFieldPreview.swift */; };
+		95F0DE2E2697583A0020A103 /* MessageButtonStylePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9585268C461A00B59DAC /* MessageButtonStylePreview.swift */; };
+		95F0DE2F2697583A0020A103 /* FileInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954D268C403200B59DAC /* FileInputFieldPreview.swift */; };
+		95F0DE302697583A0020A103 /* NoteInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9532268C403100B59DAC /* NoteInputFieldPreview.swift */; };
+		95F0DE312697583A0020A103 /* PasswordInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9543268C403100B59DAC /* PasswordInputFieldPreview.swift */; };
+		95F0DE322697583A0020A103 /* BankCardFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9540268C403100B59DAC /* BankCardFieldPreview.swift */; };
+		95F0DE332697583A0020A103 /* CustomFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9555268C403200B59DAC /* CustomFieldPreview.swift */; };
+		95F0DE342697583A0020A103 /* LockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9553268C403200B59DAC /* LockedViewPreview.swift */; };
+		95F0DE352697583A0020A103 /* FailureViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9557268C403200B59DAC /* FailureViewPreview.swift */; };
+		95F0DE362697583A0020A103 /* CustomInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953E268C403100B59DAC /* CustomInputFieldPreview.swift */; };
+		95F0DE372697583A0020A103 /* MasterPasswordSettingsViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9559268C403200B59DAC /* MasterPasswordSettingsViewPreview.swift */; };
+		95F0DE382697583A0020A103 /* BankCardInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9546268C403100B59DAC /* BankCardInputFieldPreview.swift */; };
+		95F0DE392697583A0020A103 /* BankAccountFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9537268C403100B59DAC /* BankAccountFieldPreview.swift */; };
+		95F0DE3A2697583A0020A103 /* DateFooterPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953D268C403100B59DAC /* DateFooterPreview.swift */; };
+		95F0DE3B2697583A0020A103 /* BankAccountInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954B268C403200B59DAC /* BankAccountInputFieldPreview.swift */; };
+		95F0DE3C2697583A0020A103 /* FieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954C268C403200B59DAC /* FieldPreview.swift */; };
+		95F0DE3D2697583A0020A103 /* QuickAccessLockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9544268C403100B59DAC /* QuickAccessLockedViewPreview.swift */; };
+		95F0DE3E2697583A0020A103 /* QuickAccessUnlockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9539268C403100B59DAC /* QuickAccessUnlockedViewPreview.swift */; };
+		95F0DE3F2697583A0020A103 /* ConfidentialTextPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9558268C403200B59DAC /* ConfidentialTextPreview.swift */; };
+		95F0DE402697583A0020A103 /* QuickAccessViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA954F268C403200B59DAC /* QuickAccessViewPreview.swift */; };
+		95F0DE412697583A0020A103 /* SettingsViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9552268C403200B59DAC /* SettingsViewPreview.swift */; };
+		95F0DE422697583A0020A103 /* SetupViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9556268C403200B59DAC /* SetupViewPreview.swift */; };
+		95F0DE432697583A0020A103 /* UnlockedViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9547268C403100B59DAC /* UnlockedViewPreview.swift */; };
+		95F0DE442697583A0020A103 /* AppViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9545268C403100B59DAC /* AppViewPreview.swift */; };
+		95F0DE452697583A0020A103 /* LoginFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9536268C403100B59DAC /* LoginFieldPreview.swift */; };
+		95F0DE462697583A0020A103 /* NoteFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9541268C403100B59DAC /* NoteFieldPreview.swift */; };
+		95F0DE472697583A0020A103 /* WifiInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9549268C403200B59DAC /* WifiInputFieldPreview.swift */; };
+		95F0DE482697583A0020A103 /* StoreItemDisplayViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */; };
+		95F0DE492697583A0020A103 /* StoreItemEditViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */; };
+		95F0DE4A2697583A0020A103 /* BackgroundPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9542268C403100B59DAC /* BackgroundPreview.swift */; };
+		95F0DE4B2697583A0020A103 /* SelectCategoryViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9533268C403100B59DAC /* SelectCategoryViewPreview.swift */; };
+		95F0DE4C2697583A0020A103 /* StoreItemDetailViewPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA9548268C403100B59DAC /* StoreItemDetailViewPreview.swift */; };
+		95F0DE4D2697583A0020A103 /* LoginInputFieldPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BA953F268C403100B59DAC /* LoginInputFieldPreview.swift */; };
 		95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F8BBC924CEC936001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBC824CEC936001FC495 /* Sort */; };
@@ -336,10 +376,6 @@
 		954220AC25518A9C002F14AB /* WifiInputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiInputField.swift; sourceTree = "<group>"; };
 		9550ED752694AC0B00C519C2 /* MasterPasswordSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordSettingsState.swift; sourceTree = "<group>"; };
 		9550ED782694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductionMasterPasswordSettingDependency.swift; sourceTree = "<group>"; };
-		955180402695AF32002783D6 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		955180412695AF32002783D6 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
-		955180422695AF32002783D6 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
-		955180432695AF32002783D6 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		955180442695CBF7002783D6 /* BiometrySettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySettingsState.swift; sourceTree = "<group>"; };
 		955180472695CDE5002783D6 /* BiometrySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySettingsView.swift; sourceTree = "<group>"; };
 		9551804A2695D15A002783D6 /* BiometrySettingsViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySettingsViewPreview.swift; sourceTree = "<group>"; };
@@ -448,6 +484,10 @@
 		95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayViewPreview.swift; sourceTree = "<group>"; };
 		95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemEditViewPreview.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
+		95F0DE22269756ED0020A103 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F0DE23269756ED0020A103 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F0DE24269756ED0020A103 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		95F0DE25269756ED0020A103 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = CredentialProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -686,6 +726,10 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
+				95F0DE22269756ED0020A103 /* Vault.app */,
+				95F0DE23269756ED0020A103 /* CredentialProvider.appex */,
+				95F0DE24269756ED0020A103 /* Vault.app */,
+				95F0DE25269756ED0020A103 /* CredentialProvider.appex */,
 			);
 			sourceTree = "<group>";
 		};
@@ -777,7 +821,7 @@
 				95ADC33D26849EF600BE3DFF /* Model */,
 			);
 			productName = macOSCredentialProvider;
-			productReference = 955180432695AF32002783D6 /* CredentialProvider.appex */;
+			productReference = 95F0DE25269756ED0020A103 /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95842D44256FAB180080711C /* iOSCredentialProvider */ = {
@@ -801,7 +845,7 @@
 				95ADC33B26849EED00BE3DFF /* Model */,
 			);
 			productName = "iOS Credential Provider";
-			productReference = 955180412695AF32002783D6 /* CredentialProvider.appex */;
+			productReference = 95F0DE23269756ED0020A103 /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95ABC93A24A9D38E009D87A4 /* iOSApp */ = {
@@ -831,7 +875,7 @@
 				95BA9593268C535800B59DAC /* Sync */,
 			);
 			productName = iOS;
-			productReference = 955180402695AF32002783D6 /* Vault.app */;
+			productReference = 95F0DE22269756ED0020A103 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -860,7 +904,7 @@
 				95BA9595268C535F00B59DAC /* Sync */,
 			);
 			productName = macOS;
-			productReference = 955180422695AF32002783D6 /* Vault.app */;
+			productReference = 95F0DE24269756ED0020A103 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1108,46 +1152,73 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F0DE262697583A0020A103 /* PasswordFieldPreview.swift in Sources */,
 				9574329324AA081B0062B05A /* BankAccountState.swift in Sources */,
 				955180462695CBF7002783D6 /* BiometrySettingsState.swift in Sources */,
+				95F0DE402697583A0020A103 /* QuickAccessViewPreview.swift in Sources */,
 				9574334024AA135E0062B05A /* MasterPasswordSettingsView.swift in Sources */,
 				954030B22690AAAD005F941C /* ProductionAppDependency.swift in Sources */,
 				9542209F25518847002F14AB /* LoginInputField.swift in Sources */,
+				95F0DE452697583A0020A103 /* LoginFieldPreview.swift in Sources */,
 				954220952551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864933251E13EE0081DF08 /* CustomField.swift in Sources */,
+				95F0DE2A2697583A0020A103 /* MasterPasswordFieldPreview.swift in Sources */,
+				95F0DE342697583A0020A103 /* LockedViewPreview.swift in Sources */,
 				9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
 				9574327924AA081B0062B05A /* LoginState.swift in Sources */,
+				95F0DE3D2697583A0020A103 /* QuickAccessLockedViewPreview.swift in Sources */,
 				9579A6C0267613560030DACF /* AppCommands.swift in Sources */,
+				95F0DE352697583A0020A103 /* FailureViewPreview.swift in Sources */,
+				95F0DE4B2697583A0020A103 /* SelectCategoryViewPreview.swift in Sources */,
 				9530DB68268F463700247AFF /* SecureItemState.swift in Sources */,
+				95F0DE372697583A0020A103 /* MasterPasswordSettingsViewPreview.swift in Sources */,
 				9586493F251E14AD0081DF08 /* DateFooter.swift in Sources */,
+				95F0DE4C2697583A0020A103 /* StoreItemDetailViewPreview.swift in Sources */,
 				95B894442541C6DD00E5D401 /* PhotoPickerShim.swift in Sources */,
+				95F0DE272697583A0020A103 /* SecureToggleStylePreview.swift in Sources */,
+				95F0DE362697583A0020A103 /* CustomInputFieldPreview.swift in Sources */,
+				95F0DE4A2697583A0020A103 /* BackgroundPreview.swift in Sources */,
 				95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */,
+				95F0DE2B2697583A0020A103 /* StoreItemInfoViewPreview.swift in Sources */,
 				9550ED7A2694B5B300C519C2 /* ProductionMasterPasswordSettingDependency.swift in Sources */,
 				95864924251E13210081DF08 /* BankCardField.swift in Sources */,
 				952ED16B2590A4C600E07D95 /* Localizable.swift in Sources */,
+				95F0DE312697583A0020A103 /* PasswordInputFieldPreview.swift in Sources */,
+				95F0DE3E2697583A0020A103 /* QuickAccessUnlockedViewPreview.swift in Sources */,
+				95F0DE2D2697583A0020A103 /* LoginCredentialFieldPreview.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
+				95F0DE482697583A0020A103 /* StoreItemDisplayViewPreview.swift in Sources */,
 				9551804C2695D15A002783D6 /* BiometrySettingsViewPreview.swift in Sources */,
 				954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */,
 				95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */,
 				9574327F24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
 				9518983E2691CF730040F572 /* ProductionStoreItemDetailDependency.swift in Sources */,
+				95F0DE2C2697583A0020A103 /* PasswordGeneratorViewPreview.swift in Sources */,
 				951898412691CFCE0040F572 /* ProductionStoreItemEditDependency.swift in Sources */,
 				9542208E2551873C002F14AB /* BankCardInputField.swift in Sources */,
 				9574326F24AA081B0062B05A /* NoteState.swift in Sources */,
+				95F0DE382697583A0020A103 /* BankCardInputFieldPreview.swift in Sources */,
+				95F0DE462697583A0020A103 /* NoteFieldPreview.swift in Sources */,
 				9574335C24AA135E0062B05A /* LockedView.swift in Sources */,
 				958648FC251E11130081DF08 /* Field.swift in Sources */,
 				9574329724AA081B0062B05A /* PasswordState.swift in Sources */,
+				95F0DE2E2697583A0020A103 /* MessageButtonStylePreview.swift in Sources */,
 				954220A42551887B002F14AB /* NoteInputField.swift in Sources */,
 				95726C2C24C82B6D005F025A /* MasterPasswordField.swift in Sources */,
+				95F0DE4D2697583A0020A103 /* LoginInputFieldPreview.swift in Sources */,
 				958E17EE24ABD71400487EA4 /* StoreItemEditView.swift in Sources */,
+				95F0DE442697583A0020A103 /* AppViewPreview.swift in Sources */,
 				95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */,
+				95F0DE3B2697583A0020A103 /* BankAccountInputFieldPreview.swift in Sources */,
 				9574322A24AA05430062B05A /* App.swift in Sources */,
 				9574335024AA135E0062B05A /* SettingsView.swift in Sources */,
 				95864910251E12060081DF08 /* LoginField.swift in Sources */,
 				9563072A2535ACAA0076022A /* SelectCategoryView.swift in Sources */,
+				95F0DE292697583A0020A103 /* WifiFieldPreview.swift in Sources */,
 				9518983B2691CF000040F572 /* ProductionSetupDependency.swift in Sources */,
 				9574335E24AA135E0062B05A /* StoreItemDetailView.swift in Sources */,
+				95F0DE3C2697583A0020A103 /* FieldPreview.swift in Sources */,
 				951898442691D04F0040F572 /* ProductionUnlockedStateDependency.swift in Sources */,
 				954220AE25518A9C002F14AB /* WifiInputField.swift in Sources */,
 				9574329524AA081B0062B05A /* WifiState.swift in Sources */,
@@ -1158,18 +1229,24 @@
 				9574327724AA081B0062B05A /* SettingsState.swift in Sources */,
 				9542207C255183C1002F14AB /* Filestate.swift in Sources */,
 				9539B20E2540692000C81A2A /* PDFView.swift in Sources */,
+				95F0DE3F2697583A0020A103 /* ConfidentialTextPreview.swift in Sources */,
+				95F0DE412697583A0020A103 /* SettingsViewPreview.swift in Sources */,
 				9566DF66267F1495002F0206 /* SFSymbol.swift in Sources */,
 				9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */,
 				95ADC3442684CCC000BE3DFF /* SetupState.swift in Sources */,
+				95F0DE392697583A0020A103 /* BankAccountFieldPreview.swift in Sources */,
 				95ADC3472684CD7600BE3DFF /* LockedState.swift in Sources */,
 				9574333A24AA135E0062B05A /* SetupView.swift in Sources */,
 				954030B72690AAFC005F941C /* ProductionLockedDependency.swift in Sources */,
 				95422089255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864929251E137C0081DF08 /* WifiField.swift in Sources */,
+				95F0DE492697583A0020A103 /* StoreItemEditViewPreview.swift in Sources */,
+				95F0DE3A2697583A0020A103 /* DateFooterPreview.swift in Sources */,
 				9550ED772694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardState.swift in Sources */,
 				95864906251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
 				95A28029253F0C6900E2A3A3 /* DocumentPickerShim.swift in Sources */,
+				95F0DE472697583A0020A103 /* WifiInputFieldPreview.swift in Sources */,
 				957432A524AA081B0062B05A /* UnlockedState.swift in Sources */,
 				95ADC3412684CA5D00BE3DFF /* AppState.swift in Sources */,
 				9586491A251E12AA0081DF08 /* FileField.swift in Sources */,
@@ -1177,13 +1254,20 @@
 				9542209A25518815002F14AB /* FileInputField.swift in Sources */,
 				955180492695CDE5002783D6 /* BiometrySettingsView.swift in Sources */,
 				9530DB62268F42E200247AFF /* SecureItemField.swift in Sources */,
+				95F0DE282697583A0020A103 /* FileFieldPreview.swift in Sources */,
 				9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */,
+				95F0DE432697583A0020A103 /* UnlockedViewPreview.swift in Sources */,
 				9588438A25397F3100732E35 /* PasswordGeneratorView.swift in Sources */,
+				95F0DE322697583A0020A103 /* BankCardFieldPreview.swift in Sources */,
 				9586495C251E24A60081DF08 /* BankAccountField.swift in Sources */,
+				95F0DE422697583A0020A103 /* SetupViewPreview.swift in Sources */,
 				95864915251E126E0081DF08 /* PasswordField.swift in Sources */,
+				95F0DE302697583A0020A103 /* NoteInputFieldPreview.swift in Sources */,
 				951898382691CEC50040F572 /* ProductionSettingsDependency.swift in Sources */,
 				957432AB24AA081B0062B05A /* CustomState.swift in Sources */,
+				95F0DE332697583A0020A103 /* CustomFieldPreview.swift in Sources */,
 				9593E8F9268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
+				95F0DE2F2697583A0020A103 /* FileInputFieldPreview.swift in Sources */,
 				9551804F2695D4DE002783D6 /* ProductionBiometrySettingsViewPreview.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

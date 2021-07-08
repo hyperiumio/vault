@@ -1,6 +1,6 @@
 import Foundation
 
-public actor PersistentDefaultsService<Store> where Store: PersistenceProvider {
+public actor Defaults<Store> where Store: PersistenceProvider {
     
     private let store: Store
     
@@ -8,23 +8,42 @@ public actor PersistentDefaultsService<Store> where Store: PersistenceProvider {
         guard let store = Store(suiteName: appGroup) else {
             throw PreferencesError.invalidAppGroup
         }
-        store.register(defaults: Store.defaults)
+        let defaults =  [
+            String.biometricUnlockEnabledKey: false
+        ]
+        store.register(defaults: defaults)
         
         self.store = store
     }
     
-    public func set(isBiometricUnlockEnabled: Bool) async {
-        store.isBiometricUnlockEnabled = isBiometricUnlockEnabled
-    }
-    
-    public func set(activeStoreID: UUID) async {
-        store.activeStoreID = activeStoreID
-    }
-    
-    public var defaults: Defaults {
+    public var isBiometricUnlockEnabled: Bool {
         get async {
-            Defaults(isBiometricUnlockEnabled: store.isBiometricUnlockEnabled, activeStoreID: store.activeStoreID)
+            store.bool(forKey: .biometricUnlockEnabledKey)
         }
     }
+    
+    public var activeStoreID: UUID? {
+        get async {
+            guard let storeID = store.string(forKey: .activeStoreIDKey) else {
+                return nil
+            }
+            return UUID(uuidString: storeID)
+        }
+    }
+    
+    public func set(isBiometricUnlockEnabled: Bool) async {
+        store.set(isBiometricUnlockEnabled, forKey: .biometricUnlockEnabledKey)
+    }
+    
+    public func set(activeStoreID: UUID?) async {
+        store.set(activeStoreID?.uuidString, forKey: .activeStoreIDKey)
+    }
+    
+}
+
+private extension String {
+    
+    static var biometricUnlockEnabledKey: Self { "BiometricUnlockEnabled" }
+    static var activeStoreIDKey: Self { "ActiveStoreID" }
     
 }

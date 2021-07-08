@@ -1,174 +1,104 @@
 import SwiftUI
-#warning("todo")
+
 struct UnlockedView: View {
     
     @ObservedObject private var state: UnlockedState
- //   @State private var presentedSheet: Sheet?
-    @Environment(\.scenePhase) private var scenePhase
     
     init(_ state: UnlockedState) {
         self.state = state
     }
     
     var body: some View {
-        /*
         NavigationView {
-            Group {
-                switch (state.itemCollation.sections.isEmpty, state.searchText.isEmpty) {
-                case (true, true):
-                    VStack(spacing: 30) {
-                        Text(.emptyVault)
-                            .font(.title)
-                        
-                        Button(.createFirstItem) {
-                            presentedSheet = .selectCategory
+            switch state.status {
+            case .empty:
+                Empty {
+                    
+                }
+            case .value(let collation):
+                Value(collation)
+                    .searchable(text: $state.searchText)
+            }
+        }
+    }
+    
+}
+
+extension UnlockedView {
+    
+    struct Empty: View {
+        
+        private let action: () -> Void
+        
+        init(action: @escaping () -> Void) {
+            self.action = action
+        }
+        
+        var body: some View {
+            VStack(spacing: 30) {
+                Text(.emptyVault)
+                    .font(.title)
+                
+                Button(.createFirstItem, action: action)
+            }
+        }
+        
+    }
+
+    struct Value: View {
+        
+        private let collation: UnlockedState.Collation
+        
+        init(_ collation: UnlockedState.Collation) {
+            self.collation = collation
+        }
+        
+        var body: some View {
+            if collation.sections.isEmpty {
+                Text(.noResultsFound)
+                    .font(.title)
+            } else {
+                List {
+                    ForEach(collation.sections) { section in
+                        Section(section.key) {
+                            ForEach(section.elements) { state in
+                                NavigationLink {
+                                    StoreItemDetailView(state)
+                                } label: {
+                                    StoreItemInfoView(state.name, description: state.description, type: state.primaryType.displayValue)
+                                }
+                            }
                         }
                     }
-                case (true, false):
-                    Text(.noResultsFound)
-                        .font(.title)
-                case (false, _):
-                    List {
-                        /*
-                        ForEach(state.itemCollation.sections) { section in
-                            Section {
-                                ForEach(section.elements) { state in
-                                    NavigationLink(destination: VaultItemReferenceView(state)) {
-                                        VaultItemInfoView(state.info.name, description: state.info.description, type: state.info.primaryType)
-                                    }
-                                }
-                            } header: {
-                                Text(section.key)
-                            }
-                        }*/
-                    }
-                    .searchable(text: $state.searchText)
-                    .listStyle(PlainListStyle())
                 }
-            }
-            #if os(iOS)
-            .navigationBarTitle(.vault, displayMode: .inline)
-            .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
-                    Button {
-                        presentedSheet = .settings
-                    } label: {
-                        Image(systemName: .sliderHorizontal3)
-                    }
-                    
-                    Button {
-                        state.lockApp(enableBiometricUnlock: false)
-                    } label: {
-                        Image(systemName: .lock)
-                    }
-                }
-                
-                ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button {
-                        presentedSheet = .selectCategory
-                    } label: {
-                        Image(systemName: .plus)
-                    }
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            #endif
-            
-            Text(.nothingSelected)
-        }
-        /*
-        .sheet(item: $presentedSheet) { sheet in
-            switch sheet {
-            case .settings:
-                SettingsView(state.settingsState)
-            case .selectCategory:
-                SelectCategoryView { selection in
-                    switch selection {
-                    case .login:
-                        state.createLoginItem()
-                    case .password:
-                        state.createPasswordItem()
-                    case .wifi:
-                        state.createWifiItem()
-                    case .note:
-                        state.createNoteItem()
-                    case .bankCard:
-                        state.createBankCardItem()
-                    case .bankAccount:
-                        state.createBankAccountItem()
-                    case .custom:
-                        state.createCustomItem()
-                    case .file(data: let data, type: let type):
-                        state.createFileItem(data: data, type: type)
-                    }
-                }
-            case .createVaultItem(let state):
-                CreateVaultItemView(state)
-            }
-        }
-         */
-        /*
-        .alert(item: $state.failure) { failure in
-            switch failure {
-            case .loadOperationFailed:
-                let name = Text(.loadingVaultFailed)
-                return Alert(title: name)
-            case .deleteOperationFailed:
-                let name = Text(.deleteFailed)
-                return Alert(title: name)
-            }
-        }
-         */
-        /*
-        .onChange(of: state.creationState) { state in
-            if let state = state {
-                presentedSheet = .createVaultItem(state)
-            } else {
-                presentedSheet = nil
-            }
-        }
-        .onChange(of: scenePhase) { scenePhase in
-            if scenePhase == .background {
-                state.lockApp(enableBiometricUnlock: true)
-            }
-        }
-         */
-    }
-         */
-        Text("foo")
-    }
-    
-}
-
-/*
-private extension Section where Parent: View, Content: View, Footer == EmptyView {
-
-    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
-        self.init(header: header(), content: content)
-    }
-    
-}
-
-private extension UnlockedView {
-    
-    enum Sheet: Identifiable {
-        
-        case settings
-        case selectCategory
-        case createVaultItem(StoreItemDetState)
-        
-        var id: String {
-            switch self {
-            case .settings:
-                return "settings"
-            case .selectCategory:
-                return "selectCategory"
-            case .createVaultItem(_):
-                return "createVaultItem"
             }
         }
         
     }
     
 }
-*/
+
+private extension UnlockedState.SecureItemType {
+    
+    var displayValue: StoreItemInfoView.ItemType {
+        switch self {
+        case .login:
+            return .login
+        case .password:
+            return .password
+        case .wifi:
+            return .wifi
+        case .note:
+            return .note
+        case .bankCard:
+            return .bankCard
+        case .bankAccount:
+            return .bankAccount
+        case .custom:
+            return .custom
+        case .file:
+            return .file
+        }
+    }
+    
+}

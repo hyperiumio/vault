@@ -29,7 +29,6 @@ struct StoreItemDetailView: View {
                 }
             }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .task {
             await state.load()
         }

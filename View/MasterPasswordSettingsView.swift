@@ -47,7 +47,6 @@ struct MasterPasswordSettingsView: View {
             }
         }
         .navigationTitle(.changeMasterPassword)
-        .navigationBarTitleDisplayMode(.inline)
         .disabled(state.isInputDisabled)
         .onAppear {
             focusedField = .newMasterPassword

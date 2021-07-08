@@ -1,5 +1,7 @@
 import Foundation
-import UniformTypeIdentifiers
+import Model
+import Sort
+import SwiftUI
 
 @MainActor
 protocol UnlockedStateDependency {
@@ -9,10 +11,8 @@ protocol UnlockedStateDependency {
 @MainActor
 class UnlockedState: ObservableObject {
     
-//    @Published private(set) var itemCollation: AlphabeticCollation<VaultItemReferenceStateCollationIdentifier>
+    @Published private(set) var status = Status.empty
     @Published var searchText: String = ""
-  //  @Published var createStoreItem: StoreItemDetailState?
-    
     
     func createLoginItem() {
 
@@ -48,9 +48,16 @@ class UnlockedState: ObservableObject {
     
 }
 
-enum UnlockedFailure {
+extension UnlockedState {
     
-    case loadOperationFailed
-    case deleteOperationFailed
+    typealias SecureItemType = Model.SecureItemType
+    typealias Collation = AlphabeticCollation<StoreItemDetailState>
+    
+    enum Status {
+        
+        case empty
+        case value(Collation)
+        
+    }
     
 }

@@ -50,7 +50,7 @@ struct PDFView: NSViewRepresentable {
         return pdfView
     }
     
-    func updateNSView(_ nsView: PDFView, context: Context) {}
+    func updateNSView(_ nsView: PDFKit.PDFView, context: Context) {}
     
 }
 #endif
