@@ -1,11 +1,34 @@
 import Combine
 import Foundation
 
-public actor Store {
+public protocol StoreItem {
+    
+    associatedtype Element: StoreItemElement
+    associatedtype Info: StoreItemInfo
+    
+    init(id: UUID, name: String, primaryItem: Element, secondaryItems: [Element], created: Date, modified: Date)
+    
+}
+
+public protocol StoreItemElement {
+    
+    associatedtype ItemType
+    
+    init(from data: Data, as type: ItemType) throws
+    
+}
+
+public protocol StoreItemInfo {
+    
+    init(from data: Data) throws
+    
+}
+
+public actor Store<Item> where Item: StoreItem {
     
     let resourceLocator: StoreResourceLocator
     let configuration: Configuration
-    private let didChangeSubject = PassthroughSubject<StoreChangeSet, Never>()
+    private let didChangeSubject = PassthroughSubject<ChangeSet, Never>()
     
     init(resourceLocator: StoreResourceLocator, configuration: Configuration = .production) {
         self.resourceLocator = resourceLocator
@@ -53,7 +76,7 @@ public actor Store {
         */
     }
     
-    public var didChange: AnyPublisher<StoreChangeSet, Never> {
+    public var didChange: AnyPublisher<ChangeSet, Never> {
         didChangeSubject.eraseToAnyPublisher()
     }
     
@@ -76,7 +99,7 @@ public actor Store {
         }
     }
     
-    public func loadItem(itemLocator: StoreItemLocator, decrypt: @escaping (Data) throws -> [Data]) async throws -> StoreItem {
+    public func loadItem(itemLocator: StoreItemLocator, decrypt: @escaping (Data) throws -> [Data]) async throws -> Item {
         let encryptedMessageContainer = try configuration.load(itemLocator.url, [])
         let encodedMessages = try decrypt(encryptedMessageContainer)
         
@@ -89,20 +112,19 @@ public actor Store {
         }
         let encodedSecondaryItems = encodedItems.dropFirst()
         
-        let info = try StoreItemInfo(from: encodedInfo)
+        let info = try Item.Info(from: encodedInfo)
         guard encodedSecondaryItems.count == info.secondaryTypes.count else {
             throw ModelError.invalidMessageContainer
         }
         
-        let primaryItem = try SecureItem(from: encodedPrimaryItem, as: info.primaryType)
+        let primaryItem = try Item.Element(from: encodedPrimaryItem, as: info.primaryType)
         let secondaryItems = try zip(encodedSecondaryItems, info.secondaryTypes).map { encodedItem, itemType in
-            try SecureItem(from: encodedItem, as: itemType)
+            try Item.Element(from: encodedItem, as: itemType)
         }
         
-        return StoreItem(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
+        return Item(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
     }
     
-    #warning("Maybe not thread save")
     public func loadItems<T>(read: @escaping (ReadingContext) throws -> T) -> ValueSequence<T> {
         ValueSequence { send in
             guard FileManager.default.fileExists(atPath: self.resourceLocator.itemsURL.path) else {
@@ -127,8 +149,8 @@ public actor Store {
         }
     }
     
-    public func commit(operations: [StoreOperation]) async throws {
-        var itemsSaved = [StoreItemLocator: StoreItem]()
+    public func commit(operations: [Operation]) async throws {
+        var itemsSaved = [StoreItemLocator: Item]()
         var itemsDeleted = [StoreItemLocator]()
         
         for operation in operations {
@@ -158,13 +180,29 @@ public actor Store {
             }
         }
         
-        let changeSet = StoreChangeSet(saved: itemsSaved, deleted: itemsDeleted)
+        let changeSet = ChangeSet(saved: itemsSaved, deleted: itemsDeleted)
         didChangeSubject.send(changeSet)
     }
     
 }
 
 extension Store {
+    
+    public struct ChangeSet {
+        
+        public let saved: [StoreItemLocator: Item]
+        public let deleted: [StoreItemLocator]
+        
+    }
+
+    public enum Operation {
+        
+        case save(Item, StoreItemLocator?, Encryption)
+        case delete(StoreItemLocator)
+        
+        public typealias Encryption = ([Data]) throws -> Data
+        
+    }
     
     public struct Configuration {
         
