@@ -37,15 +37,6 @@ class SetupState: ObservableObject {
         }
     }
     
-    var nextButtonTitle: ButtonTitle {
-        switch step {
-        case .choosePassword, .repeatPassword, .enableBiometricUnlock:
-            return .next
-        case .completeSetup:
-            return .completed
-        }
-    }
-    
     func back() async {
         switch step {
         case .choosePassword:
@@ -99,13 +90,6 @@ extension SetupState {
         case repeatPassword
         case enableBiometricUnlock(biometryType: BiometryType)
         case completeSetup
-        
-    }
-    
-    enum ButtonTitle {
-        
-        case next
-        case completed
         
     }
     

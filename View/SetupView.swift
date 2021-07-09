@@ -27,7 +27,7 @@ struct SetupView: View {
                 CompleteSetupView()
             }
             
-            NextButton(state.nextButtonTitle.localizedStringKey) {
+            NextButton(state.step.localizedStringKey) {
                 async {
                     await state.next()
                 }
@@ -226,13 +226,13 @@ extension SetupView {
     
 }
 
-private extension SetupState.ButtonTitle {
+private extension SetupState.Step {
     
     var localizedStringKey: LocalizedStringKey {
         switch self {
-        case .next:
+        case .choosePassword, .repeatPassword, .enableBiometricUnlock:
             return .continue
-        case .completed:
+        case .completeSetup:
             return .setupComplete
         }
     }

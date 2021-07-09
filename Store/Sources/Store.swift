@@ -1,43 +1,16 @@
-import Combine
 import Foundation
 
-public protocol StoreItem {
-    
-    associatedtype Element: StoreItemElement
-    associatedtype Info: StoreItemInfo
-    
-    init(id: UUID, name: String, primaryItem: Element, secondaryItems: [Element], created: Date, modified: Date)
-    
-}
-
-public protocol StoreItemElement {
-    
-    associatedtype ItemType
-    
-    init(from data: Data, as type: ItemType) throws
-    
-}
-
-public protocol StoreItemInfo {
-    
-    init(from data: Data) throws
-    
-}
-
-public actor Store<Item> where Item: StoreItem {
+public actor Store {
     
     let resourceLocator: StoreResourceLocator
     let configuration: Configuration
-    private let didChangeSubject = PassthroughSubject<ChangeSet, Never>()
     
     init(resourceLocator: StoreResourceLocator, configuration: Configuration = .production) {
         self.resourceLocator = resourceLocator
         self.configuration = configuration
     }
     
-    init?(from containerDirectory: URL, matching storeID: UUID, configuration: Configuration = .production) {
-        fatalError()
-        /*
+    init?(from containerDirectory: URL, matching storeID: UUID, configuration: Configuration = .production) async throws {
         guard FileManager.default.fileExists(atPath: containerDirectory.path) else {
             return nil
         }
@@ -56,28 +29,6 @@ public actor Store<Item> where Item: StoreItem {
         }
          
          return nil
-         */
-    }
-    
-    init(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, configuration: Configuration = .production) {
-        fatalError()
-        /*
-        let resourceLocator = StoreResourceLocator.generate(in: containerDirectory)
-        
-        try FileManager.default.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
-        try FileManager.default.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false, attributes: nil)
-        try FileManager.default.createDirectory(at: resourceLocator.itemsURL, withIntermediateDirectories: false, attributes: nil)
-        try StoreInfo().encoded.write(to: resourceLocator.infoURL)
-        try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainerURL)
-        try masterKeyContainer.write(to: resourceLocator.masterKeyContainerURL)
-        
-        self.resourceLocator = resourceLocator
-        self.configuration = configuration
-        */
-    }
-    
-    public var didChange: AnyPublisher<ChangeSet, Never> {
-        didChangeSubject.eraseToAnyPublisher()
     }
     
     public var info: StoreInfo {
@@ -99,30 +50,8 @@ public actor Store<Item> where Item: StoreItem {
         }
     }
     
-    public func loadItem(itemLocator: StoreItemLocator, decrypt: @escaping (Data) throws -> [Data]) async throws -> Item {
-        let encryptedMessageContainer = try configuration.load(itemLocator.url, [])
-        let encodedMessages = try decrypt(encryptedMessageContainer)
-        
-        guard let encodedInfo = encodedMessages.first else {
-            throw ModelError.invalidMessageContainer
-        }
-        let encodedItems = encodedMessages.dropFirst()
-        guard let encodedPrimaryItem = encodedItems.first else {
-            throw ModelError.invalidMessageContainer
-        }
-        let encodedSecondaryItems = encodedItems.dropFirst()
-        
-        let info = try Item.Info(from: encodedInfo)
-        guard encodedSecondaryItems.count == info.secondaryTypes.count else {
-            throw ModelError.invalidMessageContainer
-        }
-        
-        let primaryItem = try Item.Element(from: encodedPrimaryItem, as: info.primaryType)
-        let secondaryItems = try zip(encodedSecondaryItems, info.secondaryTypes).map { encodedItem, itemType in
-            try Item.Element(from: encodedItem, as: itemType)
-        }
-        
-        return Item(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
+    public func loadItem(itemLocator: StoreItemLocator) async throws -> Data {
+        try configuration.load(itemLocator.url, [])
     }
     
     public func loadItems<T>(read: @escaping (ReadingContext) throws -> T) -> ValueSequence<T> {
@@ -150,29 +79,22 @@ public actor Store<Item> where Item: StoreItem {
     }
     
     public func commit(operations: [Operation]) async throws {
-        var itemsSaved = [StoreItemLocator: Item]()
+        var itemsSaved = [StoreItemLocator: Data]()
         var itemsDeleted = [StoreItemLocator]()
         
         for operation in operations {
             switch operation {
             
-            case .save(let storeItem, let storeItemLocator, let encrypt):
-                let items = [storeItem.primaryItem] + storeItem.secondaryItems
-                let encodedItems = try items.map { item in
-                    try item.value.encoded
-                }
-                let messages = [try storeItem.info.encoded] + encodedItems
-                let encryptedContainer = try encrypt(messages)
-                
+            case .save(let item, let storeItemLocator):
                 if let storeItemLocator = storeItemLocator {
-                    try encryptedContainer.write(to: storeItemLocator.url)
-                    itemsSaved[storeItemLocator] = storeItem
+                    try item.write(to: storeItemLocator.url)
+                    itemsSaved[storeItemLocator] = item
                 } else {
                     let storeItemURL = resourceLocator.generateItemURL()
                     let storeItemLocator = StoreItemLocator(url: storeItemURL)
-                    try encryptedContainer.write(to: storeItemURL)
+                    try item.write(to: storeItemURL)
                     
-                    itemsSaved[storeItemLocator] = storeItem
+                    itemsSaved[storeItemLocator] = item
                 }
             case .delete(let storeItemLocator):
                 try FileManager.default.removeItem(at: storeItemLocator.url)
@@ -180,8 +102,24 @@ public actor Store<Item> where Item: StoreItem {
             }
         }
         
-        let changeSet = ChangeSet(saved: itemsSaved, deleted: itemsDeleted)
-        didChangeSubject.send(changeSet)
+        let _ = ChangeSet(saved: itemsSaved, deleted: itemsDeleted)
+    }
+    
+}
+
+extension Store {
+    
+    static func create(in containerDirectory: URL, derivedKeyContainer: Data, masterKeyContainer: Data, configuration: Configuration = .production) async throws -> Store {
+        let resourceLocator = StoreResourceLocator.generate(in: containerDirectory)
+        
+        try FileManager.default.createDirectory(at: containerDirectory, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false, attributes: nil)
+        try FileManager.default.createDirectory(at: resourceLocator.itemsURL, withIntermediateDirectories: false, attributes: nil)
+        try StoreInfo().encoded.write(to: resourceLocator.infoURL)
+        try derivedKeyContainer.write(to: resourceLocator.derivedKeyContainerURL)
+        try masterKeyContainer.write(to: resourceLocator.masterKeyContainerURL)
+        
+        return Store(resourceLocator: resourceLocator, configuration: configuration)
     }
     
 }
@@ -190,14 +128,14 @@ extension Store {
     
     public struct ChangeSet {
         
-        public let saved: [StoreItemLocator: Item]
+        public let saved: [StoreItemLocator: Data]
         public let deleted: [StoreItemLocator]
         
     }
 
     public enum Operation {
         
-        case save(Item, StoreItemLocator?, Encryption)
+        case save(Data, StoreItemLocator?)
         case delete(StoreItemLocator)
         
         public typealias Encryption = ([Data]) throws -> Data
@@ -215,3 +153,67 @@ extension Store {
     }
     
 }
+
+/*
+public func loadItem(itemLocator: StoreItemLocator, decrypt: @escaping (Data) throws -> [Data]) async throws -> Item {
+    let encryptedMessageContainer = try configuration.load(itemLocator.url, [])
+    let encodedMessages = try decrypt(encryptedMessageContainer)
+    
+    guard let encodedInfo = encodedMessages.first else {
+        throw ModelError.invalidMessageContainer
+    }
+    let encodedItems = encodedMessages.dropFirst()
+    guard let encodedPrimaryItem = encodedItems.first else {
+        throw ModelError.invalidMessageContainer
+    }
+    let encodedSecondaryItems = encodedItems.dropFirst()
+    
+    let info = try Item.Info(from: encodedInfo)
+    guard encodedSecondaryItems.count == info.secondaryTypes.count else {
+        throw ModelError.invalidMessageContainer
+    }
+    
+    let primaryItem = try Item.Element(from: encodedPrimaryItem, as: info.primaryType)
+    let secondaryItems = try zip(encodedSecondaryItems, info.secondaryTypes).map { encodedItem, itemType in
+        try Item.Element(from: encodedItem, as: itemType)
+    }
+    
+    return Item(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
+}
+*/
+
+/*
+public func commit(operations: [Operation]) async throws {
+    var itemsSaved = [StoreItemLocator: Item]()
+    var itemsDeleted = [StoreItemLocator]()
+    
+    for operation in operations {
+        switch operation {
+        
+        case .save(let storeItem, let storeItemLocator, let encrypt):
+            let items = [storeItem.primaryItem] + storeItem.secondaryItems
+            let encodedItems = try items.map { item in
+                try item.value.encoded
+            }
+            let messages = [try storeItem.info.encoded] + encodedItems
+            let encryptedContainer = try encrypt(messages)
+            
+            if let storeItemLocator = storeItemLocator {
+                try encryptedContainer.write(to: storeItemLocator.url)
+                itemsSaved[storeItemLocator] = storeItem
+            } else {
+                let storeItemURL = resourceLocator.generateItemURL()
+                let storeItemLocator = StoreItemLocator(url: storeItemURL)
+                try encryptedContainer.write(to: storeItemURL)
+                
+                itemsSaved[storeItemLocator] = storeItem
+            }
+        case .delete(let storeItemLocator):
+            try FileManager.default.removeItem(at: storeItemLocator.url)
+            itemsDeleted.append(storeItemLocator)
+        }
+    }
+    
+    let changeSet = ChangeSet(saved: itemsSaved, deleted: itemsDeleted)
+}
+ */

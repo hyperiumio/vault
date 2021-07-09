@@ -484,10 +484,10 @@
 		95D3B7072694898C00895D4A /* StoreItemDisplayViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayViewPreview.swift; sourceTree = "<group>"; };
 		95D3B709269489D300895D4A /* StoreItemEditViewPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemEditViewPreview.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
-		95F0DE22269756ED0020A103 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		95F0DE23269756ED0020A103 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
-		95F0DE24269756ED0020A103 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
-		95F0DE25269756ED0020A103 /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
+		95E1C4F326981E2B00719A8C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		95E1C4F426981E2B00719A8C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/CredentialProvider.appex"; sourceTree = "<absolute>"; };
+		95E1C4F526981E2B00719A8C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		95E1C4F626981E2B00719A8C /* CredentialProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; name = CredentialProvider.appex; path = /Users/johannesauer/Documents/vault/build/Debug/CredentialProvider.appex; sourceTree = "<absolute>"; };
 		95F0DE4E26975C250020A103 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
@@ -819,7 +819,7 @@
 				95ADC33D26849EF600BE3DFF /* Model */,
 			);
 			productName = macOSCredentialProvider;
-			productReference = 95F0DE25269756ED0020A103 /* CredentialProvider.appex */;
+			productReference = 95E1C4F626981E2B00719A8C /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95842D44256FAB180080711C /* iOSCredentialProvider */ = {
@@ -843,7 +843,7 @@
 				95ADC33B26849EED00BE3DFF /* Model */,
 			);
 			productName = "iOS Credential Provider";
-			productReference = 95F0DE23269756ED0020A103 /* CredentialProvider.appex */;
+			productReference = 95E1C4F426981E2B00719A8C /* CredentialProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 		95ABC93A24A9D38E009D87A4 /* iOSApp */ = {
@@ -873,7 +873,7 @@
 				95BA9593268C535800B59DAC /* Sync */,
 			);
 			productName = iOS;
-			productReference = 95F0DE22269756ED0020A103 /* Vault.app */;
+			productReference = 95E1C4F326981E2B00719A8C /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -902,7 +902,7 @@
 				95BA9595268C535F00B59DAC /* Sync */,
 			);
 			productName = macOS;
-			productReference = 95F0DE24269756ED0020A103 /* Vault.app */;
+			productReference = 95E1C4F526981E2B00719A8C /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

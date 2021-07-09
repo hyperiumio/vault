@@ -1,7 +1,6 @@
 import Foundation
 import Model
 import Sort
-import SwiftUI
 
 @MainActor
 protocol UnlockedStateDependency {
