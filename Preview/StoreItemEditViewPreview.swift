@@ -7,7 +7,7 @@ struct StoreItemEditViewPreview: PreviewProvider {
     static let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
     static let primaryItem = SecureItem.login(loginItem)
     static let storeItem = StoreItem(id: UUID(), name: "qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now)
-    static let storeItemEditDependency = StoreItemEditDependencyStub()
+    static let storeItemEditDependency = StoreItemEditService()
     static let storeItemEditState = StoreItemEditState(dependency: storeItemEditDependency, editing: storeItem)
     
     static var previews: some View {
@@ -28,6 +28,17 @@ struct StoreItemEditViewPreview: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 
+    
+}
+
+extension StoreItemEditViewPreview {
+    
+    struct StoreItemEditService: StoreItemEditDependency {
+        
+        func save(_ storeItem: StoreItem) async throws {}
+        func delete(itemID: UUID) async throws {}
+        
+    }
     
 }
 #endif

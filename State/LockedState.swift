@@ -1,13 +1,12 @@
-import Crypto
 import Foundation
 
 @MainActor
 protocol LockedDependency {
     
-    var keychainAvailability: KeychainAvailability { get async }
+    var biometryType: BiometryType? { get async }
     
-    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey
-    func decryptMasterKeyWithBiometry() async throws -> MasterKey
+    func unlockWithPassword(_ password: String) async throws
+    func unlockWithBiometry() async throws
     
 }
 
@@ -15,15 +14,15 @@ protocol LockedDependency {
 class LockedState: ObservableObject {
     
     @Published var password = ""
-    @Published var keychainAvailablility: KeychainAvailability?
+    @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
     private let dependency: LockedDependency
-    private let yield: Yield
+    private let done: () -> Void
     
-    init(dependency: LockedDependency, yield: @escaping Yield) {
+    init(dependency: LockedDependency, done: @escaping () -> Void) {
         self.dependency = dependency
-        self.yield = yield
+        self.done = done
     }
     
     var inputDisabled: Bool {
@@ -31,15 +30,14 @@ class LockedState: ObservableObject {
     }
     
     func fetchKeychainAvailability() async {
-        keychainAvailablility = await dependency.keychainAvailability
+        biometryType = await dependency.biometryType
     }
     
     func loginWithPassword() async {
         status = .unlocking
         
         do {
-            let masterKey = try await dependency.decryptMasterKeyWithPassword(password)
-            yield(masterKey)
+            try await dependency.unlockWithPassword(password)
             status = .unlocked
         } catch {
             status = .wrongPassword
@@ -50,8 +48,7 @@ class LockedState: ObservableObject {
         status = .unlocking
         
         do {
-            let masterKey = try await dependency.decryptMasterKeyWithBiometry()
-            yield(masterKey)
+            try await dependency.unlockWithBiometry()
             status = .unlocked
         } catch {
             status = .wrongPassword
@@ -62,15 +59,13 @@ class LockedState: ObservableObject {
 
 extension LockedState {
     
-    typealias Yield = @MainActor (_ masterKey: MasterKey) -> Void
-    typealias BiometryType = Crypto.BiometryType
-    
     enum Status {
         
         case locked
         case unlocking
         case unlocked
         case wrongPassword
+        
     }
     
 }

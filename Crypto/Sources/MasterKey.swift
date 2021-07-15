@@ -5,7 +5,7 @@ public struct MasterKey: Equatable {
     
     let value: SymmetricKey
     
-    init<D>(with data: D) where D: ContiguousBytes {
+    public init<D>(with data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     
@@ -28,6 +28,14 @@ public struct MasterKey: Equatable {
             
             return encryptedContainer
         }
+    }
+    
+}
+
+extension MasterKey: ContiguousBytes {
+    
+    public func withUnsafeBytes<R>(_ body: (UnsafeRawBufferPointer) throws -> R) rethrows -> R {
+        try value.withUnsafeBytes(body)
     }
     
 }

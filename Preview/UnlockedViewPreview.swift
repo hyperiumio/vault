@@ -4,17 +4,15 @@ import SwiftUI
 
 struct UnlockedViewPreview: PreviewProvider {
     
-    static let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
-    static let primaryItem = SecureItem.login(loginItem)
-    static let storeItem = StoreItem(id: UUID(), name: "qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now)
-    static let storeItemEditDependency = StoreItemEditDependencyStub()
-    static let storeItemDetailDependency = StoreItemDetailDependencyStub(storeItem: storeItem, storeItemEditDependency: storeItemEditDependency)
+    static let storeItemDetailDependency = StoreItemDetailService()
     static let storeItemDetailState = [
-        StoreItemDetailState(storeItemInfo: storeItem.info, dependency: storeItemDetailDependency)
+        StoreItemDetailState(storeItemInfo: storeItemDetailDependency.storeItem.info, dependency: storeItemDetailDependency)
     ]
     static let nonEmptyCollation = UnlockedState.Collation(from: storeItemDetailState)
     static let emptyCollation = UnlockedState.Collation()
-    static let unlockedState = UnlockedState()
+    static let unlockedState = UnlockedState(dependency: UnlockedService()) {
+        
+    }
     
     static var previews: some View {
         UnlockedView(unlockedState)
@@ -67,4 +65,34 @@ struct UnlockedViewPreview: PreviewProvider {
     }
     
 }
+
+extension UnlockedViewPreview {
+    
+    struct StoreItemEditService: StoreItemEditDependency {
+        
+        func save(_ storeItem: StoreItem) async throws {}
+        func delete(itemID: UUID) async throws {}
+        
+    }
+    
+    struct StoreItemDetailService: StoreItemDetailDependency {
+        
+        var storeItem: StoreItem {
+            let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
+            let primaryItem = SecureItem.login(loginItem)
+            return StoreItem(id: UUID(), name: "qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now)
+        }
+        
+        var storeItemEditDependency: StoreItemEditDependency {
+            StoreItemEditService()
+        }
+        
+    }
+    
+    struct UnlockedService: UnlockedDependency {
+        
+    }
+    
+}
+
 #endif

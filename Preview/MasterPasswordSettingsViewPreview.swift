@@ -3,7 +3,7 @@ import SwiftUI
 
 struct MasterPasswordSettingsViewPreview: PreviewProvider {
     
-    static let masterPasswordSettingsDependency = MasterPasswordSettingsDependencyStub()
+    static let masterPasswordSettingsDependency = MasterPasswordSettingsServiceStub()
     static let masterPasswordSettingsState = MasterPasswordSettingsState(dependency: masterPasswordSettingsDependency)
     
     static var previews: some View {
@@ -18,6 +18,16 @@ struct MasterPasswordSettingsViewPreview: PreviewProvider {
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)
+    }
+    
+}
+
+extension MasterPasswordSettingsViewPreview {
+    
+    struct MasterPasswordSettingsServiceStub: MasterPasswordSettingsDependency {
+        
+        func changeMasterPassword(to masterPassword: String) async throws {}
+        
     }
     
 }

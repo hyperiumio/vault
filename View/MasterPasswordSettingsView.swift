@@ -33,7 +33,7 @@ struct MasterPasswordSettingsView: View {
             
             Section {
                 Button(.changeMasterPassword, role: .destructive) {
-                    async {
+                    Task {
                         await state.changeMasterPassword()
                     }
                 }

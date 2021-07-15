@@ -17,7 +17,7 @@ struct LoginInputField: View {
                 #endif
         }
         
-        Field (.password) {
+        Field(.password) {
             SecureField(.password, text: $state.password, prompt: nil)
                 .textContentType(.password)
         }

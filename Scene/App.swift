@@ -2,7 +2,7 @@ import Preferences
 import SwiftUI
 
 @MainActor
-let appDependency = ProductionAppDependency()
+let appDependency = try! AppService()
 
 @main
 struct App: SwiftUI.App {

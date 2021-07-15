@@ -3,7 +3,7 @@ import Foundation
 import LocalAuthentication
 import Security
 
-public actor PersistentKeychain {
+public actor Keychain {
     
     let attributeBuilder: KeychainAttributeBuilder
     let configuration: Configuration
@@ -73,7 +73,7 @@ public actor PersistentKeychain {
     
 }
 
-extension PersistentKeychain {
+extension Keychain {
     
     public struct Configuration {
         

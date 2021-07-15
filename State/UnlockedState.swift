@@ -3,7 +3,7 @@ import Model
 import Sort
 
 @MainActor
-protocol UnlockedStateDependency {
+protocol UnlockedDependency {
     
 }
 
@@ -12,6 +12,10 @@ class UnlockedState: ObservableObject {
     
     @Published private(set) var status = Status.empty
     @Published var searchText: String = ""
+    
+    init(dependency: UnlockedDependency, lock: @escaping () -> Void) {
+        
+    }
     
     func createLoginItem() {
 

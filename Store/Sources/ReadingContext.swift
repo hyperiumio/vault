@@ -2,22 +2,24 @@ import Foundation
 
 public struct ReadingContext {
     
-    public let itemLocator: StoreItemLocator
+    let url: URL
     
-    init(_ itemLocator: StoreItemLocator) {
-        self.itemLocator = itemLocator
+    public var bytes: Data {
+        get throws {
+            try Data(contentsOf: url)
+        }
     }
     
     public func bytes(in range: Range<Int>) throws -> Data {
-        let fileHandle = try FileHandle(forReadingFrom: itemLocator.url)
+        let fileHandle = try FileHandle(forReadingFrom: url)
         
         guard let fileOffset = UInt64(exactly: range.startIndex) else {
-            throw ModelError.invalidByteRange
+            throw StoreError.invalidByteRange
         }
         
         try fileHandle.seek(toOffset: fileOffset)
         guard let data = try? fileHandle.read(upToCount: range.count) else {
-            throw ModelError.dataNotAvailable
+            throw StoreError.dataNotAvailable
         }
         
         return data

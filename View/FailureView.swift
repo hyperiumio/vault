@@ -26,7 +26,7 @@ struct FailureView: View {
                 .frame(height: 50)
             
             Button(.retry) {
-                async {
+                Task {
                     await reload()
                 }
             }

@@ -1,13 +1,12 @@
-import Crypto
 import Foundation
 import Model
 
 @MainActor
 protocol SetupDependency {
     
-    var biometryTypeAvailability: BiometryType? { get async }
+    var biometryType: BiometryType? { get async }
     
-    func createStore(isBiometryEnabled: Bool) async throws -> (masterKey: MasterKey, storeID: UUID)
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws
     
 }
 
@@ -21,11 +20,11 @@ class SetupState: ObservableObject {
     @Published var setupError: Error?
     
     private let dependency: SetupDependency
-    private let yield: Yield
+    private let done: () -> Void
     
-    init(dependency: SetupDependency, yield: @escaping Yield) {
+    init(dependency: SetupDependency, done: @escaping () -> Void) {
         self.dependency = dependency
-        self.yield = yield
+        self.done = done
     }
     
     var isBackButtonVisible: Bool {
@@ -38,6 +37,8 @@ class SetupState: ObservableObject {
     }
     
     func back() async {
+        setupError = nil
+        
         switch step {
         case .choosePassword:
             return
@@ -46,7 +47,7 @@ class SetupState: ObservableObject {
         case .enableBiometricUnlock:
             step = .repeatPassword
         case .completeSetup:
-            if let biometryType = await dependency.biometryTypeAvailability {
+            if let biometryType = await dependency.biometryType {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .repeatPassword
@@ -56,11 +57,17 @@ class SetupState: ObservableObject {
     }
     
     func next() async {
+        setupError = nil
+        
         switch step {
         case .choosePassword:
+            guard password.count >= 8 else {
+                setupError = .insecurePassword
+                return
+            }
             step = .repeatPassword
         case .repeatPassword:
-            if let biometryType = await dependency.biometryTypeAvailability {
+            if let biometryType = await dependency.biometryType {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .completeSetup
@@ -69,8 +76,8 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                let response = try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled)
-                yield(response.masterKey, response.storeID)
+                try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
+                done()
             } catch {
                 setupError = .completeSetupDidFail
             }
@@ -80,9 +87,6 @@ class SetupState: ObservableObject {
 }
 
 extension SetupState {
-    
-    typealias Yield = @MainActor (_ masterKey: MasterKey, _ storeID: UUID) -> Void
-    typealias BiometryType = Crypto.BiometryType
     
     enum Step {
         
@@ -95,6 +99,7 @@ extension SetupState {
     
     enum Error: Swift.Error {
         
+        case insecurePassword
         case completeSetupDidFail
         
     }

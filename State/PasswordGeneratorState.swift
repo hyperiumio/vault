@@ -1,12 +1,24 @@
-import Crypto
 import Foundation
+
+@MainActor
+protocol PasswordGeneratorDependency {
+    
+    func password(length: Int, digit: Bool, symbol: Bool) async -> String
+    
+}
 
 @MainActor
 class PasswordGeneratorState: ObservableObject {
     
+    private let dependency: PasswordGeneratorDependency
+    
+    init(dependency: PasswordGeneratorDependency) {
+        self.dependency = dependency
+    }
+    
     @Published var length = 32 {
         didSet {
-            async {
+            Task {
                 await generatePassword()
             }
         }
@@ -14,14 +26,15 @@ class PasswordGeneratorState: ObservableObject {
     
     @Published var digitsEnabled = true {
         didSet {
-            async {
+            Task {
                 await generatePassword()
             }
         }
     }
+    
     @Published var symbolsEnabled = true {
         didSet {
-            async {
+            Task {
                 await generatePassword()
             }
         }
@@ -30,6 +43,7 @@ class PasswordGeneratorState: ObservableObject {
     @Published var password = ""
     
     func generatePassword() async {
-        password = await Password(length: length, uppercase: true, lowercase: true, digit: digitsEnabled, symbol: symbolsEnabled)
+        password = await dependency.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
     }
+    
 }

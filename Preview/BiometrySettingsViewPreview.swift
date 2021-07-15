@@ -3,7 +3,7 @@ import SwiftUI
 
 struct BiometrySettingsViewPreview: PreviewProvider {
     
-    static let biometrySettingsDependency = BiometrySettingsDependencyStub()
+    static let biometrySettingsDependency = BiometrySettingsServiceStub()
     static let biometrySettingsState = BiometrySettingsState(biometryType: .faceID, isBiometricUnlockEnabled: false, dependency: biometrySettingsDependency)
     
     static var previews: some View {
@@ -18,6 +18,16 @@ struct BiometrySettingsViewPreview: PreviewProvider {
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)
+    }
+    
+}
+
+extension BiometrySettingsViewPreview {
+    
+    struct BiometrySettingsServiceStub: BiometrySettingsDependency {
+        
+        func save(isBiometricUnlockEnabled: Bool) async {}
+        
     }
     
 }

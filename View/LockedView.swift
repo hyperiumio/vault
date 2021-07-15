@@ -11,17 +11,17 @@ struct LockedView: View {
     var body: some View {
         VStack {
             MasterPasswordField(.masterPassword, text: $state.password) {
-                async {
+                Task {
                     await state.loginWithPassword()
                 }
             }
             .disabled(state.status == .unlocking)
             .frame(maxWidth: 300)
             
-            switch state.keychainAvailablility {
-            case .enrolled(let biometryType):
+            switch state.biometryType {
+            case .some(let biometryType):
                 Button {
-                    async {
+                    Task {
                         await state.loginWithBiometry()
                     }
                 } label: {
@@ -32,7 +32,7 @@ struct LockedView: View {
                 }
                 .frame(width: 40, height: 40)
 
-            case .notAvailable, .notEnrolled, .none:
+            case .none:
                 EmptyView()
             }
         }
@@ -43,7 +43,7 @@ struct LockedView: View {
     
 }
 
-private extension LockedState.BiometryType {
+private extension BiometryType {
     
     var symbolName: String {
         switch self {

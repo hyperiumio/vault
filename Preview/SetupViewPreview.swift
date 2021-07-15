@@ -1,11 +1,12 @@
 #if DEBUG
+import Crypto
 import SwiftUI
 
 struct SetupViewPreview: PreviewProvider {
     
-    static let setupDependency = SetupDependencyStub()
-    static let setupState = SetupState(dependency: setupDependency) { masterKey, storeID in
-        print(masterKey, storeID)
+    static let setupDependency = SetupServiceStub()
+    static let setupState = SetupState(dependency: setupDependency) {
+        print("done")
     }
     
     @State static var password = ""
@@ -46,5 +47,20 @@ struct SetupViewPreview: PreviewProvider {
     }
     
 }
+
+extension SetupViewPreview {
+    
+    struct SetupServiceStub: SetupDependency {
+        
+        var biometryType: BiometryType? {
+            nil
+        }
+
+        let biometryTypeAvailability = BiometryType.faceID as BiometryType?
+        
+        func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {}
+        
+    }
+    
+}
 #endif
-                

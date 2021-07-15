@@ -1,11 +1,10 @@
 #if DEBUG
+import Crypto
 import SwiftUI
 
 struct SettingsViewPreview: PreviewProvider {
     
-    static let biometrySettingsDependency = BiometrySettingsDependencyStub()
-    static let masterPasswordSettingsDependency = MasterPasswordSettingsDependencyStub()
-    static let settingsDependency = SettingsDependencyStub(keychainAvailablity: .notEnrolled, isBiometricUnlockEnabled: false, biometrySettingsDependency: biometrySettingsDependency, masterPasswordSettingsDependency: masterPasswordSettingsDependency)
+    static let settingsDependency = SettingsService()
     static let settingsState = SettingsState(dependency: settingsDependency)
     
     static var previews: some View {
@@ -20,5 +19,28 @@ struct SettingsViewPreview: PreviewProvider {
     
 }
 
+extension SettingsViewPreview {
+    
+    struct BiometrySettingsServiceStub: BiometrySettingsDependency {
+        
+        func save(isBiometricUnlockEnabled: Bool) async {}
+        
+    }
+    
+    struct MasterPasswordSettingsServiceStub: MasterPasswordSettingsDependency {
+        
+        func changeMasterPassword(to masterPassword: String) async throws {}
+        
+    }
+    
+    struct SettingsService: SettingsDependency {
+        
+        let biometryType = BiometryType.touchID as BiometryType?
+        let isBiometricUnlockEnabled = true
+        let biometrySettingsDependency = BiometrySettingsServiceStub() as BiometrySettingsDependency
+        let masterPasswordSettingsDependency = MasterPasswordSettingsServiceStub() as MasterPasswordSettingsDependency
+        
+    }
+    
+}
 #endif
-

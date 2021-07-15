@@ -11,7 +11,7 @@ struct SetupView: View {
     var body: some View {
         VStack {
             BackButton(isVisisble: state.isBackButtonVisible) {
-                async {
+                Task {
                     await state.back()
                 }
             }
@@ -28,7 +28,7 @@ struct SetupView: View {
             }
             
             NextButton(state.step.localizedStringKey) {
-                async {
+                Task {
                     await state.next()
                 }
             }
@@ -37,6 +37,7 @@ struct SetupView: View {
     }
     
 }
+
 
 extension SetupView {
     
@@ -154,10 +155,10 @@ extension SetupView {
     
     struct EnableBiometricUnlockView: View {
         
-        private let biometryType: SetupState.BiometryType
+        private let biometryType: BiometryType
         private let isEnabled: Binding<Bool>
         
-        internal init(_ biometryType: SetupState.BiometryType, isEnabled: Binding<Bool>) {
+        internal init(_ biometryType: BiometryType, isEnabled: Binding<Bool>) {
             self.biometryType = biometryType
             self.isEnabled = isEnabled
         }
@@ -226,6 +227,12 @@ extension SetupView {
     
 }
 
+private extension SetupState.Error {
+    
+
+    
+}
+
 private extension SetupState.Step {
     
     var localizedStringKey: LocalizedStringKey {
@@ -239,7 +246,7 @@ private extension SetupState.Step {
     
 }
 
-private extension SetupState.BiometryType {
+private extension BiometryType {
     
     var symbolName: String {
         switch self {

@@ -5,8 +5,8 @@ import PackageDescription
 let package = Package(
     name: "Cloud",
     platforms: [
-        .macOS("12.0"),
-        .iOS("15.0")
+        .macOS(.v12),
+        .iOS(.v15)
     ],
     products: [
         .library(

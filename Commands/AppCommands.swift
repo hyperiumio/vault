@@ -12,5 +12,4 @@ struct AppCommands: Commands {
         }
     }
     
-    
 }

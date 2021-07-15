@@ -2,10 +2,11 @@ import SwiftUI
 
 struct PasswordGeneratorView: View {
     
-    @StateObject private var state = PasswordGeneratorState()
+    @ObservedObject private var state: PasswordGeneratorState
     private let onPassword: (String) -> Void
      
-    init(onPassword: @escaping (String) -> Void) {
+    init(state: PasswordGeneratorState, onPassword: @escaping (String) -> Void) {
+        self.state = state
         self.onPassword = onPassword
     }
     

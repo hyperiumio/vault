@@ -1,4 +1,3 @@
-import Crypto
 import Foundation
 
 @MainActor
@@ -13,11 +12,12 @@ class BiometrySettingsState: ObservableObject {
     
     @Published var isBiometricUnlockEnabled: Bool {
         didSet {
-            async {
+            Task {
                 await dependency.save(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
             }
         }
     }
+    
     let biometryType: BiometryType
     
     private let dependency: BiometrySettingsDependency

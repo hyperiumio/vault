@@ -1,14 +1,13 @@
-import Crypto
 import Foundation
 import Model
-import Preferences
 
 @MainActor
 protocol AppDependency {
     
-    var activeStoreID: UUID? { get async }
+    var needsSetup: Bool { get async throws }
     var setupDependency: SetupDependency { get }
     var lockedDependency: LockedDependency { get }
+    var unlockedDependency: UnlockedDependency { get }
     
 }
 
@@ -24,27 +23,36 @@ class AppState: ObservableObject {
     }
     
     func bootstrap() async {
-        if let storeID = await dependency.activeStoreID {
-            presentLockedState(storeID: storeID)
-        } else {
-            presentSetupState()
+        do {
+            if try await dependency.needsSetup {
+                presentLockedState()
+            } else {
+                presentSetupState()
+            }
+        } catch {
+            status = .launchingFailed
         }
     }
     
     func presentSetupState() {
-        let setupState = SetupState(dependency: dependency.setupDependency, yield: presentUnlockedState)
+        let setupState = SetupState(dependency: dependency.setupDependency) {
+            self.presentLockedState()
+        }
         status = .setup(state: setupState)
     }
     
-    func presentLockedState(storeID: UUID) {
-        let lockedState = LockedState(dependency: dependency.lockedDependency) { masterKey in
-            self.presentUnlockedState(masterKey: masterKey, storeID: storeID)
+    func presentLockedState() {
+        let lockedState = LockedState(dependency: dependency.lockedDependency) {
+            self.presentUnlockedState()
         }
         status = .locked(state: lockedState)
     }
     
-    func presentUnlockedState(masterKey: MasterKey, storeID: UUID) {
-        
+    func presentUnlockedState() {
+        let unlockedState = UnlockedState(dependency: dependency.unlockedDependency) {
+            self.presentLockedState()
+        }
+        status = .unlocked(state: unlockedState)
     }
     
 }

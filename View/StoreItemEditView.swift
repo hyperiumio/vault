@@ -21,7 +21,7 @@ struct StoreItemEditView: View {
             
             Section {
                 Button(.deleteItem, role: .destructive) {
-                    async {
+                    Task {
                         await state.delete()
                     }
                 }
@@ -34,7 +34,7 @@ struct StoreItemEditView: View {
             
             ToolbarItem(placement: .primaryAction) {
                 Button(.save) {
-                    async {
+                    Task {
                         try await state.save()
                     }
                 }

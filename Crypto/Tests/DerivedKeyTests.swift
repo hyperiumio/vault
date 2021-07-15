@@ -18,7 +18,7 @@ class DerivedKeyTests: XCTestCase {
         XCTAssertEqual(derivedKey.value, expectedKey)
     }
     
-    func testInitFromPasswordWithPublicArguments() throws {
+    func testInitFromPasswordWithPublicArguments() async throws {
         let salt = [
             0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
             0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -30,7 +30,7 @@ class DerivedKeyTests: XCTestCase {
         ] as Data
         let container = salt + rounds
         let arguments = try DerivedKey.PublicArguments(from: container)
-        let derivedKey = try DerivedKey(from: "foo", with: arguments)
+        let derivedKey = try await DerivedKey(from: "foo", with: arguments)
         let expectedKey = [
             0x40, 0xD5, 0x28, 0x8C, 0x64, 0x47, 0xD4, 0x1F,
             0xB0, 0xB3, 0x52, 0x1D, 0xC2, 0xF1, 0x0E, 0x23,

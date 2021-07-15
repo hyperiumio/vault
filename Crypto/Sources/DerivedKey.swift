@@ -10,7 +10,7 @@ public struct DerivedKey: Equatable {
         self.value = SymmetricKey(data: data)
     }
     
-    public init(from password: String, with publicArguments: PublicArguments) throws {
+    public init(from password: String, with publicArguments: PublicArguments) async throws {
         self.value = try PBKDF2(salt: publicArguments.salt, rounds: publicArguments.rounds, password: password)
     }
     

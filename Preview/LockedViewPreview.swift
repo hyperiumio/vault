@@ -1,13 +1,13 @@
 #if DEBUG
-import SwiftUI
 import Crypto
+import SwiftUI
 
 struct LockedViewPreview: PreviewProvider {
     
     static let keychainAvailability = KeychainAvailability.enrolled(.touchID)
-    static let lockedDependency = LockedDependencyStub(keychainAvailability: keychainAvailability)
-    static let lockedState = LockedState(dependency: lockedDependency) { masterKey in
-        print(masterKey)
+    static let lockedDependency = LockServiceStub()
+    static let lockedState = LockedState(dependency: lockedDependency) {
+        print("done")
     }
     
     static var previews: some View {
@@ -18,6 +18,21 @@ struct LockedViewPreview: PreviewProvider {
         LockedView(lockedState)
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
+    }
+    
+}
+
+extension LockedViewPreview {
+    
+    struct LockServiceStub: LockedDependency {
+        
+        var biometryType: BiometryType? {
+            nil
+        }
+        
+        func unlockWithPassword(_ password: String) async throws {}
+        func unlockWithBiometry() async throws {}
+        
     }
     
 }

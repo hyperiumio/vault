@@ -83,16 +83,4 @@ class CredentialProviderViewController: ASCredentialProviderViewController {
     #endif
     
 }
-
-private extension String {
-    
-    #if os(iOS)
-    static var appGroup: Self { "group.io.hyperium.vault" }
-    #endif
-
-    #if os(macOS)
-    static var appGroup: Self { "HX3QTQLX65.io.hyperium.vault" }
-    #endif
-    
-}
 */
