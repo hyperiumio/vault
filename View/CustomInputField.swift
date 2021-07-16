@@ -2,9 +2,9 @@ import SwiftUI
 
 struct CustomInputField: View {
     
-    @ObservedObject private var state: CustomState
+    @ObservedObject private var state: CustomItemState
     
-    init(_ state: CustomState) {
+    init(_ state: CustomItemState) {
         self.state = state
     }
     

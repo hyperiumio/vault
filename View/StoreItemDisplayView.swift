@@ -37,31 +37,3 @@ struct StoreItemDisplayView: View {
     }
     
 }
-
-/*
-private extension StoreItemDisplayView {
-    
-    @MainActor
-    var secureItemFieldValue: SecureItemField.Value {
-        switch self {
-        case .login(let state):
-            return .login(username: state.username, password: state.password, url: state.url)
-        case .password(let state):
-            return .password(password: state.password)
-        case .file(let state):
-            return .file(data: state.data, typeIdentifier: state.typeIdentifier)
-        case .note(let state):
-            return .note(text: state.text)
-        case .bankCard(let state):
-            return .bankCard(name: state.name, vendor: nil, number: state.number, expirationDate: state.expirationDate, pin: state.pin)
-        case .wifi(let state):
-            return .wifi(name: state.name, password: state.password)
-        case .bankAccount(let state):
-            return .bankAccount(accountHolder: state.accountHolder, iban: state.iban, bic: state.bic)
-        case .custom(let state):
-            return .custom(description: state.description, value: state.value)
-        }
-    }
-    
-}
-*/

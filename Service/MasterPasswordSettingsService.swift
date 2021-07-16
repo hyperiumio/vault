@@ -17,13 +17,13 @@ struct MasterPasswordSettingsService: MasterPasswordSettingsDependency {
     
     func changeMasterPassword(to newMasterPassword: String) async throws {
         guard
-            let storeIDValue = await defaults.activeStoreID,
-            let masterKeyData = try await keychain.loadSecret(forKey: .masterKey)
+            let storeIDValue = await defaults.activeStoreID
+            // let masterKeyData = try await keychain.loadSecret(forKey: .masterKey)
         else {
             throw MasterPasswordSettingsServiceError.changeMasterPasswordDidFail
         }
         let storeID = StoreID(storeIDValue)
-        let masterKey = MasterKey(with: masterKeyData)
+        let masterKey = MasterKey(with: Data())
         
         let newPublicArguments = try DerivedKey.PublicArguments()
         let newDerivedKey = try await DerivedKey(from: newMasterPassword, with: newPublicArguments)
@@ -35,9 +35,9 @@ struct MasterPasswordSettingsService: MasterPasswordSettingsDependency {
             return try SecureDataMessage.encryptContainer(from: messages, using: newMasterKey)
         }
         
-          await defaults.set(activeStoreID: newStoreID.value)
-        try await keychain.storeSecret(newDerivedKey, forKey: .derivedKey)
-        try await keychain.storeSecret(newMasterKey, forKey: .masterKey)
+        await defaults.set(activeStoreID: newStoreID.value)
+        try await keychain.store(newDerivedKey)
+        // try await keychain.storeSecret(newMasterKey, forKey: .masterKey)
     }
     
 }
@@ -45,12 +45,5 @@ struct MasterPasswordSettingsService: MasterPasswordSettingsDependency {
 enum MasterPasswordSettingsServiceError: Error {
     
     case changeMasterPasswordDidFail
-    
-}
-
-private extension String {
-    
-    static var derivedKey: String { "DerivedKey" }
-    static var masterKey: String { "MasterKey" }
     
 }

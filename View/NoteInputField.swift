@@ -2,9 +2,9 @@ import SwiftUI
 
 struct NoteInputField: View {
     
-    @ObservedObject private var state: NoteState
+    @ObservedObject private var state: NoteItemState
     
-    init(_ state: NoteState) {
+    init(_ state: NoteItemState) {
         self.state = state
     }
     

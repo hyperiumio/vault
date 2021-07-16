@@ -3,7 +3,7 @@ import SwiftUI
 
 struct NoteInputPreview: PreviewProvider {
     
-    static let noteState = NoteState()
+    static let noteState = NoteItemState()
     
     static var previews: some View {
         List {

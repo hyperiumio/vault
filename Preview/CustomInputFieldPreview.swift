@@ -3,7 +3,7 @@ import SwiftUI
 
 struct CustomInputFieldPreview: PreviewProvider {
     
-    static let customState = CustomState()
+    static let customState = CustomItemState()
     
     static var previews: some View {
         List {

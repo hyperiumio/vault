@@ -4,3 +4,11 @@ enum BiometryType {
     case faceID
     
 }
+
+enum Vendor {
+    
+    case masterCard
+    case visa
+    case americanExpress
+    
+}

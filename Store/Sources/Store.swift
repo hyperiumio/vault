@@ -54,8 +54,6 @@ public actor Store {
         return try configuration.load(masterKeyContainerURL, [])
     }
     
-    
-    
     public func loadItem(storeID: StoreID, itemID: ItemID) async throws -> Data {
         let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
         return try configuration.load(itemURL, [])

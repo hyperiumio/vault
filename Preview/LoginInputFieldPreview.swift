@@ -3,7 +3,8 @@ import SwiftUI
 
 struct LoginInputFieldPreview: PreviewProvider {
     
-    static let loginState = LoginState()
+    static let loginService = LoginService()
+    static let loginState = LoginItemState(dependency: loginService)
     
     static var previews: some View {
         List {
@@ -17,6 +18,26 @@ struct LoginInputFieldPreview: PreviewProvider {
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)
+    }
+    
+}
+
+extension LoginInputFieldPreview {
+    
+    struct LoginService: LoginItemDependency {
+        
+        var passwordGeneratorDependency: PasswordGeneratorDependency {
+            PasswordGeneratorService()
+        }
+        
+    }
+    
+    struct PasswordGeneratorService: PasswordGeneratorDependency {
+        
+        func password(length: Int, digit: Bool, symbol: Bool) async -> String {
+            "foo"
+        }
+        
     }
     
 }

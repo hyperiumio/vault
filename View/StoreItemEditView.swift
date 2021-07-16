@@ -13,7 +13,7 @@ struct StoreItemEditView: View {
     var body: some View {
         List {
             Section {
-                SecureItemInputField(state.primaryItem)
+                ElementView(state.primaryItem)
             } header: {
                 TextField(.title, text: $state.title)
                     .textCase(.none)
@@ -45,4 +45,39 @@ struct StoreItemEditView: View {
         #endif
     }
     
+}
+
+extension StoreItemEditView {
+    
+    struct ElementView: View {
+        
+        private let element: StoreItemEditState.Element
+        
+        init(_ element: StoreItemEditState.Element) {
+            self.element = element
+        }
+        
+        var body: some View {
+            switch element {
+            case .login(let loginState):
+                LoginInputField(loginState)
+            case .password(let passwordState):
+                PasswordInputField(passwordState)
+            case .file(let fileState):
+                FileInputField(fileState)
+            case .note(let noteState):
+                NoteInputField(noteState)
+            case .bankCard(let bankCardState):
+                BankCardInputField(bankCardState)
+            case .wifi(let wifiState):
+                WifiInputField(wifiState)
+            case .bankAccount(let bankAccountState):
+                BankAccountInputField(bankAccountState)
+            case .custom(let customState):
+                CustomInputField(customState)
+            }
+        }
+        
+    }
+
 }

@@ -2,7 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-class BankCardState: ObservableObject {
+class BankCardItemState: ObservableObject {
     
     @Published var name: String
     @Published var number: String

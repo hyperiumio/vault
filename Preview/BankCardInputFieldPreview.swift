@@ -3,7 +3,7 @@ import SwiftUI
 
 struct BankCardInputFieldPreview: PreviewProvider {
     
-    static let bankCardState = BankCardState()
+    static let bankCardState = BankCardItemState()
     
     static var previews: some View {
         List {

@@ -227,12 +227,6 @@ extension SetupView {
     
 }
 
-private extension SetupState.Error {
-    
-
-    
-}
-
 private extension SetupState.Step {
     
     var localizedStringKey: LocalizedStringKey {

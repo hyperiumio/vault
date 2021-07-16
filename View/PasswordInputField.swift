@@ -2,9 +2,9 @@ import SwiftUI
 
 struct PasswordInputField: View {
     
-    @ObservedObject private var state: PasswordState
+    @ObservedObject private var state: PasswordItemState
     
-    init(_ state: PasswordState) {
+    init(_ state: PasswordItemState) {
         self.state = state
     }
     
@@ -12,6 +12,10 @@ struct PasswordInputField: View {
         Field (.password) {
             SecureField(.password, text: $state.password, prompt: nil)
                 .textContentType(.password)
+            
+            PasswordGeneratorView(state: state.passwordGeneratorState) { password in
+                state.password = password
+            }
         }
     }
 

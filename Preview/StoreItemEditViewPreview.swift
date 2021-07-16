@@ -33,7 +33,51 @@ struct StoreItemEditViewPreview: PreviewProvider {
 
 extension StoreItemEditViewPreview {
     
+    struct PasswordGeneratorService: PasswordGeneratorDependency {
+        
+        func password(length: Int, digit: Bool, symbol: Bool) async -> String {
+            "foo"
+        }
+        
+    }
+    
+    struct PasswordService: PasswordItemDependency {
+        
+        var passwordGeneratorDependency: PasswordGeneratorDependency {
+            PasswordGeneratorService()
+        }
+        
+    }
+    
+    struct LoginService: LoginItemDependency {
+        
+        var passwordGeneratorDependency: PasswordGeneratorDependency {
+            PasswordGeneratorService()
+        }
+        
+    }
+    
+    struct WifiService: WifiItemDependency {
+        
+        var passwordGeneratorDependency: PasswordGeneratorDependency {
+            PasswordGeneratorService()
+        }
+        
+    }
+    
     struct StoreItemEditService: StoreItemEditDependency {
+        
+        var passwordDependency: PasswordItemDependency {
+            PasswordService()
+        }
+        
+        var loginDependency: LoginItemDependency {
+            LoginService()
+        }
+        
+        var wifiDependency: WifiItemDependency {
+            WifiService()
+        }
         
         func save(_ storeItem: StoreItem) async throws {}
         func delete(itemID: UUID) async throws {}

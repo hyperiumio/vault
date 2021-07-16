@@ -2,7 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-class CustomState: ObservableObject {
+class CustomItemState: ObservableObject {
     
     @Published var description: String
     @Published var value: String

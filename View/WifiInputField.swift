@@ -2,9 +2,9 @@ import SwiftUI
 
 struct WifiInputField: View {
     
-    @ObservedObject private var state: WifiState
+    @ObservedObject private var state: WifiItemState
     
-    init(_ state: WifiState) {
+    init(_ state: WifiItemState) {
         self.state = state
     }
     
@@ -19,6 +19,10 @@ struct WifiInputField: View {
         Field(.password) {
             SecureField(.password, text: $state.password, prompt: nil)
                 .textContentType(.password)
+            
+            PasswordGeneratorView(state: state.passwordGeneratorState) { password in
+                state.password = password
+            }
         }
     }
     

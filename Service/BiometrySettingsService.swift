@@ -15,9 +15,3 @@ struct BiometrySettingsService: BiometrySettingsDependency {
     }
     
 }
-
-private extension String {
-    
-    static var derivedKey: String { "DerivedKey" }
-    
-}

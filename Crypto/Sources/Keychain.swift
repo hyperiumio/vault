@@ -15,7 +15,17 @@ public actor Keychain {
         self.configuration = configuration
     }
     
-    public func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {
+    public func store(_ derivedKey: DerivedKey) async throws {
+        
+    }
+    
+    public var derivedKey: DerivedKey? {
+        get async throws {
+            fatalError()
+        }
+    }
+    
+    func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {
         let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
         let deleteStatus = configuration.delete(deleteQuery)
         guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
@@ -29,7 +39,7 @@ public actor Keychain {
         }
     }
     
-    public func loadSecret(forKey key: String) async throws -> Data? {
+    func loadSecret(forKey key: String) async throws -> Data? {
         let loadQuery = attributeBuilder.buildLoadAttributes(key: key)
         var item: CFTypeRef?
         let status = configuration.load(loadQuery, &item)
@@ -46,7 +56,7 @@ public actor Keychain {
         }
     }
     
-    public func deleteSecret(forKey key: String) async throws {
+    func deleteSecret(forKey key: String) async throws {
         let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
         let status = configuration.delete(deleteQuery)
         guard status == errSecSuccess || status == errSecItemNotFound else {

@@ -2,7 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-class NoteState: ObservableObject {
+class NoteItemState: ObservableObject {
     
     @Published var text: String
     

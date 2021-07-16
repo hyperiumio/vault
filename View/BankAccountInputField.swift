@@ -3,9 +3,9 @@ import SwiftUI
 
 struct BankAccountInputField: View {
     
-    @ObservedObject private var state: BankAccountState
+    @ObservedObject private var state: BankAccountItemState
     
-    init(_ state: BankAccountState) {
+    init(_ state: BankAccountItemState) {
         self.state = state
     }
     

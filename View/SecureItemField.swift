@@ -44,7 +44,7 @@ extension SecureItemField {
         case password(password: String?)
         case file(data: Data?, type: UTType?)
         case note(text: String?)
-        case bankCard(name: String?, vendor: BankCardField.Vendor?, number: String?, expirationDate: Date?, pin: String?)
+        case bankCard(name: String?, vendor: Vendor?, number: String?, expirationDate: Date?, pin: String?)
         case wifi(name: String?, password: String?)
         case bankAccount(accountHolder: String?, iban: String?, bic: String?)
         case custom(description: String?, value: String?)

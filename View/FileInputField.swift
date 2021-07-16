@@ -4,9 +4,9 @@ import UniformTypeIdentifiers
 
 struct FileInputField: View {
     
-    @ObservedObject private var state: FileState
+    @ObservedObject private var state: FileItemState
     
-    init(_ state: FileState) {
+    init(_ state: FileItemState) {
         self.state = state
     }
     

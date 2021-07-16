@@ -2,11 +2,20 @@ import Foundation
 import Model
 
 @MainActor
-class LoginState: ObservableObject {
+protocol LoginItemDependency {
+    
+    var passwordGeneratorDependency: PasswordGeneratorDependency { get }
+    
+}
+
+@MainActor
+class LoginItemState: ObservableObject {
     
     @Published var username: String
     @Published var password: String
     @Published var url: String
+    
+    let passwordGeneratorState: PasswordGeneratorState
     
     var item: LoginItem {
         let username = self.username.isEmpty ? nil : self.username
@@ -16,10 +25,11 @@ class LoginState: ObservableObject {
         return LoginItem(username: username, password: password, url: url)
     }
     
-    init(_ item: LoginItem? = nil) {
+    init(_ item: LoginItem? = nil, dependency: LoginItemDependency) {
         self.username = item?.username ?? ""
         self.password = item?.password ?? ""
         self.url = item?.url ?? ""
+        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency.passwordGeneratorDependency)
     }
     
 }

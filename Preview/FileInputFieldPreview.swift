@@ -3,7 +3,7 @@ import SwiftUI
 
 struct FileInputFieldPreview: PreviewProvider {
     
-    static let state = FileState()
+    static let state = FileItemState()
     
     static var previews: some View {
         List {

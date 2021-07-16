@@ -33,11 +33,11 @@ private extension DateFooter {
     struct DateLabel: View {
         
         private let text: LocalizedStringKey
-        private let date: String
+        private let date: Date
         
         init(_ text: LocalizedStringKey, date: Date) {
             self.text = text
-            self.date = Date.FormatStyle(date: .abbreviated).format(date)
+            self.date = date
         }
         
         var body: some View {
@@ -49,7 +49,7 @@ private extension DateFooter {
                         dimension[HorizontalAlignment.trailing]
                     }
                    
-                Text(date)
+                Text(date, format: Date.FormatStyle(date: .abbreviated))
             }
         }
         

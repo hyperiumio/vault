@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 import Model
 
 @MainActor
-class FileState: ObservableObject {
+class FileItemState: ObservableObject {
     
     @Published var value: Value?
     
@@ -25,7 +25,7 @@ class FileState: ObservableObject {
     
 }
 
-extension FileState {
+extension FileItemState {
     
     struct Value {
         

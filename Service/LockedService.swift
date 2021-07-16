@@ -46,7 +46,7 @@ struct LockedService: LockedDependency {
         }
         let storeID = StoreID(storeIDValue)
         let masterKeyContainer = try await store.loadMasterKeyContainer(storeID: storeID)
-        guard let derivedKeyData = try await keychain.loadSecret(forKey: .derivedKey) else {
+        guard let derivedKeyData = try await keychain.derivedKey else {
             throw Error.derivedKeyMissing
         }
         let derivedKey = DerivedKey(with: derivedKeyData)
@@ -64,11 +64,5 @@ extension LockedService {
         case derivedKeyMissing
         
     }
-    
-}
-
-private extension String {
-    
-    static var derivedKey: String { "DerivedKey" }
     
 }

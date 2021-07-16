@@ -6,7 +6,7 @@ struct BankCardField: View {
     private let name: String?
     private let vendor: Vendor?
     private let number: String?
-    private let expirationDate: String?
+    private let expirationDate: Date?
     private let pin: String?
     @State private var pinIsVisisble = false
     
@@ -14,9 +14,7 @@ struct BankCardField: View {
         self.name = name
         self.vendor = vendor
         self.number = number
-        self.expirationDate = expirationDate.map { expirationDate in
-            Date.FormatStyle(date: .abbreviated).format(expirationDate)
-        }
+        self.expirationDate = expirationDate
         self.pin = pin
     }
     
@@ -58,10 +56,10 @@ struct BankCardField: View {
             
             if let expirationDate = expirationDate {
                 Button {
-                    Pasteboard.general.string = expirationDate
+                    Pasteboard.general.string = Date.FormatStyle(date: .complete).format(expirationDate)
                 } label: {
                     Field(.expirationDate) {
-                        Text(expirationDate)
+                        Text(expirationDate, format: Date.FormatStyle(date: .abbreviated))
                     }
                 }
             }
@@ -80,18 +78,6 @@ struct BankCardField: View {
         }
         .buttonStyle(.message(.copied))
         .toggleStyle(.secure)
-    }
-    
-}
-
-extension BankCardField {
-    
-    enum Vendor {
-        
-        case masterCard
-        case visa
-        case americanExpress
-        
     }
     
 }
