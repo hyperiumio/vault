@@ -15,14 +15,16 @@ public actor Keychain {
         self.configuration = configuration
     }
     
-    public func store(_ derivedKey: DerivedKey) async throws {
-        
+    public func generateMasterKey(from password: String, publicArguments: DerivedKey.PublicArguments, with id: UUID) async throws -> MasterKey {
+        fatalError()
     }
     
-    public var derivedKey: DerivedKey? {
-        get async throws {
-            fatalError()
-        }
+    public func loadMasterKey(with password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws -> MasterKey {
+        fatalError()
+    }
+    
+    public func loadMasterKeyWithBiometry(id: UUID) async throws -> MasterKey {
+        fatalError()
     }
     
     func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {

@@ -6,20 +6,12 @@ public struct DerivedKey: Equatable {
     
     let value: SymmetricKey
     
-    public init<D>(with data: D) where D: ContiguousBytes {
+    init<D>(with data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     
-    public init(from password: String, with publicArguments: PublicArguments) async throws {
+    init(from password: String, with publicArguments: PublicArguments) async throws {
         self.value = try PBKDF2(salt: publicArguments.salt, rounds: publicArguments.rounds, password: password)
-    }
-    
-}
-
-extension DerivedKey: ContiguousBytes {
-    
-    public func withUnsafeBytes<R>(_ body: (UnsafeRawBufferPointer) throws -> R) rethrows -> R {
-        try value.withUnsafeBytes(body)
     }
     
 }

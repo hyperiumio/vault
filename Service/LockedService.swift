@@ -29,28 +29,20 @@ struct LockedService: LockedDependency {
     }
     
     func unlockWithPassword(_ password: String) async throws {
-        guard let storeIDValue = await defaults.activeStoreID else {
+        guard let storeID = await defaults.activeStoreID else {
             throw Error.activeStoreIDMissing
         }
-        let storeID = StoreID(storeIDValue)
-        let masterKeyContainer = try await store.loadMasterKeyContainer(storeID: storeID)
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         let publicArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-        let derivedKey = try await DerivedKey(from: password, with: publicArguments)
-        _ = try MasterKey(from: masterKeyContainer, using: derivedKey)
+        _ = try await keychain.loadMasterKey(with: password, publicArguments: publicArguments, id: storeID)
     }
     
     func unlockWithBiometry() async throws {
-        guard let storeIDValue = await defaults.activeStoreID else {
+        guard let storeID = await defaults.activeStoreID else {
             throw Error.activeStoreIDMissing
         }
-        let storeID = StoreID(storeIDValue)
-        let masterKeyContainer = try await store.loadMasterKeyContainer(storeID: storeID)
-        guard let derivedKeyData = try await keychain.derivedKey else {
-            throw Error.derivedKeyMissing
-        }
-        let derivedKey = DerivedKey(with: derivedKeyData)
-        _ = try MasterKey(from: masterKeyContainer, using: derivedKey)
+        
+        _ = try await keychain.loadMasterKeyWithBiometry(id: storeID)
     }
     
     

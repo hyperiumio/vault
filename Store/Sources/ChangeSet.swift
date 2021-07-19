@@ -2,7 +2,7 @@ import Foundation
 
 public struct ChangeSet {
     
-    public let saved: [ItemID: Data]
-    public let deleted: [ItemID]
+    public let saved: [UUID: Data]
+    public let deleted: [UUID]
     
 }

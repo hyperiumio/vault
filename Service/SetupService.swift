@@ -29,13 +29,12 @@ struct SetupService: SetupDependency {
     }
     
     func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {
+        let storeID = UUID()
         let publicArguments = try DerivedKey.PublicArguments()
-        let derivedKey = try await DerivedKey(from: masterPassword, with: publicArguments)
-        let masterKey = MasterKey()
         let derivedKeyContainer = publicArguments.container()
-        let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
-        let storeID = try await store.createStore(derivedKeyContainer: derivedKeyContainer, masterKeyContainer: masterKeyContainer)
-        await defaults.set(activeStoreID: storeID.value)
+        try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
+        _ = try await keychain.generateMasterKey(from: masterPassword, publicArguments: publicArguments, with: storeID)
+        await defaults.set(activeStoreID: storeID)
     }
     
 }

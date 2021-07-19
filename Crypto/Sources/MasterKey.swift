@@ -5,22 +5,22 @@ public struct MasterKey: Equatable {
     
     let value: SymmetricKey
     
-    public init<D>(with data: D) where D: ContiguousBytes {
+    init<D>(with data: D) where D: ContiguousBytes {
         self.value = SymmetricKey(data: data)
     }
     
-    public init() {
+    init() {
         self.value = SymmetricKey(size: .bits256)
     }
     
-    public init(from encryptedContainer: Data, using derivedKey: DerivedKey) throws {
+    init(from encryptedContainer: Data, using derivedKey: DerivedKey) throws {
         let encryptedContainer = try AES.GCM.SealedBox(combined: encryptedContainer)
         let masterKeyData = try AES.GCM.open(encryptedContainer, using: derivedKey.value)
         
         self.value = SymmetricKey(data: masterKeyData)
     }
     
-    public func encryptedContainer(using derivedKey: DerivedKey) throws -> Data {
+    func encryptedContainer(using derivedKey: DerivedKey) throws -> Data {
         try value.withUnsafeBytes { masterKey in
             guard let encryptedContainer = try? AES.GCM.seal(masterKey, using: derivedKey.value).combined else {
                 throw CryptoError.encryptionFailed
@@ -28,14 +28,6 @@ public struct MasterKey: Equatable {
             
             return encryptedContainer
         }
-    }
-    
-}
-
-extension MasterKey: ContiguousBytes {
-    
-    public func withUnsafeBytes<R>(_ body: (UnsafeRawBufferPointer) throws -> R) rethrows -> R {
-        try value.withUnsafeBytes(body)
     }
     
 }

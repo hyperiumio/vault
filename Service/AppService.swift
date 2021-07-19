@@ -22,10 +22,9 @@ struct AppService: AppDependency {
     
     var needsSetup: Bool {
         get async throws {
-            guard let storeIDValue = await defaults.activeStoreID else {
+            guard let storeID = await defaults.activeStoreID else {
                 return false
             }
-            let storeID = StoreID(storeIDValue)
             return try await store.storeExists(storeID: storeID)
         }
     }

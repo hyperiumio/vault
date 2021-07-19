@@ -2,7 +2,7 @@ import Foundation
 
 protocol MasterPasswordSettingsDependency {
     
-    func changeMasterPassword(to newMasterPassword: String) async throws
+    func changeMasterPassword(from oldMasterPassword: String, to newMasterPassword: String) async throws
     
 }
 
@@ -35,7 +35,7 @@ class MasterPasswordSettingsState: ObservableObject {
         status = .loading
         
         do {
-            try await dependency.changeMasterPassword(to: password)
+            try await dependency.changeMasterPassword(from: "", to: password)
             status = .success
         } catch {
             status = .failure

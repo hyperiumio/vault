@@ -15,29 +15,25 @@ struct MasterPasswordSettingsService: MasterPasswordSettingsDependency {
         self.store = store
     }
     
-    func changeMasterPassword(to newMasterPassword: String) async throws {
-        guard
-            let storeIDValue = await defaults.activeStoreID
-            // let masterKeyData = try await keychain.loadSecret(forKey: .masterKey)
-        else {
+    func changeMasterPassword(from oldMasterPassword: String, to newMasterPassword: String) async throws {
+        guard let oldStoreID = await defaults.activeStoreID else {
             throw MasterPasswordSettingsServiceError.changeMasterPasswordDidFail
         }
-        let storeID = StoreID(storeIDValue)
-        let masterKey = MasterKey(with: Data())
+        let oldDerivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: oldStoreID)
+        let oldPublicArguemnts = try DerivedKey.PublicArguments(from: oldDerivedKeyContainer)
+        let oldMasterKey = try await keychain.loadMasterKey(with: oldMasterPassword, publicArguments: oldPublicArguemnts, id: oldStoreID)
         
+        let newStoreID = UUID()
         let newPublicArguments = try DerivedKey.PublicArguments()
-        let newDerivedKey = try await DerivedKey(from: newMasterPassword, with: newPublicArguments)
-        let newMasterKey = MasterKey()
         let newDerivedKeyContainer = newPublicArguments.container()
-        let newMasterKeyContainer = try masterKey.encryptedContainer(using: newDerivedKey)
-        let newStoreID = try await store.migrateStore(fromStore: storeID, derivedKeyContainer: newDerivedKeyContainer, masterKeyContainer: newMasterKeyContainer) { encryptedItem in
-            let messages = try SecureDataMessage.decryptMessages(from: encryptedItem, using: masterKey)
+        let newMasterKey = try await keychain.generateMasterKey(from: newMasterPassword, publicArguments: newPublicArguments, with: newStoreID)
+        try await store.migrateStore(fromStore: oldStoreID, toStore: newStoreID, derivedKeyContainer: newDerivedKeyContainer) { encryptedItem in
+            let messages = try SecureDataMessage.decryptMessages(from: encryptedItem, using: oldMasterKey)
             return try SecureDataMessage.encryptContainer(from: messages, using: newMasterKey)
         }
+        await defaults.set(activeStoreID: newStoreID)
         
-        await defaults.set(activeStoreID: newStoreID.value)
-        try await keychain.store(newDerivedKey)
-        // try await keychain.storeSecret(newMasterKey, forKey: .masterKey)
+        // delete the old stuff
     }
     
 }
