@@ -1,7 +1,6 @@
 import Foundation
 import Model
 
-@MainActor
 protocol SetupDependency {
     
     var biometryType: BiometryType? { get async }

@@ -1,7 +1,6 @@
 import Foundation
 import Model
 
-@MainActor
 protocol LoginItemDependency {
     
     var passwordGeneratorDependency: PasswordGeneratorDependency { get }

@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 protocol PasswordGeneratorDependency {
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String

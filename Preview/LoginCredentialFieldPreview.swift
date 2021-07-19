@@ -1,17 +1,20 @@
 #if DEBUG
+import Model
 import SwiftUI
 
 struct LoginCredentialFieldPreview: PreviewProvider {
     
+    static let item = LoginCredential(id: UUID(), title: "foo", username: "bar", password: "baz", url: "qux")
+    
     static var previews: some View {
         List {
-            LoginCredentialField(title: "foo", username: "bar", url: "baz")
+            LoginCredentialField(item)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            LoginCredentialField(title: "foo", username: "bar", url: "baz")
+            LoginCredentialField(item)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

@@ -1,3 +1,4 @@
+import Model
 import SwiftUI
 
 struct UnlockedView: View {
@@ -65,7 +66,7 @@ extension UnlockedView {
                                 NavigationLink {
                                     StoreItemDetailView(state)
                                 } label: {
-                                    StoreItemInfoView(state.name, description: state.description, type: state.primaryType.displayValue)
+                                    StoreItemInfoView(state.name, description: state.description, type: state.primaryType)
                                 }
                             }
                         }
@@ -74,31 +75,6 @@ extension UnlockedView {
             }
         }
         
-    }
-    
-}
-
-private extension UnlockedState.SecureItemType {
-    
-    var displayValue: StoreItemInfoView.ItemType {
-        switch self {
-        case .login:
-            return .login
-        case .password:
-            return .password
-        case .wifi:
-            return .wifi
-        case .note:
-            return .note
-        case .bankCard:
-            return .bankCard
-        case .bankAccount:
-            return .bankAccount
-        case .custom:
-            return .custom
-        case .file:
-            return .file
-        }
     }
     
 }

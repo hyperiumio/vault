@@ -1,29 +1,30 @@
+import Model
 import PDFKit
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct FileField: View {
     
-    private let value: (data: Data, type: UTType)?
+    private let item: FileItem?
     
-    init(data: Data, type: UTType) {
-        self.value = (data: data, type: type)
+    init(_ item: FileItem) {
+        self.item = item
     }
     
     init() {
-        self.value = nil
+        self.item = nil
     }
     
     var body: some View {
-        switch value {
-        case let value? where value.type.conforms(to: .image):
+        switch item {
+        case let item? where item.type.conforms(to: .image):
             #if os(iOS)
-            if let image = UIImage(data: value.data) {
+            if let image = UIImage(data: item.data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
             } else {
-                UnrepresentableFileView(value.type)
+                UnrepresentableFileView(item.type)
             }
             #endif
             
@@ -36,15 +37,15 @@ struct FileField: View {
                 UnrepresentableFileView(value.type)
             }
             #endif
-        case let value? where value.type.conforms(to: .pdf):
-            if let document = PDFView.Document(data: value.data) {
+        case let item? where item.type.conforms(to: .pdf):
+            if let document = PDFView.Document(data: item.data) {
                 PDFView(document)
                     .scaledToFit()
             } else {
-                UnrepresentableFileView(value.type)
+                UnrepresentableFileView(item.type)
             }
         default:
-            UnrepresentableFileView(value?.type ?? .item)
+            UnrepresentableFileView(item?.type ?? .item)
         }
     }
     

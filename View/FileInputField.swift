@@ -11,11 +11,7 @@ struct FileInputField: View {
     }
     
     var body: some View {
-        if let value = state.value {
-            FileField(data: value.data, type: value.type)
-        } else {
-            Text("missing")
-        }
+        Text("missing")
     }
     
 }

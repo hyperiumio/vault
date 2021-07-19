@@ -1,22 +1,19 @@
 import Format
+import Model
 import Pasteboard
 import SwiftUI
 
 struct BankAccountField: View {
     
-    private let accountHolder: String?
-    private let iban: String?
-    private let bic: String?
+    private let item: BankAccountItem
     
-    init(accountHolder: String?, iban: String?, bic: String?) {
-        self.accountHolder = accountHolder
-        self.iban = iban
-        self.bic = bic
+    init(_ item: BankAccountItem) {
+        self.item = item
     }
     
     var body: some View {
         Group {
-            if let accountHolder = accountHolder {
+            if let accountHolder = item.accountHolder {
                 Button {
                     Pasteboard.general.string = accountHolder
                 } label: {
@@ -26,7 +23,7 @@ struct BankAccountField: View {
                 }
             }
             
-            if let iban = iban {
+            if let iban = item.iban {
                 Button {
                     Pasteboard.general.string = iban
                 } label: {
@@ -37,7 +34,7 @@ struct BankAccountField: View {
                 }
             }
             
-            if let bic = bic {
+            if let bic = item.bic {
                 Button {
                     Pasteboard.general.string = bic
                 } label: {

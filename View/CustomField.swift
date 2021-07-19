@@ -1,22 +1,21 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct CustomField: View {
     
-    private let description: String
-    private let value: String
+    private let item: CustomItem
     
-    init(description: String?, value: String?) {
-        self.description = description ?? ""
-        self.value = value ?? ""
+    init(_ item: CustomItem) {
+        self.item = item
     }
     
     var body: some View {
         Button {
-            Pasteboard.general.string = value
+            Pasteboard.general.string = item.value
         } label: {
-            Field(description) {
-                Text(value)
+            Field(item.description ?? "") {
+                Text(item.value ?? "")
             }
         }
         .buttonStyle(.message(.copied))

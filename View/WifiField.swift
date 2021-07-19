@@ -1,20 +1,19 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct WifiField: View {
     
-    private let name: String?
-    private let password: String?
+    private let item: WifiItem
     @State private var passwordIsVisisble = false
     
-    init(name: String?, password: String?) {
-        self.name = name
-        self.password = password
+    init(_ item: WifiItem) {
+        self.item = item
     }
     
     var body: some View {
         Group {
-            if let name = name {
+            if let name = item.name {
                 Button {
                     Pasteboard.general.string = name
                 } label: {
@@ -24,7 +23,7 @@ struct WifiField: View {
                 }
             }
             
-            if let password = password {
+            if let password = item.password {
                 Toggle(isOn: $passwordIsVisisble) {
                     Button {
                         Pasteboard.general.string = password

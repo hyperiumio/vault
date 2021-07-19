@@ -1,16 +1,17 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct NoteField: View {
     
-    private let text: String?
+    private let item: NoteItem
     
-    init(text: String?) {
-        self.text = text
+    init(_ item: NoteItem) {
+        self.item = item
     }
     
     var body: some View {
-        if let text = text {
+        if let text = item.text {
             Button {
                 Pasteboard.general.string = text
             } label: {

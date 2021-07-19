@@ -2,7 +2,6 @@ import Foundation
 import Model
 import Sort
 
-@MainActor
 protocol StoreItemDetailDependency {
     
     var storeItem: StoreItem { get async throws }
@@ -98,8 +97,6 @@ extension StoreItemDetailState {
         case loadingFailed
         
     }
-    
-    typealias SecureItem = Model.SecureItem
     
 }
 

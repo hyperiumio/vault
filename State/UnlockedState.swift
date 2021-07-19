@@ -2,7 +2,6 @@ import Foundation
 import Model
 import Sort
 
-@MainActor
 protocol UnlockedDependency {
     
 }
@@ -53,7 +52,6 @@ class UnlockedState: ObservableObject {
 
 extension UnlockedState {
     
-    typealias SecureItemType = Model.SecureItemType
     typealias Collation = AlphabeticCollation<StoreItemDetailState>
     
     enum Status {

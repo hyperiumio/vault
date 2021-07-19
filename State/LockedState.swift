@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 protocol LockedDependency {
     
     var biometryType: BiometryType? { get async }

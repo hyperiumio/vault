@@ -1,9 +1,11 @@
 #if DEBUG
+import Model
 import SwiftUI
 
 struct StoreItemDisplayViewPreview: PreviewProvider {
     
-    static let primaryItem = SecureItemField.Value.login(username: "foo", password: "bar", url: "baz")
+    static let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
+    static let primaryItem = SecureItem.login(loginItem)
     
     static var previews: some View {
         NavigationView {
@@ -15,7 +17,7 @@ struct StoreItemDisplayViewPreview: PreviewProvider {
         .previewLayout(.sizeThatFits)
         
         NavigationView {
-            StoreItemDisplayView("foo", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now) {
+            StoreItemDisplayView("qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now) {
                 print("edit")
             }
         }

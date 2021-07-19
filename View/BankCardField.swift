@@ -1,26 +1,19 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct BankCardField: View {
     
-    private let name: String?
-    private let vendor: Vendor?
-    private let number: String?
-    private let expirationDate: Date?
-    private let pin: String?
+    private let item: BankCardItem
     @State private var pinIsVisisble = false
     
-    init(name: String?, vendor: Vendor?, number: String?, expirationDate: Date?, pin: String?) {
-        self.name = name
-        self.vendor = vendor
-        self.number = number
-        self.expirationDate = expirationDate
-        self.pin = pin
+    init(_ item: BankCardItem) {
+        self.item = item
     }
     
     var body: some View {
         Group {
-            if let name = name {
+            if let name = item.name {
                 Button {
                     Pasteboard.general.string = name
                 } label: {
@@ -30,7 +23,7 @@ struct BankCardField: View {
                 }
             }
             
-            if let vendor = vendor {
+            if let vendor = item.vendor {
                 Field(.vendor) {
                     switch vendor {
                     case .masterCard:
@@ -43,7 +36,7 @@ struct BankCardField: View {
                 }
             }
             
-            if let number = number {
+            if let number = item.number {
                 Button {
                     Pasteboard.general.string = number
                 } label: {
@@ -54,7 +47,7 @@ struct BankCardField: View {
                 }
             }
             
-            if let expirationDate = expirationDate {
+            if let expirationDate = item.expirationDate {
                 Button {
                     Pasteboard.general.string = Date.FormatStyle(date: .complete).format(expirationDate)
                 } label: {
@@ -64,7 +57,7 @@ struct BankCardField: View {
                 }
             }
             
-            if let pin = pin {
+            if let pin = item.pin {
                 Toggle(isOn: $pinIsVisisble) {
                     Button {
                         Pasteboard.general.string = pin

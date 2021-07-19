@@ -1,7 +1,8 @@
-/*
 import SwiftUI
 import Model
-#warning("todo")
+
+
+
 struct QuickAccessUnlockedView: View {
     
     @ObservedObject private var state: QuickAccessUnlockedState
@@ -10,56 +11,70 @@ struct QuickAccessUnlockedView: View {
         self.state = state
     }
     
-    #if os(iOS)
     var body: some View {
-        List {
-            ForEach(state.itemCollation.sections) { section in
-                Section {
-                    ForEach(section.elements) { item in
-                        Button {
-                //            state.selectItem(item)
-                        } label: {
-                            LoginCredentialField(title: item.title, username: item.username, url: item.url)
-                        }
-                    }
-                } header: {
-                    Text(section.key)
-                }
+        switch state.status {
+        case .empty:
+            Empty {
+                
             }
-        }
-        .searchable(text: $state.searchText)
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        List {
-            /*
-            ForEach(state.itemCollation.sections) { section in
-                Section {
-                    ForEach(section.elements) { item in
-                        Button {
-                            state.selectItem(item)
-                        } label: {
-                            LoginCredentialField(title: item.title, username: item.username, url: item.url)
-                        }
-                    }
-                } header: {
-                    Text(section.key)
-                }
-            }
-             */
+        case .value(let collation):
+            Value(collation)
+                .searchable(text: $state.searchText)
         }
     }
-    #endif
     
 }
 
-private extension Section where Parent: View, Content: View, Footer == EmptyView {
+extension QuickAccessUnlockedView {
+    
+    struct Empty: View {
+        
+        private let action: () -> Void
+        
+        init(action: @escaping () -> Void) {
+            self.action = action
+        }
+        
+        var body: some View {
+            VStack(spacing: 30) {
+                Text(.emptyVault)
+                    .font(.title)
+            }
+        }
+        
+    }
 
-    init(@ViewBuilder content: () -> Content, @ViewBuilder header: () -> Parent) {
-        self.init(header: header(), content: content)
+    struct Value: View {
+        
+        private let collation: QuickAccessUnlockedState.Collation
+        
+        init(_ collation: QuickAccessUnlockedState.Collation) {
+            self.collation = collation
+        }
+        
+        var body: some View {
+            if collation.sections.isEmpty {
+                Text(.noResultsFound)
+                    .font(.title)
+            } else {
+                List {
+                    ForEach(collation.sections) { section in
+                        Section {
+                            ForEach(section.elements) { item in
+                                Button {
+                                    
+                                } label: {
+                                    LoginCredentialField(item)
+                                }
+                            }
+                        } header: {
+                            Text(section.key)
+                        }
+                    }
+                }
+            }
+        }
+        
     }
     
 }
-*/

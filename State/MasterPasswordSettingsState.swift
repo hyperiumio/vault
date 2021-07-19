@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 protocol MasterPasswordSettingsDependency {
     
     func changeMasterPassword(to newMasterPassword: String) async throws

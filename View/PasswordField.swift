@@ -1,17 +1,18 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct PasswordField: View {
     
-    private let password: String?
+    private let item: PasswordItem
     @State private var passwordIsVisisble = false
     
-    init(password: String?) {
-        self.password = password
+    init(_ item: PasswordItem) {
+        self.item = item
     }
     
     var body: some View {
-        if let password = password {
+        if let password = item.password {
             Toggle(isOn: $passwordIsVisisble) {
                 Button {
                     Pasteboard.general.string = password

@@ -1,6 +1,5 @@
 import Foundation
 
-@MainActor
 protocol BiometrySettingsDependency {
     
     func save(isBiometricUnlockEnabled: Bool) async

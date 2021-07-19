@@ -1,28 +1,25 @@
 import SwiftUI
+import Model
 
 struct LoginCredentialField: View {
     
-    private let title: String
-    private let username: String
-    private let url: String?
+    private let item: LoginCredential
     
-    init(title: String, username: String, url: String?) {
-        self.title = title
-        self.username = username
-        self.url = url
+    init(_ item: LoginCredential) {
+        self.item = item
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 2) {
-            Text(title)
+            Text(item.title)
                 .font(.headline)
                 .foregroundStyle(.primary)
             
-            Text(username)
+            Text(item.username)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             
-            if let url = url {
+            if let url = item.url {
                 Text(url)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)

@@ -1,22 +1,19 @@
+import Model
 import Pasteboard
 import SwiftUI
 
 struct LoginField: View {
     
-    private let username: String?
-    private let password: String?
-    private let url: String?
+    private let item: LoginItem
     @State private var passwordIsVisisble = false
     
-    init(username: String?, password: String?, url: String?) {
-        self.username = username
-        self.password = password
-        self.url = url
+    init(_ item: LoginItem) {
+        self.item = item
     }
     
     var body: some View {
         Group {
-            if let username = username {
+            if let username = item.username {
                 Button {
                     Pasteboard.general.string = username
                 } label: {
@@ -26,7 +23,7 @@ struct LoginField: View {
                 }
             }
             
-            if let password = password {
+            if let password = item.password {
                 Toggle(isOn: $passwordIsVisisble) {
                     Button {
                         Pasteboard.general.string = password
@@ -38,7 +35,7 @@ struct LoginField: View {
                 }
             }
             
-            if let url = url {
+            if let url = item.url {
                 Button {
                     Pasteboard.general.string = url
                 } label: {

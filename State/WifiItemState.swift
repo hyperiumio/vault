@@ -1,7 +1,6 @@
 import Foundation
 import Model
 
-@MainActor
 protocol WifiItemDependency {
     
     var passwordGeneratorDependency: PasswordGeneratorDependency { get }

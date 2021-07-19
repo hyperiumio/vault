@@ -1,7 +1,6 @@
 import Foundation
 import Model
 
-@MainActor
 protocol StoreItemEditDependency {
     
     var passwordDependency: PasswordItemDependency { get}
@@ -131,15 +130,6 @@ class StoreItemEditState: ObservableObject {
 }
 
 extension StoreItemEditState {
-    
-    typealias LoginItem = Model.LoginItem
-    typealias PasswordItem = Model.PasswordItem
-    typealias FileItem = Model.FileItem
-    typealias NoteItem = Model.NoteItem
-    typealias BankCardItem = Model.BankCardItem
-    typealias WifiItem = Model.WifiItem
-    typealias BankAccountItem = Model.BankAccountItem
-    typealias CustomItem = Model.CustomItem
     
     enum Element  {
         

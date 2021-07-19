@@ -1,9 +1,8 @@
-/*
 import SwiftUI
-#warning("todo")
+
 struct QuickAccessView: View {
     
-    @ObservedObject var state: QuickAccessState
+    @ObservedObject private var state: QuickAccessState
     private let cancel: () -> Void
     
     init(_ state: QuickAccessState, cancel: @escaping () -> Void) {
@@ -11,22 +10,26 @@ struct QuickAccessView: View {
         self.cancel = cancel
     }
     
-    #if os(iOS)
     var body: some View {
         NavigationView {
             Group {
                 switch state.status {
-                case .locked(let state, _):
-                    QuickAccessLockedView(state)
+                case .initialized:
+                    Background()
+                case .loading:
+                    ProgressView()
+                case .loadingFailed:
+                    FailureView(.loadingVaultFailed) {
+                        Task {
+                            await state.load()
+                        }
+                    }
+                case .locked(let state):
+                    LockedView(state)
                 case .unlocked(let state):
                     QuickAccessUnlockedView(state)
-                case .loading:
-                    EmptyView()
-                case .loadingFailed:
-                    Text("Error")
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(.cancel) {
@@ -34,21 +37,10 @@ struct QuickAccessView: View {
                     }
                 }
             }
-        }
-    }
-    #endif
-    
-    #if os(macOS)
-    var body: some View {
-        VStack {
-            Text("CredentialProviderView")
-            
-            Button(.cancel) {
-              cancel()
+            .task {
+                await state.load()
             }
         }
     }
-    #endif
     
 }
-*/

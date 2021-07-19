@@ -1,7 +1,6 @@
 import Foundation
 import Model
 
-@MainActor
 protocol AppDependency {
     
     var needsSetup: Bool { get async throws }
