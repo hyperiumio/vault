@@ -4,9 +4,10 @@ import Model
 protocol AppDependency {
     
     var needsSetup: Bool { get async throws }
-    var setupDependency: SetupDependency { get }
-    var lockedDependency: LockedDependency { get }
-    var unlockedDependency: UnlockedDependency { get }
+    
+    func setupDependency() -> SetupDependency
+    func lockedDependency() -> LockedDependency
+    func unlockedDependency() -> UnlockedDependency
     
 }
 
@@ -34,21 +35,24 @@ class AppState: ObservableObject {
     }
     
     func presentSetupState() {
-        let setupState = SetupState(dependency: dependency.setupDependency) {
+        let setupDependency = dependency.setupDependency()
+        let setupState = SetupState(dependency: setupDependency) {
             self.presentLockedState()
         }
         status = .setup(state: setupState)
     }
     
     func presentLockedState() {
-        let lockedState = LockedState(dependency: dependency.lockedDependency) {
+        let lockedDependency = dependency.lockedDependency()
+        let lockedState = LockedState(dependency: lockedDependency) {
             self.presentUnlockedState()
         }
         status = .locked(state: lockedState)
     }
     
     func presentUnlockedState() {
-        let unlockedState = UnlockedState(dependency: dependency.unlockedDependency) {
+        let unlockedDependency = dependency.unlockedDependency()
+        let unlockedState = UnlockedState(dependency: unlockedDependency) {
             self.presentLockedState()
         }
         status = .unlocked(state: unlockedState)

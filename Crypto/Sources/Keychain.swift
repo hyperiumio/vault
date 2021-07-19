@@ -3,6 +3,20 @@ import Foundation
 import LocalAuthentication
 import Security
 
+public actor MasterKeyManager {
+    
+    public var masterKey: MasterKey
+    
+    public init(masterKey: MasterKey) {
+        self.masterKey = masterKey
+    }
+    
+    public func setMasterKey(_ masterKey: MasterKey) {
+        self.masterKey = masterKey
+    }
+    
+}
+
 public actor Keychain {
     
     let attributeBuilder: KeychainAttributeBuilder
@@ -16,11 +30,20 @@ public actor Keychain {
     }
     
     public func generateMasterKey(from password: String, publicArguments: DerivedKey.PublicArguments, with id: UUID) async throws -> MasterKey {
-        fatalError()
+        let derivedKey = try await DerivedKey(from: password, with: publicArguments)
+        let masterKey = MasterKey()
+        let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
+        try await self.storeSecret(masterKeyContainer, forKey: "MasterKey")
+        
+        return masterKey
     }
     
-    public func loadMasterKey(with password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws -> MasterKey {
-        fatalError()
+    public func loadMasterKey(with password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws -> MasterKey? {
+        guard let masterKeyContainer = try await self.loadSecret(forKey: "MasterKey") else {
+            return nil
+        }
+        let derivedKey = try await DerivedKey(from: password, with: publicArguments)
+        return try MasterKey(from: masterKeyContainer, using: derivedKey)
     }
     
     public func loadMasterKeyWithBiometry(id: UUID) async throws -> MasterKey {

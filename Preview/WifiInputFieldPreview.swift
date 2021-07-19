@@ -24,9 +24,9 @@ struct WifiInputFieldPreview: PreviewProvider {
 
 extension WifiInputFieldPreview {
     
-    struct WifiService: WifiItemDependency {
+    actor WifiService: WifiItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         

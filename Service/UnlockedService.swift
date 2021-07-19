@@ -1,3 +1,7 @@
-struct UnlockedService: UnlockedDependency {
+
+
+actor UnlockedService: UnlockedDependency {
+    
+    
     
 }

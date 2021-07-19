@@ -26,7 +26,7 @@ extension MasterPasswordSettingsViewPreview {
     
     struct MasterPasswordSettingsServiceStub: MasterPasswordSettingsDependency {
         
-        func changeMasterPassword(from oldMasterPassword: String, to newMasterPassword: String) async throws {}
+        func changeMasterPassword(to masterPassword: String) async throws {}
         
     }
     

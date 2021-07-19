@@ -1,19 +1,7 @@
 import Foundation
 import Model
 
-struct StoreItemEditService: StoreItemEditDependency {
-    
-    var passwordDependency: PasswordItemDependency {
-        PasswordService()
-    }
-    
-    var loginDependency: LoginItemDependency {
-        LoginService()
-    }
-    
-    var wifiDependency: WifiItemDependency {
-        WifiService()
-    }
+actor StoreItemEditService: StoreItemEditDependency {
     
     func save(_ storeItem: StoreItem) async throws {
         fatalError()
@@ -21,6 +9,18 @@ struct StoreItemEditService: StoreItemEditDependency {
     
     func delete(itemID: UUID) async throws {
         fatalError()
+    }
+    
+    nonisolated func passwordDependency() -> PasswordItemDependency {
+        PasswordService()
+    }
+    
+    nonisolated func loginDependency() -> LoginItemDependency {
+        LoginService()
+    }
+    
+    nonisolated func wifiDependency() -> WifiItemDependency {
+        WifiService()
     }
     
 }

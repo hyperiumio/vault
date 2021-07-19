@@ -3,7 +3,7 @@ import Model
 
 protocol PasswordItemDependency {
     
-    var passwordGeneratorDependency: PasswordGeneratorDependency { get }
+    func passwordGeneratorDependency() -> PasswordGeneratorDependency
     
 }
 
@@ -21,8 +21,10 @@ class PasswordItemState: ObservableObject {
     }
     
     init(_ item: PasswordItem? = nil, dependency: PasswordItemDependency) {
+        let passwordGeneratorDependency = dependency.passwordGeneratorDependency()
+        
         self.password = item?.password ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency.passwordGeneratorDependency)
+        self.passwordGeneratorState = PasswordGeneratorState(dependency: passwordGeneratorDependency)
     }
     
 }

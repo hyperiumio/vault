@@ -5,7 +5,8 @@ import Sort
 protocol StoreItemDetailDependency {
     
     var storeItem: StoreItem { get async throws }
-    var storeItemEditDependency: StoreItemEditDependency { get }
+    
+    func storeItemEditDependency() -> StoreItemEditDependency
 }
 
 @MainActor
@@ -47,7 +48,8 @@ class StoreItemDetailState: ObservableObject {
             return
         }
         
-        let editState = StoreItemEditState(dependency: dependency.storeItemEditDependency, editing: storeItem)
+        let storeItemEditDependency = dependency.storeItemEditDependency()
+        let editState = StoreItemEditState(dependency: storeItemEditDependency, editing: storeItem)
         status = .edit(editState)
     }
     

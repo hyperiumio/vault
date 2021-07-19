@@ -3,7 +3,7 @@ import Foundation
 import Preferences
 import Store
 
-struct LockedService: LockedDependency {
+actor LockedService: LockedDependency {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain

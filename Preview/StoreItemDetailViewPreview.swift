@@ -5,7 +5,7 @@ import SwiftUI
 struct StoreItemDetailViewPreview: PreviewProvider {
     
     static let storeItemDetailDependency = StoreItemDetailService()
-    static let storeItemDetailState = StoreItemDetailState(storeItemInfo: storeItemDetailDependency.storeItem.info, dependency: storeItemDetailDependency)
+    static let storeItemDetailState = StoreItemDetailState(storeItemInfo: StoreItemDetailService.storeItem.info, dependency: storeItemDetailDependency)
     
     static var previews: some View {
         NavigationView {
@@ -25,15 +25,21 @@ struct StoreItemDetailViewPreview: PreviewProvider {
 
 extension StoreItemDetailViewPreview {
     
-    struct StoreItemDetailService: StoreItemDetailDependency {
+    actor StoreItemDetailService: StoreItemDetailDependency {
         
-        var storeItem: StoreItem {
+        static var storeItem: StoreItem {
             let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
             let primaryItem = SecureItem.login(loginItem)
             return StoreItem(id: UUID(), name: "qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now)
         }
         
-        var storeItemEditDependency: StoreItemEditDependency {
+        var storeItem: StoreItem {
+            get async {
+                Self.storeItem
+            }
+        }
+        
+        nonisolated func storeItemEditDependency() -> StoreItemEditDependency {
             StoreItemEditService()
         }
         

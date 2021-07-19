@@ -3,7 +3,7 @@ import Model
 
 protocol WifiItemDependency {
     
-    var passwordGeneratorDependency: PasswordGeneratorDependency { get }
+    func passwordGeneratorDependency() -> PasswordGeneratorDependency
     
 }
 
@@ -23,9 +23,11 @@ class WifiItemState: ObservableObject {
     }
     
     init(_ item: WifiItem? = nil, dependency: WifiItemDependency) {
+        let passwordGeneratorDependency = dependency.passwordGeneratorDependency()
+        
         self.name = item?.name ?? ""
         self.password = item?.password ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency.passwordGeneratorDependency)
+        self.passwordGeneratorState = PasswordGeneratorState(dependency: passwordGeneratorDependency)
     }
     
 }

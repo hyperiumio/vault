@@ -4,7 +4,7 @@ import Foundation
 import Preferences
 import Store
 
-struct AppService: AppDependency {
+actor AppService: AppDependency {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain
@@ -29,15 +29,15 @@ struct AppService: AppDependency {
         }
     }
     
-    var setupDependency: SetupDependency {
+    nonisolated func setupDependency() -> SetupDependency {
         SetupService(defaults: defaults, keychain: keychain, store: store)
     }
     
-    var lockedDependency: LockedDependency {
+    nonisolated func lockedDependency() -> LockedDependency {
         LockedService(defaults: defaults, keychain: keychain, store: store)
     }
     
-    var unlockedDependency: UnlockedDependency {
+    nonisolated func unlockedDependency() -> UnlockedDependency {
         UnlockedService()
     }
     

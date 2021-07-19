@@ -60,7 +60,7 @@ class SetupState: ObservableObject {
         
         switch step {
         case .choosePassword:
-            guard password.count >= 8 else {
+            guard password.count >= 1 else {
                 setupError = .insecurePassword
                 return
             }

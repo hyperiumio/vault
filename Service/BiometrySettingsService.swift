@@ -2,7 +2,7 @@ import Crypto
 import Foundation
 import Preferences
 
-struct BiometrySettingsService: BiometrySettingsDependency {
+actor BiometrySettingsService: BiometrySettingsDependency {
     
     private let defaults: Defaults<UserDefaults>
     

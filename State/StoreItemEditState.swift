@@ -3,12 +3,12 @@ import Model
 
 protocol StoreItemEditDependency {
     
-    var passwordDependency: PasswordItemDependency { get}
-    var loginDependency: LoginItemDependency { get }
-    var wifiDependency: WifiItemDependency { get }
-    
     func save(_ storeItem: StoreItem) async throws
     func delete(itemID: UUID) async throws
+    
+    func passwordDependency() -> PasswordItemDependency
+    func loginDependency() -> LoginItemDependency
+    func wifiDependency() -> WifiItemDependency
 }
 
 @MainActor
@@ -34,10 +34,12 @@ class StoreItemEditState: ObservableObject {
         func element(from secureItem: SecureItem) -> Element {
             switch secureItem {
             case .password(let item):
-                let state = PasswordItemState(item, dependency: dependency.passwordDependency)
+                let passwordDependency = dependency.passwordDependency()
+                let state = PasswordItemState(item, dependency: passwordDependency)
                 return .password(state)
             case .login(let item):
-                let state = LoginItemState(item, dependency: dependency.loginDependency)
+                let loginDependency = dependency.loginDependency()
+                let state = LoginItemState(item, dependency: loginDependency)
                 return .login(state)
             case .file(let item):
                 let state = FileItemState(item)
@@ -49,7 +51,8 @@ class StoreItemEditState: ObservableObject {
                 let state = BankCardItemState(item)
                 return .bankCard(state)
             case .wifi(let item):
-                let state = WifiItemState(item, dependency: dependency.wifiDependency)
+                let wifiDependency = dependency.wifiDependency()
+                let state = WifiItemState(item, dependency: wifiDependency)
                 return .wifi(state)
             case .bankAccount(let item):
                 let state = BankAccountItemState(item)
@@ -73,10 +76,12 @@ class StoreItemEditState: ObservableObject {
         let element: Element
         switch type {
         case .password:
-            let state = PasswordItemState(dependency: dependency.passwordDependency)
+            let passwordDependency = dependency.passwordDependency()
+            let state = PasswordItemState(dependency: passwordDependency)
             element = .password(state)
         case .login:
-            let state = LoginItemState(dependency: dependency.loginDependency)
+            let loginDependency = dependency.loginDependency()
+            let state = LoginItemState(dependency: loginDependency)
             element = .login(state)
         case .file:
             fatalError()
@@ -87,7 +92,8 @@ class StoreItemEditState: ObservableObject {
             let state = BankCardItemState()
             element = .bankCard(state)
         case .wifi:
-            let state = WifiItemState(dependency: dependency.wifiDependency)
+            let wifiDependency = dependency.wifiDependency()
+            let state = WifiItemState(dependency: wifiDependency)
             element = .wifi(state)
         case .bankAccount:
             let state = BankAccountItemState()

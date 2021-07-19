@@ -6,7 +6,7 @@ struct UnlockedViewPreview: PreviewProvider {
     
     static let storeItemDetailDependency = StoreItemDetailService()
     static let storeItemDetailState = [
-        StoreItemDetailState(storeItemInfo: storeItemDetailDependency.storeItem.info, dependency: storeItemDetailDependency)
+        StoreItemDetailState(storeItemInfo: StoreItemDetailService.storeItem.info, dependency: storeItemDetailDependency)
     ]
     static let nonEmptyCollation = UnlockedState.Collation(from: storeItemDetailState)
     static let emptyCollation = UnlockedState.Collation()
@@ -68,7 +68,7 @@ struct UnlockedViewPreview: PreviewProvider {
 
 extension UnlockedViewPreview {
     
-    struct PasswordGeneratorService: PasswordGeneratorDependency {
+    actor PasswordGeneratorService: PasswordGeneratorDependency {
         
         func password(length: Int, digit: Bool, symbol: Bool) async -> String {
             "foo"
@@ -76,64 +76,70 @@ extension UnlockedViewPreview {
         
     }
     
-    struct PasswordService: PasswordItemDependency {
+    actor PasswordService: PasswordItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct LoginService: LoginItemDependency {
+    actor LoginService: LoginItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct WifiService: WifiItemDependency {
+    actor WifiService: WifiItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct StoreItemEditService: StoreItemEditDependency {
-        
-        var passwordDependency: PasswordItemDependency {
-            PasswordService()
-        }
-        
-        var loginDependency: LoginItemDependency {
-            LoginService()
-        }
-        
-        var wifiDependency: WifiItemDependency {
-            WifiService()
-        }
+    actor StoreItemEditService: StoreItemEditDependency {
         
         func save(_ storeItem: StoreItem) async throws {}
         func delete(itemID: UUID) async throws {}
         
+        nonisolated func passwordDependency() -> PasswordItemDependency {
+            PasswordService()
+        }
+        
+        nonisolated func loginDependency() -> LoginItemDependency {
+            LoginService()
+        }
+        
+        nonisolated func wifiDependency() -> WifiItemDependency {
+            WifiService()
+        }
+        
     }
     
-    struct StoreItemDetailService: StoreItemDetailDependency {
+    actor StoreItemDetailService: StoreItemDetailDependency {
         
-        var storeItem: StoreItem {
+        static var storeItem: StoreItem {
             let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
             let primaryItem = SecureItem.login(loginItem)
             return StoreItem(id: UUID(), name: "qux", primaryItem: primaryItem, secondaryItems: [], created: .distantPast, modified: .now)
         }
         
-        var storeItemEditDependency: StoreItemEditDependency {
+        var storeItem: StoreItem {
+            get async {
+                Self.storeItem
+            }
+        }
+        
+        nonisolated func storeItemEditDependency() -> StoreItemEditDependency {
             StoreItemEditService()
         }
         
     }
     
-    struct UnlockedService: UnlockedDependency {
+    actor UnlockedService: UnlockedDependency {
         
     }
     

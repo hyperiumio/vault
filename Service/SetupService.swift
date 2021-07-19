@@ -3,7 +3,7 @@ import Foundation
 import Preferences
 import Store
 
-struct SetupService: SetupDependency {
+actor SetupService: SetupDependency {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain

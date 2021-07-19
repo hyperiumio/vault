@@ -1,6 +1,6 @@
-struct PasswordService: PasswordItemDependency {
+actor PasswordService: PasswordItemDependency {
     
-    var passwordGeneratorDependency: PasswordGeneratorDependency {
+    nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
         PasswordGeneratorService()
     }
     

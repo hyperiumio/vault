@@ -24,15 +24,15 @@ struct PasswordInputFieldPreview: PreviewProvider {
 
 extension PasswordInputFieldPreview {
     
-    struct PasswordService: PasswordItemDependency {
+    actor PasswordService: PasswordItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct PasswordGeneratorService: PasswordGeneratorDependency {
+    actor PasswordGeneratorService: PasswordGeneratorDependency {
         
         func password(length: Int, digit: Bool, symbol: Bool) async -> String {
             "foo"

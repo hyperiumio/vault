@@ -5,8 +5,9 @@ protocol SettingsDependency {
     
     var biometryType: BiometryType? { get async }
     var isBiometricUnlockEnabled: Bool { get async }
-    var biometrySettingsDependency: BiometrySettingsDependency { get }
-    var masterPasswordSettingsDependency: MasterPasswordSettingsDependency { get }
+    
+    func biometrySettingsDependency() -> BiometrySettingsDependency
+    func masterPasswordSettingsDependency() -> MasterPasswordSettingsDependency
     
 }
 
@@ -19,8 +20,10 @@ class SettingsState: ObservableObject {
     private let dependency: SettingsDependency
     
     init(dependency: SettingsDependency) {
+        let masterPasswordSettingsDependency = dependency.masterPasswordSettingsDependency()
+        
         self.dependency = dependency
-        self.masterPasswordSettingsState = MasterPasswordSettingsState(dependency: dependency.masterPasswordSettingsDependency)
+        self.masterPasswordSettingsState = MasterPasswordSettingsState(dependency: masterPasswordSettingsDependency)
     }
     
     func load() async {
@@ -29,7 +32,8 @@ class SettingsState: ObservableObject {
         }
         
         let isBiometricUnlockEnabled = await dependency.isBiometricUnlockEnabled
-        biometrySettingsState = BiometrySettingsState(biometryType: biometryType, isBiometricUnlockEnabled: isBiometricUnlockEnabled, dependency: dependency.biometrySettingsDependency)
+        let biometrySettingdependency = dependency.biometrySettingsDependency()
+        biometrySettingsState = BiometrySettingsState(biometryType: biometryType, isBiometricUnlockEnabled: isBiometricUnlockEnabled, dependency: biometrySettingdependency)
     }
     
 }

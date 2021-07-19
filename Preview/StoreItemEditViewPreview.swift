@@ -33,7 +33,7 @@ struct StoreItemEditViewPreview: PreviewProvider {
 
 extension StoreItemEditViewPreview {
     
-    struct PasswordGeneratorService: PasswordGeneratorDependency {
+    actor PasswordGeneratorService: PasswordGeneratorDependency {
         
         func password(length: Int, digit: Bool, symbol: Bool) async -> String {
             "foo"
@@ -41,46 +41,46 @@ extension StoreItemEditViewPreview {
         
     }
     
-    struct PasswordService: PasswordItemDependency {
+    actor PasswordService: PasswordItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct LoginService: LoginItemDependency {
+    actor LoginService: LoginItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct WifiService: WifiItemDependency {
+    actor WifiService: WifiItemDependency {
         
-        var passwordGeneratorDependency: PasswordGeneratorDependency {
+        nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
             PasswordGeneratorService()
         }
         
     }
     
-    struct StoreItemEditService: StoreItemEditDependency {
-        
-        var passwordDependency: PasswordItemDependency {
-            PasswordService()
-        }
-        
-        var loginDependency: LoginItemDependency {
-            LoginService()
-        }
-        
-        var wifiDependency: WifiItemDependency {
-            WifiService()
-        }
+    actor StoreItemEditService: StoreItemEditDependency {
         
         func save(_ storeItem: StoreItem) async throws {}
         func delete(itemID: UUID) async throws {}
+        
+        nonisolated func passwordDependency() -> PasswordItemDependency {
+            PasswordService()
+        }
+        
+        nonisolated func loginDependency() -> LoginItemDependency {
+            LoginService()
+        }
+        
+        nonisolated func wifiDependency() -> WifiItemDependency {
+            WifiService()
+        }
         
     }
     

@@ -21,24 +21,30 @@ struct SettingsViewPreview: PreviewProvider {
 
 extension SettingsViewPreview {
     
-    struct BiometrySettingsServiceStub: BiometrySettingsDependency {
+    actor BiometrySettingsService: BiometrySettingsDependency {
         
         func save(isBiometricUnlockEnabled: Bool) async {}
         
     }
     
-    struct MasterPasswordSettingsServiceStub: MasterPasswordSettingsDependency {
+    actor MasterPasswordSettingsService: MasterPasswordSettingsDependency {
         
-        func changeMasterPassword(from oldMasterPassword: String, to newMasterPassword: String) async throws {}
+        func changeMasterPassword(to masterPassword: String) async throws {}
         
     }
     
-    struct SettingsService: SettingsDependency {
+    actor SettingsService: SettingsDependency {
         
         let biometryType = BiometryType.touchID as BiometryType?
         let isBiometricUnlockEnabled = true
-        let biometrySettingsDependency = BiometrySettingsServiceStub() as BiometrySettingsDependency
-        let masterPasswordSettingsDependency = MasterPasswordSettingsServiceStub() as MasterPasswordSettingsDependency
+        
+        nonisolated func biometrySettingsDependency() -> BiometrySettingsDependency {
+            BiometrySettingsService()
+        }
+        
+        nonisolated func masterPasswordSettingsDependency() -> MasterPasswordSettingsDependency {
+            MasterPasswordSettingsService()
+        }
         
     }
     

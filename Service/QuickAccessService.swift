@@ -1,3 +1,3 @@
-struct QuickAccessService: QuickAccessDependency {
+actor QuickAccessService: QuickAccessDependency {
     
 }

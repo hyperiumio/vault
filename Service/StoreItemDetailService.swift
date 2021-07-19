@@ -1,6 +1,6 @@
 import Model
 
-struct StoreItemDetailService: StoreItemDetailDependency {
+actor StoreItemDetailService: StoreItemDetailDependency {
     
     var storeItem: StoreItem {
         get async throws {
@@ -8,7 +8,7 @@ struct StoreItemDetailService: StoreItemDetailDependency {
         }
     }
     
-    var storeItemEditDependency: StoreItemEditDependency {
+    nonisolated func storeItemEditDependency() -> StoreItemEditDependency {
         fatalError()
     }
     

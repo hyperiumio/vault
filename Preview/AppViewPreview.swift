@@ -21,27 +21,29 @@ struct AppViewPreview: PreviewProvider {
 
 extension AppViewPreview {
     
-    struct AppService: AppDependency {
+    actor AppService: AppDependency {
         
         var needsSetup: Bool {
-            true
+            get async throws {
+                true
+            }
         }
         
-        var setupDependency: SetupDependency {
+        nonisolated func setupDependency() -> SetupDependency {
             SetupService()
         }
         
-        var lockedDependency: LockedDependency {
+        nonisolated func lockedDependency() -> LockedDependency {
             LockedService()
         }
         
-        var unlockedDependency: UnlockedDependency {
+        nonisolated func unlockedDependency() -> UnlockedDependency {
             UnlockedService()
         }
         
     }
     
-    struct SetupService: SetupDependency {
+    actor SetupService: SetupDependency {
 
         var biometryType: BiometryType? {
             get async {
@@ -53,12 +55,14 @@ extension AppViewPreview {
         
     }
     
-    struct LockedService: LockedDependency {
+    actor LockedService: LockedDependency {
 
         
         
         var biometryType: BiometryType? {
-            nil
+            get async {
+                nil
+            }
         }
         
         func unlockWithPassword(_ password: String) async throws {}
@@ -66,7 +70,7 @@ extension AppViewPreview {
         
     }
     
-    struct UnlockedService: UnlockedDependency {
+    actor UnlockedService: UnlockedDependency {
         
     }
     
