@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Asset",
+    name: "Resource",
     defaultLocalization: "en",
     platforms: [
         .macOS(.v12),
@@ -11,15 +11,15 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "Asset",
+            name: "Resource",
             targets: [
-                "Asset"
+                "Resource"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Asset",
+            name: "Resource",
             path: "Sources"
         )
     ]

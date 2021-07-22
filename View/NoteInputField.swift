@@ -1,4 +1,4 @@
-import Asset
+import Resource
 import SwiftUI
 
 struct NoteInputField: View {

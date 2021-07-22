@@ -1,4 +1,4 @@
-import Asset
+import Resource
 import Format
 import Model
 import Pasteboard

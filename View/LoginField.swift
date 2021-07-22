@@ -1,4 +1,4 @@
-import Asset
+import Resource
 import Model
 import Pasteboard
 import SwiftUI
