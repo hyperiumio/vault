@@ -9,7 +9,7 @@ public struct MasterKey: Equatable {
         self.value = SymmetricKey(data: data)
     }
     
-    init() {
+    public init() {
         self.value = SymmetricKey(size: .bits256)
     }
     

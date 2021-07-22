@@ -23,7 +23,7 @@ extension AppViewPreview {
     
     actor AppService: AppDependency {
         
-        var needsSetup: Bool {
+        var didCompleteSetup: Bool {
             get async throws {
                 true
             }
@@ -37,7 +37,7 @@ extension AppViewPreview {
             LockedService()
         }
         
-        nonisolated func unlockedDependency() -> UnlockedDependency {
+        nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
             UnlockedService()
         }
         
@@ -51,13 +51,13 @@ extension AppViewPreview {
             }
         }
         
-        func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {}
+        func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
+            MasterKey()
+        }
         
     }
     
     actor LockedService: LockedDependency {
-
-        
         
         var biometryType: BiometryType? {
             get async {
@@ -65,8 +65,13 @@ extension AppViewPreview {
             }
         }
         
-        func unlockWithPassword(_ password: String) async throws {}
-        func unlockWithBiometry() async throws {}
+        func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey? {
+            nil
+        }
+        
+        func decryptMasterKeyWithBiometry() async throws -> MasterKey? {
+            nil
+        }
         
     }
     

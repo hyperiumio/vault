@@ -2,15 +2,15 @@ import PDFKit
 import SwiftUI
 
 #if os(iOS)
-struct PDFView: UIViewRepresentable {
+public struct PDFView: UIViewRepresentable {
     
     private let document: Document
     
-    init(_ document: Document) {
+    public init(_ document: Document) {
         self.document = document
     }
     
-    func makeUIView(context: Context) -> PDFKit.PDFView {
+    public func makeUIView(context: Context) -> PDFKit.PDFView {
         let pdfView = PDFKit.PDFView()
         pdfView.pageShadowsEnabled = false
         pdfView.autoScales = true
@@ -23,21 +23,21 @@ struct PDFView: UIViewRepresentable {
         return pdfView
     }
     
-    func updateUIView(_ pdfView: PDFKit.PDFView, context: Context) {}
+    public func updateUIView(_ pdfView: PDFKit.PDFView, context: Context) {}
     
 }
 #endif
 
 #if os(macOS)
-struct PDFView: NSViewRepresentable {
+public struct PDFView: NSViewRepresentable {
     
     private let document: Document
     
-    init(_ document: Document) {
+    public init(_ document: Document) {
         self.document = document
     }
     
-    func makeNSView(context: Context) -> PDFKit.PDFView {
+    public func makeNSView(context: Context) -> PDFKit.PDFView {
         let pdfView = PDFKit.PDFView()
         pdfView.pageShadowsEnabled = false
         pdfView.autoScales = true
@@ -50,13 +50,13 @@ struct PDFView: NSViewRepresentable {
         return pdfView
     }
     
-    func updateNSView(_ nsView: PDFKit.PDFView, context: Context) {}
+    public func updateNSView(_ nsView: PDFKit.PDFView, context: Context) {}
     
 }
 #endif
 
 extension PDFView {
     
-    typealias Document = PDFKit.PDFDocument
+    public typealias Document = PDFKit.PDFDocument
     
 }

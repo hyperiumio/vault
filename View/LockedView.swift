@@ -12,7 +12,7 @@ struct LockedView: View {
         VStack {
             MasterPasswordField(.masterPassword, text: $state.password) {
                 Task {
-                    await state.loginWithPassword()
+                    await state.unlock(with: .password)
                 }
             }
             .disabled(state.status == .unlocking)
@@ -22,7 +22,7 @@ struct LockedView: View {
             case .some(let biometryType):
                 Button {
                     Task {
-                        await state.loginWithBiometry()
+                        await state.unlock(with: .biometry)
                     }
                 } label: {
                     Image(systemName: biometryType.symbolName)

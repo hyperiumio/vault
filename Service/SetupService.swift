@@ -28,13 +28,13 @@ actor SetupService: SetupDependency {
         }
     }
     
-    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
         let storeID = UUID()
         let publicArguments = try DerivedKey.PublicArguments()
         let derivedKeyContainer = publicArguments.container()
         try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
-        _ = try await keychain.generateMasterKey(from: masterPassword, publicArguments: publicArguments, with: storeID)
         await defaults.set(activeStoreID: storeID)
+        return try await keychain.generateMasterKey(from: masterPassword, publicArguments: publicArguments, with: storeID)
     }
     
 }

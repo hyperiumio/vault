@@ -1,3 +1,4 @@
+import Common
 import Foundation
 import Model
 import Sort
@@ -12,7 +13,15 @@ class UnlockedState: ObservableObject {
     @Published private(set) var status = Status.empty
     @Published var searchText: String = ""
     
-    init(dependency: UnlockedDependency, lock: @escaping () -> Void) {
+    private let yield = AsyncValue<Void>()
+    
+    var done: Void {
+        get async {
+            await yield.value
+        }
+    }
+    
+    init(dependency: UnlockedDependency) {
         
     }
     

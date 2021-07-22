@@ -1,3 +1,4 @@
+import Common
 import Foundation
 import Model
 
@@ -5,7 +6,7 @@ protocol SetupDependency {
     
     var biometryType: BiometryType? { get async }
     
-    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey
     
 }
 
@@ -18,12 +19,17 @@ class SetupState: ObservableObject {
     @Published var isBiometricUnlockEnabled = false
     @Published var setupError: Error?
     
+    private let yield = AsyncValue<MasterKey>()
     private let dependency: SetupDependency
-    private let done: () -> Void
     
-    init(dependency: SetupDependency, done: @escaping () -> Void) {
+    init(dependency: SetupDependency) {
         self.dependency = dependency
-        self.done = done
+    }
+    
+    var masterKey: MasterKey {
+        get async {
+            await yield.value
+        }
     }
     
     var isBackButtonVisible: Bool {
@@ -51,7 +57,6 @@ class SetupState: ObservableObject {
             } else {
                 step = .repeatPassword
             }
-            
         }
     }
     
@@ -75,8 +80,8 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
-                done()
+                let masterKey = try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
+                await yield.set(masterKey)
             } catch {
                 setupError = .completeSetupDidFail
             }

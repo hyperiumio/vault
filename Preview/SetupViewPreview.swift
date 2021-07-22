@@ -5,9 +5,7 @@ import SwiftUI
 struct SetupViewPreview: PreviewProvider {
     
     static let setupDependency = SetupServiceStub()
-    static let setupState = SetupState(dependency: setupDependency) {
-        print("done")
-    }
+    static let setupState = SetupState(dependency: setupDependency)
     
     @State static var password = ""
     @State static var repeatedPassword = ""
@@ -58,7 +56,9 @@ extension SetupViewPreview {
 
         let biometryTypeAvailability = BiometryType.faceID as BiometryType?
         
-        func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {}
+        func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
+            MasterKey()
+        }
         
     }
     

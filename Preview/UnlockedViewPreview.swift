@@ -10,9 +10,7 @@ struct UnlockedViewPreview: PreviewProvider {
     ]
     static let nonEmptyCollation = UnlockedState.Collation(from: storeItemDetailState)
     static let emptyCollation = UnlockedState.Collation()
-    static let unlockedState = UnlockedState(dependency: UnlockedService()) {
-        
-    }
+    static let unlockedState = UnlockedState(dependency: UnlockedService())
     
     static var previews: some View {
         UnlockedView(unlockedState)

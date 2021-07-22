@@ -1,11 +1,12 @@
+import Common
 import Foundation
 
 protocol LockedDependency {
     
     var biometryType: BiometryType? { get async }
     
-    func unlockWithPassword(_ password: String) async throws
-    func unlockWithBiometry() async throws
+    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey?
+    func decryptMasterKeyWithBiometry() async throws -> MasterKey?
     
 }
 
@@ -16,12 +17,17 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
+    private let yield = AsyncValue<MasterKey>()
     private let dependency: LockedDependency
-    private let done: () -> Void
     
-    init(dependency: LockedDependency, done: @escaping () -> Void) {
+    init(dependency: LockedDependency) {
         self.dependency = dependency
-        self.done = done
+    }
+    
+    var masterKey: MasterKey {
+        get async {
+            await yield.value
+        }
     }
     
     var inputDisabled: Bool {
@@ -32,25 +38,26 @@ class LockedState: ObservableObject {
         biometryType = await dependency.biometryType
     }
     
-    func loginWithPassword() async {
+    func unlock(with login: Login) async {
         status = .unlocking
         
         do {
-            try await dependency.unlockWithPassword(password)
-            status = .unlocked
+            if let masterKey = try await decryptMasterKey(with: login) {
+                await yield.set(masterKey)
+            } else {
+                status = .missingMasterKey
+            }
         } catch {
             status = .wrongPassword
         }
-    }
-    
-    func loginWithBiometry() async {
-        status = .unlocking
         
-        do {
-            try await dependency.unlockWithBiometry()
-            status = .unlocked
-        } catch {
-            status = .wrongPassword
+        func decryptMasterKey(with login: Login) async throws -> MasterKey? {
+            switch login {
+            case .password:
+                return try await dependency.decryptMasterKeyWithPassword(password)
+            case .biometry:
+                return try await dependency.decryptMasterKeyWithBiometry()
+            }
         }
     }
     
@@ -58,12 +65,19 @@ class LockedState: ObservableObject {
 
 extension LockedState {
     
+    enum Login {
+        
+        case password
+        case biometry
+        
+    }
+    
     enum Status {
         
         case locked
         case unlocking
-        case unlocked
         case wrongPassword
+        case missingMasterKey
         
     }
     

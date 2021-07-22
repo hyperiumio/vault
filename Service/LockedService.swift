@@ -28,23 +28,22 @@ actor LockedService: LockedDependency {
         }
     }
     
-    func unlockWithPassword(_ password: String) async throws {
+    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey? {
         guard let storeID = await defaults.activeStoreID else {
             throw Error.activeStoreIDMissing
         }
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         let publicArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-        _ = try await keychain.loadMasterKey(with: password, publicArguments: publicArguments, id: storeID)
+        return try await keychain.loadMasterKey(with: password, publicArguments: publicArguments, id: storeID)
     }
     
-    func unlockWithBiometry() async throws {
+    func decryptMasterKeyWithBiometry() async throws -> MasterKey? {
         guard let storeID = await defaults.activeStoreID else {
             throw Error.activeStoreIDMissing
         }
         
-        _ = try await keychain.loadMasterKeyWithBiometry(id: storeID)
+        return try await keychain.loadMasterKeyWithBiometry(id: storeID)
     }
-    
     
 }
 

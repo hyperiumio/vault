@@ -11,16 +11,12 @@ actor AppService: AppDependency {
     private let store: Store
     
     init() throws {
-        guard let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: Configuration.appGroup)?.appendingPathComponent("Library", isDirectory: true).appendingPathComponent("Application Support", isDirectory: true).appendingPathComponent("Vaults", isDirectory: true) else {
-                  fatalError()
-              }
-        
         self.defaults = try Defaults<UserDefaults>(appGroup: Configuration.appGroup)
         self.keychain = Keychain(accessGroup: Configuration.appGroup)
-        self.store = Store(containerDirectory: containerDirectory)
+        self.store = Store(containerDirectory: Configuration.storeDirectory!)
     }
     
-    var needsSetup: Bool {
+    var didCompleteSetup: Bool {
         get async throws {
             guard let storeID = await defaults.activeStoreID else {
                 return false
@@ -37,7 +33,7 @@ actor AppService: AppDependency {
         LockedService(defaults: defaults, keychain: keychain, store: store)
     }
     
-    nonisolated func unlockedDependency() -> UnlockedDependency {
+    nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
         UnlockedService()
     }
     

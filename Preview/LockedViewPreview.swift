@@ -6,9 +6,7 @@ struct LockedViewPreview: PreviewProvider {
     
     static let keychainAvailability = KeychainAvailability.enrolled(.touchID)
     static let lockedDependency = LockServiceStub()
-    static let lockedState = LockedState(dependency: lockedDependency) {
-        print("done")
-    }
+    static let lockedState = LockedState(dependency: lockedDependency)
     
     static var previews: some View {
         LockedView(lockedState)
@@ -30,8 +28,13 @@ extension LockedViewPreview {
             nil
         }
         
-        func unlockWithPassword(_ password: String) async throws {}
-        func unlockWithBiometry() async throws {}
+        func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey? {
+            nil
+        }
+        
+        func decryptMasterKeyWithBiometry() async throws -> MasterKey? {
+            nil
+        }
         
     }
     
