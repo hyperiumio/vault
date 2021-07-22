@@ -1,3 +1,4 @@
+import Asset
 import Format
 import SwiftUI
 
@@ -10,24 +11,24 @@ struct BankAccountInputField: View {
     }
     
     var body: some View {
-        Field(.accountHolder) {
-            TextField(.accountHolder, text: $state.accountHolder)
+        Field(Localized.accountHolder) {
+            TextField(Localized.accountHolder, text: $state.accountHolder)
                 #if os(iOS)
                 .keyboardType(.namePhonePad)
                 .textContentType(.name)
                 #endif
         }
         
-        Field(.iban) {
-            TextField(.iban, value: $state.iban, format: .bankAccountNumber)
+        Field(Localized.iban) {
+            TextField(Localized.iban, value: $state.iban, format: .bankAccountNumber)
                 .font(.body.monospaced())
                 #if os(iOS)
                 .keyboardType(.asciiCapable)
                 #endif
         }
         
-        Field(.bic) {
-            TextField(.bic, text: $state.bic)
+        Field(Localized.bic) {
+            TextField(Localized.bic, text: $state.bic)
                 .font(.body.monospaced())
                 #if os(iOS)
                 .keyboardType(.asciiCapable)

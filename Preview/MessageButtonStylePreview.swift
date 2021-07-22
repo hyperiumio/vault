@@ -8,7 +8,7 @@ struct MessageButtonStylePreview: PreviewProvider {
             Button("foo") {
                 print("action")
             }
-            .buttonStyle(.message(.title))
+            .buttonStyle(.message("bar"))
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
@@ -17,7 +17,7 @@ struct MessageButtonStylePreview: PreviewProvider {
             Button("foo") {
                 print("action")
             }
-            .buttonStyle(.message(.title))
+            .buttonStyle(.message("bar"))
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

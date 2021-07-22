@@ -1,3 +1,4 @@
+import Asset
 import Model
 import Pasteboard
 import SwiftUI
@@ -17,7 +18,7 @@ struct WifiField: View {
                 Button {
                     Pasteboard.general.string = name
                 } label: {
-                    Field(.name) {
+                    Field(Localized.name) {
                         Text(name)
                     }
                 }
@@ -28,14 +29,14 @@ struct WifiField: View {
                     Button {
                         Pasteboard.general.string = password
                     } label: {
-                        Field(.password) {
+                        Field(Localized.password) {
                             ConfidentialText(password, isVisible: passwordIsVisisble)
                         }
                     }
                 }
             }
         }
-        .buttonStyle(.message(.copied))
+        .buttonStyle(.message(Localized.copied))
         .toggleStyle(.secure)
     }
     

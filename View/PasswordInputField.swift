@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct PasswordInputField: View {
@@ -9,8 +10,8 @@ struct PasswordInputField: View {
     }
     
     var body: some View {
-        Field (.password) {
-            SecureField(.password, text: $state.password, prompt: nil)
+        Field (Localized.password) {
+            SecureField(Localized.password, text: $state.password, prompt: nil)
                 .textContentType(.password)
             
             PasswordGeneratorView(state: state.passwordGeneratorState) { password in

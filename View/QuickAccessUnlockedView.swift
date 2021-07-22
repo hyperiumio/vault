@@ -1,7 +1,6 @@
+import Asset
 import SwiftUI
 import Model
-
-
 
 struct QuickAccessUnlockedView: View {
     
@@ -37,7 +36,7 @@ extension QuickAccessUnlockedView {
         
         var body: some View {
             VStack(spacing: 30) {
-                Text(.emptyVault)
+                Text(Localized.emptyVault)
                     .font(.title)
             }
         }
@@ -54,7 +53,7 @@ extension QuickAccessUnlockedView {
         
         var body: some View {
             if collation.sections.isEmpty {
-                Text(.noResultsFound)
+                Text(Localized.noResultsFound)
                     .font(.title)
             } else {
                 List {

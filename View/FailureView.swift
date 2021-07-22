@@ -1,18 +1,19 @@
+import Asset
 import SwiftUI
 
 struct FailureView: View {
     
-    private let message: LocalizedStringKey
+    private let message: String
     private let reload: () async -> Void
     
-    public init(_ message: LocalizedStringKey, reload: @escaping () async -> Void) {
+    public init(_ message: String, reload: @escaping () async -> Void) {
         self.message = message
         self.reload = reload
     }
     
     var body: some View {
         VStack {
-            Image(systemName: .exclamationmarkTriangle)
+            Image(systemName: SFSymbol.exclamationmarkTriangle)
                 .resizable()
                 .scaledToFit()
                 .symbolVariant(.fill)
@@ -25,7 +26,7 @@ struct FailureView: View {
             Spacer()
                 .frame(height: 50)
             
-            Button(.retry) {
+            Button(Localized.retry) {
                 Task {
                     await reload()
                 }

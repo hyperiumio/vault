@@ -18,7 +18,7 @@ struct CustomField: View {
                 Text(item.value ?? "")
             }
         }
-        .buttonStyle(.message(.copied))
+        .buttonStyle(.message(""))
     }
     
 }

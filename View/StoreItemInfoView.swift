@@ -1,3 +1,4 @@
+import Asset
 import Model
 import SwiftUI
 
@@ -40,21 +41,21 @@ extension SecureItemType {
     var symbolName: String {
         switch self {
         case .password:
-            return .key
+            return SFSymbol.key
         case .login:
-            return .person
+            return SFSymbol.person
         case .file:
-            return .paperclip
+            return SFSymbol.paperclip
         case .note:
-            return .noteText
+            return SFSymbol.noteText
         case .bankCard:
-            return .creditcard
+            return SFSymbol.creditcard
         case .wifi:
-            return .wifi
+            return SFSymbol.wifi
         case .bankAccount:
-            return .dollarsign
+            return SFSymbol.dollarsign
         case .custom:
-            return .scribbleVariable
+            return SFSymbol.scribbleVariable
         }
     }
     

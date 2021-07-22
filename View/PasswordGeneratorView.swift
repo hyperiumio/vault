@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct PasswordGeneratorView: View {
@@ -31,15 +32,15 @@ struct PasswordGeneratorView: View {
             
             Group {
                 HStack() {
-                    Text(.localizedCharacters(state.length))
+                    Text(Localized.localizedCharacters(state.length))
                         .monospacedDigit()
                     
                     Slider(value: length, in: 16...64, step: 1)
                 }
                 
-                Toggle(.numbers, isOn: $state.digitsEnabled)
+                Toggle(Localized.numbers, isOn: $state.digitsEnabled)
                 
-                Toggle(.symbols, isOn: $state.symbolsEnabled)
+                Toggle(Localized.symbols, isOn: $state.symbolsEnabled)
             }
             .toggleStyle(.switch)
             .foregroundStyle(.secondary)

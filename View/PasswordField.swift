@@ -1,3 +1,4 @@
+import Asset
 import Model
 import Pasteboard
 import SwiftUI
@@ -17,11 +18,11 @@ struct PasswordField: View {
                 Button {
                     Pasteboard.general.string = password
                 } label: {
-                    Field(.password) {
+                    Field(Localized.password) {
                         ConfidentialText(password, isVisible: passwordIsVisisble)
                     }
                 }
-                .buttonStyle(.message(.copied))
+                .buttonStyle(.message(Localized.copied))
             }
             .toggleStyle(.secure)
         }

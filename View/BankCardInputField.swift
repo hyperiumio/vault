@@ -1,3 +1,4 @@
+import Asset
 import Format
 import SwiftUI
 
@@ -10,16 +11,16 @@ struct BankCardInputField: View {
     }
     
     var body: some View {
-        Field(.name) {
-            TextField(.accountHolder, text: $state.name)
+        Field(Localized.name) {
+            TextField(Localized.accountHolder, text: $state.name)
                 #if os(iOS)
                 .keyboardType(.namePhonePad)
                 .textContentType(.name)
                 #endif
         }
         
-        Field(.number) {
-            TextField(.number, value: $state.number, format: .creditCardNumber)
+        Field(Localized.number) {
+            TextField(Localized.number, value: $state.number, format: .creditCardNumber)
                 .font(.body.monospaced())
                 #if os(iOS)
                 .keyboardType(.numberPad)
@@ -27,9 +28,9 @@ struct BankCardInputField: View {
                 #endif
         }
         
-        Field(.expirationDate) {
+        Field(Localized.expirationDate) {
             HStack {
-                DatePicker(.expirationDate, selection: $state.expirationDate, displayedComponents: .date)
+                DatePicker(Localized.expirationDate, selection: $state.expirationDate, displayedComponents: .date)
                     .labelsHidden()
                     #if os(macOS)
                     .datePickerStyle(.field)
@@ -39,8 +40,8 @@ struct BankCardInputField: View {
             }
         }
         
-        Field(.pin) {
-            SecureField(.pin, text: $state.pin, prompt: nil)
+        Field(Localized.pin) {
+            SecureField(Localized.pin, text: $state.pin, prompt: nil)
         }
     }
     

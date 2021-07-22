@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct StoreItemDetailView: View {
@@ -24,7 +25,7 @@ struct StoreItemDetailView: View {
                     state.cancelEdit()
                 }
             case .loadingFailed:
-                FailureView(.loadingVaultFailed) {
+                FailureView(Localized.loadingVaultFailed) {
                     await state.load()
                 }
             }

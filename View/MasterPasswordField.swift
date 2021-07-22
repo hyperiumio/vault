@@ -1,12 +1,13 @@
+import Asset
 import SwiftUI
 
 struct MasterPasswordField: View {
     
-    private let title: LocalizedStringKey
+    private let title: String
     private let text: Binding<String>
     private let action: () -> Void
     
-    init(_ title: LocalizedStringKey, text: Binding<String>, action: @escaping () -> Void) {
+    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
         self.title = title
         self.text = text
         self.action = action
@@ -14,13 +15,13 @@ struct MasterPasswordField: View {
     
     var body: some View {
         HStack(spacing: 0) {
-            SecureField(.title, text: text, prompt: nil)
+            SecureField(Localized.title, text: text, prompt: nil)
                 .font(.title2)
                 .submitLabel(.continue)
                 .padding()
             
             Button(action: action) {
-                Image(systemName: .lock)
+                Image(systemName: SFSymbol.lock)
                     .imageScale(.large)
                     .foregroundColor(.white)
                     .frame(maxHeight: .infinity)

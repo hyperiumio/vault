@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct SelectCategoryView: View {
@@ -14,49 +15,49 @@ struct SelectCategoryView: View {
             Button {
                 action(.login)
             } label: {
-                Label(.login, systemImage: SFSymbol.person)
+                Label(Localized.login, systemImage: SFSymbol.person)
             }
             
             Button {
                 action(.password)
             } label: {
-                Label(.password, systemImage: SFSymbol.key)
+                Label(Localized.password, systemImage: SFSymbol.key)
             }
             
             Button {
                 action(.wifi)
             } label: {
-                Label(.wifi, systemImage: SFSymbol.wifi)
+                Label(Localized.wifi, systemImage: SFSymbol.wifi)
             }
             
             Button {
                 action(.note)
             } label: {
-                Label(.note, systemImage: SFSymbol.noteText)
+                Label(Localized.note, systemImage: SFSymbol.noteText)
             }
             
             Button {
                 action(.bankCard)
             } label: {
-                Label(.bankCard, systemImage: SFSymbol.creditcard)
+                Label(Localized.bankCard, systemImage: SFSymbol.creditcard)
             }
             
             Button {
                 action(.bankAccount)
             } label: {
-                Label(.bankAccount, systemImage: SFSymbol.dollarsign)
+                Label(Localized.bankAccount, systemImage: SFSymbol.dollarsign)
             }
             
             Button {
                 action(.file)
             } label: {
-                Label(.file, systemImage: SFSymbol.doc)
+                Label(Localized.file, systemImage: SFSymbol.doc)
             }
             
             Button {
                 action(.custom)
             } label: {
-                Label(.custom, systemImage: SFSymbol.scribbleVariable)
+                Label(Localized.custom, systemImage: SFSymbol.scribbleVariable)
             }
         }
     }

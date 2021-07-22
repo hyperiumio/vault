@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct QuickAccessView: View {
@@ -19,7 +20,7 @@ struct QuickAccessView: View {
                 case .loading:
                     ProgressView()
                 case .loadingFailed:
-                    FailureView(.loadingVaultFailed) {
+                    FailureView(Localized.loadingVaultFailed) {
                         Task {
                             await state.load()
                         }
@@ -32,7 +33,7 @@ struct QuickAccessView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(.cancel) {
+                    Button(Localized.cancel) {
                         cancel()
                     }
                 }

@@ -1,3 +1,4 @@
+import Asset
 import Model
 import SwiftUI
 
@@ -37,10 +38,10 @@ extension UnlockedView {
         
         var body: some View {
             VStack(spacing: 30) {
-                Text(.emptyVault)
+                Text(Localized.emptyVault)
                     .font(.title)
                 
-                Button(.createFirstItem, action: action)
+                Button(Localized.createFirstItem, action: action)
             }
         }
         
@@ -56,7 +57,7 @@ extension UnlockedView {
         
         var body: some View {
             if collation.sections.isEmpty {
-                Text(.noResultsFound)
+                Text(Localized.noResultsFound)
                     .font(.title)
             } else {
                 List {

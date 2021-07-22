@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct LockedView: View {
@@ -10,7 +11,7 @@ struct LockedView: View {
     
     var body: some View {
         VStack {
-            MasterPasswordField(.masterPassword, text: $state.password) {
+            MasterPasswordField(Localized.masterPassword, text: $state.password) {
                 Task {
                     await state.unlock(with: .password)
                 }
@@ -48,9 +49,9 @@ private extension BiometryType {
     var symbolName: String {
         switch self {
         case .touchID:
-            return .touchid
+            return SFSymbol.touchid
         case .faceID:
-            return .faceid
+            return SFSymbol.faceid
         }
     }
     

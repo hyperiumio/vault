@@ -1,3 +1,4 @@
+import Asset
 import Model
 import Pasteboard
 import SwiftUI
@@ -17,21 +18,21 @@ struct BankCardField: View {
                 Button {
                     Pasteboard.general.string = name
                 } label: {
-                    Field(.name) {
+                    Field(Localized.name) {
                         Text(name)
                     }
                 }
             }
             
             if let vendor = item.vendor {
-                Field(.vendor) {
+                Field(Localized.vendor) {
                     switch vendor {
                     case .masterCard:
-                        Text(.mastercard)
+                        Text(Localized.mastercard)
                     case .visa:
-                        Text(.visa)
+                        Text(Localized.visa)
                     case .americanExpress:
-                        Text(.americanExpress)
+                        Text(Localized.americanExpress)
                     }
                 }
             }
@@ -40,7 +41,7 @@ struct BankCardField: View {
                 Button {
                     Pasteboard.general.string = number
                 } label: {
-                    Field(.number) {
+                    Field(Localized.number) {
                         Text(number)
                             .font(.body.monospaced())
                     }
@@ -51,7 +52,7 @@ struct BankCardField: View {
                 Button {
                     Pasteboard.general.string = Date.FormatStyle(date: .complete).format(expirationDate)
                 } label: {
-                    Field(.expirationDate) {
+                    Field(Localized.expirationDate) {
                         Text(expirationDate, format: Date.FormatStyle(date: .abbreviated))
                     }
                 }
@@ -62,14 +63,14 @@ struct BankCardField: View {
                     Button {
                         Pasteboard.general.string = pin
                     } label: {
-                        Field(.pin) {
+                        Field(Localized.pin) {
                             ConfidentialText(pin, isVisible: pinIsVisisble)
                         }
                     }
                 }
             }
         }
-        .buttonStyle(.message(.copied))
+        .buttonStyle(.message(Localized.copied))
         .toggleStyle(.secure)
     }
     

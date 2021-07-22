@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct AppView: View {
@@ -14,7 +15,7 @@ struct AppView: View {
             case .launching:
                 Background()
             case .launchingFailed:
-                FailureView(.appLaunchFailure) {
+                FailureView(Localized.appLaunchFailure) {
                     await state.bootstrap()
                 }
             case .setup(let setupState):

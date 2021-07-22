@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct SetupView: View {
@@ -27,7 +28,7 @@ struct SetupView: View {
                 CompleteSetupView()
             }
             
-            NextButton(state.step.localizedStringKey) {
+            NextButton(state.step.title) {
                 Task {
                     await state.next()
                 }
@@ -54,7 +55,7 @@ extension SetupView {
         var body: some View {
             HStack {
                 if isVisisble {
-                    Image(systemName: .chevronBackward)
+                    Image(systemName: SFSymbol.chevronBackward)
                         .font(.title)
                         .symbolVariant(.circle)
                         .foregroundColor(.accentColor)
@@ -69,10 +70,10 @@ extension SetupView {
     
     struct NextButton: View {
         
-        private let title: LocalizedStringKey
+        private let title: String
         private let action: () -> Void
         
-        init(_ title: LocalizedStringKey, action: @escaping () -> Void) {
+        init(_ title: String, action: @escaping () -> Void) {
             self.title = title
             self.action = action
         }
@@ -101,16 +102,16 @@ extension SetupView {
             VStack {
                 Spacer()
                 
-                Text(.chooseMasterPassword)
+                Text(Localized.chooseMasterPassword)
                     .font(.title)
                 
-                Text(.chooseMasterPasswordDescription)
+                Text(Localized.chooseMasterPasswordDescription)
                     .font(.body)
                     .foregroundStyle(.secondary)
                 
                 Spacer()
                 
-                SecureField(.enterMasterPassword, text: password, prompt: nil)
+                SecureField(Localized.enterMasterPassword, text: password, prompt: nil)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
                 
@@ -133,16 +134,16 @@ extension SetupView {
             VStack {
                 Spacer()
                 
-                Text(.repeatMasterPassword)
+                Text(Localized.repeatMasterPassword)
                     .font(.title)
                 
-                Text(.repeatMasterPasswordDescription)
+                Text(Localized.repeatMasterPasswordDescription)
                     .font(.body)
                     .foregroundStyle(.secondary)
                 
                 Spacer()
                 
-                SecureField(.enterMasterPassword, text: repeatedPassword, prompt: nil)
+                SecureField(Localized.enterMasterPassword, text: repeatedPassword, prompt: nil)
                     .font(.title2)
                     .minimumScaleFactor(0.5)
                 
@@ -201,10 +202,10 @@ extension SetupView {
             VStack {
                 Spacer()
                 
-                Text(.setupComplete)
+                Text(Localized.setupComplete)
                     .font(.title)
                 
-                Image(systemName: .checkmark)
+                Image(systemName: SFSymbol.checkmark)
                     .resizable()
                     .scaledToFit()
                     .symbolVariant(.circle)
@@ -229,12 +230,12 @@ extension SetupView {
 
 private extension SetupState.Step {
     
-    var localizedStringKey: LocalizedStringKey {
+    var title: String {
         switch self {
         case .choosePassword, .repeatPassword, .enableBiometricUnlock:
-            return .continue
+            return Localized.continue
         case .completeSetup:
-            return .setupComplete
+            return Localized.setupComplete
         }
     }
     
@@ -245,27 +246,27 @@ private extension BiometryType {
     var symbolName: String {
         switch self {
         case .touchID:
-            return .touchid
+            return SFSymbol.touchid
         case .faceID:
-            return .faceid
+            return SFSymbol.faceid
         }
     }
     
-    var description: LocalizedStringKey {
+    var description: String {
         switch self {
         case .touchID:
-            return .unlockWithTouchIDDescription
+            return Localized.unlockWithTouchIDDescription
         case .faceID:
-            return .unlockWithFaceIDDescription
+            return Localized.unlockWithFaceIDDescription
         }
     }
     
-    var title: LocalizedStringKey {
+    var title: String {
         switch self {
         case .touchID:
-            return .enableTouchIDUnlock
+            return Localized.enableTouchIDUnlock
         case .faceID:
-            return .enableFaceIDUnlock
+            return Localized.enableFaceIDUnlock
         }
     }
     

@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct CustomInputField: View {
@@ -10,9 +11,9 @@ struct CustomInputField: View {
     
     var body: some View {
         Field {
-            TextField(.description, text: $state.description)
+            TextField(Localized.description, text: $state.description)
         } content: {
-            TextField(.value, text: $state.value)
+            TextField(Localized.value, text: $state.value)
         }
     }
     

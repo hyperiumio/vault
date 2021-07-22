@@ -1,3 +1,4 @@
+import Asset
 import SwiftUI
 
 struct StoreItemEditView: View {
@@ -15,12 +16,12 @@ struct StoreItemEditView: View {
             Section {
                 ElementView(state.primaryItem)
             } header: {
-                TextField(.title, text: $state.title)
+                TextField(Localized.title, text: $state.title)
                     .textCase(.none)
             }
             
             Section {
-                Button(.deleteItem, role: .destructive) {
+                Button(Localized.deleteItem, role: .destructive) {
                     Task {
                         await state.delete()
                     }
@@ -29,11 +30,11 @@ struct StoreItemEditView: View {
         }
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(.cancel, action: cancel)
+                Button(Localized.cancel, action: cancel)
             }
             
             ToolbarItem(placement: .primaryAction) {
-                Button(.save) {
+                Button(Localized.save) {
                     Task {
                         try await state.save()
                     }

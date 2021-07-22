@@ -2,7 +2,7 @@ import SwiftUI
 
 struct MessageButtonStyle: ButtonStyle {
     
-    let text: LocalizedStringKey
+    let text: String
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
@@ -23,7 +23,7 @@ struct MessageButtonStyle: ButtonStyle {
 
 extension ButtonStyle where Self == MessageButtonStyle {
     
-    static func message(_ text: LocalizedStringKey) -> Self {
+    static func message(_ text: String) -> Self {
         Self(text: text)
     }
     
