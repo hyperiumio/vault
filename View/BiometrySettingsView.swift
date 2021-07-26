@@ -27,3 +27,26 @@ struct BiometrySettingsView: View {
     }
     
 }
+
+#if DEBUG
+struct BiometrySettingsViewPreview: PreviewProvider {
+    
+    static let service = SettingsServiceStub()
+    static let state = BiometrySettingsState(biometryType: .faceID, isBiometricUnlockEnabled: false, dependency: service)
+    
+    static var previews: some View {
+        List {
+            BiometrySettingsView(state)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        List {
+            BiometrySettingsView(state)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

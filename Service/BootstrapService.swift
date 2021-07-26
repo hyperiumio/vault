@@ -4,7 +4,7 @@ import Foundation
 import Preferences
 import Store
 
-actor AppService: AppDependency {
+actor BootstrapService {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain
@@ -15,6 +15,10 @@ actor AppService: AppDependency {
         self.keychain = Keychain(accessGroup: Configuration.appGroup)
         self.store = Store(containerDirectory: Configuration.storeDirectory!)
     }
+    
+}
+
+extension BootstrapService: AppDependency {
     
     var didCompleteSetup: Bool {
         get async throws {
@@ -30,7 +34,7 @@ actor AppService: AppDependency {
     }
     
     nonisolated func lockedDependency() -> LockedDependency {
-        LockedService(defaults: defaults, keychain: keychain, store: store)
+        MasterKeyDecryptionService(defaults: defaults, keychain: keychain, store: store)
     }
     
     nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
@@ -40,3 +44,29 @@ actor AppService: AppDependency {
 }
 
 extension UserDefaults: PersistenceProvider {}
+
+#if DEBUG
+actor BootstrapServiceStub {}
+
+extension BootstrapServiceStub: AppDependency {
+    
+    var didCompleteSetup: Bool {
+        get async throws {
+            true
+        }
+    }
+    
+    nonisolated func setupDependency() -> SetupDependency {
+        SetupServiceStub()
+    }
+    
+    nonisolated func lockedDependency() -> LockedDependency {
+        MasterKeyDecryptionServiceStub()
+    }
+    
+    nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
+        UnlockedServiceStub()
+    }
+    
+}
+#endif

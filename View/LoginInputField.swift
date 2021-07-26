@@ -37,3 +37,26 @@ struct LoginInputField: View {
     }
     
 }
+
+#if DEBUG
+struct LoginInputFieldPreview: PreviewProvider {
+    
+    static let service = PasswordServiceStub()
+    static let state = LoginItemState(dependency: service)
+    
+    static var previews: some View {
+        List {
+            LoginInputField(state)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        List {
+            LoginInputField(state)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

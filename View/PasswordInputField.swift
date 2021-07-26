@@ -21,3 +21,26 @@ struct PasswordInputField: View {
     }
 
 }
+
+#if DEBUG
+struct PasswordInputFieldPreview: PreviewProvider {
+    
+    static let service = PasswordServiceStub()
+    static let state = PasswordItemState(dependency: service)
+    
+    static var previews: some View {
+        List {
+            PasswordInputField(state)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        List {
+            PasswordInputField(state)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

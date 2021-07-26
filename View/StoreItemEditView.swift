@@ -14,7 +14,7 @@ struct StoreItemEditView: View {
     var body: some View {
         List {
             Section {
-                ElementView(state.primaryItem)
+                SecureItemView(state.primaryItem)
             } header: {
                 TextField(Localized.title, text: $state.title)
                     .textCase(.none)
@@ -48,37 +48,30 @@ struct StoreItemEditView: View {
     
 }
 
-extension StoreItemEditView {
+#if DEBUG
+struct StoreItemEditViewPreview: PreviewProvider {
     
-    struct ElementView: View {
-        
-        private let element: StoreItemEditState.Element
-        
-        init(_ element: StoreItemEditState.Element) {
-            self.element = element
-        }
-        
-        var body: some View {
-            switch element {
-            case .login(let loginState):
-                LoginInputField(loginState)
-            case .password(let passwordState):
-                PasswordInputField(passwordState)
-            case .file(let fileState):
-                FileInputField(fileState)
-            case .note(let noteState):
-                NoteInputField(noteState)
-            case .bankCard(let bankCardState):
-                BankCardInputField(bankCardState)
-            case .wifi(let wifiState):
-                WifiInputField(wifiState)
-            case .bankAccount(let bankAccountState):
-                BankAccountInputField(bankAccountState)
-            case .custom(let customState):
-                CustomInputField(customState)
+    static let service = StoreItemEditServiceStub()
+    static let state = StoreItemEditState(dependency: service, editing: StoreItemEditServiceStub.storeItem)
+    
+    static var previews: some View {
+        NavigationView {
+            StoreItemEditView(state) {
+                print("cancel")
             }
         }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
         
+        NavigationView {
+            StoreItemEditView(state) {
+                print("cancel")
+            }
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
     }
 
+    
 }
+#endif

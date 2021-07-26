@@ -13,7 +13,8 @@ struct AppView: View {
         Group {
             switch state.status {
             case .launching:
-                Background()
+                Color.background
+                    .ignoresSafeArea()
             case .launchingFailed:
                 FailureView(Localized.appLaunchFailure) {
                     await state.bootstrap()
@@ -32,3 +33,22 @@ struct AppView: View {
     }
     
 }
+
+#if DEBUG
+struct AppViewPreview: PreviewProvider {
+    
+    static let service = BootstrapServiceStub()
+    static let state = AppState(dependency: service)
+    
+    static var previews: some View {
+        AppView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        AppView(state)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

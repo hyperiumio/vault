@@ -33,3 +33,22 @@ struct SettingsView: View {
     }
     
 }
+
+#if DEBUG
+struct SettingsViewPreview: PreviewProvider {
+    
+    static let service = SettingsServiceStub()
+    static let state = SettingsState(dependency: service)
+    
+    static var previews: some View {
+        SettingsView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        SettingsView(state)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

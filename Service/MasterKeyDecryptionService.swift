@@ -3,7 +3,7 @@ import Foundation
 import Preferences
 import Store
 
-actor LockedService: LockedDependency {
+actor MasterKeyDecryptionService {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain
@@ -14,6 +14,10 @@ actor LockedService: LockedDependency {
         self.keychain = keychain
         self.store = store
     }
+    
+}
+
+extension MasterKeyDecryptionService: LockedDependency {
     
     var biometryType: BiometryType? {
         get async {
@@ -47,7 +51,7 @@ actor LockedService: LockedDependency {
     
 }
 
-extension LockedService {
+extension MasterKeyDecryptionService {
     
     enum Error: Swift.Error {
         
@@ -57,3 +61,25 @@ extension LockedService {
     }
     
 }
+
+#if DEBUG
+actor MasterKeyDecryptionServiceStub {}
+
+extension MasterKeyDecryptionServiceStub: LockedDependency {
+    
+    var biometryType: BiometryType? {
+        get async {
+            .faceID
+        }
+    }
+    
+    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey? {
+        MasterKey()
+    }
+    
+    func decryptMasterKeyWithBiometry() async throws -> MasterKey? {
+        MasterKey()
+    }
+    
+}
+#endif

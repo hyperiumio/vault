@@ -64,3 +64,22 @@ extension LockedView {
     #endif
     
 }
+
+#if DEBUG
+struct LockedViewPreview: PreviewProvider {
+    
+    static let lockedDependency = MasterKeyDecryptionServiceStub()
+    static let lockedState = LockedState(dependency: lockedDependency)
+    
+    static var previews: some View {
+        LockedView(lockedState)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        LockedView(lockedState)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

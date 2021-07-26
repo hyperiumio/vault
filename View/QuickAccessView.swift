@@ -16,7 +16,8 @@ struct QuickAccessView: View {
             Group {
                 switch state.status {
                 case .initialized:
-                    Background()
+                    Color.background
+                        .ignoresSafeArea()
                 case .loading:
                     ProgressView()
                 case .loadingFailed:
@@ -45,3 +46,26 @@ struct QuickAccessView: View {
     }
     
 }
+
+#if DEBUG
+struct QuickAccessViewPreview: PreviewProvider {
+    
+    static let service = QuickAccessServiceStub()
+    static let state = QuickAccessState(dependency: service)
+    
+    static var previews: some View {
+        QuickAccessView(state) {
+            print("cancel")
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        QuickAccessView(state) {
+            print("cancel")
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

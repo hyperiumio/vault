@@ -12,14 +12,39 @@ struct UnlockedView: View {
     
     var body: some View {
         NavigationView {
-            switch state.status {
-            case .empty:
-                Empty {
-                    
+            Group {
+                switch state.status {
+                case .empty:
+                    CreateFirstItemView { itemType in
+                        state.showCreateItemSheet(itemType: itemType)
+                    }
+                case .noSearchResult:
+                    NoSearchResults()
+                case .items(let collation):
+                    StoreItemList(collation)
+                        .searchable(text: $state.searchText)
                 }
-            case .value(let collation):
-                Value(collation)
-                    .searchable(text: $state.searchText)
+            }
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Menu {
+                        SelectItemTypeView { itemType in
+                            state.showCreateItemSheet(itemType: itemType)
+                        }
+                    } label: {
+                        Image(systemName: SFSymbol.plus)
+                    }
+                }
+            }
+        }
+        .sheet(item: $state.sheet) { sheet in
+            switch sheet {
+            case .selectItemType:
+                SelectItemTypeView { itemType in
+                    state.showCreateItemSheet(itemType: itemType)
+                }
+            case .createItem(let state):
+                CreateItemView(state)
             }
         }
     }
@@ -28,26 +53,41 @@ struct UnlockedView: View {
 
 extension UnlockedView {
     
-    struct Empty: View {
+    struct CreateFirstItemView: View {
         
-        private let action: () -> Void
-        
-        init(action: @escaping () -> Void) {
+        private let action: (SecureItemType) -> Void
+    
+        init(action: @escaping (SecureItemType) -> Void) {
             self.action = action
         }
         
         var body: some View {
-            VStack(spacing: 30) {
-                Text(Localized.emptyVault)
+            VStack {
+                Text(Localized.createFirstItem)
                     .font(.title)
+                    .textCase(.none)
                 
-                Button(Localized.createFirstItem, action: action)
+                Spacer()
+                
+                SelectItemTypeView(action: action)
+                    .buttonStyle(.bordered)
+                
+                Spacer()
             }
         }
         
     }
+    
+    struct NoSearchResults: View {
+        
+        var body: some View {
+            Text(Localized.noResultsFound)
+                .font(.title)
+        }
+        
+    }
 
-    struct Value: View {
+    struct StoreItemList: View {
         
         private let collation: UnlockedState.Collation
         
@@ -56,19 +96,14 @@ extension UnlockedView {
         }
         
         var body: some View {
-            if collation.sections.isEmpty {
-                Text(Localized.noResultsFound)
-                    .font(.title)
-            } else {
-                List {
-                    ForEach(collation.sections) { section in
-                        Section(section.key) {
-                            ForEach(section.elements) { state in
-                                NavigationLink {
-                                    StoreItemDetailView(state)
-                                } label: {
-                                    StoreItemInfoView(state.name, description: state.description, type: state.primaryType)
-                                }
+            List {
+                ForEach(collation.sections) { section in
+                    Section(section.key) {
+                        ForEach(section.elements) { state in
+                            NavigationLink {
+                                StoreItemDetailView(state)
+                            } label: {
+                                StoreItemInfoView(state.name, description: state.description, type: state.primaryType)
                             }
                         }
                     }
@@ -79,3 +114,22 @@ extension UnlockedView {
     }
     
 }
+
+#if DEBUG
+struct UnlockedViewPreview: PreviewProvider {
+    
+    static let service = UnlockedServiceStub()
+    static let state = UnlockedState(dependency: service)
+    
+    static var previews: some View {
+        UnlockedView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        UnlockedView(state)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

@@ -1,18 +1,16 @@
 import SwiftUI
 
-struct Background: View {
+public extension Color {
     
     #if os(iOS)
-    var body: some View {
+    static var background: Self {
         Color(uiColor: .systemBackground)
-            .ignoresSafeArea()
     }
     #endif
-    
+
     #if os(macOS)
-    var body: some View {
+    static var background: Self {
         Color(nsColor: .windowBackgroundColor)
-            .ignoresSafeArea()
     }
     #endif
     

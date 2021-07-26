@@ -27,8 +27,7 @@ struct StoreItemInfoView: View {
                 }
             }
         } icon: {
-            Image(systemName: type.symbolName)
-                .symbolVariant(.fill)
+            SecureItemTypeView(type)
                 .foregroundColor(.accentColor)
         }
         .padding(.vertical, 4)
@@ -36,27 +35,22 @@ struct StoreItemInfoView: View {
     
 }
 
-extension SecureItemType {
+#if DEBUG
+struct StoreItemInfoViewPreview: PreviewProvider {
     
-    var symbolName: String {
-        switch self {
-        case .password:
-            return SFSymbol.key
-        case .login:
-            return SFSymbol.person
-        case .file:
-            return SFSymbol.paperclip
-        case .note:
-            return SFSymbol.noteText
-        case .bankCard:
-            return SFSymbol.creditcard
-        case .wifi:
-            return SFSymbol.wifi
-        case .bankAccount:
-            return SFSymbol.dollarsign
-        case .custom:
-            return SFSymbol.scribbleVariable
+    static var previews: some View {
+        List {
+            StoreItemInfoView("foo", description: "bar", type: .login)
         }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        List {
+            StoreItemInfoView("foo", description: "bar", type: .login)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
     }
     
 }
+#endif

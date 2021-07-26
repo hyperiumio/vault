@@ -38,3 +38,21 @@ actor SetupService: SetupDependency {
     }
     
 }
+
+#if DEBUG
+actor SetupServiceStub {}
+
+extension SetupServiceStub: SetupDependency {
+    
+    var biometryType: BiometryType? {
+        get async {
+            .faceID
+        }
+    }
+    
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
+        MasterKey()
+    }
+    
+}
+#endif

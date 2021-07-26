@@ -77,3 +77,22 @@ extension QuickAccessUnlockedView {
     }
     
 }
+
+#if DEBUG
+struct QuickAccessUnlockedViewPreview: PreviewProvider {
+    
+    static let service = QuickAccessUnlockedServiceStub()
+    static let state = QuickAccessUnlockedState(dependency: service)
+    
+    static var previews: some View {
+        QuickAccessUnlockedView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        QuickAccessUnlockedView(state)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

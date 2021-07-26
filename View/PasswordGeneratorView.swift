@@ -53,3 +53,26 @@ struct PasswordGeneratorView: View {
     }
     
 }
+
+#if DEBUG
+struct PasswordGeneratorViewPreview: PreviewProvider {
+    
+    static let service = PasswordServiceStub()
+    static let state = PasswordGeneratorState(dependency: service)
+    
+    static var previews: some View {
+        PasswordGeneratorView(state: state) { password in
+            print(password)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        PasswordGeneratorView(state: state) { password in
+            print(password)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

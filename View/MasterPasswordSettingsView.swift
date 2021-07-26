@@ -66,3 +66,26 @@ extension MasterPasswordSettingsView {
     }
     
 }
+
+#if DEBUG
+struct MasterPasswordSettingsViewPreview: PreviewProvider {
+    
+    static let service = SettingsServiceStub()
+    static let state = MasterPasswordSettingsState(dependency: service)
+    
+    static var previews: some View {
+        NavigationView {
+            MasterPasswordSettingsView(state)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        NavigationView {
+            MasterPasswordSettingsView(state)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

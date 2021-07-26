@@ -28,3 +28,26 @@ struct WifiInputField: View {
     }
     
 }
+
+#if DEBUG
+struct WifiInputFieldPreview: PreviewProvider {
+    
+    static let service = PasswordServiceStub()
+    static let state = WifiItemState(dependency: service)
+    
+    static var previews: some View {
+        List {
+            WifiInputField(state)
+        }
+        .preferredColorScheme(.light)
+        .previewLayout(.sizeThatFits)
+        
+        List {
+            WifiInputField(state)
+        }
+        .preferredColorScheme(.dark)
+        .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

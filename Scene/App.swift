@@ -2,7 +2,7 @@ import Preferences
 import SwiftUI
 
 @MainActor
-let appDependency = try! AppService()
+let appDependency = try! BootstrapService()
 
 @main
 struct App: SwiftUI.App {

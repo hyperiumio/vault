@@ -271,3 +271,49 @@ private extension BiometryType {
     }
     
 }
+
+#if DEBUG
+struct SetupViewPreview: PreviewProvider {
+    
+    static let service = SetupServiceStub()
+    static let state = SetupState(dependency: service)
+    
+    @State static var password = ""
+    @State static var repeatedPassword = ""
+    
+    static var previews: some View {
+        SetupView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView(state)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+            
+        SetupView.ChooseMasterPasswordView(password: $password)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView.ChooseMasterPasswordView(password: $password)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView.RepeatPasswordView(repeatedPassword: $repeatedPassword)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView.RepeatPasswordView(repeatedPassword: $repeatedPassword)
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView.CompleteSetupView()
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        SetupView.CompleteSetupView()
+            .preferredColorScheme(.dark)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif
