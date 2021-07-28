@@ -12,7 +12,7 @@ class NoteItemState: ObservableObject {
         return NoteItem(text: text)
     }
     
-    init(_ item: NoteItem? = nil) {
+    init(item: NoteItem? = nil) {
         self.text = item?.text ?? ""
     }
     

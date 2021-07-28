@@ -37,8 +37,7 @@ struct SettingsView: View {
 #if DEBUG
 struct SettingsViewPreview: PreviewProvider {
     
-    static let service = SettingsServiceStub()
-    static let state = SettingsState(dependency: service)
+    static let state = SettingsState(dependency: .stub)
     
     static var previews: some View {
         SettingsView(state)

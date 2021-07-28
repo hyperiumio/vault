@@ -1,12 +1,6 @@
 import Foundation
 import Model
 
-protocol LoginItemDependency {
-    
-    func passwordGeneratorDependency() -> PasswordGeneratorDependency
-    
-}
-
 @MainActor
 class LoginItemState: ObservableObject {
     
@@ -24,13 +18,11 @@ class LoginItemState: ObservableObject {
         return LoginItem(username: username, password: password, url: url)
     }
     
-    init(_ item: LoginItem? = nil, dependency: LoginItemDependency) {
-        let passwordGeneratorDependency = dependency.passwordGeneratorDependency()
-        
+    init(item: LoginItem? = nil, dependency: Dependency) {
         self.username = item?.username ?? ""
         self.password = item?.password ?? ""
         self.url = item?.url ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: passwordGeneratorDependency)
+        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency)
     }
     
 }

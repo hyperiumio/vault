@@ -85,7 +85,7 @@ extension SetupView {
             }
             .buttonStyle(.bordered)
             .controlSize(.large)
-            .controlProminence(.increased)
+            .buttonStyle(.borderedProminent)
         }
         
     }
@@ -275,8 +275,7 @@ private extension BiometryType {
 #if DEBUG
 struct SetupViewPreview: PreviewProvider {
     
-    static let service = SetupServiceStub()
-    static let state = SetupState(dependency: service)
+    static let state = SetupState(dependency: .stub)
     
     @State static var password = ""
     @State static var repeatedPassword = ""

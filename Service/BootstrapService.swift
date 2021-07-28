@@ -1,24 +1,23 @@
-import Configuration
-import Crypto
 import Foundation
 import Preferences
 import Store
 
-actor BootstrapService {
+protocol BootstrapServiceProtocol {
     
-    private let defaults: Defaults<UserDefaults>
-    private let keychain: Keychain
-    private let store: Store
-    
-    init() throws {
-        self.defaults = try Defaults<UserDefaults>(appGroup: Configuration.appGroup)
-        self.keychain = Keychain(accessGroup: Configuration.appGroup)
-        self.store = Store(containerDirectory: Configuration.storeDirectory!)
-    }
+    var didCompleteSetup: Bool { get async throws }
     
 }
 
-extension BootstrapService: AppDependency {
+
+struct BootstrapService: BootstrapServiceProtocol {
+    
+    private let defaults: Defaults<UserDefaults>
+    private let store: Store
+    
+    init(defaults: Defaults<UserDefaults>, store: Store) {
+        self.defaults = defaults
+        self.store = store
+    }
     
     var didCompleteSetup: Bool {
         get async throws {
@@ -29,43 +28,17 @@ extension BootstrapService: AppDependency {
         }
     }
     
-    nonisolated func setupDependency() -> SetupDependency {
-        SetupService(defaults: defaults, keychain: keychain, store: store)
-    }
-    
-    nonisolated func lockedDependency() -> LockedDependency {
-        MasterKeyDecryptionService(defaults: defaults, keychain: keychain, store: store)
-    }
-    
-    nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
-        UnlockedService()
-    }
-    
 }
-
-extension UserDefaults: PersistenceProvider {}
 
 #if DEBUG
 actor BootstrapServiceStub {}
 
-extension BootstrapServiceStub: AppDependency {
+extension BootstrapServiceStub: BootstrapServiceProtocol {
     
     var didCompleteSetup: Bool {
         get async throws {
             true
         }
-    }
-    
-    nonisolated func setupDependency() -> SetupDependency {
-        SetupServiceStub()
-    }
-    
-    nonisolated func lockedDependency() -> LockedDependency {
-        MasterKeyDecryptionServiceStub()
-    }
-    
-    nonisolated func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency {
-        UnlockedServiceStub()
     }
     
 }

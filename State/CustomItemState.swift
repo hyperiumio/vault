@@ -14,7 +14,7 @@ class CustomItemState: ObservableObject {
         return CustomItem(description: description, value: value)
     }
     
-    init(_ item: CustomItem? = nil) {
+    init(item: CustomItem? = nil) {
         self.description = item?.description ?? ""
         self.value = item?.value ?? ""
     }

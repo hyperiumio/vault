@@ -1,13 +1,12 @@
 import Preferences
 import SwiftUI
 
-@MainActor
-let appDependency = try! BootstrapService()
+let dependency = Dependency.production()
 
 @main
 struct App: SwiftUI.App {
     
-    @StateObject private var appState = AppState(dependency: appDependency)
+    @StateObject private var appState = AppState(dependency: dependency)
     
     #if os(iOS)
     var body: some Scene {

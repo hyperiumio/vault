@@ -32,8 +32,7 @@ struct WifiInputField: View {
 #if DEBUG
 struct WifiInputFieldPreview: PreviewProvider {
     
-    static let service = PasswordServiceStub()
-    static let state = WifiItemState(dependency: service)
+    static let state = WifiItemState(dependency: .stub)
     
     static var previews: some View {
         List {

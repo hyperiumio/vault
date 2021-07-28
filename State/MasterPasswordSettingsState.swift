@@ -1,11 +1,5 @@
 import Foundation
 
-protocol MasterPasswordSettingsDependency {
-    
-    func changeMasterPassword(to masterPassword: String) async throws
-    
-}
-
 @MainActor
 class MasterPasswordSettingsState: ObservableObject {
     
@@ -13,9 +7,9 @@ class MasterPasswordSettingsState: ObservableObject {
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.ready
     
-    private let dependency: MasterPasswordSettingsDependency
+    private let dependency: Dependency
     
-    init(dependency: MasterPasswordSettingsDependency) {
+    init(dependency: Dependency) {
         self.dependency = dependency
     }
     
@@ -35,7 +29,7 @@ class MasterPasswordSettingsState: ObservableObject {
         status = .loading
         
         do {
-            try await dependency.changeMasterPassword(to: password)
+            try await dependency.settingsService.changeMasterPassword(to: password)
             status = .success
         } catch {
             status = .failure

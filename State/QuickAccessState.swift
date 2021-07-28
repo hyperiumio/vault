@@ -1,18 +1,14 @@
 import Foundation
 
-protocol QuickAccessDependency {
-    
-}
-
 @MainActor
 class QuickAccessState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
     
-    private let dependency: QuickAccessDependency
+    private let dependency: Dependency
     
-    init(dependency: QuickAccessDependency) {
-        self.dependency = dependency
+    init(dependency: Dependency) {
+        fatalError()
     }
     
     func load() async {

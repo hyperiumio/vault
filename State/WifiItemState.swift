@@ -1,12 +1,6 @@
 import Foundation
 import Model
 
-protocol WifiItemDependency {
-    
-    func passwordGeneratorDependency() -> PasswordGeneratorDependency
-    
-}
-
 @MainActor
 class WifiItemState: ObservableObject {
     
@@ -22,12 +16,10 @@ class WifiItemState: ObservableObject {
         return WifiItem(name: name, password: password)
     }
     
-    init(_ item: WifiItem? = nil, dependency: WifiItemDependency) {
-        let passwordGeneratorDependency = dependency.passwordGeneratorDependency()
-        
+    init(item: WifiItem? = nil, dependency: Dependency) {
         self.name = item?.name ?? ""
         self.password = item?.password ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: passwordGeneratorDependency)
+        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency)
     }
     
 }

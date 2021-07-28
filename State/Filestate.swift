@@ -15,7 +15,7 @@ class FileItemState: ObservableObject {
         return FileItem(data: value.data, type: value.type)
     }
     
-    required init(_ item: FileItem? = nil) {
+    required init(item: FileItem? = nil) {
         guard let item = item else {
             return
         }

@@ -3,20 +3,6 @@ import Foundation
 import LocalAuthentication
 import Security
 
-public actor MasterKeyManager {
-    
-    public var masterKey: MasterKey
-    
-    public init(masterKey: MasterKey) {
-        self.masterKey = masterKey
-    }
-    
-    public func setMasterKey(_ masterKey: MasterKey) {
-        self.masterKey = masterKey
-    }
-    
-}
-
 public actor Keychain {
     
     let attributeBuilder: KeychainAttributeBuilder
@@ -29,24 +15,29 @@ public actor Keychain {
         self.configuration = configuration
     }
     
-    public func generateMasterKey(from password: String, publicArguments: DerivedKey.PublicArguments, with id: UUID) async throws -> MasterKey {
+    public func createMasterKey(from password: String, publicArguments: DerivedKey.PublicArguments, with id: UUID) async throws {
         let derivedKey = try await DerivedKey(from: password, with: publicArguments)
         let masterKey = MasterKey()
         let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
         try await self.storeSecret(masterKeyContainer, forKey: "MasterKey")
-        
-        return masterKey
     }
     
-    public func loadMasterKey(with password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws -> MasterKey? {
+    public func decryptMasterKeyWithPassword(_ password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws {
+        /*
         guard let masterKeyContainer = try await self.loadSecret(forKey: "MasterKey") else {
             return nil
         }
         let derivedKey = try await DerivedKey(from: password, with: publicArguments)
         return try MasterKey(from: masterKeyContainer, using: derivedKey)
+         */
+        fatalError()
     }
     
-    public func loadMasterKeyWithBiometry(id: UUID) async throws -> MasterKey {
+    public func decryptMasterKeyWithBiometry(id: UUID) async throws {
+        
+    }
+    
+    public func decryptMessages(from container: Data) throws -> [Data] {
         fatalError()
     }
     
@@ -89,20 +80,22 @@ public actor Keychain {
         }
     }
     
-    public func availability() async -> KeychainAvailability {
-        var error: NSError?
-        let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
-        let biometryType = configuration.context.biometryType
-        
-        switch (canEvaluate, biometryType, error?.code) {
-        case (true, .touchID, _):
-            return .enrolled(.touchID)
-        case (true, .faceID, _):
-            return .enrolled(.faceID)
-        case (false, _, LAError.biometryNotEnrolled.rawValue):
-            return .notEnrolled
-        default:
-            return .notAvailable
+    public var availability: KeychainAvailability {
+        get async {
+            var error: NSError?
+            let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
+            let biometryType = configuration.context.biometryType
+            
+            switch (canEvaluate, biometryType, error?.code) {
+            case (true, .touchID, _):
+                return .enrolled(.touchID)
+            case (true, .faceID, _):
+                return .enrolled(.faceID)
+            case (false, _, LAError.biometryNotEnrolled.rawValue):
+                return .notEnrolled
+            default:
+                return .notAvailable
+            }
         }
     }
     

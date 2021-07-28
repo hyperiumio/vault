@@ -1,16 +1,6 @@
 import Foundation
 import Model
 
-protocol AppDependency {
-    
-    var didCompleteSetup: Bool { get async throws }
-    
-    func setupDependency() -> SetupDependency
-    func lockedDependency() -> LockedDependency
-    func unlockedDependency(masterKey: MasterKey) -> UnlockedDependency
-    
-}
-
 @MainActor
 class AppState: ObservableObject {
     
@@ -21,40 +11,35 @@ class AppState: ObservableObject {
                 case .launching, .launchingFailed:
                     return
                 case .setup(let setupState):
-                    let masterKey = await setupState.masterKey
-                    let unlockedDependency = dependency.unlockedDependency(masterKey: masterKey)
-                    let unlockedState = UnlockedState(dependency: unlockedDependency)
+                    await setupState.done
+                    let unlockedState = UnlockedState(dependency: dependency)
                     status = .unlocked(state: unlockedState)
                 case .locked(let lockedState):
-                    let masterKey = await lockedState.masterKey
-                    let unlockedDependency = dependency.unlockedDependency(masterKey: masterKey)
-                    let unlockedState = UnlockedState(dependency: unlockedDependency)
+                    await lockedState.done
+                    let unlockedState = UnlockedState(dependency: dependency)
                     status = .unlocked(state: unlockedState)
                 case .unlocked(let unlockedState):
                     await unlockedState.done
-                    let lockedDependency = dependency.lockedDependency()
-                    let lockedState = LockedState(dependency: lockedDependency)
+                    let lockedState = LockedState(dependency: dependency)
                     status = .locked(state: lockedState)
                 }
             }
         }
     }
     
-    private let dependency: AppDependency
+    private let dependency: Dependency
     
-    init(dependency: AppDependency) {
+    init(dependency: Dependency) {
         self.dependency = dependency
     }
     
     func bootstrap() async {
         do {
-            if try await dependency.didCompleteSetup {
-                let lockedDependency = dependency.lockedDependency()
-                let lockedState = LockedState(dependency: lockedDependency)
+            if try await dependency.bootstrapService.didCompleteSetup {
+                let lockedState = LockedState(dependency: dependency)
                 status = .locked(state: lockedState)
             } else {
-                let setupDependency = dependency.setupDependency()
-                let setupState = SetupState(dependency: setupDependency)
+                let setupState = SetupState(dependency: dependency)
                 status = .setup(state: setupState)
             }
         } catch {

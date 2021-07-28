@@ -37,8 +37,7 @@ struct AppView: View {
 #if DEBUG
 struct AppViewPreview: PreviewProvider {
     
-    static let service = BootstrapServiceStub()
-    static let state = AppState(dependency: service)
+    static let state = AppState(dependency: .stub)
     
     static var previews: some View {
         AppView(state)

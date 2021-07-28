@@ -16,7 +16,7 @@ class BankAccountItemState: ObservableObject {
         return BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
     }
     
-    init(_ item: BankAccountItem? = nil) {
+    init(item: BankAccountItem? = nil) {
         self.accountHolder = item?.accountHolder ?? ""
         self.iban = item?.iban ?? ""
         self.bic = item?.bic ?? ""

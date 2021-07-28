@@ -2,22 +2,15 @@ import Foundation
 import Model
 import Sort
 
-protocol StoreItemDetailDependency {
-    
-    var storeItem: StoreItem { get async throws }
-    
-    func storeItemEditDependency() -> StoreItemEditDependency
-}
-
 @MainActor
 class StoreItemDetailState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
     
     private let storeItemInfo: StoreItemInfo
-    private let dependency: StoreItemDetailDependency
+    private let dependency: Dependency
     
-    init(storeItemInfo: StoreItemInfo, dependency: StoreItemDetailDependency) {
+    init(storeItemInfo: StoreItemInfo, dependency: Dependency) {
         self.storeItemInfo = storeItemInfo
         self.dependency = dependency
     }
@@ -36,7 +29,7 @@ class StoreItemDetailState: ObservableObject {
     
     func load() async {
         do {
-            let storeItem = try await dependency.storeItem
+            let storeItem = try await dependency.storeItemService.load(itemID: storeItemInfo.id)
             status = .display(storeItem)
         } catch {
             status = .loadingFailed
@@ -48,8 +41,7 @@ class StoreItemDetailState: ObservableObject {
             return
         }
         
-        let storeItemEditDependency = dependency.storeItemEditDependency()
-        let editState = StoreItemEditState(dependency: storeItemEditDependency, editing: storeItem)
+        let editState = StoreItemEditState(editing: storeItem, dependency: dependency)
         status = .edit(editState)
     }
     

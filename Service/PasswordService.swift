@@ -1,8 +1,13 @@
 import Crypto
 
-actor PasswordService {}
+protocol PasswordServiceProtocol {
+    
+    func password(length: Int, digit: Bool, symbol: Bool) async -> String
+    
+}
 
-extension PasswordService: PasswordGeneratorDependency {
+
+struct PasswordService: PasswordServiceProtocol {
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
        await Password(length: length, uppercase: true, lowercase: true, digit: digit, symbol: symbol)
@@ -10,29 +15,11 @@ extension PasswordService: PasswordGeneratorDependency {
     
 }
 
-extension PasswordService: PasswordItemDependency, LoginItemDependency, WifiItemDependency {
-    
-    nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
-        self
-    }
-    
-}
-
 #if DEBUG
-actor PasswordServiceStub {}
-
-extension PasswordServiceStub: PasswordGeneratorDependency {
+struct PasswordServiceStub: PasswordServiceProtocol {
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
        "foo"
-    }
-    
-}
-
-extension PasswordServiceStub: PasswordItemDependency, LoginItemDependency, WifiItemDependency {
-    
-    nonisolated func passwordGeneratorDependency() -> PasswordGeneratorDependency {
-        self
     }
     
 }

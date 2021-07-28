@@ -1,12 +1,6 @@
 import Foundation
 import Model
 
-protocol CreateItemDependency {
-    
-    func secureItemDependency() -> SecureItemDependency
-    
-}
-
 @MainActor
 class CreateItemState: ObservableObject {
     
@@ -14,13 +8,8 @@ class CreateItemState: ObservableObject {
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems = [SecureItemState]()
     
-    private let dependency: CreateItemDependency
-    
-    init(dependency: CreateItemDependency, itemType: SecureItemType) {
-        let secureItemDependency = dependency.secureItemDependency()
-        
-        self.dependency = dependency
-        self.primaryItem = SecureItemState(dependency: secureItemDependency, itemType: itemType)
+    init(itemType: SecureItemType, dependency: Dependency) {
+        self.primaryItem = SecureItemState(itemType: itemType, dependency: dependency)
     }
     
     func save() async {

@@ -81,8 +81,7 @@ extension QuickAccessUnlockedView {
 #if DEBUG
 struct QuickAccessUnlockedViewPreview: PreviewProvider {
     
-    static let service = QuickAccessUnlockedServiceStub()
-    static let state = QuickAccessUnlockedState(dependency: service)
+    static let state = QuickAccessUnlockedState(dependency: .stub)
     
     static var previews: some View {
         QuickAccessUnlockedView(state)

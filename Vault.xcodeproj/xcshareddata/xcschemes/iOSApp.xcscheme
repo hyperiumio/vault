@@ -7,7 +7,7 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
@@ -31,102 +31,6 @@
       region = "US"
       codeCoverageEnabled = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CryptoTests"
-               BuildableName = "CryptoTests"
-               BlueprintName = "CryptoTests"
-               ReferencedContainer = "container:Crypto">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FormatTests"
-               BuildableName = "FormatTests"
-               BlueprintName = "FormatTests"
-               ReferencedContainer = "container:Format">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "IdentifierTests"
-               BuildableName = "IdentifierTests"
-               BlueprintName = "IdentifierTests"
-               ReferencedContainer = "container:Identifier">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PasteboardTests"
-               BuildableName = "PasteboardTests"
-               BlueprintName = "PasteboardTests"
-               ReferencedContainer = "container:Pasteboard">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "PreferencesTests"
-               BuildableName = "PreferencesTests"
-               BlueprintName = "PreferencesTests"
-               ReferencedContainer = "container:Preferences">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SearchTests"
-               BuildableName = "SearchTests"
-               BlueprintName = "SearchTests"
-               ReferencedContainer = "container:Search">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "SortTests"
-               BuildableName = "SortTests"
-               BlueprintName = "SortTests"
-               ReferencedContainer = "container:Sort">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO"
-            parallelizable = "YES"
-            testExecutionOrdering = "random">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "StorageTests"
-               BuildableName = "StorageTests"
-               BlueprintName = "StorageTests"
-               ReferencedContainer = "container:Store">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

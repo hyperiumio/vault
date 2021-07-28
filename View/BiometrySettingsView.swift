@@ -31,8 +31,7 @@ struct BiometrySettingsView: View {
 #if DEBUG
 struct BiometrySettingsViewPreview: PreviewProvider {
     
-    static let service = SettingsServiceStub()
-    static let state = BiometrySettingsState(biometryType: .faceID, isBiometricUnlockEnabled: false, dependency: service)
+    static let state = BiometrySettingsState(biometryType: .faceID, isBiometricUnlockEnabled: false, dependency: .stub)
     
     static var previews: some View {
         List {

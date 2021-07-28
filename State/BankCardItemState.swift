@@ -17,7 +17,7 @@ class BankCardItemState: ObservableObject {
         return BankCardItem(name: name, number: number, expirationDate: expirationDate, pin: pin)
     }
     
-    init(_ item: BankCardItem? = nil) {
+    init(item: BankCardItem? = nil) {
         self.name = item?.name ?? ""
         self.number = item?.number ?? ""
         self.expirationDate = item?.expirationDate ?? .now

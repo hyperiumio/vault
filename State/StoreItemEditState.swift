@@ -1,15 +1,6 @@
 import Foundation
 import Model
 
-protocol StoreItemEditDependency {
-    
-    func save(_ storeItem: StoreItem) async throws
-    func delete(itemID: UUID) async throws
-    
-    func secureItemDependency() -> SecureItemDependency
-    
-}
-
 @MainActor
 class StoreItemEditState: ObservableObject {
     
@@ -17,18 +8,17 @@ class StoreItemEditState: ObservableObject {
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems: [SecureItemState]
     
-    let dependency: StoreItemEditDependency
     let editedStoreItem: StoreItem
     
-    init(dependency: StoreItemEditDependency, editing storeItem: StoreItem) {
-        let secureItemDependency = dependency.secureItemDependency()
-        
+    private let dependency: Dependency
+    
+    init(editing storeItem: StoreItem, dependency: Dependency) {
         self.dependency = dependency
         self.editedStoreItem = storeItem
         self.title = storeItem.name
-        self.primaryItem = SecureItemState(dependency: secureItemDependency, secureItem: storeItem.primaryItem)
+        self.primaryItem = SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
         self.secondaryItems = storeItem.secondaryItems.map { item in
-            SecureItemState(dependency: secureItemDependency, secureItem: storeItem.primaryItem)
+            SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
         }
     }
     
@@ -41,9 +31,7 @@ class StoreItemEditState: ObservableObject {
     }
     
     func addSecondaryItem(with itemType: SecureItemType) {
-        let secureItemDependency = dependency.secureItemDependency()
-        let state = SecureItemState(dependency: secureItemDependency, itemType: itemType)
-        
+        let state = SecureItemState(itemType: itemType, dependency: dependency)
         secondaryItems.append(state)
     }
     
@@ -60,7 +48,7 @@ class StoreItemEditState: ObservableObject {
             let created = editedStoreItem.created
             let modified = Date.now
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-            try await dependency.save(storeItem)
+            try await dependency.storeItemService.save(storeItem)
         } catch {
             
         }
@@ -68,7 +56,7 @@ class StoreItemEditState: ObservableObject {
     
     func delete() async {
         do {
-            try await dependency.delete(itemID: editedStoreItem.id)
+            try await dependency.storeItemService.delete(itemID: editedStoreItem.id)
         } catch {
             
         }

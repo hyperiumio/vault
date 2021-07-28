@@ -51,8 +51,7 @@ struct StoreItemEditView: View {
 #if DEBUG
 struct StoreItemEditViewPreview: PreviewProvider {
     
-    static let service = StoreItemEditServiceStub()
-    static let state = StoreItemEditState(dependency: service, editing: StoreItemEditServiceStub.storeItem)
+    static let state = StoreItemEditState(editing: StoreItemServiceStub.storeItem, dependency: .stub)
     
     static var previews: some View {
         NavigationView {

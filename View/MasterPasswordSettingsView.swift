@@ -70,8 +70,7 @@ extension MasterPasswordSettingsView {
 #if DEBUG
 struct MasterPasswordSettingsViewPreview: PreviewProvider {
     
-    static let service = SettingsServiceStub()
-    static let state = MasterPasswordSettingsState(dependency: service)
+    static let state = MasterPasswordSettingsState(dependency: .stub)
     
     static var previews: some View {
         NavigationView {

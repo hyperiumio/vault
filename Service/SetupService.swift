@@ -3,7 +3,16 @@ import Foundation
 import Preferences
 import Store
 
-actor SetupService: SetupDependency {
+protocol SetupServiceProtocol {
+    
+    var availableBiometry: BiometryType? { get async }
+    
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws
+    
+}
+
+
+struct SetupService: SetupServiceProtocol {
     
     private let defaults: Defaults<UserDefaults>
     private let keychain: Keychain
@@ -15,9 +24,9 @@ actor SetupService: SetupDependency {
         self.store = store
     }
     
-    var biometryType: BiometryType? {
+    var availableBiometry: BiometryType? {
         get async {
-            switch await keychain.availability() {
+            switch await keychain.availability {
             case .notAvailable, .notEnrolled:
                 return nil
             case .enrolled(.touchID):
@@ -28,30 +37,28 @@ actor SetupService: SetupDependency {
         }
     }
     
-    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {
         let storeID = UUID()
         let publicArguments = try DerivedKey.PublicArguments()
         let derivedKeyContainer = publicArguments.container()
         try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
         await defaults.set(activeStoreID: storeID)
-        return try await keychain.generateMasterKey(from: masterPassword, publicArguments: publicArguments, with: storeID)
+        try await keychain.createMasterKey(from: masterPassword, publicArguments: publicArguments, with: storeID)
     }
     
 }
 
 #if DEBUG
-actor SetupServiceStub {}
-
-extension SetupServiceStub: SetupDependency {
+struct SetupServiceStub: SetupServiceProtocol {
     
-    var biometryType: BiometryType? {
+    var availableBiometry: BiometryType? {
         get async {
             .faceID
         }
     }
     
-    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey {
-        MasterKey()
+    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {
+        print(#function)
     }
     
 }

@@ -2,14 +2,6 @@ import Common
 import Foundation
 import Model
 
-protocol SetupDependency {
-    
-    var biometryType: BiometryType? { get async }
-    
-    func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws -> MasterKey
-    
-}
-
 @MainActor
 class SetupState: ObservableObject {
     
@@ -19,14 +11,14 @@ class SetupState: ObservableObject {
     @Published var isBiometricUnlockEnabled = false
     @Published var setupError: Error?
     
-    private let yield = AsyncValue<MasterKey>()
-    private let dependency: SetupDependency
+    private let yield = AsyncValue<Void>()
+    private let setupService: SetupServiceProtocol
     
-    init(dependency: SetupDependency) {
-        self.dependency = dependency
+    init(dependency: Dependency) {
+        self.setupService = dependency.setupService
     }
     
-    var masterKey: MasterKey {
+    var done: Void {
         get async {
             await yield.value
         }
@@ -52,7 +44,7 @@ class SetupState: ObservableObject {
         case .enableBiometricUnlock:
             step = .repeatPassword
         case .completeSetup:
-            if let biometryType = await dependency.biometryType {
+            if let biometryType = await setupService.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .repeatPassword
@@ -71,7 +63,7 @@ class SetupState: ObservableObject {
             }
             step = .repeatPassword
         case .repeatPassword:
-            if let biometryType = await dependency.biometryType {
+            if let biometryType = await setupService.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .completeSetup
@@ -80,8 +72,8 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                let masterKey = try await dependency.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
-                await yield.set(masterKey)
+                try await setupService.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
+                await yield.set(())
             } catch {
                 setupError = .completeSetupDidFail
             }

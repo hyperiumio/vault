@@ -3,12 +3,6 @@ import Foundation
 import Model
 import Sort
 
-protocol UnlockedDependency {
-    
-    func createItemDependency() -> CreateItemDependency
-    
-}
-
 @MainActor
 class UnlockedState: ObservableObject {
     
@@ -17,9 +11,9 @@ class UnlockedState: ObservableObject {
     @Published var sheet: Sheet?
     
     private let yield = AsyncValue<Void>()
-    private let dependency: UnlockedDependency
+    private let dependency: Dependency
     
-    init(dependency: UnlockedDependency) {
+    init(dependency: Dependency) {
         self.dependency = dependency
     }
     
@@ -29,13 +23,8 @@ class UnlockedState: ObservableObject {
         }
     }
     
-    func showSelectItemTypeSheet() {
-        sheet = .selectItemType
-    }
-    
     func showCreateItemSheet(itemType: SecureItemType) {
-        let createItemDependency = dependency.createItemDependency()
-        let state = CreateItemState(dependency: createItemDependency, itemType: itemType)
+        let state = CreateItemState(itemType: itemType, dependency: dependency)
         sheet = .createItem(state)
     }
     

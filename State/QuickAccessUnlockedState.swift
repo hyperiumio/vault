@@ -2,21 +2,15 @@ import Foundation
 import Model
 import Sort
 
-protocol QuickAccessUnlockedDependency {
-    
-    
-    
-}
-
 @MainActor
 class QuickAccessUnlockedState: ObservableObject {
     
     @Published private(set) var status = Status.empty
     @Published var searchText = ""
     
-    private let dependency: QuickAccessUnlockedDependency
+    private let dependency: Dependency
     
-    init(dependency: QuickAccessUnlockedDependency) {
+    init(dependency: Dependency) {
         self.dependency = dependency
     }
     

@@ -118,8 +118,7 @@ extension UnlockedView {
 #if DEBUG
 struct UnlockedViewPreview: PreviewProvider {
     
-    static let service = UnlockedServiceStub()
-    static let state = UnlockedState(dependency: service)
+    static let state = UnlockedState(dependency: .stub)
     
     static var previews: some View {
         UnlockedView(state)

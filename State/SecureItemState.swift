@@ -1,32 +1,21 @@
 import Foundation
 import Model
 
-protocol SecureItemDependency {
-    
-    func passwordDependency() -> PasswordItemDependency
-    func loginDependency() -> LoginItemDependency
-    func wifiDependency() -> WifiItemDependency
-    
-}
-
 @MainActor
 class SecureItemState: ObservableObject {
     
     @Published private(set) var value: Value
     
-    init(dependency: SecureItemDependency, itemType: SecureItemType) {
+    init(itemType: SecureItemType, dependency: Dependency) {
         switch itemType {
         case .login:
-            let loginDependency = dependency.loginDependency()
-            let state = LoginItemState(dependency: loginDependency)
+            let state = LoginItemState(dependency: dependency)
             self.value = .login(state)
         case .password:
-            let passwordDependency = dependency.passwordDependency()
-            let state = PasswordItemState(dependency: passwordDependency)
+            let state = PasswordItemState(dependency: dependency)
             self.value = .password(state)
         case .wifi:
-            let wifiDependency = dependency.wifiDependency()
-            let state = WifiItemState(dependency: wifiDependency)
+            let state = WifiItemState(dependency: dependency)
             self.value = .wifi(state)
         case .note:
             let state = NoteItemState()
@@ -46,34 +35,31 @@ class SecureItemState: ObservableObject {
         }
     }
     
-    init(dependency: SecureItemDependency, secureItem: SecureItem) {
+    init(secureItem: SecureItem, dependency: Dependency) {
         switch secureItem {
         case .password(let item):
-            let passwordDependency = dependency.passwordDependency()
-            let state = PasswordItemState(item, dependency: passwordDependency)
+            let state = PasswordItemState(item: item, dependency: dependency)
             self.value = .password(state)
         case .login(let item):
-            let loginDependency = dependency.loginDependency()
-            let state = LoginItemState(item, dependency: loginDependency)
+            let state = LoginItemState(item: item, dependency: dependency)
             self.value = .login(state)
         case .file(let item):
-            let state = FileItemState(item)
+            let state = FileItemState(item: item)
             self.value = .file(state)
         case .note(let item):
-            let state = NoteItemState(item)
+            let state = NoteItemState(item: item)
             self.value = .note(state)
         case .bankCard(let item):
-            let state = BankCardItemState(item)
+            let state = BankCardItemState(item: item)
             self.value = .bankCard(state)
         case .wifi(let item):
-            let wifiDependency = dependency.wifiDependency()
-            let state = WifiItemState(item, dependency: wifiDependency)
+            let state = WifiItemState(item: item, dependency: dependency)
             self.value = .wifi(state)
         case .bankAccount(let item):
-            let state = BankAccountItemState(item)
+            let state = BankAccountItemState(item: item)
             self.value = .bankAccount(state)
         case .custom(let item):
-            let state = CustomItemState(item)
+            let state = CustomItemState(item: item)
             self.value = .custom(state)
         }
     }

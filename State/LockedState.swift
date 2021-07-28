@@ -1,15 +1,6 @@
 import Common
 import Foundation
 
-protocol LockedDependency {
-    
-    var biometryType: BiometryType? { get async }
-    
-    func decryptMasterKeyWithPassword(_ password: String) async throws -> MasterKey?
-    func decryptMasterKeyWithBiometry() async throws -> MasterKey?
-    
-}
-
 @MainActor
 class LockedState: ObservableObject {
     
@@ -17,14 +8,14 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
-    private let yield = AsyncValue<MasterKey>()
-    private let dependency: LockedDependency
+    private let yield = AsyncValue<Void>()
+    private let dependency: Dependency
     
-    init(dependency: LockedDependency) {
+    init(dependency: Dependency) {
         self.dependency = dependency
     }
     
-    var masterKey: MasterKey {
+    var done: Void {
         get async {
             await yield.value
         }
@@ -35,29 +26,21 @@ class LockedState: ObservableObject {
     }
     
     func fetchKeychainAvailability() async {
-        biometryType = await dependency.biometryType
+        biometryType = await dependency.unlockService.availableBiometry
     }
     
     func unlock(with login: Login) async {
         status = .unlocking
         
         do {
-            if let masterKey = try await decryptMasterKey(with: login) {
-                await yield.set(masterKey)
-            } else {
-                status = .missingMasterKey
+            switch login {
+            case .password:
+                try await dependency.unlockService.unlockWithPassword(password)
+            case .biometry:
+                try await dependency.unlockService.unlockWithBiometry()
             }
         } catch {
             status = .wrongPassword
-        }
-        
-        func decryptMasterKey(with login: Login) async throws -> MasterKey? {
-            switch login {
-            case .password:
-                return try await dependency.decryptMasterKeyWithPassword(password)
-            case .biometry:
-                return try await dependency.decryptMasterKeyWithBiometry()
-            }
         }
     }
     
