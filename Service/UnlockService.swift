@@ -15,11 +15,11 @@ protocol UnlockServiceProtocol {
 
 struct UnlockService: UnlockServiceProtocol {
     
-    private let defaults: Defaults<UserDefaults>
+    private let defaults: Defaults
     private let keychain: Keychain
     private let store: Store
     
-    init(defaults: Defaults<UserDefaults>, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, keychain: Keychain, store: Store) {
         self.defaults = defaults
         self.keychain = keychain
         self.store = store

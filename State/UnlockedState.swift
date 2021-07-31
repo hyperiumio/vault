@@ -1,31 +1,59 @@
-import Common
 import Foundation
 import Model
+import Shim
 import Sort
 
 @MainActor
 class UnlockedState: ObservableObject {
     
-    @Published private(set) var status = Status.empty
+    @Published private(set) var status = Status.emptyStore
     @Published var searchText: String = ""
     @Published var sheet: Sheet?
     
-    private let yield = AsyncValue<Void>()
     private let dependency: Dependency
+    private var lockContinuation: CheckedContinuation<Void, Never>?
     
     init(dependency: Dependency) {
         self.dependency = dependency
+        
+        Task {
+            do {
+                for await _ in await dependency.storeItemService.didChange {
+                    let states = try await dependency.storeItemService.loadInfos().map { info in
+                        StoreItemDetailState(storeItemInfo: info, dependency: dependency)
+                    }
+                    let collation = Collation(from: states) { state in
+                        state.name
+                    }
+                    status = .items(collation)
+                }
+            }
+            catch {
+                
+            }
+        }
     }
     
-    var done: Void {
+    var locked: Void {
         get async {
-            await yield.value
+            await withCheckedContinuation { continuation in
+                lockContinuation = continuation
+            }
         }
+    }
+    
+    func showSettings() {
+        let state = SettingsState(dependency: dependency)
+        sheet = .settings(state)
     }
     
     func showCreateItemSheet(itemType: SecureItemType) {
         let state = CreateItemState(itemType: itemType, dependency: dependency)
         sheet = .createItem(state)
+    }
+    
+    func lock() {
+        lockContinuation?.resume()
     }
     
 }
@@ -36,15 +64,15 @@ extension UnlockedState {
     
     enum Status {
         
-        case empty
-        case noSearchResult
+        case emptyStore
+        case noSearchResults
         case items(Collation)
         
     }
     
     enum Sheet {
         
-        case selectItemType
+        case settings(SettingsState)
         case createItem(CreateItemState)
         
     }
@@ -55,10 +83,10 @@ extension UnlockedState.Sheet: Identifiable {
     
     var id: String {
         switch self {
-        case .selectItemType:
-            return "selectItemType"
+        case .settings:
+            return "Settings"
         case .createItem:
-            return "selectItemType"
+            return "CreateItem"
         }
     }
     

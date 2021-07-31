@@ -1,23 +1,17 @@
 import Foundation
 
-public struct PasswordItem: SecureItemValue, Codable, Equatable {
+public struct PasswordItem: Equatable, Codable {
     
     public let password: String?
-    
-    public static var secureItemType: SecureItemType { .password }
     
     public init(password: String? = nil) {
         self.password = password
     }
     
-    public init(from data: Data) throws {
-        self = try JSONDecoder().decode(Self.self, from: data)
-    }
+}
+
+extension PasswordItem: SecureItemValue {
     
-    public var encoded: Data {
-        get throws {
-            try JSONEncoder().encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .password }
     
 }

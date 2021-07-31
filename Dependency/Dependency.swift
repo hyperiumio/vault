@@ -17,10 +17,11 @@ struct Dependency {
 
 extension Dependency {
     
-    static func production() -> Self {
-        let defaults = try! Defaults<UserDefaults>(appGroup: Configuration.appGroup)
+    static let production: Self = {
+        let userDefaults = UserDefaults(suiteName: Configuration.appGroup)!
+        let defaults = Defaults(store: userDefaults)
         let keychain = Keychain(accessGroup: Configuration.appGroup)
-        let store = Store(containerDirectory: Configuration.storeDirectory!)
+        let store = Store(containerDirectory: Configuration.storeDirectory)
         let bootstrapService = BootstrapService(defaults: defaults, store: store)
         let settingsService = SettingsService(defaults: defaults, keychain: keychain, store: store)
         let unlockService = UnlockService(defaults: defaults, keychain: keychain, store: store)
@@ -29,7 +30,7 @@ extension Dependency {
         let storeItemService = StoreItemService(defaults: defaults, keychain: keychain, store: store)
         
         return Self(bootstrapService: bootstrapService, settingsService: settingsService, unlockService: unlockService, passwordService: passwordService, setupService: setupService, storeItemService: storeItemService)
-    }
+    }()
     
 }
 

@@ -1,4 +1,3 @@
-import Common
 import Foundation
 import Model
 
@@ -9,18 +8,20 @@ class SetupState: ObservableObject {
     @Published var password = ""
     @Published var repeatedPassword = ""
     @Published var isBiometricUnlockEnabled = false
-    @Published var setupError: Error?
+    @Published var setupError: SetupError?
     
-    private let yield = AsyncValue<Void>()
-    private let setupService: SetupServiceProtocol
+    private let dependency: Dependency
+    private var completeContinuation: CheckedContinuation<Void, Never>?
     
     init(dependency: Dependency) {
-        self.setupService = dependency.setupService
+        self.dependency = dependency
     }
     
-    var done: Void {
+    var completed: Void {
         get async {
-            await yield.value
+            await withCheckedContinuation { continuation in
+                completeContinuation = continuation
+            }
         }
     }
     
@@ -44,7 +45,7 @@ class SetupState: ObservableObject {
         case .enableBiometricUnlock:
             step = .repeatPassword
         case .completeSetup:
-            if let biometryType = await setupService.availableBiometry {
+            if let biometryType = await dependency.setupService.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .repeatPassword
@@ -57,13 +58,13 @@ class SetupState: ObservableObject {
         
         switch step {
         case .choosePassword:
-            guard password.count >= 1 else {
+            if await dependency.setupService.isPasswordSecure(password) {
+                step = .repeatPassword
+            } else {
                 setupError = .insecurePassword
-                return
             }
-            step = .repeatPassword
         case .repeatPassword:
-            if let biometryType = await setupService.availableBiometry {
+            if let biometryType = await dependency.setupService.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .completeSetup
@@ -72,8 +73,8 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                try await setupService.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
-                await yield.set(())
+                try await dependency.setupService.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
+                completeContinuation?.resume()
             } catch {
                 setupError = .completeSetupDidFail
             }
@@ -93,7 +94,7 @@ extension SetupState {
         
     }
     
-    enum Error: Swift.Error {
+    enum SetupError: Error {
         
         case insecurePassword
         case completeSetupDidFail

@@ -1,9 +1,8 @@
 import Foundation
 import Model
-import Sort
 
 @MainActor
-class StoreItemDetailState: ObservableObject {
+class StoreItemDetailState: ObservableObject, Identifiable {
     
     @Published private(set) var status = Status.initialized
     
@@ -28,6 +27,12 @@ class StoreItemDetailState: ObservableObject {
     }
     
     func load() async {
+        guard case .initialized = status else {
+            return
+        }
+        
+        status = .loading
+        
         do {
             let storeItem = try await dependency.storeItemService.load(itemID: storeItemInfo.id)
             status = .display(storeItem)
@@ -51,31 +56,6 @@ class StoreItemDetailState: ObservableObject {
         }
         
         status = .display(storeItemEditState.editedStoreItem)
-    }
-    
-}
-
-extension StoreItemDetailState: CollationElement {
-    
-    nonisolated var sectionKey: String {
-        let firstCharacter = storeItemInfo.name.prefix(1)
-        return String(firstCharacter)
-    }
-    
-    nonisolated static func < (lhs: StoreItemDetailState, rhs: StoreItemDetailState) -> Bool {
-        lhs.storeItemInfo.name < rhs.storeItemInfo.name
-    }
-    
-    nonisolated static func == (lhs: StoreItemDetailState, rhs: StoreItemDetailState) -> Bool {
-        lhs.storeItemInfo.name == rhs.storeItemInfo.name
-    }
-    
-}
-
-extension StoreItemDetailState: Identifiable {
-    
-    nonisolated var id: UUID {
-        storeItemInfo.id
     }
     
 }

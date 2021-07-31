@@ -51,6 +51,10 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
     return String(password)
 }
 
+public func PasswordIsSecure(_ password: String) async -> Bool {
+    true
+}
+
 public struct PasswordConfiguration {
     
     let rng: (_ bytes: UnsafeMutableRawPointer, _ count: Int) -> CCRNGStatus

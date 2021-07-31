@@ -2,6 +2,16 @@ import Foundation
 
 public struct CreditCardNumberFormatStyle: ParseableFormatStyle {
     
+    public init() {}
+    
+}
+
+extension CreditCardNumberFormatStyle {
+    
+    public var parseStrategy: Self {
+        self
+    }
+    
     public func format(_ value: String) -> String {
         let input = value.components(separatedBy: .whitespaces).joined()
 
@@ -14,11 +24,8 @@ public struct CreditCardNumberFormatStyle: ParseableFormatStyle {
         }.joined(separator: " ")
     }
     
-    public var parseStrategy: Self { self }
-    
-    public init() {}
-    
 }
+
 
 extension CreditCardNumberFormatStyle: ParseStrategy {
     

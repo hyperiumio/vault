@@ -1,25 +1,19 @@
 import Foundation
 
-public struct WifiItem: SecureItemValue, Codable, Equatable  {
+public struct WifiItem: Equatable, Codable {
     
     public let name: String?
     public let password: String?
-    
-    public static var secureItemType: SecureItemType { .wifi }
     
     public init(name: String? = nil, password: String? = nil) {
         self.name = name
         self.password = password
     }
     
-    public init(from data: Data) throws {
-        self = try JSONDecoder().decode(Self.self, from: data)
-    }
+}
+
+extension WifiItem: SecureItemValue {
     
-    public var encoded: Data {
-        get throws {
-            try JSONEncoder().encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .wifi }
     
 }

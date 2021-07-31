@@ -7,9 +7,7 @@ class NoteItemState: ObservableObject {
     @Published var text: String
     
     var item: NoteItem {
-        let text = self.text.isEmpty ? nil : self.text
-        
-        return NoteItem(text: text)
+        NoteItem(text: text)
     }
     
     init(item: NoteItem? = nil) {

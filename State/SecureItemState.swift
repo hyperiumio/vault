@@ -66,22 +66,22 @@ class SecureItemState: ObservableObject {
     
     var secureItem: SecureItem {
         switch value {
-        case .login(let loginState):
-            return .login(loginState.item)
-        case .password(let passwordState):
-            return .password(passwordState.item)
-        case .file(let fileState):
-            return .file(fileState.item)
-        case .note(let noteState):
-            return .note(noteState.item)
-        case .bankCard(let bankCardState):
-            return .bankCard(bankCardState.item)
-        case .wifi(let wifiState):
-            return .wifi(wifiState.item)
-        case .bankAccount(let bankAccountState):
-            return .bankAccount(bankAccountState.item)
-        case .custom(let customState):
-            return .custom(customState.item)
+        case .login(let state):
+            return .login(state.item)
+        case .password(let state):
+            return .password(state.item)
+        case .file(let state):
+            return .file(state.item)
+        case .note(let state):
+            return .note(state.item)
+        case .bankCard(let state):
+            return .bankCard(state.item)
+        case .wifi(let state):
+            return .wifi(state.item)
+        case .bankAccount(let state):
+            return .bankAccount(state.item)
+        case .custom(let state):
+            return .custom(state.item)
         }
     }
     

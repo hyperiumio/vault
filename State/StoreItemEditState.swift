@@ -7,19 +7,20 @@ class StoreItemEditState: ObservableObject {
     @Published var title: String
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems: [SecureItemState]
+    @Published var editError: Error?
     
     let editedStoreItem: StoreItem
     
     private let dependency: Dependency
     
     init(editing storeItem: StoreItem, dependency: Dependency) {
-        self.dependency = dependency
         self.editedStoreItem = storeItem
         self.title = storeItem.name
         self.primaryItem = SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
         self.secondaryItems = storeItem.secondaryItems.map { item in
             SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
         }
+        self.dependency = dependency
     }
     
     var created: Date {
@@ -40,6 +41,8 @@ class StoreItemEditState: ObservableObject {
     }
     
     func save() async throws {
+        editError = nil
+        
         do {
             let id = editedStoreItem.id
             let name = title
@@ -50,16 +53,29 @@ class StoreItemEditState: ObservableObject {
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
             try await dependency.storeItemService.save(storeItem)
         } catch {
-            
+            editError = .saveDidFail
         }
     }
     
     func delete() async {
+        editError = nil
+        
         do {
             try await dependency.storeItemService.delete(itemID: editedStoreItem.id)
         } catch {
-            
+            editError = .deleteDidFail
         }
+    }
+    
+}
+
+extension StoreItemEditState {
+    
+    enum Error: Swift.Error {
+        
+        case saveDidFail
+        case deleteDidFail
+        
     }
     
 }

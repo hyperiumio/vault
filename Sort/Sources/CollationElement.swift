@@ -1,5 +1,9 @@
-public protocol CollationElement: Comparable {
+/*
+public protocol CollationElement {
     
-    var sectionKey: String { get }
+    associatedtype Identifier: CollationIdentifier
+    
+    var collationIdentifier: Identifier { get }
     
 }
+*/

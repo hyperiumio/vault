@@ -1,23 +1,17 @@
 import Foundation
 
-public struct NoteItem: SecureItemValue, Codable, Equatable  {
+public struct NoteItem: Equatable, Codable {
     
     public let text: String?
-    
-    public static var secureItemType: SecureItemType { .note }
     
     public init(text: String? = nil) {
         self.text = text
     }
     
-    public init(from data: Data) throws {
-        self = try JSONDecoder().decode(Self.self, from: data)
-    }
+}
+
+extension NoteItem: SecureItemValue {
     
-    public var encoded: Data {
-        get throws {
-            try JSONEncoder().encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .note }
     
 }

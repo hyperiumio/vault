@@ -1,6 +1,16 @@
 import Foundation
 
-public struct BankAccountNumberFormatStyle: ParseableFormatStyle {
+public struct BankAccountNumberFormatStyle {
+    
+    public init() {}
+    
+}
+
+extension BankAccountNumberFormatStyle: ParseableFormatStyle {
+    
+    public var parseStrategy: Self {
+        self
+    }
     
     public func format(_ value: String) -> String {
         let input = value.components(separatedBy: .whitespaces).joined()
@@ -13,10 +23,6 @@ public struct BankAccountNumberFormatStyle: ParseableFormatStyle {
             return String(chunk)
         }.joined(separator: " ")
     }
-    
-    public var parseStrategy: Self { self }
-    
-    public init() {}
     
 }
 

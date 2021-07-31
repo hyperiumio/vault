@@ -6,6 +6,9 @@ import Store
 
 protocol StoreItemServiceProtocol {
     
+    var didChange: AsyncStream<Void> { get async }
+    
+    func loadInfos() async throws -> [StoreItemInfo]
     func load(itemID: UUID) async throws -> StoreItem
     func save(_ storeItem: StoreItem) async throws
     func delete(itemID: UUID) async throws
@@ -15,14 +18,26 @@ protocol StoreItemServiceProtocol {
 
 struct StoreItemService: StoreItemServiceProtocol {
     
-    private let defaults: Defaults<UserDefaults>
+    private let defaults: Defaults
     private let keychain: Keychain
     private let store: Store
     
-    init(defaults: Defaults<UserDefaults>, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, keychain: Keychain, store: Store) {
         self.defaults = defaults
         self.keychain = keychain
         self.store = store
+    }
+    
+    var didChange: AsyncStream<Void> {
+        get async {
+            await store.didChange
+        }
+    }
+    
+    func loadInfos() async throws -> [StoreItemInfo] {
+        [
+            StoreItemInfo(id: UUID(), name: "foo", description: "bar", primaryType: .login, secondaryTypes: [], created: .now, modified: .now)
+        ]
     }
     
     func load(itemID: UUID) async throws -> StoreItem {
@@ -31,12 +46,12 @@ struct StoreItemService: StoreItemServiceProtocol {
         }
         
         let encryptedMessages = try await store.loadItem(storeID: storeID, itemID: itemID)
-        let decryptedMessages = try await keychain.decryptMessages(from: encryptedMessages)
+        let messages = try await keychain.decryptMessages(from: encryptedMessages)
         
-        guard let encodedInfo = decryptedMessages.first else {
+        guard let encodedInfo = messages.first else {
             throw Error.invalidMessageContainer
         }
-        let encodedItems = decryptedMessages.dropFirst()
+        let encodedItems = messages.dropFirst()
         guard let encodedPrimaryItem = encodedItems.first else {
             throw Error.invalidMessageContainer
         }
@@ -61,9 +76,16 @@ struct StoreItemService: StoreItemServiceProtocol {
             throw Error.noActiveStoreID
         }
         
-        let encryptedStoreItem = Data()
+        let encodedInfo = try storeItem.info.encoded
+        let items = [storeItem.primaryItem] + storeItem.secondaryItems
+        let encodedItems = try items.map { item in
+            try item.value.encoded
+        }
+        let messages = [encodedInfo] + encodedItems
+        let encryptedMessages = try await keychain.encryptMessages(messages)
+        
         let operations = [
-            Operation.save(itemID: storeItem.id, item: encryptedStoreItem)
+            Operation.save(itemID: storeItem.id, item: encryptedMessages)
         ]
         try await store.commit(storeID: storeID, operations: operations)
     }
@@ -96,6 +118,14 @@ extension StoreItemService {
 import Foundation
 
 struct StoreItemServiceStub: StoreItemServiceProtocol {
+    
+    var didChange: AsyncStream<Void> {
+        AsyncStream { _ in }
+    }
+    
+    func loadInfos() async throws -> [StoreItemInfo] {
+        [Self.storeItem.info]
+    }
     
     func load(itemID: UUID) async throws -> StoreItem {
         Self.storeItem

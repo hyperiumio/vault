@@ -3,30 +3,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "Common",
+    name: "Shim",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Common",
+            name: "Shim",
             targets: [
-                "Common"
+                "Shim"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Common",
+            name: "Shim",
             path: "Sources"
-        ),
-        .testTarget(
-            name: "CommonTests",
-            dependencies: [
-                "Common"
-            ],
-            path: "Tests"
         )
     ]
 )

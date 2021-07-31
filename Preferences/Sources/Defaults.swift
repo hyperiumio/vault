@@ -1,13 +1,10 @@
 import Foundation
 
-public actor Defaults<Store> where Store: PersistenceProvider {
+public actor Defaults {
     
-    private let store: Store
+    private let store: PersistenceProvider
     
-    public init(appGroup: String) throws {
-        guard let store = Store(suiteName: appGroup) else {
-            throw PreferencesError.invalidAppGroup
-        }
+    public init(store: PersistenceProvider) {
         let defaults =  [
             String.biometricUnlockEnabledKey: false
         ]

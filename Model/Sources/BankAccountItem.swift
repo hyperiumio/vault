@@ -1,12 +1,10 @@
 import Foundation
 
-public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
+public struct BankAccountItem: Equatable, Codable  {
     
     public let accountHolder: String?
     public let iban: String?
     public let bic: String?
-    
-    public static var secureItemType: SecureItemType { .bankAccount }
     
     public init(accountHolder: String? = nil, iban: String? = nil, bic: String? = nil) {
         self.accountHolder = accountHolder
@@ -14,14 +12,10 @@ public struct BankAccountItem: SecureItemValue, Codable, Equatable  {
         self.bic = bic
     }
     
-    public init(from data: Data) throws {
-        self = try JSONDecoder().decode(Self.self, from: data)
-    }
+}
+
+extension BankAccountItem: SecureItemValue {
     
-    public var encoded: Data {
-        get throws {
-            try JSONEncoder().encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .bankAccount }
     
 }

@@ -9,11 +9,7 @@ class BankAccountItemState: ObservableObject {
     @Published var bic: String
     
     var item: BankAccountItem {
-        let accountHolder = self.accountHolder.isEmpty ? nil : self.accountHolder
-        let iban = self.iban.isEmpty ? nil : self.iban
-        let bic = self.bic.isEmpty ? nil : self.bic
-        
-        return BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
+        BankAccountItem(accountHolder: accountHolder, iban: iban, bic: bic)
     }
     
     init(item: BankAccountItem? = nil) {

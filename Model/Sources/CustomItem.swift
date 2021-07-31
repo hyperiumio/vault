@@ -1,25 +1,19 @@
 import Foundation
 
-public struct CustomItem: SecureItemValue, Codable, Equatable  {
+public struct CustomItem: Equatable, Codable {
     
     public let description: String?
     public let value: String?
-    
-    public static var secureItemType: SecureItemType { .custom }
     
     public init(description: String? = nil, value: String? = nil) {
         self.description = description
         self.value = value
     }
     
-    public init(from data: Data) throws {
-        self = try JSONDecoder().decode(Self.self, from: data)
-    }
+}
+
+extension CustomItem: SecureItemValue {
     
-    public var encoded: Data {
-        get throws {
-            try JSONEncoder().encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .custom }
     
 }

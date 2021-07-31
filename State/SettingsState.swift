@@ -2,7 +2,7 @@ import Foundation
 import Model
 
 @MainActor
-class SettingsState: ObservableObject {
+class SettingsState: ObservableObject, Identifiable {
     
     @Published var biometrySettingsState: BiometrySettingsState?
     let masterPasswordSettingsState: MasterPasswordSettingsState

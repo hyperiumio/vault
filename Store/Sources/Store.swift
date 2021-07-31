@@ -1,13 +1,21 @@
 import Foundation
+import UIKit
 
 public actor Store {
     
-    let resourceLocator: StoreResourceLocator
-    let configuration: Configuration
+    private let resourceLocator: StoreResourceLocator
+    private let configuration: Configuration
+    private var continuations = [AsyncStream<Void>.Continuation]()
     
     public init(containerDirectory: URL, configuration: Configuration = .production) {
         self.resourceLocator = StoreResourceLocator(containerURL: containerDirectory)
         self.configuration = configuration
+    }
+    
+    public var didChange: AsyncStream<Void> {
+        AsyncStream { continuation in
+            continuations.append(continuation)
+        }
     }
     
     public func storeExists(storeID: UUID) async throws -> Bool {
@@ -27,10 +35,33 @@ public actor Store {
         try FileManager.default.createDirectory(at: itemsURL, withIntermediateDirectories: false, attributes: nil)
         try storeInfo.encoded.write(to: infoURL)
         try derivedKeyContainer.write(to: derivedKeyContainerURL)
+        
+        for continuation in continuations {
+            continuation.yield()
+        }
     }
     
     public func migrateStore(fromStore oldStoreID: UUID, toStore newStoreID: UUID, derivedKeyContainer: Data, configuration: Configuration = .production, migratingItems: (Data) throws -> Data) async throws {
-        fatalError()
+        for continuation in continuations {
+            continuation.yield()
+        }
+    }
+    
+    public func commit(storeID: UUID, operations: [Operation]) async throws {
+        for operation in operations {
+            switch operation {
+            case .save(let itemID, let item):
+                let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
+                try item.write(to: itemURL)
+            case .delete(let itemID):
+                let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
+                try FileManager.default.removeItem(at: itemURL)
+            }
+        }
+        
+        for continuation in continuations {
+            continuation.yield()
+        }
     }
     
     public func loadStoreInfo(storeID: UUID) async throws -> StoreInfo {
@@ -49,15 +80,15 @@ public actor Store {
         return try configuration.load(itemURL, [])
     }
     
-    public func loadItems<T>(storeID: UUID, read: @escaping (ReadingContext) throws -> T) -> ValueSequence<T> {
-        ValueSequence { [resourceLocator] send in
+    public func loadItems<T>(storeID: UUID, read: @escaping (ReadingContext) throws -> T) -> AsyncThrowingStream<T, Error> {
+        AsyncThrowingStream { [resourceLocator] continuation in
             let itemsURL = resourceLocator.itemsURL(storeID: storeID)
             guard FileManager.default.fileExists(atPath: itemsURL.path) else {
-                send(.finished)
+                continuation.finish()
                 return
             }
             guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
-                send(.failure(StoreError.dataNotAvailable))
+                continuation.finish(throwing: StoreError.dataNotAvailable)
                 return
             }
             
@@ -65,23 +96,10 @@ public actor Store {
                 do {
                     let context = ReadingContext(url: itemURL)
                     let value = try read(context)
-                    send(.value(value))
+                    continuation.yield(value)
                 } catch let error {
-                    send(.failure(error))
+                    continuation.finish(throwing: error)
                 }
-            }
-        }
-    }
-    
-    public func commit(storeID: UUID, operations: [Operation]) async throws {
-        for operation in operations {
-            switch operation {
-            case .save(let itemID, let item):
-                let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
-                try item.write(to: itemURL)
-            case .delete(let itemID):
-                let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
-                try FileManager.default.removeItem(at: itemURL)
             }
         }
     }

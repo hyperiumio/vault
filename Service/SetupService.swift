@@ -7,6 +7,7 @@ protocol SetupServiceProtocol {
     
     var availableBiometry: BiometryType? { get async }
     
+    func isPasswordSecure(_ password: String) async -> Bool
     func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws
     
 }
@@ -14,11 +15,11 @@ protocol SetupServiceProtocol {
 
 struct SetupService: SetupServiceProtocol {
     
-    private let defaults: Defaults<UserDefaults>
+    private let defaults: Defaults
     private let keychain: Keychain
     private let store: Store
     
-    init(defaults: Defaults<UserDefaults>, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, keychain: Keychain, store: Store) {
         self.defaults = defaults
         self.keychain = keychain
         self.store = store
@@ -35,6 +36,10 @@ struct SetupService: SetupServiceProtocol {
                 return .faceID
             }
         }
+    }
+    
+    func isPasswordSecure(_ password: String) async -> Bool {
+        await PasswordIsSecure(password)
     }
     
     func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {
@@ -55,6 +60,10 @@ struct SetupServiceStub: SetupServiceProtocol {
         get async {
             .faceID
         }
+    }
+    
+    func isPasswordSecure(_ password: String) async -> Bool {
+        true
     }
     
     func createStore(isBiometryEnabled: Bool, masterPassword: String) async throws {

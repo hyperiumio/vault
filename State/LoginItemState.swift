@@ -11,11 +11,7 @@ class LoginItemState: ObservableObject {
     let passwordGeneratorState: PasswordGeneratorState
     
     var item: LoginItem {
-        let username = self.username.isEmpty ? nil : self.username
-        let password = self.password.isEmpty ? nil : self.password
-        let url = self.url.isEmpty ? nil : self.url
-        
-        return LoginItem(username: username, password: password, url: url)
+        LoginItem(username: username, password: password, url: url)
     }
     
     init(item: LoginItem? = nil, dependency: Dependency) {

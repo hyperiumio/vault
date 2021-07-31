@@ -14,11 +14,11 @@ struct UnlockedView: View {
         NavigationView {
             Group {
                 switch state.status {
-                case .empty:
+                case .emptyStore:
                     CreateFirstItemView { itemType in
                         state.showCreateItemSheet(itemType: itemType)
                     }
-                case .noSearchResult:
+                case .noSearchResults:
                     NoSearchResults()
                 case .items(let collation):
                     StoreItemList(collation)
@@ -26,7 +26,21 @@ struct UnlockedView: View {
                 }
             }
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItemGroup(placement: .navigationBarLeading) {
+                    Button {
+                        state.showSettings()
+                    } label: {
+                        Image(systemName: SFSymbol.sliderHorizontal3)
+                    }
+                    
+                    Button {
+                        state.lock()
+                    } label: {
+                        Image(systemName: SFSymbol.lock)
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Menu {
                         SelectItemTypeView { itemType in
                             state.showCreateItemSheet(itemType: itemType)
@@ -39,10 +53,8 @@ struct UnlockedView: View {
         }
         .sheet(item: $state.sheet) { sheet in
             switch sheet {
-            case .selectItemType:
-                SelectItemTypeView { itemType in
-                    state.showCreateItemSheet(itemType: itemType)
-                }
+            case .settings(let state):
+                SettingsView(state)
             case .createItem(let state):
                 CreateItemView(state)
             }

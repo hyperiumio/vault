@@ -29,7 +29,7 @@ struct QuickAccessView: View {
                 case .locked(let state):
                     LockedView(state)
                 case .unlocked(let state):
-                    QuickAccessUnlockedView(state)
+                    LoginCredentialSelectionView(state)
                 }
             }
             .toolbar {

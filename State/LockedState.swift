@@ -1,5 +1,5 @@
-import Common
 import Foundation
+import Shim
 
 @MainActor
 class LockedState: ObservableObject {
@@ -8,16 +8,18 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
-    private let yield = AsyncValue<Void>()
     private let dependency: Dependency
+    private var unlockContinuation: CheckedContinuation<Void, Never>?
     
     init(dependency: Dependency) {
         self.dependency = dependency
     }
     
-    var done: Void {
+    var unlocked: Void {
         get async {
-            await yield.value
+            await withCheckedContinuation { continuation in
+                unlockContinuation = continuation
+            }
         }
     }
     
@@ -30,6 +32,10 @@ class LockedState: ObservableObject {
     }
     
     func unlock(with login: Login) async {
+        guard status != .unlocking, status != .unlocked else {
+            return
+        }
+        
         status = .unlocking
         
         do {
@@ -39,8 +45,12 @@ class LockedState: ObservableObject {
             case .biometry:
                 try await dependency.unlockService.unlockWithBiometry()
             }
-        } catch {
+            status = .unlocked
+            unlockContinuation?.resume()
+        } catch CryptoError.wrongPassword {
             status = .wrongPassword
+        } catch {
+            status = .loadingMasterKeyFailed
         }
     }
     
@@ -59,8 +69,9 @@ extension LockedState {
         
         case locked
         case unlocking
+        case unlocked
         case wrongPassword
-        case missingMasterKey
+        case loadingMasterKeyFailed
         
     }
     

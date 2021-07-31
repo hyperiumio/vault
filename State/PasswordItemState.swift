@@ -9,9 +9,7 @@ class PasswordItemState: ObservableObject {
     let passwordGeneratorState: PasswordGeneratorState
     
     var item: PasswordItem {
-        let password = self.password.isEmpty ? nil : self.password
-        
-        return PasswordItem(password: password)
+        PasswordItem(password: password)
     }
     
     init(item: PasswordItem? = nil, dependency: Dependency) {

@@ -3,10 +3,10 @@ import Foundation
 @MainActor
 class PasswordGeneratorState: ObservableObject {
     
-    private let passwordService: PasswordServiceProtocol
+    private let dependency: Dependency
     
     init(dependency: Dependency) {
-        self.passwordService = dependency.passwordService
+        self.dependency = dependency
     }
     
     @Published var length = 32 {
@@ -36,7 +36,7 @@ class PasswordGeneratorState: ObservableObject {
     @Published var password = ""
     
     func generatePassword() async {
-        password = await passwordService.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
+        password = await dependency.passwordService.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
     }
     
 }

@@ -37,8 +37,12 @@ public actor Keychain {
         
     }
     
-    public func decryptMessages(from container: Data) throws -> [Data] {
+    public func decryptMessages(from container: Data) async throws -> [Data] {
         fatalError()
+    }
+    
+    public func encryptMessages(_ messages: [Data]) async throws -> Data {
+        Data()
     }
     
     func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {

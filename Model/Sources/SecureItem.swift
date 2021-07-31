@@ -11,6 +11,35 @@ public enum SecureItem: Equatable {
     case bankAccount(BankAccountItem)
     case custom(CustomItem)
     
+    public init(from itemData: Data, as type: SecureItemType) throws {
+        switch type {
+        case .password:
+            let value = try PasswordItem(from: itemData)
+            self = .password(value)
+        case .login:
+            let value = try LoginItem(from: itemData)
+            self = .login(value)
+        case .file:
+            let value = try FileItem(from: itemData)
+            self = .file(value)
+        case .note:
+            let value = try NoteItem(from: itemData)
+            self = .note(value)
+        case .bankCard:
+            let value = try BankCardItem(from: itemData)
+            self = .bankCard(value)
+        case .wifi:
+            let value = try WifiItem(from: itemData)
+            self = .wifi(value)
+        case .bankAccount:
+            let value = try BankAccountItem(from: itemData)
+            self = .bankAccount(value)
+        case .custom:
+            let value = try CustomItem(from: itemData)
+            self = .custom(value)
+        }
+    }
+    
     public var value: SecureItemValue {
         switch self {
         case .password(let value):
@@ -31,51 +60,5 @@ public enum SecureItem: Equatable {
             return value
         }
     }
-    
-    public init(from data: Data, as type: SecureItemType) throws {
-        switch type {
-        case .password:
-            let value = try PasswordItem(from: data)
-            self = .password(value)
-        case .login:
-            let value = try LoginItem(from: data)
-            self = .login(value)
-        case .file:
-            let value = try FileItem(from: data)
-            self = .file(value)
-        case .note:
-            let value = try NoteItem(from: data)
-            self = .note(value)
-        case .bankCard:
-            let value = try BankCardItem(from: data)
-            self = .bankCard(value)
-        case .wifi:
-            let value = try WifiItem(from: data)
-            self = .wifi(value)
-        case .bankAccount:
-            let value = try BankAccountItem(from: data)
-            self = .bankAccount(value)
-        case .custom:
-            let value = try CustomItem(from: data)
-            self = .custom(value)
-        }
-    }
-    
-}
-
-public protocol SecureItemValue {
-    
-    var secureItemType: SecureItemType { get }
-    var encoded: Data { get throws }
-    
-    init(from data: Data) throws
-    
-    static var secureItemType: SecureItemType { get }
-    
-}
-
-extension SecureItemValue {
-    
-    public var secureItemType: SecureItemType { Self.secureItemType }
     
 }

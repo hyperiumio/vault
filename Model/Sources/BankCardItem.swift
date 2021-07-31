@@ -1,11 +1,18 @@
 import Foundation
 
-public struct BankCardItem: SecureItemValue, Codable, Equatable  {
+public struct BankCardItem: Equatable, Codable {
     
     public let name: String?
     public let number: String?
     public let expirationDate: Date?
     public let pin: String?
+    
+    public init(name: String? = nil, number: String? = nil, expirationDate: Date? = nil, pin: String? = nil) {
+        self.name = name
+        self.number = number
+        self.expirationDate = expirationDate
+        self.pin = pin
+    }
     
     public var vendor: Vendor? {
         guard let number = number else {
@@ -15,28 +22,11 @@ public struct BankCardItem: SecureItemValue, Codable, Equatable  {
         return Vendor(number)
     }
     
-    public static var secureItemType: SecureItemType { .bankCard }
+}
+
+extension BankCardItem: SecureItemValue {
     
-    public init(name: String? = nil, number: String? = nil, expirationDate: Date? = nil, pin: String? = nil) {
-        self.name = name
-        self.number = number
-        self.expirationDate = expirationDate
-        self.pin = pin
-    }
-    
-    public init(from data: Data) throws {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        self = try decoder.decode(Self.self, from: data)
-    }
-    
-    public var encoded: Data {
-        get throws {
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            return try encoder.encode(self)
-        }
-    }
+    public var secureItemType: SecureItemType { .bankCard }
     
 }
 
@@ -62,4 +52,5 @@ extension BankCardItem {
         }
         
     }
+    
 }

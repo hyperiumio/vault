@@ -11,10 +11,10 @@ protocol BootstrapServiceProtocol {
 
 struct BootstrapService: BootstrapServiceProtocol {
     
-    private let defaults: Defaults<UserDefaults>
+    private let defaults: Defaults
     private let store: Store
     
-    init(defaults: Defaults<UserDefaults>, store: Store) {
+    init(defaults: Defaults, store: Store) {
         self.defaults = defaults
         self.store = store
     }

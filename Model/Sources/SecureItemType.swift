@@ -1,4 +1,4 @@
-public enum SecureItemType: String, Codable, CaseIterable, Identifiable {
+public enum SecureItemType: String, CaseIterable, Identifiable, Codable {
     
     case login
     case password

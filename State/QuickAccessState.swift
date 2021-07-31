@@ -8,11 +8,18 @@ class QuickAccessState: ObservableObject {
     private let dependency: Dependency
     
     init(dependency: Dependency) {
-        fatalError()
+        self.dependency = dependency
     }
     
     func load() async {
+        status = .loading
         
+        let lockedState = LockedState(dependency: dependency)
+        status = .locked(lockedState)
+        await lockedState.unlocked
+        
+        let unlockedState = LoginCredentialSelectionState(dependency: dependency)
+        status = .unlocked(unlockedState)
     }
     
 }
@@ -25,7 +32,7 @@ extension QuickAccessState {
         case loading
         case loadingFailed
         case locked(LockedState)
-        case unlocked(QuickAccessUnlockedState)
+        case unlocked(LoginCredentialSelectionState)
         
     }
     

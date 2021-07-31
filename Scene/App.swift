@@ -1,12 +1,9 @@
-import Preferences
 import SwiftUI
-
-let dependency = Dependency.production()
 
 @main
 struct App: SwiftUI.App {
     
-    @StateObject private var appState = AppState(dependency: dependency)
+    @StateObject private var appState = AppState(dependency: .production)
     
     #if os(iOS)
     var body: some Scene {

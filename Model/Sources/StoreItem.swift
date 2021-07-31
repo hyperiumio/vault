@@ -9,6 +9,15 @@ public struct StoreItem: Equatable {
     public let created: Date
     public let modified: Date
     
+    public init(id: UUID, name: String, primaryItem: SecureItem, secondaryItems: [SecureItem], created: Date, modified: Date) {
+        self.id = id
+        self.name = name
+        self.primaryItem = primaryItem
+        self.secondaryItems = secondaryItems
+        self.created = created
+        self.modified = modified
+    }
+    
     public var description: String? {
         switch primaryItem {
         case .password:
@@ -18,7 +27,10 @@ public struct StoreItem: Equatable {
         case .login(let item):
             return item.username
         case .file(let item):
-            return ByteCountFormatter.string(fromByteCount: Int64(item.data.count), countStyle: .binary)
+            guard let count = item.value?.data.count, let byteCount = Int64(exactly: count) else {
+                return nil
+            }
+            return ByteCountFormatter.string(fromByteCount: byteCount, countStyle: .binary)
         case .note(let item):
             let firstLine = item.text.map { text in
                 text.components(separatedBy: .newlines)
@@ -38,15 +50,6 @@ public struct StoreItem: Equatable {
     public var info: StoreItemInfo {
         let secondaryTypes = secondaryItems.map(\.value.secureItemType)
         return StoreItemInfo(id: id, name: name, description: description, primaryType: primaryItem.value.secureItemType, secondaryTypes: secondaryTypes, created: created, modified: modified)
-    }
-    
-    public init(id: UUID, name: String, primaryItem: SecureItem, secondaryItems: [SecureItem], created: Date, modified: Date) {
-        self.id = id
-        self.name = name
-        self.primaryItem = primaryItem
-        self.secondaryItems = secondaryItems
-        self.created = created
-        self.modified = modified
     }
     
 }

@@ -3,7 +3,7 @@ import Model
 import Sort
 
 @MainActor
-class QuickAccessUnlockedState: ObservableObject {
+class LoginCredentialSelectionState: ObservableObject {
     
     @Published private(set) var status = Status.empty
     @Published var searchText = ""
@@ -16,7 +16,7 @@ class QuickAccessUnlockedState: ObservableObject {
     
 }
 
-extension QuickAccessUnlockedState {
+extension LoginCredentialSelectionState {
     
     typealias Collation = AlphabeticCollation<LoginCredential>
     
@@ -25,18 +25,6 @@ extension QuickAccessUnlockedState {
         case empty
         case value(Collation)
         
-    }
-    
-}
-
-extension LoginCredential: CollationElement {
-    
-    public var sectionKey: String {
-        fatalError()
-    }
-    
-    public static func < (lhs: LoginCredential, rhs: LoginCredential) -> Bool {
-        fatalError()
     }
     
 }

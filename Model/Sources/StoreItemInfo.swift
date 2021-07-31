@@ -1,6 +1,6 @@
 import Foundation
 
-public struct StoreItemInfo: Codable, Hashable, Identifiable {
+public struct StoreItemInfo: Hashable, Identifiable, Codable {
     
     public let id: UUID
     public let name: String
@@ -20,10 +20,10 @@ public struct StoreItemInfo: Codable, Hashable, Identifiable {
         self.modified = modified
     }
     
-    public init(from data: Data) throws {
+    public init(from itemData: Data) throws {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        self = try decoder.decode(Self.self, from: data)
+        self = try decoder.decode(Self.self, from: itemData)
     }
     
     public var encoded: Data {

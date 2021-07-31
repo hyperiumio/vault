@@ -2,11 +2,11 @@ import Resource
 import SwiftUI
 import Model
 
-struct QuickAccessUnlockedView: View {
+struct LoginCredentialSelectionView: View {
     
-    @ObservedObject private var state: QuickAccessUnlockedState
+    @ObservedObject private var state: LoginCredentialSelectionState
     
-    init(_ state: QuickAccessUnlockedState) {
+    init(_ state: LoginCredentialSelectionState) {
         self.state = state
     }
     
@@ -24,7 +24,7 @@ struct QuickAccessUnlockedView: View {
     
 }
 
-extension QuickAccessUnlockedView {
+extension LoginCredentialSelectionView {
     
     struct Empty: View {
         
@@ -45,9 +45,9 @@ extension QuickAccessUnlockedView {
 
     struct Value: View {
         
-        private let collation: QuickAccessUnlockedState.Collation
+        private let collation: LoginCredentialSelectionState.Collation
         
-        init(_ collation: QuickAccessUnlockedState.Collation) {
+        init(_ collation: LoginCredentialSelectionState.Collation) {
             self.collation = collation
         }
         
@@ -81,14 +81,14 @@ extension QuickAccessUnlockedView {
 #if DEBUG
 struct QuickAccessUnlockedViewPreview: PreviewProvider {
     
-    static let state = QuickAccessUnlockedState(dependency: .stub)
+    static let state = LoginCredentialSelectionState(dependency: .stub)
     
     static var previews: some View {
-        QuickAccessUnlockedView(state)
+        LoginCredentialSelectionView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
         
-        QuickAccessUnlockedView(state)
+        LoginCredentialSelectionView(state)
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
     }

@@ -1,5 +1,5 @@
-import Common
 import Resource
+import Shim
 import SwiftUI
 
 struct StoreItemDetailView: View {

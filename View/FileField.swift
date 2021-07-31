@@ -1,30 +1,26 @@
-import Common
 import Model
+import Shim
 import SwiftUI
 import UniformTypeIdentifiers
 
 struct FileField: View {
     
-    private let item: FileItem?
+    private let item: FileItem
     
     init(_ item: FileItem) {
         self.item = item
     }
     
-    init() {
-        self.item = nil
-    }
-    
     var body: some View {
-        switch item {
-        case let item? where item.type.conforms(to: .image):
+        switch item.value {
+        case let value? where value.type.conforms(to: .image):
             #if os(iOS)
-            if let image = UIImage(data: item.data) {
+            if let image = UIImage(data: value.data) {
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFit()
             } else {
-                UnrepresentableFileView(item.type)
+                UnrepresentableFileView(value.type)
             }
             #endif
             
@@ -37,15 +33,17 @@ struct FileField: View {
                 UnrepresentableFileView(value.type)
             }
             #endif
-        case let item? where item.type.conforms(to: .pdf):
-            if let document = PDFView.Document(data: item.data) {
+        case let value? where value.type.conforms(to: .pdf):
+            if let document = PDFView.Document(data: value.data) {
                 PDFView(document)
                     .scaledToFit()
             } else {
-                UnrepresentableFileView(item.type)
+                UnrepresentableFileView(value.type)
             }
-        default:
-            UnrepresentableFileView(item?.type ?? .item)
+        case let value?:
+            UnrepresentableFileView(value.type)
+        case nil:
+            Text("No File")
         }
     }
     
@@ -74,9 +72,12 @@ private struct UnrepresentableFileView: View {
 struct FileFieldPreview: PreviewProvider {
     
     static let imageData = NSDataAsset(name: "Image")!.data
+    static let imageValue = FileItem.Value(data: imageData, type: .png)
+    static let imageItem = FileItem(value: imageValue)
+    
     static let pdfData = NSDataAsset(name: "PDF")!.data
-    static let imageItem = FileItem(data: imageData, type: .png)
-    static let pdfItem = FileItem(data: pdfData, type: .pdf)
+    static let pdfValue = FileItem.Value(data: pdfData, type: .pdf)
+    static let pdfItem = FileItem(value: pdfValue)
     
     static var previews: some View {
         FileField(imageItem)

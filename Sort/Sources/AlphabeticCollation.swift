@@ -1,17 +1,19 @@
-public struct AlphabeticCollation<Element> where Element: CollationElement {
+public struct AlphabeticCollation<Element> {
     
     public let sections: [Section]
     
-    public init<S>(from elements: S) where S: Sequence, Element == S.Element  {
+    public init<S>(from elements: S, grouped identifier: (Element) -> String) where S: Sequence, Element == S.Element  {
         let groupedElements = Dictionary(grouping: elements) { element in
-            element.sectionKey.uppercased()
+            identifier(element).uppercased().prefix(1)
         }
         
         self.sections = groupedElements.sorted { lhs, rhs in
             lhs.key < rhs.key
         }.map { key, value in
-            let key = key.uppercased()
-            let elements = groupedElements[key]!.sorted()
+            let elements = groupedElements[key]?.sorted { lhs, rhs in
+                identifier(lhs) < identifier(rhs)
+            } ?? []
+            let key = String(key)
             return Section(key: key, elements: elements)
         }
     }

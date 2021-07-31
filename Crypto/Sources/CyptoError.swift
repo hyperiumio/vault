@@ -8,5 +8,6 @@ public enum CryptoError: Error {
     case randomNumberGenerationFailed
     case passwordGenerationFailed
     case invalidDataSize
+    case wrongPassword
     
 }

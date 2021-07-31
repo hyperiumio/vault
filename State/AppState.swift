@@ -1,5 +1,4 @@
 import Foundation
-import Model
 
 @MainActor
 class AppState: ObservableObject {
@@ -11,17 +10,17 @@ class AppState: ObservableObject {
                 case .launching, .launchingFailed:
                     return
                 case .setup(let setupState):
-                    await setupState.done
+                    await setupState.completed
                     let unlockedState = UnlockedState(dependency: dependency)
-                    status = .unlocked(state: unlockedState)
+                    status = .unlocked(unlockedState)
                 case .locked(let lockedState):
-                    await lockedState.done
+                    await lockedState.unlocked
                     let unlockedState = UnlockedState(dependency: dependency)
-                    status = .unlocked(state: unlockedState)
+                    status = .unlocked(unlockedState)
                 case .unlocked(let unlockedState):
-                    await unlockedState.done
+                    await unlockedState.locked
                     let lockedState = LockedState(dependency: dependency)
-                    status = .locked(state: lockedState)
+                    status = .locked(lockedState)
                 }
             }
         }
@@ -36,11 +35,11 @@ class AppState: ObservableObject {
     func bootstrap() async {
         do {
             if try await dependency.bootstrapService.didCompleteSetup {
-                let lockedState = LockedState(dependency: dependency)
-                status = .locked(state: lockedState)
+                let state = LockedState(dependency: dependency)
+                status = .locked(state)
             } else {
-                let setupState = SetupState(dependency: dependency)
-                status = .setup(state: setupState)
+                let state = SetupState(dependency: dependency)
+                status = .setup(state)
             }
         } catch {
             status = .launchingFailed
@@ -55,9 +54,9 @@ extension AppState {
         
         case launching
         case launchingFailed
-        case setup(state: SetupState)
-        case locked(state: LockedState)
-        case unlocked(state: UnlockedState)
+        case setup(SetupState)
+        case locked(LockedState)
+        case unlocked(UnlockedState)
         
     }
     
