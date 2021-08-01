@@ -14,10 +14,10 @@ public struct StoreInfo: Codable {
         self.created = Date()
     }
     
-    public init(from data: Data) throws {
+    public init(from itemData: Data) throws {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
-        self = try decoder.decode(Self.self, from: data)
+        self = try decoder.decode(Self.self, from: itemData)
     }
     
     public var encoded: Data {

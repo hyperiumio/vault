@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-public struct SecureDataHeader {
+struct SecureDataHeader {
     
     public let elements: [Element]
     let wrappedMessageKey: Data
@@ -11,7 +11,7 @@ public struct SecureDataHeader {
         self.wrappedMessageKey = wrappedMessageKey
     }
     
-    public init(data: Data) throws {
+    init(data: Data) throws {
         try self.init { range in
             let lowerBound = data.startIndex + range.startIndex
             let range = Range(lowerBound: lowerBound, count: range.count)
@@ -23,7 +23,7 @@ public struct SecureDataHeader {
         }
     }
     
-    public init(from dataProvider: (Range<Int>) throws -> Data) throws {
+    init(from dataProvider: (Range<Int>) throws -> Data) throws {
         let messageCountRange = Range(lowerBound: 0, count: UInt32CodingSize)
         let messageCountData = try dataProvider(messageCountRange)
         let rawMessageCount = try UInt32Decode(messageCountData)
@@ -79,7 +79,7 @@ public struct SecureDataHeader {
         self.elements = elements
     }
     
-    public func unwrapMessageKey(with masterKey: MasterKey) throws -> MessageKey {
+    func unwrapMessageKey(with masterKey: MasterKey) throws -> MessageKey {
         let tagSegment = elements.map(\.tag).reduce(Data(), +)
         let wrappedMessageKey = try AES.GCM.SealedBox(combined: self.wrappedMessageKey)
         
@@ -90,7 +90,7 @@ public struct SecureDataHeader {
 
 extension SecureDataHeader {
     
-    public struct Element: Equatable {
+    struct Element: Equatable {
         
         let nonceRange: Range<Int>
         let ciphertextRange: Range<Int>

@@ -3,56 +3,26 @@ import Foundation
 import LocalAuthentication
 import Security
 
-public actor Keychain {
+actor Keychain {
     
     let attributeBuilder: KeychainAttributeBuilder
     let configuration: Configuration
     
-    public init(accessGroup: String, configuration: Configuration = .production) {
+    init(accessGroup: String, configuration: Configuration = .production) {
         let builderConfiguration = KeychainAttributeBuilder.Configuration(accessControlCreate: configuration.accessControlCreate)
         
         self.attributeBuilder = KeychainAttributeBuilder(accessGroup: accessGroup, configuration: builderConfiguration)
         self.configuration = configuration
     }
     
-    public func createMasterKey(from password: String, publicArguments: DerivedKey.PublicArguments, with id: UUID) async throws {
-        let derivedKey = try await DerivedKey(from: password, with: publicArguments)
-        let masterKey = MasterKey()
-        let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
-        try await self.storeSecret(masterKeyContainer, forKey: "MasterKey")
-    }
-    
-    public func decryptMasterKeyWithPassword(_ password: String, publicArguments: DerivedKey.PublicArguments, id: UUID) async throws {
-        /*
-        guard let masterKeyContainer = try await self.loadSecret(forKey: "MasterKey") else {
-            return nil
-        }
-        let derivedKey = try await DerivedKey(from: password, with: publicArguments)
-        return try MasterKey(from: masterKeyContainer, using: derivedKey)
-         */
-        fatalError()
-    }
-    
-    public func decryptMasterKeyWithBiometry(id: UUID) async throws {
-        
-    }
-    
-    public func decryptMessages(from container: Data) async throws -> [Data] {
-        fatalError()
-    }
-    
-    public func encryptMessages(_ messages: [Data]) async throws -> Data {
-        Data()
-    }
-    
-    func storeSecret<D>(_ secret: D, forKey key: String) async throws where D: ContiguousBytes {
+    func storeSecret<D>(_ secret: D, forKey key: String, access: KeychainItemAccess) async throws where D: ContiguousBytes {
         let deleteQuery = attributeBuilder.buildDeleteAttributes(key: key)
         let deleteStatus = configuration.delete(deleteQuery)
         guard deleteStatus == errSecSuccess || deleteStatus == errSecItemNotFound else {
             throw CryptoError.keychainDeleteFailed
         }
         
-        let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, context: configuration.context)
+        let addAttributes = attributeBuilder.buildAddAttributes(key: key, data: secret, access: access, context: configuration.context)
         let addStatus = configuration.store(addAttributes, nil)
         guard addStatus == errSecSuccess else {
             throw CryptoError.keychainStoreFailed
@@ -84,7 +54,7 @@ public actor Keychain {
         }
     }
     
-    public var availability: KeychainAvailability {
+    var biometryAvailablility: BiometryAvailability {
         get async {
             var error: NSError?
             let canEvaluate = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error)
@@ -107,7 +77,7 @@ public actor Keychain {
 
 extension Keychain {
     
-    public struct Configuration {
+    struct Configuration {
         
         let context: KeychainContext
         let accessControlCreate: (_ allocator: CFAllocator?, _ protection: CFTypeRef, _ flags: SecAccessControlCreateFlags, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> SecAccessControl?

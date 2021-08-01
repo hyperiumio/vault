@@ -10,11 +10,11 @@ struct KeychainAttributeBuilder {
         self.configuration = configuration
     }
     
-    func buildAddAttributes<D>(key: String, data: D, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
+    func buildAddAttributes<D>(key: String, data: D, access: KeychainItemAccess, context: KeychainContext) -> CFDictionary where D: ContiguousBytes {
         [
             kSecClass: kSecClassGenericPassword,
             kSecUseDataProtectionKeychain: true,
-            kSecAttrAccessControl: configuration.accessControlCreate(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, .biometryCurrentSet, nil) as Any,
+            kSecAttrAccessControl: configuration.accessControlCreate(nil, kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly, access.flags, nil) as Any,
             kSecAttrAccount: key,
             kSecUseAuthenticationContext: context,
             kSecAttrAccessGroup: accessGroup,
@@ -55,6 +55,19 @@ extension KeychainAttributeBuilder {
             Self(accessControlCreate: SecAccessControlCreateWithFlags)
         }
         
+    }
+    
+}
+
+private extension KeychainItemAccess {
+    
+    var flags: SecAccessControlCreateFlags {
+        switch self {
+        case .devicePasscode:
+            return .devicePasscode
+        case .currentBiometry:
+            return .biometryCurrentSet
+        }
     }
     
 }

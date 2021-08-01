@@ -3,22 +3,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Store",
+    name: "Persistence",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Store",
+            name: "Persistence",
             targets: [
-                "Store"
+                "Persistence"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Store",
+            name: "Persistence",
             path: "Sources"
         )
     ]

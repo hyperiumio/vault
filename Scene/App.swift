@@ -17,7 +17,7 @@ struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             AppView(appState)
-                .frame(width: 600, height: 600)
+                .frame(width: 400, height: 400)
         }
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unifiedCompact)

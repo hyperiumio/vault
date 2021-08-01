@@ -1,4 +1,4 @@
-public enum KeychainAvailability: Equatable {
+public enum BiometryAvailability: Equatable {
     
     case notAvailable
     case notEnrolled

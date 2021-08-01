@@ -26,7 +26,7 @@ struct UnlockedView: View {
                 }
             }
             .toolbar {
-                ToolbarItemGroup(placement: .navigationBarLeading) {
+                ToolbarItemGroup {
                     Button {
                         state.showSettings()
                     } label: {
@@ -40,7 +40,7 @@ struct UnlockedView: View {
                     }
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem {
                     Menu {
                         SelectItemTypeView { itemType in
                             state.showCreateItemSheet(itemType: itemType)

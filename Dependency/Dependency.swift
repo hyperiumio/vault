@@ -2,7 +2,7 @@ import Configuration
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Persistence
 
 struct Dependency {
     
@@ -20,14 +20,14 @@ extension Dependency {
     static let production: Self = {
         let userDefaults = UserDefaults(suiteName: Configuration.appGroup)!
         let defaults = Defaults(store: userDefaults)
-        let keychain = Keychain(accessGroup: Configuration.appGroup)
+        let cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)
         let store = Store(containerDirectory: Configuration.storeDirectory)
         let bootstrapService = BootstrapService(defaults: defaults, store: store)
-        let settingsService = SettingsService(defaults: defaults, keychain: keychain, store: store)
-        let unlockService = UnlockService(defaults: defaults, keychain: keychain, store: store)
+        let settingsService = SettingsService(defaults: defaults, cryptor: cryptor, store: store)
+        let unlockService = UnlockService(defaults: defaults, cryptor: cryptor, store: store)
         let passwordService = PasswordService()
-        let setupService = SetupService(defaults: defaults, keychain: keychain, store: store)
-        let storeItemService = StoreItemService(defaults: defaults, keychain: keychain, store: store)
+        let setupService = SetupService(defaults: defaults, cryptor: cryptor, store: store)
+        let storeItemService = StoreItemService(defaults: defaults, cryptor: cryptor, store: store)
         
         return Self(bootstrapService: bootstrapService, settingsService: settingsService, unlockService: unlockService, passwordService: passwordService, setupService: setupService, storeItemService: storeItemService)
     }()

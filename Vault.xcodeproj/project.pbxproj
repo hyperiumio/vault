@@ -15,12 +15,13 @@
 		9518983B2691CF000040F572 /* SetupService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 951898392691CF000040F572 /* SetupService.swift */; };
 		9518983D2691CF730040F572 /* StoreItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983C2691CF730040F572 /* StoreItemService.swift */; };
 		9518983E2691CF730040F572 /* StoreItemService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9518983C2691CF730040F572 /* StoreItemService.swift */; };
+		9521CE3D26B5B85A0023F415 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9521CE3C26B5B85A0023F415 /* Persistence */; };
+		9521CE3F26B5B8610023F415 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = 9521CE3E26B5B8610023F415 /* Persistence */; };
 		9530DB61268F42E200247AFF /* SecureItemField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530DB60268F42E200247AFF /* SecureItemField.swift */; };
 		9530DB62268F42E200247AFF /* SecureItemField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9530DB60268F42E200247AFF /* SecureItemField.swift */; };
 		953851152563E82B00C305F2 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 953851142563E82B00C305F2 /* Format */; };
 		953F1A4E269F6CC0006856E0 /* Configuration in Frameworks */ = {isa = PBXBuildFile; productRef = 953F1A4D269F6CC0006856E0 /* Configuration */; };
 		953F1A50269F6CC4006856E0 /* Configuration in Frameworks */ = {isa = PBXBuildFile; productRef = 953F1A4F269F6CC4006856E0 /* Configuration */; };
-		953F1A52269F6D2A006856E0 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 953F1A51269F6D2A006856E0 /* Store */; };
 		954030B12690AAAD005F941C /* BootstrapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* BootstrapService.swift */; };
 		954030B22690AAAD005F941C /* BootstrapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B02690AAAD005F941C /* BootstrapService.swift */; };
 		954030B62690AAFC005F941C /* UnlockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 954030B52690AAFC005F941C /* UnlockService.swift */; };
@@ -173,7 +174,6 @@
 		95BA9596268C535F00B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9595268C535F00B59DAC /* Sync */; };
 		95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3C26B53E7500E3D4DA /* Shim */; };
 		95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3E26B53E7C00E3D4DA /* Shim */; };
-		95C472652698828200102156 /* Store in Frameworks */ = {isa = PBXBuildFile; productRef = 95C472642698828200102156 /* Store */; };
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95CB30F526AFDEAF00CC8DF1 /* Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95CB30F426AFDEAF00CC8DF1 /* Dependency.swift */; };
@@ -222,6 +222,9 @@
 		951898392691CF000040F572 /* SetupService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupService.swift; sourceTree = "<group>"; };
 		9518983C2691CF730040F572 /* StoreItemService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemService.swift; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
+		9521CE3826B56F830023F415 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		9521CE3A26B5B80E0023F415 /* Persistence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Persistence; sourceTree = "<group>"; };
+		9521CE4026B5B92B0023F415 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		952A964A256FDA0F003E0584 /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		952A964B256FDA0F003E0584 /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
 		9530DB60268F42E200247AFF /* SecureItemField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemField.swift; sourceTree = "<group>"; };
@@ -306,8 +309,6 @@
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
 		95ADC3452684CD7600BE3DFF /* LockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedState.swift; sourceTree = "<group>"; };
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
-		95C07B3826B53C7200E3D4DA /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		95C07B3926B53C7200E3D4DA /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		95C07B3A26B53E3B00E3D4DA /* Shim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shim; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
 		95C994D92575592E00C3A758 /* LoginCredentialSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionView.swift; sourceTree = "<group>"; };
@@ -315,7 +316,6 @@
 		95D7E85726A2D2A700F96D35 /* QuickAccessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessState.swift; sourceTree = "<group>"; };
 		95D7E85A26A2D44C00F96D35 /* LoginCredentialSelectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionState.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
-		95F0DE4E26975C250020A103 /* Store */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Store; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -325,11 +325,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9521CE3D26B5B85A0023F415 /* Persistence in Frameworks */,
 				9578388426A9C6F700EC863A /* Resource in Frameworks */,
 				95ABC96524A9D5AA009D87A4 /* Search in Frameworks */,
 				95BA9594268C535800B59DAC /* Sync in Frameworks */,
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
-				95C472652698828200102156 /* Store in Frameworks */,
 				95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				953F1A4E269F6CC0006856E0 /* Configuration in Frameworks */,
@@ -344,10 +344,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9521CE3F26B5B8610023F415 /* Persistence in Frameworks */,
 				9578388226A9C6EB00EC863A /* Resource in Frameworks */,
 				95ABC97124A9D5B8009D87A4 /* Search in Frameworks */,
 				95BA9596268C535F00B59DAC /* Sync in Frameworks */,
-				953F1A52269F6D2A006856E0 /* Store in Frameworks */,
 				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
@@ -512,12 +512,12 @@
 				953851102563E73600C305F2 /* Format */,
 				953D8E5626849EB400E80B55 /* Model */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
+				9521CE3A26B5B80E0023F415 /* Persistence */,
 				9574336624AA13C20062B05A /* Preferences */,
 				95581D8926A9C5E600485496 /* Resource */,
 				9574336824AA13C30062B05A /* Search */,
 				95C07B3A26B53E3B00E3D4DA /* Shim */,
 				95F8BBC624CEB8FF001FC495 /* Sort */,
-				95F0DE4E26975C250020A103 /* Store */,
 				95BA9591268C530100B59DAC /* Sync */,
 				9593F68226AEA18800AAE0F4 /* Asset */,
 				9579A6BD267613180030DACF /* Commands */,
@@ -530,6 +530,7 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
+				9521CE4026B5B92B0023F415 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -582,13 +583,13 @@
 				953851142563E82B00C305F2 /* Format */,
 				95ADC33726849ED800BE3DFF /* Model */,
 				95BA9593268C535800B59DAC /* Sync */,
-				95C472642698828200102156 /* Store */,
 				953F1A4D269F6CC0006856E0 /* Configuration */,
 				9578388326A9C6F700EC863A /* Resource */,
 				95C07B3C26B53E7500E3D4DA /* Shim */,
+				9521CE3C26B5B85A0023F415 /* Persistence */,
 			);
 			productName = iOS;
-			productReference = 95C07B3826B53C7200E3D4DA /* Vault.app */;
+			productReference = 9521CE3826B56F830023F415 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -615,12 +616,12 @@
 				95ADC33926849EE200BE3DFF /* Model */,
 				95BA9595268C535F00B59DAC /* Sync */,
 				953F1A4F269F6CC4006856E0 /* Configuration */,
-				953F1A51269F6D2A006856E0 /* Store */,
 				9578388126A9C6EB00EC863A /* Resource */,
 				95C07B3E26B53E7C00E3D4DA /* Shim */,
+				9521CE3E26B5B8610023F415 /* Persistence */,
 			);
 			productName = macOS;
-			productReference = 95C07B3926B53C7200E3D4DA /* Vault.app */;
+			productReference = 9521CE4026B5B92B0023F415 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1035,7 +1036,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Preview/Development.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1067,7 +1068,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 16;
-				DEVELOPMENT_ASSET_PATHS = Preview/Development.xcassets;
+				DEVELOPMENT_ASSET_PATHS = Asset/Development.xcassets;
 				DEVELOPMENT_TEAM = HX3QTQLX65;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -1129,6 +1130,14 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Crypto;
 		};
+		9521CE3C26B5B85A0023F415 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
+		9521CE3E26B5B8610023F415 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
 		953851142563E82B00C305F2 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Format;
@@ -1140,10 +1149,6 @@
 		953F1A4F269F6CC4006856E0 /* Configuration */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Configuration;
-		};
-		953F1A51269F6D2A006856E0 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
 		};
 		9578388126A9C6EB00EC863A /* Resource */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1204,10 +1209,6 @@
 		95C07B3E26B53E7C00E3D4DA /* Shim */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shim;
-		};
-		95C472642698828200102156 /* Store */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Store;
 		};
 		95F8BBC824CEC936001FC495 /* Sort */ = {
 			isa = XCSwiftPackageProductDependency;

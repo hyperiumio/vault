@@ -1,7 +1,7 @@
 import Crypto
 import Foundation
 import Preferences
-import Store
+import Persistence
 
 protocol UnlockServiceProtocol {
     
@@ -16,18 +16,18 @@ protocol UnlockServiceProtocol {
 struct UnlockService: UnlockServiceProtocol {
     
     private let defaults: Defaults
-    private let keychain: Keychain
+    private let cryptor: Cryptor
     private let store: Store
     
-    init(defaults: Defaults, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, cryptor: Cryptor, store: Store) {
         self.defaults = defaults
-        self.keychain = keychain
+        self.cryptor = cryptor
         self.store = store
     }
     
     var availableBiometry: BiometryType? {
         get async {
-            switch await keychain.availability {
+            switch await cryptor.biometryAvailablility {
             case .notAvailable, .notEnrolled:
                 return nil
             case .enrolled(.touchID):
@@ -43,8 +43,7 @@ struct UnlockService: UnlockServiceProtocol {
             throw Error.activeStoreIDMissing
         }
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
-        let publicArguments = try DerivedKey.PublicArguments(from: derivedKeyContainer)
-        try await keychain.decryptMasterKeyWithPassword(password, publicArguments: publicArguments, id: storeID)
+        try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
     }
     
     func unlockWithBiometry() async throws {
@@ -52,7 +51,7 @@ struct UnlockService: UnlockServiceProtocol {
             throw Error.activeStoreIDMissing
         }
         
-        try await keychain.decryptMasterKeyWithBiometry(id: storeID)
+        try await cryptor.unlockWithBiometry(id: storeID)
     }
     
 }

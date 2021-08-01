@@ -1,6 +1,6 @@
 import Foundation
 
-public enum Operation {
+public enum StoreOperation {
     
     case save(itemID: UUID, item: Data)
     case delete(itemID: UUID)

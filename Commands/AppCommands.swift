@@ -1,3 +1,4 @@
+import Resource
 import SwiftUI
 
 struct AppCommands: Commands {
@@ -6,7 +7,7 @@ struct AppCommands: Commands {
         SidebarCommands()
         
         CommandGroup(before: .appTermination) {
-            Button(.lockVault) {
+            Button(Localized.lockVault) {
 
             }
         }

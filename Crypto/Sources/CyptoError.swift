@@ -9,5 +9,8 @@ public enum CryptoError: Error {
     case passwordGenerationFailed
     case invalidDataSize
     case wrongPassword
+    case masterKeyNotInKeychain
+    case derivedKeyNotInKeychain
+    case cryptorNotUnlocked
     
 }

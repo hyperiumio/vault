@@ -2,7 +2,7 @@ import Crypto
 import Foundation
 import Model
 import Preferences
-import Store
+import Persistence
 
 protocol StoreItemServiceProtocol {
     
@@ -19,12 +19,12 @@ protocol StoreItemServiceProtocol {
 struct StoreItemService: StoreItemServiceProtocol {
     
     private let defaults: Defaults
-    private let keychain: Keychain
+    private let cryptor: Cryptor
     private let store: Store
     
-    init(defaults: Defaults, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, cryptor: Cryptor, store: Store) {
         self.defaults = defaults
-        self.keychain = keychain
+        self.cryptor = cryptor
         self.store = store
     }
     
@@ -35,9 +35,7 @@ struct StoreItemService: StoreItemServiceProtocol {
     }
     
     func loadInfos() async throws -> [StoreItemInfo] {
-        [
-            StoreItemInfo(id: UUID(), name: "foo", description: "bar", primaryType: .login, secondaryTypes: [], created: .now, modified: .now)
-        ]
+        fatalError()
     }
     
     func load(itemID: UUID) async throws -> StoreItem {
@@ -46,7 +44,7 @@ struct StoreItemService: StoreItemServiceProtocol {
         }
         
         let encryptedMessages = try await store.loadItem(storeID: storeID, itemID: itemID)
-        let messages = try await keychain.decryptMessages(from: encryptedMessages)
+        let messages = try await cryptor.decryptMessages(from: encryptedMessages)
         
         guard let encodedInfo = messages.first else {
             throw Error.invalidMessageContainer
@@ -82,10 +80,10 @@ struct StoreItemService: StoreItemServiceProtocol {
             try item.value.encoded
         }
         let messages = [encodedInfo] + encodedItems
-        let encryptedMessages = try await keychain.encryptMessages(messages)
+        let encryptedMessages = try await cryptor.encryptMessages(messages)
         
         let operations = [
-            Operation.save(itemID: storeItem.id, item: encryptedMessages)
+            StoreOperation.save(itemID: storeItem.id, item: encryptedMessages)
         ]
         try await store.commit(storeID: storeID, operations: operations)
     }
@@ -96,7 +94,7 @@ struct StoreItemService: StoreItemServiceProtocol {
         }
         
         let operations = [
-            Operation.delete(itemID: itemID)
+            StoreOperation.delete(itemID: itemID)
         ]
         try await store.commit(storeID: storeID, operations: operations)
     }

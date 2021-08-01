@@ -1,19 +1,19 @@
 import CryptoKit
 import Foundation
 
-public struct SecureDataMessage {
+struct SecureDataMessage {
     
     let nonce: Data
     let ciphertext: Data
     let tag: Data
     
-    public init(nonce: Data, ciphertext: Data, tag: Data) {
+    init(nonce: Data, ciphertext: Data, tag: Data) {
         self.nonce = nonce
         self.ciphertext = ciphertext
         self.tag = tag
     }
     
-    public func decrypt(using messageKey: MessageKey) throws -> Data {
+    func decrypt(using messageKey: MessageKey) throws -> Data {
         let nonce = try AES.GCM.Nonce(data: self.nonce)
         let seal = try AES.GCM.SealedBox(nonce: nonce, ciphertext: ciphertext, tag: tag)
         
@@ -24,7 +24,7 @@ public struct SecureDataMessage {
 
 extension SecureDataMessage {
     
-    public static func encryptContainer(from messages: [Data], using masterKey: MasterKey) throws -> Data {
+    static func encryptContainer(from messages: [Data], using masterKey: MasterKey) throws -> Data {
         let productionCryptor = Cryptor()
         return try encryptContainer(from: messages, using: masterKey, cryptor: productionCryptor)
     }
@@ -63,7 +63,7 @@ extension SecureDataMessage {
         return messageCount + ciphertextSizes + wrappedItemKey + tags + ciphertextContainers
     }
     
-    public static func decryptMessages(from container: Data, using masterKey: MasterKey) throws -> [Data] {
+    static func decryptMessages(from container: Data, using masterKey: MasterKey) throws -> [Data] {
         let header = try SecureDataHeader(data: container)
         let itemKey = try header.unwrapMessageKey(with: masterKey)
         

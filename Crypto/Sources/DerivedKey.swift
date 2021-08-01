@@ -2,7 +2,7 @@ import CommonCrypto
 import CryptoKit
 import Foundation
 
-public struct DerivedKey: Equatable {
+struct DerivedKey: Equatable {
     
     let value: SymmetricKey
     
@@ -10,7 +10,7 @@ public struct DerivedKey: Equatable {
         self.value = SymmetricKey(data: data)
     }
     
-    init(from password: String, with publicArguments: PublicArguments) async throws {
+    init(from password: String, with publicArguments: PublicArguments) throws {
         self.value = try PBKDF2(salt: publicArguments.salt, rounds: publicArguments.rounds, password: password)
     }
     
@@ -18,12 +18,12 @@ public struct DerivedKey: Equatable {
 
 extension DerivedKey {
     
-    public struct PublicArguments {
+    struct PublicArguments {
         
         let salt: Data
         let rounds: UInt32
         
-        public init(configuration: Configuration = .production) throws {
+        init(configuration: Configuration = .production) throws {
             var salt = Data(repeating: 0, count: .saltSize)
             try salt.withUnsafeMutableBytes { buffer in
                 let status = configuration.rng(buffer.baseAddress, buffer.count)
@@ -36,7 +36,7 @@ extension DerivedKey {
             self.rounds = .defaultRounds
         }
         
-        public init(from container: Data) throws {
+        init(from container: Data) throws {
             guard container.count == .saltSize + UInt32CodingSize else {
                 throw CryptoError.invalidDataSize
             }
@@ -52,17 +52,17 @@ extension DerivedKey {
             self.rounds = rounds
         }
         
-        public func container() -> Data {
+        func container() -> Data {
             salt + UInt32Encode(rounds)
         }
         
     }
     
-    public struct Configuration {
+    struct Configuration {
         
         let rng: (_ bytes: UnsafeMutableRawPointer?, _ count: Int) -> CCRNGStatus
         
-        public static var production: Self {
+        static var production: Self {
             Self(rng: CCRandomGenerateBytes)
         }
         

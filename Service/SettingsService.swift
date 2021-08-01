@@ -1,6 +1,6 @@
 import Crypto
 import Foundation
-import Store
+import Persistence
 import Preferences
 
 protocol SettingsServiceProtocol {
@@ -17,18 +17,18 @@ protocol SettingsServiceProtocol {
 struct SettingsService: SettingsServiceProtocol {
     
     private let defaults: Defaults
-    private let keychain: Keychain
+    private let cryptor: Cryptor
     private let store: Store
     
-    init(defaults: Defaults, keychain: Keychain, store: Store) {
+    init(defaults: Defaults, cryptor: Cryptor, store: Store) {
         self.defaults = defaults
-        self.keychain = keychain
+        self.cryptor = cryptor
         self.store = store
     }
     
     var availableBiometry: BiometryType? {
         get async {
-            switch await keychain.availability {
+            switch await cryptor.biometryAvailablility {
             case .notAvailable, .notEnrolled:
                 return nil
             case .enrolled(.touchID):
@@ -50,20 +50,7 @@ struct SettingsService: SettingsServiceProtocol {
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
-        /*
-        guard let storeID = await defaults.activeStoreID else {
-            throw SettingsServiceError.changeMasterPasswordDidFail
-        }
         
-        let newStoreID = UUID()
-        let newPublicArguments = try DerivedKey.PublicArguments()
-        let newDerivedKeyContainer = newPublicArguments.container()
-        try await keychain.createMasterKey(from: masterPassword, publicArguments: newPublicArguments, with: newStoreID)
-        
-        // store migration
-        
-        await defaults.set(activeStoreID: newStoreID)
-         */
     }
     
 }

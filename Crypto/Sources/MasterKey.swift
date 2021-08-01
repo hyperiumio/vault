@@ -1,7 +1,7 @@
 import CryptoKit
 import Foundation
 
-public struct MasterKey: Equatable {
+struct MasterKey: Equatable {
     
     let value: SymmetricKey
     
@@ -9,7 +9,7 @@ public struct MasterKey: Equatable {
         self.value = SymmetricKey(data: data)
     }
     
-    public init() {
+    init() {
         self.value = SymmetricKey(size: .bits256)
     }
     

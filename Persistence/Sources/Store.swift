@@ -1,5 +1,4 @@
 import Foundation
-import UIKit
 
 public actor Store {
     
@@ -47,7 +46,7 @@ public actor Store {
         }
     }
     
-    public func commit(storeID: UUID, operations: [Operation]) async throws {
+    public func commit(storeID: UUID, operations: [StoreOperation]) async throws {
         for operation in operations {
             switch operation {
             case .save(let itemID, let item):
@@ -80,7 +79,7 @@ public actor Store {
         return try configuration.load(itemURL, [])
     }
     
-    public func loadItems<T>(storeID: UUID, read: @escaping (ReadingContext) throws -> T) -> AsyncThrowingStream<T, Error> {
+    public func loadItems(storeID: UUID, read: @escaping (ReadingContext) throws -> Data) -> AsyncThrowingStream<Data, Error> {
         AsyncThrowingStream { [resourceLocator] continuation in
             let itemsURL = resourceLocator.itemsURL(storeID: storeID)
             guard FileManager.default.fileExists(atPath: itemsURL.path) else {

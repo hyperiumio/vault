@@ -1,6 +1,6 @@
 import Foundation
 import Preferences
-import Store
+import Persistence
 
 protocol BootstrapServiceProtocol {
     
