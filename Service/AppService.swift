@@ -1,0 +1,308 @@
+import Configuration
+import Crypto
+import Foundation
+import Model
+import Preferences
+import Persistence
+
+actor AppService: AppServiceProtocol {
+    
+    private let defaults: Defaults
+    private let cryptor: Cryptor
+    private let store: Store
+    private var continuations = [AsyncStream<AppEvent>.Continuation]()
+    
+    init() {
+        let userDefaults = UserDefaults(suiteName: Configuration.appGroup)!
+        
+        self.defaults = Defaults(store: userDefaults)
+        self.cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)
+        self.store = Store(containerDirectory: Configuration.storeDirectory)
+    }
+    
+    var events: AsyncStream<AppEvent> {
+        get async {
+            AsyncStream { continuation in
+                continuations.append(continuation)
+            }
+        }
+    }
+    
+    var didCompleteSetup: Bool {
+        get async throws {
+            guard let storeID = await defaults.activeStoreID else {
+                return false
+            }
+            return try await store.storeExists(storeID: storeID)
+        }
+    }
+    
+    var availableBiometry: BiometryType? {
+        get async {
+            switch await cryptor.biometryAvailablility {
+            case .notAvailable, .notEnrolled:
+                return nil
+            case .enrolled(.touchID):
+                return .touchID
+            case .enrolled(.faceID):
+                return .faceID
+            }
+        }
+    }
+    
+    func unlockWithPassword(_ password: String) async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
+        try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
+        
+        for continuation in continuations {
+            continuation.yield(.unlock)
+        }
+    }
+    
+    func unlockWithBiometry() async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        try await cryptor.unlockWithBiometry(id: storeID)
+        
+        for continuation in continuations {
+            continuation.yield(.unlock)
+        }
+    }
+    
+    func password(length: Int, digit: Bool, symbol: Bool) async -> String {
+       await Password(length: length, uppercase: true, lowercase: true, digit: digit, symbol: symbol)
+    }
+    
+    var isBiometricUnlockEnabled: Bool {
+        get async {
+            await defaults.isBiometricUnlockEnabled
+        }
+    }
+    
+    func save(isBiometricUnlockEnabled: Bool) async {
+        await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
+        
+        for continuation in continuations {
+            continuation.yield(.defaultsDidChange)
+        }
+    }
+    
+    func changeMasterPassword(to masterPassword: String) async throws {
+        for continuation in continuations {
+            continuation.yield(.storeDidChange)
+        }
+    }
+    
+    func isPasswordSecure(_ password: String) async -> Bool {
+        await PasswordIsSecure(password)
+    }
+    
+    func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
+        let storeID = UUID()
+        let derivedKeyContainer = try CryptorToken.create()
+        
+        try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
+        await defaults.set(activeStoreID: storeID)
+        try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
+        
+        for continuation in continuations {
+            continuation.yield(.setupComplete)
+        }
+    }
+    
+    func loadInfos() async throws -> [StoreItemInfo] {
+        fatalError()
+    }
+    
+    func load(itemID: UUID) async throws -> StoreItem {
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        
+        let encryptedMessages = try await store.loadItem(storeID: storeID, itemID: itemID)
+        let messages = try await cryptor.decryptMessages(from: encryptedMessages)
+        
+        guard let encodedInfo = messages.first else {
+            throw Error.invalidMessageContainer
+        }
+        let encodedItems = messages.dropFirst()
+        guard let encodedPrimaryItem = encodedItems.first else {
+            throw Error.invalidMessageContainer
+        }
+        let encodedSecondaryItems = encodedItems.dropFirst()
+                    
+        let info = try StoreItemInfo(from: encodedInfo)
+        guard encodedSecondaryItems.count == info.secondaryTypes.count else {
+            throw Error.invalidMessageContainer
+        }
+                    
+        let primaryItem = try SecureItem(from: encodedPrimaryItem, as: info.primaryType)
+        let secondaryItems = try zip(encodedSecondaryItems, info.secondaryTypes).map { encodedItem, itemType in
+            try SecureItem(from: encodedItem, as: itemType)
+        }
+                    
+        return StoreItem(id: info.id, name: info.name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: info.created, modified: info.modified)
+        
+    }
+    
+    func save(_ storeItem: StoreItem) async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        
+        let encodedInfo = try storeItem.info.encoded
+        let items = [storeItem.primaryItem] + storeItem.secondaryItems
+        let encodedItems = try items.map { item in
+            try item.value.encoded
+        }
+        let messages = [encodedInfo] + encodedItems
+        let encryptedMessages = try await cryptor.encryptMessages(messages)
+        
+        let operations = [
+            StoreOperation.save(itemID: storeItem.id, item: encryptedMessages)
+        ]
+        try await store.commit(storeID: storeID, operations: operations)
+        
+        for continuation in continuations {
+            continuation.yield(.storeDidChange)
+        }
+    }
+    
+    func delete(itemID: UUID) async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        
+        let operations = [
+            StoreOperation.delete(itemID: itemID)
+        ]
+        try await store.commit(storeID: storeID, operations: operations)
+        
+        for continuation in continuations {
+            continuation.yield(.storeDidChange)
+        }
+    }
+    
+}
+
+extension AppService {
+    
+    static let shared = AppService()
+    
+}
+
+extension AppService {
+    
+    enum Error: Swift.Error {
+        
+        case noActiveStoreID
+        case invalidMessageContainer
+        
+    }
+    
+}
+
+extension UserDefaults: PersistenceProvider {}
+
+extension AppServiceProtocol where Self == AppService {
+    
+    static var production: Self {
+        Self.shared
+    }
+    
+}
+
+#if DEBUG
+struct AppServiceStub: AppServiceProtocol {
+    
+    var events: AsyncStream<AppEvent> {
+        fatalError()
+    }
+    
+    var didCompleteSetup: Bool {
+        true
+    }
+    
+    var availableBiometry: BiometryType? {
+        .touchID
+    }
+    
+    var isBiometricUnlockEnabled: Bool {
+        true
+    }
+    
+    func unlockWithPassword(_ password: String) async throws {
+        print(#function)
+    }
+    
+    func unlockWithBiometry() async throws {
+        print(#function)
+    }
+    
+    func password(length: Int, digit: Bool, symbol: Bool) async -> String {
+        "foo"
+    }
+    
+    func save(isBiometricUnlockEnabled: Bool) async {
+        print(#function)
+    }
+    
+    func changeMasterPassword(to masterPassword: String) async throws {
+        print(#function)
+    }
+    
+    func isPasswordSecure(_ password: String) async -> Bool {
+        true
+    }
+    
+    func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
+        print(#function)
+    }
+    
+    func loadInfos() async throws -> [StoreItemInfo] {
+        [Self.storeItem.info]
+    }
+    
+    func load(itemID: UUID) async throws -> StoreItem {
+        Self.storeItem
+    }
+    
+    func save(_ storeItem: StoreItem) async throws {
+        print(#function)
+    }
+    
+    func delete(itemID: UUID) async throws {
+        print(#function)
+    }
+    
+}
+
+extension AppServiceStub {
+    
+    static let shared = AppServiceStub()
+    
+    static var storeItem: StoreItem {
+        let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
+        let passwordItem = PasswordItem(password: "qux")
+        let id = UUID()
+        let primaryItem = SecureItem.login(loginItem)
+        let secondaryItems = [
+            SecureItem.password(passwordItem)
+        ]
+        return StoreItem(id: id, name: "quux", primaryItem: primaryItem, secondaryItems: secondaryItems, created: .now, modified: .now)
+    }
+    
+}
+
+extension AppServiceProtocol where Self == AppServiceStub {
+    
+    static var stub: Self {
+        Self.shared
+    }
+    
+}
+#endif

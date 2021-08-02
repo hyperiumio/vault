@@ -275,7 +275,7 @@ private extension BiometryType {
 #if DEBUG
 struct SetupViewPreview: PreviewProvider {
     
-    static let state = SetupState(dependency: .stub)
+    static let state = SetupState(service: .stub)
     
     @State static var password = ""
     @State static var repeatedPassword = ""

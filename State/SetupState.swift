@@ -10,11 +10,11 @@ class SetupState: ObservableObject {
     @Published var isBiometricUnlockEnabled = false
     @Published var setupError: SetupError?
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     private var completeContinuation: CheckedContinuation<Void, Never>?
     
-    init(dependency: Dependency) {
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.service = service
     }
     
     var completed: Void {
@@ -45,7 +45,7 @@ class SetupState: ObservableObject {
         case .enableBiometricUnlock:
             step = .repeatPassword
         case .completeSetup:
-            if let biometryType = await dependency.setupService.availableBiometry {
+            if let biometryType = await service.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .repeatPassword
@@ -58,13 +58,13 @@ class SetupState: ObservableObject {
         
         switch step {
         case .choosePassword:
-            if await dependency.setupService.isPasswordSecure(password) {
+            if await service.isPasswordSecure(password) {
                 step = .repeatPassword
             } else {
                 setupError = .insecurePassword
             }
         case .repeatPassword:
-            if let biometryType = await dependency.setupService.availableBiometry {
+            if let biometryType = await service.availableBiometry {
                 step = .enableBiometricUnlock(biometryType: biometryType)
             } else {
                 step = .completeSetup
@@ -73,7 +73,7 @@ class SetupState: ObservableObject {
             step = .completeSetup
         case .completeSetup:
             do {
-                try await dependency.setupService.createStore(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
+                try await service.completeSetup(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
                 completeContinuation?.resume()
             } catch {
                 setupError = .completeSetupDidFail

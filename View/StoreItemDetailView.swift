@@ -42,7 +42,7 @@ struct StoreItemDetailView: View {
 #if DEBUG
 struct StoreItemDetailViewPreview: PreviewProvider {
     
-    static let state = StoreItemDetailState(storeItemInfo: StoreItemServiceStub.storeItem.info, dependency: .stub)
+    static let state = StoreItemDetailState(storeItemInfo: AppServiceStub.storeItem.info, service: .stub)
     
     static var previews: some View {
         NavigationView {

@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct App: SwiftUI.App {
     
-    @StateObject private var appState = AppState(dependency: .production)
+    @StateObject private var appState = AppState(service: .production)
     
     #if os(iOS)
     var body: some Scene {
@@ -17,7 +17,7 @@ struct App: SwiftUI.App {
     var body: some Scene {
         WindowGroup {
             AppView(appState)
-                .frame(width: 400, height: 400)
+                .frame(minWidth: 600, minHeight: 500)
         }
         .windowStyle(.hiddenTitleBar)
         .windowToolbarStyle(.unifiedCompact)

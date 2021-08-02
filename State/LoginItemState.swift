@@ -14,11 +14,11 @@ class LoginItemState: ObservableObject {
         LoginItem(username: username, password: password, url: url)
     }
     
-    init(item: LoginItem? = nil, dependency: Dependency) {
+    init(item: LoginItem? = nil, service: AppServiceProtocol) {
         self.username = item?.username ?? ""
         self.password = item?.password ?? ""
         self.url = item?.url ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency)
+        self.passwordGeneratorState = PasswordGeneratorState(service: service)
     }
     
 }

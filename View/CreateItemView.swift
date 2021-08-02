@@ -11,6 +11,7 @@ struct CreateItemView: View {
         self.state = state
     }
     
+    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
@@ -45,13 +46,44 @@ struct CreateItemView: View {
             }
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        List {
+            Section {
+                SecureItemView(state.primaryItem)
+            } header: {
+                TextField(Localized.title, text: $state.title)
+                    .textCase(.none)
+            }
+        }
+        .frame(minWidth: 400, minHeight: 300)
+        .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+                Button(Localized.cancel) {
+                    presentationMode.wrappedValue.dismiss()
+                }
+            }
+            
+            ToolbarItem(placement: .confirmationAction) {
+                Button(Localized.save) {
+                    Task {
+                        await state.save()
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
+        }
+    }
+    #endif
     
 }
 
 #if DEBUG
 struct CreateItemViewPreview: PreviewProvider {
     
-    static let state = CreateItemState(itemType: .login, dependency: .stub)
+    static let state = CreateItemState(itemType: .login, service: .stub)
     
     static var previews: some View {
         CreateItemView(state)

@@ -63,8 +63,8 @@ private extension KeychainItemAccess {
     
     var flags: SecAccessControlCreateFlags {
         switch self {
-        case .devicePasscode:
-            return .devicePasscode
+        case .all:
+            return []
         case .currentBiometry:
             return .biometryCurrentSet
         }

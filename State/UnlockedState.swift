@@ -10,26 +10,31 @@ class UnlockedState: ObservableObject {
     @Published var searchText: String = ""
     @Published var sheet: Sheet?
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     private var lockContinuation: CheckedContinuation<Void, Never>?
     
-    init(dependency: Dependency) {
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.service = service
         
         Task {
-            do {
-                for await _ in await dependency.storeItemService.didChange {
-                    let states = try await dependency.storeItemService.loadInfos().map { info in
-                        StoreItemDetailState(storeItemInfo: info, dependency: dependency)
+            for await event in await service.events {
+                do {
+                    switch event {
+                    case .storeDidChange:
+                        let states = try await service.loadInfos().map { info in
+                            StoreItemDetailState(storeItemInfo: info, service: service)
+                        }
+                        let collation = Collation(from: states) { state in
+                            state.name
+                        }
+                        status = .items(collation)
+                    default:
+                        continue
                     }
-                    let collation = Collation(from: states) { state in
-                        state.name
-                    }
-                    status = .items(collation)
                 }
-            }
-            catch {
-                
+                catch {
+                    
+                }
             }
         }
     }
@@ -42,19 +47,21 @@ class UnlockedState: ObservableObject {
         }
     }
     
-    func showSettings() {
-        let state = SettingsState(dependency: dependency)
-        sheet = .settings(state)
-    }
-    
     func showCreateItemSheet(itemType: SecureItemType) {
-        let state = CreateItemState(itemType: itemType, dependency: dependency)
+        let state = CreateItemState(itemType: itemType, service: service)
         sheet = .createItem(state)
     }
     
     func lock() {
         lockContinuation?.resume()
     }
+    
+    #if os(iOS)
+    func showSettings() {
+        let state = SettingsState(service: service)
+        sheet = .settings(state)
+    }
+    #endif
     
 }
 
@@ -70,17 +77,28 @@ extension UnlockedState {
         
     }
     
+    #if os(iOS)
     enum Sheet {
         
         case settings(SettingsState)
         case createItem(CreateItemState)
         
     }
+    #endif
+    
+    #if os(macOS)
+    enum Sheet {
+        
+        case createItem(CreateItemState)
+        
+    }
+    #endif
     
 }
 
 extension UnlockedState.Sheet: Identifiable {
     
+    #if os(iOS)
     var id: String {
         switch self {
         case .settings:
@@ -89,5 +107,15 @@ extension UnlockedState.Sheet: Identifiable {
             return "CreateItem"
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var id: String {
+        switch self {
+        case .createItem:
+            return "CreateItem"
+        }
+    }
+    #endif
     
 }

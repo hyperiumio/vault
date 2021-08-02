@@ -7,17 +7,17 @@ class SettingsState: ObservableObject, Identifiable {
     @Published var biometrySettingsState: BiometrySettingsState?
     let masterPasswordSettingsState: MasterPasswordSettingsState
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(dependency: Dependency) {
-        self.masterPasswordSettingsState = MasterPasswordSettingsState(dependency: dependency)
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.masterPasswordSettingsState = MasterPasswordSettingsState(service: service)
+        self.service = service
     }
     
     func load() async {
-        if let biometryType = await dependency.settingsService.availableBiometry {
-            let isBiometricUnlockEnabled = await dependency.settingsService.isBiometricUnlockEnabled
-            biometrySettingsState = BiometrySettingsState(biometryType: biometryType, isBiometricUnlockEnabled: isBiometricUnlockEnabled, dependency: dependency)
+        if let biometryType = await service.availableBiometry {
+            let isBiometricUnlockEnabled = await service.isBiometricUnlockEnabled
+            biometrySettingsState = BiometrySettingsState(biometryType: biometryType, isBiometricUnlockEnabled: isBiometricUnlockEnabled, service: service)
         }
     }
     

@@ -68,7 +68,7 @@ extension LockedView {
 #if DEBUG
 struct LockedViewPreview: PreviewProvider {
     
-    static let state = LockedState(dependency: .stub)
+    static let state = LockedState(service: .stub)
     
     static var previews: some View {
         LockedView(state)

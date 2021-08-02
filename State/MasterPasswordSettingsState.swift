@@ -7,10 +7,10 @@ class MasterPasswordSettingsState: ObservableObject {
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.ready
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(dependency: Dependency) {
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.service = service
     }
     
     var isButtonDisabled: Bool {
@@ -29,7 +29,7 @@ class MasterPasswordSettingsState: ObservableObject {
         status = .loading
         
         do {
-            try await dependency.settingsService.changeMasterPassword(to: password)
+            try await service.changeMasterPassword(to: password)
             status = .success
         } catch {
             status = .failure

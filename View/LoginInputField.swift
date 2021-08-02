@@ -41,7 +41,7 @@ struct LoginInputField: View {
 #if DEBUG
 struct LoginInputFieldPreview: PreviewProvider {
     
-    static let state = LoginItemState(dependency: .stub)
+    static let state = LoginItemState(service: .stub)
     
     static var previews: some View {
         List {

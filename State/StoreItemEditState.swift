@@ -11,16 +11,16 @@ class StoreItemEditState: ObservableObject {
     
     let editedStoreItem: StoreItem
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(editing storeItem: StoreItem, dependency: Dependency) {
+    init(editing storeItem: StoreItem, service: AppServiceProtocol) {
         self.editedStoreItem = storeItem
         self.title = storeItem.name
-        self.primaryItem = SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
+        self.primaryItem = SecureItemState(secureItem: storeItem.primaryItem, service: service)
         self.secondaryItems = storeItem.secondaryItems.map { item in
-            SecureItemState(secureItem: storeItem.primaryItem, dependency: dependency)
+            SecureItemState(secureItem: storeItem.primaryItem, service: service)
         }
-        self.dependency = dependency
+        self.service = service
     }
     
     var created: Date {
@@ -32,7 +32,7 @@ class StoreItemEditState: ObservableObject {
     }
     
     func addSecondaryItem(with itemType: SecureItemType) {
-        let state = SecureItemState(itemType: itemType, dependency: dependency)
+        let state = SecureItemState(itemType: itemType, service: service)
         secondaryItems.append(state)
     }
     
@@ -51,7 +51,7 @@ class StoreItemEditState: ObservableObject {
             let created = editedStoreItem.created
             let modified = Date.now
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-            try await dependency.storeItemService.save(storeItem)
+            try await service.save(storeItem)
         } catch {
             editError = .saveDidFail
         }
@@ -61,7 +61,7 @@ class StoreItemEditState: ObservableObject {
         editError = nil
         
         do {
-            try await dependency.storeItemService.delete(itemID: editedStoreItem.id)
+            try await service.delete(itemID: editedStoreItem.id)
         } catch {
             editError = .deleteDidFail
         }

@@ -25,7 +25,7 @@ struct PasswordInputField: View {
 #if DEBUG
 struct PasswordInputFieldPreview: PreviewProvider {
     
-    static let state = PasswordItemState(dependency: .stub)
+    static let state = PasswordItemState(service: .stub)
     
     static var previews: some View {
         List {

@@ -6,19 +6,19 @@ class BiometrySettingsState: ObservableObject {
     @Published var isBiometricUnlockEnabled: Bool {
         didSet {
             Task {
-                await dependency.settingsService.save(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
+                await service.save(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
             }
         }
     }
     
     let biometryType: BiometryType
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(biometryType: BiometryType, isBiometricUnlockEnabled: Bool, dependency: Dependency) {
+    init(biometryType: BiometryType, isBiometricUnlockEnabled: Bool, service: AppServiceProtocol) {
         self.biometryType = biometryType
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
-        self.dependency = dependency
+        self.service = service
     }
     
 }

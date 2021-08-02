@@ -7,11 +7,11 @@ class StoreItemDetailState: ObservableObject, Identifiable {
     @Published private(set) var status = Status.initialized
     
     private let storeItemInfo: StoreItemInfo
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(storeItemInfo: StoreItemInfo, dependency: Dependency) {
+    init(storeItemInfo: StoreItemInfo, service: AppServiceProtocol) {
         self.storeItemInfo = storeItemInfo
-        self.dependency = dependency
+        self.service = service
     }
     
     var name: String {
@@ -34,7 +34,7 @@ class StoreItemDetailState: ObservableObject, Identifiable {
         status = .loading
         
         do {
-            let storeItem = try await dependency.storeItemService.load(itemID: storeItemInfo.id)
+            let storeItem = try await service.load(itemID: storeItemInfo.id)
             status = .display(storeItem)
         } catch {
             status = .loadingFailed
@@ -46,7 +46,7 @@ class StoreItemDetailState: ObservableObject, Identifiable {
             return
         }
         
-        let editState = StoreItemEditState(editing: storeItem, dependency: dependency)
+        let editState = StoreItemEditState(editing: storeItem, service: service)
         status = .edit(editState)
     }
     

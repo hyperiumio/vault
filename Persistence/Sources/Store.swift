@@ -18,7 +18,9 @@ public actor Store {
     }
     
     public func storeExists(storeID: UUID) async throws -> Bool {
-        return false
+        let storeURL = resourceLocator.storeURL(storeID: storeID)
+        // need mode checks
+        return FileManager.default.fileExists(atPath: storeURL.path)
     }
     
     public func createStore(storeID: UUID, derivedKeyContainer: Data, configuration: Configuration = .production) async throws {

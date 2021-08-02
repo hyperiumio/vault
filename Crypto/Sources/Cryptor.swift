@@ -27,7 +27,7 @@ public actor Cryptor {
         let masterKey = MasterKey()
         let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
         
-        try await keychain.storeSecret(masterKeyContainer, forKey: .masterKey, access: .devicePasscode)
+        try await keychain.storeSecret(masterKeyContainer, forKey: .masterKey, access: .all)
         if usingBiometryUnlock {
             try await keychain.storeSecret(derivedKey.value, forKey: .derivedKey, access: .currentBiometry)
         }

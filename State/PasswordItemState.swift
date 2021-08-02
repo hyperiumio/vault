@@ -12,9 +12,9 @@ class PasswordItemState: ObservableObject {
         PasswordItem(password: password)
     }
     
-    init(item: PasswordItem? = nil, dependency: Dependency) {
+    init(item: PasswordItem? = nil, service: AppServiceProtocol) {
         self.password = item?.password ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency)
+        self.passwordGeneratorState = PasswordGeneratorState(service: service)
     }
     
 }

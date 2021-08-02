@@ -13,10 +13,10 @@ class WifiItemState: ObservableObject {
         WifiItem(name: name, password: password)
     }
     
-    init(item: WifiItem? = nil, dependency: Dependency) {
+    init(item: WifiItem? = nil, service: AppServiceProtocol) {
         self.name = item?.name ?? ""
         self.password = item?.password ?? ""
-        self.passwordGeneratorState = PasswordGeneratorState(dependency: dependency)
+        self.passwordGeneratorState = PasswordGeneratorState(service: service)
     }
     
 }

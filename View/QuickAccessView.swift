@@ -50,7 +50,7 @@ struct QuickAccessView: View {
 #if DEBUG
 struct QuickAccessViewPreview: PreviewProvider {
     
-    static let state = QuickAccessState(dependency: .stub)
+    static let state = QuickAccessState(service: .stub)
     
     static var previews: some View {
         QuickAccessView(state) {

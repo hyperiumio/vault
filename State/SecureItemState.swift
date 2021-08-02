@@ -6,16 +6,16 @@ class SecureItemState: ObservableObject {
     
     @Published private(set) var value: Value
     
-    init(itemType: SecureItemType, dependency: Dependency) {
+    init(itemType: SecureItemType, service: AppServiceProtocol) {
         switch itemType {
         case .login:
-            let state = LoginItemState(dependency: dependency)
+            let state = LoginItemState(service: service)
             self.value = .login(state)
         case .password:
-            let state = PasswordItemState(dependency: dependency)
+            let state = PasswordItemState(service: service)
             self.value = .password(state)
         case .wifi:
-            let state = WifiItemState(dependency: dependency)
+            let state = WifiItemState(service: service)
             self.value = .wifi(state)
         case .note:
             let state = NoteItemState()
@@ -35,13 +35,13 @@ class SecureItemState: ObservableObject {
         }
     }
     
-    init(secureItem: SecureItem, dependency: Dependency) {
+    init(secureItem: SecureItem, service: AppServiceProtocol) {
         switch secureItem {
         case .password(let item):
-            let state = PasswordItemState(item: item, dependency: dependency)
+            let state = PasswordItemState(item: item, service: service)
             self.value = .password(state)
         case .login(let item):
-            let state = LoginItemState(item: item, dependency: dependency)
+            let state = LoginItemState(item: item, service: service)
             self.value = .login(state)
         case .file(let item):
             let state = FileItemState(item: item)
@@ -53,7 +53,7 @@ class SecureItemState: ObservableObject {
             let state = BankCardItemState(item: item)
             self.value = .bankCard(state)
         case .wifi(let item):
-            let state = WifiItemState(item: item, dependency: dependency)
+            let state = WifiItemState(item: item, service: service)
             self.value = .wifi(state)
         case .bankAccount(let item):
             let state = BankAccountItemState(item: item)

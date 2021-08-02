@@ -8,11 +8,11 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     private var unlockContinuation: CheckedContinuation<Void, Never>?
     
-    init(dependency: Dependency) {
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.service = service
     }
     
     var unlocked: Void {
@@ -28,7 +28,7 @@ class LockedState: ObservableObject {
     }
     
     func fetchKeychainAvailability() async {
-        biometryType = await dependency.unlockService.availableBiometry
+        biometryType = await service.availableBiometry
     }
     
     func unlock(with login: Login) async {
@@ -41,9 +41,9 @@ class LockedState: ObservableObject {
         do {
             switch login {
             case .password:
-                try await dependency.unlockService.unlockWithPassword(password)
+                try await service.unlockWithPassword(password)
             case .biometry:
-                try await dependency.unlockService.unlockWithBiometry()
+                try await service.unlockWithBiometry()
             }
             status = .unlocked
             unlockContinuation?.resume()

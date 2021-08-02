@@ -57,7 +57,7 @@ struct PasswordGeneratorView: View {
 #if DEBUG
 struct PasswordGeneratorViewPreview: PreviewProvider {
     
-    static let state = PasswordGeneratorState(dependency: .stub)
+    static let state = PasswordGeneratorState(service: .stub)
     
     static var previews: some View {
         PasswordGeneratorView(state: state) { password in

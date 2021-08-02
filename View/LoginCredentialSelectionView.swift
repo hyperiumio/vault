@@ -81,7 +81,7 @@ extension LoginCredentialSelectionView {
 #if DEBUG
 struct QuickAccessUnlockedViewPreview: PreviewProvider {
     
-    static let state = LoginCredentialSelectionState(dependency: .stub)
+    static let state = LoginCredentialSelectionState(service: .stub)
     
     static var previews: some View {
         LoginCredentialSelectionView(state)

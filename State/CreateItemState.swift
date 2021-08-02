@@ -9,11 +9,11 @@ class CreateItemState: ObservableObject {
     @Published private(set) var secondaryItems = [SecureItemState]()
     @Published var createError: Error?
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(itemType: SecureItemType, dependency: Dependency) {
-        self.primaryItem = SecureItemState(itemType: itemType, dependency: dependency)
-        self.dependency = dependency
+    init(itemType: SecureItemType, service: AppServiceProtocol) {
+        self.primaryItem = SecureItemState(itemType: itemType, service: service)
+        self.service = service
     }
     
     func save() async {
@@ -27,7 +27,7 @@ class CreateItemState: ObservableObject {
             let created = Date.now
             let modified = created
             let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-            try await dependency.storeItemService.save(storeItem)
+            try await service.save(storeItem)
         } catch {
             createError = .saveDidFail
         }

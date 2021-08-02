@@ -1,6 +1,6 @@
 enum KeychainItemAccess {
     
-    case devicePasscode
+    case all
     case currentBiometry
     
 }

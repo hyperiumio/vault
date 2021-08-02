@@ -5,20 +5,20 @@ class QuickAccessState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
     
-    private let dependency: Dependency
+    private let service: AppServiceProtocol
     
-    init(dependency: Dependency) {
-        self.dependency = dependency
+    init(service: AppServiceProtocol) {
+        self.service = service
     }
     
     func load() async {
         status = .loading
         
-        let lockedState = LockedState(dependency: dependency)
+        let lockedState = LockedState(service: service)
         status = .locked(lockedState)
         await lockedState.unlocked
         
-        let unlockedState = LoginCredentialSelectionState(dependency: dependency)
+        let unlockedState = LoginCredentialSelectionState(service: service)
         status = .unlocked(unlockedState)
     }
     
