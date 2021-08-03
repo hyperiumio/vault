@@ -33,7 +33,6 @@ struct SecureItemTypeView: View {
         }
         .symbolVariant(.fill)
         .symbolRenderingMode(.hierarchical)
-        .labelStyle(.titleAndIcon)
     }
     
 }

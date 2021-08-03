@@ -11,7 +11,6 @@ class UnlockedState: ObservableObject {
     @Published var sheet: Sheet?
     
     private let service: AppServiceProtocol
-    private var lockContinuation: CheckedContinuation<Void, Never>?
     
     init(service: AppServiceProtocol) {
         self.service = service
@@ -24,7 +23,7 @@ class UnlockedState: ObservableObject {
                         let states = try await service.loadInfos().map { info in
                             StoreItemDetailState(storeItemInfo: info, service: service)
                         }
-                        let collation = Collation(from: states) { state in
+                        let collation = try await Collation(from: states) { state in
                             state.name
                         }
                         status = .items(collation)
@@ -39,21 +38,13 @@ class UnlockedState: ObservableObject {
         }
     }
     
-    var locked: Void {
-        get async {
-            await withCheckedContinuation { continuation in
-                lockContinuation = continuation
-            }
-        }
-    }
-    
     func showCreateItemSheet(itemType: SecureItemType) {
         let state = CreateItemState(itemType: itemType, service: service)
         sheet = .createItem(state)
     }
     
-    func lock() {
-        lockContinuation?.resume()
+    func lock() async {
+        await service.lock()
     }
     
     #if os(iOS)

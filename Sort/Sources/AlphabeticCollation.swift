@@ -2,20 +2,22 @@ public struct AlphabeticCollation<Element> {
     
     public let sections: [Section]
     
-    public init<S>(from elements: S, grouped identifier: (Element) -> String) where S: Sequence, Element == S.Element  {
-        let groupedElements = Dictionary(grouping: elements) { element in
-            identifier(element).uppercased().prefix(1)
+    public init<S>(from elements: S, grouped identifier: (Element) -> String) async throws where S: AsyncSequence, Element == S.Element {
+        var groupedElements = [String:[Element]]()
+        for try await element in elements {
+            let key = identifier(element).prefix(1).uppercased()
+            
+            if groupedElements[key] == nil {
+                groupedElements[key] = []
+            }
+            
+            groupedElements[key]?.append(element)
+            groupedElements[key]?.sort { lhs, rhs in
+                identifier(lhs) < identifier(rhs)
+            }
         }
         
-        self.sections = groupedElements.sorted { lhs, rhs in
-            lhs.key < rhs.key
-        }.map { key, value in
-            let elements = groupedElements[key]?.sorted { lhs, rhs in
-                identifier(lhs) < identifier(rhs)
-            } ?? []
-            let key = String(key)
-            return Section(key: key, elements: elements)
-        }
+        self.sections = groupedElements.map(Section.init)
     }
     
     public init() {

@@ -16,10 +16,6 @@ class QuickAccessState: ObservableObject {
         
         let lockedState = LockedState(service: service)
         status = .locked(lockedState)
-        await lockedState.unlocked
-        
-        let unlockedState = LoginCredentialSelectionState(service: service)
-        status = .unlocked(unlockedState)
     }
     
 }

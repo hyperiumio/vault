@@ -1,5 +1,6 @@
 import Configuration
 import Crypto
+import Event
 import Foundation
 import Model
 import Preferences
@@ -10,7 +11,7 @@ actor AppService: AppServiceProtocol {
     private let defaults: Defaults
     private let cryptor: Cryptor
     private let store: Store
-    private var continuations = [AsyncStream<AppEvent>.Continuation]()
+    private var eventPublisher = EventPublisher<AppEvent>()
     
     init() {
         let userDefaults = UserDefaults(suiteName: Configuration.appGroup)!
@@ -22,9 +23,7 @@ actor AppService: AppServiceProtocol {
     
     var events: AsyncStream<AppEvent> {
         get async {
-            AsyncStream { continuation in
-                continuations.append(continuation)
-            }
+            await eventPublisher.events
         }
     }
     
@@ -57,9 +56,7 @@ actor AppService: AppServiceProtocol {
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
         
-        for continuation in continuations {
-            continuation.yield(.unlock)
-        }
+        await eventPublisher.send(.unlock)
     }
     
     func unlockWithBiometry() async throws {
@@ -68,9 +65,12 @@ actor AppService: AppServiceProtocol {
         }
         try await cryptor.unlockWithBiometry(id: storeID)
         
-        for continuation in continuations {
-            continuation.yield(.unlock)
-        }
+        await eventPublisher.send(.unlock)
+    }
+    
+    func lock() async {
+        await cryptor.lock()
+        await eventPublisher.send(.lock)
     }
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
@@ -85,16 +85,11 @@ actor AppService: AppServiceProtocol {
     
     func save(isBiometricUnlockEnabled: Bool) async {
         await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-        
-        for continuation in continuations {
-            continuation.yield(.defaultsDidChange)
-        }
+        await eventPublisher.send(.defaultsDidChange)
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
-        for continuation in continuations {
-            continuation.yield(.storeDidChange)
-        }
+        await eventPublisher.send(.storeDidChange)
     }
     
     func isPasswordSecure(_ password: String) async -> Bool {
@@ -109,13 +104,29 @@ actor AppService: AppServiceProtocol {
         await defaults.set(activeStoreID: storeID)
         try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
         
-        for continuation in continuations {
-            continuation.yield(.setupComplete)
-        }
+        await eventPublisher.send(.setupComplete)
     }
     
-    func loadInfos() async throws -> [StoreItemInfo] {
+    func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
+        AsyncStream { continuation in
+            continuation.yield(StoreItemInfo(id: UUID(), name: "bar", description: "foo", primaryType: .password, secondaryTypes: [], created: .now, modified: .now))
+            continuation.finish()
+        }
+        /*
+        guard let storeID = await defaults.activeStoreID else {
+            throw Error.noActiveStoreID
+        }
+        
+        let foo = await store.loadItems(storeID: storeID, read: readInfoData).map { itemData in
+            try StoreItemInfo(from: itemData)
+        }
+        
+        
         fatalError()
+        func readInfoData(context: ReadingContext) throws -> Data {
+            Data()
+        }
+         */
     }
     
     func load(itemID: UUID) async throws -> StoreItem {
@@ -167,9 +178,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        for continuation in continuations {
-            continuation.yield(.storeDidChange)
-        }
+        await eventPublisher.send(.storeDidChange)
     }
     
     func delete(itemID: UUID) async throws {
@@ -182,9 +191,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        for continuation in continuations {
-            continuation.yield(.storeDidChange)
-        }
+        await eventPublisher.send(.storeDidChange)
     }
     
 }
@@ -220,7 +227,7 @@ extension AppServiceProtocol where Self == AppService {
 struct AppServiceStub: AppServiceProtocol {
     
     var events: AsyncStream<AppEvent> {
-        fatalError()
+        AsyncStream { _ in }
     }
     
     var didCompleteSetup: Bool {
@@ -240,6 +247,10 @@ struct AppServiceStub: AppServiceProtocol {
     }
     
     func unlockWithBiometry() async throws {
+        print(#function)
+    }
+    
+    func lock() async {
         print(#function)
     }
     
@@ -263,8 +274,11 @@ struct AppServiceStub: AppServiceProtocol {
         print(#function)
     }
     
-    func loadInfos() async throws -> [StoreItemInfo] {
-        [Self.storeItem.info]
+    func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
+        AsyncStream { continuation in
+            continuation.yield(Self.storeItem.info)
+            continuation.finish()
+        }
     }
     
     func load(itemID: UUID) async throws -> StoreItem {

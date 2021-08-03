@@ -28,7 +28,7 @@ struct StoreItemInfoView: View {
             }
         } icon: {
             SecureItemTypeView(type)
-                .foregroundColor(.accentColor)
+                .labelStyle(.iconOnly)
         }
         .padding(.vertical, 4)
     }

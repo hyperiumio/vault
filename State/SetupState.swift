@@ -11,18 +11,9 @@ class SetupState: ObservableObject {
     @Published var setupError: SetupError?
     
     private let service: AppServiceProtocol
-    private var completeContinuation: CheckedContinuation<Void, Never>?
     
     init(service: AppServiceProtocol) {
         self.service = service
-    }
-    
-    var completed: Void {
-        get async {
-            await withCheckedContinuation { continuation in
-                completeContinuation = continuation
-            }
-        }
     }
     
     var isBackButtonVisible: Bool {
@@ -74,7 +65,6 @@ class SetupState: ObservableObject {
         case .completeSetup:
             do {
                 try await service.completeSetup(isBiometryEnabled: isBiometricUnlockEnabled, masterPassword: password)
-                completeContinuation?.resume()
             } catch {
                 setupError = .completeSetupDidFail
             }

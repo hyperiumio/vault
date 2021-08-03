@@ -9,18 +9,9 @@ class LockedState: ObservableObject {
     @Published private(set) var status = Status.locked
     
     private let service: AppServiceProtocol
-    private var unlockContinuation: CheckedContinuation<Void, Never>?
     
     init(service: AppServiceProtocol) {
         self.service = service
-    }
-    
-    var unlocked: Void {
-        get async {
-            await withCheckedContinuation { continuation in
-                unlockContinuation = continuation
-            }
-        }
     }
     
     var inputDisabled: Bool {
@@ -46,9 +37,6 @@ class LockedState: ObservableObject {
                 try await service.unlockWithBiometry()
             }
             status = .unlocked
-            unlockContinuation?.resume()
-        } catch CryptoError.wrongPassword {
-            status = .wrongPassword
         } catch {
             status = .loadingMasterKeyFailed
         }

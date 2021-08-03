@@ -17,16 +17,17 @@ struct MasterPasswordField: View {
         HStack(spacing: 0) {
             SecureField(Localized.title, text: text, prompt: nil)
                 .font(.title2)
-                .submitLabel(.continue)
+                .textFieldStyle(.plain)
                 .padding()
+                .submitLabel(.continue)
             
             Button(action: action) {
                 Image(systemName: SFSymbol.lock)
                     .imageScale(.large)
                     .foregroundColor(.white)
-                    .frame(maxHeight: .infinity)
-                    .padding(.horizontal)
+                    .padding()
                     .background(Color.accentColor)
+                    .frame(maxHeight: .infinity)
             }
             .buttonStyle(.plain)
         }

@@ -61,7 +61,7 @@ struct SelectItemTypeView: View {
                 SecureItemTypeView(.custom)
             }
         }
-        .symbolRenderingMode(.hierarchical)
+        .labelStyle(.titleAndIcon)
     }
     
 }

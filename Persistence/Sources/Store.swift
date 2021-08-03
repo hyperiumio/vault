@@ -4,17 +4,10 @@ public actor Store {
     
     private let resourceLocator: StoreResourceLocator
     private let configuration: Configuration
-    private var continuations = [AsyncStream<Void>.Continuation]()
     
     public init(containerDirectory: URL, configuration: Configuration = .production) {
         self.resourceLocator = StoreResourceLocator(containerURL: containerDirectory)
         self.configuration = configuration
-    }
-    
-    public var didChange: AsyncStream<Void> {
-        AsyncStream { continuation in
-            continuations.append(continuation)
-        }
     }
     
     public func storeExists(storeID: UUID) async throws -> Bool {
@@ -36,16 +29,10 @@ public actor Store {
         try FileManager.default.createDirectory(at: itemsURL, withIntermediateDirectories: false, attributes: nil)
         try storeInfo.encoded.write(to: infoURL)
         try derivedKeyContainer.write(to: derivedKeyContainerURL)
-        
-        for continuation in continuations {
-            continuation.yield()
-        }
     }
     
     public func migrateStore(fromStore oldStoreID: UUID, toStore newStoreID: UUID, derivedKeyContainer: Data, configuration: Configuration = .production, migratingItems: (Data) throws -> Data) async throws {
-        for continuation in continuations {
-            continuation.yield()
-        }
+        
     }
     
     public func commit(storeID: UUID, operations: [StoreOperation]) async throws {
@@ -58,10 +45,6 @@ public actor Store {
                 let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
                 try FileManager.default.removeItem(at: itemURL)
             }
-        }
-        
-        for continuation in continuations {
-            continuation.yield()
         }
     }
     

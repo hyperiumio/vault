@@ -33,7 +33,9 @@ struct UnlockedView: View {
                     }
                     
                     Button {
-                        state.lock()
+                        Task {
+                            await state.lock()
+                        }
                     } label: {
                         Image(systemName: SFSymbol.lock)
                     }
@@ -143,6 +145,7 @@ extension UnlockedView {
                     }
                 }
             }
+            .listStyle(.plain)
         }
         
     }

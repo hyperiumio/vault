@@ -31,6 +31,7 @@ struct CreateItemView: View {
                 
                 ToolbarItem(placement: .principal) {
                     SecureItemTypeView(state.primaryItem.secureItem.value.secureItemType)
+                        .labelStyle(.titleAndIcon)
                         .foregroundStyle(.secondary)
                         .imageScale(.medium)
                 }

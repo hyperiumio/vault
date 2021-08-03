@@ -61,14 +61,13 @@
 		9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B22680CACA0000BC44 /* FailureView.swift */; };
 		9551D3B62680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
 		9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
-		9556A78B269FFB1100DE3DA3 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556A78A269FFB1100DE3DA3 /* Bridge.swift */; };
-		9556A78C269FFB1100DE3DA3 /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9556A78A269FFB1100DE3DA3 /* Bridge.swift */; };
 		956307292535ACAA0076022A /* SelectItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectItemTypeView.swift */; };
 		9563072A2535ACAA0076022A /* SelectItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectItemTypeView.swift */; };
+		956D1A2126B8380D00A4ABF7 /* BiometryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956D1A2026B8380D00A4ABF7 /* BiometryType.swift */; };
+		956D1A2226B8380D00A4ABF7 /* BiometryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956D1A2026B8380D00A4ABF7 /* BiometryType.swift */; };
 		95726C2B24C82B6D005F025A /* MasterPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* MasterPasswordField.swift */; };
 		95726C2C24C82B6D005F025A /* MasterPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95726C2A24C82B6D005F025A /* MasterPasswordField.swift */; };
 		9574322A24AA05430062B05A /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574322424AA05430062B05A /* App.swift */; };
-		9574323424AA05710062B05A /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9574323024AA05710062B05A /* Production.xcassets */; };
 		9574326E24AA081B0062B05A /* NoteItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteItemState.swift */; };
 		9574326F24AA081B0062B05A /* NoteItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324424AA08190062B05A /* NoteItemState.swift */; };
 		9574327624AA081B0062B05A /* SettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574324824AA081A0062B05A /* SettingsState.swift */; };
@@ -108,7 +107,6 @@
 		95775EC526906C1F005D2221 /* StoreItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */; };
 		9578388226A9C6EB00EC863A /* Resource in Frameworks */ = {isa = PBXBuildFile; productRef = 9578388126A9C6EB00EC863A /* Resource */; };
 		9578388426A9C6F700EC863A /* Resource in Frameworks */ = {isa = PBXBuildFile; productRef = 9578388326A9C6F700EC863A /* Resource */; };
-		9579A6C0267613560030DACF /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9579A6BE2676133D0030DACF /* AppCommands.swift */; };
 		9583BDD826AAF480003BE064 /* CreateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDD726AAF480003BE064 /* CreateItemView.swift */; };
 		9583BDD926AAF480003BE064 /* CreateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDD726AAF480003BE064 /* CreateItemView.swift */; };
 		9583BDDB26AAF4DD003BE064 /* CreateItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */; };
@@ -166,10 +164,14 @@
 		95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574330524AA135D0062B05A /* AppView.swift */; };
 		95BA9594268C535800B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9593268C535800B59DAC /* Sync */; };
 		95BA9596268C535F00B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9595268C535F00B59DAC /* Sync */; };
+		95BB620A26B919E70050F78C /* Event in Frameworks */ = {isa = PBXBuildFile; productRef = 95BB620926B919E70050F78C /* Event */; };
 		95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3C26B53E7500E3D4DA /* Shim */; };
 		95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3E26B53E7C00E3D4DA /* Shim */; };
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
+		95D211D026B91AB8009EE274 /* Event in Frameworks */ = {isa = PBXBuildFile; productRef = 95D211CF26B91AB8009EE274 /* Event */; };
+		95F7102B26B915EF003C8CF6 /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F7102A26B915EF003C8CF6 /* Production.xcassets */; };
+		95F7102C26B91604003C8CF6 /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F7102A26B915EF003C8CF6 /* Production.xcassets */; };
 		95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F8BBC924CEC936001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBC824CEC936001FC495 /* Sort */; };
@@ -211,9 +213,7 @@
 /* Begin PBXFileReference section */
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
-		9521CE3826B56F830023F415 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
 		9521CE3A26B5B80E0023F415 /* Persistence */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Persistence; sourceTree = "<group>"; };
-		9521CE4026B5B92B0023F415 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9521CE4126B6D6BB0023F415 /* AppService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppService.swift; sourceTree = "<group>"; };
 		9521CE4426B6D9A50023F415 /* AppServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceProtocol.swift; sourceTree = "<group>"; };
 		9521CE4726B6ECC20023F415 /* AppEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEvent.swift; sourceTree = "<group>"; };
@@ -239,15 +239,14 @@
 		955180472695CDE5002783D6 /* BiometrySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometrySettingsView.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
-		9556A78A269FFB1100DE3DA3 /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		95581D8926A9C5E600485496 /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemTypeView.swift; sourceTree = "<group>"; };
+		956D1A2026B8380D00A4ABF7 /* BiometryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometryType.swift; sourceTree = "<group>"; };
 		95726C2A24C82B6D005F025A /* MasterPasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordField.swift; sourceTree = "<group>"; };
 		9574321F24AA05340062B05A /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		9574322424AA05430062B05A /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		9574322524AA05430062B05A /* App.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		9574322624AA05430062B05A /* AppInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
-		9574323024AA05710062B05A /* Production.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Production.xcassets; sourceTree = "<group>"; };
 		9574324424AA08190062B05A /* NoteItemState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteItemState.swift; sourceTree = "<group>"; };
 		9574324824AA081A0062B05A /* SettingsState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsState.swift; sourceTree = "<group>"; };
 		9574324924AA081A0062B05A /* LoginItemState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginItemState.swift; sourceTree = "<group>"; };
@@ -270,13 +269,11 @@
 		9574337024AA23D30062B05A /* StoreItemEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemEditView.swift; sourceTree = "<group>"; };
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayView.swift; sourceTree = "<group>"; };
-		9579A6BE2676133D0030DACF /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		9583BDD726AAF480003BE064 /* CreateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemView.swift; sourceTree = "<group>"; };
 		9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemState.swift; sourceTree = "<group>"; };
 		9583BDDD26AB0105003BE064 /* SecureItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemState.swift; sourceTree = "<group>"; };
 		9583BDE426AB0749003BE064 /* SecureItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemView.swift; sourceTree = "<group>"; };
-		95842D48256FAB180080711C /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
 		95842D4D256FAB180080711C /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		95842D4E256FAB180080711C /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
 		95842D6B256FBE2B0080711C /* QuickAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessView.swift; sourceTree = "<group>"; };
@@ -298,12 +295,16 @@
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
 		95ADC3452684CD7600BE3DFF /* LockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedState.swift; sourceTree = "<group>"; };
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
+		95BB620526B9174A0050F78C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		95BB620626B9174A0050F78C /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
+		95BB620726B918E20050F78C /* Event */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Event; sourceTree = "<group>"; };
 		95C07B3A26B53E3B00E3D4DA /* Shim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shim; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
 		95C994D92575592E00C3A758 /* LoginCredentialSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionView.swift; sourceTree = "<group>"; };
 		95D7E85726A2D2A700F96D35 /* QuickAccessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessState.swift; sourceTree = "<group>"; };
 		95D7E85A26A2D44C00F96D35 /* LoginCredentialSelectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionState.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
+		95F7102A26B915EF003C8CF6 /* Production.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Production.xcassets; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
 		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -321,6 +322,7 @@
 				95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */,
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				953F1A4E269F6CC0006856E0 /* Configuration in Frameworks */,
+				95BB620A26B919E70050F78C /* Event in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
 				95ADC33826849ED800BE3DFF /* Model in Frameworks */,
@@ -340,6 +342,7 @@
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
+				95D211D026B91AB8009EE274 /* Event in Frameworks */,
 				95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */,
 				95ADC33A26849EE200BE3DFF /* Model in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
@@ -449,14 +452,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		9579A6BD267613180030DACF /* Commands */ = {
-			isa = PBXGroup;
-			children = (
-				9579A6BE2676133D0030DACF /* AppCommands.swift */,
-			);
-			path = Commands;
-			sourceTree = "<group>";
-		};
 		957B73AD267CBD0F00990A8D /* Style */ = {
 			isa = PBXGroup;
 			children = (
@@ -477,7 +472,6 @@
 		95842D78256FC0210080711C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				95842D48256FAB180080711C /* CredentialProviderViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -485,8 +479,8 @@
 		9593F68226AEA18800AAE0F4 /* Asset */ = {
 			isa = PBXGroup;
 			children = (
+				95F7102A26B915EF003C8CF6 /* Production.xcassets */,
 				9583624724D1643700C10BBB /* Development.xcassets */,
-				9574323024AA05710062B05A /* Production.xcassets */,
 			);
 			path = Asset;
 			sourceTree = "<group>";
@@ -494,6 +488,7 @@
 		95ABC92E24A9D38E009D87A4 = {
 			isa = PBXGroup;
 			children = (
+				95BB620726B918E20050F78C /* Event */,
 				953A43DE25D1ABBD000267D0 /* Cloud */,
 				953F1A4B269F6B6E006856E0 /* Configuration */,
 				951F23922547321500949362 /* Crypto */,
@@ -508,9 +503,7 @@
 				95F8BBC624CEB8FF001FC495 /* Sort */,
 				95BA9591268C530100B59DAC /* Sync */,
 				9593F68226AEA18800AAE0F4 /* Asset */,
-				9579A6BD267613180030DACF /* Commands */,
 				95842D78256FC0210080711C /* Controller */,
-				95C5E10E26B12CE90081B5F6 /* Dependency */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
 				957EB3BC2510F11500D6AE2E /* Scene */,
@@ -518,7 +511,6 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				9521CE4026B5B92B0023F415 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -528,16 +520,9 @@
 				9521CE4126B6D6BB0023F415 /* AppService.swift */,
 				9521CE4426B6D9A50023F415 /* AppServiceProtocol.swift */,
 				9521CE4726B6ECC20023F415 /* AppEvent.swift */,
+				956D1A2026B8380D00A4ABF7 /* BiometryType.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		95C5E10E26B12CE90081B5F6 /* Dependency */ = {
-			isa = PBXGroup;
-			children = (
-				9556A78A269FFB1100DE3DA3 /* Bridge.swift */,
-			);
-			path = Dependency;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -571,9 +556,10 @@
 				9578388326A9C6F700EC863A /* Resource */,
 				95C07B3C26B53E7500E3D4DA /* Shim */,
 				9521CE3C26B5B85A0023F415 /* Persistence */,
+				95BB620926B919E70050F78C /* Event */,
 			);
 			productName = iOS;
-			productReference = 9521CE3826B56F830023F415 /* Vault.app */;
+			productReference = 95BB620526B9174A0050F78C /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -603,9 +589,10 @@
 				9578388126A9C6EB00EC863A /* Resource */,
 				95C07B3E26B53E7C00E3D4DA /* Shim */,
 				9521CE3E26B5B8610023F415 /* Persistence */,
+				95D211CF26B91AB8009EE274 /* Event */,
 			);
 			productName = macOS;
-			productReference = 9521CE4026B5B92B0023F415 /* Vault.app */;
+			productReference = 95BB620626B9174A0050F78C /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -650,8 +637,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F7102C26B91604003C8CF6 /* Production.xcassets in Resources */,
 				9550ED7426949BCE00C519C2 /* Development.xcassets in Resources */,
-				9574323424AA05710062B05A /* Production.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -659,6 +646,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95F7102B26B915EF003C8CF6 /* Production.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,7 +682,6 @@
 				954EDBC826A54E0E00E0732F /* LoginCredentialSelectionView.swift in Sources */,
 				954220A32551887B002F14AB /* NoteInputField.swift in Sources */,
 				9583BDDE26AB0105003BE064 /* SecureItemState.swift in Sources */,
-				9556A78B269FFB1100DE3DA3 /* Bridge.swift in Sources */,
 				9521CE4826B6ECC20023F415 /* AppEvent.swift in Sources */,
 				95726C2B24C82B6D005F025A /* MasterPasswordField.swift in Sources */,
 				9574337924AA23D30062B05A /* StoreItemEditView.swift in Sources */,
@@ -726,6 +713,7 @@
 				95ADC3462684CD7600BE3DFF /* LockedState.swift in Sources */,
 				95422088255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864928251E137C0081DF08 /* WifiField.swift in Sources */,
+				956D1A2126B8380D00A4ABF7 /* BiometryType.swift in Sources */,
 				95864905251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
 				9574327E24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
 				95864919251E12AA0081DF08 /* FileField.swift in Sources */,
@@ -756,8 +744,8 @@
 				9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
 				954EDBA326A54DDA00E0732F /* LoginCredentialSelectionState.swift in Sources */,
+				956D1A2226B8380D00A4ABF7 /* BiometryType.swift in Sources */,
 				9574327924AA081B0062B05A /* LoginItemState.swift in Sources */,
-				9579A6C0267613560030DACF /* AppCommands.swift in Sources */,
 				9586493F251E14AD0081DF08 /* DateFooter.swift in Sources */,
 				954EDBCA26A54E0E00E0732F /* LoginCredentialSelectionView.swift in Sources */,
 				95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */,
@@ -807,7 +795,6 @@
 				9521CE4626B6D9A50023F415 /* AppServiceProtocol.swift in Sources */,
 				9586491A251E12AA0081DF08 /* FileField.swift in Sources */,
 				9542209A25518815002F14AB /* FileInputField.swift in Sources */,
-				9556A78C269FFB1100DE3DA3 /* Bridge.swift in Sources */,
 				955180492695CDE5002783D6 /* BiometrySettingsView.swift in Sources */,
 				9530DB62268F42E200247AFF /* SecureItemField.swift in Sources */,
 				9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */,
@@ -941,7 +928,7 @@
 		95ABC95024A9D38E009D87A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
@@ -972,7 +959,7 @@
 		95ABC95124A9D38E009D87A4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_ENTITLEMENTS = iOS/App.entitlements;
@@ -1005,7 +992,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1037,7 +1024,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = Icon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = macOS/App.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1178,6 +1165,10 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Sync;
 		};
+		95BB620926B919E70050F78C /* Event */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Event;
+		};
 		95C07B3C26B53E7500E3D4DA /* Shim */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shim;
@@ -1185,6 +1176,10 @@
 		95C07B3E26B53E7C00E3D4DA /* Shim */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shim;
+		};
+		95D211CF26B91AB8009EE274 /* Event */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Event;
 		};
 		95F8BBC824CEC936001FC495 /* Sort */ = {
 			isa = XCSwiftPackageProductDependency;
