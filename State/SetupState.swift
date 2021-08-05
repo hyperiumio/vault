@@ -16,6 +16,8 @@ class SetupState: ObservableObject {
         self.service = service
     }
     
+    private(set) var direction = Direction.forward
+    
     var isBackButtonVisible: Bool {
         switch step {
         case .choosePassword:
@@ -26,6 +28,7 @@ class SetupState: ObservableObject {
     }
     
     func back() async {
+        direction = .backward
         setupError = nil
         
         switch step {
@@ -45,6 +48,7 @@ class SetupState: ObservableObject {
     }
     
     func next() async {
+        direction = .forward
         setupError = nil
         
         switch step {
@@ -75,12 +79,19 @@ class SetupState: ObservableObject {
 
 extension SetupState {
     
-    enum Step {
+    enum Step: Equatable {
         
         case choosePassword
         case repeatPassword
         case enableBiometricUnlock(biometryType: BiometryType)
         case completeSetup
+        
+    }
+    
+    enum Direction {
+        
+        case forward
+        case backward
         
     }
     

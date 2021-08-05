@@ -10,222 +10,113 @@ struct SetupView: View {
     }
     
     var body: some View {
-        VStack {
-            BackButton(isVisisble: state.isBackButtonVisible) {
-                Task {
-                    await state.back()
-                }
-            }
-            
-            switch state.step {
-            case .choosePassword:
-                ChooseMasterPasswordView(password: $state.password)
-            case .repeatPassword:
-                RepeatPasswordView(repeatedPassword: $state.repeatedPassword)
-            case .enableBiometricUnlock(let biometryType):
-                EnableBiometricUnlockView(biometryType, isEnabled: $state.isBiometricUnlockEnabled)
-            case .completeSetup:
-                CompleteSetupView()
-            }
-            
-            NextButton(state.step.title) {
-                Task {
-                    await state.next()
-                }
-            }
-        }
-        .padding()
-    }
-    
-}
-
-
-extension SetupView {
-    
-    struct BackButton: View {
-        
-        private let isVisisble: Bool
-        private let action: () -> Void
-        
-        init(isVisisble: Bool, action: @escaping () -> Void) {
-            self.isVisisble = isVisisble
-            self.action = action
-        }
-        
-        var body: some View {
+        VStack(spacing: 0) {
             HStack {
-                if isVisisble {
+                if state.isBackButtonVisible {
                     Image(systemName: SFSymbol.chevronBackward)
                         .font(.title)
                         .symbolVariant(.circle)
                         .foregroundColor(.accentColor)
-                        .onTapGesture(perform: action)
+                        .padding()
+                        .onTapGesture {
+                            Task {
+                                await state.back()
+                            }
+                        }
+                        .transition(.backButton)
                 }
                 
                 Spacer()
             }
-        }
-        
-    }
-    
-    struct NextButton: View {
-        
-        private let title: String
-        private let action: () -> Void
-        
-        init(_ title: String, action: @escaping () -> Void) {
-            self.title = title
-            self.action = action
-        }
-        
-        var body: some View {
-            Button(action: action) {
-                Text(title)
-                    .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, maxHeight: 60, alignment: .topLeading)
+            
+            Group {
+                switch state.step {
+                case .choosePassword:
+                    SetupStepView(image: "Placeholder", title: Localized.chooseMasterPassword, description: Localized.chooseMasterPasswordDescription) {
+                        SecureField(Localized.enterMasterPassword, text: $state.password)
+                            .font(.title2)
+                    }
+                case .repeatPassword:
+                    SetupStepView(image: "Placeholder", title: Localized.repeatMasterPassword, description: Localized.repeatMasterPasswordDescription) {
+                        SecureField(Localized.enterMasterPassword, text: $state.repeatedPassword)
+                            .font(.title2)
+                    }
+                case .enableBiometricUnlock(let biometryType):
+                    SetupStepView(image: "Placeholder", title: biometryType.title, description: biometryType.description) {
+                        Toggle("bar", isOn: $state.isBiometricUnlockEnabled)
+                            .toggleStyle(.switch)
+                            .tint(.accentColor)
+                    }
+                case .completeSetup:
+                    SetupStepView(image: "Placeholder", title: Localized.setupComplete, description: Localized.setupComplete)
+                        #if os(iOS)
+                        .task {
+                            Self.feedbackGenerator.notificationOccurred(.success)
+                        }
+                        #endif
+                }
             }
-            .buttonStyle(.bordered)
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .transition(state.direction.transition)
+            .animation(.easeInOut, value: state.step)
+            
+            Button {
+                Task {
+                    await state.next()
+                }
+            } label: {
+                Text(state.step.title)
+                    .frame(maxWidth: .infinity)
+                
+            }
             .controlSize(.large)
             .buttonStyle(.borderedProminent)
+            .padding()
         }
-        
     }
     
-    struct ChooseMasterPasswordView: View {
-        
-        private let password: Binding<String>
-        
-        init(password: Binding<String>) {
-            self.password = password
-        }
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                
-                Text(Localized.chooseMasterPassword)
-                    .font(.title)
-                
-                Text(Localized.chooseMasterPasswordDescription)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                
-                Spacer()
-                
-                SecureField(Localized.enterMasterPassword, text: password, prompt: nil)
-                    .font(.title2)
-                    .minimumScaleFactor(0.5)
-                
-                Spacer()
-            }
-            .multilineTextAlignment(.center)
-        }
-        
-    }
-    
-    struct RepeatPasswordView: View {
-        
-        private let repeatedPassword: Binding<String>
-        
-        init(repeatedPassword: Binding<String>) {
-            self.repeatedPassword = repeatedPassword
-        }
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                
-                Text(Localized.repeatMasterPassword)
-                    .font(.title)
-                
-                Text(Localized.repeatMasterPasswordDescription)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                
-                Spacer()
-                
-                SecureField(Localized.enterMasterPassword, text: repeatedPassword, prompt: nil)
-                    .font(.title2)
-                    .minimumScaleFactor(0.5)
-                
-                Spacer()
-            }
-            .multilineTextAlignment(.center)
-        }
-        
-    }
-    
-    struct EnableBiometricUnlockView: View {
-        
-        private let biometryType: BiometryType
-        private let isEnabled: Binding<Bool>
-        
-        internal init(_ biometryType: BiometryType, isEnabled: Binding<Bool>) {
-            self.biometryType = biometryType
-            self.isEnabled = isEnabled
-        }
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                
-                Image(systemName: biometryType.symbolName)
-                    .resizable()
-                    .scaledToFit()
-                    .foregroundColor(.accentColor)
-                    .frame(width: 100, height: 100, alignment: .center)
-                
-                Text(biometryType.description)
-                    .font(.body)
-                    .foregroundStyle(.secondary)
-                
-                Spacer()
-                
-                Toggle(biometryType.title, isOn: isEnabled)
-                    .toggleStyle(.switch)
-                    .tint(.accentColor)
-                
-                Spacer()
-                    
-            }
-            .multilineTextAlignment(.center)
-        }
-        
-    }
-    
-    struct CompleteSetupView: View {
-        
-        #if os(iOS)
-        private let feedbackGenerator = UINotificationFeedbackGenerator()
-        #endif
-        
-        var body: some View {
-            VStack {
-                Spacer()
-                
-                Text(Localized.setupComplete)
-                    .font(.title)
-                
-                Image(systemName: SFSymbol.checkmark)
-                    .resizable()
-                    .scaledToFit()
-                    .symbolVariant(.circle)
-                    .foregroundStyle(.green)
-                    .frame(maxWidth: 200, maxHeight: 200)
-                
-                Spacer()
-            }
-            .multilineTextAlignment(.center)
-            .onAppear {
-                #if os(iOS)
-                feedbackGenerator.prepare()
-                feedbackGenerator.notificationOccurred(.success)
-                #endif
-            }
+}
 
+extension SetupView {
+    
+    #if os(iOS)
+    private static let feedbackGenerator = UINotificationFeedbackGenerator()
+    #endif
+    
+}
+
+private extension SetupState.Direction {
+    
+    var transition: AnyTransition {
+        switch self {
+        case .forward:
+            return .forward
+        case .backward:
+            return .backward
         }
-        
     }
     
+}
+
+private extension AnyTransition {
+    
+    static var backButton: Self {
+        .scale.combined(with: .opacity).animation(.default)
+    }
+    
+    static var forward: Self {
+        let insertion = AnyTransition.move(edge: .trailing)
+        let removal = AnyTransition.move(edge: .leading)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+    
+    static var backward: Self {
+        let insertion = AnyTransition.move(edge: .leading)
+        let removal = AnyTransition.move(edge: .trailing)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
 }
 
 private extension SetupState.Step {
@@ -242,15 +133,6 @@ private extension SetupState.Step {
 }
 
 private extension BiometryType {
-    
-    var symbolName: String {
-        switch self {
-        case .touchID:
-            return SFSymbol.touchid
-        case .faceID:
-            return SFSymbol.faceid
-        }
-    }
     
     var description: String {
         switch self {
@@ -277,39 +159,12 @@ struct SetupViewPreview: PreviewProvider {
     
     static let state = SetupState(service: .stub)
     
-    @State static var password = ""
-    @State static var repeatedPassword = ""
-    
     static var previews: some View {
         SetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
         
         SetupView(state)
-            .preferredColorScheme(.dark)
-            .previewLayout(.sizeThatFits)
-            
-        SetupView.ChooseMasterPasswordView(password: $password)
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-        
-        SetupView.ChooseMasterPasswordView(password: $password)
-            .preferredColorScheme(.dark)
-            .previewLayout(.sizeThatFits)
-        
-        SetupView.RepeatPasswordView(repeatedPassword: $repeatedPassword)
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-        
-        SetupView.RepeatPasswordView(repeatedPassword: $repeatedPassword)
-            .preferredColorScheme(.dark)
-            .previewLayout(.sizeThatFits)
-        
-        SetupView.CompleteSetupView()
-            .preferredColorScheme(.light)
-            .previewLayout(.sizeThatFits)
-        
-        SetupView.CompleteSetupView()
             .preferredColorScheme(.dark)
             .previewLayout(.sizeThatFits)
     }

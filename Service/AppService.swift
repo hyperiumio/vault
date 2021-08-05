@@ -14,7 +14,7 @@ actor AppService: AppServiceProtocol {
     private var eventPublisher = EventPublisher<AppEvent>()
     
     init() {
-        let userDefaults = UserDefaults(suiteName: Configuration.appGroup)!
+        let userDefaults = UserDefaults.standard // use shared user defaults
         
         self.defaults = Defaults(store: userDefaults)
         self.cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)

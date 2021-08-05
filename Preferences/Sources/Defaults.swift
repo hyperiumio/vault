@@ -1,6 +1,6 @@
 import Foundation
 
-public actor Defaults {
+public struct Defaults { // should be an actor
     
     private let store: PersistenceProvider
     
