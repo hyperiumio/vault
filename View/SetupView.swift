@@ -1,9 +1,11 @@
+import Haptic
 import Resource
 import SwiftUI
 
 struct SetupView: View {
     
     @ObservedObject private var state: SetupState
+    @FocusState private var isPasswordFieldFocused: Bool
     
     init(_ state: SetupState) {
         self.state = state
@@ -36,11 +38,16 @@ struct SetupView: View {
                     SetupStepView(image: "Placeholder", title: Localized.chooseMasterPassword, description: Localized.chooseMasterPasswordDescription) {
                         SecureField(Localized.enterMasterPassword, text: $state.password)
                             .font(.title2)
+                            .textFieldStyle(.plain)
+                            .textContentType(.oneTimeCode)
+                            .focused($isPasswordFieldFocused)
                     }
                 case .repeatPassword:
                     SetupStepView(image: "Placeholder", title: Localized.repeatMasterPassword, description: Localized.repeatMasterPasswordDescription) {
                         SecureField(Localized.enterMasterPassword, text: $state.repeatedPassword)
                             .font(.title2)
+                            .textFieldStyle(.plain)
+                            .textContentType(.oneTimeCode)
                     }
                 case .enableBiometricUnlock(let biometryType):
                     SetupStepView(image: "Placeholder", title: biometryType.title, description: biometryType.description) {
@@ -50,11 +57,9 @@ struct SetupView: View {
                     }
                 case .completeSetup:
                     SetupStepView(image: "Placeholder", title: Localized.setupComplete, description: Localized.setupComplete)
-                        #if os(iOS)
                         .task {
-                            Self.feedbackGenerator.notificationOccurred(.success)
+                            HapticFeedback.shared.play(.success)
                         }
-                        #endif
                 }
             }
             .padding(.horizontal)
@@ -63,27 +68,34 @@ struct SetupView: View {
             .animation(.easeInOut, value: state.step)
             
             Button {
+                isPasswordFieldFocused = false
+                
                 Task {
                     await state.next()
                 }
             } label: {
                 Text(state.step.title)
-                    .frame(maxWidth: .infinity)
-                
+                    .frame(maxWidth: 400)
             }
             .controlSize(.large)
             .buttonStyle(.borderedProminent)
+            .disabled(!state.isNextButtonEnabled)
             .padding()
         }
     }
     
 }
 
-extension SetupView {
+private extension SetupState.Step {
     
-    #if os(iOS)
-    private static let feedbackGenerator = UINotificationFeedbackGenerator()
-    #endif
+    var title: String {
+        switch self {
+        case .choosePassword, .repeatPassword, .enableBiometricUnlock:
+            return Localized.continue
+        case .completeSetup:
+            return Localized.setupComplete
+        }
+    }
     
 }
 
@@ -95,38 +107,6 @@ private extension SetupState.Direction {
             return .forward
         case .backward:
             return .backward
-        }
-    }
-    
-}
-
-private extension AnyTransition {
-    
-    static var backButton: Self {
-        .scale.combined(with: .opacity).animation(.default)
-    }
-    
-    static var forward: Self {
-        let insertion = AnyTransition.move(edge: .trailing)
-        let removal = AnyTransition.move(edge: .leading)
-        return .asymmetric(insertion: insertion, removal: removal)
-    }
-    
-    static var backward: Self {
-        let insertion = AnyTransition.move(edge: .leading)
-        let removal = AnyTransition.move(edge: .trailing)
-        return .asymmetric(insertion: insertion, removal: removal)
-    }
-}
-
-private extension SetupState.Step {
-    
-    var title: String {
-        switch self {
-        case .choosePassword, .repeatPassword, .enableBiometricUnlock:
-            return Localized.continue
-        case .completeSetup:
-            return Localized.setupComplete
         }
     }
     
@@ -152,6 +132,25 @@ private extension BiometryType {
         }
     }
     
+}
+
+private extension AnyTransition {
+    
+    static var backButton: Self {
+        .scale.combined(with: .opacity).animation(.default)
+    }
+    
+    static var forward: Self {
+        let insertion = AnyTransition.move(edge: .trailing)
+        let removal = AnyTransition.move(edge: .leading)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+    
+    static var backward: Self {
+        let insertion = AnyTransition.move(edge: .leading)
+        let removal = AnyTransition.move(edge: .trailing)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
 }
 
 #if DEBUG

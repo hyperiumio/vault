@@ -52,7 +52,8 @@ public func Password(length: Int, uppercase: Bool, lowercase: Bool, digit: Bool,
 }
 
 public func PasswordIsSecure(_ password: String) async -> Bool {
-    true
+    await Task.sleep(1000000000)
+    return Bool.random()
 }
 
 public struct PasswordConfiguration {

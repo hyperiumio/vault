@@ -117,6 +117,8 @@
 		9583BDDF26AB0105003BE064 /* SecureItemState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDDD26AB0105003BE064 /* SecureItemState.swift */; };
 		9583BDE526AB0749003BE064 /* SecureItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDE426AB0749003BE064 /* SecureItemView.swift */; };
 		9583BDE626AB0749003BE064 /* SecureItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDE426AB0749003BE064 /* SecureItemView.swift */; };
+		958422EC26BC3D400084D319 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 958422EB26BC3D400084D319 /* Haptic */; };
+		958422EE26BC3D480084D319 /* Haptic in Frameworks */ = {isa = PBXBuildFile; productRef = 958422ED26BC3D480084D319 /* Haptic */; };
 		958648FB251E11130081DF08 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FA251E11130081DF08 /* Field.swift */; };
 		958648FC251E11130081DF08 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958648FA251E11130081DF08 /* Field.swift */; };
 		95864905251E11930081DF08 /* SecureToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95864904251E11930081DF08 /* SecureToggleStyle.swift */; };
@@ -172,6 +174,7 @@
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95D211D026B91AB8009EE274 /* Event in Frameworks */ = {isa = PBXBuildFile; productRef = 95D211CF26B91AB8009EE274 /* Event */; };
+		95F5ECAF26BC26A0008CF944 /* Development.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9583624724D1643700C10BBB /* Development.xcassets */; };
 		95F7102B26B915EF003C8CF6 /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F7102A26B915EF003C8CF6 /* Production.xcassets */; };
 		95F7102C26B91604003C8CF6 /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F7102A26B915EF003C8CF6 /* Production.xcassets */; };
 		95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
@@ -277,6 +280,7 @@
 		9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemState.swift; sourceTree = "<group>"; };
 		9583BDDD26AB0105003BE064 /* SecureItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemState.swift; sourceTree = "<group>"; };
 		9583BDE426AB0749003BE064 /* SecureItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureItemView.swift; sourceTree = "<group>"; };
+		958422E926BC3B1A0084D319 /* Haptic */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Haptic; sourceTree = "<group>"; };
 		95842D4D256FAB180080711C /* CredentialProviderInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = CredentialProviderInfo.plist; sourceTree = "<group>"; };
 		95842D4E256FAB180080711C /* CredentialProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CredentialProvider.entitlements; sourceTree = "<group>"; };
 		95842D6B256FBE2B0080711C /* QuickAccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessView.swift; sourceTree = "<group>"; };
@@ -293,8 +297,8 @@
 		9586495A251E24A60081DF08 /* BankAccountField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankAccountField.swift; sourceTree = "<group>"; };
 		9588438825397F3100732E35 /* PasswordGeneratorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorView.swift; sourceTree = "<group>"; };
 		9593E8F7268C8CC5000FCC0F /* PasswordGeneratorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorState.swift; sourceTree = "<group>"; };
-		959A0F1F26BBB5DF00E472EF /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		959A0F2026BBB5DF00E472EF /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		959A0F1F26BBB5DF00E472EF /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		959A0F2026BBB5DF00E472EF /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		959E5825257FDFB000E09777 /* LoginCredentialField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialField.swift; sourceTree = "<group>"; };
 		95ADC33F2684CA5D00BE3DFF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
@@ -326,6 +330,7 @@
 				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
 				953F1A4E269F6CC0006856E0 /* Configuration in Frameworks */,
 				95BB620A26B919E70050F78C /* Event in Frameworks */,
+				958422EE26BC3D480084D319 /* Haptic in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
 				95ADC33826849ED800BE3DFF /* Model in Frameworks */,
@@ -346,6 +351,7 @@
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
 				95D211D026B91AB8009EE274 /* Event in Frameworks */,
+				958422EC26BC3D400084D319 /* Haptic in Frameworks */,
 				95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */,
 				95ADC33A26849EE200BE3DFF /* Model in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
@@ -497,6 +503,7 @@
 				951F23922547321500949362 /* Crypto */,
 				95BB620726B918E20050F78C /* Event */,
 				953851102563E73600C305F2 /* Format */,
+				958422E926BC3B1A0084D319 /* Haptic */,
 				953D8E5626849EB400E80B55 /* Model */,
 				95DF89D6252B038300882F52 /* Pasteboard */,
 				9521CE3A26B5B80E0023F415 /* Persistence */,
@@ -515,8 +522,6 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				959A0F1F26BBB5DF00E472EF /* Vault.app */,
-				959A0F2026BBB5DF00E472EF /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -563,6 +568,7 @@
 				95C07B3C26B53E7500E3D4DA /* Shim */,
 				9521CE3C26B5B85A0023F415 /* Persistence */,
 				95BB620926B919E70050F78C /* Event */,
+				958422ED26BC3D480084D319 /* Haptic */,
 			);
 			productName = iOS;
 			productReference = 959A0F1F26BBB5DF00E472EF /* Vault.app */;
@@ -596,6 +602,7 @@
 				95C07B3E26B53E7C00E3D4DA /* Shim */,
 				9521CE3E26B5B8610023F415 /* Persistence */,
 				95D211CF26B91AB8009EE274 /* Event */,
+				958422EB26BC3D400084D319 /* Haptic */,
 			);
 			productName = macOS;
 			productReference = 959A0F2026BBB5DF00E472EF /* Vault.app */;
@@ -653,6 +660,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				95F7102B26B915EF003C8CF6 /* Production.xcassets in Resources */,
+				95F5ECAF26BC26A0008CF944 /* Development.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1128,6 +1136,14 @@
 		9578388326A9C6F700EC863A /* Resource */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Resource;
+		};
+		958422EB26BC3D400084D319 /* Haptic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Haptic;
+		};
+		958422ED26BC3D480084D319 /* Haptic */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Haptic;
 		};
 		95AA68DA2565420E00616D56 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -27,6 +27,17 @@ class SetupState: ObservableObject {
         }
     }
     
+    var isNextButtonEnabled: Bool {
+        switch step {
+        case .choosePassword:
+            return !password.isEmpty
+        case .repeatPassword:
+            return !repeatedPassword.isEmpty
+        case .enableBiometricUnlock, .completeSetup:
+            return true
+        }
+    }
+    
     func back() async {
         direction = .backward
         setupError = nil

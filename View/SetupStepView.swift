@@ -53,8 +53,6 @@ extension SetupStepView where Content == EmptyView {
 #if DEBUG
 struct SetupStepViewPreview: PreviewProvider {
     
-    @State static var password = ""
-    
     static var previews: some View {
         SetupStepView(image: "Placeholder", title: "foo", description: "bar") {
             Text("baz")
