@@ -1,4 +1,3 @@
-import Resource
 import Pasteboard
 import SwiftUI
 
@@ -9,7 +8,7 @@ struct SecureToggleStyle: ToggleStyle {
             configuration.label
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Image(systemName: SFSymbol.eye)
+            Image(systemName: .eyeSymbol)
                 .symbolVariant(configuration.isOn ? .none : .slash)
                 .foregroundColor(.accentColor)
                 .padding()

@@ -1,5 +1,4 @@
 import SwiftUI
-import Resource
 
 @main
 struct App: SwiftUI.App {

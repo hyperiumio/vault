@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 import Model
 
@@ -16,7 +15,7 @@ struct LoginCredentialSelectionView: View {
             Empty {
                 
             }
-        case .value(let collation):
+        case let .value(collation):
             Value(collation)
                 .searchable(text: $state.searchText)
         }
@@ -36,7 +35,7 @@ extension LoginCredentialSelectionView {
         
         var body: some View {
             VStack(spacing: 30) {
-                Text(Localized.emptyVault)
+                Text(.emptyVault)
                     .font(.title)
             }
         }
@@ -53,7 +52,7 @@ extension LoginCredentialSelectionView {
         
         var body: some View {
             if collation.sections.isEmpty {
-                Text(Localized.noResultsFound)
+                Text(.noResultsFound)
                     .font(.title)
             } else {
                 List {

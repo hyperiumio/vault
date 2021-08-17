@@ -2,14 +2,14 @@ import SwiftUI
 
 struct MessageButtonStyle: ButtonStyle {
     
-    let text: String
+    let textKey: LocalizedStringKey
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
             .contentShape(Rectangle())
             .overlay {
-                Text(text)
+                Text(textKey)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.accentColor)
                     .foregroundStyle(.white)
@@ -23,8 +23,8 @@ struct MessageButtonStyle: ButtonStyle {
 
 extension ButtonStyle where Self == MessageButtonStyle {
     
-    static func message(_ text: String) -> Self {
-        Self(text: text)
+    static func message(_ textKey: LocalizedStringKey) -> Self {
+        Self(textKey: textKey)
     }
     
 }

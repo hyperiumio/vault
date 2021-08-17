@@ -11,21 +11,21 @@ struct SecureItemField: View {
     
     var body: some View {
         switch item {
-        case .password(let passwordItem):
+        case let .password(passwordItem):
             PasswordField(passwordItem)
-        case .login(let loginItem):
+        case let .login(loginItem):
             LoginField(loginItem)
-        case .file(let fileItem):
+        case let .file(fileItem):
             FileField(fileItem)
-        case .note(let noteItem):
+        case let .note(noteItem):
             NoteField(noteItem)
-        case .bankCard(let bankCardItem):
+        case let .bankCard(bankCardItem):
             BankCardField(bankCardItem)
-        case .wifi(let wifiItem):
+        case let .wifi(wifiItem):
             WifiField(wifiItem)
-        case .bankAccount(let bankAccountItem):
+        case let .bankAccount(bankAccountItem):
             BankAccountField(bankAccountItem)
-        case .custom(let customItem):
+        case let .custom(customItem):
             CustomField(customItem)
         }
     }

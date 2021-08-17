@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct WifiInputField: View {
@@ -10,15 +9,15 @@ struct WifiInputField: View {
     }
     
     var body: some View {
-        Field(Localized.name) {
-            TextField(Localized.accountHolder, text: $state.name)
+        Field(.name) {
+            TextField(.accountHolder, text: $state.name)
                 #if os(iOS)
                 .keyboardType(.asciiCapable)
                 #endif
         }
         
-        Field(Localized.password) {
-            SecureField(Localized.password, text: $state.password, prompt: nil)
+        Field(.password) {
+            SecureField(.password, text: $state.password, prompt: nil)
                 .textContentType(.password)
             
             PasswordGeneratorView(state: state.passwordGeneratorState) { password in

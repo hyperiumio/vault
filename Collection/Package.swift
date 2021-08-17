@@ -3,23 +3,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Resource",
-    defaultLocalization: "en",
+    name: "Collection",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Resource",
+            name: "Collection",
             targets: [
-                "Resource"
+                "Collection"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Resource",
+            name: "Collection",
             path: "Sources"
         )
     ]

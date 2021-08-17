@@ -38,10 +38,10 @@ public actor Store {
     public func commit(storeID: UUID, operations: [StoreOperation]) async throws {
         for operation in operations {
             switch operation {
-            case .save(let itemID, let item):
+            case let .save(itemID, item):
                 let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
                 try item.write(to: itemURL)
-            case .delete(let itemID):
+            case let .delete(itemID):
                 let itemURL = resourceLocator.itemURL(storeID: storeID, itemID: itemID)
                 try FileManager.default.removeItem(at: itemURL)
             }

@@ -1,3 +1,4 @@
+import Collection
 import Foundation
 import Model
 
@@ -5,13 +6,33 @@ import Model
 class StoreItemDetailState: ObservableObject, Identifiable {
     
     @Published private(set) var status = Status.initialized
-    
     private let storeItemInfo: StoreItemInfo
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(storeItemInfo: StoreItemInfo, service: AppServiceProtocol) {
         self.storeItemInfo = storeItemInfo
-        self.service = service
+        
+        Task {
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch (input, status) {
+                case (.load, .initialized):
+                    do {
+                        status = .loading
+                        let storeItem = try await service.load(itemID: storeItemInfo.id)
+                        status = .display(storeItem)
+                    } catch {
+                        status = .loadingFailed
+                    }
+                case let (.edit, .display(storeItem)):
+                    let editState = StoreItemEditState(editing: storeItem, service: service)
+                    status = .edit(editState)
+                case let (.cancel, .edit(storeItemEditState)):
+                    status = .display(storeItemEditState.editedStoreItem)
+                default:
+                    continue
+                }
+            }
+        }
     }
     
     var name: String {
@@ -26,36 +47,22 @@ class StoreItemDetailState: ObservableObject, Identifiable {
         storeItemInfo.primaryType
     }
     
-    func load() async {
-        guard case .initialized = status else {
-            return
-        }
-        
-        status = .loading
-        
-        do {
-            let storeItem = try await service.load(itemID: storeItemInfo.id)
-            status = .display(storeItem)
-        } catch {
-            status = .loadingFailed
+    func load() {
+        Task {
+            await inputs.enqueue(.load)
         }
     }
     
     func edit() {
-        guard case .display(let storeItem) = status else {
-            return
+        Task {
+            await inputs.enqueue(.edit)
         }
-        
-        let editState = StoreItemEditState(editing: storeItem, service: service)
-        status = .edit(editState)
     }
     
     func cancelEdit() {
-        guard case .edit(let storeItemEditState) = status else {
-            return
+        Task {
+            await inputs.enqueue(.cancel)
         }
-        
-        status = .display(storeItemEditState.editedStoreItem)
     }
     
 }
@@ -66,9 +73,17 @@ extension StoreItemDetailState {
         
         case initialized
         case loading
+        case loadingFailed
         case display(StoreItem)
         case edit(StoreItemEditState)
-        case loadingFailed
+        
+    }
+    
+    enum Input {
+        
+        case load
+        case edit
+        case cancel
         
     }
     

@@ -11,7 +11,7 @@ class FileItemState: ObservableObject {
         FileItem(value: value)
     }
     
-    required init(item: FileItem? = nil) {
+    init(item: FileItem? = nil) {
         self.value = item?.value
     }
     

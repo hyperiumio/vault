@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct SettingsView: View {
@@ -17,18 +16,18 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    NavigationLink(Localized.changeMasterPassword) {
+                    NavigationLink(.changeMasterPassword) {
                         MasterPasswordSettingsView(state.masterPasswordSettingsState)
                     }
                 } footer: {
-                    Text(Localized.changeMasterPasswordDescription)
+                    Text(.changeMasterPasswordDescription)
                 }
             }
             .toggleStyle(SwitchToggleStyle(tint: .accentColor))
-            .navigationTitle(Localized.settings)
+            .navigationTitle(.settings)
         }
         .task {
-            await state.load()
+            state.load()
         }
     }
     

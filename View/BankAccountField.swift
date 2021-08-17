@@ -1,4 +1,3 @@
-import Resource
 import Format
 import Model
 import Pasteboard
@@ -18,7 +17,7 @@ struct BankAccountField: View {
                 Button {
                     Pasteboard.general.string = accountHolder
                 } label: {
-                    Field(Localized.accountHolder) {
+                    Field(.accountHolder) {
                         Text(accountHolder)
                     }
                 }
@@ -28,7 +27,7 @@ struct BankAccountField: View {
                 Button {
                     Pasteboard.general.string = iban
                 } label: {
-                    Field(Localized.iban) {
+                    Field(.iban) {
                         Text(iban, format: .bankAccountNumber)
                             .font(.body.monospaced())
                     }
@@ -39,14 +38,14 @@ struct BankAccountField: View {
                 Button {
                     Pasteboard.general.string = bic
                 } label: {
-                    Field(Localized.bic) {
+                    Field(.bic) {
                         Text(bic)
                             .font(.body.monospaced())
                     }
                 }
             }
         }
-        .buttonStyle(.message(Localized.copied))
+        .buttonStyle(.message(.copied))
     }
     
 }

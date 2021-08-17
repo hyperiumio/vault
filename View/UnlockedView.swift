@@ -1,4 +1,3 @@
-import Resource
 import Model
 import SwiftUI
 
@@ -19,7 +18,7 @@ struct UnlockedView: View {
                     EmptyStoreView()
                 case .noSearchResults:
                     NoSearchResults()
-                case .items(let collation):
+                case let .items(collation):
                     StoreItemList(collation)
                         .searchable(text: $state.searchText)
                 }
@@ -29,15 +28,13 @@ struct UnlockedView: View {
                     Button {
                         state.showSettings()
                     } label: {
-                        Image(systemName: SFSymbol.sliderHorizontal3)
+                        Image(systemName: .sliderHorizontal3Symbol)
                     }
                     
                     Button {
-                        Task {
-                            await state.lock()
-                        }
+                        state.lock()
                     } label: {
-                        Image(systemName: SFSymbol.lock)
+                        Image(systemName: .lockSymbol)
                     }
                 }
                 
@@ -47,16 +44,16 @@ struct UnlockedView: View {
                             state.showCreateItemSheet(itemType: itemType)
                         }
                     } label: {
-                        Image(systemName: SFSymbol.plus)
+                        Image(systemName: .plusSymbol)
                     }
                 }
             }
         }
         .sheet(item: $state.sheet) { sheet in
             switch sheet {
-            case .settings(let state):
+            case let .settings(state):
                 SettingsView(state)
-            case .createItem(let state):
+            case let .createItem(state):
                 CreateItemView(state)
             }
         }
@@ -72,7 +69,7 @@ struct UnlockedView: View {
                     EmptyStoreView()
                 case .noSearchResults:
                     NoSearchResults()
-                case .items(let collation):
+                case let .items(collation):
                     StoreItemList(collation)
                         .searchable(text: $state.searchText)
                 }
@@ -93,7 +90,7 @@ struct UnlockedView: View {
         }
         .sheet(item: $state.sheet) { sheet in
             switch sheet {
-            case .createItem(let state):
+            case let .createItem(state):
                 CreateItemView(state)
             }
         }
@@ -108,7 +105,7 @@ extension UnlockedView {
     struct EmptyStoreView: View {
         
         var body: some View {
-            Text(Localized.emptyVault)
+            Text(.emptyVault)
                 .font(.title)
         }
         
@@ -117,7 +114,7 @@ extension UnlockedView {
     struct NoSearchResults: View {
         
         var body: some View {
-            Text(Localized.noResultsFound)
+            Text(.noResultsFound)
                 .font(.title)
         }
         

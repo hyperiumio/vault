@@ -37,28 +37,28 @@ class SecureItemState: ObservableObject {
     
     init(secureItem: SecureItem, service: AppServiceProtocol) {
         switch secureItem {
-        case .password(let item):
+        case let .password(item):
             let state = PasswordItemState(item: item, service: service)
             self.value = .password(state)
-        case .login(let item):
+        case let .login(item):
             let state = LoginItemState(item: item, service: service)
             self.value = .login(state)
-        case .file(let item):
+        case let .file(item):
             let state = FileItemState(item: item)
             self.value = .file(state)
-        case .note(let item):
+        case let .note(item):
             let state = NoteItemState(item: item)
             self.value = .note(state)
-        case .bankCard(let item):
+        case let .bankCard(item):
             let state = BankCardItemState(item: item)
             self.value = .bankCard(state)
-        case .wifi(let item):
+        case let .wifi(item):
             let state = WifiItemState(item: item, service: service)
             self.value = .wifi(state)
-        case .bankAccount(let item):
+        case let .bankAccount(item):
             let state = BankAccountItemState(item: item)
             self.value = .bankAccount(state)
-        case .custom(let item):
+        case let .custom(item):
             let state = CustomItemState(item: item)
             self.value = .custom(state)
         }
@@ -66,21 +66,21 @@ class SecureItemState: ObservableObject {
     
     var secureItem: SecureItem {
         switch value {
-        case .login(let state):
+        case let .login(state):
             return .login(state.item)
-        case .password(let state):
+        case let .password(state):
             return .password(state.item)
-        case .file(let state):
+        case let .file(state):
             return .file(state.item)
-        case .note(let state):
+        case let .note(state):
             return .note(state.item)
-        case .bankCard(let state):
+        case let .bankCard(state):
             return .bankCard(state.item)
-        case .wifi(let state):
+        case let .wifi(state):
             return .wifi(state.item)
-        case .bankAccount(let state):
+        case let .bankAccount(state):
             return .bankAccount(state.item)
-        case .custom(let state):
+        case let .custom(state):
             return .custom(state.item)
         }
     }

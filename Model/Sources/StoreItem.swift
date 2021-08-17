@@ -24,25 +24,25 @@ public struct StoreItem: Equatable {
             let formatter = DateFormatter()
             formatter.dateStyle = .short
             return formatter.string(from: modified)
-        case .login(let item):
+        case let .login(item):
             return item.username
-        case .file(let item):
+        case let .file(item):
             guard let count = item.value?.data.count, let byteCount = Int64(exactly: count) else {
                 return nil
             }
             return ByteCountFormatter.string(fromByteCount: byteCount, countStyle: .binary)
-        case .note(let item):
+        case let .note(item):
             let firstLine = item.text.map { text in
                 text.components(separatedBy: .newlines)
             }?.first
             return firstLine?.isEmpty == true ? nil : firstLine
-        case .bankCard(let item):
+        case let .bankCard(item):
             return item.name
-        case .wifi(let item):
+        case let .wifi(item):
             return item.name
-        case .bankAccount(let item):
+        case let .bankAccount(item):
             return item.accountHolder
-        case .custom(let item):
+        case let .custom(item):
             return item.description
         }
     }

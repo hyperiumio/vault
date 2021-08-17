@@ -1,3 +1,4 @@
+import Collection
 import Foundation
 
 @MainActor
@@ -7,10 +8,23 @@ class MasterPasswordSettingsState: ObservableObject {
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.ready
     
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(service: AppServiceProtocol) {
-        self.service = service
+        Task {
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch input {
+                case let .changeMasterPassword(password):
+                    do {
+                        status = .loading
+                        try await service.changeMasterPassword(to: password)
+                        status = .success
+                    } catch {
+                        status = .failure
+                    }
+                }
+            }
+        }
     }
     
     var isButtonDisabled: Bool {
@@ -25,14 +39,10 @@ class MasterPasswordSettingsState: ObservableObject {
         status == .loading
     }
     
-    func changeMasterPassword() async {
-        status = .loading
-        
-        do {
-            try await service.changeMasterPassword(to: password)
-            status = .success
-        } catch {
-            status = .failure
+    func changeMasterPassword() {
+        let input = Input.changeMasterPassword(password: password)
+        Task {
+            await inputs.enqueue(input)
         }
     }
     
@@ -46,6 +56,12 @@ extension MasterPasswordSettingsState {
         case loading
         case failure
         case success
+        
+    }
+    
+    enum Input {
+        
+        case changeMasterPassword(password: String)
         
     }
     

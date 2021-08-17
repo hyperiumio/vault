@@ -1,5 +1,4 @@
 import Model
-import Resource
 import SwiftUI
 
 struct CreateItemView: View {
@@ -18,13 +17,13 @@ struct CreateItemView: View {
                 Section {
                     SecureItemView(state.primaryItem)
                 } header: {
-                    TextField(Localized.title, text: $state.title)
+                    TextField(.title, text: $state.title)
                         .textCase(.none)
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(Localized.cancel) {
+                    Button(.cancel) {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
@@ -37,11 +36,9 @@ struct CreateItemView: View {
                 }
                 
                 ToolbarItem(placement: .primaryAction) {
-                    Button(Localized.save) {
-                        Task {
-                            await state.save()
-                            presentationMode.wrappedValue.dismiss()
-                        }
+                    Button(.save) {
+                        state.save()
+                        presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
@@ -55,20 +52,20 @@ struct CreateItemView: View {
             Section {
                 SecureItemView(state.primaryItem)
             } header: {
-                TextField(Localized.title, text: $state.title)
+                TextField(.title, text: $state.title)
                     .textCase(.none)
             }
         }
         .frame(minWidth: 400, minHeight: 300)
         .toolbar {
             ToolbarItem(placement: .cancellationAction) {
-                Button(Localized.cancel) {
+                Button(.cancel) {
                     presentationMode.wrappedValue.dismiss()
                 }
             }
             
             ToolbarItem(placement: .confirmationAction) {
-                Button(Localized.save) {
+                Button(.save) {
                     Task {
                         await state.save()
                         presentationMode.wrappedValue.dismiss()

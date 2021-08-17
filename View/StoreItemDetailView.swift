@@ -1,4 +1,3 @@
-import Resource
 import Shim
 import SwiftUI
 
@@ -18,22 +17,22 @@ struct StoreItemDetailView: View {
                     .ignoresSafeArea()
             case .loading:
                 ProgressView()
-            case .display(let storeItem):
+            case let .display(storeItem):
                 StoreItemDisplayView(storeItem.name, primaryItem: storeItem.primaryItem, secondaryItems: storeItem.secondaryItems, created: storeItem.created, modified: storeItem.modified) {
                     state.edit()
                 }
-            case .edit(let editState):
+            case let .edit(editState):
                 StoreItemEditView(editState) {
                     state.cancelEdit()
                 }
             case .loadingFailed:
-                FailureView(Localized.loadingVaultFailed) {
-                    await state.load()
+                FailureView(.loadingVaultFailed) {
+                    state.load()
                 }
             }
         }
         .task {
-            await state.load()
+            state.load()
         }
     }
     

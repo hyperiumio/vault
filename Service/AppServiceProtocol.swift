@@ -1,9 +1,10 @@
+import Combine
 import Foundation
 import Model
 
 protocol AppServiceProtocol {
     
-    var events: AsyncStream<AppEvent> { get async }
+    var output: AsyncPublisher<PassthroughSubject<AppService.Output, Never>> { get }
     var didCompleteSetup: Bool { get async throws }
     var availableBiometry: BiometryType? { get async }
     var isBiometricUnlockEnabled: Bool { get async }

@@ -1,17 +1,17 @@
 import Configuration
 import Crypto
-import Event
 import Foundation
 import Model
 import Preferences
 import Persistence
+import Combine
 
 actor AppService: AppServiceProtocol {
     
     private let defaults: Defaults
     private let cryptor: Cryptor
     private let store: Store
-    private var eventPublisher = EventPublisher<AppEvent>()
+    private let outputPublisher = PassthroughSubject<Output, Never>()
     
     init() {
         let userDefaults = UserDefaults.standard // use shared user defaults
@@ -21,10 +21,8 @@ actor AppService: AppServiceProtocol {
         self.store = Store(containerDirectory: Configuration.storeDirectory)
     }
     
-    var events: AsyncStream<AppEvent> {
-        get async {
-            await eventPublisher.events
-        }
+    nonisolated var output: AsyncPublisher<PassthroughSubject<AppService.Output, Never>> {
+        outputPublisher.values
     }
     
     var didCompleteSetup: Bool {
@@ -56,7 +54,7 @@ actor AppService: AppServiceProtocol {
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
         
-        await eventPublisher.send(.unlock)
+        outputPublisher.send(.didUnlock)
     }
     
     func unlockWithBiometry() async throws {
@@ -65,12 +63,12 @@ actor AppService: AppServiceProtocol {
         }
         try await cryptor.unlockWithBiometry(id: storeID)
         
-        await eventPublisher.send(.unlock)
+        outputPublisher.send(.didUnlock)
     }
     
     func lock() async {
         await cryptor.lock()
-        await eventPublisher.send(.lock)
+        outputPublisher.send(.didLock)
     }
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
@@ -85,11 +83,11 @@ actor AppService: AppServiceProtocol {
     
     func save(isBiometricUnlockEnabled: Bool) async {
         await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-        await eventPublisher.send(.defaultsDidChange)
+        outputPublisher.send(.defaultsDidChange)
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
-        await eventPublisher.send(.storeDidChange)
+        outputPublisher.send(.storeDidChange)
     }
     
     func isPasswordSecure(_ password: String) async -> Bool {
@@ -104,7 +102,7 @@ actor AppService: AppServiceProtocol {
         await defaults.set(activeStoreID: storeID)
         try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
         
-        await eventPublisher.send(.setupComplete)
+        outputPublisher.send(.setupComplete)
     }
     
     func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
@@ -178,7 +176,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        await eventPublisher.send(.storeDidChange)
+        outputPublisher.send(.storeDidChange)
     }
     
     func delete(itemID: UUID) async throws {
@@ -191,18 +189,22 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        await eventPublisher.send(.storeDidChange)
+        outputPublisher.send(.storeDidChange)
     }
     
 }
 
 extension AppService {
     
-    static let shared = AppService()
-    
-}
-
-extension AppService {
+    enum Output {
+        
+        case storeDidChange
+        case defaultsDidChange
+        case didLock
+        case didUnlock
+        case setupComplete
+        
+    }
     
     enum Error: Swift.Error {
         
@@ -213,7 +215,11 @@ extension AppService {
     
 }
 
-extension UserDefaults: PersistenceProvider {}
+extension AppService {
+    
+    static let shared = AppService()
+    
+}
 
 extension AppServiceProtocol where Self == AppService {
     
@@ -223,11 +229,13 @@ extension AppServiceProtocol where Self == AppService {
     
 }
 
+extension UserDefaults: PersistenceProvider {}
+
 #if DEBUG
 struct AppServiceStub: AppServiceProtocol {
     
-    var events: AsyncStream<AppEvent> {
-        AsyncStream { _ in }
+    nonisolated var output: AsyncPublisher<PassthroughSubject<AppService.Output, Never>> {
+        PassthroughSubject<AppService.Output, Never>().values
     }
     
     var didCompleteSetup: Bool {

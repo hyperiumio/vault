@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct NoteInputField: View {
@@ -10,7 +9,7 @@ struct NoteInputField: View {
     }
     
     var body: some View {
-        Field(Localized.note) {
+        Field(.note) {
             TextEditor(text: $state.text)
         }
     }

@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct LockedView: View {
@@ -11,20 +10,16 @@ struct LockedView: View {
     
     var body: some View {
         VStack {
-            MasterPasswordField(Localized.masterPassword, text: $state.password) {
-                Task {
-                    await state.unlock(with: .password)
-                }
+            MasterPasswordField(.masterPassword, text: $state.password) {
+                state.unlockWithPassword()
             }
             .disabled(state.status == .unlocking)
             .frame(maxWidth: 300)
             
             switch state.biometryType {
-            case .some(let biometryType):
+            case let .some(biometryType):
                 Button {
-                    Task {
-                        await state.unlock(with: .biometry)
-                    }
+                    state.unlockWihtBiometry()
                 } label: {
                     Image(systemName: biometryType.symbolName)
                         .resizable()
@@ -38,7 +33,7 @@ struct LockedView: View {
             }
         }
         .task {
-            await state.fetchKeychainAvailability()
+            state.fetchKeychainAvailability()
         }
     }
     
@@ -49,9 +44,9 @@ private extension BiometryType {
     var symbolName: String {
         switch self {
         case .touchID:
-            return SFSymbol.touchid
+            return .touchidSymbol
         case .faceID:
-            return SFSymbol.faceid
+            return .faceidSymbol
         }
     }
     

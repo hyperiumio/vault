@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct QuickAccessView: View {
@@ -21,26 +20,24 @@ struct QuickAccessView: View {
                 case .loading:
                     ProgressView()
                 case .loadingFailed:
-                    FailureView(Localized.loadingVaultFailed) {
-                        Task {
-                            await state.load()
-                        }
+                    FailureView(.loadingVaultFailed) {
+                        state.load()
                     }
-                case .locked(let state):
+                case let .locked(state):
                     LockedView(state)
-                case .unlocked(let state):
+                case let .unlocked(state):
                     LoginCredentialSelectionView(state)
                 }
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button(Localized.cancel) {
+                    Button(.cancel) {
                         cancel()
                     }
                 }
             }
             .task {
-                await state.load()
+                state.load()
             }
         }
     }

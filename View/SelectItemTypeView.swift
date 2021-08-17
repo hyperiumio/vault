@@ -1,5 +1,4 @@
 import Model
-import Resource
 import SwiftUI
 
 struct SelectItemTypeView: View {

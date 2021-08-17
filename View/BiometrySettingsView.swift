@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct BiometrySettingsView: View {
@@ -13,15 +12,15 @@ struct BiometrySettingsView: View {
         switch state.biometryType {
         case .touchID:
             Section {
-                Toggle(Localized.useTouchID, isOn: $state.isBiometricUnlockEnabled)
+                Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
             } footer: {
-                Text(Localized.touchIDDescription)
+                Text(.touchIDDescription)
             }
         case .faceID:
             Section {
-                Toggle(Localized.useFaceID, isOn: $state.isBiometricUnlockEnabled)
+                Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
             } footer: {
-                Text(Localized.faceIDDescription)
+                Text(.faceIDDescription)
             }
         }
     }

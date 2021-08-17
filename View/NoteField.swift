@@ -1,4 +1,3 @@
-import Resource
 import Model
 import Pasteboard
 import SwiftUI
@@ -16,11 +15,11 @@ struct NoteField: View {
             Button {
                 Pasteboard.general.string = text
             } label: {
-                Field(Localized.note) {
+                Field(.note) {
                     Text(text)
                 }
             }
-            .buttonStyle(.message(Localized.copied))
+            .buttonStyle(.message(.copied))
         }
         
     }

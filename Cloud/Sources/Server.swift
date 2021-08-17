@@ -32,13 +32,13 @@ public struct Server {
         var recordIDsToDelete = [CKRecord.ID]()
         for operation in transaction {
             switch operation {
-            case .saveVault(let vault):
+            case let .saveVault(vault):
                 let record = vault.record(inRecordZoneWith: zone.zoneID)
                 recordsToSave.append(record)
-            case .saveVaultItem(let vaulItem):
+            case let .saveVaultItem(vaulItem):
                 let record = vaulItem.record(inRecordZoneWith: zone.zoneID)
                 recordsToSave.append(record)
-            case .deleteVault(let id), .deleteVaultItem(let id):
+            case let .deleteVault(id), let .deleteVaultItem(id):
                 let id = CKRecord.ID(recordName: id.uuidString, zoneID: zone.zoneID)
                 recordIDsToDelete.append(id)
             }
@@ -50,10 +50,10 @@ public struct Server {
         try await withCheckedThrowingContinuation { continuation in
             container.privateCloudDatabase.fetchRecordZoneChanges(inZoneWith: zone.zoneID, since: changeToken?.zoneChangeToken) { result in
                 switch result {
-                case .success(let response):
+                case let .success(response):
                     let changeSet = ChangeSet(modificationResultsByID: response.modificationResultsByID, deletions: response.deletions, changeToken: response.changeToken)
                     continuation.resume(returning: changeSet)
-                case .failure(let error):
+                case let .failure(error):
                     continuation.resume(throwing: error)
                 }
             }

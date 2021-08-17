@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct MasterPasswordSettingsView: View {
@@ -13,11 +12,11 @@ struct MasterPasswordSettingsView: View {
     var body: some View {
         Form {
             Section {
-                SecureField(Localized.newMasterPassword, text: $state.password, prompt: nil)
+                SecureField(.newMasterPassword, text: $state.password, prompt: nil)
                     .focused($focusedField, equals: .newMasterPassword)
                     .submitLabel(.next)
                     
-                SecureField(Localized.repeatMasterPassword, text: $state.repeatedPassword, prompt: nil)
+                SecureField(.repeatMasterPassword, text: $state.repeatedPassword, prompt: nil)
                     .focused($focusedField, equals: .repeatMasterPassword)
                     .submitLabel(.next)
             }
@@ -33,10 +32,8 @@ struct MasterPasswordSettingsView: View {
             }
             
             Section {
-                Button(Localized.changeMasterPassword, role: .destructive) {
-                    Task {
-                        await state.changeMasterPassword()
-                    }
+                Button(.changeMasterPassword, role: .destructive) {
+                    state.changeMasterPassword()
                 }
                 .disabled(state.isButtonDisabled)
             } footer: {
@@ -47,7 +44,7 @@ struct MasterPasswordSettingsView: View {
                 }
             }
         }
-        .navigationTitle(Localized.changeMasterPassword)
+        .navigationTitle(.changeMasterPassword)
         .disabled(state.isInputDisabled)
         .onAppear {
             focusedField = .newMasterPassword

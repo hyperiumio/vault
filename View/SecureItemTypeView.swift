@@ -1,5 +1,4 @@
 import Model
-import Resource
 import SwiftUI
 
 struct SecureItemTypeView: View {
@@ -14,21 +13,21 @@ struct SecureItemTypeView: View {
         Group {
             switch itemType {
             case .login:
-                Label(Localized.login, systemImage: SFSymbol.person)
+                Label(.login, systemImage: .personSymbol)
             case .password:
-                Label(Localized.password, systemImage: SFSymbol.key)
+                Label(.password, systemImage: .keySymbol)
             case .wifi:
-                Label(Localized.wifi, systemImage: SFSymbol.wifi)
+                Label(.wifi, systemImage: .wifiSymbol)
             case .note:
-                Label(Localized.note, systemImage: SFSymbol.noteText)
+                Label(.note, systemImage: .noteTextSymbol)
             case .bankCard:
-                Label(Localized.bankCard, systemImage: SFSymbol.creditcard)
+                Label(.bankCard, systemImage: .creditcardSymbol)
             case .bankAccount:
-                Label(Localized.bankAccount, systemImage: SFSymbol.dollarsign)
+                Label(.bankAccount, systemImage: .dollarsignSymbol)
             case .custom:
-                Label(Localized.custom, systemImage: SFSymbol.scribbleVariable)
+                Label(.custom, systemImage: .scribbleVariableSymbol)
             case .file:
-                Label(Localized.file, systemImage: SFSymbol.paperclip)
+                Label(.file, systemImage: .paperclipSymbol)
             }
         }
         .symbolVariant(.fill)

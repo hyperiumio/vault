@@ -1,4 +1,3 @@
-import Resource
 import Model
 import SwiftUI
 
@@ -33,7 +32,7 @@ struct StoreItemDisplayView: View {
         }
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button(Localized.edit, action: edit)
+                Button(.edit, action: edit)
             }
         }
     }

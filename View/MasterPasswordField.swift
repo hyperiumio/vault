@@ -1,28 +1,27 @@
-import Resource
 import SwiftUI
 
 struct MasterPasswordField: View {
     
-    private let title: String
+    private let titleKey: LocalizedStringKey
     private let text: Binding<String>
     private let action: () -> Void
     
-    init(_ title: String, text: Binding<String>, action: @escaping () -> Void) {
-        self.title = title
+    init(_ titleKey: LocalizedStringKey, text: Binding<String>, action: @escaping () -> Void) {
+        self.titleKey = titleKey
         self.text = text
         self.action = action
     }
     
     var body: some View {
         HStack(spacing: 0) {
-            SecureField(Localized.title, text: text, prompt: nil)
+            SecureField(.title, text: text, prompt: nil)
                 .font(.title2)
                 .textFieldStyle(.plain)
                 .padding()
                 .submitLabel(.continue)
             
             Button(action: action) {
-                Image(systemName: SFSymbol.lock)
+                Image(systemName: .lockSymbol)
                     .imageScale(.large)
                     .foregroundColor(.white)
                     .padding()

@@ -1,4 +1,3 @@
-import Resource
 import Model
 import SwiftUI
 

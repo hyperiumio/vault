@@ -36,7 +36,7 @@ extension FileItem: SecureItemValue {
             self.value = nil
         case (nil, _):
             throw ModelError.invalidDataSize
-        case (let type?, _):
+        case let (type?, _):
             guard let type = UTType(type) else {
                 throw ModelError.decodingFailed
             }

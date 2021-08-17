@@ -1,6 +1,6 @@
+import Collection
 import Foundation
 import Model
-import Shim
 import Sort
 
 @MainActor
@@ -10,16 +10,30 @@ class UnlockedState: ObservableObject {
     @Published var searchText: String = ""
     @Published var sheet: Sheet?
     
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(service: AppServiceProtocol) {
-        self.service = service
+        Task {
+            for await output in service.output {
+                switch output {
+                case .storeDidChange:
+                    await inputs.enqueue(.reload)
+                default:
+                    continue
+                }
+            }
+        }
         
         Task {
-            for await event in await service.events {
-                do {
-                    switch event {
-                    case .storeDidChange:
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch input {
+                case let .createItem(itemType):
+                    let state = CreateItemState(itemType: itemType, service: service)
+                    sheet = .createItem(state)
+                case .lock:
+                    await service.lock()
+                case .reload:
+                    do {
                         let states = try await service.loadInfos().map { info in
                             StoreItemDetailState(storeItemInfo: info, service: service)
                         }
@@ -27,30 +41,38 @@ class UnlockedState: ObservableObject {
                             state.name
                         }
                         status = .items(collation)
-                    default:
-                        continue
                     }
-                }
-                catch {
-                    
+                    catch {
+                        
+                    }
+                #if os(iOS)
+                case .settings:
+                    let state = SettingsState(service: service)
+                    sheet = .settings(state)
+                #endif
                 }
             }
         }
     }
     
     func showCreateItemSheet(itemType: SecureItemType) {
-        let state = CreateItemState(itemType: itemType, service: service)
-        sheet = .createItem(state)
+        let input = Input.createItem(itemType: itemType)
+        Task {
+            await inputs.enqueue(input)
+        }
     }
     
-    func lock() async {
-        await service.lock()
+    func lock() {
+        Task {
+            await inputs.enqueue(.lock)
+        }
     }
     
     #if os(iOS)
     func showSettings() {
-        let state = SettingsState(service: service)
-        sheet = .settings(state)
+        Task {
+            await inputs.enqueue(.settings)
+        }
     }
     #endif
     
@@ -68,45 +90,39 @@ extension UnlockedState {
         
     }
     
-    #if os(iOS)
-    enum Sheet {
+    enum Input {
         
-        case settings(SettingsState)
-        case createItem(CreateItemState)
+        case createItem(itemType: SecureItemType)
+        case lock
+        case settings
+        case reload
         
     }
-    #endif
     
-    #if os(macOS)
+    
     enum Sheet {
         
         case createItem(CreateItemState)
+        #if os(iOS)
+        case settings(SettingsState)
+        #endif
         
     }
-    #endif
     
 }
 
 extension UnlockedState.Sheet: Identifiable {
     
-    #if os(iOS)
+   
     var id: String {
         switch self {
+        case .createItem:
+            return "CreateItem"
+        #if os(iOS)
         case .settings:
             return "Settings"
-        case .createItem:
-            return "CreateItem"
+        #endif
         }
     }
-    #endif
-    
-    #if os(macOS)
-    var id: String {
-        switch self {
-        case .createItem:
-            return "CreateItem"
-        }
-    }
-    #endif
     
 }

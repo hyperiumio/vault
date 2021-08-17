@@ -1,5 +1,3 @@
-import Haptic
-import Resource
 import SwiftUI
 
 struct SetupView: View {
@@ -15,15 +13,13 @@ struct SetupView: View {
         VStack(spacing: 0) {
             HStack {
                 if state.isBackButtonVisible {
-                    Image(systemName: SFSymbol.chevronBackward)
+                    Image(systemName: .chevronBackwardSymbol)
                         .font(.title)
                         .symbolVariant(.circle)
                         .foregroundColor(.accentColor)
                         .padding()
                         .onTapGesture {
-                            Task {
-                                await state.back()
-                            }
+                            state.back()
                         }
                         .transition(.backButton)
                 }
@@ -34,66 +30,19 @@ struct SetupView: View {
             
             Group {
                 switch state.step {
-                case .choosePassword:
-                    SetupStepView(image: "Placeholder", title: Localized.chooseMasterPassword, description: Localized.chooseMasterPasswordDescription) {
-                        SecureField(Localized.enterMasterPassword, text: $state.password)
-                            .font(.title2)
-                            .textFieldStyle(.plain)
-                            .textContentType(.oneTimeCode)
-                            .focused($isPasswordFieldFocused)
-                    }
-                case .repeatPassword:
-                    SetupStepView(image: "Placeholder", title: Localized.repeatMasterPassword, description: Localized.repeatMasterPasswordDescription) {
-                        SecureField(Localized.enterMasterPassword, text: $state.repeatedPassword)
-                            .font(.title2)
-                            .textFieldStyle(.plain)
-                            .textContentType(.oneTimeCode)
-                    }
-                case .enableBiometricUnlock(let biometryType):
-                    SetupStepView(image: "Placeholder", title: biometryType.title, description: biometryType.description) {
-                        Toggle("bar", isOn: $state.isBiometricUnlockEnabled)
-                            .toggleStyle(.switch)
-                            .tint(.accentColor)
-                    }
-                case .completeSetup:
-                    SetupStepView(image: "Placeholder", title: Localized.setupComplete, description: Localized.setupComplete)
-                        .task {
-                            HapticFeedback.shared.play(.success)
-                        }
+                case let .choosePassword(state):
+                    MasterPasswordSetupView(state)
+                case let .repeatPassword(_, state):
+                    RepeatMasterPasswordSetupView(state)
+                case let .biometricUnlock(_, _, state):
+                    BiometrySetupView(state)
+                case let .completeSetup(_, _, _, state):
+                    CompleteSetupView(state)
                 }
             }
             .padding(.horizontal)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
             .transition(state.direction.transition)
             .animation(.easeInOut, value: state.step)
-            
-            Button {
-                isPasswordFieldFocused = false
-                
-                Task {
-                    await state.next()
-                }
-            } label: {
-                Text(state.step.title)
-                    .frame(maxWidth: 400)
-            }
-            .controlSize(.large)
-            .buttonStyle(.borderedProminent)
-            .disabled(!state.isNextButtonEnabled)
-            .padding()
-        }
-    }
-    
-}
-
-private extension SetupState.Step {
-    
-    var title: String {
-        switch self {
-        case .choosePassword, .repeatPassword, .enableBiometricUnlock:
-            return Localized.continue
-        case .completeSetup:
-            return Localized.setupComplete
         }
     }
     
@@ -107,28 +56,6 @@ private extension SetupState.Direction {
             return .forward
         case .backward:
             return .backward
-        }
-    }
-    
-}
-
-private extension BiometryType {
-    
-    var description: String {
-        switch self {
-        case .touchID:
-            return Localized.unlockWithTouchIDDescription
-        case .faceID:
-            return Localized.unlockWithFaceIDDescription
-        }
-    }
-    
-    var title: String {
-        switch self {
-        case .touchID:
-            return Localized.enableTouchIDUnlock
-        case .faceID:
-            return Localized.enableFaceIDUnlock
         }
     }
     

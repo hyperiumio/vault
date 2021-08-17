@@ -1,42 +1,58 @@
+import Collection
 import Foundation
 
 @MainActor
 class PasswordGeneratorState: ObservableObject {
     
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(service: AppServiceProtocol) {
-        self.service = service
+        Task {
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch input {
+                case let .generatePassword(length, digitsEnabled, symbolsEnabled):
+                    password = await service.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
+                }
+            }
+        }
     }
     
     @Published var length = 32 {
         didSet {
-            Task {
-                await generatePassword()
-            }
+            generatePassword()
         }
     }
     
     @Published var digitsEnabled = true {
         didSet {
-            Task {
-                await generatePassword()
-            }
+            generatePassword()
         }
     }
     
     @Published var symbolsEnabled = true {
         didSet {
-            Task {
-                await generatePassword()
-            }
+            generatePassword()
         }
     }
     
     @Published var password = ""
     
-    func generatePassword() async {
-        password = await service.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
+    func generatePassword() {
+        let input = Input.generatePassword(length: length, digitsEnabled: digitsEnabled, symbolsEnabled: symbolsEnabled)
+        Task {
+            await inputs.enqueue(input)
+        }
+    }
+    
+}
+
+
+extension PasswordGeneratorState {
+    
+    enum Input {
+        
+        case generatePassword(length: Int, digitsEnabled: Bool, symbolsEnabled: Bool)
+        
     }
     
 }

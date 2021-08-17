@@ -42,21 +42,21 @@ public enum SecureItem: Equatable {
     
     public var value: SecureItemValue {
         switch self {
-        case .password(let value):
+        case let .password(value):
             return value
-        case .login(let value):
+        case let .login(value):
             return value
-        case .file(let value):
+        case let .file(value):
             return value
-        case .note(let value):
+        case let .note(value):
             return value
-        case .bankCard(let value):
+        case let .bankCard(value):
             return value
-        case .wifi(let value):
+        case let .wifi(value):
             return value
-        case .bankAccount(let value):
+        case let .bankAccount(value):
             return value
-        case .custom(let value):
+        case let .custom(value):
             return value
         }
     }

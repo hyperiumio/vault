@@ -1,3 +1,4 @@
+import Collection
 import Foundation
 import Model
 
@@ -9,27 +10,37 @@ class CreateItemState: ObservableObject {
     @Published private(set) var secondaryItems = [SecureItemState]()
     @Published var createError: Error?
     
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(itemType: SecureItemType, service: AppServiceProtocol) {
         self.primaryItem = SecureItemState(itemType: itemType, service: service)
-        self.service = service
+        
+        Task {
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch input {
+                case let .save(storeItem):
+                    do {
+                        try await service.save(storeItem)
+                    } catch {
+                        createError = .saveDidFail
+                    }
+                }
+            }
+        }
     }
     
-    func save() async {
-        createError = nil
+    func save() {
+        let id = UUID()
+        let name = title
+        let primaryItem = primaryItem.secureItem
+        let secondaryItems = secondaryItems.map(\.secureItem)
+        let created = Date.now
+        let modified = created
+        let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
+        let input = Input.save(storeItem: storeItem)
         
-        do {
-            let id = UUID()
-            let name = title
-            let primaryItem = primaryItem.secureItem
-            let secondaryItems = secondaryItems.map(\.secureItem)
-            let created = Date.now
-            let modified = created
-            let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-            try await service.save(storeItem)
-        } catch {
-            createError = .saveDidFail
+        Task {
+            await inputs.enqueue(input)
         }
     }
     
@@ -40,6 +51,12 @@ extension CreateItemState {
     enum Error: Swift.Error {
         
         case saveDidFail
+        
+    }
+    
+    enum Input {
+        
+        case save(storeItem: StoreItem)
         
     }
     

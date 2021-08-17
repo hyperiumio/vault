@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct DateFooter: View {
@@ -14,11 +13,11 @@ struct DateFooter: View {
     var body: some View {
         VStack(alignment: .title, spacing: 4) {
             if let created = created {
-                DateLabel(Localized.created, date: created)
+                DateLabel(.created, date: created)
             }
 
             if let modified = modified {
-                DateLabel(Localized.modified, date: modified)
+                DateLabel(.modified, date: modified)
             }
         }
         .font(.footnote)
@@ -33,17 +32,17 @@ private extension DateFooter {
     
     struct DateLabel: View {
         
-        private let text: String
+        private let textKey: LocalizedStringKey
         private let date: Date
         
-        init(_ text: String, date: Date) {
-            self.text = text
+        init(_ textKey: LocalizedStringKey, date: Date) {
+            self.textKey = textKey
             self.date = date
         }
         
         var body: some View {
             HStack {
-                Text(text)
+                Text(textKey)
                     .fontWeight(.semibold)
                     .textCase(.uppercase)
                     .alignmentGuide(.title) { dimension in

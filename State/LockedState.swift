@@ -1,5 +1,5 @@
+import Collection
 import Foundation
-import Shim
 
 @MainActor
 class LockedState: ObservableObject {
@@ -8,50 +8,61 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
-    private let service: AppServiceProtocol
+    private let inputs = Queue<Input>()
     
     init(service: AppServiceProtocol) {
-        self.service = service
+        Task {
+            for await input in AsyncStream(unfolding: inputs.dequeue) {
+                switch input {
+                case .fetchKeychainAvailability:
+                    biometryType = await service.availableBiometry
+                case let .unlockWithPassword(password):
+                    do {
+                        status = .unlocking
+                        try await service.unlockWithPassword(password)
+                        status = .unlocked
+                    } catch {
+                        status = .loadingMasterKeyFailed
+                    }
+                case .unlockWithBiometry:
+                    do {
+                        status = .unlocking
+                        try await service.unlockWithBiometry()
+                        status = .unlocked
+                    } catch {
+                        status = .loadingMasterKeyFailed
+                    }
+                }
+            }
+        }
     }
     
     var inputDisabled: Bool {
         status != .locked
     }
     
-    func fetchKeychainAvailability() async {
-        biometryType = await service.availableBiometry
+    func fetchKeychainAvailability() {
+        Task {
+            await inputs.enqueue(.fetchKeychainAvailability)
+        }
     }
     
-    func unlock(with login: Login) async {
-        guard status != .unlocking, status != .unlocked else {
-            return
+    func unlockWithPassword() {
+        Task {
+            let input = Input.unlockWithPassword(password: password)
+            await inputs.enqueue(input)
         }
-        
-        status = .unlocking
-        
-        do {
-            switch login {
-            case .password:
-                try await service.unlockWithPassword(password)
-            case .biometry:
-                try await service.unlockWithBiometry()
-            }
-            status = .unlocked
-        } catch {
-            status = .loadingMasterKeyFailed
+    }
+    
+    func unlockWihtBiometry() {
+        Task {
+            await inputs.enqueue(.unlockWithBiometry)
         }
     }
     
 }
 
 extension LockedState {
-    
-    enum Login {
-        
-        case password
-        case biometry
-        
-    }
     
     enum Status {
         
@@ -60,6 +71,14 @@ extension LockedState {
         case unlocked
         case wrongPassword
         case loadingMasterKeyFailed
+        
+    }
+    
+    enum Input {
+        
+        case fetchKeychainAvailability
+        case unlockWithPassword(password: String)
+        case unlockWithBiometry
         
     }
     

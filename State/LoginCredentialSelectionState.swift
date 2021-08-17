@@ -8,10 +8,8 @@ class LoginCredentialSelectionState: ObservableObject {
     @Published private(set) var status = Status.empty
     @Published var searchText = ""
     
-    private let service: AppServiceProtocol
-    
     init(service: AppServiceProtocol) {
-        self.service = service
+        
     }
     
 }

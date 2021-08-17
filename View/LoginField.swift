@@ -1,4 +1,3 @@
-import Resource
 import Model
 import Pasteboard
 import SwiftUI
@@ -18,7 +17,7 @@ struct LoginField: View {
                 Button {
                     Pasteboard.general.string = username
                 } label: {
-                    Field(Localized.username) {
+                    Field(.username) {
                         Text(username)
                     }
                 }
@@ -29,7 +28,7 @@ struct LoginField: View {
                     Button {
                         Pasteboard.general.string = password
                     } label: {
-                        Field(Localized.password) {
+                        Field(.password) {
                             ConfidentialText(password, isVisible: passwordIsVisisble)
                         }
                     }
@@ -40,13 +39,13 @@ struct LoginField: View {
                 Button {
                     Pasteboard.general.string = url
                 } label: {
-                    Field(Localized.url) {
+                    Field(.url) {
                         Text(url)
                     }
                 }
             }
         }
-        .buttonStyle(.message(Localized.copied))
+        .buttonStyle(.message(.copied))
         .toggleStyle(.secure)
     }
     

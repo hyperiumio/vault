@@ -10,21 +10,21 @@ struct SecureItemView: View {
     
     var body: some View {
         switch state.value {
-        case .login(let loginState):
+        case let .login(loginState):
             LoginInputField(loginState)
-        case .password(let passwordState):
+        case let .password(passwordState):
             PasswordInputField(passwordState)
-        case .file(let fileState):
+        case let .file(fileState):
             FileInputField(fileState)
-        case .note(let noteState):
+        case let .note(noteState):
             NoteInputField(noteState)
-        case .bankCard(let bankCardState):
+        case let .bankCard(bankCardState):
             BankCardInputField(bankCardState)
-        case .wifi(let wifiState):
+        case let .wifi(wifiState):
             WifiInputField(wifiState)
-        case .bankAccount(let bankAccountState):
+        case let .bankAccount(bankAccountState):
             BankAccountInputField(bankAccountState)
-        case .custom(let customState):
+        case let .custom(customState):
             CustomInputField(customState)
         }
     }

@@ -1,4 +1,3 @@
-import Resource
 import SwiftUI
 
 struct AppView: View {
@@ -16,19 +15,17 @@ struct AppView: View {
             case .launching:
                 Color.background
             case .launchingFailed:
-                FailureView(Localized.appLaunchFailure) {
-                    await state.bootstrap()
-                }
-            case .setup(let setupState):
+                FailureView(.appLaunchFailure, reload: state.bootstrap)
+            case let .setup(setupState):
                 SetupView(setupState)
-            case .locked(let lockedState):
+            case let .locked(lockedState):
                 LockedView(lockedState)
-            case .unlocked(let unlockedState):
+            case let .unlocked(unlockedState):
                 UnlockedView(unlockedState)
             }
         }
-        .task {
-            await state.bootstrap()
+        .onAppear {
+            state.bootstrap()
         }
     }
     #endif
@@ -44,23 +41,23 @@ struct AppView: View {
                         Spacer()
                     }
             case .launchingFailed:
-                FailureView(Localized.appLaunchFailure) {
+                FailureView(.appLaunchFailure) {
                     await state.bootstrap()
                 }
                 .toolbar {
                     Spacer()
                 }
-            case .setup(let setupState):
+            case let .setup(setupState):
                 SetupView(setupState)
                     .toolbar {
                         Spacer()
                     }
-            case .locked(let lockedState):
+            case let .locked(lockedState):
                 LockedView(lockedState)
                     .toolbar {
                         Spacer()
                     }
-            case .unlocked(let unlockedState):
+            case let .unlocked(unlockedState):
                 UnlockedView(unlockedState)
             }
         }
