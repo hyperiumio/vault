@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
@@ -8,11 +8,11 @@ class LockedState: ObservableObject {
     @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case .fetchKeychainAvailability:
                     biometryType = await service.availableBiometry
@@ -42,22 +42,16 @@ class LockedState: ObservableObject {
     }
     
     func fetchKeychainAvailability() {
-        Task {
-            await inputs.enqueue(.fetchKeychainAvailability)
-        }
+        inputBuffer.enqueue(.fetchKeychainAvailability)
     }
     
     func unlockWithPassword() {
-        Task {
-            let input = Input.unlockWithPassword(password: password)
-            await inputs.enqueue(input)
-        }
+        let input = Input.unlockWithPassword(password: password)
+        inputBuffer.enqueue(input)
     }
     
     func unlockWihtBiometry() {
-        Task {
-            await inputs.enqueue(.unlockWithBiometry)
-        }
+        inputBuffer.enqueue(.unlockWithBiometry)
     }
     
 }

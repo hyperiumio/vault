@@ -82,7 +82,7 @@ struct UnlockedView: View {
                         state.showCreateItemSheet(itemType: itemType)
                     }
                 } label: {
-                    Image(systemName: SFSymbol.plus)
+                    Image(systemName: .plusSymbol)
                 }
                 .menuStyle(.borderlessButton)
                 .menuIndicator(.hidden)

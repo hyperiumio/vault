@@ -3,7 +3,11 @@ import UIKit
 
 public struct HapticFeedback {
     
-    private let generator = UINotificationFeedbackGenerator()
+    private let generator: UINotificationFeedbackGenerator
+    
+    private init() {
+        self.generator = UINotificationFeedbackGenerator()
+    }
     
     public func play(_ type: FeedbackType) {
         switch type {

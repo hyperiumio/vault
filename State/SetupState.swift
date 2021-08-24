@@ -1,42 +1,43 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
 class SetupState: ObservableObject {
     
     @Published private(set) var step: Step
-    private let inputQueue = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     private var previousIndex: Int?
     
     init(service: AppServiceProtocol) {
-        let masterPasswordSetupState = MasterPasswordSetupState { [inputQueue] in
-            await inputQueue.enqueue(.next)
-        }
-        let payload = (masterPasswordSetupState)
-        self.step = .choosePassword(payload)
+        let masterPasswordSetupState = MasterPasswordSetupState(service: service)
+        let stepOutputStream = masterPasswordSetupState.output.map { _ in Input.next }
+        inputBuffer.enqueue(stepOutputStream)
+        step = .choosePassword(masterPasswordSetupState)
         
         Task {
-            for await input in AsyncStream(unfolding: inputQueue.dequeue) {
+            for await input in inputBuffer.events {
                 previousIndex = step.index
                 
                 switch (input, step) {
                 case let (.next, .choosePassword(masterPasswordSetup)):
-                    let repeatPasswordSetup = RepeatMasterPasswordSetupState { [inputQueue] in
-                        await inputQueue.enqueue(.next)
-                    }
+                    let repeatPasswordSetup = RepeatMasterPasswordSetupState(masterPassword: masterPasswordSetup.masterPassword)
+                    let stepOutputStream = repeatPasswordSetup.output.map { _ in Input.next }
+                    inputBuffer.enqueue(stepOutputStream)
                     step = .repeatPassword(masterPasswordSetup, repeatPasswordSetup)
                 case let (.next, .repeatPassword(masterPasswordSetup, repeatPasswordSetup)):
                     if let biometryType = await service.availableBiometry {
-                        let biometrySetup = BiometrySetupState(biometryType: biometryType) { [inputQueue] in
-                            await inputQueue.enqueue(.next)
-                        }
+                        let biometrySetup = BiometrySetupState(biometryType: biometryType)
+                        let stepOutputStream = biometrySetup.output.map { _ in Input.next }
+                        inputBuffer.enqueue(stepOutputStream)
                         step = .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, biometrySetup)
                     } else {
-                        let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.password, isBiometryEnabled: false, service: service)
+                        let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.masterPassword, isBiometryEnabled: false, service: service)
+                        let stepOutputStream = repeatPasswordSetup.output.map { _ in Input.next }
+                        inputBuffer.enqueue(stepOutputStream)
                         step = .completeSetup(masterPasswordSetup, repeatPasswordSetup, nil, completeSetup)
                     }
                 case let (.next, .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, biometrySetup)):
-                    let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.password, isBiometryEnabled: biometrySetup.isBiometricUnlockEnabled, service: service)
+                    let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.masterPassword, isBiometryEnabled: biometrySetup.isBiometricUnlockEnabled, service: service)
                     step = .completeSetup(masterPasswordSetup, repeatPasswordSetup, biometrySetup, completeSetup)
                 case let (.back, .repeatPassword(masterPasswordSetup, _)):
                     step = .choosePassword(masterPasswordSetup)
@@ -69,15 +70,11 @@ class SetupState: ObservableObject {
     }
     
     func back() {
-        Task {
-            await inputQueue.enqueue(.back)
-        }
+        inputBuffer.enqueue(.back)
     }
     
     func next() {
-        Task {
-            await inputQueue.enqueue(.next)
-        }
+        inputBuffer.enqueue(.next)
     }
     
 }
@@ -118,14 +115,6 @@ extension SetupState {
         case forward
         case backward
         
-    }
-    
-}
-
-extension SetupState.Step: Equatable {
-    
-    static func == (lhs: SetupState.Step, rhs: SetupState.Step) -> Bool {
-        lhs.index == rhs.index
     }
     
 }

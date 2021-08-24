@@ -1,3 +1,7 @@
+"InsecurePasswordTitle" = "Insecure password";
+
+"InsecurePasswordDescription" = "Your chosen password is not secure. It is recommended to choose another password.";
+
 "Add" = "Add";
 "AddItem" = "Add item";
 "AdditionalItems" = "Additional items";
@@ -18,13 +22,13 @@
 "Cancel" = "Cancel";
 "ChangeMasterPassword" = "Change master password";
 "ChangeMasterPasswordDescription" = "If you think your master password is too weak or has been compromised you can change it here.";
-"ChooseMasterPassword" = "Choose your master password";
+"ChooseMasterPasswordTitle" = "Choose your master password";
 "ChooseMasterPasswordDescription" = "Your master password secures all of your data that you save in your vault.";
 "Created" = "Created";
 "CreateItem" = "Create item";
 "CreateFirstItem" = "Create your first item";
 "CreateVault" = "Create Vault";
-"RepeatMasterPassword" = "Repeat your master password";
+"RepeatMasterPasswordTitle" = "Repeat your master password";
 "RepeatMasterPasswordDescription" = "You have to repeat your password to make sure you did not make a mistake.";
 "Continue" = "Continue";
 "Copied" = "Copied";
@@ -77,7 +81,8 @@
 "Numbers" = "Numbers";
 "Other" = "Other";
 "Password" = "Password";
-"PasswordMismatch" = "Master password don’t match.";
+"PasswordMismatchTitle" = "Password mismatch";
+"PasswordMismatchDescription" = "Master password don’t match. Make sure that both passwords match.";
 "Photo" = "Photo";
 "Retry" = "Retry";
 "Save" = "Save";
@@ -85,7 +90,8 @@
 "Search" = "Search";
 "SelectCategory" = "Select Category";
 "Settings" = "Settings";
-"SetupComplete" = "Setup Complete";
+"SetupCompleteTitle" = "Setup Complete";
+"SetupCompleteDescription" = "Everything set up. You are ready to start.";
 "SetUpTouchID" = "Set Up Touch ID";
 "SetUpFaceID" = "Set Up Face ID";
 "Symbols" = "Symbols";

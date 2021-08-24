@@ -3,7 +3,6 @@ import SwiftUI
 struct SetupView: View {
     
     @ObservedObject private var state: SetupState
-    @FocusState private var isPasswordFieldFocused: Bool
     
     init(_ state: SetupState) {
         self.state = state
@@ -18,10 +17,10 @@ struct SetupView: View {
                         .symbolVariant(.circle)
                         .foregroundColor(.accentColor)
                         .padding()
+                        .transition(.backButton)
                         .onTapGesture {
                             state.back()
                         }
-                        .transition(.backButton)
                 }
                 
                 Spacer()
@@ -40,9 +39,9 @@ struct SetupView: View {
                     CompleteSetupView(state)
                 }
             }
-            .padding(.horizontal)
+            .padding([.leading, .trailing, .bottom])
             .transition(state.direction.transition)
-            .animation(.easeInOut, value: state.step)
+            .animation(.easeInOut, value: state.step.index)
         }
     }
     
@@ -64,7 +63,7 @@ private extension SetupState.Direction {
 private extension AnyTransition {
     
     static var backButton: Self {
-        .scale.combined(with: .opacity).animation(.default)
+        .scale(scale: 0.5).combined(with: .opacity).animation(.default)
     }
     
     static var forward: Self {

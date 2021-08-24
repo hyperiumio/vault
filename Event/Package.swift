@@ -3,22 +3,22 @@
 import PackageDescription
 
 let package = Package(
-    name: "Collection",
+    name: "Event",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Collection",
+            name: "Event",
             targets: [
-                "Collection"
+                "Event"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Collection",
+            name: "Event",
             path: "Sources"
         )
     ]

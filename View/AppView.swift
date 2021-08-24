@@ -61,7 +61,7 @@ struct AppView: View {
                 UnlockedView(unlockedState)
             }
         }
-        .frame(minWidth: 600, minHeight: 600)
+        .frame(width: 400, height: 400)
         .task {
             await state.bootstrap()
         }

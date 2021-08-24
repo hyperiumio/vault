@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
@@ -8,11 +8,11 @@ class MasterPasswordSettingsState: ObservableObject {
     @Published var repeatedPassword = ""
     @Published private(set) var status = Status.ready
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .changeMasterPassword(password):
                     do {
@@ -41,9 +41,7 @@ class MasterPasswordSettingsState: ObservableObject {
     
     func changeMasterPassword() {
         let input = Input.changeMasterPassword(password: password)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
 }

@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
@@ -6,11 +6,11 @@ class QuickAccessState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case .load:
                     status = .loading
@@ -22,9 +22,7 @@ class QuickAccessState: ObservableObject {
     }
     
     func load() {
-        Task {
-            await inputs.enqueue(.load)
-        }
+        inputBuffer.enqueue(.load)
     }
     
 }

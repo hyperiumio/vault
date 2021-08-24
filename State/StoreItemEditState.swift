@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 import Model
 
@@ -9,10 +9,8 @@ class StoreItemEditState: ObservableObject {
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems: [SecureItemState]
     @Published var editError: Error?
-    
     let editedStoreItem: StoreItem
-    
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(editing storeItem: StoreItem, service: AppServiceProtocol) {
         self.editedStoreItem = storeItem
@@ -23,7 +21,7 @@ class StoreItemEditState: ObservableObject {
         }
         
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .saveStoreItem(storeItem):
                     do {
@@ -65,30 +63,22 @@ class StoreItemEditState: ObservableObject {
         let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
         let input = Input.saveStoreItem(storeItem: storeItem)
         
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
     func delete() {
         let input = Input.deleteStoreItem(itemID: editedStoreItem.id)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
     func addSecondaryItem(with itemType: SecureItemType) {
         let input = Input.addItem(itemType: itemType)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
     func deleteSecondaryItem(at index: Int) {
         let input = Input.deleteItem(index: index)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
 }

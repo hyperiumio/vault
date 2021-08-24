@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 import Model
 
@@ -10,13 +10,13 @@ class CreateItemState: ObservableObject {
     @Published private(set) var secondaryItems = [SecureItemState]()
     @Published var createError: Error?
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(itemType: SecureItemType, service: AppServiceProtocol) {
         self.primaryItem = SecureItemState(itemType: itemType, service: service)
         
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .save(storeItem):
                     do {
@@ -39,9 +39,7 @@ class CreateItemState: ObservableObject {
         let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
         let input = Input.save(storeItem: storeItem)
         
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
 }

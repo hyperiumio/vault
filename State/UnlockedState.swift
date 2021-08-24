@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 import Model
 import Sort
@@ -10,22 +10,24 @@ class UnlockedState: ObservableObject {
     @Published var searchText: String = ""
     @Published var sheet: Sheet?
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
         Task {
             for await output in service.output {
                 switch output {
                 case .storeDidChange:
-                    await inputs.enqueue(.reload)
+                    inputBuffer.enqueue(.reload)
                 default:
                     continue
                 }
             }
         }
+        let serviceOutputStream = service.output.compactMap(Input.init)
+        inputBuffer.enqueue(serviceOutputStream)
         
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .createItem(itemType):
                     let state = CreateItemState(itemType: itemType, service: service)
@@ -57,22 +59,16 @@ class UnlockedState: ObservableObject {
     
     func showCreateItemSheet(itemType: SecureItemType) {
         let input = Input.createItem(itemType: itemType)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
     func lock() {
-        Task {
-            await inputs.enqueue(.lock)
-        }
+        inputBuffer.enqueue(.lock)
     }
     
     #if os(iOS)
     func showSettings() {
-        Task {
-            await inputs.enqueue(.settings)
-        }
+        inputBuffer.enqueue(.settings)
     }
     #endif
     
@@ -94,8 +90,20 @@ extension UnlockedState {
         
         case createItem(itemType: SecureItemType)
         case lock
-        case settings
         case reload
+        
+        #if os(iOS)
+        case settings
+        #endif
+        
+        init?(_ output: AppService.Output) {
+            switch output {
+            case .storeDidChange:
+                self = .reload
+            default:
+                return nil
+            }
+        }
         
     }
     

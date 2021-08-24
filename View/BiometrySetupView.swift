@@ -9,32 +9,22 @@ struct BiometrySetupView: View {
     }
     
     var body: some View {
-        VStack {
+        SetupContentView(buttonEnabled: state.canCompleteBiometrySetup) {
+            state.confirm()
+        } image: {
             Image(state.biometryType.image)
-            
+        } title: {
             Text(state.biometryType.title)
-                .font(.title)
-            
+        } description: {
             Text(state.biometryType.description)
-                .font(.body)
-                .foregroundStyle(.secondary)
-            
+        } input: {
             Toggle(state.biometryType.title, isOn: $state.isBiometricUnlockEnabled)
                 .toggleStyle(.switch)
+                .labelsHidden()
                 .tint(.accentColor)
-            
-            Spacer()
-            
-            Button {
-                Task {
-                    await state.done()
-                }
-            } label: {
-                Text(.continue)
-                    .frame(maxWidth: 400)
-            }
-            .controlSize(.large)
-            .buttonStyle(.borderedProminent)
+                .disabled(!state.isSetupEnabled)
+        } button: {
+            Text(.continue)
         }
     }
     
@@ -45,9 +35,9 @@ private extension BiometryType {
     var image: String {
         switch self {
         case .touchID:
-            return "BiometrySetupTouchID"
+            return .biometrySetupTouchID
         case .faceID:
-            return "BiometrySetupFaceID"
+            return .biometrySetupFaceID
         }
     }
     
@@ -70,3 +60,21 @@ private extension BiometryType {
     }
     
 }
+
+#if DEBUG
+struct BiometrySetupViewPreview: PreviewProvider {
+    
+    static let state = BiometrySetupState(biometryType: .touchID)
+    
+    static var previews: some View {
+        BiometrySetupView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+        
+        BiometrySetupView(state)
+            .preferredColorScheme(.light)
+            .previewLayout(.sizeThatFits)
+    }
+    
+}
+#endif

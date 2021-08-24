@@ -1,14 +1,22 @@
-import Collection
+import Combine
+import Event
 import Foundation
 
 @MainActor
 class PasswordGeneratorState: ObservableObject {
     
-    private let inputs = Queue<Input>()
+    @Published var length = 32
+    @Published var digitsEnabled = true
+    @Published var symbolsEnabled = true
+    @Published var password = ""
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
+        let propertyStream = Publishers.CombineLatest3($length, $digitsEnabled, $symbolsEnabled).map(Input.generatePassword).values
+        inputBuffer.enqueue(propertyStream)
+        
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .generatePassword(length, digitsEnabled, symbolsEnabled):
                     password = await service.password(length: length, digit: digitsEnabled, symbol: symbolsEnabled)
@@ -17,31 +25,9 @@ class PasswordGeneratorState: ObservableObject {
         }
     }
     
-    @Published var length = 32 {
-        didSet {
-            generatePassword()
-        }
-    }
-    
-    @Published var digitsEnabled = true {
-        didSet {
-            generatePassword()
-        }
-    }
-    
-    @Published var symbolsEnabled = true {
-        didSet {
-            generatePassword()
-        }
-    }
-    
-    @Published var password = ""
-    
     func generatePassword() {
         let input = Input.generatePassword(length: length, digitsEnabled: digitsEnabled, symbolsEnabled: symbolsEnabled)
-        Task {
-            await inputs.enqueue(input)
-        }
+        inputBuffer.enqueue(input)
     }
     
 }

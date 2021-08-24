@@ -1,17 +1,17 @@
 import Configuration
 import Crypto
+import Event
 import Foundation
 import Model
 import Preferences
 import Persistence
-import Combine
 
 actor AppService: AppServiceProtocol {
     
     private let defaults: Defaults
     private let cryptor: Cryptor
     private let store: Store
-    private let outputPublisher = PassthroughSubject<Output, Never>()
+    private let outputMulticast = EventMulticast<Output>()
     
     init() {
         let userDefaults = UserDefaults.standard // use shared user defaults
@@ -21,8 +21,10 @@ actor AppService: AppServiceProtocol {
         self.store = Store(containerDirectory: Configuration.storeDirectory)
     }
     
-    nonisolated var output: AsyncPublisher<PassthroughSubject<AppService.Output, Never>> {
-        outputPublisher.values
+    nonisolated var output: AsyncStream<Output> {
+        AsyncStream { _ in
+            
+        }
     }
     
     var didCompleteSetup: Bool {
@@ -54,7 +56,7 @@ actor AppService: AppServiceProtocol {
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
         
-        outputPublisher.send(.didUnlock)
+        outputMulticast.send(.didUnlock)
     }
     
     func unlockWithBiometry() async throws {
@@ -63,12 +65,12 @@ actor AppService: AppServiceProtocol {
         }
         try await cryptor.unlockWithBiometry(id: storeID)
         
-        outputPublisher.send(.didUnlock)
+        outputMulticast.send(.didUnlock)
     }
     
     func lock() async {
         await cryptor.lock()
-        outputPublisher.send(.didLock)
+        outputMulticast.send(.didLock)
     }
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
@@ -83,11 +85,11 @@ actor AppService: AppServiceProtocol {
     
     func save(isBiometricUnlockEnabled: Bool) async {
         await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-        outputPublisher.send(.defaultsDidChange)
+        outputMulticast.send(.defaultsDidChange)
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
-        outputPublisher.send(.storeDidChange)
+        outputMulticast.send(.storeDidChange)
     }
     
     func isPasswordSecure(_ password: String) async -> Bool {
@@ -95,6 +97,7 @@ actor AppService: AppServiceProtocol {
     }
     
     func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
+        /*
         let storeID = UUID()
         let derivedKeyContainer = try CryptorToken.create()
         
@@ -102,7 +105,10 @@ actor AppService: AppServiceProtocol {
         await defaults.set(activeStoreID: storeID)
         try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
         
-        outputPublisher.send(.setupComplete)
+        outputMulticast.send(.setupComplete)
+         */
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
+        throw NSError(domain: "", code: 0, userInfo: nil)
     }
     
     func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
@@ -176,7 +182,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        outputPublisher.send(.storeDidChange)
+        outputMulticast.send(.storeDidChange)
     }
     
     func delete(itemID: UUID) async throws {
@@ -189,7 +195,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        outputPublisher.send(.storeDidChange)
+        outputMulticast.send(.storeDidChange)
     }
     
 }
@@ -234,8 +240,10 @@ extension UserDefaults: PersistenceProvider {}
 #if DEBUG
 struct AppServiceStub: AppServiceProtocol {
     
-    nonisolated var output: AsyncPublisher<PassthroughSubject<AppService.Output, Never>> {
-        PassthroughSubject<AppService.Output, Never>().values
+    nonisolated var output: AsyncStream<AppService.Output> {
+        AsyncStream { _ in
+            
+        }
     }
     
     var didCompleteSetup: Bool {
@@ -275,11 +283,13 @@ struct AppServiceStub: AppServiceProtocol {
     }
     
     func isPasswordSecure(_ password: String) async -> Bool {
-        true
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
+        
+        return true
     }
     
     func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
-        print(#function)
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
     }
     
     func loadInfos() async throws -> AsyncStream<StoreItemInfo> {

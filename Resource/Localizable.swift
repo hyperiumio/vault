@@ -2,121 +2,168 @@ import SwiftUI
 
 extension LocalizedStringKey {
     
-    public static var add: Self { "Add" }
-    public static var addItem: Self { "AddItem" }
-    public static var additionalItems: Self { "AdditionalItems" }
-    public static var americanExpress: Self { "AmericanExpress" }
-    public static var appLaunchFailure: Self { "AppLaunchFailure" }
-    public static var back: Self { "Back" }
-    public static var bankCard: Self { "BankCard" }
-    public static var name: Self { "Name" }
-    public static var number: Self { "Number" }
-    public static var expirationDate: Self { "ExpirationDate" }
-    public static var pin: Self { "PIN" }
-    public static var vendor: Self { "Vendor" }
-    public static var bankAccount: Self { "BankAccount" }
-    public static var accountHolder: Self { "AccountHolder" }
-    public static var iban: Self { "IBAN" }
-    public static var bic: Self { "BIC" }
-    public static var biometricNotEnrolled: Self { "BiometricNotEnrolled" }
-    public static var cancel: Self { "Cancel" }
-    public static var changeMasterPassword: Self { "ChangeMasterPassword" }
-    public static var changeMasterPasswordDescription: Self { "ChangeMasterPasswordDescription" }
-    public static var chooseMasterPassword: Self { "ChooseMasterPassword" }
-    public static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }
-    public static var created: Self { "Created" }
-    public static var createItem: Self { "CreateItem" }
-    public static var createFirstItem: Self { "CreateFirstItem" }
-    public static var createVault: Self { "CreateVault" }
-    public static var repeatMasterPassword: Self { "RepeatMasterPassword" }
-    public static var repeatMasterPasswordDescription: Self { "RepeatMasterPasswordDescription" }
-    public static var `continue`: Self { "Continue" }
-    public static var copied: Self { "Copied" }
-    public static var currentMasterPassword: Self { "CurrentMasterPassword" }
-    public static var custom: Self { "Custom " }
-    public static var description: Self { "Description" }
-    public static var value: Self { "Value" }
-    public static var deleteItem: Self { "DeleteItem" }
-    public static var deleteConfirmation: Self { "DeleteConfirmation" }
-    public static var deleteFailed: Self { "DeleteFailed" }
-    public static var document: Self { "Document" }
-    public static var done: Self { "Done" }
-    public static var edit: Self { "Edit" }
-    public static var enable: Self { "Enable" }
-    public static var enableFaceIDUnlock: Self { "EnableFaceIDUnlock" }
-    public static var enableFaceIDUnlockDescription: Self { "EnableFaceIDUnlockDescription" }
-    public static var enableTouchIDUnlock: Self { "EnableTouchIDUnlock" }
-    public static var enableTouchIDUnlockDescription: Self { "EnableTouchIDUnlockDescription" }
-    public static var exampleURL: Self { "ExampleURL" }
-    public static var emptyVault: Self { "EmptyVault" }
-    public static var faceID: Self { "FaceID" }
-    public static var faceIDActivationFailed: Self { "FaceIDActivationFailed" }
-    public static var faceIDDeactivationFailed: Self { "FaceIDDeactivationFailed" }
-    public static var faceIDDescription: Self { "FaceIDDescription" }
-    public static var faceIDNotEnrolled: Self { "FaceIDNotEnrolled" }
-    public static var file: Self { "File" }
-    public static var filename: Self { "Filename" }
-    public static var generatePassword: Self { "GeneratePassword" }
-    public static var image: Self { "Image" }
-    public static var importFile: Self { "ImportFile" }
-    public static var importFileDescription: Self { "ImportFileDescription" }
-    public static var insecurePassword: Self { "InsecurePassword" }
-    public static var invalidCurrentPassword: Self { "InvalidCurrentPassword" }
-    public static var loadingVaultFailed: Self { "LoadingVaultFailed" }
-    public static var loadingVaultItemFailed: Self { "LoadingVaultItemFailed" }
-    public static var lockVault: Self { "LockVault" }
-    public static var lockVaultDescription: Self { "LockVaultDescription" }
-    public static var login: Self { "Login" }
-    public static var mastercard: Self { "Mastercard" }
-    public static var masterPassword: Self { "MasterPassword" }
-    public static var enterMasterPassword: Self { "EnterMasterPassword" }
-    public static var masterPasswordChangeDidFail: Self { "MasterPasswordChangeDidFail" }
-    public static var modified: Self { "Modified" }
-    public static var newMasterPassword: Self { "NewMasterPassword" }
-    public static var note: Self { "Note" }
-    public static var notePlaceholder: Self { "NotePlaceholder" }
-    public static var numbers: Self { "Numbers" }
-    public static var other: Self { "Other" }
-    public static var password: Self { "Password" }
-    public static var passwordMismatch: Self { "PasswordMismatch" }
-    public static var photo: Self { "Photo" }
-    public static var retry: Self { "Retry" }
-    public static var save: Self { "Save" }
-    public static var saveFailed: Self { "SaveFailed" }
-    public static var search: Self { "Search" }
-    public static var selectCategory: Self { "SelectCategory" }
-    public static var settings: Self { "Settings" }
-    public static var setupComplete: Self { "SetupComplete" }
-    public static var setUpLater: Self { "SetUpLater" }
-    public static var setUpTouchID: Self { "SetUpTouchID" }
-    public static var setUpFaceID: Self { "SetUpFaceID" }
-    public static var symbols: Self { "Symbols" }
-    public static var title: Self { "Title"}
-    public static var touchID: Self { "TouchID" }
-    public static var touchIDActivationFailed: Self { "TouchIDActivationFailed" }
-    public static var touchIDDeactivationFailed: Self { "TouchIDDeactivationFailed" }
-    public static var touchIDDescription: Self { "TouchIDDescription" }
-    public static var touchIDNotEnrolled: Self { "TouchIDNotEnrolled" }
-    public static var unlockFailed: Self { "UnlockFailed" }
-    public static var unlockVault: Self { "UnlockVault" }
-    public static var unlockWithTouchID: Self { "UnlockWithTouchID" }
-    public static var unlockWithTouchIDDescription: Self { "UnlockWithTouchIDDescription" }
-    public static var unlockWithFaceID: Self { "UnlockWithFaceID" }
-    public static var unlockWithFaceIDDescription: Self { "UnlockWithFaceIDDescription" }
-    public static var url: Self { "URL" }
-    public static var useFaceID: Self { "UseFaceID" }
-    public static var usePassword: Self { "UsePassword" }
-    public static var useTouchID: Self { "UseTouchID" }
-    public static var username: Self { "Username" }
-    public static var usernameOrEmail: Self { "UsernameOrEmail" }
-    public static var vault: Self { "Vault" }
-    public static var vaultCreationFailed: Self { "VaultCreationFailed" }
-    public static var visa: Self { "Visa" }
-    public static var wifi: Self { "Wifi" }
-    public static var invalidPassword: Self { "InvalidPassword" }
-    public static var nothingSelected: Self { "NothingSelected" }
-    public static var noResultsFound: Self { "NoResultsFound" }
-    public static var security: Self { "Security" }
-    public static var characters: Self { "characters" }
+    static var chooseMasterPasswordTitle: Self {
+        "ChooseMasterPasswordTitle"
+    }
+    
+    static var chooseMasterPasswordDescription: Self {
+        "ChooseMasterPasswordDescription"
+    }
+    
+    static var repeatMasterPasswordTitle: Self {
+        "RepeatMasterPasswordTitle"
+    }
+    
+    static var repeatMasterPasswordDescription: Self {
+        "RepeatMasterPasswordDescription"
+    }
+    
+    static var enterMasterPassword: Self {
+        "EnterMasterPassword"
+    }
+    
+    static var insecurePasswordTitle: Self {
+        "InsecurePasswordTitle"
+    }
+    
+    static var insecurePasswordDescription: Self {
+        "InsecurePasswordDescription"
+    }
+    
+    static var passwordMismatchTitle: Self {
+        "PasswordMismatchTitle"
+    }
+    
+    static var passwordMismatchDescription: Self {
+        "PasswordMismatchDescription"
+    }
+    
+    static var add: Self {
+        "Add"
+    }
+    
+    static var addItem: Self {
+        "AddItem"
+    }
+    
+    static var setupCompleteTitle: Self {
+        "SetupCompleteTitle"
+    }
+    
+    static var setupCompleteDescription: Self {
+        "SetupCompleteDescription"
+    }
+    
+    static var additionalItems: Self { "AdditionalItems" }
+    static var americanExpress: Self { "AmericanExpress" }
+    static var appLaunchFailure: Self { "AppLaunchFailure" }
+    static var back: Self { "Back" }
+    static var bankCard: Self { "BankCard" }
+    static var name: Self { "Name" }
+    static var number: Self { "Number" }
+    static var expirationDate: Self { "ExpirationDate" }
+    static var pin: Self { "PIN" }
+    static var vendor: Self { "Vendor" }
+    static var bankAccount: Self { "BankAccount" }
+    static var accountHolder: Self { "AccountHolder" }
+    static var iban: Self { "IBAN" }
+    static var bic: Self { "BIC" }
+    static var biometricNotEnrolled: Self { "BiometricNotEnrolled" }
+    static var cancel: Self { "Cancel" }
+    static var changeMasterPassword: Self { "ChangeMasterPassword" }
+    static var changeMasterPasswordDescription: Self { "ChangeMasterPasswordDescription" }
+    
+    static var created: Self { "Created" }
+    static var createItem: Self { "CreateItem" }
+    static var createFirstItem: Self { "CreateFirstItem" }
+    static var createVault: Self { "CreateVault" }
+
+    static var `continue`: Self { "Continue" }
+    static var copied: Self { "Copied" }
+    static var currentMasterPassword: Self { "CurrentMasterPassword" }
+    static var custom: Self { "Custom " }
+    static var description: Self { "Description" }
+    static var value: Self { "Value" }
+    static var deleteItem: Self { "DeleteItem" }
+    static var deleteConfirmation: Self { "DeleteConfirmation" }
+    static var deleteFailed: Self { "DeleteFailed" }
+    static var document: Self { "Document" }
+    static var done: Self { "Done" }
+    static var edit: Self { "Edit" }
+    static var enable: Self { "Enable" }
+    static var enableFaceIDUnlock: Self { "EnableFaceIDUnlock" }
+    static var enableFaceIDUnlockDescription: Self { "EnableFaceIDUnlockDescription" }
+    static var enableTouchIDUnlock: Self { "EnableTouchIDUnlock" }
+    static var enableTouchIDUnlockDescription: Self { "EnableTouchIDUnlockDescription" }
+    static var exampleURL: Self { "ExampleURL" }
+    static var emptyVault: Self { "EmptyVault" }
+    static var faceID: Self { "FaceID" }
+    static var faceIDActivationFailed: Self { "FaceIDActivationFailed" }
+    static var faceIDDeactivationFailed: Self { "FaceIDDeactivationFailed" }
+    static var faceIDDescription: Self { "FaceIDDescription" }
+    static var faceIDNotEnrolled: Self { "FaceIDNotEnrolled" }
+    static var file: Self { "File" }
+    static var filename: Self { "Filename" }
+    static var generatePassword: Self { "GeneratePassword" }
+    static var image: Self { "Image" }
+    static var importFile: Self { "ImportFile" }
+    static var importFileDescription: Self { "ImportFileDescription" }
+    static var insecurePassword: Self { "InsecurePassword" }
+    static var invalidCurrentPassword: Self { "InvalidCurrentPassword" }
+    static var loadingVaultFailed: Self { "LoadingVaultFailed" }
+    static var loadingVaultItemFailed: Self { "LoadingVaultItemFailed" }
+    static var lockVault: Self { "LockVault" }
+    static var lockVaultDescription: Self { "LockVaultDescription" }
+    static var login: Self { "Login" }
+    static var mastercard: Self { "Mastercard" }
+    static var masterPassword: Self { "MasterPassword" }
+
+    static var masterPasswordChangeDidFail: Self { "MasterPasswordChangeDidFail" }
+    static var modified: Self { "Modified" }
+    static var newMasterPassword: Self { "NewMasterPassword" }
+    static var note: Self { "Note" }
+    static var notePlaceholder: Self { "NotePlaceholder" }
+    static var numbers: Self { "Numbers" }
+    static var other: Self { "Other" }
+    static var password: Self { "Password" }
+    
+    static var photo: Self { "Photo" }
+    static var retry: Self { "Retry" }
+    static var save: Self { "Save" }
+    static var saveFailed: Self { "SaveFailed" }
+    static var search: Self { "Search" }
+    static var selectCategory: Self { "SelectCategory" }
+    static var settings: Self { "Settings" }
+    static var setUpLater: Self { "SetUpLater" }
+    static var setUpTouchID: Self { "SetUpTouchID" }
+    static var setUpFaceID: Self { "SetUpFaceID" }
+    static var symbols: Self { "Symbols" }
+    static var title: Self { "Title"}
+    static var touchID: Self { "TouchID" }
+    static var touchIDActivationFailed: Self { "TouchIDActivationFailed" }
+    static var touchIDDeactivationFailed: Self { "TouchIDDeactivationFailed" }
+    static var touchIDDescription: Self { "TouchIDDescription" }
+    static var touchIDNotEnrolled: Self { "TouchIDNotEnrolled" }
+    static var unlockFailed: Self { "UnlockFailed" }
+    static var unlockVault: Self { "UnlockVault" }
+    static var unlockWithTouchID: Self { "UnlockWithTouchID" }
+    static var unlockWithTouchIDDescription: Self { "UnlockWithTouchIDDescription" }
+    static var unlockWithFaceID: Self { "UnlockWithFaceID" }
+    static var unlockWithFaceIDDescription: Self { "UnlockWithFaceIDDescription" }
+    static var url: Self { "URL" }
+    static var useFaceID: Self { "UseFaceID" }
+    static var usePassword: Self { "UsePassword" }
+    static var useTouchID: Self { "UseTouchID" }
+    static var username: Self { "Username" }
+    static var usernameOrEmail: Self { "UsernameOrEmail" }
+    static var vault: Self { "Vault" }
+    static var vaultCreationFailed: Self { "VaultCreationFailed" }
+    static var visa: Self { "Visa" }
+    static var wifi: Self { "Wifi" }
+    static var invalidPassword: Self { "InvalidPassword" }
+    static var nothingSelected: Self { "NothingSelected" }
+    static var noResultsFound: Self { "NoResultsFound" }
+    static var security: Self { "Security" }
+    static var characters: Self { "characters" }
     
 }

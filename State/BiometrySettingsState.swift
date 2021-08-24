@@ -1,27 +1,23 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
 class BiometrySettingsState: ObservableObject {
     
-    @Published var isBiometricUnlockEnabled: Bool {
-        didSet {
-            let input = Input.biometricUnlock(isEnabled: isBiometricUnlockEnabled)
-            Task {
-                await inputs.enqueue(input)
-            }
-        }
-    }
+    @Published var isBiometricUnlockEnabled: Bool
     
     let biometryType: BiometryType
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(biometryType: BiometryType, isBiometricUnlockEnabled: Bool, service: AppServiceProtocol) {
         self.biometryType = biometryType
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
         
+        let propertyStream = $isBiometricUnlockEnabled.values.map(Input.biometricUnlock)
+        inputBuffer.enqueue(propertyStream)
+        
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case let .biometricUnlock(isEnabled):
                     await service.save(isBiometricUnlockEnabled: isEnabled)

@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 
 @MainActor
@@ -6,24 +6,14 @@ class AppState: ObservableObject {
     
     @Published private(set) var status = Status.launching
     
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
-        Task {
-            for await output in service.output {
-                switch output {
-                case .didLock:
-                    await inputs.enqueue(.lock)
-                case .setupComplete, .didUnlock:
-                    await inputs.enqueue(.unlock)
-                default:
-                    continue
-                }
-            }
-        }
+        let serviceOutputStream = service.output.compactMap(Input.init)
+        inputBuffer.enqueue(serviceOutputStream)
         
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case .bootstrap:
                     do {
@@ -49,9 +39,7 @@ class AppState: ObservableObject {
     }
     
     func bootstrap() {
-        Task {
-            await inputs.enqueue(.bootstrap)
-        }
+        inputBuffer.enqueue(.bootstrap)
     }
     
 }
@@ -73,6 +61,17 @@ extension AppState {
         case bootstrap
         case lock
         case unlock
+        
+        init?(_ output: AppService.Output) {
+            switch output {
+            case .didLock:
+                self = .lock
+            case .setupComplete, .didUnlock:
+                self = .unlock
+            default:
+                return nil
+            }
+        }
         
     }
     

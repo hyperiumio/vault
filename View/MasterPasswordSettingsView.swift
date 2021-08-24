@@ -16,7 +16,7 @@ struct MasterPasswordSettingsView: View {
                     .focused($focusedField, equals: .newMasterPassword)
                     .submitLabel(.next)
                     
-                SecureField(.repeatMasterPassword, text: $state.repeatedPassword, prompt: nil)
+                SecureField(.repeatMasterPasswordTitle, text: $state.repeatedPassword, prompt: nil)
                     .focused($focusedField, equals: .repeatMasterPassword)
                     .submitLabel(.next)
             }

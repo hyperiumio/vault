@@ -24,7 +24,7 @@ struct App: SwiftUI.App {
             SidebarCommands()
             
             CommandGroup(before: .appTermination) {
-                Button(Localized.lockVault) {
+                Button(.lockVault) {
                     Task {
                         await AppService.production.lock()
                     }

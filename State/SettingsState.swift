@@ -1,4 +1,4 @@
-import Collection
+import Event
 import Foundation
 import Model
 
@@ -6,16 +6,14 @@ import Model
 class SettingsState: ObservableObject, Identifiable {
     
     @Published var biometrySettingsState: BiometrySettingsState?
-    
     let masterPasswordSettingsState: MasterPasswordSettingsState
-    
-    private let inputs = Queue<Input>()
+    private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
         self.masterPasswordSettingsState = MasterPasswordSettingsState(service: service)
         
         Task {
-            for await input in AsyncStream(unfolding: inputs.dequeue) {
+            for await input in inputBuffer.events {
                 switch input {
                 case .load:
                     guard let biometryType = await service.availableBiometry else { return }
@@ -28,9 +26,7 @@ class SettingsState: ObservableObject, Identifiable {
     }
     
     func load() {
-        Task {
-            await inputs.enqueue(.load)
-        }
+        inputBuffer.enqueue(.load)
     }
     
 }
