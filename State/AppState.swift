@@ -1,37 +1,30 @@
 import Event
 import Foundation
+import Model
+import Sort
 
 @MainActor
 class AppState: ObservableObject {
     
     @Published private(set) var status = Status.launching
-    
+    private let service: AppServiceProtocol
     private let inputBuffer = EventBuffer<Input>()
     
     init(service: AppServiceProtocol) {
-        let serviceOutputStream = service.output.compactMap(Input.init)
-        inputBuffer.enqueue(serviceOutputStream)
+        self.service = service
         
         Task {
             for await input in inputBuffer.events {
                 switch input {
-                case .bootstrap:
-                    do {
-                        if try await service.didCompleteSetup {
-                            let state = LockedState(service: service)
-                            status = .locked(state)
-                        } else {
-                            let state = SetupState(service: service)
-                            status = .setup(state)
-                        }
-                    } catch {
-                        status = .launchingFailed
-                    }
                 case .lock:
                     let state = LockedState(service: service)
+                    let inputs = state.$status.values.compactMap(Input.init)
+                    inputBuffer.enqueue(inputs)
                     status = .locked(state)
-                case .unlock:
-                    let state = UnlockedState(service: service)
+                case let .unlock(collation):
+                    let state = UnlockedState(collation: collation, service: service)
+                    let inputs = state.$status.values.compactMap(Input.init)
+                    inputBuffer.enqueue(inputs)
                     status = .unlocked(state)
                 }
             }
@@ -39,7 +32,23 @@ class AppState: ObservableObject {
     }
     
     func bootstrap() {
-        inputBuffer.enqueue(.bootstrap)
+        Task {
+            do {
+                if try await service.didCompleteSetup {
+                    let state = LockedState(service: service)
+                    let inputs = state.$status.values.compactMap(Input.init)
+                    inputBuffer.enqueue(inputs)
+                    status = .locked(state)
+                } else {
+                    let state = SetupState(service: service)
+                    let inputs = state.$step.values.compactMap(Input.init)
+                    inputBuffer.enqueue(inputs)
+                    status = .setup(state)
+                }
+            } catch {
+                status = .launchingFailed
+            }
+        }
     }
     
 }
@@ -58,17 +67,36 @@ extension AppState {
     
     enum Input {
         
-        case bootstrap
         case lock
-        case unlock
+        case unlock(collation: AlphabeticCollation<StoreItemDetailState>?)
         
-        init?(_ output: AppService.Output) {
-            switch output {
-            case .didLock:
+        @MainActor
+        init?(_ step: SetupState.Step) {
+            switch step {
+            case let .finishSetup(payload):
+                guard payload.state.status == .setupComplete else {
+                    return nil
+                }
+                self = .unlock(collation: nil)
+            case .choosePassword, .repeatPassword, .biometricUnlock:
+                return nil
+            }
+        }
+        
+        init?(_ status: LockedState.Status) {
+            switch status {
+            case let .unlocked(collation):
+                self = .unlock(collation: collation)
+            case .locked, .unlocking, .unlockFailed:
+                return nil
+            }
+        }
+        
+        init?(_ status: UnlockedState.Status) {
+            switch status {
+            case .locked:
                 self = .lock
-            case .setupComplete, .didUnlock:
-                self = .unlock
-            default:
+            case .emptyStore, .noSearchResults, .items:
                 return nil
             }
         }

@@ -6,10 +6,10 @@ class BiometrySettingsState: ObservableObject {
     
     @Published var isBiometricUnlockEnabled: Bool
     
-    let biometryType: BiometryType
+    let biometryType: AppServiceBiometry
     private let inputBuffer = EventBuffer<Input>()
     
-    init(biometryType: BiometryType, isBiometricUnlockEnabled: Bool, service: AppServiceProtocol) {
+    init(biometryType: AppServiceBiometry, isBiometricUnlockEnabled: Bool, service: AppServiceProtocol) {
         self.biometryType = biometryType
         self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
         

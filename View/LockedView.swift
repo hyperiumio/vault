@@ -3,43 +3,101 @@ import SwiftUI
 struct LockedView: View {
     
     @ObservedObject private var state: LockedState
+    private let presentsUnlockFailure: Binding<Bool>
     
     init(_ state: LockedState) {
         self.state = state
+        
+        self.presentsUnlockFailure = Binding {
+            state.unlockDidFail
+        } set: { presentsUnlockFailure in
+            if presentsUnlockFailure {
+                state.presentUnlockFailed()
+            } else {
+                state.dismissUnlockFailed()
+            }
+        }
     }
     
     var body: some View {
-        VStack {
-            MasterPasswordField(.masterPassword, text: $state.password) {
-                state.unlockWithPassword()
-            }
-            .disabled(state.status == .unlocking)
-            .frame(maxWidth: 300)
-            
-            switch state.biometryType {
-            case let .some(biometryType):
+        VStack(spacing: 0) {
+            HStack(spacing: 0) {
+                SecureField(.masterPassword, text: $state.password, prompt: nil)
+                    .font(.title2)
+                    .textFieldStyle(.plain)
+                    .padding(.horizontal)
+                    .padding()
+                    .submitLabel(.continue)
+                    .layoutPriority(1)
+                
                 Button {
-                    state.unlockWihtBiometry()
+                    state.unlock(with: .password)
+                } label: {
+                    Image(systemName: .lockSymbol)
+                        .imageScale(.large)
+                        .foregroundColor(.white)
+                        .frame(maxHeight: .infinity)
+                        .padding(.horizontal)
+                        .background(Color.accentColor)
+                }
+                .buttonStyle(.plain)
+            }
+            .background(.quaternary)
+            .fixedSize(horizontal: false, vertical: true)
+            .clipShape(.buttonShape)
+            .frame(maxWidth: 400)
+            
+            Spacer()
+                .frame(height: 40)
+            
+            if let biometryType = state.biometry {
+                Button {
+                    state.unlock(with: .biometry)
                 } label: {
                     Image(systemName: biometryType.symbolName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .foregroundColor(.accentColor)
+                        .frame(width: 40, height: 40)
                 }
-                .frame(width: 40, height: 40)
-
-            case .none:
-                EmptyView()
             }
         }
-        .task {
-            state.fetchKeychainAvailability()
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.background)
+        .disabled(state.isUnlocking)
+        .alert(.unlockFailed, isPresented: presentsUnlockFailure) {
+            Button(.cancel, role: .cancel) {
+                state.dismissUnlockFailed()
+            }
         }
     }
     
 }
 
-private extension BiometryType {
+private extension LockedState {
+    
+    var isUnlocking: Bool {
+        switch status {
+        case .unlocking:
+            return true
+        case .locked, .unlocked, .unlockFailed:
+            return false
+        }
+    }
+    
+    var unlockDidFail: Bool {
+        switch status {
+        case .unlockFailed:
+            return true
+        case .locked, .unlocked, .unlocking:
+            return false
+        }
+    }
+    
+}
+
+private extension AppServiceBiometry {
     
     var symbolName: String {
         switch self {
@@ -52,11 +110,11 @@ private extension BiometryType {
     
 }
 
-extension LockedView {
+private extension Shape where Self == RoundedRectangle {
     
-    #if os(iOS)
-    private static let feedbackGenerator = UINotificationFeedbackGenerator()
-    #endif
+    static var buttonShape: Self {
+        RoundedRectangle(cornerRadius: 10, style: .continuous)
+    }
     
 }
 

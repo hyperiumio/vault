@@ -6,69 +6,54 @@ import Sort
 @MainActor
 class UnlockedState: ObservableObject {
     
-    @Published private(set) var status = Status.emptyStore
+    @Published private(set) var status: Status
     @Published var searchText: String = ""
     @Published var sheet: Sheet?
-    
     private let inputBuffer = EventBuffer<Input>()
+    private let service: AppServiceProtocol
     
-    init(service: AppServiceProtocol) {
-        Task {
-            for await output in service.output {
-                switch output {
-                case .storeDidChange:
-                    inputBuffer.enqueue(.reload)
-                default:
-                    continue
-                }
-            }
-        }
-        let serviceOutputStream = service.output.compactMap(Input.init)
-        inputBuffer.enqueue(serviceOutputStream)
+    init(collation: AlphabeticCollation<StoreItemDetailState>?, service: AppServiceProtocol) {
+        self.status = collation.map(Status.items) ?? .emptyStore
+        self.service = service
+        
+        let inputs = service.events.compactMap(Input.init)
+        inputBuffer.enqueue(inputs)
         
         Task {
             for await input in inputBuffer.events {
                 switch input {
-                case let .createItem(itemType):
-                    let state = CreateItemState(itemType: itemType, service: service)
-                    sheet = .createItem(state)
-                case .lock:
-                    await service.lock()
                 case .reload:
                     do {
-                        let states = try await service.loadInfos().map { info in
+                        let states = service.loadInfos().map { info in
                             StoreItemDetailState(storeItemInfo: info, service: service)
                         }
-                        let collation = try await Collation(from: states) { state in
-                            state.name
-                        }
+                        let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
                         status = .items(collation)
                     }
                     catch {
                         
                     }
-                #if os(iOS)
-                case .settings:
-                    let state = SettingsState(service: service)
-                    sheet = .settings(state)
-                #endif
                 }
             }
         }
     }
     
     func showCreateItemSheet(itemType: SecureItemType) {
-        let input = Input.createItem(itemType: itemType)
-        inputBuffer.enqueue(input)
+        let state = CreateItemState(itemType: itemType, service: service)
+        sheet = .createItem(state)
     }
     
     func lock() {
-        inputBuffer.enqueue(.lock)
+        Task {
+            await service.lock()
+            status = .locked
+        }
     }
     
     #if os(iOS)
     func showSettings() {
-        inputBuffer.enqueue(.settings)
+        let state = SettingsState(service: service)
+        sheet = .settings(state)
     }
     #endif
     
@@ -76,28 +61,21 @@ class UnlockedState: ObservableObject {
 
 extension UnlockedState {
     
-    typealias Collation = AlphabeticCollation<StoreItemDetailState>
-    
     enum Status {
         
         case emptyStore
         case noSearchResults
-        case items(Collation)
+        case items(AlphabeticCollation<StoreItemDetailState>)
+        case locked
         
     }
     
     enum Input {
         
-        case createItem(itemType: SecureItemType)
-        case lock
         case reload
         
-        #if os(iOS)
-        case settings
-        #endif
-        
-        init?(_ output: AppService.Output) {
-            switch output {
+        init?(_ event: AppServiceEvent) {
+            switch event {
             case .storeDidChange:
                 self = .reload
             default:

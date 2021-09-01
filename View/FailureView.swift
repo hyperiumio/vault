@@ -3,9 +3,9 @@ import SwiftUI
 struct FailureView: View {
     
     private let messageKey: LocalizedStringKey
-    private let reload: () async -> Void
+    private let reload: () -> Void
     
-    public init(_ messageKey: LocalizedStringKey, reload: @escaping () async -> Void) {
+    public init(_ messageKey: LocalizedStringKey, reload: @escaping () -> Void) {
         self.messageKey = messageKey
         self.reload = reload
     }
@@ -25,14 +25,10 @@ struct FailureView: View {
             Spacer()
                 .frame(height: 50)
             
-            Button(.retry) {
-                Task {
-                    await reload()
-                }
-            }
-            .buttonStyle(.bordered)
-            .tint(.accentColor)
-            .keyboardShortcut(.defaultAction)
+            Button(.retry, action: reload)
+                .buttonStyle(.bordered)
+                .tint(.accentColor)
+                .keyboardShortcut(.defaultAction)
         }
     }
     

@@ -1,57 +1,57 @@
 import Event
 import Foundation
+import Sort
 
 @MainActor
 class LockedState: ObservableObject {
     
     @Published var password = ""
-    @Published var biometryType: BiometryType?
     @Published private(set) var status = Status.locked
-    
-    private let inputBuffer = EventBuffer<Input>()
+    @Published private(set) var biometry: AppServiceBiometry?
+    private let infoData: AsyncThrowingStream<Data, Error>
+    private let service: AppServiceProtocol
     
     init(service: AppServiceProtocol) {
+        self.infoData = service.loadInfoData()
+        self.service = service
+        
         Task {
-            for await input in inputBuffer.events {
-                switch input {
-                case .fetchKeychainAvailability:
-                    biometryType = await service.availableBiometry
-                case let .unlockWithPassword(password):
-                    do {
-                        status = .unlocking
-                        try await service.unlockWithPassword(password)
-                        status = .unlocked
-                    } catch {
-                        status = .loadingMasterKeyFailed
-                    }
-                case .unlockWithBiometry:
-                    do {
-                        status = .unlocking
-                        try await service.unlockWithBiometry()
-                        status = .unlocked
-                    } catch {
-                        status = .loadingMasterKeyFailed
-                    }
-                }
-            }
+            self.biometry = await service.availableBiometry
         }
     }
     
-    var inputDisabled: Bool {
-        status != .locked
+    func presentUnlockFailed() {
+        status = .unlockFailed
     }
     
-    func fetchKeychainAvailability() {
-        inputBuffer.enqueue(.fetchKeychainAvailability)
+    func dismissUnlockFailed() {
+        status = .locked
     }
     
-    func unlockWithPassword() {
-        let input = Input.unlockWithPassword(password: password)
-        inputBuffer.enqueue(input)
-    }
-    
-    func unlockWihtBiometry() {
-        inputBuffer.enqueue(.unlockWithBiometry)
+    func unlock(with login: Login) {
+        guard case .locked = status else {
+            return
+        }
+        
+        status = .unlocking
+        Task {
+            do {
+                switch login {
+                case .password:
+                    try await service.unlockWithPassword(password)
+                case .biometry:
+                    try await service.unlockWithBiometry()
+                }
+                
+                let states = service.decryptStoreItemInfos(from: infoData).map { [service] info in
+                    StoreItemDetailState(storeItemInfo: info, service: service)
+                }
+                let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
+                status = .unlocked(collation: collation)
+            } catch {
+                status = .unlockFailed
+            }
+        }
     }
     
 }
@@ -62,17 +62,15 @@ extension LockedState {
         
         case locked
         case unlocking
-        case unlocked
-        case wrongPassword
-        case loadingMasterKeyFailed
+        case unlocked(collation: AlphabeticCollation<StoreItemDetailState>)
+        case unlockFailed
         
     }
     
-    enum Input {
+    enum Login {
         
-        case fetchKeychainAvailability
-        case unlockWithPassword(password: String)
-        case unlockWithBiometry
+        case password
+        case biometry
         
     }
     

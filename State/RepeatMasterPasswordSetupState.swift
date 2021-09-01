@@ -4,25 +4,13 @@ import Foundation
 @MainActor
 class RepeatMasterPasswordSetupState: ObservableObject {
     
-    @Published var repeatedPassword = ""
-    @Published private var status = Status.passwordInput
+    @Published var repeatedPassword: String
+    @Published private(set) var status = Status.passwordInput
     private let masterPassword: String
-    private let outputMulticast = EventMulticast<Output>()
     
-    init(masterPassword: String) {
+    init(masterPassword: String, repeatedPassword: String? = nil) {
         self.masterPassword = masterPassword
-    }
-    
-    var output: AsyncStream<Output> {
-        outputMulticast.events
-    }
-    
-    var canEnterPassword: Bool {
-        status == .passwordInput
-    }
-    
-    var canChooseRepeatedPassword: Bool {
-        !repeatedPassword.isEmpty && status == .passwordInput
+        self.repeatedPassword = repeatedPassword ?? ""
     }
     
     var presentsPasswordMismatch: Bool {
@@ -37,8 +25,6 @@ class RepeatMasterPasswordSetupState: ObservableObject {
     func checkRepeatedPassword() {
         if repeatedPassword == masterPassword {
             status = .passwordRepeated
-            outputMulticast.send(.didRepeatPassword)
-            outputMulticast.finish()
         } else {
             status = .passwordMismatch
         }
@@ -53,12 +39,6 @@ extension RepeatMasterPasswordSetupState {
         case passwordInput
         case passwordMismatch
         case passwordRepeated
-        
-    }
-    
-    enum Output {
-        
-        case didRepeatPassword
         
     }
     

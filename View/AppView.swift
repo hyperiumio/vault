@@ -15,11 +15,15 @@ struct AppView: View {
             case .launching:
                 Color.background
             case .launchingFailed:
-                FailureView(.appLaunchFailure, reload: state.bootstrap)
+                FailureView(.appLaunchFailure) {
+                    state.bootstrap()
+                }
             case let .setup(setupState):
                 SetupView(setupState)
             case let .locked(lockedState):
                 LockedView(lockedState)
+                    .transition(.unlock)
+                    .zIndex(1)
             case let .unlocked(unlockedState):
                 UnlockedView(unlockedState)
             }
@@ -67,6 +71,14 @@ struct AppView: View {
         }
     }
     #endif
+    
+}
+
+private extension AnyTransition {
+    
+    static var unlock: Self {
+        return AnyTransition.scale(scale: 2).combined(with: .opacity).animation(.easeOut)
+    }
     
 }
 

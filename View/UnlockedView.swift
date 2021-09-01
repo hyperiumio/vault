@@ -1,4 +1,5 @@
 import Model
+import Sort
 import SwiftUI
 
 struct UnlockedView: View {
@@ -15,12 +16,14 @@ struct UnlockedView: View {
             Group {
                 switch state.status {
                 case .emptyStore:
-                    EmptyStoreView()
+                    EmptyStore()
                 case .noSearchResults:
                     NoSearchResults()
                 case let .items(collation):
                     StoreItemList(collation)
                         .searchable(text: $state.searchText)
+                case .locked:
+                    EmptyView()
                 }
             }
             .toolbar {
@@ -102,7 +105,7 @@ struct UnlockedView: View {
     
 extension UnlockedView {
     
-    struct EmptyStoreView: View {
+    struct EmptyStore: View {
         
         var body: some View {
             Text(.emptyVault)
@@ -120,11 +123,20 @@ extension UnlockedView {
         
     }
     
+    struct Locked: View {
+        
+        var body: some View {
+            Text("Locked")
+                .font(.title)
+        }
+        
+    }
+    
     struct StoreItemList: View {
         
-        private let collation: UnlockedState.Collation
+        private let collation: AlphabeticCollation<StoreItemDetailState>
         
-        init(_ collation: UnlockedState.Collation) {
+        init(_ collation: AlphabeticCollation<StoreItemDetailState>) {
             self.collation = collation
         }
         
@@ -152,7 +164,7 @@ extension UnlockedView {
 #if DEBUG
 struct UnlockedViewPreview: PreviewProvider {
     
-    static let state = UnlockedState(service: .stub)
+    static let state = UnlockedState(collation: nil, service: .stub)
     
     static var previews: some View {
         UnlockedView(state)

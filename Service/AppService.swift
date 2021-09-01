@@ -11,7 +11,7 @@ actor AppService: AppServiceProtocol {
     private let defaults: Defaults
     private let cryptor: Cryptor
     private let store: Store
-    private let outputMulticast = EventMulticast<Output>()
+    private let outputMulticast = EventMulticast<AppServiceEvent>()
     
     init() {
         let userDefaults = UserDefaults.standard // use shared user defaults
@@ -21,7 +21,7 @@ actor AppService: AppServiceProtocol {
         self.store = Store(containerDirectory: Configuration.storeDirectory)
     }
     
-    nonisolated var output: AsyncStream<Output> {
+    nonisolated var events: AsyncStream<AppServiceEvent> {
         AsyncStream { _ in
             
         }
@@ -36,7 +36,7 @@ actor AppService: AppServiceProtocol {
         }
     }
     
-    var availableBiometry: BiometryType? {
+    var availableBiometry: AppServiceBiometry? {
         get async {
             switch await cryptor.biometryAvailablility {
             case .notAvailable, .notEnrolled:
@@ -51,26 +51,21 @@ actor AppService: AppServiceProtocol {
     
     func unlockWithPassword(_ password: String) async throws {
         guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+            throw AppServiceError.noActiveStoreID
         }
         let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
         try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
-        
-        outputMulticast.send(.didUnlock)
     }
     
     func unlockWithBiometry() async throws {
         guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+            throw AppServiceError.noActiveStoreID
         }
         try await cryptor.unlockWithBiometry(id: storeID)
-        
-        outputMulticast.send(.didUnlock)
     }
     
     func lock() async {
         await cryptor.lock()
-        outputMulticast.send(.didLock)
     }
     
     func password(length: Int, digit: Bool, symbol: Bool) async -> String {
@@ -97,62 +92,46 @@ actor AppService: AppServiceProtocol {
     }
     
     func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
-        /*
         let storeID = UUID()
         let derivedKeyContainer = try CryptorToken.create()
         
+        try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
         try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
         await defaults.set(activeStoreID: storeID)
-        try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
-        
-        outputMulticast.send(.setupComplete)
-         */
-        try! await Task.sleep(nanoseconds: 1_000_000_000)
-        throw NSError(domain: "", code: 0, userInfo: nil)
     }
     
-    func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
-        AsyncStream { continuation in
-            continuation.yield(StoreItemInfo(id: UUID(), name: "bar", description: "foo", primaryType: .password, secondaryTypes: [], created: .now, modified: .now))
+    nonisolated func loadInfos() -> AsyncThrowingStream<StoreItemInfo, Error> {
+        AsyncThrowingStream { continuation in
             continuation.finish()
         }
-        /*
-        guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+    }
+    
+    nonisolated func loadInfoData() -> AsyncThrowingStream<Data, Error> {
+        AsyncThrowingStream { continuation in
+            continuation.finish()
         }
-        
-        let foo = await store.loadItems(storeID: storeID, read: readInfoData).map { itemData in
-            try StoreItemInfo(from: itemData)
-        }
-        
-        
-        fatalError()
-        func readInfoData(context: ReadingContext) throws -> Data {
-            Data()
-        }
-         */
     }
     
     func load(itemID: UUID) async throws -> StoreItem {
         guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+            throw AppServiceError.noActiveStoreID
         }
         
         let encryptedMessages = try await store.loadItem(storeID: storeID, itemID: itemID)
         let messages = try await cryptor.decryptMessages(from: encryptedMessages)
         
         guard let encodedInfo = messages.first else {
-            throw Error.invalidMessageContainer
+            throw AppServiceError.invalidMessageContainer
         }
         let encodedItems = messages.dropFirst()
         guard let encodedPrimaryItem = encodedItems.first else {
-            throw Error.invalidMessageContainer
+            throw AppServiceError.invalidMessageContainer
         }
         let encodedSecondaryItems = encodedItems.dropFirst()
                     
         let info = try StoreItemInfo(from: encodedInfo)
         guard encodedSecondaryItems.count == info.secondaryTypes.count else {
-            throw Error.invalidMessageContainer
+            throw AppServiceError.invalidMessageContainer
         }
                     
         let primaryItem = try SecureItem(from: encodedPrimaryItem, as: info.primaryType)
@@ -166,7 +145,7 @@ actor AppService: AppServiceProtocol {
     
     func save(_ storeItem: StoreItem) async throws {
         guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+            throw AppServiceError.noActiveStoreID
         }
         
         let encodedInfo = try storeItem.info.encoded
@@ -187,7 +166,7 @@ actor AppService: AppServiceProtocol {
     
     func delete(itemID: UUID) async throws {
         guard let storeID = await defaults.activeStoreID else {
-            throw Error.noActiveStoreID
+            throw AppServiceError.noActiveStoreID
         }
         
         let operations = [
@@ -198,25 +177,11 @@ actor AppService: AppServiceProtocol {
         outputMulticast.send(.storeDidChange)
     }
     
-}
-
-extension AppService {
-    
-    enum Output {
-        
-        case storeDidChange
-        case defaultsDidChange
-        case didLock
-        case didUnlock
-        case setupComplete
-        
-    }
-    
-    enum Error: Swift.Error {
-        
-        case noActiveStoreID
-        case invalidMessageContainer
-        
+    nonisolated func decryptStoreItemInfos<S>(from sequence: S) -> AsyncThrowingMapSequence<S, StoreItemInfo> where S: AsyncSequence, S.Element == Data {
+        sequence.map { [cryptor] data in
+            let decryptedData = try await cryptor.decryptMessage(at: 0, from: data)
+            return try StoreItemInfo(from: decryptedData)
+        }
     }
     
 }
@@ -238,23 +203,23 @@ extension AppServiceProtocol where Self == AppService {
 extension UserDefaults: PersistenceProvider {}
 
 #if DEBUG
-struct AppServiceStub: AppServiceProtocol {
+actor AppServiceStub: AppServiceProtocol {
     
-    nonisolated var output: AsyncStream<AppService.Output> {
+    nonisolated var events: AsyncStream<AppServiceEvent> {
         AsyncStream { _ in
             
         }
     }
     
-    var didCompleteSetup: Bool {
+    nonisolated var didCompleteSetup: Bool {
         true
     }
     
-    var availableBiometry: BiometryType? {
+    nonisolated var availableBiometry: AppServiceBiometry? {
         .touchID
     }
     
-    var isBiometricUnlockEnabled: Bool {
+    nonisolated var isBiometricUnlockEnabled: Bool {
         true
     }
     
@@ -292,9 +257,15 @@ struct AppServiceStub: AppServiceProtocol {
         try! await Task.sleep(nanoseconds: 1_000_000_000)
     }
     
-    func loadInfos() async throws -> AsyncStream<StoreItemInfo> {
-        AsyncStream { continuation in
+    nonisolated func loadInfos() -> AsyncThrowingStream<StoreItemInfo, Error> {
+        AsyncThrowingStream { continuation in
             continuation.yield(Self.storeItem.info)
+            continuation.finish()
+        }
+    }
+    
+    nonisolated func loadInfoData() -> AsyncThrowingStream<Data, Error> {
+        AsyncThrowingStream { continuation in
             continuation.finish()
         }
     }
@@ -311,13 +282,17 @@ struct AppServiceStub: AppServiceProtocol {
         print(#function)
     }
     
+    nonisolated func decryptStoreItemInfos<S>(from sequence: S) -> AsyncThrowingMapSequence<S, StoreItemInfo> where S: AsyncSequence, S.Element == Data {
+        fatalError()
+    }
+    
 }
 
 extension AppServiceStub {
     
     static let shared = AppServiceStub()
     
-    static var storeItem: StoreItem {
+    static let storeItem: StoreItem = {
         let loginItem = LoginItem(username: "foo", password: "bar", url: "baz")
         let passwordItem = PasswordItem(password: "qux")
         let id = UUID()
@@ -326,7 +301,7 @@ extension AppServiceStub {
             SecureItem.password(passwordItem)
         ]
         return StoreItem(id: id, name: "quux", primaryItem: primaryItem, secondaryItems: secondaryItems, created: .now, modified: .now)
-    }
+    }()
     
 }
 

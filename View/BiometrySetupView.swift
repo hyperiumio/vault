@@ -9,7 +9,7 @@ struct BiometrySetupView: View {
     }
     
     var body: some View {
-        SetupContentView(buttonEnabled: state.canCompleteBiometrySetup) {
+        SetupContentView(buttonEnabled: state.status == .biometrySetup) {
             state.confirm()
         } image: {
             Image(state.biometryType.image)
@@ -22,7 +22,7 @@ struct BiometrySetupView: View {
                 .toggleStyle(.switch)
                 .labelsHidden()
                 .tint(.accentColor)
-                .disabled(!state.isSetupEnabled)
+                .disabled(state.status == .setupComplete)
         } button: {
             Text(.continue)
         }
@@ -30,7 +30,7 @@ struct BiometrySetupView: View {
     
 }
 
-private extension BiometryType {
+private extension AppServiceBiometry {
     
     var image: String {
         switch self {
@@ -64,7 +64,7 @@ private extension BiometryType {
 #if DEBUG
 struct BiometrySetupViewPreview: PreviewProvider {
     
-    static let state = BiometrySetupState(biometryType: .touchID)
+    static let state = BiometrySetupState(biometryType: .faceID, isBiometricUnlockEnabled: true)
     
     static var previews: some View {
         BiometrySetupView(state)

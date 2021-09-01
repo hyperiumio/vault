@@ -10,14 +10,18 @@ struct MasterPasswordSetupView: View {
         self.state = state
         
         self.presentsPasswordConfirmation = Binding {
-            state.presentsPasswordConfirmation
+            state.status == .needsPasswordConfirmation
         } set: { presentsPasswordConfirmation in
-            state.presentsPasswordConfirmation = presentsPasswordConfirmation
+            if presentsPasswordConfirmation {
+                state.presentPasswordConfirmation()
+            } else {
+                state.dismissPasswordConfimation()
+            }
         }
     }
     
     var body: some View {
-        SetupContentView(buttonEnabled: state.canChoosePassword) {
+        SetupContentView(buttonEnabled: state.status == .passwordInput) {
             isPasswordFieldFocused = false
             state.choosePasswordIfSecure()
         } image: {
@@ -28,21 +32,19 @@ struct MasterPasswordSetupView: View {
             Text(.chooseMasterPasswordDescription)
         } input: {
             VStack {
-                SecureField(.enterMasterPassword, text: $state.masterPassword, prompt: nil)
-                    .textFieldStyle(.plain)
-                    .font(.title2)
-                    .disabled(!state.canEnterPassword)
+                PasswordInput(.enterMasterPassword, password: $state.masterPassword)
+                    .disabled(state.status != .passwordInput)
                     .focused($isPasswordFieldFocused)
                 
                 ProgressView()
-                    .opacity(state.isCheckingPasswordSecurity ? 1 : 0)
+                    .opacity(state.status == .checkingPasswordSecurity ? 1 : 0)
             }
         } button: {
             Text(.continue)
         }
         .alert(.insecurePasswordTitle, isPresented: presentsPasswordConfirmation) {
             Button(.cancel, role: .cancel) {
-                state.presentsPasswordConfirmation = false
+                state.dismissPasswordConfimation()
             }
             
             Button(.continue) {

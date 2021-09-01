@@ -63,12 +63,22 @@ public actor Cryptor {
         masterKey = nil
     }
     
+    
+    
     public func decryptMessages(from container: Data) async throws -> [Data] {
         guard let masterKey = masterKey else {
             throw CryptoError.cryptorNotUnlocked
         }
         
         return try SecureDataMessage.decryptMessages(from: container, using: masterKey)
+    }
+    
+    public func decryptMessage(at index: Int, from container: Data) async throws -> Data {
+        guard let masterKey = masterKey else {
+            throw CryptoError.cryptorNotUnlocked
+        }
+        
+        return try SecureDataMessage.decryptMessages(from: container, using: masterKey)[index] // hack
     }
     
     public func encryptMessages(_ messages: [Data]) async throws -> Data {

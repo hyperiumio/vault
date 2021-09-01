@@ -1,23 +1,27 @@
 import Haptic
 import SwiftUI
 
-struct CompleteSetupView: View {
+struct FinishSetupView: View {
     
-    @ObservedObject private var state: CompleteSetupState
+    @ObservedObject private var state: FinishSetupState
     private let presentsSetupFailure: Binding<Bool>
     
-    init(_ state: CompleteSetupState) {
+    init(_ state: FinishSetupState) {
         self.state = state
         
         self.presentsSetupFailure = Binding {
-            state.presentsSetupFailure
+            state.status == .failedToComplete
         } set: { presentsSetupFailure in
-            state.presentsSetupFailure = presentsSetupFailure
+            if presentsSetupFailure {
+                state.presentSetupFailure()
+            } else {
+                state.dismissSetupFailure()
+            }
         }
     }
     
     var body: some View {
-        SetupContentView(buttonEnabled: state.canCompleteSetup) {
+        SetupContentView(buttonEnabled: state.status == .readyToComplete) {
             state.completeSetup()
         } image: {
             Image(.completeSetupImage)
@@ -27,16 +31,18 @@ struct CompleteSetupView: View {
             Text(.setupCompleteDescription)
         } input: {
             ProgressView()
-                .opacity(state.isLoading ? 1 : 0)
+                .opacity(state.status == .finishingSetup ? 1 : 0)
         } button: {
             Text(.continue)
         }
-        .onChange(of: state.isComplete) { newValue in
-            HapticFeedback.shared.play(.success)
+        .onChange(of: state.status) { status in
+            if status == .setupComplete {
+                HapticFeedback.shared.play(.success)
+            }
         }
         .alert(.vaultCreationFailed, isPresented: presentsSetupFailure) {
             Button(.cancel, role: .cancel) {
-                state.presentsSetupFailure = false
+                state.dismissSetupFailure()
             }
             
             Button(.retry) {
@@ -48,16 +54,16 @@ struct CompleteSetupView: View {
 }
 
 #if DEBUG
-struct CompleteSetupViewPreview: PreviewProvider {
+struct FinishSetupViewPreview: PreviewProvider {
     
-    static let state = CompleteSetupState(masterPassword: "foo", isBiometryEnabled: true, service: .stub)
+    static let state = FinishSetupState(masterPassword: "foo", isBiometryEnabled: true, service: .stub)
     
     static var previews: some View {
-        CompleteSetupView(state)
+        FinishSetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
         
-        CompleteSetupView(state)
+        FinishSetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

@@ -9,59 +9,83 @@ class SetupState: ObservableObject {
     private var previousIndex: Int?
     
     init(service: AppServiceProtocol) {
-        let masterPasswordSetupState = MasterPasswordSetupState(service: service)
-        let stepOutputStream = masterPasswordSetupState.output.map { _ in Input.next }
-        inputBuffer.enqueue(stepOutputStream)
-        step = .choosePassword(masterPasswordSetupState)
+        let state = MasterPasswordSetupState(service: service)
+        let payload = Step.ChoosePassword(state: state)
+        let inputs = state.$status.values.compactMap(Input.init)
+        inputBuffer.enqueue(inputs)
+        step = .choosePassword(payload)
         
         Task {
             for await input in inputBuffer.events {
                 previousIndex = step.index
                 
-                switch (input, step) {
-                case let (.next, .choosePassword(masterPasswordSetup)):
-                    let repeatPasswordSetup = RepeatMasterPasswordSetupState(masterPassword: masterPasswordSetup.masterPassword)
-                    let stepOutputStream = repeatPasswordSetup.output.map { _ in Input.next }
-                    inputBuffer.enqueue(stepOutputStream)
-                    step = .repeatPassword(masterPasswordSetup, repeatPasswordSetup)
-                case let (.next, .repeatPassword(masterPasswordSetup, repeatPasswordSetup)):
-                    if let biometryType = await service.availableBiometry {
-                        let biometrySetup = BiometrySetupState(biometryType: biometryType)
-                        let stepOutputStream = biometrySetup.output.map { _ in Input.next }
-                        inputBuffer.enqueue(stepOutputStream)
-                        step = .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, biometrySetup)
-                    } else {
-                        let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.masterPassword, isBiometryEnabled: false, service: service)
-                        let stepOutputStream = repeatPasswordSetup.output.map { _ in Input.next }
-                        inputBuffer.enqueue(stepOutputStream)
-                        step = .completeSetup(masterPasswordSetup, repeatPasswordSetup, nil, completeSetup)
+                switch input {
+                case .next:
+                    switch step {
+                    case let .choosePassword(payload):
+                        let state = RepeatMasterPasswordSetupState(masterPassword: payload.state.masterPassword)
+                        let payload = Step.RepeatPassword(masterPassword: payload.state.masterPassword, state: state)
+                        let inputs = state.$status.values.compactMap(Input.init)
+                        inputBuffer.enqueue(inputs)
+                        step = .repeatPassword(payload)
+                    case let .repeatPassword(payload):
+                        if let biometryType = await service.availableBiometry {
+                            let state = BiometrySetupState(biometryType: biometryType)
+                            let payload = Step.BiometryUnlock(masterPassword: payload.masterPassword, repeatedPassword: payload.state.repeatedPassword, state: state)
+                            let inputs = state.$status.values.compactMap(Input.init)
+                            inputBuffer.enqueue(inputs)
+                            step = .biometricUnlock(payload)
+                        } else {
+                            let state = FinishSetupState(masterPassword: payload.masterPassword, isBiometryEnabled: false, service: service)
+                            let payload = Step.FinishSetup(masterPassword: payload.masterPassword, repeatedPassword: payload.state.repeatedPassword, isBiometryEnabled: false, biometryType: nil, state: state)
+                            let inputs = state.$status.values.map(Input.init)
+                            inputBuffer.enqueue(inputs)
+                            step = .finishSetup(payload)
+                        }
+                    case let .biometricUnlock(payload):
+                        let state = FinishSetupState(masterPassword: payload.masterPassword, isBiometryEnabled: payload.state.isBiometricUnlockEnabled, service: service)
+                        let payload = Step.FinishSetup(masterPassword: payload.masterPassword, repeatedPassword: payload.repeatedPassword, isBiometryEnabled: payload.state.isBiometricUnlockEnabled, biometryType: payload.state.biometryType, state: state)
+                        let inputs = state.$status.values.map(Input.init)
+                        inputBuffer.enqueue(inputs)
+                        step = .finishSetup(payload)
+                    case .finishSetup:
+                        continue
                     }
-                case let (.next, .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, biometrySetup)):
-                    let completeSetup = CompleteSetupState(masterPassword: masterPasswordSetup.masterPassword, isBiometryEnabled: biometrySetup.isBiometricUnlockEnabled, service: service)
-                    step = .completeSetup(masterPasswordSetup, repeatPasswordSetup, biometrySetup, completeSetup)
-                case let (.back, .repeatPassword(masterPasswordSetup, _)):
-                    step = .choosePassword(masterPasswordSetup)
-                case let (.back, .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, _)):
-                    step = .repeatPassword(masterPasswordSetup, repeatPasswordSetup)
-                case let (.back, .completeSetup(masterPasswordSetup, repeatPasswordSetup, biometrySetup, _)):
-                    if let biometrySetup = biometrySetup {
-                        step = .biometricUnlock(masterPasswordSetup, repeatPasswordSetup, biometrySetup)
-                    } else {
-                        step = .repeatPassword(masterPasswordSetup, repeatPasswordSetup)
+                case .back:
+                    switch step {
+                    case .choosePassword:
+                        continue
+                    case let .repeatPassword(payload):
+                        let state = MasterPasswordSetupState(masterPassword: payload.masterPassword, service: service)
+                        let payload = Step.ChoosePassword(state: state)
+                        let inputs = state.$status.values.compactMap(Input.init)
+                        inputBuffer.enqueue(inputs)
+                        step = .choosePassword(payload)
+                    case let .biometricUnlock(payload):
+                        let state = RepeatMasterPasswordSetupState(masterPassword: payload.masterPassword, repeatedPassword: payload.repeatedPassword)
+                        let payload = Step.RepeatPassword(masterPassword: payload.masterPassword, state: state)
+                        let inputs = state.$status.values.compactMap(Input.init)
+                        inputBuffer.enqueue(inputs)
+                        step = .repeatPassword(payload)
+                    case let .finishSetup(payload):
+                        if let biometryType = payload.biometryType {
+                            let state = BiometrySetupState(biometryType: biometryType, isBiometricUnlockEnabled: payload.isBiometryEnabled)
+                            let payload = Step.BiometryUnlock(masterPassword: payload.masterPassword, repeatedPassword: payload.repeatedPassword, state: state)
+                            let inputs = state.$status.values.compactMap(Input.init)
+                            inputBuffer.enqueue(inputs)
+                            step = .biometricUnlock(payload)
+                        } else {
+                            let state = RepeatMasterPasswordSetupState(masterPassword: payload.masterPassword, repeatedPassword: payload.repeatedPassword)
+                            let payload = Step.RepeatPassword(masterPassword: payload.masterPassword, state: state)
+                            let inputs = state.$status.values.compactMap(Input.init)
+                            inputBuffer.enqueue(inputs)
+                            step = .repeatPassword(payload)
+                        }
                     }
-                default:
-                    continue
+                case .reload:
+                    step = step
                 }
             }
-        }
-    }
-    
-    var isBackButtonVisible: Bool {
-        switch step {
-        case .choosePassword:
-            return false
-        case .repeatPassword, .biometricUnlock, .completeSetup:
-            return true
         }
     }
     
@@ -83,10 +107,10 @@ extension SetupState {
     
     enum Step {
         
-        case choosePassword(MasterPasswordSetupState)
-        case repeatPassword(MasterPasswordSetupState, RepeatMasterPasswordSetupState)
-        case biometricUnlock(MasterPasswordSetupState, RepeatMasterPasswordSetupState, BiometrySetupState)
-        case completeSetup(MasterPasswordSetupState, RepeatMasterPasswordSetupState, BiometrySetupState?, CompleteSetupState)
+        case choosePassword(ChoosePassword)
+        case repeatPassword(RepeatPassword)
+        case biometricUnlock(BiometryUnlock)
+        case finishSetup(FinishSetup)
         
         var index: Int {
             switch self {
@@ -96,7 +120,7 @@ extension SetupState {
                 return 1
             case .biometricUnlock:
                 return 2
-            case .completeSetup:
+            case .finishSetup:
                 return 3
             }
         }
@@ -107,6 +131,41 @@ extension SetupState {
         
         case next
         case back
+        case reload
+        
+        init?(_ status: MasterPasswordSetupState.Status) {
+            switch status {
+            case .passwordInput, .checkingPasswordSecurity, .needsPasswordConfirmation:
+                return nil
+            case .didChoosePassword:
+                self = .next
+            }
+        }
+        
+        init?(_ status: RepeatMasterPasswordSetupState.Status) {
+            switch status {
+            case .passwordInput, .passwordMismatch:
+                return nil
+            case .passwordRepeated:
+                self = .next
+            }
+        }
+        
+        init?(_ status: BiometrySetupState.Status) {
+            switch status {
+            case .biometrySetup:
+                return nil
+            case .setupComplete:
+                self = .next
+            }
+        }
+        
+        init(_ status: FinishSetupState.Status) {
+            switch status {
+            case .readyToComplete, .finishingSetup, .failedToComplete, .setupComplete:
+                self = .reload
+            }
+        }
         
     }
     
@@ -114,6 +173,41 @@ extension SetupState {
         
         case forward
         case backward
+        
+    }
+    
+}
+
+extension SetupState.Step {
+    
+    struct ChoosePassword {
+        
+        let state: MasterPasswordSetupState
+        
+    }
+    
+    struct RepeatPassword {
+        
+        let masterPassword: String
+        let state: RepeatMasterPasswordSetupState
+        
+    }
+    
+    struct BiometryUnlock {
+        
+        let masterPassword: String
+        let repeatedPassword: String
+        let state: BiometrySetupState
+        
+    }
+    
+    struct FinishSetup {
+        
+        let masterPassword: String
+        let repeatedPassword: String
+        let isBiometryEnabled: Bool
+        let biometryType: AppServiceBiometry?
+        let state: FinishSetupState
         
     }
     

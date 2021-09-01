@@ -17,7 +17,7 @@ struct RepeatMasterPasswordSetupView: View {
     }
     
     var body: some View {
-        SetupContentView(buttonEnabled: state.canChooseRepeatedPassword) {
+        SetupContentView(buttonEnabled: state.status == .passwordInput) {
             isPasswordFieldFocused = false
             state.checkRepeatedPassword()
         } image: {
@@ -30,7 +30,7 @@ struct RepeatMasterPasswordSetupView: View {
             SecureField(.enterMasterPassword, text: $state.repeatedPassword, prompt: nil)
                 .textFieldStyle(.plain)
                 .font(.title2)
-                .disabled(!state.canEnterPassword)
+                .disabled(state.status != .passwordInput)
                 .focused($isPasswordFieldFocused)
         } button: {
             Text(.continue)

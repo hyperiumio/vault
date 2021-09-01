@@ -29,19 +29,34 @@ struct SetupView: View {
             
             Group {
                 switch state.step {
-                case let .choosePassword(state):
-                    MasterPasswordSetupView(state)
-                case let .repeatPassword(_, state):
-                    RepeatMasterPasswordSetupView(state)
-                case let .biometricUnlock(_, _, state):
-                    BiometrySetupView(state)
-                case let .completeSetup(_, _, _, state):
-                    CompleteSetupView(state)
+                case let .choosePassword(payload):
+                    MasterPasswordSetupView(payload.state)
+                case let .repeatPassword(payload):
+                    RepeatMasterPasswordSetupView(payload.state)
+                case let .biometricUnlock(payload):
+                    BiometrySetupView(payload.state)
+                case let .finishSetup(payload):
+                    FinishSetupView(payload.state)
                 }
             }
             .padding([.leading, .trailing, .bottom])
             .transition(state.direction.transition)
             .animation(.easeInOut, value: state.step.index)
+        }
+    }
+    
+}
+
+private extension SetupState {
+    
+    var isBackButtonVisible: Bool {
+        switch step {
+        case .choosePassword:
+            return false
+        case .repeatPassword, .biometricUnlock:
+            return true
+        case let .finishSetup(payload):
+            return payload.state.status == .readyToComplete
         }
     }
     

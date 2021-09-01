@@ -2,9 +2,9 @@ import Event
 import Foundation
 
 @MainActor
-class CompleteSetupState: ObservableObject {
+class FinishSetupState: ObservableObject {
 
-    @Published private var status = Status.readyToComplete
+    @Published private(set) var status = Status.readyToComplete
     private let masterPassword: String
     private let isBiometryEnabled: Bool
     private let service: AppServiceProtocol
@@ -15,29 +15,17 @@ class CompleteSetupState: ObservableObject {
         self.service = service
     }
     
-    var isLoading: Bool {
-        status == .finishingSetup
+    func presentSetupFailure() {
+        status = .failedToComplete
     }
     
-    var canCompleteSetup: Bool {
-        status == .readyToComplete
-    }
-    
-    var isComplete: Bool {
-        status == .setupComplete
-    }
-    
-    var presentsSetupFailure: Bool {
-        get {
-            status == .failedToComplete
-        }
-        set(presentsSetupFailure) {
-            status = presentsSetupFailure ? .failedToComplete : .readyToComplete
-        }
+    func dismissSetupFailure() {
+        status = .readyToComplete
     }
     
     func completeSetup() {
         status = .finishingSetup
+        
         Task {
             do {
                 try await service.completeSetup(isBiometryEnabled: isBiometryEnabled, masterPassword: masterPassword)
@@ -50,7 +38,7 @@ class CompleteSetupState: ObservableObject {
     
 }
 
-extension CompleteSetupState {
+extension FinishSetupState {
     
     enum Status {
         
