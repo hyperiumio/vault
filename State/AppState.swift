@@ -96,7 +96,7 @@ extension AppState {
             switch status {
             case .locked:
                 self = .lock
-            case .emptyStore, .noSearchResults, .items:
+            case .emptyStore, .noSearchResults, .items, .loadingItemsFailed:
                 return nil
             }
         }

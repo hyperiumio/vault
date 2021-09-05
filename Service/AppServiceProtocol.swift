@@ -1,9 +1,10 @@
+import Combine
 import Foundation
 import Model
 
 protocol AppServiceProtocol {
     
-    var events: AsyncStream<AppServiceEvent> { get }
+    nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> { get }
     
     var availableBiometry: AppServiceBiometry? { get async }
     var isBiometricUnlockEnabled: Bool { get async }
@@ -22,7 +23,7 @@ protocol AppServiceProtocol {
     func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws
     
     
-    func loadInfos() -> AsyncThrowingStream<StoreItemInfo, Error>
+    func loadInfos() async throws -> AsyncThrowingMapSequence<AsyncThrowingMapSequence<AsyncThrowingStream<Data, Error>, Data>, StoreItemInfo>
     func loadInfoData() -> AsyncThrowingStream<Data, Error>
     func load(itemID: UUID) async throws -> StoreItem
     func save(_ storeItem: StoreItem) async throws

@@ -85,6 +85,7 @@ public actor Store {
                     continuation.finish(throwing: error)
                 }
             }
+            continuation.finish()
         }
     }
     

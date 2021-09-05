@@ -1,3 +1,4 @@
+import Combine
 import Configuration
 import Crypto
 import Event
@@ -11,7 +12,7 @@ actor AppService: AppServiceProtocol {
     private let defaults: Defaults
     private let cryptor: Cryptor
     private let store: Store
-    private let outputMulticast = EventMulticast<AppServiceEvent>()
+    private let eventPublisher = PassthroughSubject<AppServiceEvent, Never>()
     
     init() {
         let userDefaults = UserDefaults.standard // use shared user defaults
@@ -21,10 +22,8 @@ actor AppService: AppServiceProtocol {
         self.store = Store(containerDirectory: Configuration.storeDirectory)
     }
     
-    nonisolated var events: AsyncStream<AppServiceEvent> {
-        AsyncStream { _ in
-            
-        }
+    nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> {
+        eventPublisher.values
     }
     
     var didCompleteSetup: Bool {
@@ -80,11 +79,11 @@ actor AppService: AppServiceProtocol {
     
     func save(isBiometricUnlockEnabled: Bool) async {
         await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
-        outputMulticast.send(.defaultsDidChange)
+        eventPublisher.send(.defaultsDidChange)
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
-        outputMulticast.send(.storeDidChange)
+        eventPublisher.send(.storeDidChange)
     }
     
     func isPasswordSecure(_ password: String) async -> Bool {
@@ -100,9 +99,19 @@ actor AppService: AppServiceProtocol {
         await defaults.set(activeStoreID: storeID)
     }
     
-    nonisolated func loadInfos() -> AsyncThrowingStream<StoreItemInfo, Error> {
-        AsyncThrowingStream { continuation in
-            continuation.finish()
+    nonisolated func loadInfos() async throws -> AsyncThrowingMapSequence<AsyncThrowingMapSequence<AsyncThrowingStream<Data, Error>, Data>, StoreItemInfo> {
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
+        }
+        
+        return await store.loadItems(storeID: storeID) { context in
+            try context.bytes
+        }
+        .map { [cryptor] bytes in
+            try await cryptor.decryptMessage(at: 0, from: bytes)
+        }
+        .map { data in
+            try StoreItemInfo(from: data)
         }
     }
     
@@ -161,7 +170,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        outputMulticast.send(.storeDidChange)
+        eventPublisher.send(.storeDidChange)
     }
     
     func delete(itemID: UUID) async throws {
@@ -174,7 +183,7 @@ actor AppService: AppServiceProtocol {
         ]
         try await store.commit(storeID: storeID, operations: operations)
         
-        outputMulticast.send(.storeDidChange)
+        eventPublisher.send(.storeDidChange)
     }
     
     nonisolated func decryptStoreItemInfos<S>(from sequence: S) -> AsyncThrowingMapSequence<S, StoreItemInfo> where S: AsyncSequence, S.Element == Data {
@@ -205,10 +214,8 @@ extension UserDefaults: PersistenceProvider {}
 #if DEBUG
 actor AppServiceStub: AppServiceProtocol {
     
-    nonisolated var events: AsyncStream<AppServiceEvent> {
-        AsyncStream { _ in
-            
-        }
+    nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> {
+        PassthroughSubject<AppServiceEvent, Never>().values
     }
     
     nonisolated var didCompleteSetup: Bool {
@@ -257,11 +264,8 @@ actor AppServiceStub: AppServiceProtocol {
         try! await Task.sleep(nanoseconds: 1_000_000_000)
     }
     
-    nonisolated func loadInfos() -> AsyncThrowingStream<StoreItemInfo, Error> {
-        AsyncThrowingStream { continuation in
-            continuation.yield(Self.storeItem.info)
-            continuation.finish()
-        }
+    nonisolated func loadInfos() async throws -> AsyncThrowingMapSequence<AsyncThrowingMapSequence<AsyncThrowingStream<Data, Error>, Data>, StoreItemInfo> {
+        throw NSError()
     }
     
     nonisolated func loadInfoData() -> AsyncThrowingStream<Data, Error> {
@@ -275,7 +279,7 @@ actor AppServiceStub: AppServiceProtocol {
     }
     
     func save(_ storeItem: StoreItem) async throws {
-        print(#function)
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
     }
     
     func delete(itemID: UUID) async throws {

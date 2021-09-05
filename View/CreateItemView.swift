@@ -13,7 +13,7 @@ struct CreateItemView: View {
     #if os(iOS)
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section {
                     SecureItemView(state.primaryItem)
                 } header: {
@@ -21,6 +21,7 @@ struct CreateItemView: View {
                         .textCase(.none)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(.cancel) {
@@ -38,9 +39,18 @@ struct CreateItemView: View {
                 ToolbarItem(placement: .primaryAction) {
                     Button(.save) {
                         state.save()
-                        presentationMode.wrappedValue.dismiss()
                     }
+                    .disabled(state.title.isEmpty)
                 }
+            }
+        }
+        .disabled(state.isUserInputDisabled)
+        .onChange(of: state.status) { status in
+            switch status {
+            case .didSave:
+                presentationMode.wrappedValue.dismiss()
+            case .readyToSave, .saving, .savingDidFail:
+                return
             }
         }
     }
@@ -95,3 +105,16 @@ struct CreateItemViewPreview: PreviewProvider {
     
 }
 #endif
+
+private extension CreateItemState {
+    
+    var isUserInputDisabled: Bool {
+        switch status {
+        case .readyToSave, .savingDidFail:
+            return false
+        case .saving, .didSave:
+            return true
+        }
+    }
+    
+}

@@ -16,16 +16,21 @@ struct UnlockedView: View {
             Group {
                 switch state.status {
                 case .emptyStore:
-                    EmptyStore()
+                    EmptyStoreView()
                 case .noSearchResults:
-                    NoSearchResults()
+                    NoSearchResultsView()
                 case let .items(collation):
-                    StoreItemList(collation)
+                    ItemsView(collation)
                         .searchable(text: $state.searchText)
                 case .locked:
                     EmptyView()
+                case .loadingItemsFailed:
+                    FailureView(.loadingVaultFailed) {
+                        state.reload()
+                    }
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarLeading) {
                     Button {
@@ -105,7 +110,7 @@ struct UnlockedView: View {
     
 extension UnlockedView {
     
-    struct EmptyStore: View {
+    struct EmptyStoreView: View {
         
         var body: some View {
             Text(.emptyVault)
@@ -114,7 +119,7 @@ extension UnlockedView {
         
     }
     
-    struct NoSearchResults: View {
+    struct NoSearchResultsView: View {
         
         var body: some View {
             Text(.noResultsFound)
@@ -123,16 +128,9 @@ extension UnlockedView {
         
     }
     
-    struct Locked: View {
-        
-        var body: some View {
-            Text("Locked")
-                .font(.title)
-        }
-        
-    }
-    
-    struct StoreItemList: View {
+    #warning("workaround")
+    @MainActor
+    struct ItemsView: View {
         
         private let collation: AlphabeticCollation<StoreItemDetailState>
         

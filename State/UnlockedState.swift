@@ -1,16 +1,22 @@
 import Event
 import Foundation
 import Model
+import Search
 import Sort
 
 @MainActor
 class UnlockedState: ObservableObject {
     
     @Published private(set) var status: Status
-    @Published var searchText: String = ""
+    @Published var searchText: String = "" {
+        didSet {
+            reload()
+        }
+    }
     @Published var sheet: Sheet?
     private let inputBuffer = EventBuffer<Input>()
     private let service: AppServiceProtocol
+    private var reloadTask: Task<Void, Never>?
     
     init(collation: AlphabeticCollation<StoreItemDetailState>?, service: AppServiceProtocol) {
         self.status = collation.map(Status.items) ?? .emptyStore
@@ -23,16 +29,7 @@ class UnlockedState: ObservableObject {
             for await input in inputBuffer.events {
                 switch input {
                 case .reload:
-                    do {
-                        let states = service.loadInfos().map { info in
-                            StoreItemDetailState(storeItemInfo: info, service: service)
-                        }
-                        let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
-                        status = .items(collation)
-                    }
-                    catch {
-                        
-                    }
+                    reload()
                 }
             }
         }
@@ -43,6 +40,13 @@ class UnlockedState: ObservableObject {
         sheet = .createItem(state)
     }
     
+    #if os(iOS)
+    func showSettings() {
+        let state = SettingsState(service: service)
+        sheet = .settings(state)
+    }
+    #endif
+    
     func lock() {
         Task {
             await service.lock()
@@ -50,12 +54,30 @@ class UnlockedState: ObservableObject {
         }
     }
     
-    #if os(iOS)
-    func showSettings() {
-        let state = SettingsState(service: service)
-        sheet = .settings(state)
+    func reload() {
+        reloadTask?.cancel()
+        reloadTask = Task { [searchText] in
+            do {
+                let states = try await service.loadInfos()
+                    .filter { item in
+                        Match(searchText, in: item.name)
+                    }
+                    .map { [service] info in
+                        StoreItemDetailState(storeItemInfo: info, service: service)
+                    }
+                let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
+                
+                guard !Task.isCancelled else {
+                    return
+                }
+                
+                status = .items(collation)
+            }
+            catch {
+                status = .loadingItemsFailed
+            }
+        }
     }
-    #endif
     
 }
 
@@ -67,6 +89,7 @@ extension UnlockedState {
         case noSearchResults
         case items(AlphabeticCollation<StoreItemDetailState>)
         case locked
+        case loadingItemsFailed
         
     }
     
@@ -85,7 +108,6 @@ extension UnlockedState {
         
     }
     
-    
     enum Sheet {
         
         case createItem(CreateItemState)
@@ -99,16 +121,26 @@ extension UnlockedState {
 
 extension UnlockedState.Sheet: Identifiable {
     
-   
+    #if os(iOS)
     var id: String {
         switch self {
         case .createItem:
             return "CreateItem"
-        #if os(iOS)
         case .settings:
             return "Settings"
-        #endif
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var id: String {
+        switch self {
+        case .createItem:
+            return "CreateItem"
+        case .settings:
+            return "Settings"
+        }
+    }
+    #endif
     
 }

@@ -8,28 +8,22 @@ class CreateItemState: ObservableObject {
     @Published var title = ""
     @Published private(set) var primaryItem: SecureItemState
     @Published private(set) var secondaryItems = [SecureItemState]()
-    @Published var createError: Error?
+    @Published private(set) var status = Status.readyToSave
     
-    private let inputBuffer = EventBuffer<Input>()
+    private let service: AppServiceProtocol
     
     init(itemType: SecureItemType, service: AppServiceProtocol) {
         self.primaryItem = SecureItemState(itemType: itemType, service: service)
-        
-        Task {
-            for await input in inputBuffer.events {
-                switch input {
-                case let .save(storeItem):
-                    do {
-                        try await service.save(storeItem)
-                    } catch {
-                        createError = .saveDidFail
-                    }
-                }
-            }
-        }
+        self.service = service
     }
     
     func save() {
+        guard status == .readyToSave else {
+            return
+        }
+        
+        status = .saving
+        
         let id = UUID()
         let name = title
         let primaryItem = primaryItem.secureItem
@@ -37,24 +31,27 @@ class CreateItemState: ObservableObject {
         let created = Date.now
         let modified = created
         let storeItem = StoreItem(id: id, name: name, primaryItem: primaryItem, secondaryItems: secondaryItems, created: created, modified: modified)
-        let input = Input.save(storeItem: storeItem)
         
-        inputBuffer.enqueue(input)
+        Task {
+            do {
+                try await service.save(storeItem)
+                status = .didSave
+            } catch {
+                status = .savingDidFail
+            }
+        }
     }
     
 }
 
 extension CreateItemState {
     
-    enum Error: Swift.Error {
+    enum Status {
         
-        case saveDidFail
-        
-    }
-    
-    enum Input {
-        
-        case save(storeItem: StoreItem)
+        case readyToSave
+        case saving
+        case didSave
+        case savingDidFail
         
     }
     

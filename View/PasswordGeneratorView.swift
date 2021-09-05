@@ -31,7 +31,7 @@ struct PasswordGeneratorView: View {
             
             Group {
                 HStack() {
-                    #warning("FIX")
+                    #warning("workaround")
                     Text("")
                         .monospacedDigit()
                     

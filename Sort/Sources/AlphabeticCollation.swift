@@ -3,7 +3,7 @@ public struct AlphabeticCollation<Element> {
     public let sections: [Section]
     
     public init<S>(from elements: S, grouped identifier: (Element) -> String) async throws where S: AsyncSequence, Element == S.Element {
-        var groupedElements = [String:[Element]]()
+        var groupedElements = [String: [Element]]()
         for try await element in elements {
             let key = identifier(element).prefix(1).uppercased()
             
