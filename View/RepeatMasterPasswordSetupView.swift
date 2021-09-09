@@ -21,7 +21,7 @@ struct RepeatMasterPasswordSetupView: View {
             isPasswordFieldFocused = false
             state.checkRepeatedPassword()
         } image: {
-            Image(.masterPasswordRepeatImage)
+            Image(ImageAsset.masterPasswordRepeat.name)
         } title: {
             Text(.repeatMasterPasswordTitle)
         } description: {

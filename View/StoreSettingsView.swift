@@ -9,7 +9,7 @@ struct StoreSettingsView: View {
     }
     
     var body: some View {
-        Text("foo")
+        EmptyView()
     }
     
 }

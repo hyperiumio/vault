@@ -36,13 +36,13 @@ struct UnlockedView: View {
                     Button {
                         state.showSettings()
                     } label: {
-                        Image(systemName: .sliderHorizontal3Symbol)
+                        Image(systemName: SFSymbol.sliderHorizontal3.systemName)
                     }
                     
                     Button {
                         state.lock()
                     } label: {
-                        Image(systemName: .lockSymbol)
+                        Image(systemName: SFSymbol.lock.systemName)
                     }
                 }
                 
@@ -52,7 +52,7 @@ struct UnlockedView: View {
                             state.showCreateItemSheet(itemType: itemType)
                         }
                     } label: {
-                        Image(systemName: .plusSymbol)
+                        Image(systemName: SFSymbol.plus.systemName)
                     }
                 }
             }
@@ -76,10 +76,16 @@ struct UnlockedView: View {
                 case .emptyStore:
                     EmptyStoreView()
                 case .noSearchResults:
-                    NoSearchResults()
+                    NoSearchResultsView()
                 case let .items(collation):
-                    StoreItemList(collation)
+                    ItemsView(collation)
                         .searchable(text: $state.searchText)
+                case .locked:
+                    EmptyView()
+                case .loadingItemsFailed:
+                    FailureView(.loadingVaultFailed) {
+                        state.reload()
+                    }
                 }
             }
             .toolbar {
@@ -90,7 +96,7 @@ struct UnlockedView: View {
                         state.showCreateItemSheet(itemType: itemType)
                     }
                 } label: {
-                    Image(systemName: .plusSymbol)
+                    Image(systemName: SFSymbol.plus.systemName)
                 }
                 .menuStyle(.borderlessButton)
                 .menuIndicator(.hidden)

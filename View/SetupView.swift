@@ -12,7 +12,7 @@ struct SetupView: View {
         VStack(spacing: 0) {
             HStack {
                 if state.isBackButtonVisible {
-                    Image(systemName: .chevronBackwardSymbol)
+                    Image(systemName: SFSymbol.chevronBackward.systemName)
                         .font(.title)
                         .symbolVariant(.circle)
                         .foregroundColor(.accentColor)

@@ -3,11 +3,13 @@ import SwiftUI
 struct SettingsView: View {
     
     @ObservedObject private var state: SettingsState
+    @Environment(\.presentationMode) private var presentationMode
     
     init(_ state: SettingsState) {
         self.state = state
     }
     
+    #if os(iOS)
     var body: some View {
         NavigationView {
             List {
@@ -15,34 +17,49 @@ struct SettingsView: View {
                     NavigationLink {
                         SecuritySettingsView(state.securitySettingsState)
                     } label: {
-                        Label(.security, systemImage: .lockSymbol)
+                        Label(.security, systemImage: SFSymbol.lock.systemName)
                     }
                     
                     NavigationLink {
                         StoreSettingsView(state.storeSettingsState)
                     } label: {
-                        Label(.data, systemImage: "folder")
+                        Label(.store, systemImage: SFSymbol.cube.systemName)
                     }
                     
                     NavigationLink {
-                        StoreSettingsView(state.storeSettingsState)
+                        SyncSettingsView(state.syncSettingsState)
                     } label: {
-                        Label("Sync", systemImage: "arrow.triangle.2.circlepath")
+                        Label(.sync, systemImage: SFSymbol.arrowTriangle2Circlepath.systemName)
                     }
                 }
                 
                 Section {
                     NavigationLink {
-                        StoreSettingsView(state.storeSettingsState)
+                        AboutView()
                     } label: {
-                        Label("About", systemImage: "bubble.left")
+                        Label(.about, systemImage: SFSymbol.bubbleLeft.systemName)
                     }
                 }
             }
             .navigationTitle(.settings)
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button(.cancel) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+            }
         }
     }
+    #endif
+    
+    #if os(macOS)
+    var body: some View {
+        Text("foo")
+    }
+    #endif
+    
     
 }
 

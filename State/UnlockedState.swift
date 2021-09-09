@@ -111,6 +111,7 @@ extension UnlockedState {
     enum Sheet {
         
         case createItem(CreateItemState)
+        
         #if os(iOS)
         case settings(SettingsState)
         #endif
@@ -137,8 +138,6 @@ extension UnlockedState.Sheet: Identifiable {
         switch self {
         case .createItem:
             return "CreateItem"
-        case .settings:
-            return "Settings"
         }
     }
     #endif

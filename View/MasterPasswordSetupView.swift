@@ -25,7 +25,7 @@ struct MasterPasswordSetupView: View {
             isPasswordFieldFocused = false
             state.choosePasswordIfSecure()
         } image: {
-            Image(.masterPasswordSetupImage)
+            Image(ImageAsset.masterPasswordSetup.name)
         } title: {
             Text(.chooseMasterPasswordTitle)
         } description: {

@@ -40,34 +40,21 @@ struct AppView: View {
             switch state.status {
             case .launching:
                 Color.background
-                    .ignoresSafeArea()
-                    .toolbar {
-                        Spacer()
-                    }
             case .launchingFailed:
                 FailureView(.appLaunchFailure) {
-                    await state.bootstrap()
-                }
-                .toolbar {
-                    Spacer()
+                    state.bootstrap()
                 }
             case let .setup(setupState):
                 SetupView(setupState)
-                    .toolbar {
-                        Spacer()
-                    }
             case let .locked(lockedState):
                 LockedView(lockedState)
-                    .toolbar {
-                        Spacer()
-                    }
             case let .unlocked(unlockedState):
                 UnlockedView(unlockedState)
             }
         }
         .frame(width: 400, height: 400)
-        .task {
-            await state.bootstrap()
+        .onAppear {
+            state.bootstrap()
         }
     }
     #endif

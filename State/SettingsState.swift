@@ -4,13 +4,13 @@ import Foundation
 class SettingsState: ObservableObject, Identifiable {
     
     let securitySettingsState: SecuritySettingsState
-    let masterPasswordSettingsState: MasterPasswordSettingsState
     let storeSettingsState: StoreSettingsState
+    let syncSettingsState: SyncSettingsState
     
     init(service: AppServiceProtocol) {
         self.securitySettingsState = SecuritySettingsState(service: service)
-        self.masterPasswordSettingsState = MasterPasswordSettingsState(service: service)
         self.storeSettingsState = StoreSettingsState(service: service)
+        self.syncSettingsState = SyncSettingsState(service: service)
     }
     
 }

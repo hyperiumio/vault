@@ -8,7 +8,7 @@ struct SecureToggleStyle: ToggleStyle {
             configuration.label
                 .frame(maxWidth: .infinity, alignment: .leading)
             
-            Image(systemName: .eyeSymbol)
+            Image(systemName: SFSymbol.eye.systemName)
                 .symbolVariant(configuration.isOn ? .none : .slash)
                 .foregroundColor(.accentColor)
                 .padding()

@@ -12,7 +12,7 @@ struct FailureView: View {
     
     var body: some View {
         VStack {
-            Image(systemName: .exclamationmarkTriangleSymbol)
+            Image(systemName: SFSymbol.exclamationmarkTriangle.systemName)
                 .resizable()
                 .scaledToFit()
                 .symbolVariant(.fill)

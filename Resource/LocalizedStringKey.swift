@@ -17,6 +17,11 @@ extension LocalizedStringKey {
     static var setupCompleteTitle: Self { "SetupCompleteTitle" }
     static var setupCompleteDescription: Self { "SetupCompleteDescription" }
     static var store: Self { "Store" }
+    static var sync: Self { "Sync" }
+    static var about: Self { "About" }
+    static var system: Self { "System" }
+    static var version: Self { "Version" }
+    static var build: Self { "Build" }
     
     static var additionalItems: Self { "AdditionalItems" }
     static var americanExpress: Self { "AmericanExpress" }

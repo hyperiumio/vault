@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9501DBCA26E9E1A500265D7E /* SyncSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBC926E9E1A500265D7E /* SyncSettingsView.swift */; };
+		9501DBCB26E9E1A500265D7E /* SyncSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBC926E9E1A500265D7E /* SyncSettingsView.swift */; };
+		9501DBCD26E9E1E200265D7E /* SyncSettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBCC26E9E1E200265D7E /* SyncSettingsState.swift */; };
+		9501DBCE26E9E1E200265D7E /* SyncSettingsState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBCC26E9E1E200265D7E /* SyncSettingsState.swift */; };
+		9501DBD026E9E26300265D7E /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBCF26E9E26300265D7E /* AboutView.swift */; };
+		9501DBD126E9E26300265D7E /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBCF26E9E26300265D7E /* AboutView.swift */; };
+		9501DBD326E9E6E500265D7E /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBD226E9E6E500265D7E /* ImageAsset.swift */; };
+		9501DBD426E9E6E500265D7E /* ImageAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9501DBD226E9E6E500265D7E /* ImageAsset.swift */; };
 		950C70392548205A001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C70382548205A001BB318 /* Crypto */; };
 		950C703D2548206C001BB318 /* Crypto in Frameworks */ = {isa = PBXBuildFile; productRef = 950C703C2548206C001BB318 /* Crypto */; };
 		9521837126D3E76A005AA5FB /* SetupContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9521837026D3E76A005AA5FB /* SetupContentView.swift */; };
@@ -107,10 +115,10 @@
 		9574337A24AA23D30062B05A /* UnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337124AA23D30062B05A /* UnlockedView.swift */; };
 		95775EC426906C1F005D2221 /* StoreItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */; };
 		95775EC526906C1F005D2221 /* StoreItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */; };
-		957D681426CABAA300E277F4 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* Image.swift */; };
-		957D681526CABAA300E277F4 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* Image.swift */; };
-		957D681726CABC2B00E277F4 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* Localizable.swift */; };
-		957D681826CABC2B00E277F4 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* Localizable.swift */; };
+		957D681426CABAA300E277F4 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* SFSymbol.swift */; };
+		957D681526CABAA300E277F4 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* SFSymbol.swift */; };
+		957D681726CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */; };
+		957D681826CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */; };
 		957D681B26CABC5700E277F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 957D681926CABC5700E277F4 /* Localizable.strings */; };
 		957D681C26CABC5700E277F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 957D681926CABC5700E277F4 /* Localizable.strings */; };
 		9583BDD826AAF480003BE064 /* CreateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDD726AAF480003BE064 /* CreateItemView.swift */; };
@@ -176,6 +184,8 @@
 		95ADC3442684CCC000BE3DFF /* SetupState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ADC3422684CCC000BE3DFF /* SetupState.swift */; };
 		95ADC3462684CD7600BE3DFF /* LockedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ADC3452684CD7600BE3DFF /* LockedState.swift */; };
 		95ADC3472684CD7600BE3DFF /* LockedState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ADC3452684CD7600BE3DFF /* LockedState.swift */; };
+		95B0217E26EA48D100969F95 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B0217D26EA48D100969F95 /* Info.swift */; };
+		95B0217F26EA48D100969F95 /* Info.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B0217D26EA48D100969F95 /* Info.swift */; };
 		95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574337124AA23D30062B05A /* UnlockedView.swift */; };
 		95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9574330524AA135D0062B05A /* AppView.swift */; };
 		95BA9594268C535800B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9593268C535800B59DAC /* Sync */; };
@@ -242,6 +252,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9501DBC926E9E1A500265D7E /* SyncSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsView.swift; sourceTree = "<group>"; };
+		9501DBCC26E9E1E200265D7E /* SyncSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncSettingsState.swift; sourceTree = "<group>"; };
+		9501DBCF26E9E26300265D7E /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		9501DBD226E9E6E500265D7E /* ImageAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAsset.swift; sourceTree = "<group>"; };
 		9512F7F524B4633E008A4DB8 /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		951F23922547321500949362 /* Crypto */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Crypto; sourceTree = "<group>"; };
 		9521837026D3E76A005AA5FB /* SetupContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupContentView.swift; sourceTree = "<group>"; };
@@ -302,8 +316,8 @@
 		95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayView.swift; sourceTree = "<group>"; };
 		9578C0CC26CD1C1D0075C4F1 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9578C0CD26CD1C1D0075C4F1 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		957D681326CABAA300E277F4 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		957D681626CABC2B00E277F4 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
+		957D681326CABAA300E277F4 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
+		957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		957D681A26CABC5700E277F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		9583BDD726AAF480003BE064 /* CreateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemView.swift; sourceTree = "<group>"; };
@@ -335,6 +349,7 @@
 		95ADC33F2684CA5D00BE3DFF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
 		95ADC3452684CD7600BE3DFF /* LockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedState.swift; sourceTree = "<group>"; };
+		95B0217D26EA48D100969F95 /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95C07B3A26B53E3B00E3D4DA /* Shim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shim; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
@@ -451,6 +466,7 @@
 				9574325F24AA081A0062B05A /* UnlockedState.swift */,
 				9574325724AA081A0062B05A /* WifiItemState.swift */,
 				95942D5226E7A2A1005E0151 /* StoreSettingsState.swift */,
+				9501DBCC26E9E1E200265D7E /* SyncSettingsState.swift */,
 			);
 			path = State;
 			sourceTree = "<group>";
@@ -458,6 +474,7 @@
 		9574323224AA05710062B05A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9501DBCF26E9E26300265D7E /* AboutView.swift */,
 				9574330524AA135D0062B05A /* AppView.swift */,
 				9586495A251E24A60081DF08 /* BankAccountField.swift */,
 				95422087255186A4002F14AB /* BankAccountInputField.swift */,
@@ -501,10 +518,11 @@
 				95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */,
 				9574337024AA23D30062B05A /* StoreItemEditView.swift */,
 				95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */,
+				95942D5526E7A2E7005E0151 /* StoreSettingsView.swift */,
+				9501DBC926E9E1A500265D7E /* SyncSettingsView.swift */,
 				9574337124AA23D30062B05A /* UnlockedView.swift */,
 				95864927251E137C0081DF08 /* WifiField.swift */,
 				954220AC25518A9C002F14AB /* WifiInputField.swift */,
-				95942D5526E7A2E7005E0151 /* StoreSettingsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -529,11 +547,13 @@
 		9593F68226AEA18800AAE0F4 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				957D681926CABC5700E277F4 /* Localizable.strings */,
-				957D681626CABC2B00E277F4 /* Localizable.swift */,
-				957D681326CABAA300E277F4 /* Image.swift */,
-				95F7102A26B915EF003C8CF6 /* Production.xcassets */,
+				9501DBD226E9E6E500265D7E /* ImageAsset.swift */,
+				95B0217D26EA48D100969F95 /* Info.swift */,
+				957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */,
+				957D681326CABAA300E277F4 /* SFSymbol.swift */,
 				9583624724D1643700C10BBB /* Development.xcassets */,
+				95F7102A26B915EF003C8CF6 /* Production.xcassets */,
+				957D681926CABC5700E277F4 /* Localizable.strings */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -717,13 +737,14 @@
 			files = (
 				9551D3B62680DFB40000BC44 /* ConfidentialText.swift in Sources */,
 				9542209E25518847002F14AB /* LoginInputField.swift in Sources */,
-				957D681426CABAA300E277F4 /* Image.swift in Sources */,
+				957D681426CABAA300E277F4 /* SFSymbol.swift in Sources */,
 				9546356C26DE4AE5001D81B7 /* AppServiceEvent.swift in Sources */,
 				9593E8F8268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
 				954220942551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864932251E13EE0081DF08 /* CustomField.swift in Sources */,
 				95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
 				9574334F24AA135E0062B05A /* SettingsView.swift in Sources */,
+				9501DBD326E9E6E500265D7E /* ImageAsset.swift in Sources */,
 				9530DB61268F42E200247AFF /* SecureItemField.swift in Sources */,
 				95775EC426906C1F005D2221 /* StoreItemDisplayView.swift in Sources */,
 				9586493E251E14AD0081DF08 /* DateFooter.swift in Sources */,
@@ -737,7 +758,7 @@
 				954EDBA226A54DD900E0732F /* QuickAccessState.swift in Sources */,
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
 				955180482695CDE5002783D6 /* SecuritySettingsView.swift in Sources */,
-				957D681826CABC2B00E277F4 /* Localizable.swift in Sources */,
+				957D681826CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */,
 				9574327624AA081B0062B05A /* SettingsState.swift in Sources */,
 				95ADC3402684CA5D00BE3DFF /* AppState.swift in Sources */,
 				958648FB251E11130081DF08 /* Field.swift in Sources */,
@@ -776,10 +797,12 @@
 				95F9B3A026BD6BB800EA6441 /* FinishSetupView.swift in Sources */,
 				9543A8B526AEE9A400830FE4 /* SecureItemTypeView.swift in Sources */,
 				9542207B255183C1002F14AB /* Filestate.swift in Sources */,
+				9501DBD026E9E26300265D7E /* AboutView.swift in Sources */,
 				9551D3B32680CACA0000BC44 /* FailureView.swift in Sources */,
 				9521CE4226B6D6BB0023F415 /* AppService.swift in Sources */,
 				9574337A24AA23D30062B05A /* UnlockedView.swift in Sources */,
 				95ADC3462684CD7600BE3DFF /* LockedState.swift in Sources */,
+				9501DBCA26E9E1A500265D7E /* SyncSettingsView.swift in Sources */,
 				95422088255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864928251E137C0081DF08 /* WifiField.swift in Sources */,
 				95942D5626E7A2E7005E0151 /* StoreSettingsView.swift in Sources */,
@@ -787,6 +810,7 @@
 				95864905251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
 				9574327E24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
 				95864919251E12AA0081DF08 /* FileField.swift in Sources */,
+				9501DBCD26E9E1E200265D7E /* SyncSettingsState.swift in Sources */,
 				958E17EB24ABD4DB00487EA4 /* App.swift in Sources */,
 				9584698426D61A68007A56E3 /* PasswordInput.swift in Sources */,
 				9588438925397F3100732E35 /* PasswordGeneratorView.swift in Sources */,
@@ -798,6 +822,7 @@
 				9583BDE526AB0749003BE064 /* SecureItemView.swift in Sources */,
 				9574329224AA081B0062B05A /* BankAccountItemState.swift in Sources */,
 				9574327824AA081B0062B05A /* LoginItemState.swift in Sources */,
+				95B0217E26EA48D100969F95 /* Info.swift in Sources */,
 				957432A424AA081B0062B05A /* UnlockedState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -808,13 +833,14 @@
 			files = (
 				9574329324AA081B0062B05A /* BankAccountItemState.swift in Sources */,
 				955180462695CBF7002783D6 /* SecuritySettingsState.swift in Sources */,
-				957D681526CABAA300E277F4 /* Image.swift in Sources */,
+				957D681526CABAA300E277F4 /* SFSymbol.swift in Sources */,
 				9546356D26DE4AE5001D81B7 /* AppServiceEvent.swift in Sources */,
 				9574334024AA135E0062B05A /* MasterPasswordSettingsView.swift in Sources */,
 				9542209F25518847002F14AB /* LoginInputField.swift in Sources */,
 				954220952551878E002F14AB /* CustomInputField.swift in Sources */,
 				95864933251E13EE0081DF08 /* CustomField.swift in Sources */,
 				9583BDD926AAF480003BE064 /* CreateItemView.swift in Sources */,
+				9501DBD426E9E6E500265D7E /* ImageAsset.swift in Sources */,
 				9574328724AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */,
 				954EDBA326A54DDA00E0732F /* LoginCredentialSelectionState.swift in Sources */,
@@ -828,7 +854,7 @@
 				9583BDDF26AB0105003BE064 /* SecureItemState.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
 				954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */,
-				957D681726CABC2B00E277F4 /* Localizable.swift in Sources */,
+				957D681726CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */,
 				95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */,
 				9574327F24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
 				9543A8B626AEE9A400830FE4 /* SecureItemTypeView.swift in Sources */,
@@ -867,10 +893,12 @@
 				95F9B3A126BD6BB800EA6441 /* FinishSetupView.swift in Sources */,
 				9574333A24AA135E0062B05A /* SetupView.swift in Sources */,
 				9583BDE626AB0749003BE064 /* SecureItemView.swift in Sources */,
+				9501DBD126E9E26300265D7E /* AboutView.swift in Sources */,
 				95422089255186A4002F14AB /* BankAccountInputField.swift in Sources */,
 				95864929251E137C0081DF08 /* WifiField.swift in Sources */,
 				9550ED772694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */,
 				957432A724AA081B0062B05A /* BankCardItemState.swift in Sources */,
+				9501DBCB26E9E1A500265D7E /* SyncSettingsView.swift in Sources */,
 				95864906251E11930081DF08 /* SecureToggleStyle.swift in Sources */,
 				954EDBC926A54E0E00E0732F /* QuickAccessView.swift in Sources */,
 				95942D5726E7A2E7005E0151 /* StoreSettingsView.swift in Sources */,
@@ -878,6 +906,7 @@
 				95ADC3412684CA5D00BE3DFF /* AppState.swift in Sources */,
 				9521CE4626B6D9A50023F415 /* AppServiceProtocol.swift in Sources */,
 				9586491A251E12AA0081DF08 /* FileField.swift in Sources */,
+				9501DBCE26E9E1E200265D7E /* SyncSettingsState.swift in Sources */,
 				9542209A25518815002F14AB /* FileInputField.swift in Sources */,
 				9584698526D61A68007A56E3 /* PasswordInput.swift in Sources */,
 				955180492695CDE5002783D6 /* SecuritySettingsView.swift in Sources */,
@@ -889,6 +918,7 @@
 				95864915251E126E0081DF08 /* PasswordField.swift in Sources */,
 				9583BDDC26AAF4DD003BE064 /* CreateItemState.swift in Sources */,
 				957432AB24AA081B0062B05A /* CustomItemState.swift in Sources */,
+				95B0217F26EA48D100969F95 /* Info.swift in Sources */,
 				9593E8F9268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

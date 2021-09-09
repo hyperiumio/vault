@@ -13,21 +13,21 @@ struct SecureItemTypeView: View {
         Group {
             switch itemType {
             case .login:
-                Label(.login, systemImage: .personSymbol)
+                Label(.login, systemImage: SFSymbol.person.systemName)
             case .password:
-                Label(.password, systemImage: .keySymbol)
+                Label(.password, systemImage: SFSymbol.key.systemName)
             case .wifi:
-                Label(.wifi, systemImage: .wifiSymbol)
+                Label(.wifi, systemImage: SFSymbol.wifi.systemName)
             case .note:
-                Label(.note, systemImage: .noteTextSymbol)
+                Label(.note, systemImage: SFSymbol.noteText.systemName)
             case .bankCard:
-                Label(.bankCard, systemImage: .creditcardSymbol)
+                Label(.bankCard, systemImage: SFSymbol.creditcard.systemName)
             case .bankAccount:
-                Label(.bankAccount, systemImage: .dollarsignSymbol)
+                Label(.bankAccount, systemImage: SFSymbol.dollarsign.systemName)
             case .custom:
-                Label(.custom, systemImage: .scribbleVariableSymbol)
+                Label(.custom, systemImage: SFSymbol.scribbleVariable.systemName)
             case .file:
-                Label(.file, systemImage: .paperclipSymbol)
+                Label(.file, systemImage: SFSymbol.paperclip.systemName)
             }
         }
         .symbolVariant(.fill)

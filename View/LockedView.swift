@@ -33,7 +33,7 @@ struct LockedView: View {
                 Button {
                     state.unlock(with: .password)
                 } label: {
-                    Image(systemName: .lockSymbol)
+                    Image(systemName: SFSymbol.lock.systemName)
                         .imageScale(.large)
                         .foregroundColor(.white)
                         .frame(maxHeight: .infinity)
@@ -102,9 +102,9 @@ private extension AppServiceBiometry {
     var symbolName: String {
         switch self {
         case .touchID:
-            return .touchidSymbol
+            return SFSymbol.touchid.systemName
         case .faceID:
-            return .faceidSymbol
+            return SFSymbol.faceid.systemName
         }
     }
     

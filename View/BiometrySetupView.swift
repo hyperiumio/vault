@@ -35,9 +35,9 @@ private extension AppServiceBiometry {
     var image: String {
         switch self {
         case .touchID:
-            return .biometrySetupTouchID
+            return ImageAsset.biometrySetupTouchID.name
         case .faceID:
-            return .biometrySetupFaceID
+            return ImageAsset.biometrySetupFaceID.name
         }
     }
     

@@ -76,10 +76,7 @@ struct CreateItemView: View {
             
             ToolbarItem(placement: .confirmationAction) {
                 Button(.save) {
-                    Task {
-                        await state.save()
-                        presentationMode.wrappedValue.dismiss()
-                    }
+                    state.save()
                 }
             }
         }

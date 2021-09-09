@@ -24,7 +24,7 @@ struct FinishSetupView: View {
         SetupContentView(buttonEnabled: state.status == .readyToComplete) {
             state.completeSetup()
         } image: {
-            Image(.completeSetupImage)
+            Image(ImageAsset.completeSetup.name)
         } title: {
             Text(.setupCompleteTitle)
         } description: {
