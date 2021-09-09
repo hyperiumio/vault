@@ -101,6 +101,7 @@
 "TouchIDDeactivationFailed" = "Disabling Touch ID unlock did fail.";
 "TouchIDDescription" = "If you want to use Touch ID to unlock your vault, enable it here.";
 "TouchIDNotEnrolled" = "Touch ID is not enrolled.";
+"Unlock" = "Unlock";
 "UnlockFailed" = "There was an issue, please try again.";
 "UnlockVault" = "Unlock vault";
 "URL" = "URL";
@@ -123,3 +124,5 @@
 "COUNT characters" = "%d characters";
 "NoResultsFound" = "No results found";
 "Security" = "Security";
+"Store" = "Store";
+"Data" = "Data";

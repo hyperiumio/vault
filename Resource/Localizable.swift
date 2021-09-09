@@ -2,57 +2,21 @@ import SwiftUI
 
 extension LocalizedStringKey {
     
-    static var chooseMasterPasswordTitle: Self {
-        "ChooseMasterPasswordTitle"
-    }
-    
-    static var chooseMasterPasswordDescription: Self {
-        "ChooseMasterPasswordDescription"
-    }
-    
-    static var repeatMasterPasswordTitle: Self {
-        "RepeatMasterPasswordTitle"
-    }
-    
-    static var repeatMasterPasswordDescription: Self {
-        "RepeatMasterPasswordDescription"
-    }
-    
-    static var enterMasterPassword: Self {
-        "EnterMasterPassword"
-    }
-    
-    static var insecurePasswordTitle: Self {
-        "InsecurePasswordTitle"
-    }
-    
-    static var insecurePasswordDescription: Self {
-        "InsecurePasswordDescription"
-    }
-    
-    static var passwordMismatchTitle: Self {
-        "PasswordMismatchTitle"
-    }
-    
-    static var passwordMismatchDescription: Self {
-        "PasswordMismatchDescription"
-    }
-    
-    static var add: Self {
-        "Add"
-    }
-    
-    static var addItem: Self {
-        "AddItem"
-    }
-    
-    static var setupCompleteTitle: Self {
-        "SetupCompleteTitle"
-    }
-    
-    static var setupCompleteDescription: Self {
-        "SetupCompleteDescription"
-    }
+    static var chooseMasterPasswordTitle: Self { "ChooseMasterPasswordTitle" }
+    static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }
+    static var repeatMasterPasswordTitle: Self { "RepeatMasterPasswordTitle" }
+    static var repeatMasterPasswordDescription: Self { "RepeatMasterPasswordDescription" }
+    static var enterMasterPassword: Self { "EnterMasterPassword" }
+    static var insecurePasswordTitle: Self { "InsecurePasswordTitle" }
+    static var insecurePasswordDescription: Self { "InsecurePasswordDescription" }
+    static var passwordMismatchTitle: Self { "PasswordMismatchTitle" }
+    static var passwordMismatchDescription: Self { "PasswordMismatchDescription" }
+    static var add: Self { "Add" }
+    static var addItem: Self { "AddItem" }
+    static var unlock: Self { "Unlock" }
+    static var setupCompleteTitle: Self { "SetupCompleteTitle" }
+    static var setupCompleteDescription: Self { "SetupCompleteDescription" }
+    static var store: Self { "Store" }
     
     static var additionalItems: Self { "AdditionalItems" }
     static var americanExpress: Self { "AmericanExpress" }
@@ -165,5 +129,6 @@ extension LocalizedStringKey {
     static var noResultsFound: Self { "NoResultsFound" }
     static var security: Self { "Security" }
     static var characters: Self { "characters" }
+    static var data: Self { "Data" }
     
 }

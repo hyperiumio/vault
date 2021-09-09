@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct BiometrySettingsView: View {
+struct SecuritySettingsView: View {
     
-    @ObservedObject private var state: BiometrySettingsState
+    @ObservedObject private var state: SecuritySettingsState
     
-    init(_ state: BiometrySettingsState) {
+    init(_ state: SecuritySettingsState) {
         self.state = state
     }
     
@@ -28,19 +28,19 @@ struct BiometrySettingsView: View {
 }
 
 #if DEBUG
-struct BiometrySettingsViewPreview: PreviewProvider {
+struct SecuritySettingsViewPreview: PreviewProvider {
     
-    static let state = BiometrySettingsState(biometryType: .faceID, isBiometricUnlockEnabled: false, service: .stub)
+    static let state = SecuritySettingsState(service: .stub)
     
     static var previews: some View {
         List {
-            BiometrySettingsView(state)
+            SecuritySettingsView(state)
         }
         .preferredColorScheme(.light)
         .previewLayout(.sizeThatFits)
         
         List {
-            BiometrySettingsView(state)
+            SecuritySettingsView(state)
         }
         .preferredColorScheme(.dark)
         .previewLayout(.sizeThatFits)

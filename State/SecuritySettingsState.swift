@@ -2,16 +2,16 @@ import Event
 import Foundation
 
 @MainActor
-class BiometrySettingsState: ObservableObject {
+class SecuritySettingsState: ObservableObject {
     
     @Published var isBiometricUnlockEnabled: Bool
     
     let biometryType: AppServiceBiometry
     private let inputBuffer = EventBuffer<Input>()
     
-    init(biometryType: AppServiceBiometry, isBiometricUnlockEnabled: Bool, service: AppServiceProtocol) {
-        self.biometryType = biometryType
-        self.isBiometricUnlockEnabled = isBiometricUnlockEnabled
+    init(service: AppServiceProtocol) {
+        self.biometryType = .faceID
+        self.isBiometricUnlockEnabled = true
         
         let propertyStream = $isBiometricUnlockEnabled.values.map(Input.biometricUnlock)
         inputBuffer.enqueue(propertyStream)
@@ -28,7 +28,7 @@ class BiometrySettingsState: ObservableObject {
     
 }
 
-extension BiometrySettingsState {
+extension SecuritySettingsState {
     
     enum Input {
         

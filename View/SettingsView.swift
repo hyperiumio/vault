@@ -11,23 +11,36 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                if let biometrySettingsState = state.biometrySettingsState {
-                    BiometrySettingsView(biometrySettingsState)
+                Section {
+                    NavigationLink {
+                        SecuritySettingsView(state.securitySettingsState)
+                    } label: {
+                        Label(.security, systemImage: .lockSymbol)
+                    }
+                    
+                    NavigationLink {
+                        StoreSettingsView(state.storeSettingsState)
+                    } label: {
+                        Label(.data, systemImage: "folder")
+                    }
+                    
+                    NavigationLink {
+                        StoreSettingsView(state.storeSettingsState)
+                    } label: {
+                        Label("Sync", systemImage: "arrow.triangle.2.circlepath")
+                    }
                 }
                 
                 Section {
-                    NavigationLink(.changeMasterPassword) {
-                        MasterPasswordSettingsView(state.masterPasswordSettingsState)
+                    NavigationLink {
+                        StoreSettingsView(state.storeSettingsState)
+                    } label: {
+                        Label("About", systemImage: "bubble.left")
                     }
-                } footer: {
-                    Text(.changeMasterPasswordDescription)
                 }
             }
-            .toggleStyle(SwitchToggleStyle(tint: .accentColor))
             .navigationTitle(.settings)
-        }
-        .task {
-            state.load()
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
     
