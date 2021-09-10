@@ -3,8 +3,12 @@ import UIKit
 
 enum Info {
     
-    static var system: String {
+    static var systemName: String {
         UIDevice.current.systemName
+    }
+    
+    static var appName: String? {
+        Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as? String
     }
     
     static var version: String? {
@@ -14,6 +18,7 @@ enum Info {
     static var build: String? {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String
     }
+    
     
 }
 #endif

@@ -130,3 +130,13 @@
 "About" = "About";
 "System" = "System";
 "Build" = "Build";
+"Copyright" = "Copyright © 2021 Hyperium UG (haftungsbeschränkt)";
+"StoreInfos" = "Store infos";
+"ImportItems" = "Import items";
+"ExportItems" = "Export items";
+"CreateBackup" = "Create backup";
+"RestoreFromBackup" = "Restore from backup";
+"DeleteAllData" = "Delete all data";
+"DeleteAllDataTitle" = "Delete all data?";
+"DeleteAllDataMessage" = "Are you sure?";
+"NumberOfItems" = "Number of items";

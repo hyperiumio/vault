@@ -121,6 +121,45 @@ actor AppService: AppServiceProtocol {
         }
     }
     
+    func loadStoreInfo() async throws -> AppServiceStoreInfo {
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
+        }
+        
+        let created = try await store.loadStoreInfo(storeID: storeID).created
+        
+        var bankAccountItemCount = 0
+        var bankCardItemCount = 0
+        var customItemCount = 0
+        var fileItemCount = 0
+        var loginItemCount = 0
+        var noteItemCount = 0
+        var passwordItemCount = 0
+        var wifiItemCount = 0
+        for try await infoItem in try await loadInfos() {
+            switch infoItem.primaryType {
+            case .login:
+                loginItemCount += 1
+            case .password:
+                passwordItemCount += 1
+            case .wifi:
+                wifiItemCount += 1
+            case .note:
+                noteItemCount += 1
+            case .bankCard:
+                bankCardItemCount += 1
+            case .bankAccount:
+                bankAccountItemCount += 1
+            case .custom:
+                customItemCount += 1
+            case .file:
+                fileItemCount += 1
+            }
+        }
+        
+        return AppServiceStoreInfo(created: created, bankAccountItemCount: bankAccountItemCount, bankCardItemCount: bankCardItemCount, customItemCount: customItemCount, fileItemCount: fileItemCount, loginItemCount: loginItemCount, noteItemCount: noteItemCount, passwordItemCount: passwordItemCount, wifiItemCount: wifiItemCount)
+    }
+    
     func load(itemID: UUID) async throws -> StoreItem {
         guard let storeID = await defaults.activeStoreID else {
             throw AppServiceError.noActiveStoreID
@@ -213,6 +252,13 @@ extension UserDefaults: PersistenceProvider {}
 
 #if DEBUG
 actor AppServiceStub: AppServiceProtocol {
+    
+    func loadStoreInfo() async throws -> AppServiceStoreInfo {
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
+        
+        return AppServiceStoreInfo(created: .now, bankAccountItemCount: 0, bankCardItemCount: 1, customItemCount: 2, fileItemCount: 3, loginItemCount: 4, noteItemCount: 5, passwordItemCount: 6, wifiItemCount: 7)
+    }
+    
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> {
         PassthroughSubject<AppServiceEvent, Never>().values

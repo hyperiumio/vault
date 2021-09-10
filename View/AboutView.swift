@@ -5,57 +5,38 @@ struct AboutView: View {
     var body: some View {
         List {
             Section {
-                Field(.system, value: UIDevice.current.systemName)
+                InfoField(.system, value: UIDevice.current.systemName)
                 
                 if let version = Info.version {
-                    Field(.version, value: version)
+                    InfoField(.version, value: version)
                 }
                 
                 if let build = Info.build {
-                    Field(.build, value: build)
+                    InfoField(.build, value: build)
                 }
             } header: {
-                HStack {
-                    Spacer()
-                    
+                VStack(spacing: 10) {
                     Image(ImageAsset.about.name)
-                        .padding()
                     
-                    Spacer()
+                    if let appName = Info.appName {
+                        Text(appName)
+                            .textCase(.none)
+                            .foregroundColor(.primary)
+                            .font(.headline)
+                    }
+                    
+                    Text(.copyright)
+                        .textCase(.none)
+                        .foregroundColor(.secondary)
+                        .font(.footnote)
                 }
-
+                .multilineTextAlignment(.center)
+                .padding()
+                .frame(maxWidth: .infinity)
             }
-
         }
         .navigationTitle(.about)
         .navigationBarTitleDisplayMode(.inline)
-    }
-    
-}
-
-private extension AboutView {
-    
-    struct Field: View {
-        
-        private let title: LocalizedStringKey
-        private let value: String
-        
-        init(_ title: LocalizedStringKey, value: String) {
-            self.title = title
-            self.value = value
-        }
-        
-        var body: some View {
-            HStack {
-                Text(title)
-                
-                Spacer()
-                
-                Text(value)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        
     }
     
 }

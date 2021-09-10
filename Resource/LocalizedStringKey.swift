@@ -22,6 +22,8 @@ extension LocalizedStringKey {
     static var system: Self { "System" }
     static var version: Self { "Version" }
     static var build: Self { "Build" }
+    static var copyright: Self { "Copyright" }
+    static var numberOfItem: Self { "NumberOfItems" }
     
     static var additionalItems: Self { "AdditionalItems" }
     static var americanExpress: Self { "AmericanExpress" }
@@ -86,6 +88,15 @@ extension LocalizedStringKey {
     static var login: Self { "Login" }
     static var mastercard: Self { "Mastercard" }
     static var masterPassword: Self { "MasterPassword" }
+    static var storeInfos: Self { "StoreInfos" }
+    static var importItems: Self { "ImportItems" }
+    static var exportItems: Self { "ExportItems" }
+    static var createBackup: Self { "CreateBackup" }
+    static var restoreFromBackup: Self { "RestoreFromBackup" }
+    static var deleteAllData: Self { "DeleteAllData" }
+    static var deleteAllDataTitle: Self { "DeleteAllDataTitle" }
+    static var deleteAllDataMessage: Self { "DeleteAllDataMessage" }
+    
 
     static var masterPasswordChangeDidFail: Self { "MasterPasswordChangeDidFail" }
     static var modified: Self { "Modified" }
