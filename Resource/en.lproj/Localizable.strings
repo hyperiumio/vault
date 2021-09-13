@@ -137,6 +137,7 @@
 "CreateBackup" = "Create backup";
 "RestoreFromBackup" = "Restore from backup";
 "DeleteAllData" = "Delete all data";
+"DeleteAllDataAction" = "Yes, delete all data";
 "DeleteAllDataTitle" = "Delete all data?";
-"DeleteAllDataMessage" = "Are you sure?";
+"DeleteAllDataMessage" = "Make sure you want to delete all data. That can not be undone.";
 "NumberOfItems" = "Number of items";

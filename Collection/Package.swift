@@ -3,23 +3,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "Event",
+    name: "Collection",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Event",
+            name: "Collection",
             targets: [
-                "Event"
+                "Collection"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Event",
+            name: "Collection",
             path: "Sources"
+        ),
+        .testTarget(
+            name: "CollectionTests",
+            dependencies: [
+                "Collection"
+            ],
+            path: "Tests"
         )
     ]
 )

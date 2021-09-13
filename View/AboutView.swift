@@ -1,3 +1,4 @@
+#if os(iOS)
 import SwiftUI
 
 struct AboutView: View {
@@ -55,4 +56,6 @@ struct AboutViewPreview: PreviewProvider {
     }
     
 }
+#endif
+
 #endif

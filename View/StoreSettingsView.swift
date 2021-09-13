@@ -42,18 +42,21 @@ struct StoreSettingsView: View {
                     isDeleteAllDataConfirmationVisible = true
                 }
                 .alert(.deleteAllDataTitle, isPresented: $isDeleteAllDataConfirmationVisible) {
-                    Button(.cancel, role: .cancel) {
-                        
-                    }
+                    Button(.cancel, role: .cancel) {}
                     
-                    Button(.deleteAllData, role: .destructive) {
-                        
+                    Button(.deleteAllDataAction, role: .destructive) {
+                        state.deleteAllData()
                     }
+                } message: {
+                    Text(.deleteAllDataMessage)
                 }
             }
         }
         .navigationTitle(.store)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .disabled(state.status == .processing)
     }
     
 }

@@ -30,5 +30,6 @@ protocol AppServiceProtocol {
     func delete(itemID: UUID) async throws
     func decryptStoreItemInfos<S>(from sequence: S) -> AsyncThrowingMapSequence<S, StoreItemInfo> where S: AsyncSequence, S.Element == Data
     func loadStoreInfo() async throws -> AppServiceStoreInfo
+    func deleteAllData() async throws
     
 }

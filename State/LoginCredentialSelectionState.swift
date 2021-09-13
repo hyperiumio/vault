@@ -1,6 +1,6 @@
 import Foundation
 import Model
-import Sort
+import Collection
 
 @MainActor
 class LoginCredentialSelectionState: ObservableObject {

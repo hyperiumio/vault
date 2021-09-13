@@ -48,6 +48,17 @@ public actor Store {
         }
     }
     
+    public func deleteAllItems(storeID: UUID) async throws {
+        let itemsURL = resourceLocator.itemsURL(storeID: storeID)
+        guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
+            throw StoreError.dataNotAvailable
+        }
+        
+        for itemURL in itemURLs {
+            try FileManager.default.removeItem(at: itemURL)
+        }
+    }
+    
     public func loadStoreInfo(storeID: UUID) async throws -> StoreInfo {
         let infoURL = resourceLocator.infoURL(storeID: storeID)
         let infoData = try configuration.load(infoURL, [])

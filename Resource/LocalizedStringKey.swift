@@ -96,7 +96,7 @@ extension LocalizedStringKey {
     static var deleteAllData: Self { "DeleteAllData" }
     static var deleteAllDataTitle: Self { "DeleteAllDataTitle" }
     static var deleteAllDataMessage: Self { "DeleteAllDataMessage" }
-    
+    static var deleteAllDataAction: Self { "DeleteAllDataAction" }
 
     static var masterPasswordChangeDidFail: Self { "MasterPasswordChangeDidFail" }
     static var modified: Self { "Modified" }

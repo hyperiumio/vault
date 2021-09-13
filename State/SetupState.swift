@@ -1,11 +1,11 @@
-import Event
+import Collection
 import Foundation
 
 @MainActor
 class SetupState: ObservableObject {
     
     @Published private(set) var step: Step
-    private let inputBuffer = EventBuffer<Input>()
+    private let inputBuffer = AsyncQueue<Input>()
     private var previousIndex: Int?
     
     init(service: AppServiceProtocol) {
@@ -16,7 +16,7 @@ class SetupState: ObservableObject {
         step = .choosePassword(payload)
         
         Task {
-            for await input in inputBuffer.events {
+            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
                 previousIndex = step.index
                 
                 switch input {
@@ -94,11 +94,15 @@ class SetupState: ObservableObject {
     }
     
     func back() {
-        inputBuffer.enqueue(.back)
+        Task {
+            await inputBuffer.enqueue(.back)
+        }
     }
     
     func next() {
-        inputBuffer.enqueue(.next)
+        Task {
+            await inputBuffer.enqueue(.next)
+        }
     }
     
 }

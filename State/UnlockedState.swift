@@ -1,8 +1,7 @@
-import Event
+import Collection
 import Foundation
 import Model
 import Search
-import Sort
 
 @MainActor
 class UnlockedState: ObservableObject {
@@ -14,7 +13,7 @@ class UnlockedState: ObservableObject {
         }
     }
     @Published var sheet: Sheet?
-    private let inputBuffer = EventBuffer<Input>()
+    private let inputBuffer = AsyncQueue<Input>()
     private let service: AppServiceProtocol
     private var reloadTask: Task<Void, Never>?
     
@@ -26,7 +25,7 @@ class UnlockedState: ObservableObject {
         inputBuffer.enqueue(inputs)
         
         Task {
-            for await input in inputBuffer.events {
+            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
                 switch input {
                 case .reload:
                     reload()

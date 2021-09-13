@@ -51,7 +51,9 @@ struct StoreInfoSettingsView: View {
             }
         }
         .navigationTitle(.storeInfos)
+        #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
+        #endif
         .onAppear {
             state.load()
         }

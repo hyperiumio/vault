@@ -1,6 +1,5 @@
-import Event
+import Collection
 import Foundation
-import Sort
 
 @MainActor
 class LockedState: ObservableObject {

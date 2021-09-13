@@ -73,6 +73,10 @@
 		9551D3B42680CACA0000BC44 /* FailureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B22680CACA0000BC44 /* FailureView.swift */; };
 		9551D3B62680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
 		9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9551D3B52680DFB40000BC44 /* ConfidentialText.swift */; };
+		9560767226EC8E4A00EE0D3A /* Transfer in Frameworks */ = {isa = PBXBuildFile; productRef = 9560767126EC8E4A00EE0D3A /* Transfer */; };
+		9560767426EC8E5500EE0D3A /* Transfer in Frameworks */ = {isa = PBXBuildFile; productRef = 9560767326EC8E5500EE0D3A /* Transfer */; };
+		9560767826ED03D600EE0D3A /* Collection in Frameworks */ = {isa = PBXBuildFile; productRef = 9560767726ED03D600EE0D3A /* Collection */; };
+		9560767A26ED03E800EE0D3A /* Collection in Frameworks */ = {isa = PBXBuildFile; productRef = 9560767926ED03E800EE0D3A /* Collection */; };
 		956307292535ACAA0076022A /* SelectItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectItemTypeView.swift */; };
 		9563072A2535ACAA0076022A /* SelectItemTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956307282535ACAA0076022A /* SelectItemTypeView.swift */; };
 		956A8B7326EB9F3E0072053C /* StoreSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 956A8B7226EB9F3E0072053C /* StoreSettingsView.swift */; };
@@ -171,8 +175,6 @@
 		95942D5726E7A2E7005E0151 /* StoreInfoSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95942D5526E7A2E7005E0151 /* StoreInfoSettingsView.swift */; };
 		95971DC22683D5B40076961D /* LoginCredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialField.swift */; };
 		95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialField.swift */; };
-		95A8766E26CCF00500A485BD /* Event in Frameworks */ = {isa = PBXBuildFile; productRef = 95A8766D26CCF00500A485BD /* Event */; };
-		95A8767026CCF01000A485BD /* Event in Frameworks */ = {isa = PBXBuildFile; productRef = 95A8766F26CCF01000A485BD /* Event */; };
 		95AA68DB2565420E00616D56 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68DA2565420E00616D56 /* Format */; };
 		95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96024A9D5AA009D87A4 /* Pasteboard */; };
 		95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96224A9D5AA009D87A4 /* Preferences */; };
@@ -207,8 +209,6 @@
 		95F7102C26B91604003C8CF6 /* Production.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 95F7102A26B915EF003C8CF6 /* Production.xcassets */; };
 		95F72FF224EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
 		95F72FF324EFDF52000E6E83 /* StoreItemInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */; };
-		95F8BBC924CEC936001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBC824CEC936001FC495 /* Sort */; };
-		95F8BBCB24CEC949001FC495 /* Sort in Frameworks */ = {isa = PBXBuildFile; productRef = 95F8BBCA24CEC949001FC495 /* Sort */; };
 		95F9B38B26BD536700EA6441 /* MasterPasswordSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9B38A26BD536700EA6441 /* MasterPasswordSetupView.swift */; };
 		95F9B38C26BD536700EA6441 /* MasterPasswordSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9B38A26BD536700EA6441 /* MasterPasswordSetupView.swift */; };
 		95F9B38E26BD53D600EA6441 /* MasterPasswordSetupState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95F9B38D26BD53D600EA6441 /* MasterPasswordSetupState.swift */; };
@@ -294,6 +294,8 @@
 		955180472695CDE5002783D6 /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
+		9560766F26EC8C9500EE0D3A /* Transfer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Transfer; sourceTree = "<group>"; };
+		9560767526ED03C300EE0D3A /* Collection */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Collection; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemTypeView.swift; sourceTree = "<group>"; };
 		956A8B7226EB9F3E0072053C /* StoreSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingsView.swift; sourceTree = "<group>"; };
 		956A8B7526EB9FB30072053C /* StoreSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreSettingsState.swift; sourceTree = "<group>"; };
@@ -324,11 +326,11 @@
 		9574337024AA23D30062B05A /* StoreItemEditView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreItemEditView.swift; sourceTree = "<group>"; };
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayView.swift; sourceTree = "<group>"; };
-		9578C0CC26CD1C1D0075C4F1 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		9578C0CD26CD1C1D0075C4F1 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		957D681326CABAA300E277F4 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		957D681A26CABC5700E277F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		957DCACC26ED1CEC00EF72AD /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		957DCACD26ED1CEC00EF72AD /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		9583BDD726AAF480003BE064 /* CreateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemView.swift; sourceTree = "<group>"; };
 		9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemState.swift; sourceTree = "<group>"; };
@@ -355,7 +357,6 @@
 		95942D5226E7A2A1005E0151 /* StoreInfoSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoSettingsState.swift; sourceTree = "<group>"; };
 		95942D5526E7A2E7005E0151 /* StoreInfoSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoSettingsView.swift; sourceTree = "<group>"; };
 		959E5825257FDFB000E09777 /* LoginCredentialField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialField.swift; sourceTree = "<group>"; };
-		95A8766C26CCEFEC00A485BD /* Event */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Event; sourceTree = "<group>"; };
 		95ADC33F2684CA5D00BE3DFF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
 		95ADC3452684CD7600BE3DFF /* LockedState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedState.swift; sourceTree = "<group>"; };
@@ -371,7 +372,6 @@
 		95E6BC1026EB545000A28DA4 /* AppServiceStoreInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceStoreInfo.swift; sourceTree = "<group>"; };
 		95F7102A26B915EF003C8CF6 /* Production.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Production.xcassets; sourceTree = "<group>"; };
 		95F72FF124EFDF52000E6E83 /* StoreItemInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemInfoView.swift; sourceTree = "<group>"; };
-		95F8BBC624CEB8FF001FC495 /* Sort */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sort; sourceTree = "<group>"; };
 		95F9B38A26BD536700EA6441 /* MasterPasswordSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordSetupView.swift; sourceTree = "<group>"; };
 		95F9B38D26BD53D600EA6441 /* MasterPasswordSetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordSetupState.swift; sourceTree = "<group>"; };
 		95F9B39026BD65B300EA6441 /* RepeatMasterPasswordSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatMasterPasswordSetupView.swift; sourceTree = "<group>"; };
@@ -392,12 +392,12 @@
 				95BA9594268C535800B59DAC /* Sync in Frameworks */,
 				95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */,
 				95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */,
-				95F8BBC924CEC936001FC495 /* Sort in Frameworks */,
+				9560767826ED03D600EE0D3A /* Collection in Frameworks */,
 				953F1A4E269F6CC0006856E0 /* Configuration in Frameworks */,
 				958422EE26BC3D480084D319 /* Haptic in Frameworks */,
-				95A8766E26CCF00500A485BD /* Event in Frameworks */,
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
+				9560767426EC8E5500EE0D3A /* Transfer in Frameworks */,
 				95ADC33826849ED800BE3DFF /* Model in Frameworks */,
 				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
@@ -410,14 +410,14 @@
 				9521CE3F26B5B8610023F415 /* Persistence in Frameworks */,
 				95ABC97124A9D5B8009D87A4 /* Search in Frameworks */,
 				95BA9596268C535F00B59DAC /* Sync in Frameworks */,
-				95F8BBCB24CEC949001FC495 /* Sort in Frameworks */,
 				95ABC96F24A9D5B8009D87A4 /* Preferences in Frameworks */,
 				95AA68DB2565420E00616D56 /* Format in Frameworks */,
+				9560767A26ED03E800EE0D3A /* Collection in Frameworks */,
 				950C70392548205A001BB318 /* Crypto in Frameworks */,
 				958422EC26BC3D400084D319 /* Haptic in Frameworks */,
-				95A8767026CCF01000A485BD /* Event in Frameworks */,
 				95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */,
 				95ADC33A26849EE200BE3DFF /* Model in Frameworks */,
+				9560767226EC8E4A00EE0D3A /* Transfer in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 				953F1A50269F6CC4006856E0 /* Configuration in Frameworks */,
 			);
@@ -577,9 +577,9 @@
 			isa = PBXGroup;
 			children = (
 				953A43DE25D1ABBD000267D0 /* Cloud */,
+				9560767526ED03C300EE0D3A /* Collection */,
 				953F1A4B269F6B6E006856E0 /* Configuration */,
 				951F23922547321500949362 /* Crypto */,
-				95A8766C26CCEFEC00A485BD /* Event */,
 				953851102563E73600C305F2 /* Format */,
 				958422E926BC3B1A0084D319 /* Haptic */,
 				953D8E5626849EB400E80B55 /* Model */,
@@ -588,8 +588,8 @@
 				9574336624AA13C20062B05A /* Preferences */,
 				9574336824AA13C30062B05A /* Search */,
 				95C07B3A26B53E3B00E3D4DA /* Shim */,
-				95F8BBC624CEB8FF001FC495 /* Sort */,
 				95BA9591268C530100B59DAC /* Sync */,
+				9560766F26EC8C9500EE0D3A /* Transfer */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
 				9593F68226AEA18800AAE0F4 /* Resource */,
@@ -598,8 +598,8 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				9578C0CC26CD1C1D0075C4F1 /* Vault.app */,
-				9578C0CD26CD1C1D0075C4F1 /* Vault.app */,
+				957DCACC26ED1CEC00EF72AD /* Vault.app */,
+				957DCACD26ED1CEC00EF72AD /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -638,7 +638,6 @@
 				95ABC96024A9D5AA009D87A4 /* Pasteboard */,
 				95ABC96224A9D5AA009D87A4 /* Preferences */,
 				95ABC96424A9D5AA009D87A4 /* Search */,
-				95F8BBC824CEC936001FC495 /* Sort */,
 				950C703C2548206C001BB318 /* Crypto */,
 				953851142563E82B00C305F2 /* Format */,
 				95ADC33726849ED800BE3DFF /* Model */,
@@ -647,10 +646,11 @@
 				95C07B3C26B53E7500E3D4DA /* Shim */,
 				9521CE3C26B5B85A0023F415 /* Persistence */,
 				958422ED26BC3D480084D319 /* Haptic */,
-				95A8766D26CCF00500A485BD /* Event */,
+				9560767326EC8E5500EE0D3A /* Transfer */,
+				9560767726ED03D600EE0D3A /* Collection */,
 			);
 			productName = iOS;
-			productReference = 9578C0CC26CD1C1D0075C4F1 /* Vault.app */;
+			productReference = 957DCACC26ED1CEC00EF72AD /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -671,7 +671,6 @@
 				95ABC96C24A9D5B8009D87A4 /* Pasteboard */,
 				95ABC96E24A9D5B8009D87A4 /* Preferences */,
 				95ABC97024A9D5B8009D87A4 /* Search */,
-				95F8BBCA24CEC949001FC495 /* Sort */,
 				950C70382548205A001BB318 /* Crypto */,
 				95AA68DA2565420E00616D56 /* Format */,
 				95ADC33926849EE200BE3DFF /* Model */,
@@ -680,10 +679,11 @@
 				95C07B3E26B53E7C00E3D4DA /* Shim */,
 				9521CE3E26B5B8610023F415 /* Persistence */,
 				958422EB26BC3D400084D319 /* Haptic */,
-				95A8766F26CCF01000A485BD /* Event */,
+				9560767126EC8E4A00EE0D3A /* Transfer */,
+				9560767926ED03E800EE0D3A /* Collection */,
 			);
 			productName = macOS;
-			productReference = 9578C0CD26CD1C1D0075C4F1 /* Vault.app */;
+			productReference = 957DCACD26ED1CEC00EF72AD /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1264,6 +1264,22 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Configuration;
 		};
+		9560767126EC8E4A00EE0D3A /* Transfer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Transfer;
+		};
+		9560767326EC8E5500EE0D3A /* Transfer */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Transfer;
+		};
+		9560767726ED03D600EE0D3A /* Collection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Collection;
+		};
+		9560767926ED03E800EE0D3A /* Collection */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Collection;
+		};
 		958422EB26BC3D400084D319 /* Haptic */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Haptic;
@@ -1271,14 +1287,6 @@
 		958422ED26BC3D480084D319 /* Haptic */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Haptic;
-		};
-		95A8766D26CCF00500A485BD /* Event */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Event;
-		};
-		95A8766F26CCF01000A485BD /* Event */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Event;
 		};
 		95AA68DA2565420E00616D56 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1331,14 +1339,6 @@
 		95C07B3E26B53E7C00E3D4DA /* Shim */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Shim;
-		};
-		95F8BBC824CEC936001FC495 /* Sort */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Sort;
-		};
-		95F8BBCA24CEC949001FC495 /* Sort */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Sort;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

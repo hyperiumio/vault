@@ -1,20 +1,19 @@
-import Event
+import Collection
 import Foundation
 import Model
-import Sort
 
 @MainActor
 class AppState: ObservableObject {
     
     @Published private(set) var status = Status.launching
     private let service: AppServiceProtocol
-    private let inputBuffer = EventBuffer<Input>()
+    private let inputBuffer = AsyncQueue<Input>()
     
     init(service: AppServiceProtocol) {
         self.service = service
         
         Task {
-            for await input in inputBuffer.events {
+            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
                 switch input {
                 case .lock:
                     let state = LockedState(service: service)

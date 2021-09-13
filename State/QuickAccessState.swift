@@ -1,28 +1,20 @@
-import Event
+import Collection
 import Foundation
 
 @MainActor
 class QuickAccessState: ObservableObject {
     
     @Published private(set) var status = Status.initialized
-    
-    private let inputBuffer = EventBuffer<Input>()
+    private let service: AppServiceProtocol
     
     init(service: AppServiceProtocol) {
-        Task {
-            for await input in inputBuffer.events {
-                switch input {
-                case .load:
-                    status = .loading
-                    let lockedState = LockedState(service: service)
-                    status = .locked(lockedState)
-                }
-            }
-        }
+        self.service = service
     }
     
     func load() {
-        inputBuffer.enqueue(.load)
+        status = .loading
+        let lockedState = LockedState(service: service)
+        status = .locked(lockedState)
     }
     
 }
@@ -36,12 +28,6 @@ extension QuickAccessState {
         case loadingFailed
         case locked(LockedState)
         case unlocked(LoginCredentialSelectionState)
-        
-    }
-    
-    enum Input {
-        
-        case load
         
     }
     

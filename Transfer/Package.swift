@@ -3,30 +3,30 @@
 import PackageDescription
 
 let package = Package(
-    name: "Sort",
+    name: "Transfer",
     platforms: [
         .macOS(.v12),
         .iOS(.v15)
     ],
     products: [
         .library(
-            name: "Sort",
+            name: "Transfer",
             targets: [
-                "Sort"
+                "Transfer"
             ]
         )
     ],
     targets: [
         .target(
-            name: "Sort",
+            name: "Transfer",
             path: "Sources"
         ),
         .testTarget(
-            name: "SortTests",
+            name: "TransferTests",
             dependencies: [
-                "Sort"
+                "Transfer"
             ],
             path: "Tests"
-        ),
+        )
     ]
 )

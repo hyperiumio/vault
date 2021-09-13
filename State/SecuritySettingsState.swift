@@ -1,4 +1,4 @@
-import Event
+import Collection
 import Foundation
 
 @MainActor
@@ -7,7 +7,7 @@ class SecuritySettingsState: ObservableObject {
     @Published var isBiometricUnlockEnabled: Bool
     
     let biometryType: AppServiceBiometry
-    private let inputBuffer = EventBuffer<Input>()
+    private let inputBuffer = AsyncQueue<Input>()
     
     init(service: AppServiceProtocol) {
         self.biometryType = .faceID
@@ -17,7 +17,7 @@ class SecuritySettingsState: ObservableObject {
         inputBuffer.enqueue(propertyStream)
         
         Task {
-            for await input in inputBuffer.events {
+            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
                 switch input {
                 case let .biometricUnlock(isEnabled):
                     await service.save(isBiometricUnlockEnabled: isEnabled)

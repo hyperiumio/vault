@@ -1,7 +1,7 @@
 import Combine
 import Configuration
 import Crypto
-import Event
+import Collection
 import Foundation
 import Model
 import Preferences
@@ -232,6 +232,14 @@ actor AppService: AppServiceProtocol {
         }
     }
     
+    func deleteAllData() async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
+        }
+        
+        try await store.deleteAllItems(storeID: storeID)
+    }
+    
 }
 
 extension AppService {
@@ -252,6 +260,10 @@ extension UserDefaults: PersistenceProvider {}
 
 #if DEBUG
 actor AppServiceStub: AppServiceProtocol {
+    
+    func deleteAllData() async throws {
+        try! await Task.sleep(nanoseconds: 1_000_000_000)
+    }
     
     func loadStoreInfo() async throws -> AppServiceStoreInfo {
         try! await Task.sleep(nanoseconds: 1_000_000_000)

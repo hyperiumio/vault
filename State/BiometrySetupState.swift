@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import Event
+import Collection
 
 @MainActor
 class BiometrySetupState: ObservableObject {

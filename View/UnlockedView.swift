@@ -1,6 +1,6 @@
 import Model
-import Sort
 import SwiftUI
+import Collection
 
 struct UnlockedView: View {
     

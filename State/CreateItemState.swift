@@ -1,4 +1,4 @@
-import Event
+import Collection
 import Foundation
 import Model
 

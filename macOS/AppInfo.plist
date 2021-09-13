@@ -22,5 +22,34 @@
 	<string>public.app-category.utilities</string>
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string></string>
+			<key>UTTypeIcons</key>
+			<dict>
+				<key>UTTypeIconBackgroundName</key>
+				<string></string>
+				<key>UTTypeIconBadgeName</key>
+				<string>VaultDatabase</string>
+				<key>UTTypeIconText</key>
+				<string>Vault</string>
+			</dict>
+			<key>UTTypeIdentifier</key>
+			<string>io.hyperium.vault.database</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>vaultdatabase</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>

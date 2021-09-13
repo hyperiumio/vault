@@ -1,4 +1,4 @@
-import Event
+import Collection
 import Foundation
 import Model
 
@@ -7,13 +7,13 @@ class StoreItemDetailState: ObservableObject, Identifiable {
     
     @Published private(set) var status = Status.initialized
     private let storeItemInfo: StoreItemInfo
-    private let inputBuffer = EventBuffer<Input>()
+    private let inputBuffer = AsyncQueue<Input>()
     
     init(storeItemInfo: StoreItemInfo, service: AppServiceProtocol) {
         self.storeItemInfo = storeItemInfo
         
         Task {
-            for await input in inputBuffer.events {
+            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
                 switch (input, status) {
                 case (.load, .initialized):
                     do {
@@ -48,15 +48,21 @@ class StoreItemDetailState: ObservableObject, Identifiable {
     }
     
     func load() {
-        inputBuffer.enqueue(.load)
+        Task {
+            await inputBuffer.enqueue(.load)
+        }
     }
     
     func edit() {
-        inputBuffer.enqueue(.edit)
+        Task {
+            await inputBuffer.enqueue(.edit)
+        }
     }
     
     func cancelEdit() {
-        inputBuffer.enqueue(.cancel)
+        Task {
+            await inputBuffer.enqueue(.cancel)
+        }
     }
     
 }
