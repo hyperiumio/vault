@@ -52,6 +52,40 @@
 				</array>
 			</dict>
 		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>io.hyperium.vault.backup</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>vaultbackup</string>
+				</array>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>com.apple.package</string>
+			</array>
+			<key>UTTypeIcons</key>
+			<dict/>
+			<key>UTTypeIdentifier</key>
+			<string>io.hyperium.vault.items</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>vaultitems</string>
+				</array>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>
