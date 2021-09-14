@@ -12,6 +12,22 @@ class StoreSettingsState: ObservableObject {
         self.service = service
     }
     
+    func importItems() {
+        
+    }
+    
+    func exportItems() {
+        
+    }
+    
+    func createBackup() {
+        
+    }
+    
+    func restoreBackup() {
+        
+    }
+    
     func deleteAllData() {
         guard status == .input else {
             return

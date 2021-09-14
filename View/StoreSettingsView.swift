@@ -19,21 +19,21 @@ struct StoreSettingsView: View {
             
             Section {
                 Button(.importItems) {
-                    
+                    state.importItems()
                 }
                 
                 Button(.exportItems) {
-                    
+                    state.exportItems()
                 }
             }
             
             Section {
                 Button(.createBackup) {
-                    
+                    state.createBackup()
                 }
                 
-                Button(.restoreFromBackup) {
-                    
+                Button(.restoreBackup) {
+                    state.restoreBackup()
                 }
             }
             

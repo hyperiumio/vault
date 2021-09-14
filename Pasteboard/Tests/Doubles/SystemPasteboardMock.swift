@@ -1,6 +1,7 @@
 import XCTest
 @testable import Pasteboard
 
+/*
 class SystemPasteboardMock: SystemPasteboardRepresentable {
     
     private let expectation: [Event]
@@ -55,4 +56,4 @@ extension SystemPasteboardMock {
         
     }
     
-}
+}*/

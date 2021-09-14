@@ -23,8 +23,9 @@ public actor Store {
         let itemsURL = resourceLocator.itemsURL(storeID: storeID)
         let infoURL = resourceLocator.infoURL(storeID: storeID)
         let derivedKeyContainerURL = resourceLocator.derivedKeyContainerURL(storeID: storeID)
+        let containerDirectoryAttributes = [FileAttributeKey.extensionHidden: true]
         
-        try FileManager.default.createDirectory(at: containerURL, withIntermediateDirectories: true, attributes: nil)
+        try FileManager.default.createDirectory(at: containerURL, withIntermediateDirectories: true, attributes: containerDirectoryAttributes)
         try FileManager.default.createDirectory(at: storeURL, withIntermediateDirectories: false, attributes: nil)
         try FileManager.default.createDirectory(at: itemsURL, withIntermediateDirectories: false, attributes: nil)
         try storeInfo.encoded.write(to: infoURL)

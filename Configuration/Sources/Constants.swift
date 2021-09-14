@@ -12,10 +12,10 @@ public var appGroup: String {
 }
 #endif
 
-public var storeDirectory: URL {
+public var databaseDirectory: URL {
     let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)!
     let libraryDirectory = containerDirectory.appendingPathComponent("Library", isDirectory: true)
     let applicationSupportDirectory = libraryDirectory.appendingPathComponent("Application Support", isDirectory: true)
-    let vaultsDirectory = applicationSupportDirectory.appendingPathComponent("Vaults", isDirectory: true)
-    return vaultsDirectory
+    let databaseDirectory = applicationSupportDirectory.appendingPathComponent("Database", isDirectory: true).appendingPathExtension("vaultdatabase")
+    return databaseDirectory
 }

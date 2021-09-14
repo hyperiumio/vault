@@ -19,7 +19,7 @@ actor AppService: AppServiceProtocol {
         
         self.defaults = Defaults(store: userDefaults)
         self.cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)
-        self.store = Store(containerDirectory: Configuration.storeDirectory)
+        self.store = Store(containerDirectory: Configuration.databaseDirectory)
     }
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> {
@@ -240,6 +240,22 @@ actor AppService: AppServiceProtocol {
         try await store.deleteAllItems(storeID: storeID)
     }
     
+    func exportStoreItems(to url: URL) async throws {
+        
+    }
+    
+    func importStoreItems(from url: URL) async throws {
+        
+    }
+    
+    func createBackup(to url: URL) async throws {
+        
+    }
+    
+    func restoreBackup(from url: URL) async throws {
+        
+    }
+    
 }
 
 extension AppService {
@@ -346,6 +362,22 @@ actor AppServiceStub: AppServiceProtocol {
     
     nonisolated func decryptStoreItemInfos<S>(from sequence: S) -> AsyncThrowingMapSequence<S, StoreItemInfo> where S: AsyncSequence, S.Element == Data {
         fatalError()
+    }
+    
+    func exportStoreItems(to url: URL) async throws {
+        print(#function)
+    }
+    
+    func importStoreItems(from url: URL) async throws {
+        print(#function)
+    }
+    
+    func createBackup(to url: URL) async throws {
+        print(#function)
+    }
+    
+    func restoreBackup(from url: URL) async throws {
+        print(#function)
     }
     
 }

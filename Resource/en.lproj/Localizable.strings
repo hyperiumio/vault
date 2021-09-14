@@ -135,7 +135,7 @@
 "ImportItems" = "Import items";
 "ExportItems" = "Export items";
 "CreateBackup" = "Create backup";
-"RestoreFromBackup" = "Restore from backup";
+"RestoreBackup" = "Restore from backup";
 "DeleteAllData" = "Delete all data";
 "DeleteAllDataAction" = "Yes, delete all data";
 "DeleteAllDataTitle" = "Delete all data?";

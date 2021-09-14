@@ -92,7 +92,7 @@ extension LocalizedStringKey {
     static var importItems: Self { "ImportItems" }
     static var exportItems: Self { "ExportItems" }
     static var createBackup: Self { "CreateBackup" }
-    static var restoreFromBackup: Self { "RestoreFromBackup" }
+    static var restoreBackup: Self { "RestoreBackup" }
     static var deleteAllData: Self { "DeleteAllData" }
     static var deleteAllDataTitle: Self { "DeleteAllDataTitle" }
     static var deleteAllDataMessage: Self { "DeleteAllDataMessage" }
