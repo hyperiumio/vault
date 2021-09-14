@@ -31,14 +31,16 @@
 			</array>
 			<key>UTTypeDescription</key>
 			<string></string>
+			<key>UTTypeIconFile</key>
+			<string></string>
 			<key>UTTypeIcons</key>
 			<dict>
 				<key>UTTypeIconBackgroundName</key>
 				<string></string>
 				<key>UTTypeIconBadgeName</key>
-				<string>VaultDatabase</string>
+				<string></string>
 				<key>UTTypeIconText</key>
-				<string>Vault</string>
+				<string></string>
 			</dict>
 			<key>UTTypeIdentifier</key>
 			<string>io.hyperium.vault.database</string>
