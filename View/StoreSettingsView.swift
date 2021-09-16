@@ -1,12 +1,35 @@
+import Configuration
 import SwiftUI
+import Shim
+import UniformTypeIdentifiers
 
 struct StoreSettingsView: View {
     
-    @State private var isDeleteAllDataConfirmationVisible = false
     @ObservedObject private var state: StoreSettingsState
+    private let isSelectBackupImportPresented: Binding<Bool>
+    private let isSelectBackupExportPresented: Binding<Bool>
+    private let isConfirmDeleteAllDataPresented: Binding<Bool>
     
     init(_ state: StoreSettingsState) {
         self.state = state
+        
+        self.isSelectBackupImportPresented = Binding {
+            state.currentAction == .selectBackupImport
+        } set: { isPresented in
+            state.currentAction = isPresented ? .selectBackupImport : nil
+        }
+        
+        self.isSelectBackupExportPresented = Binding {
+            state.currentAction == .selectBackupExport
+        } set: { isPresented in
+            state.currentAction = isPresented ? .selectBackupExport : nil
+        }
+        
+        self.isConfirmDeleteAllDataPresented = Binding {
+            state.currentAction == .confirmDeleteAllData
+        } set: { isPresented in
+            state.currentAction = isPresented ? .confirmDeleteAllData : nil
+        }
     }
     
     var body: some View {
@@ -18,37 +41,28 @@ struct StoreSettingsView: View {
             }
             
             Section {
-                Button(.importItems) {
-                    state.importItems()
+                Button(.exportItems) {
+                    state.currentAction = .selectFilesExport
                 }
                 
-                Button(.exportItems) {
-                    state.exportItems()
+                Button(.importItems) {
+                    state.currentAction = .selectFilesImport
                 }
             }
             
             Section {
                 Button(.createBackup) {
-                    state.createBackup()
+                    state.currentAction = .selectBackupExport
                 }
                 
                 Button(.restoreBackup) {
-                    state.restoreBackup()
+                    state.currentAction = .selectBackupImport
                 }
             }
             
             Section {
                 Button(.deleteAllData, role: .destructive) {
-                    isDeleteAllDataConfirmationVisible = true
-                }
-                .alert(.deleteAllDataTitle, isPresented: $isDeleteAllDataConfirmationVisible) {
-                    Button(.cancel, role: .cancel) {}
-                    
-                    Button(.deleteAllDataAction, role: .destructive) {
-                        state.deleteAllData()
-                    }
-                } message: {
-                    Text(.deleteAllDataMessage)
+                    state.currentAction = .confirmDeleteAllData
                 }
             }
         }
@@ -57,6 +71,26 @@ struct StoreSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .disabled(state.status == .processing)
+        .alert(.deleteAllDataTitle, isPresented: isConfirmDeleteAllDataPresented) {
+            Button(.cancel, role: .cancel) {}
+            
+            Button(.deleteAllDataAction, role: .destructive) {
+                state.deleteAllData()
+            }
+         
+        } message: {
+            Text(.deleteAllDataMessage)
+        }
+        .sheet(isPresented: isSelectBackupImportPresented) {
+            FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
+                do {
+                    print(url)
+                    try FileManager.default.copyItem(at: url, to: Configuration.databaseDirectory.appendingPathComponent("Foo"))
+                } catch let error {
+                    print(error)
+                }
+            }
+        }
     }
     
 }

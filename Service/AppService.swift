@@ -6,6 +6,7 @@ import Foundation
 import Model
 import Preferences
 import Persistence
+import Transfer
 
 actor AppService: AppServiceProtocol {
     
@@ -249,7 +250,18 @@ actor AppService: AppServiceProtocol {
     }
     
     func createBackup(to url: URL) async throws {
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
+        }
+        guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
+            throw AppServiceError.createBackupFailed
+        }
+        let backup = try await Backup(url: url)
         
+        try await backup.dumpMasterKey(wrappedMasterKey)
+        try await backup.dumpStore { [store] storeURL in
+            try await store.dump(storeID: storeID, to: storeURL)
+        }
     }
     
     func restoreBackup(from url: URL) async throws {

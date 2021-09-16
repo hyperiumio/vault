@@ -1,9 +1,13 @@
+import Configuration
 import Foundation
+import UniformTypeIdentifiers
 
 @MainActor
 class StoreSettingsState: ObservableObject {
     
     @Published private(set) var status = Status.input
+    @Published var currentAction: Action?
+    
     let storeInfoSettingsState: StoreInfoSettingsState
     private let service: AppServiceProtocol
     
@@ -12,20 +16,31 @@ class StoreSettingsState: ObservableObject {
         self.service = service
     }
     
-    func importItems() {
-        
+    var allowedImportTypes: [UTType] {
+        switch currentAction {
+        case .selectFilesImport?:
+            return [Configuration.vaultItems]
+        case .selectBackupImport?:
+            return [Configuration.vaultBackup]
+        case .selectFilesExport?, .selectBackupExport?, .confirmDeleteAllData?, .none:
+            return []
+        }
     }
     
-    func exportItems() {
-        
+    func exportItems(to url: URL) {
+        print(url)
     }
     
-    func createBackup() {
-        
+    func importItems(from url: URL) {
+        print(url)
     }
     
-    func restoreBackup() {
-        
+    func createBackup(at url: URL) {
+        print(url)
+    }
+    
+    func restoreBackup(from url: URL) {
+        print(url)
     }
     
     func deleteAllData() {
@@ -54,6 +69,16 @@ extension StoreSettingsState {
         case input
         case processing
         case deleteAllDataDidFail
+        
+    }
+    
+    enum Action {
+        
+        case selectFilesImport
+        case selectFilesExport
+        case selectBackupImport
+        case selectBackupExport
+        case confirmDeleteAllData
         
     }
     

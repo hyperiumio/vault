@@ -101,6 +101,11 @@ public actor Store {
         }
     }
     
+    public func dump(storeID: UUID, to url: URL) async throws {
+        let storeURL = resourceLocator.storeURL(storeID: storeID)
+        try FileManager.default.copyItem(at: storeURL, to: url)
+    }
+    
 }
 
 extension Store {

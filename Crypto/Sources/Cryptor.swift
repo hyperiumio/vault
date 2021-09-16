@@ -95,6 +95,12 @@ public actor Cryptor {
         }
     }
     
+    public var wrappedMasterKey: Data? {
+        get async throws {
+            try await keychain.loadSecret(forKey: .masterKey)
+        }
+    }
+    
 }
 
 private extension String {
