@@ -7,7 +7,6 @@ import UniformTypeIdentifiers
 class StoreSettingsState: ObservableObject {
     
     @Published private(set) var status = Status.input
-    @Published var currentAction: Action?
     
     let storeInfoSettingsState: StoreInfoSettingsState
     private let service: AppServiceProtocol
@@ -17,15 +16,22 @@ class StoreSettingsState: ObservableObject {
         self.service = service
     }
     
-    var allowedImportTypes: [UTType] {
-        switch currentAction {
-        case .selectFilesImport?:
-            return [Configuration.vaultItems]
-        case .selectBackupImport?:
-            return [Configuration.vaultBackup]
-        case .selectFilesExport?, .selectBackupExport?, .confirmDeleteAllData?, .none:
-            return []
-        }
+    func selectBackupImport() {
+        status = .action(.selectBackupImport)
+    }
+    
+    func createBackup() {
+        let url = URL(string: "")!
+        let selectBackupExport = Action.selectBackupExport(url)
+        status = .action(selectBackupExport)
+    }
+    
+    func confirmDeleteAllData() {
+        status = .action(.confirmDeleteAllData)
+    }
+    
+    func dismissActions() {
+        status = .input
     }
     
     func exportItems(to url: URL) {
@@ -36,12 +42,10 @@ class StoreSettingsState: ObservableObject {
         print(url)
     }
     
-    func createBackup(at url: URL) {
-        print(url)
-    }
+    
     
     func restoreBackup(from url: URL) {
-        guard status == .input else {
+        guard case .input = status else {
             return
         }
         
@@ -61,7 +65,7 @@ class StoreSettingsState: ObservableObject {
     }
     
     func deleteAllData() {
-        guard status == .input else {
+        guard case .input = status else {
             return
         }
         
@@ -81,22 +85,24 @@ class StoreSettingsState: ObservableObject {
 
 extension StoreSettingsState {
     
-    enum Status {
+    enum Status: Equatable {
         
         case input
+        case action(Action)
         case processing
         case deleteAllDataDidFail
         
     }
     
-    enum Action {
+    enum Action: Equatable {
         
         case selectFilesImport
         case selectFilesExport
         case selectBackupImport
-        case selectBackupExport
+        case selectBackupExport(URL)
         case confirmDeleteAllData
         
     }
+    
     
 }

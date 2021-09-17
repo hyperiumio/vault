@@ -14,21 +14,34 @@ struct StoreSettingsView: View {
         self.state = state
         
         self.isSelectBackupImportPresented = Binding {
-            state.currentAction == .selectBackupImport
+            state.status == .action(.selectBackupImport)
         } set: { isPresented in
-            state.currentAction = isPresented ? .selectBackupImport : nil
+            if isPresented {
+                state.selectBackupImport()
+            } else {
+                state.dismissActions()
+            }
         }
         
         self.isSelectBackupExportPresented = Binding {
-            state.currentAction == .selectBackupExport
+            false
+            //state.status == .action(.selectBackupExport)
         } set: { isPresented in
-            state.currentAction = isPresented ? .selectBackupExport : nil
+            if isPresented {
+                state.selectBackupImport()
+            } else {
+                state.dismissActions()
+            }
         }
         
         self.isConfirmDeleteAllDataPresented = Binding {
-            state.currentAction == .confirmDeleteAllData
+            state.status == .action(.confirmDeleteAllData)
         } set: { isPresented in
-            state.currentAction = isPresented ? .confirmDeleteAllData : nil
+            if isPresented {
+                state.confirmDeleteAllData()
+            } else {
+                state.dismissActions()
+            }
         }
     }
     
@@ -42,27 +55,27 @@ struct StoreSettingsView: View {
             
             Section {
                 Button(.exportItems) {
-                    state.currentAction = .selectFilesExport
+                    //state.currentAction = .selectFilesExport
                 }
                 
                 Button(.importItems) {
-                    state.currentAction = .selectFilesImport
+                    //state.currentAction = .selectFilesImport
                 }
             }
             
             Section {
                 Button(.createBackup) {
-                    state.currentAction = .selectBackupExport
+                    state.createBackup()
                 }
                 
                 Button(.restoreBackup) {
-                    state.currentAction = .selectBackupImport
+                    state.selectBackupImport()
                 }
             }
             
             Section {
                 Button(.deleteAllData, role: .destructive) {
-                    state.currentAction = .confirmDeleteAllData
+                    state.confirmDeleteAllData()
                 }
             }
         }
@@ -71,6 +84,15 @@ struct StoreSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .disabled(state.status == .processing)
+        .sheet(isPresented: isSelectBackupImportPresented) {
+            FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
+                state.restoreBackup(from: url)
+            }
+        }
+        .sheet(isPresented: isSelectBackupExportPresented) {
+            FileExporter(urls: [Configuration.databaseDirectory]) {
+            }
+        }
         .alert(.deleteAllDataTitle, isPresented: isConfirmDeleteAllDataPresented) {
             Button(.cancel, role: .cancel) {}
             
@@ -80,11 +102,6 @@ struct StoreSettingsView: View {
          
         } message: {
             Text(.deleteAllDataMessage)
-        }
-        .sheet(isPresented: isSelectBackupImportPresented) {
-            FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
-                state.restoreBackup(from: url)
-            }
         }
     }
     

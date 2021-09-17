@@ -34,7 +34,7 @@ protocol AppServiceProtocol {
     
     func exportStoreItems(to url: URL) async throws
     func importStoreItems(from url: URL) async throws
-    func createBackup(to url: URL) async throws
+    func createBackup() async throws -> URL
     func restoreBackup(from url: URL) async throws
     
 }

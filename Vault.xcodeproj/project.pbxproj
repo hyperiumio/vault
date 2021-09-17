@@ -296,6 +296,8 @@
 		955180472695CDE5002783D6 /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
+		955B0D9F26F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		955B0DA026F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9560766F26EC8C9500EE0D3A /* Transfer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Transfer; sourceTree = "<group>"; };
 		9560767526ED03C300EE0D3A /* Collection */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Collection; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemTypeView.swift; sourceTree = "<group>"; };
@@ -331,8 +333,6 @@
 		957D681326CABAA300E277F4 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
 		957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		957D681A26CABC5700E277F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		957DCACC26ED1CEC00EF72AD /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
-		957DCACD26ED1CEC00EF72AD /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		9583BDD726AAF480003BE064 /* CreateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemView.swift; sourceTree = "<group>"; };
 		9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemState.swift; sourceTree = "<group>"; };
@@ -578,13 +578,6 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		9597995A26F47E770059EB11 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		95ABC92E24A9D38E009D87A4 = {
 			isa = PBXGroup;
 			children = (
@@ -611,7 +604,8 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				9597995A26F47E770059EB11 /* Frameworks */,
+				955B0D9F26F4EF3800BF6249 /* Vault.app */,
+				955B0DA026F4EF3800BF6249 /* Vault.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -663,7 +657,7 @@
 				9597995B26F47E770059EB11 /* Common */,
 			);
 			productName = iOS;
-			productReference = 957DCACC26ED1CEC00EF72AD /* Vault.app */;
+			productReference = 955B0D9F26F4EF3800BF6249 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 		95ABC94224A9D38E009D87A4 /* macOSApp */ = {
@@ -697,7 +691,7 @@
 				9597995D26F47E810059EB11 /* Common */,
 			);
 			productName = macOS;
-			productReference = 957DCACD26ED1CEC00EF72AD /* Vault.app */;
+			productReference = 955B0DA026F4EF3800BF6249 /* Vault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

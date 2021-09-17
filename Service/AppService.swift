@@ -249,19 +249,22 @@ actor AppService: AppServiceProtocol {
         
     }
     
-    func createBackup(to url: URL) async throws {
+    func createBackup() async throws -> URL {
         guard let storeID = await defaults.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
             throw AppServiceError.createBackupFailed
         }
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("Backup.vaultbackup")
         let backup = try await Backup(url: url)
         
         try await backup.dumpMasterKey(wrappedMasterKey)
         try await backup.dumpStore { [store] storeURL in
             try await store.dump(storeID: storeID, to: storeURL)
         }
+        
+        return url
     }
     
     func restoreBackup(from url: URL) async throws {
@@ -384,8 +387,8 @@ actor AppServiceStub: AppServiceProtocol {
         print(#function)
     }
     
-    func createBackup(to url: URL) async throws {
-        print(#function)
+    func createBackup() async throws -> URL {
+        URL(fileURLWithPath: "")
     }
     
     func restoreBackup(from url: URL) async throws {
