@@ -2,7 +2,7 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
-public struct FileImporter: UIViewControllerRepresentable {
+public struct FileExporter: UIViewControllerRepresentable {
     
     private let allowedContentTypes: [UTType]
     private let onCompletion: (URL) -> Void
@@ -18,7 +18,7 @@ public struct FileImporter: UIViewControllerRepresentable {
     }
     
     public func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        let controller = UIDocumentPickerViewController(forOpeningContentTypes: allowedContentTypes)
+        let controller = UIDocumentPickerViewController(forExporting: [])
         controller.delegate = context.coordinator
         
         return controller
@@ -28,7 +28,7 @@ public struct FileImporter: UIViewControllerRepresentable {
     
 }
 
-public extension FileImporter {
+public extension FileExporter {
     
     class Coordinator: NSObject {
         
@@ -44,7 +44,7 @@ public extension FileImporter {
     
 }
 
-extension FileImporter.Coordinator: UIDocumentPickerDelegate {
+extension FileExporter.Coordinator: UIDocumentPickerDelegate {
     
     public func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
         guard let url = urls.first else {

@@ -83,12 +83,7 @@ struct StoreSettingsView: View {
         }
         .sheet(isPresented: isSelectBackupImportPresented) {
             FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
-                do {
-                    print(url)
-                    try FileManager.default.copyItem(at: url, to: Configuration.databaseDirectory.appendingPathComponent("Foo"))
-                } catch let error {
-                    print(error)
-                }
+                state.restoreBackup(from: url)
             }
         }
     }

@@ -1,3 +1,4 @@
+import Common
 import Configuration
 import Foundation
 import UniformTypeIdentifiers
@@ -40,7 +41,23 @@ class StoreSettingsState: ObservableObject {
     }
     
     func restoreBackup(from url: URL) {
-        print(url)
+        guard status == .input else {
+            return
+        }
+        
+        status = .processing
+        
+        Task {
+            do {
+                let resourceContext = ExternalResourceContext(for: url)
+                try await resourceContext.read { url in
+            
+                }
+            } catch let error {
+                print(error)
+            }
+        }
+
     }
     
     func deleteAllData() {
