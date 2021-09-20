@@ -175,8 +175,6 @@
 		95942D5726E7A2E7005E0151 /* StoreInfoSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95942D5526E7A2E7005E0151 /* StoreInfoSettingsView.swift */; };
 		95971DC22683D5B40076961D /* LoginCredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialField.swift */; };
 		95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959E5825257FDFB000E09777 /* LoginCredentialField.swift */; };
-		9597995C26F47E770059EB11 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 9597995B26F47E770059EB11 /* Common */; };
-		9597995E26F47E810059EB11 /* Common in Frameworks */ = {isa = PBXBuildFile; productRef = 9597995D26F47E810059EB11 /* Common */; };
 		95AA68DB2565420E00616D56 /* Format in Frameworks */ = {isa = PBXBuildFile; productRef = 95AA68DA2565420E00616D56 /* Format */; };
 		95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96024A9D5AA009D87A4 /* Pasteboard */; };
 		95ABC96324A9D5AA009D87A4 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = 95ABC96224A9D5AA009D87A4 /* Preferences */; };
@@ -358,7 +356,6 @@
 		9593E8F7268C8CC5000FCC0F /* PasswordGeneratorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGeneratorState.swift; sourceTree = "<group>"; };
 		95942D5226E7A2A1005E0151 /* StoreInfoSettingsState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoSettingsState.swift; sourceTree = "<group>"; };
 		95942D5526E7A2E7005E0151 /* StoreInfoSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreInfoSettingsView.swift; sourceTree = "<group>"; };
-		9597995926F47D130059EB11 /* Common */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Common; sourceTree = "<group>"; };
 		959E5825257FDFB000E09777 /* LoginCredentialField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialField.swift; sourceTree = "<group>"; };
 		95ADC33F2684CA5D00BE3DFF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		95ADC3422684CCC000BE3DFF /* SetupState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupState.swift; sourceTree = "<group>"; };
@@ -401,7 +398,6 @@
 				953851152563E82B00C305F2 /* Format in Frameworks */,
 				95ABC96124A9D5AA009D87A4 /* Pasteboard in Frameworks */,
 				9560767426EC8E5500EE0D3A /* Transfer in Frameworks */,
-				9597995C26F47E770059EB11 /* Common in Frameworks */,
 				95ADC33826849ED800BE3DFF /* Model in Frameworks */,
 				950C703D2548206C001BB318 /* Crypto in Frameworks */,
 			);
@@ -422,7 +418,6 @@
 				95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */,
 				95ADC33A26849EE200BE3DFF /* Model in Frameworks */,
 				9560767226EC8E4A00EE0D3A /* Transfer in Frameworks */,
-				9597995E26F47E810059EB11 /* Common in Frameworks */,
 				95ABC96D24A9D5B8009D87A4 /* Pasteboard in Frameworks */,
 				953F1A50269F6CC4006856E0 /* Configuration in Frameworks */,
 			);
@@ -583,7 +578,6 @@
 			children = (
 				953A43DE25D1ABBD000267D0 /* Cloud */,
 				9560767526ED03C300EE0D3A /* Collection */,
-				9597995926F47D130059EB11 /* Common */,
 				953F1A4B269F6B6E006856E0 /* Configuration */,
 				951F23922547321500949362 /* Crypto */,
 				953851102563E73600C305F2 /* Format */,
@@ -654,7 +648,6 @@
 				958422ED26BC3D480084D319 /* Haptic */,
 				9560767326EC8E5500EE0D3A /* Transfer */,
 				9560767726ED03D600EE0D3A /* Collection */,
-				9597995B26F47E770059EB11 /* Common */,
 			);
 			productName = iOS;
 			productReference = 955B0D9F26F4EF3800BF6249 /* Vault.app */;
@@ -688,7 +681,6 @@
 				958422EB26BC3D400084D319 /* Haptic */,
 				9560767126EC8E4A00EE0D3A /* Transfer */,
 				9560767926ED03E800EE0D3A /* Collection */,
-				9597995D26F47E810059EB11 /* Common */,
 			);
 			productName = macOS;
 			productReference = 955B0DA026F4EF3800BF6249 /* Vault.app */;
@@ -1295,14 +1287,6 @@
 		958422ED26BC3D480084D319 /* Haptic */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Haptic;
-		};
-		9597995B26F47E770059EB11 /* Common */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Common;
-		};
-		9597995D26F47E810059EB11 /* Common */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Common;
 		};
 		95AA68DA2565420E00616D56 /* Format */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -13,6 +13,10 @@ public var vaultDatabase: UTType {
     UTType("io.hyperium.vault.database")!
 }
 
+public var backupDirectoryName: String {
+    "Backup.vaultbackup"
+}
+
 public var databaseDirectory: URL {
     let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)!
     let libraryDirectory = containerDirectory.appendingPathComponent("Library", isDirectory: true)

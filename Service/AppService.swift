@@ -256,19 +256,29 @@ actor AppService: AppServiceProtocol {
         guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
             throw AppServiceError.createBackupFailed
         }
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("Backup.vaultbackup")
-        let backup = try await Backup(url: url)
         
-        try await backup.dumpMasterKey(wrappedMasterKey)
-        try await backup.dumpStore { [store] storeURL in
-            try await store.dump(storeID: storeID, to: storeURL)
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(Configuration.backupDirectoryName)
+        try await BackupCreate(at: url) { [store] resource in
+            switch resource {
+            case let .masterKey(url):
+                try wrappedMasterKey.write(to: url, options: .atomic)
+            case let .store(url):
+                try await store.dump(storeID: storeID, to: url)
+            }
         }
         
         return url
     }
     
     func restoreBackup(from url: URL) async throws {
-        
+        try await BackupRestore(from: url) { resource in
+            switch resource {
+            case let .masterKey(url):
+                print(url)
+            case let .store(url):
+                print(url)
+            }
+        }
     }
     
 }

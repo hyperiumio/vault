@@ -1,4 +1,3 @@
-import Common
 import Configuration
 import Foundation
 import UniformTypeIdentifiers
@@ -53,10 +52,12 @@ class StoreSettingsState: ObservableObject {
         
         Task {
             do {
+                /*
                 let resourceContext = ExternalResourceContext(for: url)
                 try await resourceContext.read { url in
             
                 }
+                 */
             } catch let error {
                 print(error)
             }

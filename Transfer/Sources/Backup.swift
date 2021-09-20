@@ -1,32 +1,26 @@
 import Foundation
 
-public actor Backup {
+public func BackupCreate(at url: URL, write: @escaping (BackupResource) async throws -> Void) async throws {
+    let resourceLocator = BackupResourceLocator(root: url)
+    let rootDirectoryAttributes = [FileAttributeKey.extensionHidden: true]
+    try FileManager.default.createDirectory(at: resourceLocator.root, withIntermediateDirectories: true, attributes: rootDirectoryAttributes)
+    try FileManager.default.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: false)
     
-    private let resourceLocator: BackupResourceLocator
+    let masterKeyResource = BackupResource.masterKey(resourceLocator.masterKeyURL)
+    try await write(masterKeyResource)
     
-    public init(url: URL) async throws {
+    let storeResource = BackupResource.store(resourceLocator.storeURL)
+    try await write(storeResource)
+}
+
+public func BackupRestore(from url: URL, read: @escaping (BackupResource) throws -> Void) async throws {
+    try await ExternalResourceRead(url: url) { url in
         let resourceLocator = BackupResourceLocator(root: url)
-        let containerDirectoryAttributes = [FileAttributeKey.extensionHidden: true]
-        try FileManager.default.createDirectory(at: resourceLocator.root, withIntermediateDirectories: true, attributes: containerDirectoryAttributes)
         
-        self.resourceLocator = resourceLocator
+        let masterKeyResource = BackupResource.masterKey(resourceLocator.masterKeyURL)
+        try read(masterKeyResource)
+        
+        let storeResource = BackupResource.store(resourceLocator.storeURL)
+        try read(storeResource)
     }
-    
-    public func dumpMasterKey(_ masterKey: Data) async throws {
-        try masterKey.write(to: resourceLocator.masterKeyURL)
-    }
-    
-    public func dumpStore(copy: @escaping (URL) async throws -> Void) async throws {
-        try FileManager.default.createDirectory(at: resourceLocator.storeURL, withIntermediateDirectories: true)
-        try await copy(resourceLocator.storeURL)
-    }
-    
-    public func restoreStore(to storeURL: URL) async throws {
-        try FileManager.default.copyItem(at: resourceLocator.storeURL, to: storeURL)
-    }
-    
-    public func restoreMasterKey() async throws -> Data {
-        try Data(contentsOf: resourceLocator.masterKeyURL)
-    }
-    
 }
