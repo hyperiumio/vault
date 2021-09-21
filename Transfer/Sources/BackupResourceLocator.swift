@@ -1,14 +1,14 @@
 import Foundation
 
-struct BackupResourceLocator {
+public struct BackupResourceLocator {
     
     let root: URL
     
-    var masterKeyURL: URL {
+    public var masterKeyURL: URL {
         root.appendingPathComponent("MasterKey", isDirectory: true)
     }
     
-    var storeURL: URL {
+    public var storeURL: URL {
         root.appendingPathComponent("Store", isDirectory: true)
     }
     

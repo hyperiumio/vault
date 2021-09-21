@@ -241,8 +241,18 @@ actor AppService: AppServiceProtocol {
         try await store.deleteAllItems(storeID: storeID)
     }
     
-    func exportStoreItems(to url: URL) async throws {
+    func exportStoreItems() async throws -> URL {
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
+        }
         
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent(Configuration.vaultItemsDirectoryName)
+        try await ItemsExport(at: url) { resourceLocator in
+            //let encryptedItems = await store.loadItems(storeID: storeID)
+            //let decryptedItems = await cryptor.decryptStoreItems(encryptedItems)
+        }
+        
+        return url
     }
     
     func importStoreItems(from url: URL) async throws {
@@ -258,27 +268,24 @@ actor AppService: AppServiceProtocol {
         }
         
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(Configuration.backupDirectoryName)
-        try await BackupCreate(at: url) { [store] resource in
-            switch resource {
-            case let .masterKey(url):
-                try wrappedMasterKey.write(to: url, options: .atomic)
-            case let .store(url):
-                try await store.dump(storeID: storeID, to: url)
-            }
+        try await BackupCreate(at: url) { [store] resourceLocator in
+            try wrappedMasterKey.write(to: resourceLocator.masterKeyURL, options: .atomic)
+            try await store.dump(storeID: storeID, to: resourceLocator.storeURL)
         }
         
         return url
     }
     
     func restoreBackup(from url: URL) async throws {
-        try await BackupRestore(from: url) { resource in
-            switch resource {
-            case let .masterKey(url):
-                print(url)
-            case let .store(url):
-                print(url)
-            }
+        guard let storeID = await defaults.activeStoreID else {
+            throw AppServiceError.noActiveStoreID
         }
+        
+        try await BackupRestore(from: url) { resourceLocator in
+            
+        }
+        
+        try await store.delete(storeID: storeID)
     }
     
 }
@@ -389,8 +396,8 @@ actor AppServiceStub: AppServiceProtocol {
         fatalError()
     }
     
-    func exportStoreItems(to url: URL) async throws {
-        print(#function)
+    func exportStoreItems() async throws -> URL {
+        URL(fileURLWithPath: "")
     }
     
     func importStoreItems(from url: URL) async throws {

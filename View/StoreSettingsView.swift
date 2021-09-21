@@ -6,42 +6,45 @@ import UniformTypeIdentifiers
 struct StoreSettingsView: View {
     
     @ObservedObject private var state: StoreSettingsState
-    private let isSelectBackupImportPresented: Binding<Bool>
-    private let isSelectBackupExportPresented: Binding<Bool>
-    private let isConfirmDeleteAllDataPresented: Binding<Bool>
-    
+    private let isAlertPresented: Binding<Bool>
+    private let sheet: Binding<Sheet?>
+
     init(_ state: StoreSettingsState) {
         self.state = state
         
-        self.isSelectBackupImportPresented = Binding {
-            state.status == .action(.selectBackupImport)
-        } set: { isPresented in
-            if isPresented {
-                state.selectBackupImport()
-            } else {
-                state.dismissActions()
+        self.isAlertPresented = Binding {
+            switch state.status {
+            case .failure, .action(.confirmDeleteAllData):
+                return true
+            case .input, .processing, .action:
+                return false
             }
+        } set: { isPresented in
+            state.present(nil)
         }
         
-        self.isSelectBackupExportPresented = Binding {
-            false
-            //state.status == .action(.selectBackupExport)
-        } set: { isPresented in
-            if isPresented {
-                state.selectBackupImport()
+        self.sheet = Binding {
+            if case let .action(action) = state.status {
+                return Sheet(action)
             } else {
-                state.dismissActions()
+                return nil
             }
+        } set: { sheet in
+            let action = sheet.map { sheet in
+                StoreSettingsState.Action(sheet)
+            }
+            state.present(action)
         }
-        
-        self.isConfirmDeleteAllDataPresented = Binding {
-            state.status == .action(.confirmDeleteAllData)
-        } set: { isPresented in
-            if isPresented {
-                state.confirmDeleteAllData()
-            } else {
-                state.dismissActions()
-            }
+    }
+    
+    private var alert: Alert? {
+        switch state.status {
+        case let .failure(failure):
+            return Alert(failure)
+        case .action(.confirmDeleteAllData):
+            return .confirmDeleteAllData
+        case .input, .processing, .action:
+            return nil
         }
     }
     
@@ -55,11 +58,11 @@ struct StoreSettingsView: View {
             
             Section {
                 Button(.exportItems) {
-                    //state.currentAction = .selectFilesExport
+                    state.exportItems()
                 }
                 
                 Button(.importItems) {
-                    //state.currentAction = .selectFilesImport
+                    state.present(.importItems)
                 }
             }
             
@@ -69,13 +72,13 @@ struct StoreSettingsView: View {
                 }
                 
                 Button(.restoreBackup) {
-                    state.selectBackupImport()
+                    state.present(.restoreBackup)
                 }
             }
             
             Section {
                 Button(.deleteAllData, role: .destructive) {
-                    state.confirmDeleteAllData()
+                    state.present(.confirmDeleteAllData)
                 }
             }
         }
@@ -84,26 +87,138 @@ struct StoreSettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .disabled(state.status == .processing)
-        .sheet(isPresented: isSelectBackupImportPresented) {
-            FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
-                state.restoreBackup(from: url)
+        .sheet(item: sheet) { sheet in
+            switch sheet {
+            case .importItems:
+                FileImporter(allowedContentTypes: [Configuration.vaultItems]) { url in
+                    state.importItems(from: url)
+                }
+            case let .exportItems(url):
+                FileExporter(urls: [url])
+            case .restoreBackup:
+                FileImporter(allowedContentTypes: [Configuration.vaultBackup]) { url in
+                    state.restoreBackup(from: url)
+                }
+            case let .createBackup(url):
+                FileExporter(urls: [url])
             }
         }
-        .sheet(isPresented: isSelectBackupExportPresented) {
-            FileExporter(urls: [Configuration.databaseDirectory]) {
+        .alert(.file, isPresented: isAlertPresented, presenting: alert) { alert in
+            switch alert {
+            case .confirmDeleteAllData:
+                Button(.cancel, role: .cancel) {}
+                
+                Button(.deleteAllDataAction, role: .destructive) {
+                    state.deleteAllData()
+                }
+            case .exportItemsDidFail:
+                Text("foo")
+            case .createBackupDidFail:
+                Text("foo")
+            case .deleteAllDataDidFail:
+                Text("foo")
             }
-        }
-        .alert(.deleteAllDataTitle, isPresented: isConfirmDeleteAllDataPresented) {
-            Button(.cancel, role: .cancel) {}
-            
-            Button(.deleteAllDataAction, role: .destructive) {
-                state.deleteAllData()
+        } message: { alert in
+            switch alert {
+            case .confirmDeleteAllData:
+                Text(.deleteConfirmation)
+            case .exportItemsDidFail:
+                Text("foo")
+            case .createBackupDidFail:
+                Text("foo")
+            case .deleteAllDataDidFail:
+                Text("foo")
             }
-         
-        } message: {
-            Text(.deleteAllDataMessage)
         }
     }
+    
+}
+
+extension StoreSettingsView {
+    
+    enum Sheet {
+        
+        case importItems
+        case exportItems(URL)
+        case restoreBackup
+        case createBackup(URL)
+        
+        init?(_ action: StoreSettingsState.Action) {
+            switch action {
+            case .importItems:
+                self = .importItems
+            case let .exportItems(url):
+                self = .exportItems(url)
+            case .restoreBackup:
+                self = .restoreBackup
+            case let .createBackup(url):
+                self = .createBackup(url)
+            case .confirmDeleteAllData:
+                return nil
+            }
+        }
+        
+    }
+    
+    enum Alert {
+        
+        case confirmDeleteAllData
+        case exportItemsDidFail
+        case createBackupDidFail
+        case deleteAllDataDidFail
+        
+        init(_ failure: StoreSettingsState.Failure) {
+            switch failure {
+            case .exportItems:
+                self = .exportItemsDidFail
+            case .createBackup:
+                self = .createBackupDidFail
+            case .deleteAllData:
+                self = .deleteAllDataDidFail
+            }
+        }
+        
+    }
+    
+}
+
+extension StoreSettingsState.Action {
+    
+    init(_ sheet: StoreSettingsView.Sheet) {
+        switch sheet {
+        case .importItems:
+            self = .importItems
+        case let .exportItems(url):
+            self = .exportItems(url)
+        case .restoreBackup:
+            self = .restoreBackup
+        case let .createBackup(url):
+            self = .createBackup(url)
+        }
+    }
+    
+}
+
+extension StoreSettingsView.Sheet: Identifiable {
+    
+    var id: String {
+        switch self {
+        case .importItems:
+            return "importItems"
+        case .exportItems:
+            return "exportItems"
+        case .restoreBackup:
+            return "restoreBackup"
+        case .createBackup:
+            return "createBackup"
+        }
+    }
+    
+}
+
+extension StoreSettingsView.Alert: Identifiable {
+    
+    var id: Self { self }
     
 }
 

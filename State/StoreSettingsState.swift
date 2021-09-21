@@ -1,6 +1,5 @@
 import Configuration
 import Foundation
-import UniformTypeIdentifiers
 
 @MainActor
 class StoreSettingsState: ObservableObject {
@@ -15,69 +14,78 @@ class StoreSettingsState: ObservableObject {
         self.service = service
     }
     
-    func selectBackupImport() {
-        status = .action(.selectBackupImport)
+    func present(_ action: Action?) {
+        status = action.map(Status.action) ?? .input
     }
     
-    func createBackup() {
-        let url = URL(string: "")!
-        let selectBackupExport = Action.selectBackupExport(url)
-        status = .action(selectBackupExport)
-    }
-    
-    func confirmDeleteAllData() {
-        status = .action(.confirmDeleteAllData)
-    }
-    
-    func dismissActions() {
-        status = .input
-    }
-    
-    func exportItems(to url: URL) {
-        print(url)
+    func exportItems() {
+        guard status == .input else {
+            return
+        }
+        
+        status = .processing
+        Task {
+            do {
+                let url = try await service.exportStoreItems()
+                let exportItems = Action.exportItems(url)
+                status = .action(exportItems)
+            } catch {
+                status = .failure(.exportItems)
+            }
+        }
     }
     
     func importItems(from url: URL) {
-        print(url)
-    }
-    
-    
-    
-    func restoreBackup(from url: URL) {
-        guard case .input = status else {
+        guard status == .input else {
             return
         }
         
         status = .processing
+        Task {
+            status = .input
+        }
+    }
+    
+    func createBackup() {
+        guard status == .input else {
+            return
+        }
         
+        status = .processing
         Task {
             do {
-                /*
-                let resourceContext = ExternalResourceContext(for: url)
-                try await resourceContext.read { url in
-            
-                }
-                 */
-            } catch let error {
-                print(error)
+                let url = try await service.createBackup()
+                let createBackup = Action.createBackup(url)
+                status = .action(createBackup)
+            } catch {
+                status = .failure(.createBackup)
             }
         }
-
+    }
+    
+    func restoreBackup(from url: URL) {
+        guard status == .input else {
+            return
+        }
+        
+        status = .processing
+        Task {
+            status = .input
+        }
     }
     
     func deleteAllData() {
-        guard case .input = status else {
+        guard status == .input else {
             return
         }
         
         status = .processing
-        
         Task {
             do {
                 try await service.deleteAllData()
                 status = .input
             } catch {
-                status = .deleteAllDataDidFail
+                status = .failure(.deleteAllData)
             }
         }
     }
@@ -89,21 +97,28 @@ extension StoreSettingsState {
     enum Status: Equatable {
         
         case input
-        case action(Action)
         case processing
-        case deleteAllDataDidFail
+        case action(Action)
+        case failure(Failure)
         
     }
     
     enum Action: Equatable {
         
-        case selectFilesImport
-        case selectFilesExport
-        case selectBackupImport
-        case selectBackupExport(URL)
+        case importItems
+        case exportItems(URL)
+        case restoreBackup
+        case createBackup(URL)
         case confirmDeleteAllData
         
     }
     
+    enum Failure: Error {
+        
+        case exportItems
+        case createBackup
+        case deleteAllData
+        
+    }
     
 }

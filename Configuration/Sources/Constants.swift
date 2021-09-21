@@ -17,6 +17,10 @@ public var backupDirectoryName: String {
     "Backup.vaultbackup"
 }
 
+public var vaultItemsDirectoryName: String {
+    "Items.vaultitems"
+}
+
 public var databaseDirectory: URL {
     let containerDirectory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup)!
     let libraryDirectory = containerDirectory.appendingPathComponent("Library", isDirectory: true)

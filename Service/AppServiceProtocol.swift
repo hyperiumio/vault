@@ -32,7 +32,7 @@ protocol AppServiceProtocol {
     func loadStoreInfo() async throws -> AppServiceStoreInfo
     func deleteAllData() async throws
     
-    func exportStoreItems(to url: URL) async throws
+    func exportStoreItems() async throws -> URL
     func importStoreItems(from url: URL) async throws
     func createBackup() async throws -> URL
     func restoreBackup(from url: URL) async throws

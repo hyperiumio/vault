@@ -32,6 +32,15 @@ public actor Store {
         try derivedKeyContainer.write(to: derivedKeyContainerURL)
     }
     
+    public func delete(storeID: UUID) async throws {
+        let storeURL = resourceLocator.storeURL(storeID: storeID)
+        try FileManager.default.removeItem(at: storeURL)
+    }
+    
+    public func restore(from storeURL: URL) async throws -> UUID {
+        fatalError()
+    }
+    
     public func migrateStore(fromStore oldStoreID: UUID, toStore newStoreID: UUID, derivedKeyContainer: Data, configuration: Configuration = .production, migratingItems: (Data) throws -> Data) async throws {
         
     }
@@ -76,7 +85,7 @@ public actor Store {
         return try configuration.load(itemURL, [])
     }
     
-    public func loadItems(storeID: UUID, read: @escaping (ReadingContext) throws -> Data) -> AsyncThrowingStream<Data, Error> {
+    public func loadItems(storeID: UUID, read: @escaping (ReadingContext) throws -> Data = { context in try context.bytes }) -> AsyncThrowingStream<Data, Error> {
         AsyncThrowingStream { [resourceLocator] continuation in
             let itemsURL = resourceLocator.itemsURL(storeID: storeID)
             guard FileManager.default.fileExists(atPath: itemsURL.path) else {

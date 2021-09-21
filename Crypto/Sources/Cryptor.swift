@@ -35,6 +35,11 @@ public actor Cryptor {
         self.masterKey = masterKey
     }
     
+    public func setMasterKey(wrappedMasterKey: Data, with id: UUID) async throws {
+        try await keychain.storeSecret(wrappedMasterKey, forKey: .masterKey, access: .all)
+        self.masterKey = nil
+    }
+    
     public func unlockWithPassword(_ password: String, token: CryptorToken, id: UUID) async throws {
         let publicArguments = try DerivedKey.PublicArguments(from: token)
         let derivedKey = try DerivedKey(from: password, with: publicArguments)
@@ -62,8 +67,6 @@ public actor Cryptor {
     public func lock() async {
         masterKey = nil
     }
-    
-    
     
     public func decryptMessages(from container: Data) async throws -> [Data] {
         guard let masterKey = masterKey else {
@@ -99,6 +102,10 @@ public actor Cryptor {
         get async throws {
             try await keychain.loadSecret(forKey: .masterKey)
         }
+    }
+    
+    public func decryptStoreItems<S>(_ items: S) -> AsyncStream<Data> where S: AsyncSequence {
+        fatalError()
     }
     
 }

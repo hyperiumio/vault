@@ -1,11 +1,11 @@
 import Foundation
 
-func ExternalResourceRead(url: URL, byAccessor: @escaping (URL) throws -> Void) async throws {
+func ExternalResourceRead<T>(url: URL, byAccessor: @escaping (URL) throws -> T) async throws -> T {
     return try await withCheckedThrowingContinuation { continuation in
         let needsStopAccessing = url.startAccessingSecurityScopedResource()
         let accessIntents = [NSFileAccessIntent.readingIntent(with: url)]
         NSFileCoordinator().coordinate(with: accessIntents, queue: .main) { error in
-            let result = Result {
+            let result = Result<T, Error> {
                 defer {
                     if needsStopAccessing {
                         url.stopAccessingSecurityScopedResource()
@@ -16,7 +16,7 @@ func ExternalResourceRead(url: URL, byAccessor: @escaping (URL) throws -> Void) 
                     throw error
                 }
              
-                try byAccessor(url)
+                return try byAccessor(url)
             }
             continuation.resume(with: result)
         }
