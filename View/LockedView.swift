@@ -3,6 +3,7 @@ import SwiftUI
 struct LockedView: View {
     
     @ObservedObject private var state: LockedState
+    @FocusState private var isMasterPasswordFieldFocused: Bool
     private let presentsUnlockFailure: Binding<Bool>
     
     init(_ state: LockedState) {
@@ -29,8 +30,10 @@ struct LockedView: View {
                     .padding()
                     .submitLabel(.continue)
                     .layoutPriority(1)
+                    .focused($isMasterPasswordFieldFocused)
                 
                 Button {
+                    isMasterPasswordFieldFocused = false
                     state.unlock(with: .password)
                 } label: {
                     Image(systemName: SFSymbol.lock.systemName)
@@ -71,6 +74,16 @@ struct LockedView: View {
                 state.dismissUnlockFailed()
             }
         }
+    }
+    
+}
+
+extension LockedView {
+    
+    enum Field {
+        
+        case masterPassword
+        
     }
     
 }

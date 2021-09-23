@@ -5,7 +5,6 @@ import Foundation
 class StoreSettingsState: ObservableObject {
     
     @Published private(set) var status = Status.input
-    
     let storeInfoSettingsState: StoreInfoSettingsState
     private let service: AppServiceProtocol
     
@@ -14,8 +13,20 @@ class StoreSettingsState: ObservableObject {
         self.service = service
     }
     
-    func present(_ action: Action?) {
-        status = action.map(Status.action) ?? .input
+    func presentAction(_ action: Action) {
+        status = .action(action)
+    }
+    
+    func presentConfirmation(_ confirmation: Confimation) {
+        status = .confirmation(confirmation)
+    }
+    
+    func presentFailure(_ failure: Failure) {
+        status = .failure(failure)
+    }
+    
+    func dismissPresentation() {
+        status = .input
     }
     
     func exportItems() {
@@ -42,7 +53,11 @@ class StoreSettingsState: ObservableObject {
         
         status = .processing
         Task {
-            status = .input
+            do {
+                try await service.importStoreItems(from: url)
+            } catch {
+                status = .failure(.importItems)
+            }
         }
     }
     
@@ -70,7 +85,11 @@ class StoreSettingsState: ObservableObject {
         
         status = .processing
         Task {
-            status = .input
+            do {
+                try await service.restoreBackup(from: url)
+            } catch {
+                status = .failure(.restoreBackup)
+            }
         }
     }
     
@@ -99,26 +118,65 @@ extension StoreSettingsState {
         case input
         case processing
         case action(Action)
+        case confirmation(Confimation)
         case failure(Failure)
         
     }
     
     enum Action: Equatable {
         
-        case importItems
         case exportItems(URL)
-        case restoreBackup
+        case importItems
         case createBackup(URL)
-        case confirmDeleteAllData
+        case restoreBackup
+        
+        
+    }
+    
+    enum Confimation {
+        
+        case deleteAllData
         
     }
     
     enum Failure: Error {
         
         case exportItems
+        case importItems
         case createBackup
+        case restoreBackup
         case deleteAllData
         
     }
     
 }
+
+extension StoreSettingsState.Action: Identifiable {
+    
+    var id: String {
+        switch self {
+        case .exportItems:
+            return "exportItems"
+        case .importItems:
+            return "importItems"
+        case .createBackup:
+            return "createBackup"
+        case .restoreBackup:
+            return "restoreBackup"
+        }
+    }
+    
+}
+
+extension StoreSettingsState.Confimation: Identifiable {
+    
+    var id: Self { self }
+    
+}
+
+extension StoreSettingsState.Failure: Identifiable {
+    
+    var id: Self { self }
+    
+}
+

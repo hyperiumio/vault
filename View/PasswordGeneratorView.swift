@@ -30,13 +30,7 @@ struct PasswordGeneratorView: View {
                 .minimumScaleFactor(0.5)
             
             Group {
-                HStack() {
-                    #warning("workaround")
-                    Text("")
-                        .monospacedDigit()
-                    
-                    Slider(value: length, in: 16...64, step: 1)
-                }
+                Slider(value: length, in: 16...64, step: 1)
                 
                 Toggle(.numbers, isOn: $state.digitsEnabled)
                 

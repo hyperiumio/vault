@@ -57,6 +57,7 @@ struct UnlockedView: View {
                 }
             }
         }
+        .navigationViewStyle(.stack)
         .sheet(item: $state.sheet) { sheet in
             switch sheet {
             case let .settings(state):
@@ -134,8 +135,6 @@ extension UnlockedView {
         
     }
     
-    #warning("workaround")
-    @MainActor
     struct ItemsView: View {
         
         private let collation: AlphabeticCollation<StoreItemDetailState>

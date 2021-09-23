@@ -125,8 +125,8 @@
 		95775EC526906C1F005D2221 /* StoreItemDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */; };
 		957D681426CABAA300E277F4 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* SFSymbol.swift */; };
 		957D681526CABAA300E277F4 /* SFSymbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681326CABAA300E277F4 /* SFSymbol.swift */; };
-		957D681726CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */; };
-		957D681826CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */; };
+		957D681726CABC2B00E277F4 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* Localizable.swift */; };
+		957D681826CABC2B00E277F4 /* Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957D681626CABC2B00E277F4 /* Localizable.swift */; };
 		957D681B26CABC5700E277F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 957D681926CABC5700E277F4 /* Localizable.strings */; };
 		957D681C26CABC5700E277F4 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 957D681926CABC5700E277F4 /* Localizable.strings */; };
 		9583BDD826AAF480003BE064 /* CreateItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9583BDD726AAF480003BE064 /* CreateItemView.swift */; };
@@ -329,7 +329,7 @@
 		9574337124AA23D30062B05A /* UnlockedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockedView.swift; sourceTree = "<group>"; };
 		95775EC326906C1F005D2221 /* StoreItemDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreItemDisplayView.swift; sourceTree = "<group>"; };
 		957D681326CABAA300E277F4 /* SFSymbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFSymbol.swift; sourceTree = "<group>"; };
-		957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
+		957D681626CABC2B00E277F4 /* Localizable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localizable.swift; sourceTree = "<group>"; };
 		957D681A26CABC5700E277F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9583624724D1643700C10BBB /* Development.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Development.xcassets; sourceTree = "<group>"; };
 		9583BDD726AAF480003BE064 /* CreateItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateItemView.swift; sourceTree = "<group>"; };
@@ -564,7 +564,7 @@
 			children = (
 				9501DBD226E9E6E500265D7E /* ImageAsset.swift */,
 				95B0217D26EA48D100969F95 /* Info.swift */,
-				957D681626CABC2B00E277F4 /* LocalizedStringKey.swift */,
+				957D681626CABC2B00E277F4 /* Localizable.swift */,
 				957D681326CABAA300E277F4 /* SFSymbol.swift */,
 				9583624724D1643700C10BBB /* Development.xcassets */,
 				95F7102A26B915EF003C8CF6 /* Production.xcassets */,
@@ -776,7 +776,7 @@
 				954EDBA226A54DD900E0732F /* QuickAccessState.swift in Sources */,
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
 				955180482695CDE5002783D6 /* SecuritySettingsView.swift in Sources */,
-				957D681826CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */,
+				957D681826CABC2B00E277F4 /* Localizable.swift in Sources */,
 				9574327624AA081B0062B05A /* SettingsState.swift in Sources */,
 				95ADC3402684CA5D00BE3DFF /* AppState.swift in Sources */,
 				958648FB251E11130081DF08 /* Field.swift in Sources */,
@@ -876,7 +876,7 @@
 				9583BDDF26AB0105003BE064 /* SecureItemState.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
 				954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */,
-				957D681726CABC2B00E277F4 /* LocalizedStringKey.swift in Sources */,
+				957D681726CABC2B00E277F4 /* Localizable.swift in Sources */,
 				95B63C5724AB98DC00152E55 /* UnlockedView.swift in Sources */,
 				9574327F24AA081B0062B05A /* StoreItemEditState.swift in Sources */,
 				9543A8B626AEE9A400830FE4 /* SecureItemTypeView.swift in Sources */,

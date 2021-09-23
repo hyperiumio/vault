@@ -141,3 +141,9 @@
 "DeleteAllDataTitle" = "Delete all data?";
 "DeleteAllDataMessage" = "Make sure you want to delete all data. That can not be undone.";
 "NumberOfItems" = "Number of items";
+
+"ExportItemsDidFail" = "Export did fail";
+"ImportItemsDidFail" = "Import did fail";
+"CreateBackupDidFail" = "Creat backup did fail";
+"RestoreBackupDidFail" = "Restore backup did fail";
+"DeleteAllDataDidFail" = "Delete all data did fail";

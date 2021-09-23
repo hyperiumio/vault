@@ -22,7 +22,7 @@ struct StoreInfoSettingsView: View {
                         InfoField {
                             Text(.created)
                         } value: {
-                            Text(info.created, format: .iso8601)
+                            Text(info.created, format: .dateTime)
                         }
                     }
                     

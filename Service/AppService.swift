@@ -256,7 +256,7 @@ actor AppService: AppServiceProtocol {
     }
     
     func importStoreItems(from url: URL) async throws {
-        
+        throw AppServiceError.noActiveStoreID
     }
     
     func createBackup() async throws -> URL {

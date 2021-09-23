@@ -1,7 +1,22 @@
 import SwiftUI
 
+extension String {
+    
+    static var exportItemsDidFail: Self { "ExportItemsDidFail" }
+    static var importItemsDidFail: Self { "ImportItemsDidFail" }
+    static var createBackupDidFail: Self { "CreateBackupDidFail" }
+    static var restoreBackupDidFail: Self { "RestoreBackupDidFail" }
+    static var deleteAllDataDidFail: Self { "DeleteAllDataDidFail" }
+    
+}
+
 extension LocalizedStringKey {
     
+    static var exportItemsDidFail: Self { "ExportItemsDidFail" }
+    static var importItemsDidFail: Self { "ImportItemsDidFail" }
+    static var createBackupDidFail: Self { "CreateBackupDidFail" }
+    static var restoreBackupDidFail: Self { "RestoreBackupDidFail" }
+    static var deleteAllDataDidFail: Self { "DeleteAllDataDidFail" }
     static var chooseMasterPasswordTitle: Self { "ChooseMasterPasswordTitle" }
     static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }
     static var repeatMasterPasswordTitle: Self { "RepeatMasterPasswordTitle" }
@@ -24,6 +39,7 @@ extension LocalizedStringKey {
     static var build: Self { "Build" }
     static var copyright: Self { "Copyright" }
     static var numberOfItem: Self { "NumberOfItems" }
+
     
     static var additionalItems: Self { "AdditionalItems" }
     static var americanExpress: Self { "AmericanExpress" }
