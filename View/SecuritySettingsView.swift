@@ -9,18 +9,48 @@ struct SecuritySettingsView: View {
     }
     
     var body: some View {
-        switch state.biometryType {
-        case .touchID:
+        Form {
             Section {
-                Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
+                switch state.biometryType {
+                case .touchID?:
+                    Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
+                case .faceID?:
+                    Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
+                case nil:
+                    EmptyView()
+                }
+                
+                Toggle("Use Apple Watch", isOn: $state.isWatchUnlockEnabled)
             } footer: {
                 Text(.touchIDDescription)
             }
-        case .faceID:
+            
             Section {
-                Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
+                Toggle("Hide content", isOn: $state.hideContent)
             } footer: {
-                Text(.faceIDDescription)
+                Text("Hide content after unlock.")
+            }
+            
+            Section {
+                Toggle("Clear pasreboard", isOn: $state.clearPasteboard)
+            } footer: {
+                Text("Hide content after unlock.")
+            }
+            
+            Section {
+                Button("Change Master Password") {
+                    
+                }
+            } footer: {
+                Text(.changeMasterPasswordDescription)
+            }
+            
+            Section {
+                Button("Show Master Key") {
+                    
+                }
+            } footer: {
+                Text("Show your master key")
             }
         }
     }

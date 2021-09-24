@@ -12,7 +12,7 @@ struct SettingsView: View {
     #if os(iOS)
     var body: some View {
         NavigationView {
-            List {
+            Form {
                 Section {
                     NavigationLink {
                         SecuritySettingsView(state.securitySettingsState)

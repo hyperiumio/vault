@@ -57,7 +57,7 @@ struct StoreSettingsView: View {
     }
     
     var body: some View {
-        List {
+        Form {
             Section {
                 NavigationLink(.storeInfos) {
                     StoreInfoSettingsView(state.storeInfoSettingsState)
