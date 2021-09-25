@@ -1,8 +1,11 @@
 import SwiftUI
+import Visualization
+import Shim
 
 struct SecuritySettingsView: View {
     
     @ObservedObject private var state: SecuritySettingsState
+    @State var pdf: Data?
     
     init(_ state: SecuritySettingsState) {
         self.state = state
@@ -47,7 +50,15 @@ struct SecuritySettingsView: View {
             
             Section {
                 Button("Show Master Key") {
-                    
+                    do {
+                        pdf = try RestoreKitGenerate(title: "foo", secretKey: Data(1 ..< 100))
+                    } catch let error {
+                        print(error)
+                    }
+                }
+                
+                if let pdf = pdf {
+                    PDFView(PDFView.Document(data: pdf)!)
                 }
             } footer: {
                 Text("Show your master key")
