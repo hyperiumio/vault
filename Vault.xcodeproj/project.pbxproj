@@ -296,8 +296,8 @@
 		955180472695CDE5002783D6 /* SecuritySettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsView.swift; sourceTree = "<group>"; };
 		9551D3B22680CACA0000BC44 /* FailureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FailureView.swift; sourceTree = "<group>"; };
 		9551D3B52680DFB40000BC44 /* ConfidentialText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidentialText.swift; sourceTree = "<group>"; };
-		955B0D9F26F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		955B0DA026F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vault.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		955B0D9F26F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = "/Users/johannesauer/Documents/vault/build/Debug-iphoneos/Vault.app"; sourceTree = "<absolute>"; };
+		955B0DA026F4EF3800BF6249 /* Vault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Vault.app; path = /Users/johannesauer/Documents/vault/build/Debug/Vault.app; sourceTree = "<absolute>"; };
 		9560766F26EC8C9500EE0D3A /* Transfer */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Transfer; sourceTree = "<group>"; };
 		9560767526ED03C300EE0D3A /* Collection */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Collection; sourceTree = "<group>"; };
 		956307282535ACAA0076022A /* SelectItemTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectItemTypeView.swift; sourceTree = "<group>"; };
@@ -581,7 +581,6 @@
 		95ABC92E24A9D38E009D87A4 = {
 			isa = PBXGroup;
 			children = (
-				95E3ED3226FF0210002655A8 /* Visualization */,
 				953A43DE25D1ABBD000267D0 /* Cloud */,
 				9560767526ED03C300EE0D3A /* Collection */,
 				953F1A4B269F6B6E006856E0 /* Configuration */,
@@ -596,6 +595,7 @@
 				95C07B3A26B53E3B00E3D4DA /* Shim */,
 				95BA9591268C530100B59DAC /* Sync */,
 				9560766F26EC8C9500EE0D3A /* Transfer */,
+				95E3ED3226FF0210002655A8 /* Visualization */,
 				9574321C24AA05340062B05A /* iOS */,
 				9574322224AA05430062B05A /* macOS */,
 				9593F68226AEA18800AAE0F4 /* Resource */,
@@ -604,9 +604,6 @@
 				9574323124AA05710062B05A /* State */,
 				957B73AD267CBD0F00990A8D /* Style */,
 				9574323224AA05710062B05A /* View */,
-				955B0D9F26F4EF3800BF6249 /* Vault.app */,
-				955B0DA026F4EF3800BF6249 /* Vault.app */,
-				95E3ED3326FF3864002655A8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -621,13 +618,6 @@
 				95E6BC1026EB545000A28DA4 /* AppServiceStoreInfo.swift */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		95E3ED3326FF3864002655A8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

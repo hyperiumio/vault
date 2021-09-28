@@ -1,6 +1,6 @@
+import Shim
 import SwiftUI
 import Visualization
-import Shim
 
 struct SecuritySettingsView: View {
     
@@ -51,20 +51,25 @@ struct SecuritySettingsView: View {
             Section {
                 Button("Show Master Key") {
                     do {
-                        pdf = try RestoreKitGenerate(title: "foo", secretKey: Data(1 ..< 100))
+                        pdf = try RestoreKitGenerate(title: "Vault Master Key", secretKey: Data(60 ... 126))
                     } catch let error {
                         print(error)
                     }
-                }
-                
-                if let pdf = pdf {
-                    PDFView(PDFView.Document(data: pdf)!)
                 }
             } footer: {
                 Text("Show your master key")
             }
         }
+        .sheet(item: $pdf) { pdf in
+            Activity(item: pdf, title: "Vault Master Key", activityTypes: .print)
+        }
     }
+    
+}
+
+extension Data: Identifiable {
+    
+    public var id: Self { self }
     
 }
 
