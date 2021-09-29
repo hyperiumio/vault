@@ -37,4 +37,7 @@ protocol AppServiceProtocol {
     func createBackup() async throws -> URL
     func restoreBackup(from url: URL) async throws
     
+    var recoveryKey: Data { get async throws }
+    var recoveryKeyPDF: Data { get async throws }
+    
 }

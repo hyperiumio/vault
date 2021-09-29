@@ -147,3 +147,7 @@
 "CreateBackupDidFail" = "Creat backup did fail";
 "RestoreBackupDidFail" = "Restore backup did fail";
 "DeleteAllDataDidFail" = "Delete all data did fail";
+
+"RecoveryKeyDescription" = "If you must recover you Vault, you need the Recovery Key. Make sure you print out a copy in case you loose your device.";
+"RecoveryKey" = "Recovery Key";
+"PrintRecoveryKey" = "Print Recovery Key";

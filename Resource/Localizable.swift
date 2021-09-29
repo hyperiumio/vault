@@ -1,14 +1,6 @@
 import SwiftUI
 
-extension String {
-    
-    static var exportItemsDidFail: Self { "ExportItemsDidFail" }
-    static var importItemsDidFail: Self { "ImportItemsDidFail" }
-    static var createBackupDidFail: Self { "CreateBackupDidFail" }
-    static var restoreBackupDidFail: Self { "RestoreBackupDidFail" }
-    static var deleteAllDataDidFail: Self { "DeleteAllDataDidFail" }
-    
-}
+
 
 extension LocalizedStringKey {
     
@@ -17,6 +9,10 @@ extension LocalizedStringKey {
     static var createBackupDidFail: Self { "CreateBackupDidFail" }
     static var restoreBackupDidFail: Self { "RestoreBackupDidFail" }
     static var deleteAllDataDidFail: Self { "DeleteAllDataDidFail" }
+    static var recoveryKeyDescription: Self { "RecoveryKeyDescription" }
+    static var recoveryKey: Self { "RecoveryKey" }
+    static var printRecoveryKey: Self { "PrintRecoveryKey" }
+
     static var chooseMasterPasswordTitle: Self { "ChooseMasterPasswordTitle" }
     static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }
     static var repeatMasterPasswordTitle: Self { "RepeatMasterPasswordTitle" }

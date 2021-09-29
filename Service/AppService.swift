@@ -288,6 +288,26 @@ actor AppService: AppServiceProtocol {
         try await store.delete(storeID: storeID)
     }
     
+    var recoveryKey: Data {
+        get async throws {
+            guard let storeID = await defaults.activeStoreID else {
+                throw AppServiceError.noActiveStoreID
+            }
+            
+            return Data()
+        }
+    }
+    
+    var recoveryKeyPDF: Data {
+        get async throws {
+            guard let storeID = await defaults.activeStoreID else {
+                throw AppServiceError.noActiveStoreID
+            }
+            
+            return Data()
+        }
+    }
+    
 }
 
 extension AppService {
@@ -410,6 +430,18 @@ actor AppServiceStub: AppServiceProtocol {
     
     func restoreBackup(from url: URL) async throws {
         print(#function)
+    }
+    
+    var recoveryKey: Data {
+        get async throws {
+            Data()
+        }
+    }
+    
+    var recoveryKeyPDF: Data {
+        get async throws {
+            Data()
+        }
     }
     
 }
