@@ -51,7 +51,7 @@ struct SecuritySettingsView: View {
             
             Section {
                 NavigationLink(.recoveryKey) {
-                    
+                    RecoveryKeySettingsView(state.recoveryKeySettingsState)
                 }
             } footer: {
                 Text(.recoveryKeyDescription)

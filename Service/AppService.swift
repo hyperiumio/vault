@@ -7,6 +7,7 @@ import Model
 import Preferences
 import Persistence
 import Transfer
+import Visualization
 
 actor AppService: AppServiceProtocol {
     
@@ -288,23 +289,23 @@ actor AppService: AppServiceProtocol {
         try await store.delete(storeID: storeID)
     }
     
-    var recoveryKey: Data {
+    var recoveryKeyORCode: Data {
         get async throws {
-            guard let storeID = await defaults.activeStoreID else {
-                throw AppServiceError.noActiveStoreID
+            guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
+                throw AppServiceError.missingMasterKey
             }
             
-            return Data()
+            return try QRCode(data: wrappedMasterKey)
         }
     }
     
     var recoveryKeyPDF: Data {
         get async throws {
-            guard let storeID = await defaults.activeStoreID else {
-                throw AppServiceError.noActiveStoreID
+            guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
+                throw AppServiceError.missingMasterKey
             }
-            
-            return Data()
+            let title = NSLocalizedString(.recoveryKey, comment: "")
+            return try RecoveryKeyPDF(title: title, recoveryKey: wrappedMasterKey)
         }
     }
     
@@ -432,7 +433,7 @@ actor AppServiceStub: AppServiceProtocol {
         print(#function)
     }
     
-    var recoveryKey: Data {
+    var recoveryKeyORCode: Data {
         get async throws {
             Data()
         }

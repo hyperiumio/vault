@@ -1,6 +1,10 @@
 import SwiftUI
 
-
+extension String {
+    
+    static var recoveryKey: Self { "RecoveryKey" }
+    
+}
 
 extension LocalizedStringKey {
     
@@ -12,6 +16,7 @@ extension LocalizedStringKey {
     static var recoveryKeyDescription: Self { "RecoveryKeyDescription" }
     static var recoveryKey: Self { "RecoveryKey" }
     static var printRecoveryKey: Self { "PrintRecoveryKey" }
+    static var loadingRecoveryKeyFailed: Self { "LoadingRecoveryKeyFailed" }
 
     static var chooseMasterPasswordTitle: Self { "ChooseMasterPasswordTitle" }
     static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }

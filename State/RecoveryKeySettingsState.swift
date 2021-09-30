@@ -3,36 +3,41 @@ import Foundation
 @MainActor
 class RecoveryKeySettingsState: ObservableObject {
     
-    @Published private(set) var status = Status.initialized
-    @Published private(set) var recoveryKeyPDFStatus = RecoveryKeyPDFStatus.none
+    @Published private(set) var status = Status.input
+    @Published private(set) var recoveryKeyQRCodeImage: Data?
+    @Published private(set) var recoveryKeyPDF: Data?
     private let service: AppServiceProtocol
     
     init(service: AppServiceProtocol) {
         self.service = service
     }
     
-    func load() {
-        status = .loading
+    func generateRecoveryKey() {
+        status = .processing
         Task {
             do {
-                let recoveryKey = try await service.recoveryKey
-                status = .loaded(recoveryKey: recoveryKey)
+                recoveryKeyQRCodeImage = try await service.recoveryKeyORCode
+                status = .input
             } catch {
-                status = .loadingDidFail
+                status = .failure
             }
         }
     }
     
     func generateRecoveryKeyPDF() {
-        recoveryKeyPDFStatus = .generating
+        status = .processing
         Task {
             do {
-                let recoveryKeyPDF = try await service.recoveryKeyPDF
-                recoveryKeyPDFStatus = .generated(recoveryKeyPDF: recoveryKeyPDF)
+                recoveryKeyPDF = try await service.recoveryKeyPDF
+                status = .input
             } catch {
-                recoveryKeyPDFStatus = .generationDidFail
+                status = .failure
             }
         }
+    }
+    
+    func discardRecoveryKeyPDF() {
+        recoveryKeyPDF = nil
     }
     
 }
@@ -41,19 +46,9 @@ extension RecoveryKeySettingsState {
     
     enum Status {
         
-        case initialized
-        case loading
-        case loaded(recoveryKey: Data)
-        case loadingDidFail
-        
-    }
-    
-    enum RecoveryKeyPDFStatus {
-        
-        case none
-        case generating
-        case generated(recoveryKeyPDF: Data)
-        case generationDidFail
+        case input
+        case processing
+        case failure
         
     }
     

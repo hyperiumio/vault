@@ -151,3 +151,4 @@
 "RecoveryKeyDescription" = "If you must recover you Vault, you need the Recovery Key. Make sure you print out a copy in case you loose your device.";
 "RecoveryKey" = "Recovery Key";
 "PrintRecoveryKey" = "Print Recovery Key";
+"LoadingRecoveryKeyFailed" = "Loading the Recovery Key did fail.";

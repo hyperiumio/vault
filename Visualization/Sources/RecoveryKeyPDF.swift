@@ -3,7 +3,7 @@ import CoreImage.CIFilterBuiltins
 import Foundation
 import PDFKit
 
-public func RecoveryKeyPDF(title: String, secretKey: Data) throws -> Data {
+public func RecoveryKeyPDF(title: String, recoveryKey: Data) throws -> Data {
     let pdfWith = 8.27 * PDFContext.dpi
     let pdfHeight = 11.69 * PDFContext.dpi
     let pdfSize = CGSize(width: pdfWith, height: pdfHeight)
@@ -23,7 +23,7 @@ public func RecoveryKeyPDF(title: String, secretKey: Data) throws -> Data {
         CTFrameDraw(framesetterFrame, context)
         
         let filter = CIFilter.qrCodeGenerator()
-        filter.setValue(secretKey, forKey: "inputMessage")
+        filter.setValue(recoveryKey, forKey: "inputMessage")
         filter.setValue("H", forKey: "inputCorrectionLevel")
         guard let output = filter.outputImage else {
             throw VisualizationError.qrCodeGenerationFailed

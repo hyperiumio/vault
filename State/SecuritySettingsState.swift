@@ -9,7 +9,7 @@ class SecuritySettingsState: ObservableObject {
     @Published var hideContent: Bool
     @Published var clearPasteboard: Bool
     @Published private(set) var biometryType: AppServiceBiometry?
-    
+    let recoveryKeySettingsState: RecoveryKeySettingsState
     private let inputBuffer = AsyncQueue<Input>()
     
     init(service: AppServiceProtocol) {
@@ -18,6 +18,7 @@ class SecuritySettingsState: ObservableObject {
         self.isWatchUnlockEnabled = true
         self.hideContent = true
         self.clearPasteboard = true
+        self.recoveryKeySettingsState = RecoveryKeySettingsState(service: service)
         
         let propertyStream = $isBiometricUnlockEnabled.values.map(Input.biometricUnlock)
         inputBuffer.enqueue(propertyStream)
