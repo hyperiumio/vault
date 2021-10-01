@@ -4,7 +4,6 @@ import Crypto
 import Collection
 import Foundation
 import Model
-import Preferences
 import Persistence
 import Transfer
 import Visualization
@@ -17,9 +16,7 @@ actor AppService: AppServiceProtocol {
     private let eventPublisher = PassthroughSubject<AppServiceEvent, Never>()
     
     init() {
-        let userDefaults = UserDefaults.standard // use shared user defaults
-        
-        self.defaults = Defaults(store: userDefaults)
+        self.defaults = Defaults(appGroup: Configuration.appGroup)
         self.cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)
         self.store = Store(containerDirectory: Configuration.databaseDirectory)
     }
@@ -294,7 +291,6 @@ actor AppService: AppServiceProtocol {
             guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
                 throw AppServiceError.missingMasterKey
             }
-            
             return try QRCode(data: wrappedMasterKey)
         }
     }
@@ -304,8 +300,7 @@ actor AppService: AppServiceProtocol {
             guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
                 throw AppServiceError.missingMasterKey
             }
-            let title = NSLocalizedString(.recoveryKey, comment: "")
-            return try RecoveryKeyPDF(title: title, recoveryKey: wrappedMasterKey)
+            return try RecoveryKeyPDF(title: .recoveryKey, recoveryKey: wrappedMasterKey)
         }
     }
     
@@ -324,8 +319,6 @@ extension AppServiceProtocol where Self == AppService {
     }
     
 }
-
-extension UserDefaults: PersistenceProvider {}
 
 #if DEBUG
 actor AppServiceStub: AppServiceProtocol {

@@ -29,7 +29,7 @@ class SetupState: ObservableObject {
                         inputBuffer.enqueue(inputs)
                         step = .repeatPassword(payload)
                     case let .repeatPassword(payload):
-                        if let biometryType = await service.availableBiometry {
+                        if let biometryType = try await service.availableBiometry {
                             let state = BiometrySetupState(biometryType: biometryType)
                             let payload = Step.BiometryUnlock(masterPassword: payload.masterPassword, repeatedPassword: payload.state.repeatedPassword, state: state)
                             let inputs = state.$status.values.compactMap(Input.init)

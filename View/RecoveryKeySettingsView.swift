@@ -4,9 +4,24 @@ import SwiftUI
 struct RecoveryKeySettingsView: View {
     
     @ObservedObject private var state: RecoveryKeySettingsState
+    private let failure: Binding<RecoveryKeySettingsState.Failure?>
     
     init(_ state: RecoveryKeySettingsState) {
         self.state = state
+        
+        self.failure = Binding {
+            if case let .failure(failure) = state.status {
+                return failure
+            } else {
+                return nil
+            }
+        } set: { failure in
+            if let failure = failure {
+                state.presentFailure(failure)
+            } else {
+                state.dismissPresentation()
+            }
+        }
     }
     
     var body: some View {
@@ -35,7 +50,15 @@ struct RecoveryKeySettingsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(.recoveryKey)
         .onAppear {
-            state.generateRecoveryKey()
+            state.generateRecoveryKeyQRCodeImage()
+        }
+        .alert(item: failure) { failure in
+            switch failure {
+            case .generateRecoveryKeyQRCodeImage:
+                return Alert(title: Text(.generateRecoveryKeyQRCodeImageFailed))
+            case .generateRecoveryKeyPDF:
+                return Alert(title: Text(.generateRecoveryKeyPDFFailed))
+            }
         }
         .onChange(of: state.recoveryKeyPDF) { recoveryKeyPDF in
             guard let recoveryKeyPDF = recoveryKeyPDF else {

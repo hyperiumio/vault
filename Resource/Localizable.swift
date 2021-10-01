@@ -2,7 +2,9 @@ import SwiftUI
 
 extension String {
     
-    static var recoveryKey: Self { "RecoveryKey" }
+    static var recoveryKey: Self {
+        NSLocalizedString("RecoveryKey", comment: "")
+    }
     
 }
 
@@ -17,6 +19,13 @@ extension LocalizedStringKey {
     static var recoveryKey: Self { "RecoveryKey" }
     static var printRecoveryKey: Self { "PrintRecoveryKey" }
     static var loadingRecoveryKeyFailed: Self { "LoadingRecoveryKeyFailed" }
+    static var generateRecoveryKeyQRCodeImageFailed: Self { "GenerateRecoveryKeyQRCodeImageFailed" }
+    static var generateRecoveryKeyPDFFailed: Self { "GenerateRecoveryKeyPDFFailed" }
+    static var clearPasteboard: Self { "ClearPasteboard" }
+    static var clearPasteboardDescription: Self { "ClearPasteboardDescription" }
+    static var hidePasswords: Self { "HidePasswords" }
+    static var hidePasswordsDescription: Self { "HidePasswordsDescription" }
+    static var extendedUnlockDescription: Self { "ExtendedUnlockDescription" }
 
     static var chooseMasterPasswordTitle: Self { "ChooseMasterPasswordTitle" }
     static var chooseMasterPasswordDescription: Self { "ChooseMasterPasswordDescription" }
@@ -40,7 +49,7 @@ extension LocalizedStringKey {
     static var build: Self { "Build" }
     static var copyright: Self { "Copyright" }
     static var numberOfItem: Self { "NumberOfItems" }
-
+    static var appleWatch: Self { "AppleWatch" }
     
     static var additionalItems: Self { "AdditionalItems" }
     static var americanExpress: Self { "AmericanExpress" }

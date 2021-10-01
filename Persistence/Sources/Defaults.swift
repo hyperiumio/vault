@@ -2,9 +2,10 @@ import Foundation
 
 public actor Defaults {
     
-    private let store: PersistenceProvider
+    private let store: UserDefaults
     
-    public init(store: PersistenceProvider) {
+    public init(appGroup: String) {
+        let store = UserDefaults(suiteName: appGroup)!
         let defaults =  [
             String.biometricUnlockEnabled: false
         ]

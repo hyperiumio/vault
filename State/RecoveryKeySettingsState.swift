@@ -12,14 +12,22 @@ class RecoveryKeySettingsState: ObservableObject {
         self.service = service
     }
     
-    func generateRecoveryKey() {
+    func presentFailure(_ failure: Failure) {
+        status = .failure(failure)
+    }
+    
+    func dismissPresentation() {
+        status = .input
+    }
+    
+    func generateRecoveryKeyQRCodeImage() {
         status = .processing
         Task {
             do {
                 recoveryKeyQRCodeImage = try await service.recoveryKeyORCode
                 status = .input
             } catch {
-                status = .failure
+                status = .failure(.generateRecoveryKeyQRCodeImage)
             }
         }
     }
@@ -31,7 +39,7 @@ class RecoveryKeySettingsState: ObservableObject {
                 recoveryKeyPDF = try await service.recoveryKeyPDF
                 status = .input
             } catch {
-                status = .failure
+                status = .failure(.generateRecoveryKeyPDF)
             }
         }
     }
@@ -48,8 +56,21 @@ extension RecoveryKeySettingsState {
         
         case input
         case processing
-        case failure
+        case failure(Failure)
         
     }
+    
+    enum Failure: Error {
+        
+        case generateRecoveryKeyQRCodeImage
+        case generateRecoveryKeyPDF
+        
+    }
+    
+}
+
+extension RecoveryKeySettingsState.Failure: Identifiable {
+    
+    var id: Self { self }
     
 }

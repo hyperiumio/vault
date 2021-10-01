@@ -152,3 +152,11 @@
 "RecoveryKey" = "Recovery Key";
 "PrintRecoveryKey" = "Print Recovery Key";
 "LoadingRecoveryKeyFailed" = "Loading the Recovery Key did fail.";
+"GenerateRecoveryKeyQRCodeImageFailed" = "Recovery Key QR Code could not be created.";
+"GenerateRecoveryKeyPDFFailed" = "Recovery Key PDF could not be created.";
+"ClearPasteboard" = "Clear pasteboard";
+"ClearPasteboardDescription" = "The pasteboard is automatically cleared when Vault is locked.";
+"HidePasswords" = "Hide passwords";
+"HidePasswordsDescription" = "Your passwords are hidden after unlocking. You can display them individually.";
+"ExtendedUnlockDescription" = "You can enable additional methods for unlocking Vault.";
+"AppleWatch" = "Apple Watch";

@@ -6,7 +6,7 @@ protocol AppServiceProtocol {
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> { get }
     
-    var availableBiometry: AppServiceBiometry? { get async }
+    var availableBiometry: AppServiceBiometry? { get async throws }
     var isBiometricUnlockEnabled: Bool { get async }
     
     func unlockWithPassword(_ password: String) async throws

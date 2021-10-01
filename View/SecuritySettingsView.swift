@@ -1,12 +1,8 @@
-import Shim
 import SwiftUI
-import Visualization
-import UIKit
 
 struct SecuritySettingsView: View {
     
     @ObservedObject private var state: SecuritySettingsState
-    @State var pdf: Data?
     
     init(_ state: SecuritySettingsState) {
         self.state = state
@@ -14,35 +10,42 @@ struct SecuritySettingsView: View {
     
     var body: some View {
         Form {
-            Section {
-                switch state.biometryType {
-                case .touchID?:
-                    Toggle(.useTouchID, isOn: $state.isBiometricUnlockEnabled)
-                case .faceID?:
-                    Toggle(.useFaceID, isOn: $state.isBiometricUnlockEnabled)
-                case nil:
-                    EmptyView()
+            if let extendedUnlock = state.extendedUnlock {
+                Section {
+                    switch extendedUnlock.biometry {
+                    case .touchID?:
+                        Toggle(.touchID, isOn: $state.isBiometricUnlockEnabled)
+                    case .faceID?:
+                        Toggle(.faceID, isOn: $state.isBiometricUnlockEnabled)
+                    case nil:
+                        EmptyView()
+                    }
+                    
+                    if extendedUnlock.watch {
+                        Toggle(.appleWatch, isOn: $state.isWatchUnlockEnabled)
+                    }
+                    
+                } header: {
+                    Text(.unlock)
+                } footer: {
+                    Text(.extendedUnlockDescription)
                 }
-                
-                Toggle("Use Apple Watch", isOn: $state.isWatchUnlockEnabled)
-            } footer: {
-                Text(.touchIDDescription)
             }
             
             Section {
-                Toggle("Hide content", isOn: $state.hideContent)
+                Toggle(.hidePasswords, isOn: $state.hidePasswords)
             } footer: {
-                Text("Hide content after unlock.")
+                Text(.hidePasswordsDescription)
             }
             
             Section {
-                Toggle("Clear pasreboard", isOn: $state.clearPasteboard)
+                Toggle(.clearPasteboard, isOn: $state.clearPasteboard)
             } footer: {
-                Text("Hide content after unlock.")
+                Text(.clearPasteboardDescription)
             }
             
             Section {
-                Button("Change Master Password") {
+                NavigationLink(.changeMasterPassword) {
                     
                 }
             } footer: {
@@ -57,13 +60,12 @@ struct SecuritySettingsView: View {
                 Text(.recoveryKeyDescription)
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(.security)
+        .onAppear {
+            state.load()
+        }
     }
-    
-}
-
-extension Data: Identifiable {
-    
-    public var id: Self { self }
     
 }
 

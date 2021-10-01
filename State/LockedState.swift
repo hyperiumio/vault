@@ -15,7 +15,7 @@ class LockedState: ObservableObject {
         self.service = service
         
         Task {
-            self.biometry = await service.availableBiometry
+            self.biometry = try await service.availableBiometry
         }
     }
     
