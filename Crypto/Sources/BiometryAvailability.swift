@@ -5,3 +5,11 @@ public enum BiometryAvailability: Equatable {
     case enrolled(BiometryType)
     
 }
+
+public struct ExtendedUnlock {
+    
+    let touchID: Bool
+    let faceID: Bool
+    let watch: Bool
+    
+}

@@ -54,6 +54,47 @@ actor Keychain {
         }
     }
     
+    #if os(iOS)
+    var extendedUnlock: ExtendedUnlock {
+        get async {
+            var canEvaluateBiometricsError: NSError?
+            let canEvaluateBiometrics = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &canEvaluateBiometricsError)
+            let biometryType = configuration.context.biometryType
+            
+            guard
+                canEvaluateBiometricsError == nil,
+                canEvaluateBiometrics
+            else {
+                return ExtendedUnlock(touchID: false, faceID: false, watch: false)
+            }
+            
+            switch biometryType {
+            case .touchID:
+                return ExtendedUnlock(touchID: true, faceID: false, watch: false)
+            case .faceID:
+                return ExtendedUnlock(touchID: false, faceID: true, watch: false)
+            default:
+                return ExtendedUnlock(touchID: false, faceID: false, watch: false)
+            }
+        }
+    }
+    #endif
+    
+    #if os(macOS)
+    var extendedUnlock: ExtendedUnlock {
+        get async {
+            var canEvaluateBiometricsError: NSError?
+            let canEvaluateBiometrics = configuration.context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &canEvaluateBiometricsError)
+            let biometryType = configuration.context.biometryType
+            
+            var canEvaluateWatchError: NSError?
+            let canEvaluateWatch = configuration.context.canEvaluatePolicy(.de, error: &canEvaluateBiometricsError)
+            
+
+        }
+    }
+    #endif
+    
     var biometryAvailablility: BiometryAvailability {
         get async {
             var error: NSError?
