@@ -88,7 +88,7 @@ actor Keychain {
             let biometryType = configuration.context.biometryType
             
             var canEvaluateWatchError: NSError?
-            let canEvaluateWatch = configuration.context.canEvaluatePolicy(.de, error: &canEvaluateBiometricsError)
+          //  let canEvaluateWatch = configuration.context.canEvaluatePolicy(.de, error: &canEvaluateBiometricsError)
             
 
         }

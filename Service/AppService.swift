@@ -10,15 +10,15 @@ import Visualization
 
 actor AppService: AppServiceProtocol {
     
-    private let defaults: Defaults
+    private let defaultsStore: DefaultsStore
     private let cryptor: Cryptor
-    private let store: Store
+    private let secureItemStore: SecureItemStore
     private let eventPublisher = PassthroughSubject<AppServiceEvent, Never>()
     
     init() {
-        self.defaults = Defaults(appGroup: Configuration.appGroup)
+        self.defaultsStore = DefaultsStore(appGroup: Configuration.appGroup)
         self.cryptor = Cryptor(keychainAccessGroup: Configuration.appGroup)
-        self.store = Store(containerDirectory: Configuration.databaseDirectory)
+        self.secureItemStore = SecureItemStore(containerDirectory: Configuration.databaseDirectory)
     }
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> {
@@ -27,10 +27,10 @@ actor AppService: AppServiceProtocol {
     
     var didCompleteSetup: Bool {
         get async throws {
-            guard let storeID = await defaults.activeStoreID else {
+            guard let storeID = await defaultsStore.value.activeStoreID else {
                 return false
             }
-            return try await store.storeExists(storeID: storeID)
+            return try await secureItemStore.storeExists(storeID: storeID)
         }
     }
     
@@ -48,15 +48,15 @@ actor AppService: AppServiceProtocol {
     }
     
     func unlockWithPassword(_ password: String) async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
-        let derivedKeyContainer = try await store.loadDerivedKeyContainer(storeID: storeID)
+        let derivedKeyContainer = try await secureItemStore.loadDerivedKeyContainer(storeID: storeID)
         try await cryptor.unlockWithPassword(password, token: derivedKeyContainer, id: storeID)
     }
     
     func unlockWithBiometry() async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         try await cryptor.unlockWithBiometry(id: storeID)
@@ -72,12 +72,12 @@ actor AppService: AppServiceProtocol {
     
     var isBiometricUnlockEnabled: Bool {
         get async {
-            await defaults.isBiometricUnlockEnabled
+            await defaultsStore.value.biometryUnlock != nil
         }
     }
     
-    func save(isBiometricUnlockEnabled: Bool) async {
-        await defaults.set(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
+    func save(biometryUnlock: Defaults.BiometryUnlock) async {
+        await defaultsStore.set(biometryUnlock: biometryUnlock)
         eventPublisher.send(.defaultsDidChange)
     }
     
@@ -94,16 +94,16 @@ actor AppService: AppServiceProtocol {
         let derivedKeyContainer = try CryptorToken.create()
         
         try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
-        try await store.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
-        await defaults.set(activeStoreID: storeID)
+        try await secureItemStore.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
+        await defaultsStore.set(activeStoreID: storeID)
     }
     
     nonisolated func loadInfos() async throws -> AsyncThrowingMapSequence<AsyncThrowingMapSequence<AsyncThrowingStream<Data, Error>, Data>, StoreItemInfo> {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
-        return await store.loadItems(storeID: storeID) { context in
+        return await secureItemStore.loadItems(storeID: storeID) { context in
             try context.bytes
         }
         .map { [cryptor] bytes in
@@ -121,11 +121,11 @@ actor AppService: AppServiceProtocol {
     }
     
     func loadStoreInfo() async throws -> AppServiceStoreInfo {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
-        let created = try await store.loadStoreInfo(storeID: storeID).created
+        let created = try await secureItemStore.loadStoreInfo(storeID: storeID).created
         
         var bankAccountItemCount = 0
         var bankCardItemCount = 0
@@ -160,11 +160,11 @@ actor AppService: AppServiceProtocol {
     }
     
     func load(itemID: UUID) async throws -> StoreItem {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
-        let encryptedMessages = try await store.loadItem(storeID: storeID, itemID: itemID)
+        let encryptedMessages = try await secureItemStore.loadItem(storeID: storeID, itemID: itemID)
         let messages = try await cryptor.decryptMessages(from: encryptedMessages)
         
         guard let encodedInfo = messages.first else {
@@ -191,7 +191,7 @@ actor AppService: AppServiceProtocol {
     }
     
     func save(_ storeItem: StoreItem) async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
@@ -204,22 +204,22 @@ actor AppService: AppServiceProtocol {
         let encryptedMessages = try await cryptor.encryptMessages(messages)
         
         let operations = [
-            StoreOperation.save(itemID: storeItem.id, item: encryptedMessages)
+            SecureItemStoreOperation.save(itemID: storeItem.id, item: encryptedMessages)
         ]
-        try await store.commit(storeID: storeID, operations: operations)
+        try await secureItemStore.commit(storeID: storeID, operations: operations)
         
         eventPublisher.send(.storeDidChange)
     }
     
     func delete(itemID: UUID) async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
         let operations = [
-            StoreOperation.delete(itemID: itemID)
+            SecureItemStoreOperation.delete(itemID: itemID)
         ]
-        try await store.commit(storeID: storeID, operations: operations)
+        try await secureItemStore.commit(storeID: storeID, operations: operations)
         
         eventPublisher.send(.storeDidChange)
     }
@@ -232,15 +232,15 @@ actor AppService: AppServiceProtocol {
     }
     
     func deleteAllData() async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
-        try await store.deleteAllItems(storeID: storeID)
+        try await secureItemStore.deleteAllItems(storeID: storeID)
     }
     
     func exportStoreItems() async throws -> URL {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
@@ -258,7 +258,7 @@ actor AppService: AppServiceProtocol {
     }
     
     func createBackup() async throws -> URL {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         guard let wrappedMasterKey = try await cryptor.wrappedMasterKey else {
@@ -266,16 +266,16 @@ actor AppService: AppServiceProtocol {
         }
         
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(Configuration.backupDirectoryName)
-        try await BackupCreate(at: url) { [store] resourceLocator in
+        try await BackupCreate(at: url) { [secureItemStore] resourceLocator in
             try wrappedMasterKey.write(to: resourceLocator.masterKeyURL, options: .atomic)
-            try await store.dump(storeID: storeID, to: resourceLocator.storeURL)
+            try await secureItemStore.dump(storeID: storeID, to: resourceLocator.storeURL)
         }
         
         return url
     }
     
     func restoreBackup(from url: URL) async throws {
-        guard let storeID = await defaults.activeStoreID else {
+        guard let storeID = await defaultsStore.value.activeStoreID else {
             throw AppServiceError.noActiveStoreID
         }
         
@@ -283,7 +283,7 @@ actor AppService: AppServiceProtocol {
             
         }
         
-        try await store.delete(storeID: storeID)
+        try await secureItemStore.delete(storeID: storeID)
     }
     
     var recoveryKeyORCode: Data {
@@ -366,7 +366,7 @@ actor AppServiceStub: AppServiceProtocol {
         "foo"
     }
     
-    func save(isBiometricUnlockEnabled: Bool) async {
+    func save(biometryUnlock: Defaults.BiometryUnlock) async {
         print(#function)
     }
     

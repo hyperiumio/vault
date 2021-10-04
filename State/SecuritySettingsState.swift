@@ -9,7 +9,7 @@ class SecuritySettingsState: ObservableObject {
     @Published var isBiometricUnlockEnabled: Bool {
         didSet {
             Task {
-                await service.save(isBiometricUnlockEnabled: isBiometricUnlockEnabled)
+
             }
         }
     }

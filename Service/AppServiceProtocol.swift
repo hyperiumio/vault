@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import Model
+import Persistence
 
 protocol AppServiceProtocol {
     
@@ -16,7 +17,7 @@ protocol AppServiceProtocol {
     func password(length: Int, digit: Bool, symbol: Bool) async -> String
     func isPasswordSecure(_ password: String) async -> Bool
     
-    func save(isBiometricUnlockEnabled: Bool) async
+    func save(biometryUnlock: Defaults.BiometryUnlock) async
     func changeMasterPassword(to masterPassword: String) async throws
     
     var didCompleteSetup: Bool { get async throws }

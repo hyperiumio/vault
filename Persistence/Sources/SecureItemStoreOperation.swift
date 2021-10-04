@@ -1,6 +1,6 @@
 import Foundation
 
-public enum StoreOperation {
+public enum SecureItemStoreOperation {
     
     case save(itemID: UUID, item: Data)
     case delete(itemID: UUID)

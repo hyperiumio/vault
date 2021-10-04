@@ -1,4 +1,4 @@
-public enum StoreError: Error {
+public enum PersistenceError: Error {
     
     case invalidByteRange
     case dataNotAvailable

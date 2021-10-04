@@ -1,12 +1,12 @@
 import Foundation
 
-public actor Store {
+public actor SecureItemStore {
     
-    private let resourceLocator: StoreResourceLocator
+    private let resourceLocator: SecureItemStoreResourceLocator
     private let configuration: Configuration
     
     public init(containerDirectory: URL, configuration: Configuration = .production) {
-        self.resourceLocator = StoreResourceLocator(containerURL: containerDirectory)
+        self.resourceLocator = SecureItemStoreResourceLocator(containerURL: containerDirectory)
         self.configuration = configuration
     }
     
@@ -17,7 +17,7 @@ public actor Store {
     }
     
     public func createStore(storeID: UUID, derivedKeyContainer: Data, configuration: Configuration = .production) async throws {
-        let storeInfo = StoreInfo()
+        let storeInfo = SecureItemStoreInfo()
         let containerURL = resourceLocator.containerURL
         let storeURL = resourceLocator.storeURL(storeID: storeID)
         let itemsURL = resourceLocator.itemsURL(storeID: storeID)
@@ -45,7 +45,7 @@ public actor Store {
         
     }
     
-    public func commit(storeID: UUID, operations: [StoreOperation]) async throws {
+    public func commit(storeID: UUID, operations: [SecureItemStoreOperation]) async throws {
         for operation in operations {
             switch operation {
             case let .save(itemID, item):
@@ -61,7 +61,7 @@ public actor Store {
     public func deleteAllItems(storeID: UUID) async throws {
         let itemsURL = resourceLocator.itemsURL(storeID: storeID)
         guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
-            throw StoreError.dataNotAvailable
+            throw PersistenceError.dataNotAvailable
         }
         
         for itemURL in itemURLs {
@@ -69,10 +69,10 @@ public actor Store {
         }
     }
     
-    public func loadStoreInfo(storeID: UUID) async throws -> StoreInfo {
+    public func loadStoreInfo(storeID: UUID) async throws -> SecureItemStoreInfo {
         let infoURL = resourceLocator.infoURL(storeID: storeID)
         let infoData = try configuration.load(infoURL, [])
-        return try StoreInfo(from: infoData)
+        return try SecureItemStoreInfo(from: infoData)
     }
     
     public func loadDerivedKeyContainer(storeID: UUID) async throws -> Data {
@@ -93,7 +93,7 @@ public actor Store {
                 return
             }
             guard let itemURLs = try? FileManager.default.contentsOfDirectory(at: itemsURL, includingPropertiesForKeys: nil, options: .skipsHiddenFiles) else {
-                continuation.finish(throwing: StoreError.dataNotAvailable)
+                continuation.finish(throwing: PersistenceError.dataNotAvailable)
                 return
             }
             
@@ -117,7 +117,7 @@ public actor Store {
     
 }
 
-extension Store {
+extension SecureItemStore {
     
     public struct Configuration {
         

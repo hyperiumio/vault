@@ -1,6 +1,6 @@
 import Foundation
 
-public struct StoreInfo: Codable {
+public struct SecureItemStoreInfo: Codable {
     
     public let id: UUID
     public let keyVersion: Int

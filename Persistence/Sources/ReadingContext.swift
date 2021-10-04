@@ -14,12 +14,12 @@ public struct ReadingContext {
         let fileHandle = try FileHandle(forReadingFrom: url)
         
         guard let fileOffset = UInt64(exactly: range.startIndex) else {
-            throw StoreError.invalidByteRange
+            throw PersistenceError.invalidByteRange
         }
         
         try fileHandle.seek(toOffset: fileOffset)
         guard let data = try? fileHandle.read(upToCount: range.count) else {
-            throw StoreError.dataNotAvailable
+            throw PersistenceError.dataNotAvailable
         }
         
         return data

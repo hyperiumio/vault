@@ -1,47 +1,26 @@
 import Foundation
 
-public actor Defaults {
+public struct Defaults {
     
-    private let store: UserDefaults
-    
-    public init(appGroup: String) {
-        let store = UserDefaults(suiteName: appGroup)!
-        let defaults =  [
-            String.biometricUnlockEnabled: false
-        ]
-        store.register(defaults: defaults)
-        
-        self.store = store
-    }
-    
-    public var isBiometricUnlockEnabled: Bool {
-        get async {
-            store.bool(forKey: .biometricUnlockEnabled)
-        }
-    }
-    
-    public var activeStoreID: UUID? {
-        get async {
-            guard let storeID = store.string(forKey: .activeStoreID) else {
-                return nil
-            }
-            return UUID(uuidString: storeID)
-        }
-    }
-    
-    public func set(isBiometricUnlockEnabled: Bool) async {
-        store.set(isBiometricUnlockEnabled, forKey: .biometricUnlockEnabled)
-    }
-    
-    public func set(activeStoreID: UUID?) async {
-        store.set(activeStoreID?.uuidString, forKey: .activeStoreID)
-    }
+    public let activeStoreID: UUID?
+    public let biometryUnlock: BiometryUnlock?
+    public let externalUnlock: ExternalUnlock?
     
 }
 
-private extension String {
+extension Defaults {
     
-    static var biometricUnlockEnabled: Self { "BiometricUnlockEnabled" }
-    static var activeStoreID: Self { "ActiveStoreID" }
+    public enum BiometryUnlock: String {
+        
+        case touchID
+        case faceID
+        
+    }
+    
+    public enum ExternalUnlock: String {
+        
+        case watch
+        
+    }
     
 }

@@ -1,6 +1,6 @@
 import Foundation
 
-struct StoreResourceLocator {
+struct SecureItemStoreResourceLocator {
     
     let containerURL: URL
     
