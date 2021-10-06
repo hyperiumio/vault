@@ -1,0 +1,3 @@
+import Crypto
+
+typealias AppServiceUnlockAvailability = KeychainUnlockAvailablility

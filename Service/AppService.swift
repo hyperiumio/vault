@@ -34,16 +34,9 @@ actor AppService: AppServiceProtocol {
         }
     }
     
-    var availableBiometry: AppServiceBiometry? {
+    var unlockAvailability: AppServiceUnlockAvailability? {
         get async {
-            switch await cryptor.biometryAvailablility {
-            case .notAvailable, .notEnrolled:
-                return nil
-            case .enrolled(.touchID):
-                return .touchID
-            case .enrolled(.faceID):
-                return .faceID
-            }
+            await cryptor.unlockAvailability
         }
     }
     
@@ -104,11 +97,11 @@ actor AppService: AppServiceProtocol {
         await PasswordIsSecure(password)
     }
     
-    func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
+    func completeSetup(masterPassword: String) async throws {
         let storeID = UUID()
         let derivedKeyContainer = try CryptorToken.create()
         
-        try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID, usingBiometryUnlock: isBiometryEnabled)
+        try await cryptor.createMasterKey(from: masterPassword, token: derivedKeyContainer, with: storeID)
         try await secureItemStore.createStore(storeID: storeID, derivedKeyContainer: derivedKeyContainer)
         await defaultsStore.set(activeStoreID: storeID)
     }
@@ -357,8 +350,8 @@ actor AppServiceStub: AppServiceProtocol {
         true
     }
     
-    nonisolated var availableBiometry: AppServiceBiometry? {
-        .touchID
+    nonisolated var unlockAvailability: AppServiceUnlockAvailability? {
+        nil
     }
     
     func unlockWithPassword(_ password: String) async throws {
@@ -411,7 +404,7 @@ actor AppServiceStub: AppServiceProtocol {
         return true
     }
     
-    func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws {
+    func completeSetup(masterPassword: String) async throws {
         try! await Task.sleep(nanoseconds: 1_000_000_000)
     }
     

@@ -6,7 +6,7 @@ class LockedState: ObservableObject {
     
     @Published var password = ""
     @Published private(set) var status = Status.locked
-    @Published private(set) var biometry: AppServiceBiometry?
+    @Published private(set) var unlockAvailability: AppServiceUnlockAvailability?
     private let infoData: AsyncThrowingStream<Data, Error>
     private let service: AppServiceProtocol
     
@@ -15,7 +15,7 @@ class LockedState: ObservableObject {
         self.service = service
         
         Task {
-            self.biometry = try await service.availableBiometry
+            self.unlockAvailability = try await service.unlockAvailability
         }
     }
     

@@ -1,24 +1,24 @@
 import SwiftUI
 
-struct BiometrySetupView: View {
+struct UnlockSetupView: View {
     
-    @ObservedObject private var state: BiometrySetupState
+    @ObservedObject private var state: UnlockSetupState
     
-    init(_ state: BiometrySetupState) {
+    init(_ state: UnlockSetupState) {
         self.state = state
     }
     
     var body: some View {
-        SetupContentView(buttonEnabled: state.status == .biometrySetup) {
+        SetupContentView(buttonEnabled: state.status == .input) {
             state.confirm()
         } image: {
-            Image(state.biometryType.image)
+            Image(state.unlockMethod.image)
         } title: {
-            Text(state.biometryType.title)
+            Text(state.unlockMethod.title)
         } description: {
-            Text(state.biometryType.description)
+            Text(state.unlockMethod.description)
         } input: {
-            Toggle(state.biometryType.title, isOn: $state.isBiometricUnlockEnabled)
+            Toggle(state.unlockMethod.title, isOn: $state.isEnabled)
                 .toggleStyle(.switch)
                 .labelsHidden()
                 .tint(.accentColor)
@@ -30,14 +30,16 @@ struct BiometrySetupView: View {
     
 }
 
-private extension AppServiceBiometry {
+private extension UnlockSetupState.UnlockMethod {
     
     var image: String {
         switch self {
         case .touchID:
-            return ImageAsset.biometrySetupTouchID.name
+            return ImageAsset.unlockSetupTouchID.name
         case .faceID:
-            return ImageAsset.biometrySetupFaceID.name
+            return ImageAsset.unlockSetupFaceID.name
+        case .watch:
+            return ImageAsset.unlockSetupWatch.name
         }
     }
     
@@ -47,31 +49,35 @@ private extension AppServiceBiometry {
             return .enableTouchIDUnlock
         case .faceID:
             return .enableFaceIDUnlock
+        case .watch:
+            return .enabledWatchUnlock
         }
     }
     
     var description: LocalizedStringKey {
         switch self {
         case .touchID:
-            return .unlockWithTouchIDDescription
+            return .enableFaceIDUnlockDescription
         case .faceID:
-            return .unlockWithFaceIDDescription
+            return .enableTouchIDUnlockDescription
+        case .watch:
+            return .enabledWatchUnlockDescription
         }
     }
     
 }
 
 #if DEBUG
-struct BiometrySetupViewPreview: PreviewProvider {
+struct UnlockSetupViewPreview: PreviewProvider {
     
-    static let state = BiometrySetupState(biometryType: .faceID, isBiometricUnlockEnabled: true)
+    static let state = UnlockSetupState(unlockMethod: .touchID, isEnabled: false)
     
     static var previews: some View {
-        BiometrySetupView(state)
+        UnlockSetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
         
-        BiometrySetupView(state)
+        UnlockSetupView(state)
             .preferredColorScheme(.light)
             .previewLayout(.sizeThatFits)
     }

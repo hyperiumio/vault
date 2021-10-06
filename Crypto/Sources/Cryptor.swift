@@ -21,16 +21,18 @@ public actor Cryptor {
         self.keychain = Keychain(accessGroup: keychainAccessGroup)
     }
     
-    public func createMasterKey(from password: String, token: CryptorToken, with id: UUID, usingBiometryUnlock: Bool) async throws {
+    public func createMasterKey(from password: String, token: CryptorToken, with id: UUID) async throws {
         let publicArguments = try DerivedKey.PublicArguments(from: token)
         let derivedKey = try DerivedKey(from: password, with: publicArguments)
         let masterKey = MasterKey()
         let masterKeyContainer = try masterKey.encryptedContainer(using: derivedKey)
         
         try await keychain.storeSecret(masterKeyContainer, forKey: .masterKey, access: .all)
+        /*
         if usingBiometryUnlock {
             try await keychain.storeSecret(derivedKey.value, forKey: .derivedKey, access: .currentBiometry)
         }
+         */
         
         self.masterKey = masterKey
     }
@@ -92,12 +94,6 @@ public actor Cryptor {
         return try SecureDataMessage.encryptContainer(from: messages, using: masterKey)
     }
     
-    public var biometryAvailablility: BiometryAvailability {
-        get async {
-            await keychain.biometryAvailablility
-        }
-    }
-    
     public var wrappedMasterKey: Data? {
         get async throws {
             try await keychain.loadSecret(forKey: .masterKey)
@@ -106,6 +102,12 @@ public actor Cryptor {
     
     public func decryptStoreItems<S>(_ items: S) -> AsyncStream<Data> where S: AsyncSequence {
         fatalError()
+    }
+    
+    public var unlockAvailability: KeychainUnlockAvailablility {
+        get async {
+            await keychain.unlockAvailability
+        }
     }
     
 }

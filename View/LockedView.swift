@@ -53,6 +53,7 @@ struct LockedView: View {
             Spacer()
                 .frame(height: 40)
             
+            /*
             if let biometryType = state.biometry {
                 Button {
                     state.unlock(with: .biometry)
@@ -64,6 +65,7 @@ struct LockedView: View {
                         .frame(width: 40, height: 40)
                 }
             }
+             */
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -105,19 +107,6 @@ private extension LockedState {
             return true
         case .locked, .unlocked, .unlocking:
             return false
-        }
-    }
-    
-}
-
-private extension AppServiceBiometry {
-    
-    var symbolName: String {
-        switch self {
-        case .touchID:
-            return SFSymbol.touchid.systemName
-        case .faceID:
-            return SFSymbol.faceid.systemName
         }
     }
     

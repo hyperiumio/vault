@@ -92,6 +92,8 @@ extension LocalizedStringKey {
     static var enableFaceIDUnlockDescription: Self { "EnableFaceIDUnlockDescription" }
     static var enableTouchIDUnlock: Self { "EnableTouchIDUnlock" }
     static var enableTouchIDUnlockDescription: Self { "EnableTouchIDUnlockDescription" }
+    static var enabledWatchUnlock: Self { "EnabledWatchUnlock" }
+    static var enabledWatchUnlockDescription: Self { "EnabledWatchUnlockDescription" }
     static var exampleURL: Self { "ExampleURL" }
     static var emptyVault: Self { "EmptyVault" }
     static var faceID: Self { "FaceID" }

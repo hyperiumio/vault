@@ -114,11 +114,4 @@ extension SecuritySettingsState {
         
     }
     
-    struct ExtendedUnlock {
-        
-        let biometry: AppServiceBiometry?
-        let watch: Bool
-        
-    }
-    
 }

@@ -34,7 +34,7 @@ struct SetupView: View {
                 case let .repeatPassword(payload):
                     RepeatMasterPasswordSetupView(payload.state)
                 case let .biometricUnlock(payload):
-                    BiometrySetupView(payload.state)
+                    UnlockSetupView(payload.state)
                 case let .finishSetup(payload):
                     FinishSetupView(payload.state)
                 }

@@ -56,7 +56,7 @@ struct FinishSetupView: View {
 #if DEBUG
 struct FinishSetupViewPreview: PreviewProvider {
     
-    static let state = FinishSetupState(masterPassword: "foo", isBiometryEnabled: true, service: .stub)
+    static let state = FinishSetupState(masterPassword: "foo", service: .stub)
     
     static var previews: some View {
         FinishSetupView(state)

@@ -7,7 +7,7 @@ protocol AppServiceProtocol {
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> { get }
     
-    var availableBiometry: AppServiceBiometry? { get async throws }
+    var unlockAvailability: AppServiceUnlockAvailability? { get async throws }
     var touchIDUnlockEnabled: Bool { get async }
     
     func unlockWithPassword(_ password: String) async throws
@@ -25,7 +25,7 @@ protocol AppServiceProtocol {
     func changeMasterPassword(to masterPassword: String) async throws
     
     var didCompleteSetup: Bool { get async throws }
-    func completeSetup(isBiometryEnabled: Bool, masterPassword: String) async throws
+    func completeSetup(masterPassword: String) async throws
     
     
     func loadInfos() async throws -> AsyncThrowingMapSequence<AsyncThrowingMapSequence<AsyncThrowingStream<Data, Error>, Data>, StoreItemInfo>
