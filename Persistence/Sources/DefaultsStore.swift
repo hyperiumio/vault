@@ -10,32 +10,32 @@ public actor DefaultsStore {
     
     public var value: Defaults {
         get async {
-            let activeStoreID = userDefaults.string(forKey: .activeStoreID).map(UUID.init) ?? nil
-            let biometryUnlock = userDefaults.string(forKey: .biometryUnlock).map(Defaults.BiometryUnlock.init) ?? nil
-            let externalUnlock = userDefaults.string(forKey: .externalUnlock).map(Defaults.ExternalUnlock.init) ?? nil
-            
-            return Defaults(activeStoreID: activeStoreID, biometryUnlock: biometryUnlock, externalUnlock: externalUnlock)
+            Defaults(from: userDefaults)
         }
     }
     
     public func set(activeStoreID: UUID?) async {
-        userDefaults.set(activeStoreID?.uuidString, forKey: .activeStoreID)
+        userDefaults.set(activeStoreID?.uuidString, forKey: DefaultsKey.activeStoreID.rawValue)
     }
     
-    public func set(biometryUnlock: Defaults.BiometryUnlock) {
-        userDefaults.set(biometryUnlock, forKey: .biometryUnlock)
+    public func set(touchIDUnlock: Bool) async {
+        userDefaults.set(touchIDUnlock, forKey: DefaultsKey.activeStoreID.rawValue)
     }
     
-    public func set(externalUnlock: Defaults.ExternalUnlock) {
-        userDefaults.set(externalUnlock, forKey: .externalUnlock)
+    public func set(faceIDUnlock: Bool) async {
+        userDefaults.set(faceIDUnlock, forKey: DefaultsKey.faceIDUnlock.rawValue)
     }
     
-}
-
-private extension String {
+    public func set(watchUnlock: Bool) async {
+        userDefaults.set(watchUnlock, forKey: DefaultsKey.watchUnlock.rawValue)
+    }
     
-    static var activeStoreID: Self { "ActiveStoreID" }
-    static var biometryUnlock: Self { "BiometryUnlock" }
-    static var externalUnlock: Self { "ExternalUnlock" }
+    public func set(hidePasswords: Bool) async {
+        userDefaults.set(hidePasswords, forKey: DefaultsKey.hidePasswords.rawValue)
+    }
+    
+    public func set(clearPasteboard: Bool) async {
+        userDefaults.set(clearPasteboard, forKey: DefaultsKey.clearPasteboard.rawValue)
+    }
     
 }

@@ -10,18 +10,17 @@ struct SecuritySettingsView: View {
     
     var body: some View {
         Form {
-            if let extendedUnlock = state.extendedUnlock {
+            if state.isExtendedUnlockAvailable {
                 Section {
-                    switch extendedUnlock.biometry {
-                    case .touchID?:
-                        Toggle(.touchID, isOn: $state.isBiometricUnlockEnabled)
-                    case .faceID?:
-                        Toggle(.faceID, isOn: $state.isBiometricUnlockEnabled)
-                    case nil:
-                        EmptyView()
+                    if state.isTouchIDAvailable {
+                        Toggle(.touchID, isOn: $state.isTouchIDUnlockEnabled)
                     }
                     
-                    if extendedUnlock.watch {
+                    if state.isFaceIDAvailable {
+                        Toggle(.faceID, isOn: $state.isFaceIDUnlockEnabled)
+                    }
+                    
+                    if state.isWatchUnlockAvailable {
                         Toggle(.appleWatch, isOn: $state.isWatchUnlockEnabled)
                     }
                     
@@ -62,9 +61,6 @@ struct SecuritySettingsView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(.security)
-        .onAppear {
-            state.load()
-        }
     }
     
 }

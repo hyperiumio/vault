@@ -4,12 +4,18 @@ import Foundation
 @MainActor
 class SecuritySettingsState: ObservableObject {
     
-    @Published var status = Status.input
-    
-    @Published var isBiometricUnlockEnabled: Bool {
+    @Published var isTouchIDUnlockEnabled: Bool {
         didSet {
             Task {
+                await service.save(touchIDUnlock: isTouchIDUnlockEnabled)
+            }
+        }
+    }
 
+    @Published var isFaceIDUnlockEnabled: Bool {
+        didSet {
+            Task {
+                await service.save(faceIDUnlock: isFaceIDUnlockEnabled)
             }
         }
     }
@@ -17,7 +23,7 @@ class SecuritySettingsState: ObservableObject {
     @Published var isWatchUnlockEnabled: Bool {
         didSet {
             Task {
-                
+                await service.save(watchUnlock: isWatchUnlockEnabled)
             }
         }
     }
@@ -25,7 +31,7 @@ class SecuritySettingsState: ObservableObject {
     @Published var hidePasswords: Bool {
         didSet {
             Task {
-                
+                await service.save(hidePasswords: hidePasswords)
             }
         }
     }
@@ -33,23 +39,33 @@ class SecuritySettingsState: ObservableObject {
     @Published var clearPasteboard: Bool {
         didSet {
             Task {
-                
+                await service.save(clearPasteboard: clearPasteboard)
             }
         }
     }
     
-    @Published private(set) var extendedUnlock: ExtendedUnlock?
+    @Published var status = Status.input
+    let isTouchIDAvailable: Bool
+    let isFaceIDAvailable: Bool
+    let isWatchUnlockAvailable: Bool
     let recoveryKeySettingsState: RecoveryKeySettingsState
     private let service: AppServiceProtocol
     private let inputBuffer = AsyncQueue<Input>()
     
     init(service: AppServiceProtocol) {
-        self.isBiometricUnlockEnabled = true
+        self.isTouchIDUnlockEnabled = true
+        self.isFaceIDUnlockEnabled = true
         self.isWatchUnlockEnabled = true
         self.hidePasswords = true
         self.clearPasteboard = true
+        self.isTouchIDAvailable = true
+        self.isFaceIDAvailable = true
+        self.isWatchUnlockAvailable = true
         self.recoveryKeySettingsState = RecoveryKeySettingsState(service: service)
         self.service = service
+        
+        let serviceInputs = service.events.compactMap(Input.init)
+        inputBuffer.enqueue(serviceInputs)
         
         Task {
             for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
@@ -61,18 +77,8 @@ class SecuritySettingsState: ObservableObject {
         }
     }
     
-    func load() {
-        status = .loading
-        Task {
-            do {
-                let biometryAvailability = try await service.availableBiometry
-                let watchAvailablility = true
-                extendedUnlock = ExtendedUnlock(biometry: biometryAvailability, watch: watchAvailablility)
-                status = .input
-            } catch {
-                status = .failure(.fail)
-            }
-        }
+    var isExtendedUnlockAvailable: Bool {
+        isTouchIDUnlockEnabled || isFaceIDUnlockEnabled || isWatchUnlockEnabled
     }
     
 }
@@ -96,6 +102,15 @@ extension SecuritySettingsState {
     enum Input {
         
         case defaultsDidChange
+        
+        init?(_ event: AppServiceEvent) {
+            switch event {
+            case .storeDidChange:
+                return nil
+            case .defaultsDidChange:
+                self = .defaultsDidChange
+            }
+        }
         
     }
     

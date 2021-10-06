@@ -8,7 +8,7 @@ protocol AppServiceProtocol {
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> { get }
     
     var availableBiometry: AppServiceBiometry? { get async throws }
-    var isBiometricUnlockEnabled: Bool { get async }
+    var touchIDUnlockEnabled: Bool { get async }
     
     func unlockWithPassword(_ password: String) async throws
     func unlockWithBiometry() async throws
@@ -17,7 +17,11 @@ protocol AppServiceProtocol {
     func password(length: Int, digit: Bool, symbol: Bool) async -> String
     func isPasswordSecure(_ password: String) async -> Bool
     
-    func save(biometryUnlock: Defaults.BiometryUnlock) async
+    func save(touchIDUnlock: Bool) async
+    func save(faceIDUnlock: Bool) async
+    func save(watchUnlock: Bool) async
+    func save(hidePasswords: Bool) async
+    func save(clearPasteboard: Bool) async
     func changeMasterPassword(to masterPassword: String) async throws
     
     var didCompleteSetup: Bool { get async throws }

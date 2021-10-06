@@ -70,15 +70,30 @@ actor AppService: AppServiceProtocol {
        await Password(length: length, uppercase: true, lowercase: true, digit: digit, symbol: symbol)
     }
     
-    var isBiometricUnlockEnabled: Bool {
+    var touchIDUnlockEnabled: Bool {
         get async {
-            await defaultsStore.value.biometryUnlock != nil
+            fatalError()
         }
     }
     
-    func save(biometryUnlock: Defaults.BiometryUnlock) async {
-        await defaultsStore.set(biometryUnlock: biometryUnlock)
-        eventPublisher.send(.defaultsDidChange)
+    func save(touchIDUnlock: Bool) async {
+        await defaultsStore.set(touchIDUnlock: touchIDUnlock)
+    }
+    
+    func save(faceIDUnlock: Bool) async {
+        await defaultsStore.set(faceIDUnlock: faceIDUnlock)
+    }
+    
+    func save(watchUnlock: Bool) async {
+        await defaultsStore.set(watchUnlock: watchUnlock)
+    }
+    
+    func save(hidePasswords: Bool) async {
+        await defaultsStore.set(hidePasswords: hidePasswords)
+    }
+    
+    func save(clearPasteboard: Bool) async {
+        await defaultsStore.set(clearPasteboard: clearPasteboard)
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
@@ -346,10 +361,6 @@ actor AppServiceStub: AppServiceProtocol {
         .touchID
     }
     
-    nonisolated var isBiometricUnlockEnabled: Bool {
-        true
-    }
-    
     func unlockWithPassword(_ password: String) async throws {
         print(#function)
     }
@@ -366,7 +377,27 @@ actor AppServiceStub: AppServiceProtocol {
         "foo"
     }
     
-    func save(biometryUnlock: Defaults.BiometryUnlock) async {
+    nonisolated var touchIDUnlockEnabled: Bool {
+        true
+    }
+    
+    func save(touchIDUnlock: Bool) async {
+        print(#function)
+    }
+    
+    func save(faceIDUnlock: Bool) async {
+        print(#function)
+    }
+    
+    func save(watchUnlock: Bool) async {
+        print(#function)
+    }
+    
+    func save(hidePasswords: Bool) async {
+        print(#function)
+    }
+    
+    func save(clearPasteboard: Bool) async {
         print(#function)
     }
     
