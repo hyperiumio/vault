@@ -12,15 +12,15 @@ struct SecuritySettingsView: View {
         Form {
             if state.isExtendedUnlockAvailable {
                 Section {
-                    if state.isTouchIDAvailable {
+                    if state.unlockAvailability.touchID {
                         Toggle(.touchID, isOn: $state.isTouchIDUnlockEnabled)
                     }
                     
-                    if state.isFaceIDAvailable {
+                    if state.unlockAvailability.faceID {
                         Toggle(.faceID, isOn: $state.isFaceIDUnlockEnabled)
                     }
                     
-                    if state.isWatchUnlockAvailable {
+                    if state.unlockAvailability.watch {
                         Toggle(.appleWatch, isOn: $state.isWatchUnlockEnabled)
                     }
                     
@@ -65,6 +65,7 @@ struct SecuritySettingsView: View {
     
 }
 
+/*
 #if DEBUG
 struct SecuritySettingsViewPreview: PreviewProvider {
     
@@ -86,3 +87,4 @@ struct SecuritySettingsViewPreview: PreviewProvider {
     
 }
 #endif
+*/

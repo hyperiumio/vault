@@ -198,6 +198,8 @@
 		95BA9596268C535F00B59DAC /* Sync in Frameworks */ = {isa = PBXBuildFile; productRef = 95BA9595268C535F00B59DAC /* Sync */; };
 		95BC8AAD270DBF8F00400B59 /* AppServiceUnlockAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC8AAC270DBF8F00400B59 /* AppServiceUnlockAvailability.swift */; };
 		95BC8AAE270DBF8F00400B59 /* AppServiceUnlockAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC8AAC270DBF8F00400B59 /* AppServiceUnlockAvailability.swift */; };
+		95BC8AB0270DD04100400B59 /* AppServiceDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC8AAF270DD04100400B59 /* AppServiceDefaults.swift */; };
+		95BC8AB1270DD04100400B59 /* AppServiceDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95BC8AAF270DD04100400B59 /* AppServiceDefaults.swift */; };
 		95C07B3D26B53E7500E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3C26B53E7500E3D4DA /* Shim */; };
 		95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3E26B53E7C00E3D4DA /* Shim */; };
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
@@ -367,6 +369,7 @@
 		95B0217D26EA48D100969F95 /* Info.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Info.swift; sourceTree = "<group>"; };
 		95BA9591268C530100B59DAC /* Sync */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sync; sourceTree = "<group>"; };
 		95BC8AAC270DBF8F00400B59 /* AppServiceUnlockAvailability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceUnlockAvailability.swift; sourceTree = "<group>"; };
+		95BC8AAF270DD04100400B59 /* AppServiceDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppServiceDefaults.swift; sourceTree = "<group>"; };
 		95C07B3A26B53E3B00E3D4DA /* Shim */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shim; sourceTree = "<group>"; };
 		95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageButtonStyle.swift; sourceTree = "<group>"; };
 		95C994D92575592E00C3A758 /* LoginCredentialSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionView.swift; sourceTree = "<group>"; };
@@ -620,6 +623,7 @@
 				9521CE4426B6D9A50023F415 /* AppServiceProtocol.swift */,
 				95E6BC1026EB545000A28DA4 /* AppServiceStoreInfo.swift */,
 				95BC8AAC270DBF8F00400B59 /* AppServiceUnlockAvailability.swift */,
+				95BC8AAF270DD04100400B59 /* AppServiceDefaults.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -852,6 +856,7 @@
 				9583BDE526AB0749003BE064 /* SecureItemView.swift in Sources */,
 				9574329224AA081B0062B05A /* BankAccountItemState.swift in Sources */,
 				9574327824AA081B0062B05A /* LoginItemState.swift in Sources */,
+				95BC8AB0270DD04100400B59 /* AppServiceDefaults.swift in Sources */,
 				95B0217E26EA48D100969F95 /* Info.swift in Sources */,
 				957432A424AA081B0062B05A /* UnlockedState.swift in Sources */,
 			);
@@ -954,6 +959,7 @@
 				95864915251E126E0081DF08 /* PasswordField.swift in Sources */,
 				9583BDDC26AAF4DD003BE064 /* CreateItemState.swift in Sources */,
 				957432AB24AA081B0062B05A /* CustomItemState.swift in Sources */,
+				95BC8AB1270DD04100400B59 /* AppServiceDefaults.swift in Sources */,
 				95B0217F26EA48D100969F95 /* Info.swift in Sources */,
 				9593E8F9268C8CC5000FCC0F /* PasswordGeneratorState.swift in Sources */,
 			);
