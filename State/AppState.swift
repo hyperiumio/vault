@@ -67,7 +67,7 @@ extension AppState {
                     return nil
                 }
                 self = .unlock
-            case .choosePassword, .repeatPassword, .biometricUnlock:
+            case .choosePassword, .repeatPassword, .biometricUnlock, .watchUnlock:
                 return nil
             }
         }

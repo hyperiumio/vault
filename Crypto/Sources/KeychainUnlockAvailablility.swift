@@ -1,13 +1,23 @@
 public struct KeychainUnlockAvailablility {
     
-    public let touchID: Bool
-    public let faceID: Bool
+    public let biometry: Biometry
     public let watch: Bool
     
-    public init(touchID: Bool, faceID: Bool, watch: Bool) {
-        self.touchID = touchID
-        self.faceID = faceID
+    public init(biometry: Biometry, watch: Bool) {
+        self.biometry = biometry
         self.watch = watch
+    }
+    
+}
+
+extension KeychainUnlockAvailablility {
+    
+    public enum Biometry {
+        
+        case none
+        case touchID
+        case faceID
+        
     }
     
 }

@@ -1,10 +1,10 @@
 import SwiftUI
 
-struct UnlockSetupView: View {
+struct BiometricUnlockSetupView: View {
     
-    @ObservedObject private var state: UnlockSetupState
+    @ObservedObject private var state: BiometricUnlockSetupState
     
-    init(_ state: UnlockSetupState) {
+    init(_ state: BiometricUnlockSetupState) {
         self.state = state
     }
     
@@ -12,13 +12,13 @@ struct UnlockSetupView: View {
         SetupContentView(buttonEnabled: state.status == .input) {
             state.confirm()
         } image: {
-            Image(state.unlockMethod.image)
+            Image(state.biometry.image)
         } title: {
-            Text(state.unlockMethod.title)
+            Text(state.biometry.title)
         } description: {
-            Text(state.unlockMethod.description)
+            Text(state.biometry.description)
         } input: {
-            Toggle(state.unlockMethod.title, isOn: $state.isEnabled)
+            Toggle(state.biometry.title, isOn: $state.isEnabled)
                 .toggleStyle(.switch)
                 .labelsHidden()
                 .tint(.accentColor)
@@ -30,7 +30,7 @@ struct UnlockSetupView: View {
     
 }
 
-private extension UnlockSetupState.UnlockMethod {
+private extension BiometricUnlockSetupState.Biometry {
     
     var image: String {
         switch self {
@@ -38,8 +38,6 @@ private extension UnlockSetupState.UnlockMethod {
             return ImageAsset.unlockSetupTouchID.name
         case .faceID:
             return ImageAsset.unlockSetupFaceID.name
-        case .watch:
-            return ImageAsset.unlockSetupWatch.name
         }
     }
     
@@ -49,8 +47,6 @@ private extension UnlockSetupState.UnlockMethod {
             return .enableTouchIDUnlock
         case .faceID:
             return .enableFaceIDUnlock
-        case .watch:
-            return .enabledWatchUnlock
         }
     }
     
@@ -60,17 +56,16 @@ private extension UnlockSetupState.UnlockMethod {
             return .enableFaceIDUnlockDescription
         case .faceID:
             return .enableTouchIDUnlockDescription
-        case .watch:
-            return .enabledWatchUnlockDescription
         }
     }
     
 }
 
+/*
 #if DEBUG
 struct UnlockSetupViewPreview: PreviewProvider {
     
-    static let state = UnlockSetupState(unlockMethod: .touchID, isEnabled: false)
+    static let state = BiometricUnlockSetupState(unlockMethod: .touchID, isEnabled: false)
     
     static var previews: some View {
         UnlockSetupView(state)
@@ -84,3 +79,4 @@ struct UnlockSetupViewPreview: PreviewProvider {
     
 }
 #endif
+*/

@@ -4,18 +4,10 @@ import Foundation
 @MainActor
 class SecuritySettingsState: ObservableObject {
     
-    @Published var isTouchIDUnlockEnabled: Bool {
+    @Published var isBiometricUnlockEnabled: Bool {
         didSet {
             Task {
-                await service.save(touchIDUnlock: isTouchIDUnlockEnabled)
-            }
-        }
-    }
-
-    @Published var isFaceIDUnlockEnabled: Bool {
-        didSet {
-            Task {
-                await service.save(faceIDUnlock: isFaceIDUnlockEnabled)
+                
             }
         }
     }
@@ -55,8 +47,7 @@ class SecuritySettingsState: ObservableObject {
         async let defaults = service.defaults
         async let unlockAvailability = service.unlockAvailability
         
-        self.isTouchIDUnlockEnabled = await defaults.touchIDUnlock
-        self.isFaceIDUnlockEnabled = await defaults.faceIDUnlock
+        self.isBiometricUnlockEnabled = await defaults.biometricUnlock
         self.isWatchUnlockEnabled = await defaults.watchUnlock
         self.hidePasswords = await defaults.hidePasswords
         self.clearPasteboard = await defaults.clearPasteboard
@@ -75,10 +66,6 @@ class SecuritySettingsState: ObservableObject {
                 }
             }
         }
-    }
-    
-    var isExtendedUnlockAvailable: Bool {
-        isTouchIDUnlockEnabled || isFaceIDUnlockEnabled || isWatchUnlockEnabled
     }
     
 }

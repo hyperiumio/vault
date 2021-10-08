@@ -1,15 +1,14 @@
-import Combine
 import Foundation
-import Collection
 
 @MainActor
-class UnlockSetupState: ObservableObject {
+class BiometricUnlockSetupState: ObservableObject {
     
     @Published private(set) var status = Status.input
     @Published var isEnabled: Bool
-    let unlockMethod = UnlockMethod.touchID
+    let biometry: Biometry
     
-    init(unlockMethod: UnlockMethod, isEnabled: Bool? = nil) {
+    init(biometry: Biometry, isEnabled: Bool? = nil) {
+        self.biometry = biometry
         self.isEnabled = isEnabled ?? false
     }
     
@@ -19,13 +18,12 @@ class UnlockSetupState: ObservableObject {
     
 }
 
-extension UnlockSetupState {
+extension BiometricUnlockSetupState {
     
-    enum UnlockMethod {
+    enum Biometry {
         
         case touchID
         case faceID
-        case watch
         
     }
     

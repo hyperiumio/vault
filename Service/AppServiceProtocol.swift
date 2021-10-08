@@ -17,8 +17,7 @@ protocol AppServiceProtocol {
     func password(length: Int, digit: Bool, symbol: Bool) async -> String
     func isPasswordSecure(_ password: String) async -> Bool
     
-    func save(touchIDUnlock: Bool) async
-    func save(faceIDUnlock: Bool) async
+    func save(biometricUnlock: Bool) async
     func save(watchUnlock: Bool) async
     func save(hidePasswords: Bool) async
     func save(clearPasteboard: Bool) async

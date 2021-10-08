@@ -28,6 +28,7 @@ struct SetupView: View {
             .frame(maxWidth: .infinity, maxHeight: 60, alignment: .topLeading)
             
             Group {
+                /*
                 switch state.step {
                 case let .choosePassword(payload):
                     MasterPasswordSetupView(payload.state)
@@ -38,6 +39,7 @@ struct SetupView: View {
                 case let .finishSetup(payload):
                     FinishSetupView(payload.state)
                 }
+                 */
             }
             .padding([.leading, .trailing, .bottom])
             .transition(state.direction.transition)
@@ -50,6 +52,8 @@ struct SetupView: View {
 private extension SetupState {
     
     var isBackButtonVisible: Bool {
+        true
+        /*
         switch step {
         case .choosePassword:
             return false
@@ -57,7 +61,9 @@ private extension SetupState {
             return true
         case let .finishSetup(payload):
             return payload.state.status == .readyToComplete
+        
         }
+    */
     }
     
 }

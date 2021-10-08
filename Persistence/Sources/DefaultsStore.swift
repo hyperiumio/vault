@@ -18,12 +18,8 @@ public actor DefaultsStore {
         userDefaults.set(activeStoreID?.uuidString, forKey: DefaultsKey.activeStoreID.rawValue)
     }
     
-    public func set(touchIDUnlock: Bool) async {
-        userDefaults.set(touchIDUnlock, forKey: DefaultsKey.activeStoreID.rawValue)
-    }
-    
-    public func set(faceIDUnlock: Bool) async {
-        userDefaults.set(faceIDUnlock, forKey: DefaultsKey.faceIDUnlock.rawValue)
+    public func set(biometricUnlock: Bool) async {
+        userDefaults.set(biometricUnlock, forKey: DefaultsKey.biometricUnlock.rawValue)
     }
     
     public func set(watchUnlock: Bool) async {

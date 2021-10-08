@@ -62,16 +62,16 @@ actor Keychain {
             let biometryType = configuration.context.biometryType
             
             guard canEvaluateBiometricsError == nil, canEvaluateBiometrics else {
-                return KeychainUnlockAvailablility(touchID: false, faceID: false, watch: false)
+                return KeychainUnlockAvailablility(biometry: .none, watch: false)
             }
             
             switch biometryType {
             case .touchID:
-                return KeychainUnlockAvailablility(touchID: true, faceID: false, watch: false)
+                return KeychainUnlockAvailablility(biometry: .touchID, watch: false)
             case .faceID:
-                return KeychainUnlockAvailablility(touchID: false, faceID: true, watch: false)
+                return KeychainUnlockAvailablility(biometry: .faceID, watch: false)
             default:
-                return KeychainUnlockAvailablility(touchID: false, faceID: false, watch: false)
+                return KeychainUnlockAvailablility(biometry: .none, watch: false)
             }
         }
     }

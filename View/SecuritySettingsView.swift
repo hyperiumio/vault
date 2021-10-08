@@ -10,14 +10,15 @@ struct SecuritySettingsView: View {
     
     var body: some View {
         Form {
-            if state.isExtendedUnlockAvailable {
+            if state.isBiometricUnlockEnabled || state.isWatchUnlockEnabled {
                 Section {
-                    if state.unlockAvailability.touchID {
-                        Toggle(.touchID, isOn: $state.isTouchIDUnlockEnabled)
-                    }
-                    
-                    if state.unlockAvailability.faceID {
-                        Toggle(.faceID, isOn: $state.isFaceIDUnlockEnabled)
+                    switch state.unlockAvailability.biometry {
+                    case .none:
+                        EmptyView()
+                    case .touchID:
+                        Toggle(.touchID, isOn: $state.isBiometricUnlockEnabled)
+                    case .faceID:
+                        Toggle(.faceID, isOn: $state.isBiometricUnlockEnabled)
                     }
                     
                     if state.unlockAvailability.watch {

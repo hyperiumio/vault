@@ -69,12 +69,8 @@ actor AppService: AppServiceProtocol {
         }
     }
     
-    func save(touchIDUnlock: Bool) async {
-        await defaultsStore.set(touchIDUnlock: touchIDUnlock)
-    }
-    
-    func save(faceIDUnlock: Bool) async {
-        await defaultsStore.set(faceIDUnlock: faceIDUnlock)
+    func save(biometricUnlock: Bool) async {
+        await defaultsStore.set(biometricUnlock: biometricUnlock)
     }
     
     func save(watchUnlock: Bool) async {
@@ -324,7 +320,7 @@ actor AppService: AppServiceProtocol {
 actor AppServiceStub: AppServiceProtocol {
     
     nonisolated var defaults: Defaults {
-        Defaults(activeStoreID: nil, touchIDUnlock: true, faceIDUnlock: true, watchUnlock: true, hidePasswords: true, clearPasteboard: true)
+        Defaults(activeStoreID: nil, biometricUnlock: true, watchUnlock: true, hidePasswords: true, clearPasteboard: true)
     }
     
     
@@ -348,7 +344,7 @@ actor AppServiceStub: AppServiceProtocol {
     }
     
     nonisolated var unlockAvailability: AppServiceUnlockAvailability {
-        KeychainUnlockAvailablility(touchID: true, faceID: true, watch: true)
+        KeychainUnlockAvailablility(biometry: .touchID, watch: true)
     }
     
     func unlockWithPassword(_ password: String) async throws {
@@ -371,11 +367,7 @@ actor AppServiceStub: AppServiceProtocol {
         true
     }
     
-    func save(touchIDUnlock: Bool) async {
-        print(#function)
-    }
-    
-    func save(faceIDUnlock: Bool) async {
+    func save(biometricUnlock: Bool) async {
         print(#function)
     }
     
