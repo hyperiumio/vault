@@ -17,8 +17,18 @@ class UnlockedState: ObservableObject {
     private let service: AppServiceProtocol
     private var reloadTask: Task<Void, Never>?
     
-    init(collation: AlphabeticCollation<StoreItemDetailState>?, service: AppServiceProtocol) {
-        self.status = collation.map(Status.items) ?? .emptyStore
+    init(service: AppServiceProtocol) async throws {
+        do {
+            let states = try await service.loadInfos().map { info in
+                try await StoreItemDetailState(itemID: info.id, service: service)
+            }
+            let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
+            status = .items(collation)
+        }
+        catch {
+            status = .loadingItemsFailed
+        }
+        
         self.service = service
         
         let inputs = service.events.compactMap(Input.init)
@@ -41,8 +51,15 @@ class UnlockedState: ObservableObject {
     
     #if os(iOS)
     func showSettings() {
-        let state = SettingsState(service: service)
-        sheet = .settings(state)
+        
+        Task {
+            do {
+                let state = try await SettingsState(service: service)
+                sheet = .settings(state)
+            } catch {
+                fatalError()
+            }
+        }
     }
     #endif
     
@@ -62,7 +79,7 @@ class UnlockedState: ObservableObject {
                         Match(searchText, in: item.name)
                     }
                     .map { [service] info in
-                        StoreItemDetailState(storeItemInfo: info, service: service)
+                        try await StoreItemDetailState(itemID: info.id, service: service)
                     }
                 let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
                 

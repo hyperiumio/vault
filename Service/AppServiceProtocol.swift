@@ -7,7 +7,7 @@ protocol AppServiceProtocol {
     
     nonisolated var events: AsyncPublisher<PassthroughSubject<AppServiceEvent, Never>> { get }
     
-    var unlockAvailability: AppServiceUnlockAvailability? { get async throws }
+    var unlockAvailability: AppServiceUnlockAvailability { get async throws }
     var touchIDUnlockEnabled: Bool { get async }
     
     func unlockWithPassword(_ password: String) async throws
@@ -22,6 +22,7 @@ protocol AppServiceProtocol {
     func save(watchUnlock: Bool) async
     func save(hidePasswords: Bool) async
     func save(clearPasteboard: Bool) async
+    var defaults: Defaults { get async }
     func changeMasterPassword(to masterPassword: String) async throws
     
     var didCompleteSetup: Bool { get async throws }

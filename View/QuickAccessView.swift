@@ -14,15 +14,6 @@ struct QuickAccessView: View {
         NavigationView {
             Group {
                 switch state.status {
-                case .initialized:
-                    Color.background
-                        .ignoresSafeArea()
-                case .loading:
-                    ProgressView()
-                case .loadingFailed:
-                    FailureView(.loadingVaultFailed) {
-                        state.load()
-                    }
                 case let .locked(state):
                     LockedView(state)
                 case let .unlocked(state):
@@ -35,9 +26,6 @@ struct QuickAccessView: View {
                         cancel()
                     }
                 }
-            }
-            .task {
-                state.load()
             }
         }
     }

@@ -204,6 +204,10 @@
 		95C07B3F26B53E7C00E3D4DA /* Shim in Frameworks */ = {isa = PBXBuildFile; productRef = 95C07B3E26B53E7C00E3D4DA /* Shim */; };
 		95C90C2E2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
 		95C90C2F2520B13C00860CAE /* MessageButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95C90C2D2520B13C00860CAE /* MessageButtonStyle.swift */; };
+		95D9D469270F377900129D84 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9D468270F377900129D84 /* AsyncView.swift */; };
+		95D9D46A270F377900129D84 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9D468270F377900129D84 /* AsyncView.swift */; };
+		95D9D46C270F447100129D84 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9D46B270F447100129D84 /* AsyncState.swift */; };
+		95D9D46D270F447100129D84 /* AsyncState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D9D46B270F447100129D84 /* AsyncState.swift */; };
 		95E3ED3526FF3864002655A8 /* Visualization in Frameworks */ = {isa = PBXBuildFile; productRef = 95E3ED3426FF3864002655A8 /* Visualization */; };
 		95E3ED3726FF3869002655A8 /* Visualization in Frameworks */ = {isa = PBXBuildFile; productRef = 95E3ED3626FF3869002655A8 /* Visualization */; };
 		95E6BC0E26EB4CD700A28DA4 /* InfoField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E6BC0D26EB4CD700A28DA4 /* InfoField.swift */; };
@@ -375,6 +379,8 @@
 		95C994D92575592E00C3A758 /* LoginCredentialSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionView.swift; sourceTree = "<group>"; };
 		95D7E85726A2D2A700F96D35 /* QuickAccessState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAccessState.swift; sourceTree = "<group>"; };
 		95D7E85A26A2D44C00F96D35 /* LoginCredentialSelectionState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginCredentialSelectionState.swift; sourceTree = "<group>"; };
+		95D9D468270F377900129D84 /* AsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncView.swift; sourceTree = "<group>"; };
+		95D9D46B270F447100129D84 /* AsyncState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncState.swift; sourceTree = "<group>"; };
 		95DF89D6252B038300882F52 /* Pasteboard */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Pasteboard; sourceTree = "<group>"; };
 		95E3ED3226FF0210002655A8 /* Visualization */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Visualization; sourceTree = "<group>"; };
 		95E6BC0D26EB4CD700A28DA4 /* InfoField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoField.swift; sourceTree = "<group>"; };
@@ -461,9 +467,9 @@
 			isa = PBXGroup;
 			children = (
 				95ADC33F2684CA5D00BE3DFF /* AppState.swift */,
+				95D9D46B270F447100129D84 /* AsyncState.swift */,
 				9574325624AA081A0062B05A /* BankAccountItemState.swift */,
 				9574326024AA081A0062B05A /* BankCardItemState.swift */,
-				95F9B39626BD66AF00EA6441 /* UnlockSetupState.swift */,
 				9583BDDA26AAF4DD003BE064 /* CreateItemState.swift */,
 				9574326224AA081A0062B05A /* CustomItemState.swift */,
 				9542207A255183C1002F14AB /* Filestate.swift */,
@@ -489,6 +495,7 @@
 				956A8B7526EB9FB30072053C /* StoreSettingsState.swift */,
 				9501DBCC26E9E1E200265D7E /* SyncSettingsState.swift */,
 				9574325F24AA081A0062B05A /* UnlockedState.swift */,
+				95F9B39626BD66AF00EA6441 /* UnlockSetupState.swift */,
 				9574325724AA081A0062B05A /* WifiItemState.swift */,
 			);
 			path = State;
@@ -499,11 +506,11 @@
 			children = (
 				9501DBCF26E9E26300265D7E /* AboutView.swift */,
 				9574330524AA135D0062B05A /* AppView.swift */,
+				95D9D468270F377900129D84 /* AsyncView.swift */,
 				9586495A251E24A60081DF08 /* BankAccountField.swift */,
 				95422087255186A4002F14AB /* BankAccountInputField.swift */,
 				95864922251E13210081DF08 /* BankCardField.swift */,
 				9542208C2551873C002F14AB /* BankCardInputField.swift */,
-				95F9B39C26BD675A00EA6441 /* UnlockSetupView.swift */,
 				9551D3B52680DFB40000BC44 /* ConfidentialText.swift */,
 				9583BDD726AAF480003BE064 /* CreateItemView.swift */,
 				95864931251E13EE0081DF08 /* CustomField.swift */,
@@ -547,6 +554,7 @@
 				956A8B7226EB9F3E0072053C /* StoreSettingsView.swift */,
 				9501DBC926E9E1A500265D7E /* SyncSettingsView.swift */,
 				9574337124AA23D30062B05A /* UnlockedView.swift */,
+				95F9B39C26BD675A00EA6441 /* UnlockSetupView.swift */,
 				95864927251E137C0081DF08 /* WifiField.swift */,
 				954220AC25518A9C002F14AB /* WifiInputField.swift */,
 			);
@@ -785,6 +793,7 @@
 				9574328624AA081B0062B05A /* StoreItemDetailState.swift in Sources */,
 				95E6BC0E26EB4CD700A28DA4 /* InfoField.swift in Sources */,
 				9542208D2551873C002F14AB /* BankCardInputField.swift in Sources */,
+				95D9D46C270F447100129D84 /* AsyncState.swift in Sources */,
 				95B63C5A24ABA24D00152E55 /* AppView.swift in Sources */,
 				954EDBA226A54DD900E0732F /* QuickAccessState.swift in Sources */,
 				9574335B24AA135E0062B05A /* LockedView.swift in Sources */,
@@ -824,6 +833,7 @@
 				957432A624AA081B0062B05A /* BankCardItemState.swift in Sources */,
 				9521CE4526B6D9A50023F415 /* AppServiceProtocol.swift in Sources */,
 				955180452695CBF7002783D6 /* SecuritySettingsState.swift in Sources */,
+				95D9D469270F377900129D84 /* AsyncView.swift in Sources */,
 				9550ED762694AC0B00C519C2 /* MasterPasswordSettingsState.swift in Sources */,
 				95F9B39126BD65B300EA6441 /* RepeatMasterPasswordSetupView.swift in Sources */,
 				9574326E24AA081B0062B05A /* NoteItemState.swift in Sources */,
@@ -888,6 +898,7 @@
 				95E6BC0F26EB4CD700A28DA4 /* InfoField.swift in Sources */,
 				95971DC32683D5B60076961D /* LoginCredentialField.swift in Sources */,
 				95864924251E13210081DF08 /* BankCardField.swift in Sources */,
+				95D9D46D270F447100129D84 /* AsyncState.swift in Sources */,
 				9583BDDF26AB0105003BE064 /* SecureItemState.swift in Sources */,
 				9586491F251E12D00081DF08 /* NoteField.swift in Sources */,
 				954220A925518A5A002F14AB /* PasswordInputField.swift in Sources */,
@@ -927,6 +938,7 @@
 				9542207C255183C1002F14AB /* Filestate.swift in Sources */,
 				9551D3B72680DFB40000BC44 /* ConfidentialText.swift in Sources */,
 				95ADC3442684CCC000BE3DFF /* SetupState.swift in Sources */,
+				95D9D46A270F377900129D84 /* AsyncView.swift in Sources */,
 				95F9B39226BD65B300EA6441 /* RepeatMasterPasswordSetupView.swift in Sources */,
 				95ADC3472684CD7600BE3DFF /* LockedState.swift in Sources */,
 				95F9B3A126BD6BB800EA6441 /* FinishSetupView.swift in Sources */,

@@ -12,12 +12,6 @@ struct AppView: View {
     var body: some View {
         Group {
             switch state.status {
-            case .launching:
-                Color.background
-            case .launchingFailed:
-                FailureView(.appLaunchFailure) {
-                    state.bootstrap()
-                }
             case let .setup(setupState):
                 SetupView(setupState)
             case let .locked(lockedState):
@@ -27,9 +21,6 @@ struct AppView: View {
             case let .unlocked(unlockedState):
                 UnlockedView(unlockedState)
             }
-        }
-        .onAppear {
-            state.bootstrap()
         }
     }
     #endif
@@ -69,6 +60,7 @@ private extension AnyTransition {
     
 }
 
+/*
 #if DEBUG
 struct AppViewPreview: PreviewProvider {
     
@@ -86,3 +78,4 @@ struct AppViewPreview: PreviewProvider {
     
 }
 #endif
+*/

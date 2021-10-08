@@ -60,7 +60,14 @@ struct StoreSettingsView: View {
         Form {
             Section {
                 NavigationLink(.storeInfos) {
-                    StoreInfoSettingsView(state.storeInfoSettingsState)
+                    
+                    /*
+                    LoadingView("FAIL", state: state.storeInfoSettingsLoadingState) {
+                        Text("foo")
+                        //StoreInfoSettingsView(state.storeInfoSettingsState)
+                    }
+                     */
+                    
                 }
             }
             

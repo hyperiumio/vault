@@ -7,8 +7,8 @@ class SettingsState: ObservableObject, Identifiable {
     let storeSettingsState: StoreSettingsState
     let syncSettingsState: SyncSettingsState
     
-    init(service: AppServiceProtocol) {
-        self.securitySettingsState = SecuritySettingsState(service: service)
+    init(service: AppServiceProtocol) async throws {
+        self.securitySettingsState = try await SecuritySettingsState(service: service)
         self.storeSettingsState = StoreSettingsState(service: service)
         self.syncSettingsState = SyncSettingsState(service: service)
     }

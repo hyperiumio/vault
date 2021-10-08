@@ -1,6 +1,8 @@
 import Collection
 import Foundation
 
+#warning("make async")
+
 @MainActor
 class SetupState: ObservableObject {
     
@@ -8,7 +10,7 @@ class SetupState: ObservableObject {
     private let inputBuffer = AsyncQueue<Input>()
     private var previousIndex: Int?
     
-    init(service: AppServiceProtocol) {
+    init(service: AppServiceProtocol) async throws {
         let state = MasterPasswordSetupState(service: service)
         let payload = Step.ChoosePassword(state: state)
         let inputs = state.$status.values.compactMap(Input.init)

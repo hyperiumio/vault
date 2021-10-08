@@ -12,11 +12,6 @@ struct StoreItemDetailView: View {
     var body: some View {
         Group {
             switch state.status {
-            case .initialized:
-                Color.background
-                    .ignoresSafeArea()
-            case .loading:
-                ProgressView()
             case let .display(storeItem):
                 StoreItemDisplayView(storeItem.name, primaryItem: storeItem.primaryItem, secondaryItems: storeItem.secondaryItems, created: storeItem.created, modified: storeItem.modified) {
                     state.edit()
@@ -25,19 +20,13 @@ struct StoreItemDetailView: View {
                 StoreItemEditView(editState) {
                     state.cancelEdit()
                 }
-            case .loadingFailed:
-                FailureView(.loadingVaultFailed) {
-                    state.load()
-                }
             }
-        }
-        .task {
-            state.load()
         }
     }
     
 }
 
+/*
 #if DEBUG
 struct StoreItemDetailViewPreview: PreviewProvider {
     
@@ -59,3 +48,4 @@ struct StoreItemDetailViewPreview: PreviewProvider {
     
 }
 #endif
+*/

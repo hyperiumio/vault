@@ -3,42 +3,10 @@ import Foundation
 @MainActor
 class StoreInfoSettingsState: ObservableObject {
     
-    @Published private(set) var status = Status.initialized
+    let storeInfo: AppServiceStoreInfo
     
-    private let service: AppServiceProtocol
-    
-    init(service: AppServiceProtocol) {
-        self.service = service
-    }
-    
-    func load() {
-        if case .loading = status {
-            return
-        }
-        
-        status = .loading
-        
-        Task {
-            do {
-                let info = try await service.loadStoreInfo()
-                status = .loaded(info)
-            } catch {
-                status = .loadingDidFail
-            }
-        }
-    }
-    
-}
-
-extension StoreInfoSettingsState {
-    
-    enum Status {
-        
-        case initialized
-        case loading
-        case loaded(AppServiceStoreInfo)
-        case loadingDidFail
-        
+    init(service: AppServiceProtocol) async throws {
+        self.storeInfo = try await service.loadStoreInfo()
     }
     
 }

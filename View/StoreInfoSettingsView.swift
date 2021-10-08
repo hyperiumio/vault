@@ -10,53 +10,37 @@ struct StoreInfoSettingsView: View {
     }
     
     var body: some View {
-        Group {
-            switch state.status {
-            case .initialized:
-                Color.background
-            case .loading:
-                ProgressView()
-            case let .loaded(info):
-                List {
-                    Section {
-                        InfoField {
-                            Text(.created)
-                        } value: {
-                            Text(info.created, format: .dateTime)
-                        }
-                    }
-                    
-                    Section(.numberOfItem) {
-                        InfoField(.login, count: info.loginItemCount)
-                        
-                        InfoField(.password, count: info.passwordItemCount)
-                        
-                        InfoField(.wifi, count: info.wifiItemCount)
-                        
-                        InfoField(.note, count: info.noteItemCount)
-                        
-                        InfoField(.bankCard, count: info.bankCardItemCount)
-                        
-                        InfoField(.bankAccount, count: info.bankAccountItemCount)
-                        
-                        InfoField(.custom, count: info.customItemCount)
-                        
-                        InfoField(.file, count: info.fileItemCount)
-                    }
+        List {
+            Section {
+                InfoField {
+                    Text(.created)
+                } value: {
+                    Text(state.storeInfo.created, format: .dateTime)
                 }
-            case .loadingDidFail:
-                FailureView(.version) {
-                    state.load()
-                }
+            }
+            
+            Section(.numberOfItem) {
+                InfoField(.login, count: state.storeInfo.loginItemCount)
+                
+                InfoField(.password, count: state.storeInfo.passwordItemCount)
+                
+                InfoField(.wifi, count: state.storeInfo.wifiItemCount)
+                
+                InfoField(.note, count: state.storeInfo.noteItemCount)
+                
+                InfoField(.bankCard, count: state.storeInfo.bankCardItemCount)
+                
+                InfoField(.bankAccount, count: state.storeInfo.bankAccountItemCount)
+                
+                InfoField(.custom, count: state.storeInfo.customItemCount)
+                
+                InfoField(.file, count: state.storeInfo.fileItemCount)
             }
         }
         .navigationTitle(.storeInfos)
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .onAppear {
-            state.load()
-        }
     }
     
 }
@@ -73,6 +57,7 @@ extension InfoField where Title == SecureItemTypeView, Value == Text {
     
 }
 
+/*
 #if DEBUG
 struct StoreInfoSettingsViewPreview: PreviewProvider {
     
@@ -90,3 +75,4 @@ struct StoreInfoSettingsViewPreview: PreviewProvider {
     
 }
 #endif
+*/

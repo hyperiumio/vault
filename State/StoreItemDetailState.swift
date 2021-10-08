@@ -5,64 +5,45 @@ import Model
 @MainActor
 class StoreItemDetailState: ObservableObject, Identifiable {
     
-    @Published private(set) var status = Status.initialized
-    private let storeItemInfo: StoreItemInfo
-    private let inputBuffer = AsyncQueue<Input>()
+    @Published private(set) var status: Status
+    private let storeItem: StoreItem
+    private let service: AppServiceProtocol
     
-    init(storeItemInfo: StoreItemInfo, service: AppServiceProtocol) {
-        self.storeItemInfo = storeItemInfo
+    init(itemID: UUID, service: AppServiceProtocol) async throws {
+        let storeItem = try await service.load(itemID: itemID)
         
-        Task {
-            for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
-                switch (input, status) {
-                case (.load, .initialized):
-                    do {
-                        status = .loading
-                        let storeItem = try await service.load(itemID: storeItemInfo.id)
-                        status = .display(storeItem)
-                    } catch {
-                        status = .loadingFailed
-                    }
-                case let (.edit, .display(storeItem)):
-                    let editState = StoreItemEditState(editing: storeItem, service: service)
-                    status = .edit(editState)
-                case let (.cancel, .edit(storeItemEditState)):
-                    status = .display(storeItemEditState.editedStoreItem)
-                default:
-                    continue
-                }
-            }
-        }
+        self.status = .display(storeItem)
+        self.storeItem = storeItem
+        self.service = service
     }
     
     var name: String {
-        storeItemInfo.name
+        storeItem.name
     }
     
     var description: String? {
-        storeItemInfo.description
+        storeItem.description
     }
     
     var primaryType: SecureItemType {
-        storeItemInfo.primaryType
-    }
-    
-    func load() {
-        Task {
-            await inputBuffer.enqueue(.load)
-        }
+        storeItem.primaryItem.value.secureItemType
     }
     
     func edit() {
-        Task {
-            await inputBuffer.enqueue(.edit)
+        guard case .display = status else {
+            return
         }
+        
+        let editState = StoreItemEditState(editing: storeItem, service: service)
+        status = .edit(editState)
     }
     
     func cancelEdit() {
-        Task {
-            await inputBuffer.enqueue(.cancel)
+        guard case let .edit(storeItemEditState) = status else {
+            return
         }
+        
+        status = .display(storeItemEditState.editedStoreItem)
     }
     
 }
@@ -71,9 +52,6 @@ extension StoreItemDetailState {
     
     enum Status {
         
-        case initialized
-        case loading
-        case loadingFailed
         case display(StoreItem)
         case edit(StoreItemEditState)
         
@@ -81,7 +59,6 @@ extension StoreItemDetailState {
     
     enum Input {
         
-        case load
         case edit
         case cancel
         

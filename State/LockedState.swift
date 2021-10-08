@@ -41,12 +41,8 @@ class LockedState: ObservableObject {
                 case .biometry:
                     try await service.unlockWithBiometry()
                 }
-                
-                let states = service.decryptStoreItemInfos(from: infoData).map { [service] info in
-                    StoreItemDetailState(storeItemInfo: info, service: service)
-                }
-                let collation = try await AlphabeticCollation<StoreItemDetailState>(from: states, grouped: \.name)
-                status = .unlocked(collation: collation)
+
+                status = .unlocked
             } catch {
                 status = .unlockFailed
             }
@@ -61,7 +57,7 @@ extension LockedState {
         
         case locked
         case unlocking
-        case unlocked(collation: AlphabeticCollation<StoreItemDetailState>)
+        case unlocked
         case unlockFailed
         
     }

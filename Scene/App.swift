@@ -1,14 +1,24 @@
 import SwiftUI
 
 @main
-struct App: SwiftUI.App {
+struct Apps: App {
     
-    @StateObject private var appState = AppState(service: .production)
+    static let service = AppService()
+    
+    @StateObject private var asyncAppState = AsyncState {
+        try await AppState(service: service)
+    }
     
     #if os(iOS)
     var body: some Scene {
         WindowGroup {
-            AppView(appState)
+            AsyncView(asyncAppState) { state in
+                AppView(state)
+            } failure: {
+                FailureView(.appLaunchFailure) {
+                    asyncAppState.reload()
+                }
+            }
         }
     }
     #endif

@@ -51,13 +51,16 @@ class SecuritySettingsState: ObservableObject {
     private let service: AppServiceProtocol
     private let inputBuffer = AsyncQueue<Input>()
     
-    init(unlockAvailability: AppServiceUnlockAvailability, defaults: AppServiceDefaults, service: AppServiceProtocol) {
-        self.isTouchIDUnlockEnabled = defaults.touchIDUnlock
-        self.isFaceIDUnlockEnabled = defaults.faceIDUnlock
-        self.isWatchUnlockEnabled = defaults.watchUnlock
-        self.hidePasswords = defaults.hidePasswords
-        self.clearPasteboard = defaults.clearPasteboard
-        self.unlockAvailability = unlockAvailability
+    init(service: AppServiceProtocol) async throws {
+        async let defaults = service.defaults
+        async let unlockAvailability = service.unlockAvailability
+        
+        self.isTouchIDUnlockEnabled = await defaults.touchIDUnlock
+        self.isFaceIDUnlockEnabled = await defaults.faceIDUnlock
+        self.isWatchUnlockEnabled = await defaults.watchUnlock
+        self.hidePasswords = await defaults.hidePasswords
+        self.clearPasteboard = await defaults.clearPasteboard
+        self.unlockAvailability = try await unlockAvailability
         self.recoveryKeySettingsState = RecoveryKeySettingsState(service: service)
         self.service = service
         

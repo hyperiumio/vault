@@ -4,17 +4,14 @@ import Foundation
 @MainActor
 class QuickAccessState: ObservableObject {
     
-    @Published private(set) var status = Status.initialized
+    @Published private(set) var status: Status
     private let service: AppServiceProtocol
     
     init(service: AppServiceProtocol) {
-        self.service = service
-    }
-    
-    func load() {
-        status = .loading
         let lockedState = LockedState(service: service)
-        status = .locked(lockedState)
+        
+        self.status = .locked(lockedState)
+        self.service = service
     }
     
 }
@@ -23,9 +20,6 @@ extension QuickAccessState {
     
     enum Status {
         
-        case initialized
-        case loading
-        case loadingFailed
         case locked(LockedState)
         case unlocked(LoginCredentialSelectionState)
         

@@ -5,11 +5,13 @@ import Foundation
 class StoreSettingsState: ObservableObject {
     
     @Published private(set) var status = Status.input
-    let storeInfoSettingsState: StoreInfoSettingsState
+    let storeInfoSettingsLoadingState: AsyncState<StoreInfoSettingsState>
     private let service: AppServiceProtocol
     
     init(service: AppServiceProtocol) {
-        self.storeInfoSettingsState = StoreInfoSettingsState(service: service)
+        self.storeInfoSettingsLoadingState = AsyncState {
+            try await StoreInfoSettingsState(service: service)
+        }
         self.service = service
     }
     

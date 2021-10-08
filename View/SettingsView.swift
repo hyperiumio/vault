@@ -63,6 +63,7 @@ struct SettingsView: View {
     
 }
 
+/*
 #if DEBUG
 struct SettingsViewPreview: PreviewProvider {
     
@@ -80,3 +81,4 @@ struct SettingsViewPreview: PreviewProvider {
     
 }
 #endif
+*/

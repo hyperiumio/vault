@@ -34,7 +34,7 @@ actor AppService: AppServiceProtocol {
         }
     }
     
-    var unlockAvailability: AppServiceUnlockAvailability? {
+    var unlockAvailability: AppServiceUnlockAvailability {
         get async {
             await cryptor.unlockAvailability
         }
@@ -87,6 +87,12 @@ actor AppService: AppServiceProtocol {
     
     func save(clearPasteboard: Bool) async {
         await defaultsStore.set(clearPasteboard: clearPasteboard)
+    }
+    
+    var defaults: Defaults {
+        get async {
+            await defaultsStore.value
+        }
     }
     
     func changeMasterPassword(to masterPassword: String) async throws {
@@ -314,22 +320,13 @@ actor AppService: AppServiceProtocol {
     
 }
 
-extension AppService {
-    
-    static let shared = AppService()
-    
-}
-
-extension AppServiceProtocol where Self == AppService {
-    
-    static var production: Self {
-        Self.shared
-    }
-    
-}
-
 #if DEBUG
 actor AppServiceStub: AppServiceProtocol {
+    
+    nonisolated var defaults: Defaults {
+        Defaults(activeStoreID: nil, touchIDUnlock: true, faceIDUnlock: true, watchUnlock: true, hidePasswords: true, clearPasteboard: true)
+    }
+    
     
     func deleteAllData() async throws {
         try! await Task.sleep(nanoseconds: 1_000_000_000)
@@ -350,8 +347,8 @@ actor AppServiceStub: AppServiceProtocol {
         true
     }
     
-    nonisolated var unlockAvailability: AppServiceUnlockAvailability? {
-        nil
+    nonisolated var unlockAvailability: AppServiceUnlockAvailability {
+        KeychainUnlockAvailablility(touchID: true, faceID: true, watch: true)
     }
     
     func unlockWithPassword(_ password: String) async throws {

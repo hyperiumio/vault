@@ -5,12 +5,24 @@ import Model
 @MainActor
 class AppState: ObservableObject {
     
-    @Published private(set) var status = Status.launching
+    @Published private(set) var status: Status
     private let service: AppServiceProtocol
     private let inputBuffer = AsyncQueue<Input>()
     
-    init(service: AppServiceProtocol) {
+    init(service: AppServiceProtocol) async throws {
         self.service = service
+        
+        if try await service.didCompleteSetup {
+            let state = LockedState(service: service)
+            let inputs = state.$status.values.compactMap(Input.init)
+            inputBuffer.enqueue(inputs)
+            status = .locked(state)
+        } else {
+            let state = try await SetupState(service: service)
+            let inputs = state.$step.values.compactMap(Input.init)
+            inputBuffer.enqueue(inputs)
+            status = .setup(state)
+        }
         
         Task {
             for await input in AsyncStream(unfolding: inputBuffer.dequeue) {
@@ -20,32 +32,12 @@ class AppState: ObservableObject {
                     let inputs = state.$status.values.compactMap(Input.init)
                     inputBuffer.enqueue(inputs)
                     status = .locked(state)
-                case let .unlock(collation):
-                    let state = UnlockedState(collation: collation, service: service)
+                case .unlock:
+                    let state = try await UnlockedState(service: service)
                     let inputs = state.$status.values.compactMap(Input.init)
                     inputBuffer.enqueue(inputs)
                     status = .unlocked(state)
                 }
-            }
-        }
-    }
-    
-    func bootstrap() {
-        Task {
-            do {
-                if try await service.didCompleteSetup {
-                    let state = LockedState(service: service)
-                    let inputs = state.$status.values.compactMap(Input.init)
-                    inputBuffer.enqueue(inputs)
-                    status = .locked(state)
-                } else {
-                    let state = SetupState(service: service)
-                    let inputs = state.$step.values.compactMap(Input.init)
-                    inputBuffer.enqueue(inputs)
-                    status = .setup(state)
-                }
-            } catch {
-                status = .launchingFailed
             }
         }
     }
@@ -56,8 +48,6 @@ extension AppState {
     
     enum Status {
         
-        case launching
-        case launchingFailed
         case setup(SetupState)
         case locked(LockedState)
         case unlocked(UnlockedState)
@@ -67,7 +57,7 @@ extension AppState {
     enum Input {
         
         case lock
-        case unlock(collation: AlphabeticCollation<StoreItemDetailState>?)
+        case unlock
         
         @MainActor
         init?(_ step: SetupState.Step) {
@@ -76,16 +66,16 @@ extension AppState {
                 guard payload.state.status == .setupComplete else {
                     return nil
                 }
-                self = .unlock(collation: nil)
+                self = .unlock
             case .choosePassword, .repeatPassword, .biometricUnlock:
                 return nil
             }
         }
         
-        init?(_ status: LockedState.Status) {
+        init?(_ status: LockedState.Status) async throws {
             switch status {
-            case let .unlocked(collation):
-                self = .unlock(collation: collation)
+            case .unlocked:
+                self = .unlock
             case .locked, .unlocking, .unlockFailed:
                 return nil
             }
