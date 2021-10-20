@@ -7,6 +7,7 @@ final class BankAccountNumberFormatStyleTests: XCTestCase {
         let output = BankAccountNumberFormatStyle().format("DE1122")
         
         XCTAssertEqual(output, "DE11 22")
+        XCTAssertThrowsError(try await foo())
     }
     
     func testParse() {
@@ -14,5 +15,9 @@ final class BankAccountNumberFormatStyleTests: XCTestCase {
         
         XCTAssertEqual(output, "DE1122")
     }
+    
+}
+
+func foo() async throws {
     
 }

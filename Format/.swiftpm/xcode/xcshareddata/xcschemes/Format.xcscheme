@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "Crypto"
-               BuildableName = "Crypto"
-               BlueprintName = "Crypto"
+               BlueprintIdentifier = "Format"
+               BuildableName = "Format"
+               BlueprintName = "Format"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "CryptoTests"
-               BuildableName = "CryptoTests"
-               BlueprintName = "CryptoTests"
+               BlueprintIdentifier = "FormatTests"
+               BuildableName = "FormatTests"
+               BlueprintName = "FormatTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "Crypto"
-            BuildableName = "Crypto"
-            BlueprintName = "Crypto"
+            BlueprintIdentifier = "Format"
+            BuildableName = "Format"
+            BlueprintName = "Format"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>
